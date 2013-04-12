@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.multipart.saveDir" value="/areaImage"></constant>
+	<constant name="struts.multipart.maxSize" value="1024000000" />
+
+	<package name="MyRestDataSource" namespace="/struts" extends="json-default">
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result name="success" type="stream"></result>
+			<result name="failure" type="stream"></result>
+			<result name="easyuiResult" type="json"></result>
+			<result name="input">/{1}/input.jsp</result>
+			<result name="error">/{1}/error.jsp</result>
+			<result name="none">/{1}/none.jsp</result>
+			<result name="login">/login/index.jsp</result>
+			<result name="{2}">/{1}/{2}.jsp</result>
+			<result name="forwardJsp">/{1}/${forwardJsp}</result>
+			<result name="json" type="json"></result>
+			<result name="report">/report/{2}.jsp</result>
+		</action>
+	</package>
+
+</struts>
