@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="nbpx" version="2.5">
+	<display-name>nbpx</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:applicationContext-*.xml</param-value>
+	</context-param>
+	<!-- <listener> <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
+		</listener> -->
+	<!-- 用这个类来加载Spring配置文件，需要在非Action类中注入service时可用SystemApplicationContext类的getContext函数得到ApplicationContext -->
+	<listener>
+		<listener-class>com.nb.nbpx.common.MyContextLoaderListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>jsp</servlet-name>
+		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+		<!-- 必须是javac1.5，即便项目中用了JDK1.6，否则GWT中的JSP不用使用泛型,另外需将本地的JAVA_HOME/lib/tools加入到项目的buildPath当中 -->
+		<init-param>
+			<param-name>compiler</param-name>
+			<param-value>javac1.5</param-value>
+		</init-param>
+	</servlet>
+	
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<!--设置是否缓存GWT生成的HTML和JS文件 -->
+	<filter>
+		<filter-name>cacheFilter</filter-name>
+		<filter-class>com.nb.nbpx.filter.CacheFilter</filter-class>
+		<init-param>
+			<!--这个过滤器是否生效 -->
+			<param-name>flag</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+
+		<filter-name>cacheFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!--判断session是否失效或者已登录 -->
+	<filter>
+		<filter-name>SessionCheckFilter</filter-name>
+		<filter-class>com.nb.nbpx.filter.SessionFilter</filter-class>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/nbpx/login.jsp</param-value>
+		</init-param>
+	</filter>
+	<!-- <filter-mapping> <filter-name>SessionCheckFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+
+
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/struts/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+
+	<!-- session超时定义,单位为分钟 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>user.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>
