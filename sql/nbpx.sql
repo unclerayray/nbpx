@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: nbpx
 Target Host: localhost
 Target Database: nbpx
-Date: 2013-4-8 21:48:38
+Date: 2013-4-15 23:05:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -55,6 +55,7 @@ CREATE TABLE `articles` (
   `creation_date` date default NULL COMMENT '创建时间',
   `categoryID` int(11) default NULL COMMENT '文章类别',
   `hits` int(11) default '200' COMMENT '点击数',
+  `state` tinyint(1) default '0' COMMENT '审核标志（1为通过，0为未审核通过）',
   PRIMARY KEY  (`articleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章与新闻表; InnoDB free: 1050624 kB';
 
@@ -66,7 +67,6 @@ CREATE TABLE `companyinfo` (
   `compinfoID` int(11) NOT NULL auto_increment COMMENT '键主ID',
   `userId` int(11) NOT NULL COMMENT '对应users表中的主键ID',
   `contact` varchar(20) default NULL COMMENT '联系人',
-  `city` varchar(20) default NULL COMMENT '所在城市',
   `company` varchar(20) default NULL COMMENT '企业名称',
   `telephone` int(16) default NULL COMMENT '固定电话',
   `cellphone` int(16) default NULL COMMENT '移动电话',
@@ -96,19 +96,9 @@ CREATE TABLE `courses` (
   `creation_date` date default NULL,
   `last_updated_by` int(11) default NULL,
   `last_update_date` date default NULL,
+  `state` tinyint(1) default '0' COMMENT '审核标志（1为通过，0为未审核通过）',
   PRIMARY KEY  (`courseID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课程表';
-
--- ----------------------------
--- Table structure for dictionary
--- ----------------------------
-DROP TABLE IF EXISTS `dictionary`;
-CREATE TABLE `dictionary` (
-  `dicID` int(11) NOT NULL,
-  `dicCode` int(11) default NULL,
-  `dicName` varchar(20) default NULL,
-  `dicDisc` varchar(30) default NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
 
 -- ----------------------------
 -- Table structure for keywords
@@ -148,7 +138,6 @@ CREATE TABLE `orginfo` (
   `cellphone` int(18) default NULL COMMENT '移动电话',
   `telephone` int(18) default NULL COMMENT '联系电话',
   `fax` int(18) default NULL COMMENT '真传',
-  `city` varchar(20) default '' COMMENT '在城市所',
   `website` varchar(30) default '' COMMENT '址网',
   `category` varchar(30) default '' COMMENT '培训类别（多选）',
   `introduction` varchar(300) default '' COMMENT '简介',
@@ -248,7 +237,6 @@ CREATE TABLE `teacherinfo` (
   `userID` int(11) NOT NULL COMMENT '用户名',
   `realName` varchar(20) default '' COMMENT '真实姓名',
   `birthday` date default NULL COMMENT '出生日期',
-  `city` varchar(20) default '' COMMENT '工作所在城市',
   `major_catgory` varchar(11) default '' COMMENT '主讲类别',
   `external_payment` double default NULL COMMENT '对外课酬',
   `internal_payment` double default NULL COMMENT '协议课酬',
@@ -267,12 +255,28 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `userId` int(11) NOT NULL auto_increment COMMENT '主键ID',
   `username` varchar(20) NOT NULL COMMENT '用户名',
-  `password` int(11) NOT NULL COMMENT '用户密码',
+  `password` varchar(20) NOT NULL COMMENT '用户密码',
+  `city` varchar(11) NOT NULL default '' COMMENT '所在城市',
   `email` varchar(20) NOT NULL COMMENT '邮箱',
-  `userType` int(1) NOT NULL COMMENT '用户类别，1为企业用户，2为讲师，3为机构',
+  `userType` varchar(20) NOT NULL COMMENT '用户类别',
+  `state` tinyint(1) NOT NULL default '0' COMMENT '激活状态',
+  `registerdate` date NOT NULL COMMENT '注册日期',
   PRIMARY KEY  (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records 
 -- ----------------------------
+INSERT INTO `sys_dictionary` VALUES ('1', '001', '001_01', '企业', null, null, null, null, '1', '用户类别字典');
+INSERT INTO `sys_dictionary` VALUES ('2', '001', '001_02', '教师', null, null, null, null, '1', '用户类别字典');
+INSERT INTO `sys_dictionary` VALUES ('3', '001', '001_03', '机构', null, null, null, null, '1', '用户类别字典');
+INSERT INTO `users` VALUES ('1', 'Roger', '1234', '', '234@qq.com', '001_01', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('2', 'Ray', '4321', '', '123@qq.com', '001_01', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('3', 'Alonzo', '5555', '', '5555@qq.com', '001_01', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('4', 'syadmin', '12', '', '23@qq.com', '001_01', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('5', 'syadmin', 'asgwergwreg', '', '23@qq.com', '001_01', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('7', 'syadmin65uyg', '1234534', '', '23@qq.com', '001_01', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('8', 'someone', '1275', '', '23@qq.com', '001_03', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('9', 'hjfiouf', '1275', '', '23@qq.com', '001_02', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('11', 'syadmirger', '1275', '', '23@qq.com', '001_03', '0', '0000-00-00');
+INSERT INTO `users` VALUES ('12', 'edward', '1275', '', '23@qq.com', '001_01', '0', '0000-00-00');
