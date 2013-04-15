@@ -1,6 +1,8 @@
 package com.nb.nbpx.service.user.impl;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,6 +14,7 @@ import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.user.IUserService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 
 /**
  * <p>
@@ -29,20 +32,45 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	private IUserDao userDao;
 
 	@Override
-	public String queryUserByType(int userType, Integer limit, Integer start) {
+	public String queryUserByType(String userType, Integer rows, Integer start) {
+		Map<String, Object> propsMap = new LinkedHashMap<String, Object>();
+		if(userType != null){
+			propsMap.put("userType", userType);
+		}
 		String json = "";
-		List<User> userList = userDao.queryUserByType(userType, limit, start);
+		//List<User> userList = userDao.queryEntityListByProperties(User.class, rows, start, propsMap);
+		List<User> userList = userDao.queryUserByType(userType, rows, start);
 		if (userList.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
-					ResponseStatus.SUCCESS, "", userList);
+					ResponseStatus.FAIL, "", userList);
 		} else {
 			int count = userDao.queryUserCountByType(userType).intValue();
-			userList.get(0).setTotalCount(count);
 			//json = JsonUtil.formatToJsonWithTotalCount(count, userList);
-			json = JsonUtil.formatListToJson(userList);
+			json = JsonUtil.formatToJsonWithTimeStamp(count,
+					ResponseStatus.SUCCESS, "", userList);
 		}
 		return json;
 	}
+
+	@Override
+	public void saveUser(User user) throws NbpxException {
+		if(user.getUserId()==null){
+			if(userDao.checkDuplicateProp(user.getUserName(), user.getEmail())){
+				throw new NbpxException("用户名或email重复");
+			}
+			userDao.save(user);//新增用户
+		}else{
+			userDao.saveOrUpdate(user);//修改用户
+		}
+	}
+
+	@Override
+	public void deleteUser(User user) {
+		userDao.delete(user);
+	}
+
+	
+	
 
 	@Resource
 	public void setUserDao(IUserDao userDao) {
@@ -52,5 +80,4 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	public IUserDao getUserDao() {
 		return userDao;
 	}
-
 }
