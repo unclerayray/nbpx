@@ -4,9 +4,9 @@ package com.nb.nbpx.common;
  * <p>
  * 封装后台返回状态的类
  * </p>
- * 创建时间：2011-11-9 下午05:03:15
+ * 创建时间：2013-4-1 下午05:03:15
  * 
- * @author huangjinfang
+ * @author leilichao
  * @version V1.0
  */
 public class ResponseStatus {
@@ -22,10 +22,20 @@ public class ResponseStatus {
 
 	public static int DUPLICATE_RECORD = -1011;
 
-	public static int SUCCESS = 0;
+	public static boolean SUCCESS = true;
 
-	public static int FAIL = -1;
+	public static boolean FAIL = false;
 
+	/**
+	 * 保存成功
+	 */
+	public static final String SAVE_SUCCESS = "保存成功!";
+
+	/**
+	 * 保存失败
+	 */
+	public static final String SAVE_FAILED = "保存失败!";
+	
 	/**
 	 * 添加成功
 	 */
@@ -86,15 +96,6 @@ public class ResponseStatus {
 	 */
 	public static final String OPERATION_FAILED = "操作失败!";
 	
-	/**
-	 * 操作成功
-	 */
-	public static final String FETCH_SUCCESS = "已采集成功!";
-
-	/**
-	 * 操作失败
-	 */
-	public static final String FETCH_FAILED = "采集程序遇到意外错误!";
 	
 	/**
 	 * 验证失败
@@ -108,8 +109,4 @@ public class ResponseStatus {
 	 * 验证字典类型值失败
 	 */
 	public static final String CHECK_SHOWNAME_FAILED = "该字典类型项值已经存在，请重新填写字典类型项值！";
-	/**
-	 * 验证产品标识号失败
-	 */
-	public static final String CHECK_PRODUCT_FAILED = "该产品已存在，请重新填写产品信息！";
 }

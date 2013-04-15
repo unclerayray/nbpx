@@ -30,7 +30,7 @@ public class JsonUtil {
     /**
      * 将List和参数封装成JSON对象
      * 
-     * @param totalCount
+     * @param total
      *            记录总数
      * @param state
      *            状态
@@ -41,10 +41,10 @@ public class JsonUtil {
      * @return
      */
     @SuppressWarnings("rawtypes")
-	public static String formatToJson(Integer totalCount, Integer state,
+	public static String formatToJson(Integer total, boolean success,
             String message, List tempList) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("state", state);
+        jsonObject.put("success", success);
         jsonObject.put("message", message);
         if (tempList != null && tempList.size() > 0) {
             java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<List>() {
@@ -52,8 +52,8 @@ public class JsonUtil {
 
             String json = SerializerMethod.bean2json(tempList, type,
                     "yyyy-MM-dd");
-            jsonObject.put("resultSet", json);
-            jsonObject.put("totalCount", totalCount);
+            jsonObject.put("rows", json);
+            jsonObject.put("total", total);
         }
         return jsonObject.toString();
     }
@@ -67,15 +67,34 @@ public class JsonUtil {
      *            消息
      * @return
      */
-    public static String formatToJson(Integer state, String message) {
+    public static String formatToJson(boolean success, String message) {
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        jsonObject.put("state", state);
+        jsonObject.put("success", success);
         jsonObject.put("message", message);
         jsonArray.add(jsonObject);
         JSONObject json = new JSONObject();
-        json.put("resultSet", jsonArray);
+        json.put("rows", jsonArray);
+
+        return json.toString();
+    }
+    
+
+    /**
+     * 返回带状态和消息的JSON
+     * 
+     * @param state
+     *            状态
+     * @param message
+     *            消息
+     * @return
+     */
+    public static String formatToSuccessJson(boolean success, String message) {
+
+        JSONObject json = new JSONObject();
+        json.put("success", success);
+        json.put("message", message);
 
         return json.toString();
     }
@@ -89,28 +108,28 @@ public class JsonUtil {
      *            消息
      * @return
      */
-    public static String formatToFailJson(Integer state, String message) {
+    public static String formatToOpResJson(boolean success, String message) {
 
         JSONObject json = new JSONObject();
-        json.put("state", state);
+        json.put("success", success);
         json.put("message", message);
 
         return json.toString();
     }
     
     /**
-     * 将List和用于分页的总记录数封装成JSON对象(注意:javaBean中必须要用一个totalCount变量,并且调用这方法list.get(0
+     * 将List和用于分页的总记录数封装成JSON对象(注意:javaBean中必须要用一个total变量,并且调用这方法list.get(0
      * ).setTotalCount(总记录数);)
      * 
      * @author huangjinfang
-     * @param totalCount
+     * @param total
      *            记录总数
      * @param tempList
      *            list对象
      * @return
      */
     @SuppressWarnings("rawtypes")
-	public static String formatToJsonWithTotalCount(Integer totalCount,
+	public static String formatToJsonWithTotalCount(Integer total,
             List list) {
         JSONObject jsonObject = new JSONObject();
         if (list != null && list.size() > 0) {
@@ -118,11 +137,11 @@ public class JsonUtil {
             }.getType();
             String json = SerializerMethod.bean2json(list, type,
                     "yyyy-MM-dd");
-            jsonObject.put("resultSet", json);
-            jsonObject.put("totalCount", totalCount);
+            jsonObject.put("rows", json);
+            jsonObject.put("total", total);
             return jsonObject.toString();
         }else{
-            return "{'totalCount':0,'resultSet':[]}";
+            return "{'total':0,'rows':[]}";
         }
     }
 
@@ -148,17 +167,17 @@ public class JsonUtil {
      * 
      * @param head
      * @param json
-     * @param totalCount
+     * @param total
      * @param state
      * @param message
      * @return
      */
     public static String formatDictionaryListToJson(String[] head,
-            String[] json, Integer totalCount, Integer state, String message) {
+            String[] json, Integer total, boolean success, String message) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("state", state);
+        jsonObject.put("success", success);
         jsonObject.put("message", message);
-        jsonObject.put("totalCount", totalCount);
+        jsonObject.put("total", total);
         for (int i = 0; i < head.length; i++) {
             jsonObject.put(head[i], json[i]);
         }
@@ -167,7 +186,7 @@ public class JsonUtil {
     /**
      * 将List和参数封装成JSON对象(如果有Date\TimeStamp类型的，默认带上时分秒)
      * 
-     * @param totalCount
+     * @param total
      *            记录总数
      * @param state
      *            状态
@@ -178,10 +197,10 @@ public class JsonUtil {
      * @return
      */
     @SuppressWarnings("rawtypes")
-	public static String formatToJsonWithTimeStamp(Integer totalCount, Integer state,
+	public static String formatToJsonWithTimeStamp(Integer total, boolean success,
             String message, List tempList) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("state", state);
+        jsonObject.put("success", success);
         jsonObject.put("message", message);
         if (tempList != null && tempList.size() > 0) {
             java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<List>() {
@@ -189,11 +208,11 @@ public class JsonUtil {
 
             String json = SerializerMethod.bean2json(tempList, type,
                     "yyyy-MM-dd hh:mm:ss");
-            jsonObject.put("resultSet", json);
-            jsonObject.put("totalCount", totalCount);
+            jsonObject.put("rows", json);
+            jsonObject.put("total", total);
             return jsonObject.toString();
         }else{
-            return "{'state':0,'message':'','totalCount':0,'resultSet':[]}";
+            return "{'success':false,'message':'','total':0,'rows':[]}";
         }
     }
     /**
@@ -225,11 +244,11 @@ public class JsonUtil {
      *            消息
      * @return
      */
-    public static String format2Json(Integer state, String message) {
+    public static String format2Json(boolean success, String message) {
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        jsonObject.put("state", state);
+        jsonObject.put("success", success);
         jsonObject.put("message", message);
         jsonArray.add(jsonObject);
         return jsonObject.toString();

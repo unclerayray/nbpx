@@ -1,6 +1,5 @@
 package com.nb.nbpx.pojo;
 
-import javax.persistence.Transient;
 
 /**
  * <p>
@@ -12,16 +11,5 @@ import javax.persistence.Transient;
  * @version V1.0
  */
 public class BaseEntity {
-	private static final long serialVersionUID = 1L;
-
-    private Integer           totalCount;
-
-    @Transient
-    public Integer getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
-    }
+	
 }

@@ -8,10 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.nb.nbpx.pojo.BaseEntity;
 
-@Entity(name = "users")
+@Entity
 @Table(name = "users", catalog = "nbpx")
 public class User extends BaseEntity  implements Serializable {
 	
@@ -24,10 +25,23 @@ public class User extends BaseEntity  implements Serializable {
     private String            passWord;
     private String            userType;
 	private String            email;
+	private String			  typeName;	
 	
+	public User(){
+	}
 	
-	
+	public User(Integer userId, String userName, String passWord,
+			String userType, String email, String typeName) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.userType = userType;
+		this.email = email;
+		this.typeName = typeName;
+	}
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "userId", unique = true, nullable = false)
     public Integer getUserId() {
 		return userId;
@@ -59,4 +73,12 @@ public class User extends BaseEntity  implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@Transient
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+	
 }

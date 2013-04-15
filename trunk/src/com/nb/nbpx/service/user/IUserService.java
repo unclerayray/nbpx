@@ -1,6 +1,8 @@
 package com.nb.nbpx.service.user;
 
+import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.service.IBaseService;
+import com.nb.nbpx.utils.NbpxException;
 
 /**
  * <p>
@@ -12,5 +14,25 @@ import com.nb.nbpx.service.IBaseService;
  * @version V1.0
  */
 public interface IUserService extends IBaseService {
-	public String queryUserByType(int userType,Integer limit, Integer start); 
+	/**
+	 * 
+	 * @param userType
+	 * @param limit
+	 * @param start
+	 * @return
+	 */
+	public String queryUserByType(String userType,Integer rows, Integer start); 
+	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public void saveUser(User user) throws NbpxException ;
+	
+	/**
+	 * 
+	 * @param user
+	 */
+	public void deleteUser(User user);
 }
