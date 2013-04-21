@@ -44,7 +44,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 							query.setMaxResults(rows);
 						}
 						list = query.list();
-						System.out.println("hql = " + hql);
+						//System.out.println("hql = " + hql);
 						return list;
 					}
 				});
