@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.nb.nbpx.pojo.BaseEntity;
 
@@ -29,13 +30,38 @@ public class Dictionary extends BaseEntity implements Serializable {
     private String  attribute1;
     private String  attribute2;
     private String  attribute3;
-    private Integer flag;
+    private Boolean flag;
     private String  discription;
+    private String dicTypeName;
 
     public Dictionary(){
     }
     
-    @Id
+    
+    
+    
+    public Dictionary(Integer dicId, String dicType, String codeName,
+			String showName, Integer orderNum, String attribute1,
+			String attribute2, String attribute3, Boolean flag,
+			String discription, String dicTypeName) {
+		super();
+		this.dicId = dicId;
+		this.dicType = dicType;
+		this.codeName = codeName;
+		this.showName = showName;
+		this.orderNum = orderNum;
+		this.attribute1 = attribute1;
+		this.attribute2 = attribute2;
+		this.attribute3 = attribute3;
+		this.flag = flag;
+		this.discription = discription;
+		this.dicTypeName = dicTypeName;
+	}
+
+
+
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "dicId", unique = true, nullable = false)
     public Integer getDicId() {
@@ -102,11 +128,11 @@ public class Dictionary extends BaseEntity implements Serializable {
 		this.attribute3 = attribute3;
 	}
 
-	public Integer getFlag() {
+	public Boolean getFlag() {
         return flag;
     }
 
-    public void setFlag(Integer flag) {
+    public void setFlag(Boolean flag) {
         this.flag = flag;
     }
 
@@ -117,4 +143,13 @@ public class Dictionary extends BaseEntity implements Serializable {
     public String getDiscription() {
         return discription;
     }
+
+	public void setDicTypeName(String dicTypeName) {
+		this.dicTypeName = dicTypeName;
+	}
+
+	@Transient
+	public String getDicTypeName() {
+		return dicTypeName;
+	}
 }
