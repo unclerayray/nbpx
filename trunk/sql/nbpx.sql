@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: nbpx
 Target Host: localhost
 Target Database: nbpx
-Date: 2013-4-15 23:05:29
+Date: 2013-4-15 23:05:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;

@@ -33,16 +33,25 @@
 	<div>  
 		字典类型:   
 		<input class="easyui-combobox"   
-            name="p_dicType"  
-            data-options="  
-                    url:'struts/Dictionary_queryDicTypes',  
-                    valueField:'codeName',  
-                    textField:'showName',  
-                    panelHeight:'auto'  
-            "> 
+		name="p_dicType"  id="p_dicType" 
+		data-options="  
+		url:'struts/Dictionary_queryDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		strict:true
+		"> 
 		字典项值：
-		<input name="p_showName">  
-		<a href="#" class="easyui-linkbutton" iconCls="icon-search">搜索</a>  
+		<input class="easyui-combobox"   
+		name="p_showName"  id="p_showName" 
+		data-options="  
+		url:'struts/Dictionary_queryDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		strict:true
+		"> 
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search"  onclick="queryDic(true)">搜索</a>  
 	</div>  
 </div>
 
@@ -55,41 +64,69 @@ closed="true" buttons="#dlg-buttons">
 	</div>  
 	<div class="fitem">  
 		<label>字典类型:</label>  
-		<input class="easyui-combobox"   
-            name="dicType"  
-            data-options="  
-                    url:'struts/Dictionary_queryDicTypes',  
-                    valueField:'codeName',  
-                    textField:'showName',  
-                    panelHeight:'auto'  
-            ">
-	</div>  
-	<div class="fitem">  
-		<label>字典编码:</label>  
-		<input class="easyui-validatebox" name="codeName" data-options="required:true" style="width:130px;">  
-	</div>  
-	<div class="fitem">  
-		<label>字典项值:</label>  
-		<input class="easyui-validatebox" name="showName" data-options="required:true" style="width:130px;">  
-	</div>  
-	<div class="fitem">  
-		<label>字典描述:</label>  
-		<textarea name="discription" style="height:60px;width:130px;" type="textarea" data-options="required:true"></textarea>
-	</div>
-	 <div class="fitem">  
-		<label>是否启用:</label>  
-		<input name="flag" class="easyui-checkbox" type="checkbox" data-options="id:flag;formatter:function(value,row){if(row.flag) {return '启用';}else{return '禁用';}}"  style="width:130px;">
-	</div>
+		<select  class="easyui-combobox"    style="width:130px;"
+		name="dicType"  
+		data-options="  
+		url:'struts/Dictionary_queryDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		editable:false 
+		">
+	</select>
+</div>  
+<div class="fitem">  
+	<label>字典编码:</label>  
+	<input class="easyui-validatebox" name="codeName" data-options="required:true" style="width:130px;">  
+</div>  
+<div class="fitem">  
+	<label>字典项值:</label>  
+	<input class="easyui-validatebox" name="showName" data-options="required:true" style="width:130px;">  
+</div>  
+<div class="fitem">  
+	<label>字典描述:</label>  
+	<textarea class="easyui-textarea" name="discription" style="height:60px;width:130px;" type="textarea" data-options="required:true"></textarea>
+</div>
+<div class="fitem">  
+	<label>是否启用:</label>  
+	<input name="flag" class="easyui-checkbox" type="checkbox" data-options="id:'flag',align: 'right',checked: 'checked'">
+</div>
 </form>  
 </div>  
 <div id="dlg-buttons">  
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveDic()">Save</a>  
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>  
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveDic()">保存</a>  
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>  
 </div>  
 <script type="text/javascript">  
 var url;  
+$(function(){
+	var provinceId = $('#provinceId').combobox({
+		url:'${pageContext.request.contextPath}/region/province/json.htm',
+		editable:false,
+		valueField:'id',
+		textField:'name',
+		onSelect:function(record){
+                //刷新数据，重新读取省份下的城市，并清空当前输入的值
+                cityId.combobox({
+                	disabled:false,
+                	url:'${pageContext.request.contextPath}/region/city/'+record.id+'/json.htm',
+                	valueField:'id',
+                	textField:'name'
+                }).combobox('clear');
+            }
+        });
+	var cityId = $('#cityId').combobox({
+		disabled:true,
+		url:'${pageContext.request.contextPath}/region/city/'+provinceId.val()+'/json.htm',
+		valueField:'id',
+		textField:'name'
+	});
+});
 function queryDic(){
 	$('#fm').form('load',row);
+}
+function queryDic(atr1){
+	alert("ahhahhahahah  " + $('#p_dicType').combobox('getValue'));
 }
 function newDic(){  
 	$('#dlg').dialog('open').dialog('setTitle','新建字典项');  
@@ -159,26 +196,26 @@ function destroyDic(){
 	}  
 }  
 
-	</script>  
-	<style type="text/css">  
-	#fm{  
-		margin:0;  
-		padding:10px 40px;  
-	}  
-	.ftitle{  
-		font-size:14px;  
-		font-weight:bold;  
-		padding:5px 0;  
-		margin-bottom:10px;  
-		border-bottom:1px solid #ccc;  
-	}  
-	.fitem{  
-		margin-bottom:5px;  
-	}  
-	.fitem label{  
-		display:inline-block;  
-		width:80px;  
-	}
-	</style>  
+</script>  
+<style type="text/css">  
+#fm{  
+	margin:0;  
+	padding:10px 40px;  
+}  
+.ftitle{  
+	font-size:14px;  
+	font-weight:bold;  
+	padding:5px 0;  
+	margin-bottom:10px;  
+	border-bottom:1px solid #ccc;  
+}  
+.fitem{  
+	margin-bottom:5px;  
+}  
+.fitem label{  
+	display:inline-block;  
+	width:80px;  
+}
+</style>  
 </body>
 </html>
