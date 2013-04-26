@@ -72,7 +72,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer(
-						"from Dictionary where dicType = '998'");
+						"select new Dictionary(d.codeName,d.showName) from Dictionary d where dicType = '998'");
 				Query query = session.createQuery(hql.toString());
 				return query.list();
 			}

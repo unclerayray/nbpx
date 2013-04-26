@@ -40,7 +40,16 @@ public class Dictionary extends BaseEntity implements Serializable {
     
     
     
-    public Dictionary(Integer dicId, String dicType, String codeName,
+    public Dictionary(String codeName, String showName) {
+		super();
+		this.codeName = codeName;
+		this.showName = showName;
+	}
+
+
+
+
+	public Dictionary(Integer dicId, String dicType, String codeName,
 			String showName, Integer orderNum, String attribute1,
 			String attribute2, String attribute3, Boolean flag,
 			String discription, String dicTypeName) {
