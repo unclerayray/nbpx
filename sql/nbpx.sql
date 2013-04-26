@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: nbpx
 Target Host: localhost
 Target Database: nbpx
-Date: 2013-4-15 23:05:26
+Date: 2013-4-26 22:33:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -201,7 +201,7 @@ CREATE TABLE `statistics` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dictionary`;
 CREATE TABLE `sys_dictionary` (
-  `dicId` int(11) NOT NULL COMMENT '字典项ID',
+  `dicId` int(11) NOT NULL auto_increment COMMENT '字典项ID',
   `dicType` char(3) default NULL COMMENT '类型',
   `codeName` varchar(20) default NULL COMMENT '代码名称',
   `showName` varchar(100) default NULL COMMENT '显示名称',
@@ -209,7 +209,7 @@ CREATE TABLE `sys_dictionary` (
   `attribute1` varchar(20) default NULL COMMENT '备用1',
   `attribute2` varchar(20) default NULL COMMENT '备用2',
   `attribute3` varchar(20) default NULL COMMENT '备用3',
-  `flag` int(11) default NULL COMMENT '有效标识',
+  `flag` tinyint(1) default '1' COMMENT '有效标识',
   `discription` varchar(100) default NULL COMMENT '字典描述',
   PRIMARY KEY  (`dicId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
@@ -270,6 +270,19 @@ CREATE TABLE `users` (
 INSERT INTO `sys_dictionary` VALUES ('1', '001', '001_01', '企业', null, null, null, null, '1', '用户类别字典');
 INSERT INTO `sys_dictionary` VALUES ('2', '001', '001_02', '教师', null, null, null, null, '1', '用户类别字典');
 INSERT INTO `sys_dictionary` VALUES ('3', '001', '001_03', '机构', null, null, null, null, '1', '用户类别字典');
+INSERT INTO `sys_dictionary` VALUES ('4', '998', '001', '用户种类', null, null, null, null, '1', '顶级节点');
+INSERT INTO `sys_dictionary` VALUES ('5', '998', '002', '文章分类', null, null, null, null, '1', '顶级节点');
+INSERT INTO `sys_dictionary` VALUES ('6', '002', '002_001', '人力', null, null, null, null, null, '测试测试一下而已啦');
+INSERT INTO `sys_dictionary` VALUES ('7', '002', '002_002', '资源', null, null, null, null, null, '再次测试');
+INSERT INTO `sys_dictionary` VALUES ('8', '002', '002_003', '薪资', null, null, null, null, '0', 'sdgergwerg');
+INSERT INTO `sys_dictionary` VALUES ('9', '002', '002_004', '报酬', null, null, null, null, null, 'asdf');
+INSERT INTO `sys_dictionary` VALUES ('10', '002', '002_005', '资讯', null, null, null, null, null, '34545');
+INSERT INTO `sys_dictionary` VALUES ('11', '002', '002_006', '计算机', null, null, null, null, null, 'dfsgsdf');
+INSERT INTO `sys_dictionary` VALUES ('12', '002', '002_007', '科学', null, null, null, null, null, 'ewr');
+INSERT INTO `sys_dictionary` VALUES ('13', '002', '002_008', '救灾', null, null, null, null, null, 'aag');
+INSERT INTO `sys_dictionary` VALUES ('14', '001', '001_04', '地震', null, null, null, null, null, '测试测试一下而已啦');
+INSERT INTO `sys_dictionary` VALUES ('15', '001', '001_05', '科普', null, null, null, null, '0', '测试测试一下而已啦');
+INSERT INTO `sys_dictionary` VALUES ('16', '文章', '001_04', 'gewrgw', null, null, null, null, null, '阿什顿飞');
 INSERT INTO `users` VALUES ('1', 'Roger', '1234', '', '234@qq.com', '001_01', '0', '0000-00-00');
 INSERT INTO `users` VALUES ('2', 'Ray', '4321', '', '123@qq.com', '001_01', '0', '0000-00-00');
 INSERT INTO `users` VALUES ('3', 'Alonzo', '5555', '', '5555@qq.com', '001_01', '0', '0000-00-00');
