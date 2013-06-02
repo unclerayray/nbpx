@@ -15,6 +15,9 @@ import com.nb.nbpx.pojo.system.Dictionary;
 
 @Component("dictionaryDao")
 @SuppressWarnings({ "unchecked", "rawtypes" })
+/**
+ * 
+ */
 public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 		implements IDictionaryDao {
 
