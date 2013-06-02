@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="css/demo.css">
+	<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+	<script src="js/easyui/jquery-1.8.0.min.js"></script>
+	<script src="js/easyui/jquery.easyui.min.js"></script>
+	<title>文章管理界面</title>
+</head>
+<body>
+	<div style="margin:10px 0;"></div>  
+	<table id="dg" class="easyui-datagrid" title="文章管理" style="width:700px;height:600px"   pagination="true" onClickRow: onClickRow
+	data-options="rownumbers:true,singleSelect:true,url:'struts/Dictionary_queryDictionary',toolbar:'#tb'">  
+	<thead>  
+		<tr>  
+			<th data-options="field:'articleID',width:80,hidden:true">主键</th> 
+			<th data-options="field:'content',width:80">文章内容</th>
+			<th  data-options="field:'author',width:80">作者</th>  
+			<th  data-options="field:'creation_date',width:80">创建日期</th> 
+			<th  data-options="field:'categoryID',width:80">文章类型</th> 
+			<th  data-options="field:'hits',width:80">文章点击数</th> 
+			<th  data-options="field:'state',width:40,formatter:function(value,row){if(row.flag) {return '启用';}else{return '禁用';}}">审核状态</th>
+		</tr>  
+	</thead>  
+</table>  
+<div id="tb" style="padding:5px;height:auto">  
+	<div style="margin-bottom:5px">  
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"  onclick="newDic()"></a>  
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"   onclick="editDic()"></a>  
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"   onclick="destroyDic()"></a>  
+	</div>  
+	<div>  
+		文章类型:   
+		<input class="easyui-combobox"   
+		name="p_dicType"  id="p_dicType" 
+		data-options="  
+		url:'struts/Dictionary_queryDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		strict:true
+		"> 
+		文章项值：
+		<input class="easyui-combobox"   
+		name="p_showName"  id="p_showName" 
+		data-options="  
+		url:'struts/Dictionary_queryDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		strict:true
+		"> 
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search"  onclick="queryDic(true)">搜索</a>  
+	</div>  
+</div>
+
+<div id="dlg" class="easyui-dialog" style="width:400px;height:330px;padding:5px 10px"  
+closed="true" buttons="#dlg-buttons">  
+<div class="ftitle">文章详细</div>  
+<form id="fm" method="post" novalidate> 
+	<div class="fitem">  
+		<input data-option="id:'dicId'" name="dicId" class="easyui-validatebox" type="hidden">  
+	</div>  
+	<div class="fitem">  
+		<label>文章类型:</label>  
+		<select  class="easyui-combobox"    style="width:130px;"
+		name="dicType"  
+		data-options="  
+		url:'struts/Dictionary_queryDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		editable:false 
+		">
+	</select>
+</div>  
+<div class="fitem">  
+	<label>文章编码:</label>  
+	<input class="easyui-validatebox" name="codeName" data-options="required:true" style="width:130px;">  
+</div>  
+<div class="fitem">  
+	<label>文章项值:</label>  
+	<input class="easyui-validatebox" name="showName" data-options="required:true" style="width:130px;">  
+</div>  
+<div class="fitem">  
+	<label>文章描述:</label>  
+	<textarea class="easyui-textarea" name="discription" style="height:60px;width:130px;" type="textarea" data-options="required:true"></textarea>
+</div>
+<div class="fitem">  
+	<label>是否启用:</label>  
+	<input name="flag" class="easyui-checkbox" type="checkbox" data-options="id:'flag',align: 'right',checked: 'checked'">
+</div>
+</form>  
+</div>  
+<div id="dlg-buttons">  
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveDic()">保存</a>  
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>  
+</div>  
+<script type="text/javascript">  
+var url;  
+$(function(){
+	var provinceId = $('#provinceId').combobox({
+		url:'${pageContext.request.contextPath}/region/province/json.htm',
+		editable:false,
+		valueField:'id',
+		textField:'name',
+		onSelect:function(record){
+                //刷新数据，重新读取省份下的城市，并清空当前输入的值
+                cityId.combobox({
+                	disabled:false,
+                	url:'${pageContext.request.contextPath}/region/city/'+record.id+'/json.htm',
+                	valueField:'id',
+                	textField:'name'
+                }).combobox('clear');
+            }
+        });
+	var cityId = $('#cityId').combobox({
+		disabled:true,
+		url:'${pageContext.request.contextPath}/region/city/'+provinceId.val()+'/json.htm',
+		valueField:'id',
+		textField:'name'
+	});
+});
+function queryDic(){
+	$('#fm').form('load',row);
+}
+function queryDic(atr1){
+	alert("ahhahhahahah  " + $('#p_dicType').combobox('getValue'));
+}
+function newDic(){  
+	$('#dlg').dialog('open').dialog('setTitle','新建文章项');  
+	$('#fm').form('clear');  
+}  
+function editDic(){  
+	var row = $('#dg').datagrid('getSelected');
+	if (row){  
+		$('#dlg').dialog('open').dialog('setTitle','编辑文章项');  
+		$('#fm').form('load',row);
+	}  else{
+		$.messager.show({  
+			title:'温馨提示',  
+			msg:'请先选择一行记录',  
+			timeout:2000,  
+			showType:'slide'  
+		});  
+	}
+}  
+function saveDic(){ 
+	$('#fm').form('submit',{  
+		url: 'struts/Dictionary_saveDic?objectName=dictionary',  
+		onSubmit: function(){  
+			return $(this).form('validate');  
+		},  
+		success: function(data){  
+        var data = eval('(' + data + ')');  // change the JSON string to javascript object  
+        if (data.success){
+        	$.messager.show({  
+        		title: 'Success',  
+        		msg: data.message  ,  
+        		timeout:3000,  
+        		showType:'fade'  
+        	});
+            $('#dlg').dialog('close');      // close the dialog  
+            $('#dg').datagrid('reload');    // reload the Dic data    
+        }  else  {
+        	$.messager.show({  
+        		title: 'Error',  
+        		msg: data.message  ,
+        		timeout:3000,  
+        		showType:'fade'  
+        	});
+        }
+    }
+});
+}  
+function destroyDic(){  
+	var row = $('#dg').datagrid('getSelected');  
+	if (row){  
+		$.messager.confirm('Confirm','确认要删除此文章吗?',function(r){  
+			if (r){  
+				$.post('struts/Dictionary_deleteDic?objectName=dictionary',row,function(data){  
+					if (data.success){  
+                                $('#dg').datagrid('reload');    // reload the Dic data  
+                            } else {  
+                            	$.messager.show({  
+                            		title: 'Error',  
+                            		msg: data.message  ,
+                            		timeout:3000,  
+                            		showType:'fade'
+                            	});
+                            }  
+                        },'json');  
+			}  
+		});  
+	}  
+}  
+
+</script>  
+<style type="text/css">  
+#fm{  
+	margin:0;  
+	padding:10px 40px;  
+}  
+.ftitle{  
+	font-size:14px;  
+	font-weight:bold;  
+	padding:5px 0;  
+	margin-bottom:10px;  
+	border-bottom:1px solid #ccc;  
+}  
+.fitem{  
+	margin-bottom:5px;  
+}  
+.fitem label{  
+	display:inline-block;  
+	width:80px;  
+}
+</style>  
+</body>
+</html>
