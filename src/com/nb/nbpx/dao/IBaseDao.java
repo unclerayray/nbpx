@@ -19,6 +19,7 @@ import org.hibernate.criterion.DetachedCriteria;
  * @author leilichao
  * @version V1.0
  */
+@SuppressWarnings("rawtypes")
 public interface IBaseDao<T extends Serializable, PK extends Serializable> {
     // -------------------- 基本检索、增加、修改、删除操作 --------------------
 

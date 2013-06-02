@@ -13,6 +13,9 @@ import com.nb.nbpx.utils.JsonUtil;
 
 @Component("UserAction")
 @Scope("prototype")
+/**
+ * 
+ */
 public class UserAction extends BaseAction {
 
 	/**

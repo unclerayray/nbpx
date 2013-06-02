@@ -43,6 +43,7 @@ import com.nb.nbpx.utils.MapUtil;
  * @version V1.0
  */
 @Component("BaseDao")
+@SuppressWarnings({"rawtypes","unchecked"})
 public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
         implements IBaseDao<T, PK> {
     // 实体类类型(由构造方法自动赋值)
@@ -59,7 +60,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
     }
 
     // 构造方法，根据实例类自动获取实体类类型
-    public BaseDaoImpl() {
+	public BaseDaoImpl() {
         this.entityClass = null;
         Class c = getClass();
         Type t = c.getGenericSuperclass();
@@ -248,7 +249,8 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
     }
 
     // 使用指定的实体及属性检索（满足除主键外属性＝实体值）数据
-    public List<T> findEqualByEntity(T entity, String[] propertyNames) {
+    
+	public List<T> findEqualByEntity(T entity, String[] propertyNames) {
         Criteria criteria = this.createCriteria();
         Example exam = Example.create(entity);
         exam.excludeZeroes();
