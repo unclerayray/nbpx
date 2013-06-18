@@ -105,7 +105,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select count(d) from Dictionary d where 1 = 1 ");
+						"select count(d) from Dictionary d where 1 = 1 and d.dicType !='998'");
 				if (dicType != null) {
 					hql.append("and d.dicType = ");
 				}
