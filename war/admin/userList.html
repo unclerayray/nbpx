@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../js/easyui/themes/gray/easyui.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css"/>
+<script type="text/javascript" src="../js/easyui/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
+<style>
+	.itemText{width:100px;text-align:right;;height:30px;padding-right:10px; vertical-align:top}
+	.formTable td{vertical-align:top}
+</style>
+<title>用户列表</title>
+	<script type="text/javascript">
+		$(function(){
+			$('#editComp').dialog('close');
+			$('#editOrg').dialog('close');
+		});
+		var toolbar = [{
+			text:'查询',
+			iconCls:'icon-search',
+			handler:function(){alert('add')}
+		},'-',{
+			text:'激活',
+			iconCls:'icon-remove',
+			handler:function(){
+				var currUser = $('#grid').datagrid('getSelected');
+				var index = $('#grid').datagrid('getRowIndex',currUser);
+				currUser.state = '1';
+				$.ajax({
+					url:'../struts/User_saveUser?objectName=user',
+					data:currUser,
+					success:function(){
+						$('#grid').datagrid('refreshRow',index);
+					}
+				})
+			}
+		},{
+			text:'锁定',
+			iconCls:'icon-add',
+			handler:function(){
+				var currUser = $('#grid').datagrid('getSelected');
+				var index = $('#grid').datagrid('getRowIndex',currUser);
+				currUser.state = '0';
+				$.ajax({
+					url:'../struts/User_saveUser?objectName=user',
+					data:currUser,
+					success:function(){
+						$('#grid').datagrid('refreshRow',index);
+					}
+				})
+			}
+		},{
+			text:'重置密码',
+			iconCls:'icon-edit',
+			handler:function(){
+				alert(1);
+			}
+		}
+		,{
+			text:'修改',
+			iconCls:'icon-edit',
+			handler:function(){
+				var currUser = $('#grid').datagrid('getSelected');
+				$('#editOrg').dialog('open');
+				$('#orgFm').form('load', '../struts/OrgInfo_getOrgInforByUserId?userId=2');
+				//$('#editComp').dialog('open');
+				//$('#compFm').form('load', '../struts/CompInfo_getCompInforByUserId?userId='+currUser.userId);
+			}
+		}];
+		function saveCompany(){ 
+			$('#compFm').form('submit',{  
+				url: '../struts/CompInfo_saveCompInfor?objectName=compInfo',  
+				onSubmit: function(){  
+					return $(this).form('validate');  
+				},  
+				success: function(data){  
+				var data = eval('(' + data + ')');  // change the JSON string to javascript object  
+		        if (data.success){
+		        	$.messager.show({  
+		        		title: '系统提示',  
+		        		msg: data.message  ,  
+		        		timeout:2000,  
+		        		showType:'fade'  
+		        	});
+		        	$('#editComp').dialog('close');      // close the dialog  
+		            $('#grid').datagrid('reload');    // reload the user data    
+		        } else {
+		        	$.messager.show({  
+		        		title: '系统提示',  
+		        		msg: data.message ,
+		        		timeout:2000,  
+		        		showType:'fade'  
+		        	});
+		        }
+		    }
+			});
+		}  
+		function saveOrg(){ 
+			$('#orgFm').form('submit',{  
+				url: '../struts/OrgInfo_saveOrgInfor?objectName=orgInfor',  
+				onSubmit: function(){  
+					return $(this).form('validate');  
+				},  
+				success: function(data){  
+				var data = eval('(' + data + ')');  // change the JSON string to javascript object  
+		        if (data.success){
+		        	$.messager.show({  
+		        		title: '系统提示',  
+		        		msg: data.message  ,  
+		        		timeout:2000,  
+		        		showType:'fade'  
+		        	});
+		        	$('#editOrg').dialog('close');      // close the dialog  
+		            $('#grid').datagrid('reload');    // reload the user data    
+		        } else {
+		        	$.messager.show({  
+		        		title: '系统提示',  
+		        		msg: data.message ,
+		        		timeout:2000,  
+		        		showType:'fade'  
+		        	});
+		        }
+		    }
+			});
+		}  
+	</script>
+</head>
+<body class="easyui-layout">
+	<div region="center" border="false" style='padding:5px'>  
+		<table class="easyui-datagrid" id="grid" 
+				data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/User_queryUserByType',toolbar:toolbar,
+					singleSelect:true,
+					autoRowHeight:false,
+					pagination:true,
+					pageSize:10">
+			<thead>
+				<tr>
+					<th data-options="field:'userId',width:80,hidden:true">主键</th> 
+					<th data-options="field:'userName',width:120">用户名</th>
+					<th data-options="field:'typeName',width:120">用户类型</th>
+					<th data-options="field:'city',width:120">所在城市</th>
+					<th data-options="field:'email',width:200">邮箱</th>
+					<th data-options="field:'registerDate',width:200">注册时间</th>
+					<th data-options="field:'state',width:100,formatter:function(state){if(state == '1') return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div id="editComp" class="easyui-dialog" title="修改用户信息"  style="width:350px;height:400px;padding:10px;"
+			data-options="buttons: [{
+					text:'保存',
+					iconCls:'icon-ok',
+					handler:function(){
+						saveCompany();
+					}
+				},{
+					text:'取消',
+					handler:function(){
+						$('#editComp').dialog('close');
+					}
+				}]">
+				<form id="compFm" method="post" novalidate> 
+					<table cellspacing="0" cellpadding="0" class="formTable">
+						<tr style="display:none"><td class="itemText">compInfoId:</td><td><input id="compInfoId" name="compInfoId" class="easyui-validatebox" required="true"></td></tr>
+						<tr style="display:none"><td class="itemText">userid:</td><td><input id="userId" name="userId" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">公司名称:</td><td><input id="company" name="company"  readOnly class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">联系人:</td><td><input id="contact" name="contact" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">任职部门:</td><td><input id="department" name="department" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">固定电话:</td><td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">移动电话:</td><td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td></tr>
+					</table>
+				</form>  
+	</div>
+	<div id="editOrg" class="easyui-dialog" title="修改用户信息"  style="width:350px;height:450px;padding:10px;"
+			data-options="buttons: [{
+					text:'保存',
+					iconCls:'icon-ok',
+					handler:function(){
+						saveOrg();
+					}
+				},{
+					text:'取消',
+					handler:function(){
+						$('#editOrg').dialog('close');
+					}
+				}]">
+				<form id="orgFm" method="post" novalidate> 
+					<table cellspacing="0" cellpadding="0" class="formTable">
+						<tr  style="display:none"><td class="itemText">orgInfoId:</td><td><input id="orgId" name="orgId" class="easyui-validatebox" required="true"></td></tr>
+						<tr  style="display:none"><td class="itemText">userid:</td><td><input id="userId" name="userId" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">机构名称:</td><td><input id="orgName" name="orgName" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">地址:</td><td><input id="address" name="address" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">邮编:</td><td><input id="postCode" name="postCode" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">联系人:</td><td><input id="contact" name="contact" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">移动电话:</td><td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">联系电话:</td><td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">网址:</td><td><input id="website" name="website" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">培训类别:</td><td><input id="category" name="category" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">简介:</td><td><textarea id="introduction" style="width:150px;height:70px" name="introduction"></textarea></td></tr>
+			
+					</table>
+				</form>  
+	</div>
+	<div id="editTeacher" class="easyui-dialog" title="修改用户信息"  style="width:350px;height:450px;padding:10px;"
+			data-options="buttons: [{
+					text:'保存',
+					iconCls:'icon-ok',
+					handler:function(){
+						saveTeacher();
+					}
+				},{
+					text:'取消',
+					handler:function(){
+						$('#editOrg').dialog('close');
+					}
+				}]">
+				<form id="teacherFm" method="post" novalidate> 
+					<table cellspacing="0" cellpadding="0" class="formTable">
+						<tr  style="display:none"><td class="itemText">teacherId:</td><td><input id="teacherId" name="teacherId" class="easyui-validatebox" required="true"></td></tr>
+						<tr  style="display:none"><td class="itemText">userid:</td><td><input id="userId" name="userId" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">真实姓名:</td><td><input id="realName" name="realName" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">出生日期:</td><td><input id="birthday" name="birthday" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">主讲类别:</td><td><input id="majorCatgory" name="majorCatgory" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">对外课酬:</td><td><input id="externalPayment" name="externalPayment" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">协议课酬:</td><td><input id="internalPayment" name="internalPayment" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">联系电话:</td><td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">移动电话:</td><td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">网址:</td><td><input id="website" name="website" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">个人简介:</td><td><textarea id="introduction" style="width:150px;height:70px" name="introduction"></textarea></td></tr>
+						<tr><td class="itemText">擅长项目:</td><td><textarea id="expertIn" style="width:150px;height:70px" name="expertIn"></textarea></td></tr>
+			
+					</table>
+				</form>  
+	</div>    
+</body>
+</html>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.user.User;
+import com.nb.nbpx.dto.user.CompInfoDto;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.user.IUserService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -27,6 +28,8 @@ public class UserAction extends BaseAction {
 	public String password;
 	public int userType;
 	public User user;
+	public CompInfoDto compInfoDto;
+	
 	public String commitType;
 
 	private IUserService UserService;
@@ -45,7 +48,21 @@ public class UserAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-
+	public String editComp(){
+		try {
+			System.out.println(compInfoDto.getCompany());
+			//UserService.saveUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL, ResponseStatus.SAVE_FAILED+e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+		
+	}
 	public String saveUser() {
 		try {
 			UserService.saveUser(user);
@@ -114,6 +131,13 @@ public class UserAction extends BaseAction {
 		this.commitType = commitType;
 	}
 
+	public CompInfoDto getCompInfoDto() {
+		return compInfoDto;
+	}
+
+	public void setCompInfoDto(CompInfoDto compInfoDto) {
+		this.compInfoDto = compInfoDto;
+	}
 
 	public IUserService getUserService() {
 		return UserService;

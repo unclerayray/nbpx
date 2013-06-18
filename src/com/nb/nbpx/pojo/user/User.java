@@ -1,6 +1,7 @@
 package com.nb.nbpx.pojo.user;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,13 +26,17 @@ public class User extends BaseEntity  implements Serializable {
     private String            passWord;
     private String            userType;
 	private String            email;
+	private Date			  registerDate;
+	private Integer			  state;
+	private String 			  city;
 	private String			  typeName;	
 	
 	public User(){
 	}
 	
 	public User(Integer userId, String userName, String passWord,
-			String userType, String email, String typeName) {
+			String userType, String email, String typeName, 
+			String city,Integer state,Date registerDate) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -39,6 +44,9 @@ public class User extends BaseEntity  implements Serializable {
 		this.userType = userType;
 		this.email = email;
 		this.typeName = typeName;
+		this.city = city;
+		this.state = state;
+		this.registerDate = registerDate;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -72,6 +80,24 @@ public class User extends BaseEntity  implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+	public Integer getState() {
+		return state;
+	}
+	public void setState(Integer state) {
+		this.state = state;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
 	}
 	@Transient
 	public String getTypeName() {
