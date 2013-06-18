@@ -21,4 +21,5 @@ public interface IUserDao extends IBaseDao<User, Integer> {
 	public Long queryUserCountByType(String userType);
 	
 	public boolean checkDuplicateProp(String username,String email);
+
 }

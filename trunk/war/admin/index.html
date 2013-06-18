@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Documentation - jQuery EasyUI</title>
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/gray/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css"/>
+	<script type="text/javascript" src="../js/easyui/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		
+	});
+	function addTab(menuID,src){
+		var tt = $('#tabs');
+		var tabName = menuID;
+		if(tt.tabs('exists', tabName)){//如果tab已经存在,则选中并刷新该tab    	
+	        tt.tabs('select', tabName);
+	        //tt.tabs('update',{tab:tt,options:tt.tabs('options')});
+		}else {
+			tt.tabs('add',{
+				title: tabName,
+				content: "<iframe scrolling='yes' frameborder='0'  src='"+src+".html' style='width:100%;height:100%;'></iframe>",
+				closable: true
+			});
+		}
+	}
+	</script>
+	<style>
+		dd{font-size:12px;padding:0;margin:0;padding-left:30px;padding-top:8px;height:12px;}
+		dd a{text-decoration:none;color:#333}
+		dd a:hover{text-decoration:underline;color:red}
+		.userInfor{float:right;padding-right:20px}
+		.userInfor ul{list-style:none}
+		.userInfor li{float:left;display:inline;padding-left:10px;}
+		.userInfor li a,.userInfor li span{color:white;text-decoration:none;font-size:12px;}
+		.userInfor li a:hover{text-decoration:underline}
+	</style>
+</head>
+
+<body class="easyui-layout" style="min-width:1000px;overflow:auto">
+	<div region="north" style="height:60px;line-height:60px;border:none;overflow:hidden;font-weight:normal;font-size:16px;background:url(../images/adminLogoBg.jpg) repeat-x">
+		<img src="../images/adminLogo.jpg" style='float:left'></img>
+		<div class="userInfor"><ul><li><span>当前用户:Admin</span></li><li><a href="#">修改个人信息</a></li><li><a href="#">退出登陆</a></li></ul></div>
+	</div>
+
+	<div region="west" split="true" style="width:220px;overflow:hidden" iconCls="icon-save" title="功能菜单">
+		<div id="accord" class="easyui-accordion" style="width:214px;height:400px;border:none">  
+    		<div title="系统管理" iconCls="icon-reload">  
+				<dd><a href="#" onclick="javascript:addTab('系统日志')">系统日志</a></dd>
+				<dd><a href="#" onclick="javascript:addTab('广告设置')">广告设置</a></dd>
+		    </div>  
+		    <div title="课程管理" iconCls="icon-reload" >  
+		        <dd><a href="#">课程列表</a></dd>
+				<dd><a href="#">发布课程</a></dd>
+		    </div> 
+		    <div title="文章管理" iconCls="icon-reload" >  
+		        <dd><a href="#">文章列表</a></dd>
+				<dd><a href="#">发布文章</a></dd>
+		    </div> 
+		    <div title="系统用户" iconCls="icon-reload" selected="true">  
+		        <dd><a href="javascript:void(0)" onclick="javascript:addTab('用户列表','userList')">用户列表</a></dd>
+		        <dd><a href="javascript:void(0)" onclick="javascript:addTab('待审核用户')">待审核用户</a></dd>
+		    </div>  
+		    <div title="字典设置" iconCls="icon-reload">  
+		        <dd><a href="#">行业字典</a></dd>
+		        <dd><a href="#">产品字典</a></dd>
+		        <dd><a href="#">职位字典</a></dd>
+		        <dd><a href="#">专业字典</a></dd>
+		    </div> 
+		</div>  
+	</div>
+
+	<div region="center">
+		<div id="tabs" class="easyui-tabs" fit="true" border="false">
+			<div title="首页">
+				<p style='padding:20px;padding-left:20px'>欢迎登陆南北培训网后台管理系统</p>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="menu" class="easyui-menu" style="width:150px;">
+		<div id="m-refresh">刷新</div>
+		<div class="menu-sep"></div>
+		<div id="m-closeall">全部关闭</div>
+		<div id="m-closeother">除此之外全部关闭</div>
+		<div class="menu-sep"></div>
+		<div id="m-close">关闭</div>
+	</div>
+</body>
+</html>
+
+

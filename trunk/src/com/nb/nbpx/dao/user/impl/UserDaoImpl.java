@@ -15,7 +15,7 @@ import com.nb.nbpx.pojo.user.User;
 
 @Component("UserDao")
 public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao {
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> queryUserByType(final String userType,
@@ -28,7 +28,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 						List<User> list = new ArrayList<User>();
 						int i = 0;
 						StringBuffer hql = new StringBuffer(
-								"select new com.nb.nbpx.pojo.user.User(u.userId, u.userName, u.passWord, u.userType, u.email, d.showName)"
+								"select new com.nb.nbpx.pojo.user.User(u.userId, u.userName, u.passWord, u.userType, u.email, d.showName,u.city,u.state,u.registerDate)"
 										+ " from User u,Dictionary d where 1 = 1 "
 										+ " and u.userType = d.codeName");
 						if (userType != null) {
