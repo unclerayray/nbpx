@@ -109,4 +109,14 @@ public class ResponseStatus {
 	 * 验证字典类型值失败
 	 */
 	public static final String CHECK_SHOWNAME_FAILED = "该字典类型项值已经存在，请重新填写字典类型项值！";
+	
+	/**
+	 * 导入成功
+	 */
+	public static final String IMPORT_SUCCESS = "导入成功!";
+	
+	/**
+	 * 导入失败
+	 */
+	public static final String IMPORT_FAILED = "导入失败!";
 }
