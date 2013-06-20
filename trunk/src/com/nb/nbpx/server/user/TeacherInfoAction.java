@@ -31,7 +31,7 @@ public class TeacherInfoAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	public String saveOrgInfor(){
+	public String saveTeacherInfor(){
 		String json = "";
 		try {
 
