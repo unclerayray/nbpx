@@ -5,6 +5,8 @@ package com.nb.nbpx.utils;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -217,6 +219,7 @@ public class JsonUtil {
     }
     /**
      * 将一个对象，写成json格式字符串
+     * 含日期但日期也需要有时间的
      * @param o
      * @return[{
 			"id":1,
@@ -227,9 +230,35 @@ public class JsonUtil {
     public static String getJsonString(Object o) {
 		ObjectMapper om = new ObjectMapper();
 		StringWriter sw = new StringWriter();
+		DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		om.setDateFormat(myDateFormat);
 		try {
 			JsonGenerator jg = new JsonFactory().createJsonGenerator(sw);
 			om.writeValue(jg, o);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sw.toString();
+	}
+    
+    /**
+     * 将一个对象，写成json格式字符串
+     * 含日期但日期不包括时间的
+     * @param o
+     * @return[{
+			"id":1,
+			"text":"Java"
+			}
+			]
+     */
+    public static String getJsonStringWithTime(Object objectWithDateAndTime) {
+		ObjectMapper om = new ObjectMapper();
+		StringWriter sw = new StringWriter();
+		DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		om.setDateFormat(myDateFormat);
+		try {
+			JsonGenerator jg = new JsonFactory().createJsonGenerator(sw);
+			om.writeValue(jg, objectWithDateAndTime);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

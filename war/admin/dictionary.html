@@ -2,17 +2,17 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="css/demo.css">
-	<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
-	<script src="js/easyui/jquery-1.8.0.min.js"></script>
-	<script src="js/easyui/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../css/demo.css">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css">
+	<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+	<script src="../js/easyui/jquery.easyui.min.js"></script>
 	<title>字典管理界面</title>
 </head>
 <body>
 	<div style="margin:10px 0;"></div>  
 	<table id="dg" class="easyui-datagrid" title="字典管理" style="width:700px;height:600px"   pagination="true" onClickRow: onClickRow
-	data-options="rownumbers:true,singleSelect:true,url:'struts/Dictionary_queryDictionary',toolbar:'#tb'">  
+	data-options="rownumbers:true,singleSelect:true,url:'../struts/Dictionary_queryDictionary',toolbar:'#tb'">  
 	<thead>  
 		<tr>  
 			<th data-options="field:'dicId',width:80,hidden:true">主键</th> 
@@ -35,7 +35,7 @@
 		<input class="easyui-combobox"   
 		name="p_dicType"  id="p_dicType" 
 		data-options="  
-		url:'struts/Dictionary_queryDicTypes',  
+		url:'../struts/Dictionary_queryDicTypes',  
 		valueField:'codeName',  
 		textField:'showName',  
 		panelHeight:'auto'  ,
@@ -45,7 +45,7 @@
 		<input class="easyui-combobox"   
 		name="p_showName"  id="p_showName" 
 		data-options="  
-		url:'struts/Dictionary_queryDicTypes',  
+		url:'../struts/Dictionary_queryDicTypes',  
 		valueField:'codeName',  
 		textField:'showName',  
 		panelHeight:'auto'  ,
@@ -58,7 +58,7 @@
 <div id="dlg" class="easyui-dialog" style="width:400px;height:330px;padding:5px 10px"  
 closed="true" buttons="#dlg-buttons">  
 <div class="ftitle">字典详细</div>  
-<form id="fm" method="post" novalidate> 
+<form id="fm" method="post"> 
 	<div class="fitem">  
 		<input data-option="id:'dicId'" name="dicId" class="easyui-validatebox" type="hidden">  
 	</div>  
@@ -67,7 +67,7 @@ closed="true" buttons="#dlg-buttons">
 		<select  class="easyui-combobox"    style="width:130px;"
 		name="dicType"  
 		data-options="  
-		url:'struts/Dictionary_queryDicTypes',  
+		url:'../struts/Dictionary_queryDicTypes',  
 		valueField:'codeName',  
 		textField:'showName',  
 		panelHeight:'auto'  ,
@@ -89,7 +89,7 @@ closed="true" buttons="#dlg-buttons">
 </div>
 <div class="fitem">  
 	<label>是否启用:</label>  
-	<input name="flag" class="easyui-checkbox" type="checkbox" data-options="id:'flag',align: 'right',checked: 'checked'">
+	<input name="flag" class="easyui-checkbox" type="checkbox" data-options="id:'flag',align: 'right',formatter:function(value,row){if(row.flag) {return 'checked';}else{return 'unchecked';}}">
 </div>
 </form>  
 </div>  
@@ -98,30 +98,6 @@ closed="true" buttons="#dlg-buttons">
 	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>  
 </div>  
 <script type="text/javascript">  
-var url;  
-$(function(){
-	var provinceId = $('#provinceId').combobox({
-		url:'${pageContext.request.contextPath}/region/province/json.htm',
-		editable:false,
-		valueField:'id',
-		textField:'name',
-		onSelect:function(record){
-                //刷新数据，重新读取省份下的城市，并清空当前输入的值
-                cityId.combobox({
-                	disabled:false,
-                	url:'${pageContext.request.contextPath}/region/city/'+record.id+'/json.htm',
-                	valueField:'id',
-                	textField:'name'
-                }).combobox('clear');
-            }
-        });
-	var cityId = $('#cityId').combobox({
-		disabled:true,
-		url:'${pageContext.request.contextPath}/region/city/'+provinceId.val()+'/json.htm',
-		valueField:'id',
-		textField:'name'
-	});
-});
 function queryDic(){
 	$('#fm').form('load',row);
 }
@@ -134,6 +110,7 @@ function newDic(){
 }  
 function editDic(){  
 	var row = $('#dg').datagrid('getSelected');
+	alert("row: "+row)
 	if (row){  
 		$('#dlg').dialog('open').dialog('setTitle','编辑字典项');  
 		$('#fm').form('load',row);
@@ -148,7 +125,7 @@ function editDic(){
 }  
 function saveDic(){ 
 	$('#fm').form('submit',{  
-		url: 'struts/Dictionary_saveDic?objectName=dictionary',  
+		url: '../struts/Dictionary_saveDic?objectName=dictionary',  
 		onSubmit: function(){  
 			return $(this).form('validate');  
 		},  
@@ -179,7 +156,7 @@ function destroyDic(){
 	if (row){  
 		$.messager.confirm('Confirm','确认要删除此字典项吗?',function(r){  
 			if (r){  
-				$.post('struts/Dictionary_deleteDic?objectName=dictionary',row,function(data){  
+				$.post('../struts/Dictionary_deleteDic?objectName=dictionary',row,function(data){  
 					if (data.success){  
                                 $('#dg').datagrid('reload');    // reload the Dic data  
                             } else {  
