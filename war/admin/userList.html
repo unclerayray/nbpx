@@ -16,6 +16,7 @@
 		$(function(){
 			$('#editComp').dialog('close');
 			$('#editOrg').dialog('close');
+			$('#editTeacher').dialog('close');
 		});
 		var toolbar = [{
 			text:'查询',
@@ -63,10 +64,16 @@
 			iconCls:'icon-edit',
 			handler:function(){
 				var currUser = $('#grid').datagrid('getSelected');
-				$('#editOrg').dialog('open');
-				$('#orgFm').form('load', '../struts/OrgInfo_getOrgInforByUserId?userId=2');
-				//$('#editComp').dialog('open');
-				//$('#compFm').form('load', '../struts/CompInfo_getCompInforByUserId?userId='+currUser.userId);
+				if(currUser.typeName == "教师"){
+					$('#editTeacher').dialog('open');
+					$('#teacherFm').form('load', '../struts/TeacherInfo_getTeacherInforByUserId?userId=3');
+				}else if(currUser.typeName == "企业"){
+					$('#editComp').dialog('open');
+					$('#compFm').form('load', '../struts/CompInfo_getCompInforByUserId?userId=1');
+				}else{
+					$('#editOrg').dialog('open');
+					$('#orgFm').form('load', '../struts/OrgInfo_getOrgInforByUserId?userId=2');
+				}
 			}
 		}];
 		function saveCompany(){ 
@@ -113,6 +120,34 @@
 		        		showType:'fade'  
 		        	});
 		        	$('#editOrg').dialog('close');      // close the dialog  
+		            $('#grid').datagrid('reload');    // reload the user data    
+		        } else {
+		        	$.messager.show({  
+		        		title: '系统提示',  
+		        		msg: data.message ,
+		        		timeout:2000,  
+		        		showType:'fade'  
+		        	});
+		        }
+		    }
+			});
+		} 
+		function saveTeacher(){ 
+			$('#teacherFm').form('submit',{  
+				url: '../struts/TeacherInfo_saveTeacherInfor?objectName=teacherInfor',  
+				onSubmit: function(){  
+					return $(this).form('validate');  
+				},  
+				success: function(data){  
+				var data = eval('(' + data + ')');  // change the JSON string to javascript object  
+		        if (data.success){
+		        	$.messager.show({  
+		        		title: '系统提示',  
+		        		msg: data.message  ,  
+		        		timeout:2000,  
+		        		showType:'fade'  
+		        	});
+		        	$('#editTeacher').dialog('close');      // close the dialog  
 		            $('#grid').datagrid('reload');    // reload the user data    
 		        } else {
 		        	$.messager.show({  
@@ -215,7 +250,7 @@
 				},{
 					text:'取消',
 					handler:function(){
-						$('#editOrg').dialog('close');
+						$('#editTeacher').dialog('close');
 					}
 				}]">
 				<form id="teacherFm" method="post" novalidate> 
@@ -230,10 +265,8 @@
 						<tr><td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td></tr>
 						<tr><td class="itemText">联系电话:</td><td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td></tr>
 						<tr><td class="itemText">移动电话:</td><td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td></tr>
-						<tr><td class="itemText">网址:</td><td><input id="website" name="website" class="easyui-validatebox" required="true"></td></tr>
 						<tr><td class="itemText">个人简介:</td><td><textarea id="introduction" style="width:150px;height:70px" name="introduction"></textarea></td></tr>
-						<tr><td class="itemText">擅长项目:</td><td><textarea id="expertIn" style="width:150px;height:70px" name="expertIn"></textarea></td></tr>
-			
+						<tr><td class="itemText">擅长项目:</td><td><textarea id="expertIn" style="width:150px;height:70px" name="expertIn"></textarea></td></tr>	
 					</table>
 				</form>  
 	</div>    
