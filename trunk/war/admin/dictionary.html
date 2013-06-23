@@ -89,7 +89,7 @@ closed="true" buttons="#dlg-buttons">
 </div>
 <div class="fitem">  
 	<label>是否启用:</label>  
-	<input name="flag" id="flag" class="easyui-checkbox" type="checkbox" data-options="formatter:function(value,row){if(row.flag) {return 'on';}else{return 'off';}}">
+	<input name="flag" id="flag" type="checkbox" >
 </div>
 </form>  
 </div>  
@@ -110,10 +110,19 @@ function newDic(){
 }  
 function editDic(){  
 	var row = $('#dg').datagrid('getSelected');
-	alert("row.flag: "+row.flag)
+	//alert("row.flag: "+row.flag)
 	if (row){  
 		$('#dlg').dialog('open').dialog('setTitle','编辑字典项');  
+		$('#fm').form({
+			onLoadSuccess:function(data){
+				if(data.flag)
+					$('#flag').attr('checked','checked');
+				else
+					$('#flag').attr('checked',false);
+			}
+		});
 		$('#fm').form('load',row);
+
 	}  else{
 		$.messager.show({  
 			title:'温馨提示',  
