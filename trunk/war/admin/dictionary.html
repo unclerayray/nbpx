@@ -77,19 +77,19 @@ closed="true" buttons="#dlg-buttons">
 </div>  
 <div class="fitem">  
 	<label>字典编码:</label>  
-	<input class="easyui-validatebox" name="codeName" data-options="required:true" style="width:130px;">  
+	<input class="easyui-validatebox" name="codeName" required="true" style="width:130px;">  
 </div>  
 <div class="fitem">  
 	<label>字典项值:</label>  
-	<input class="easyui-validatebox" name="showName" data-options="required:true" style="width:130px;">  
+	<input class="easyui-validatebox" name="showName" required="true" style="width:130px;">  
 </div>  
 <div class="fitem">  
 	<label>字典描述:</label>  
-	<textarea class="easyui-textarea" name="discription" style="height:60px;width:130px;" type="textarea" data-options="required:true"></textarea>
+	<textarea class="easyui-textarea" name="discription" style="height:60px;width:130px;" type="textarea" required="true"></textarea>
 </div>
 <div class="fitem">  
 	<label>是否启用:</label>  
-	<input name="flag" class="easyui-checkbox" type="checkbox" data-options="id:'flag',align: 'right',formatter:function(value,row){if(row.flag) {return 'checked';}else{return 'unchecked';}}">
+	<input name="flag" id="flag" class="easyui-checkbox" type="checkbox" data-options="formatter:function(value,row){if(row.flag) {return 'on';}else{return 'off';}}">
 </div>
 </form>  
 </div>  
@@ -110,7 +110,7 @@ function newDic(){
 }  
 function editDic(){  
 	var row = $('#dg').datagrid('getSelected');
-	alert("row: "+row)
+	alert("row.flag: "+row.flag)
 	if (row){  
 		$('#dlg').dialog('open').dialog('setTitle','编辑字典项');  
 		$('#fm').form('load',row);
