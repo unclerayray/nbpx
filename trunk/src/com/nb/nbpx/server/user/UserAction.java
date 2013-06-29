@@ -34,6 +34,7 @@ public class UserAction extends BaseAction {
 
 	private IUserService UserService;
 
+	
 	public String queryUserByType() {
 		String json = "";
 		try {

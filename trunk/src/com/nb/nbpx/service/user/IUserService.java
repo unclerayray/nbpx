@@ -35,4 +35,11 @@ public interface IUserService extends IBaseService {
 	 * @param user
 	 */
 	public void deleteUser(User user);
+	
+	/**
+	 * 根据用户名查找用户
+	 * @param username
+	 * @return
+	 */
+	public String checkLogin(String username,String password);
 }
