@@ -22,32 +22,36 @@ import com.nb.nbpx.pojo.BaseEntity;
 @Entity
 @Table(name = "sys_dictionary", catalog = "nbpx")
 public class Dictionary extends BaseEntity implements Serializable {
-    private Integer dicId;
-    private String  dicType;
-    private String  codeName;
-    private String  showName;
-    private Integer orderNum;
-    private String  attribute1;
-    private String  attribute2;
-    private String  attribute3;
-    private Boolean flag;
-    private String  discription;
-    private String dicTypeName;
+	private Integer dicId;
+	private String dicType;
+	private String codeName;
+	private String showName;
+	private Integer orderNum;
+	private String attribute1;
+	private String attribute2;
+	private String attribute3;
+	private Boolean flag;
+	private String discription;
+	private String dicTypeName;
 
-    public Dictionary(){
-    }
-    
-    
-    
-    
-    public Dictionary(String codeName, String showName) {
+	public Dictionary() {
+	}
+
+	public Dictionary(String codeName, String showName) {
 		super();
 		this.codeName = codeName;
 		this.showName = showName;
 	}
 
-
-
+	public Dictionary(Integer dicId, String codeName, String showName,
+			String discription,Boolean flag) {
+		super();
+		this.dicId = dicId;
+		this.codeName = codeName;
+		this.showName = showName;
+		this.discription = discription;
+		this.flag = flag;
+	}
 
 	public Dictionary(Integer dicId, String dicType, String codeName,
 			String showName, Integer orderNum, String attribute1,
@@ -67,53 +71,50 @@ public class Dictionary extends BaseEntity implements Serializable {
 		this.dicTypeName = dicTypeName;
 	}
 
-
-
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "dicId", unique = true, nullable = false)
-    public Integer getDicId() {
-        return dicId;
-    }
+	@Column(name = "dicId", unique = true, nullable = false)
+	public Integer getDicId() {
+		return dicId;
+	}
 
-    public void setDicId(Integer dicId) {
-        this.dicId = dicId;
-    }
+	public void setDicId(Integer dicId) {
+		this.dicId = dicId;
+	}
 
-    public String getDicType() {
-        return dicType;
-    }
+	public String getDicType() {
+		return dicType;
+	}
 
-    public void setDicType(String dicType) {
-        this.dicType = dicType;
-    }
+	public void setDicType(String dicType) {
+		this.dicType = dicType;
+	}
 
-    public String getCodeName() {
-        return codeName;
-    }
+	public String getCodeName() {
+		return codeName;
+	}
 
-    public void setCodeName(String codeName) {
-        this.codeName = codeName;
-    }
+	public void setCodeName(String codeName) {
+		this.codeName = codeName;
+	}
 
-    public String getShowName() {
-        return showName;
-    }
+	public String getShowName() {
+		return showName;
+	}
 
-    public void setShowName(String showName) {
-        this.showName = showName;
-    }
+	public void setShowName(String showName) {
+		this.showName = showName;
+	}
 
-    public Integer getOrderNum() {
-        return orderNum;
-    }
+	public Integer getOrderNum() {
+		return orderNum;
+	}
 
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
-    }
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
 
-    public String getAttribute1() {
+	public String getAttribute1() {
 		return attribute1;
 	}
 
@@ -138,20 +139,20 @@ public class Dictionary extends BaseEntity implements Serializable {
 	}
 
 	public Boolean getFlag() {
-        return flag;
-    }
+		return flag;
+	}
 
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
-    }
+	public void setFlag(Boolean flag) {
+		this.flag = flag;
+	}
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
-    }
+	public void setDiscription(String discription) {
+		this.discription = discription;
+	}
 
-    public String getDiscription() {
-        return discription;
-    }
+	public String getDiscription() {
+		return discription;
+	}
 
 	public void setDicTypeName(String dicTypeName) {
 		this.dicTypeName = dicTypeName;

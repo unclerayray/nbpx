@@ -36,8 +36,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
     private static final long    serialVersionUID = 1L;
     public static Logger         logger           = LogManager
                                                           .getLogger(BaseAction.class);
-    protected int            page;
-    protected int            rows;
+    protected Integer            page;
+    protected Integer            rows;
     protected InputStream        inputStream;
     protected HttpServletRequest request;
     protected HttpSession        session;
@@ -50,19 +50,19 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
         this.inputStream = inputStream;
     }
 
-    public int getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
-    public int getRows() {
+    public Integer getRows() {
 		return rows;
 	}
 
-	public void setRows(int rows) {
+	public void setRows(Integer rows) {
 		this.rows = rows;
 	}
 
@@ -101,7 +101,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
         return userName;
     }
     
-    public int getStartPosi(){
+    public Integer getStartPosi(){
+    	if(page==null||rows==null) return null;
     	return (page-1)*rows;
     }
     
