@@ -12,6 +12,7 @@ import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.system.IDictionaryService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 
 @Component("DictionaryService")
 @SuppressWarnings({ "rawtypes" })
@@ -21,8 +22,15 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 	public IDictionaryDao dicDao;
 
 	@Override
-	public String queryDicTypes() {
-		List list = dicDao.queryDicTypes();
+	public String queryComboDicTypes() {
+		List list = dicDao.queryDicTypes(null,null);
+		String json = JsonUtil.formatListToJson(list);
+		return json;
+	}
+	
+	@Override
+	public String queryComboDics(String dicType) {
+		List list = dicDao.queryDictionary(dicType, null, null, null);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
 	}
@@ -43,10 +51,31 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 		
 		return json;
 	}
+	
 
 	@Override
-	public void saveDic(Dictionary dictionary) {
+	public String queryDicType(Integer rows, Integer start) {
+		String json = "";
+		List<Dictionary> list = dicDao.queryDicTypes(rows, start);
+		if(list.isEmpty()){
+			json = JsonUtil.formatToJsonWithTimeStamp(0,
+					ResponseStatus.FAIL, "", list);
+		}else{
+			int count = dicDao.queryDicTypesCount().intValue();
+			json = JsonUtil.formatToJsonWithTimeStamp(count,
+					ResponseStatus.SUCCESS, "", list);
+		}
+		
+		return json;
+	}
+
+
+	@Override
+	public void saveDic(Dictionary dictionary) throws NbpxException {
 		if(dictionary.getDicId()==null){
+			if(dicDao.checkDuplicateProp(dictionary)){
+				throw new NbpxException("字典项重复，请检查！");
+			}
 			dicDao.save(dictionary);
 		}else{
 			dicDao.saveOrUpdate(dictionary);
@@ -54,7 +83,14 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void deleteDic(Dictionary dictionary) {
+	public void deleteDic(Dictionary dictionary) throws NbpxException {
+		if("998".equals(dictionary.getDicType())||dictionary.getDicType()==null||dictionary.getDicType().isEmpty()){
+			if(dicDao.checkShouldDelete(dictionary)){
+				dicDao.delete(dictionary);
+			}else{
+				throw new NbpxException("此字典类下含有字典项，不建议删除！");
+			}
+		}
 		dicDao.delete(dictionary);
 	}
 
@@ -66,5 +102,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 	public void setDicDao(IDictionaryDao dicDao) {
 		this.dicDao = dicDao;
 	}
+
+	
 
 }

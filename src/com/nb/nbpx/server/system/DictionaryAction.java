@@ -23,17 +23,26 @@ public class DictionaryAction extends BaseAction {
 	public Dictionary dictionary;
 	public IDictionaryService dictionaryService;
 	public String p_dicType;
-	public String p_showName;
+	public String p_codeName;
 
 	public String queryDictionary() {
-		String json = dictionaryService.queryDic(p_dicType, p_showName, rows,
+		String json = dictionaryService.queryDic(p_dicType, p_codeName, rows,
 				getStartPosi());
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+
+	public String queryDicType() {
+		String json = dictionaryService.queryDicType(rows, getStartPosi());
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
 
 	public String saveDic() {
 		try {
+			if(dictionary.getDicType()==null||dictionary.getDicType().isEmpty()){
+				dictionary.setDicType("998");
+			}
 			dictionaryService.saveDic(dictionary);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -60,8 +69,14 @@ public class DictionaryAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String queryDicTypes() {
-		String json = dictionaryService.queryDicTypes();
+	public String queryComboDicTypes() {
+		String json = dictionaryService.queryComboDicTypes();
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+
+	public String queryComboDics() {
+		String json = dictionaryService.queryComboDics(p_dicType);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
