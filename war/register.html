@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link type="text/css" href="css/face.css" rel="stylesheet" />
+<script type="text/javascript" src="js/easyui/jquery-1.8.0.min.js"></script>
+<title>注册用户</title>
+</head>
+<script>
+function selectType(){
+	var currSelect = $('#userType').val();
+	if(currSelect == '1'){
+		$('#comp').css('display','block');
+		$('#org').css('display','none');
+		$('#teacher').css('display','none');
+	}else if(currSelect == '2'){
+		$('#comp').css('display','none');
+		$('#org').css('display','block');
+		$('#teacher').css('display','none');
+	}else{
+		$('#comp').css('display','none');
+		$('#org').css('display','none');
+		$('#teacher').css('display','block');
+	}	
+}
+
+</script>
+<body>
+<div class="mainContent path" style="border-bottom:1px solid #ccc">
+	<ul>
+		<li>当前位置:&nbsp;</li>
+		<li><a href="main.html" target="_self">首页</a></li>
+		<li class="bread">&gt;&gt;</li>
+		<li>注册用户</li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<!--当前路径 end-->
+<style>
+	.loginForm dd select{float:left;width:150px;height:29px;margin-top:5px;border:1px solid #ccc}
+	.loginForm dd textarea{float:left;width:280px;height:100px;margin-top:5px;border:1px solid #ccc}
+</style>
+<div class="mainContent loginForm" style="padding-top:50px">
+
+	<div class='registerBg'></div>
+	<dd><span>用户类别:</span><select id="userType" name="userType" onchange="javascript:selectType()"><option value="1">企业用户</option><option value="2">讲师</option><option value="3">培训机构</option></select></dd>
+	<form id="compForm">
+	<div id="comp" style='display:none'>
+		<dd><span>公司名称:</span><input type="text" name="company" id="company"/></dd>
+		<dd><span>城市:</span><input type="text"  name="city" id="city"/></dd>
+		<dd><span>密码:</span><input type="password"  name="password" id="password"/></dd>
+		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="confirmPassword"/></dd>
+		<dd><span>联系人:</span><input type="text" name="contact" id="contact"/></dd>
+		<dd><span>所在部门:</span><input type="text" name="department" id="department"/></dd>
+		<dd><span>邮箱:</span><input type="text" name="email" id="email"/></dd>
+		<dd><span>手机:</span><input type="text" name="cellphone" id="cellphone"/></dd>
+		<dd><span>座机:</span><input type="text" name="telephone" id="telephone"/></dd>
+		<dd><span>传真:</span><input type="text" name="fax" id="fax"/></dd>
+	</div>
+	</form>
+	<form id="orgForm">
+	<div id="org" style='display:none'>
+		<dd><span>机构名称:</span><input type="text" /></dd>
+		<dd><span>地址:</span><input type="text"/></dd>
+		<dd><span>培训类别:</span><input type="text"/></dd>
+		<dd><span>密码:</span><input type="password"  name="password" id="password"/></dd>
+		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="confirmPassword"/></dd>
+		<dd><span>联系人:</span><input type="text"/></dd>
+		<dd><span>邮箱:</span><input type="text" name="email" id="email"/></dd>
+		<dd><span>手机:</span><input type="text" name="cellphone" id="cellphone"/></dd>
+		<dd><span>座机:</span><input type="text" name="telephone" id="telephone"/></dd>
+		<dd><span>传真:</span><input type="text" name="fax" id="fax"/></dd>
+		<dd><span>网址:</span><input type="text"/></dd>
+		<dd><span>机构描述:</span><textarea></textarea></dd>
+	</div>
+	</form>
+	<form id="teacherForm">
+	<div id="teacher">
+		<dd><span>姓名:</span><input type="text"/></dd>
+		<dd><span>出身日期:</span><input type="text"/></dd>
+		<dd><span>主讲类别:</span><input type="text"/></dd>
+		<dd><span>密码:</span><input type="password"/></dd>
+		<dd><span>确认密码:</span><input type="password"/></dd>
+		<dd><span>对内课酬:</span><input type="text"/></dd>
+		<dd><span>对外课酬:</span><input type="text"/></dd>
+		<dd><span>邮箱:</span><input type="text"/></dd>
+		<dd><span>手机:</span><input type="text"/></dd>
+		<dd><span>座机:</span><input type="text"/></dd>
+		<dd><span>传真:</span><input type="text"/></dd>
+		<dd><span>机构描述:</span><textarea></textarea></dd>
+		<div class="clear"></div>
+		<dd><span>擅长项目:</span><textarea></textarea></dd>
+	</div><div class="clear"></div>
+	<dd class="button"><a href='#'>提交</a></dd>
+	</form>
+</div>
+</body>
+</html>

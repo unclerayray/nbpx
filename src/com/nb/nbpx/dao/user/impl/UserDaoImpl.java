@@ -18,6 +18,35 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	/**
+	 * 根据用户名查找用户
+	 */
+	public List<User> queryUserByUserName(final String username){
+		List<User> list = getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+					public Object doInHibernate(Session session)throws HibernateException, SQLException {
+					List<User> list = new ArrayList<User>();
+					int i = 0;
+					StringBuffer hql = new StringBuffer(
+							"select new com.nb.nbpx.pojo.user.User(u.userId, u.userName, u.passWord, u.userType, u.email, d.showName,u.city,u.state,u.registerDate)"
+									+ " from User u,Dictionary d where 1 = 1 "
+									+ " and u.userType = d.codeName");
+					
+					hql.append(" and u.userName = ?");
+					org.hibernate.Query query = session.createQuery(hql.toString());
+		
+					query.setString(i++, username);
+
+					list = query.list();
+					//System.out.println("hql = " + hql);
+					return list;
+					}
+				});
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<User> queryUserByType(final String userType,
 			final Integer rows, final Integer start) {
 		@SuppressWarnings("rawtypes")

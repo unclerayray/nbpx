@@ -68,9 +68,31 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	public void deleteUser(User user) {
 		userDao.delete(user);
 	}
+	
+	@Override
+	/**
+	 * 登陆验证
+	 */
+	public String checkLogin(String username,String password){
+		String json = "";
+		List<User> userList = userDao.queryUserByUserName(username);
+		if(userList == null || userList.size() == 0){
+			json = JsonUtil.format2Json(false, "不存在此用户!");
+			return json;
+		}
+		
+		for(int i=0;i<userList.size();i++){
+			User temp = userList.get(i);
+			if(password.equals(temp.getPassWord())){
+				json = JsonUtil.format2Json(true, "验证成功!");
+				return json;
+			}
+		}
+		json = JsonUtil.format2Json(false, "密码不正确!");
+		
+		return json;
+	}
 
-	
-	
 
 	@Resource
 	public void setUserDao(IUserDao userDao) {
