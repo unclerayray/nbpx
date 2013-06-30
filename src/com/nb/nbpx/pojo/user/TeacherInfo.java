@@ -26,6 +26,13 @@ public class TeacherInfo implements Serializable{
 	private String introduction;
 	private String expertIn;
 	
+	
+	
+	public TeacherInfo(Integer teacherId, String realName) {
+		super();
+		this.teacherId = teacherId;
+		this.realName = realName;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "teacherId", unique = true, nullable = false)

@@ -155,11 +155,13 @@ public class JsonUtil {
      */
     @SuppressWarnings({ "rawtypes"})
 	public static String formatListToJson(List tempList) {
-        String json = null;
+        String json = "";
         if (tempList != null && tempList.size() > 0) {
             java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<List>() {
             }.getType();
             json = SerializerMethod.bean2json(tempList, type, "yyyy-MM-dd");
+        }else{
+        	return "[]";
         }
         return json;
     }
@@ -214,7 +216,7 @@ public class JsonUtil {
             jsonObject.put("total", total);
             return jsonObject.toString();
         }else{
-            return "{'success':false,'message':'','total':0,'rows':[]}";
+            return "{'success':true,'message':'','total':0,'rows':[]}";
         }
     }
     /**

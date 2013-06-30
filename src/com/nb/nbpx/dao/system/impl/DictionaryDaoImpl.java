@@ -1,6 +1,7 @@
 package com.nb.nbpx.dao.system.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -24,7 +25,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 	@Override
 	public List<Dictionary> queryDictionary(final String dicType,
 			final String codeName, final Integer rows, final Integer start) {
-		List<Dictionary> list = getHibernateTemplate().executeFind(
+		List<Dictionary> list = new ArrayList<Dictionary>();
+		list = getHibernateTemplate().executeFind(
 				new HibernateCallback() {
 
 					@Override
@@ -69,7 +71,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public List<Dictionary> queryDicTypes(final Integer rows, final Integer start) {
-		List<Dictionary> list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		List<Dictionary> list = new ArrayList<Dictionary>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
 			@Override
 			public Object doInHibernate(Session session)
@@ -102,7 +105,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public Long queryDictionaryCount(final String dicType, final String showName) {
-		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
 			@Override
 			public Object doInHibernate(Session session)
@@ -135,7 +139,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public Long queryDicTypesCount() {
-		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
 			@Override
 			public Object doInHibernate(Session session)
@@ -151,7 +156,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public boolean checkDuplicateProp(final Dictionary dictionary) {
-		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
 			@Override
 			public Object doInHibernate(Session session)
@@ -175,7 +181,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public boolean checkShouldDelete(final Dictionary dictionary) {
-		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
 			@Override
 			public Object doInHibernate(Session session)

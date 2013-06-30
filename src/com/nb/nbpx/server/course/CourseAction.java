@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
 
@@ -27,6 +28,10 @@ public class CourseAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ISolrService dataImportor;
+	private ICourseService courseService;
+	public String category;
+	public String courseCode;
+	public Integer courseId;
 	
 	public String fullImport(){
 		try {
@@ -46,6 +51,36 @@ public class CourseAction extends BaseAction {
 				ResponseStatus.SUCCESS, ResponseStatus.IMPORT_SUCCESS));
 		return SUCCESS;
 	}
+	
+	public String queryCourses() {
+		String json = courseService.queryCourses(category, courseCode, rows, getStartPosi());
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String queryCourseById(){
+		String json = courseService.queryCourseById(courseId);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String queryComboCourseTypes(){
+		String json = courseService.queryComboCourseType();
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String queryComboCourseCode(){
+		String json = courseService.queryComboCourseName(category);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String queryComboTeacher(){
+		String json = courseService.queryComboTeacher();
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
 
 	/**
 	 * @param dataImportor the dataImportor to set
@@ -60,5 +95,30 @@ public class CourseAction extends BaseAction {
 	 */
 	public ISolrService getDataImportor() {
 		return dataImportor;
+	}
+
+	@Resource
+	public void setCourseService(ICourseService courseService) {
+		this.courseService = courseService;
+	}
+
+	public ICourseService getCourseService() {
+		return courseService;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCourseCode() {
+		return courseCode;
+	}
+
+	public void setCourseCode(String courseCode) {
+		this.courseCode = courseCode;
 	}
 }
