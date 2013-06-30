@@ -48,7 +48,10 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 		Boolean result = getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)
 			throws HibernateException, SQLException {
-				session.saveOrUpdate(teacherInfor);
+				if(teacherInfor.getTeacherId() == null)
+					session.save(teacherInfor);
+				else
+					session.saveOrUpdate(teacherInfor);
 				return true;
 			}
 		});

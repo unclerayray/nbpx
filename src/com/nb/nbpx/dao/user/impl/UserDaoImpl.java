@@ -111,11 +111,10 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				List<User> list = new ArrayList<User>();
-				String hql2 = "from User where username = ? and email = ?";
+				String hql2 = "from User where username = ?";
 				Integer i = 0;
 				org.hibernate.Query query = session.createQuery(hql2);
 				query.setString(i++, username);
-				query.setString(i++, email);
 				list = query.list();
 				return list;
 			}

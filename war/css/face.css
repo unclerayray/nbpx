@@ -536,8 +536,10 @@ ul{padding:0px;margin:0px}
 .loginForm{min-height:400px;padding-top:100px;padding-bottom:100px}
 	.loginForm dd{height:40px;line-height:40px;padding:0;margin:0;padding-left:250px}
 	.loginForm .button{padding-top:50px;padding-left:420px}
-	.loginForm .button a{display:block;height:30px;;line-height:30px;width:70px;border-left:1px solid #ccc;border-right:1px solid #ccc;background:url(../images/split.png) no-repeat -180px -5px;margin-left:10px;float:left}
-    .loginForm dd span{color:#333;width:150px;line-height:40px;height:40px;text-align:right;display:block;float:left;padding-right:10px;font-weight:bold}
+	.loginForm .button a{display:block;height:29px;;line-height:29px;width:70px;border-left:1px solid #ccc;border-right:1px solid #ccc;background:url(../images/split.png) no-repeat -180px -5px;margin-left:10px;float:left;font-size:12px}
+    .loginForm dd span{color:#333;width:150px;line-height:40px;height:40px;text-align:right;display:block;float:left;padding-right:10px;font-size:12px}
+    .loginForm dd em{color:red;float:left;padding-left:0px;font-size:12px;font-style:normal}
+    .loginForm dd em.black{color:#333}
     .loginForm input{border:1px solid #ccc;height:23px;width:200px;float:left;margin-top:5px;margin-right:10px}
 	.loginForm dd .forget{color:#333;font-size:12px;float:left;outline:none}
 	.loginFormBg{background:url(../images/login.png) no-repeat;height:100px;width:100px;position:absolute;float:left;margin-left:250px;margin-top:-20px}
