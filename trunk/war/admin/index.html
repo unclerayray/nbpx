@@ -11,7 +11,7 @@
 	$(function(){
 		
 	});
-	function addTab(menuID,src){
+	function addTab(menuID,src){ 
 		var tt = $('#tabs');
 		var tabName = menuID;
 		if(tt.tabs('exists', tabName)){//如果tab已经存在,则选中并刷新该tab    	
@@ -51,7 +51,7 @@
 				<dd><a href="#" onclick="javascript:addTab('广告设置')">广告设置</a></dd>
 		    </div>  
 		    <div title="课程管理" iconCls="icon-reload" >  
-		        <dd><a href="#">课程列表</a></dd>
+		        <dd><a href="javascript:addTab('课程列表','courses')">课程列表</a></dd>
 				<dd><a href="#">发布课程</a></dd>
 		    </div> 
 		    <div title="文章管理" iconCls="icon-reload" >  

@@ -98,4 +98,20 @@ public class DictionaryAction extends BaseAction {
 		this.dictionaryService = dictionaryService;
 	}
 
+	public String getP_dicType() {
+		return p_dicType;
+	}
+
+	public void setP_dicType(String p_dicType) {
+		this.p_dicType = p_dicType;
+	}
+
+	public String getP_codeName() {
+		return p_codeName;
+	}
+
+	public void setP_codeName(String p_codeName) {
+		this.p_codeName = p_codeName;
+	}
+
 }

@@ -15,7 +15,8 @@
 	<div style="margin: 10px 0;"></div>
 	<table id="dg" class="easyui-datagrid" title="字典管理"
 		style="width: 700px; height: 600px" pagination="true" onClickRow:
-		onClickRow
+		onClickRow 
+		loadMsg="正在加载，请稍候!"
 		data-options="rownumbers:true,singleSelect:true,url:'../struts/Dictionary_queryDictionary',toolbar:'#tb'">
 		<thead>
 			<tr>
@@ -135,6 +136,7 @@
 		<table id="dg_dt" class="easyui-datagrid" title="字典管理"
 			style="width: 650px; height: 375px" pagination="true" onClickRow:
 			onClickRow 
+			loadMsg="正在加载，请稍候!" 
 			data-options="rownumbers:true,singleSelect:true,url:'../struts/Dictionary_queryDicType',toolbar:'#tb_dt'">
 			<thead>
 				<tr>
@@ -168,6 +170,7 @@
 				document.getElementById('dicTypeInForm').style.display = 'none';
 			} else {
 				$('#dlg').dialog('open').dialog('setTitle', '新建字典项');
+				document.getElementById('dicTypeInForm').style.display = 'inline';
 			}
 			$('#fm').form('clear');
 			$('#flag').attr('checked', 'checked');
@@ -197,6 +200,8 @@
 				});
 				if (attr == true) {
 					document.getElementById('dicTypeInForm').style.display = 'none';
+				}else{
+					document.getElementById('dicTypeInForm').style.display = 'inline';
 				}
 				$('#fm').form('load', row);
 			} else {

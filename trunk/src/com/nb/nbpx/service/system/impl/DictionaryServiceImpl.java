@@ -42,7 +42,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 		List<Dictionary> list = dicDao.queryDictionary(dicType, showName, rows, start);
 		if(list.isEmpty()){
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
-					ResponseStatus.FAIL, "", list);
+					ResponseStatus.SUCCESS, "", list);
 		}else{
 			int count = dicDao.queryDictionaryCount(dicType, showName).intValue();
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
@@ -59,7 +59,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 		List<Dictionary> list = dicDao.queryDicTypes(rows, start);
 		if(list.isEmpty()){
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
-					ResponseStatus.FAIL, "", list);
+					ResponseStatus.SUCCESS, "", list);
 		}else{
 			int count = dicDao.queryDicTypesCount().intValue();
 			json = JsonUtil.formatToJsonWithTimeStamp(count,

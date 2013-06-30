@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../css/demo.css">
+<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/icon.css">
+<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+<script src="../js/easyui/jquery.easyui.min.js"></script>
+<title>课程管理界面</title>
+</head>
+<body>
+	<div style="margin: 10px 0;"></div>
+	<table id="dg" class="easyui-datagrid" title="课程管理"
+		style="width: 700px; height: 600px" pagination="true" onClickRow:
+		onClickRow
+		data-options="rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb'">
+		<thead>
+			<tr>
+				<th data-options="field:'dicId',width:80,hidden:true">主键</th>
+				<th
+					data-options="field:'dicType',width:120,formatter:function(value,row){return row.dicTypeName;}">课程类型</th>
+				<th data-options="field:'codeName',width:120">课程编码</th>
+				<th data-options="field:'showName',width:120">课程项值</th>
+				<th data-options="field:'discription',width:250">课程描述</th>
+				<th
+					data-options="field:'state',width:50,formatter:function(value,row){if(row.state) {return '启用';}else{return '禁用';}}">状态</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="tb" style="padding: 5px; height: auto">
+		<div style="margin-bottom: 5px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="newDic(false)">新增课程</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+				onclick="editDic(false)">修改课程</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+				onclick="destroyDic(false)">删除课程</a>
+		</div>
+		<div>
+			课程类型: <input class="easyui-combobox" name="p_dicType" id="p_dicType"
+				data-options="  
+		url:'../struts/Dictionary_queryComboDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',   
+		panelHeight:'auto'  ,
+		strict:true,
+		onSelect: function(rec){  
+            var url = '../struts/Dictionary_queryComboDics?p_dicType='+rec.codeName;  
+            $('#p_codeName').combobox('reload', url);  
+        }
+		">
+			课程标题： <input class="easyui-combobox" name="p_codeName"
+				id="p_codeName"
+				data-options="   
+		url:'../struts/Dictionary_queryComboDics',
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		strict:true
+		">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-search" onclick="queryDic(true)">搜索</a> <a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-undo" onclick="clearTollBar()">重置</a> 
+		</div>
+	</div>
+
+	<div id="dlg" class="easyui-dialog"
+		style="width: 400px; height: 330px; padding: 5px 10px" closed="true"
+		modal="true" buttons="#dlg-buttons">
+		<div class="ftitle">课程详情</div>
+		<form id="fm" method="post">
+			<div class="fitem">
+				<input data-option="id:'dicId'" name="dicId"
+					class="easyui-validatebox" type="hidden">
+			</div>
+
+			<div id="dicTypeInForm" class="fitem">
+				<label>课程类型:</label> <select class="easyui-combobox"
+					style="width: 130px;" name="dicType" id="dicTypeField"
+					data-options="  
+						url:'../struts/Dictionary_queryComboDicTypes',  
+						valueField:'codeName',  
+						textField:'showName',  
+						panelHeight:'auto'  ,
+						editable:false 
+				">
+				</select>
+			</div>
+			<div class="fitem">
+				<label>课程编码:</label> <input class="easyui-validatebox"
+					name="codeName" required="true" style="width: 130px;">
+			</div>
+			<div class="fitem">
+				<label>课程项值:</label> <input class="easyui-validatebox"
+					name="showName" required="true" style="width: 130px;">
+			</div>
+			<div class="fitem">
+				<label>课程描述:</label>
+				<textarea class="easyui-textarea" name="discription"
+					style="height: 60px; width: 130px;" type="textarea" required="true"></textarea>
+			</div>
+			<div class="fitem">
+				<label>是否启用:</label> <input name="state" id="state" type="checkbox">
+			</div>
+		</form>
+	</div>
+
+	<div id="dlg-buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-ok" onclick="saveDic()">保存</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+	</div>
+	
+	<script type="text/javascript">
+		function clearTollBar() {
+			$('#tb').form('clear');
+		}
+		function queryCourse() {
+			//alert("ahhahhahahah  " + $('#p_dicType').combobox('getValue'));
+			$('#dg').datagrid('load', {
+				p_dicType : $('#p_dicType').combobox('getValue'),
+				p_codeName : $('#p_codeName').combobox('getValue')
+			});
+		}
+		function newCourse(attr) {
+			$('#dlg').dialog('open').dialog('setTitle', '新建课程');
+			$('#fm').form('clear');
+			$('#state').attr('checked', 'checked');
+		}
+		function editCourse() {
+			var row = $('#dg').datagrid('getSelected');
+
+			//alert("row.state: "+row.state)
+			if (row) {
+				$('#dlg').dialog('open').dialog('setTitle', '编辑课程项');
+				$('#fm').form({
+					onLoadSuccess : function(data) {
+						if (data.state)
+							$('#state').attr('checked', 'checked');
+						else
+							$('#state').attr('checked', false);
+					}
+				});
+				if (attr == true) {
+					document.getElementById('dicTypeInForm').style.display = 'none';
+				}
+				$('#fm').form('load', row);
+			} else {
+				$.messager.show({
+					title : '温馨提示',
+					msg : '请先选择一行记录',
+					timeout : 2000,
+					showType : 'slide'
+				});
+			}
+		}
+		function saveCourse() {
+			$('#fm').form('submit', {
+				url : '../struts/Dictionary_saveDic?objectName=dictionary',
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					if (data.success) {
+						$.messager.show({
+							title : 'Success',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+						$('#dlg').dialog('close'); // close the dialog  
+						$('#dg').datagrid('reload'); // reload the Dic data    
+						$('#dg_dt').datagrid('reload'); // reload the Dic data    
+					} else {
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+		}
+		function destroyCourse() {
+			var row = $('#dg').datagrid('getSelected');
+			if (row) {
+				$.messager
+						.confirm(
+								'Confirm',
+								'确认要删除此行记录吗?',
+								function(r) {
+									if (r) {
+										$
+												.post(
+														'../struts/Dictionary_deleteDic?objectName=dictionary',
+														row,
+														function(data) {
+															if (data.success) {
+																$('#dg')
+																		.datagrid(
+																				'reload'); // reload the Dic data
+															} else {
+																$.messager
+																		.show({
+																			title : 'Error',
+																			msg : data.message,
+																			timeout : 3000,
+																			showType : 'fade'
+																		});
+																$('#dg')
+																		.datagrid(
+																				'reload');
+															}
+														}, 'json');
+									}
+								});
+			}
+		}
+
+	</script>
+	<style type="text/css">
+#fm {
+	margin: 0;
+	padding: 10px 40px;
+}
+
+.ftitle {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.fitem {
+	margin-bottom: 5px;
+}
+
+.fitem label {
+	display: inline-block;
+	width: 80px;
+}
+</style>
+</body>
+</html>
