@@ -32,14 +32,14 @@ function register(){
 			//url: 'struts/Login_checkUser',  
 			onSubmit: function(){  
 				if($('#c_company').val() == '' || $('#c_company').val() == null){
-					alert('用户名不能为空!');
+					alert('公司名称不能为空!');
 					return false;
 				}
 				if($('#c_city').val() == '' || $('#c_city').val() == null){
 					alert('城市不能为空!');
 					return false;
 				}
-				if($('#c_password').val() == '' || $('#c_password').val() == null){
+				if($('#c_password').val() == '' || $('#c_password').val() ==null){
 					alert("密码不能为空!");
 					return false;
 				}
@@ -47,23 +47,23 @@ function register(){
 					alert('两次输入的密码不同!');
 					return false;
 				}
-				if($('#c_contact').val() != $('#c_contact').val()){
+				if($('#c_contact').val() == ''){
 					alert('联系人不能为空!');
 					return false;
 				}
-				if($('#c_department').val() != $('#c_department').val()){
+				if($('#c_department').val() == ''){
 					alert('任职部门不能为空!');
 					return false;
 				}
-				if($('#c_department').val() != $('#c_department').val()){
+				if($('#c_department').val() == ''){
 					alert('任职部门不能为空!');
 					return false;
 				}
-				if($('#c_email').val() != $('#c_email').val()){
+				if($('#c_email').val() == ''){
 					alert('电子邮件不能为空!');
 					return false;
 				}
-				if(validateEmail($('#c_email').val()))
+				if(!validateEmail($('#c_email').val()))
 					return false;
 				if($('#c_cellphone').val() != $('#c_cellphone').val()){
 					alert('移动号码不能为空!');
@@ -75,13 +75,23 @@ function register(){
 					alert('联系电话不能为空!');
 					return false;
 				}
+				if(!validateTel($('#c_telephone').val()))
+					return false;
+				if($('#c_fax').val() == ''){
+					alert('传真号码不能为空!');
+					return false;
+				}
+				if(!validateFax($('#c_fax').val()))
+					return false;
 			},  
 			success: function(data){
 				var returnObject = eval('(' + data + ')');
 				if(!returnObject.success){
 					alert(returnObject.message);
-				}else
+				}else{
+					alert('注册成功!请耐心等待管理员审核');
 					window.location.href='main.html';
+				}
 			}
 		})
 	}else if(currSelect == '2'){//提交注册讲师
@@ -93,7 +103,11 @@ function register(){
 					alert('姓名不能为空!');
 					return false;
 				}
-				if($('#t_birthday').val() != '' && !validateDate($('#t_birthday').val()))
+				if($('#t_birthday').val() == ''){
+					alert('出生日期不能为空!');
+					return false;
+				}
+				if(!validateDate($('#t_birthday').val()))
 					return false;
 				
 				if($('#t_password').val() == '' || $('#t_password').val() == null){
@@ -123,7 +137,7 @@ function register(){
 			        return false;
 			    }
 				if($('#t_telephone').val() == ''){
-					alert('联系电话不能为空');
+					alert('联系电话不能为空!');
 					return false;
 				}
 				if(!validateTel($('#t_telephone').val()))
@@ -136,27 +150,73 @@ function register(){
 					return false;
 			},  
 			success: function(data){
-				alert(data);
 				var returnObject = eval('(' + data + ')');
 				if(!returnObject.success){
 					alert(returnObject.message);
-				}else
+				}else{
+					alert('注册成功!请耐心等待管理员审核');
 					window.location.href='main.html';
+				}
 			}
 		})
 	}else{//提交注册培训机构
 		$('#orgForm').form('submit',{  
 			url: 'struts/Login_saveOrg',  
 			//url: 'struts/Login_checkUser',  
-			onSubmit: function(){  
+			onSubmit: function(){ 
+				if($('#o_orgName').val() == ''){
+					alert('机构名称不能为空!');
+					return false;
+				}
+				if($('#o_city').val() == ''){
+					alert('所在地区不能为空!');
+					return false;
+				}
+				
+				if($('#o_password').val() == '' || $('#o_password').val() == null){
+					alert("密码不能为空!");
+					return false;
+				}
+				if($('#o_password').val() != $('#o_confirmPassword').val()){
+					alert('两次输入的密码不同!');
+					return false;
+				}
+				if($('#o_contact').val() == ''){
+					alert('联系人不能为空!');
+					return false;
+				}
+				if($('#o_email').val() == ''){
+					alert('电子邮件不能为空!');
+					return false;
+				}
+				if(!validateEmail($('#o_email').val()))
+					return false;
+				if($('#o_cellphone').val() ==''){
+					alert('移动电话不能为空!');
+					return false;
+				}
+				if(!validateCell($('#o_cellphone').val()))
+					return false;
+				if($('#o_telephone').val() ==''){
+					alert('联系电话不能为空!');
+					return false;
+				}
+				if(!validateTel($('#o_telephone').val()))
+					return false;
+				
+				if($('#o_postCode').val() ==''){
+					alert('邮政编码不能为空!');
+					return false;
+				}
 			},  
 			success: function(data){
-				alert(data);
 				var returnObject = eval('(' + data + ')');
 				if(!returnObject.success){
 					alert(returnObject.message);
-				}else
+				}else{
+					alert('注册成功!请耐心等待管理员审核');
 					window.location.href='main.html';
+				}
 			}
 		})
 	}
@@ -168,11 +228,20 @@ function validateDate(date){
 		alert('日期格式不正确!');
 		return false;
 	}
+	return true;
 }
 function validateTel(tel){
 	var telReg = /^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
 	if(!telReg.test(tel)){
 		alert('联系电话格式不正确!');
+		return false;
+	}
+	return true;
+}
+function validateFax(fax){
+	var telReg = /^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+	if(!telReg.test(fax)){
+		alert('传真号码格式不正确!');
 		return false;
 	}
 	return true;
@@ -223,30 +292,28 @@ function validateCell(cell){
 		<dd><span>联系人:</span><input type="text" name="contact" id="c_contact"/><em>*</em></dd>
 		<dd><span>任职部门:</span><input type="text" name="department" id="c_department"/><em>*</em></dd>
 		<dd><span>电子邮箱:</span><input type="text" name="email" id="c_email"/><em>*</em></dd>
-		<dd><span>移动号码:</span><input type="text" name="cellphone" id="c_cellphone"/><em>*</em></dd>
+		<dd><span>移动电话:</span><input type="text" name="cellphone" id="c_cellphone"/><em>*</em></dd>
 		<dd><span>联系电话:</span><input type="text" name="telephone" id="c_telephone"/><em>*</em><em class="black">&nbsp;(格式为：020-61908283)</em></dd>
 		<dd><span>传真号码:</span><input type="text" name="fax" id="c_fax"/><em>*</em></dd>
 	</form>
 	</div>
 
-
 	<div id="org" style='display:none'>
 		<form id="orgForm">
-		<dd><span>机构名称:</span><input type="text" name="orgName" id="o_orgName"/></dd>
-		<dd><span>所在城市:</span><input type="text"  name="city" id="o_city"/></dd>
-		<dd><span>地址:</span><input type="text" name="address" id="o_address"/></dd>
+		<dd><span>机构名称:</span><input type="text" name="orgName" id="o_orgName"/><em>*</em></dd>
+		<dd><span>所在地区:</span><input type="text"  name="city" id="o_city"/><em>*</em></dd>
 		<dd><span>公司网址:</span><input type="text" name="website" id="o_website"/></dd>
 		<dd><span>培训类别:</span><input type="text" name="category" id="o_category"/></dd>
-		<dd><span>密码:</span><input type="password"  name="password" id="o_password"/></dd>
-		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="o_confirmPassword"/></dd>
-		<dd><span>联系人:</span><input type="text" name="contact" id="o_contact"/></dd>
-		<dd><span>邮箱:</span><input type="text" name="email" id="o_email"/></dd>
-		<dd><span>手机:</span><input type="text" name="cellphone" id="o_cellphone"/></dd>
-		<dd><span>座机:</span><input type="text" name="telephone" id="o_telephone"/></dd>
-		<dd><span>传真:</span><input type="text" name="fax" id="o_fax"/></dd>
-		<dd><span>邮编:</span><input type="text" name="postCode" id="o_postCode"/></dd>
+		<dd><span>密码:</span><input type="password"  name="password" id="o_password"/><em>*</em></dd>
+		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="o_confirmPassword"/><em>*</em></dd>
+		<dd><span>联系人:</span><input type="text" name="contact" id="o_contact"/><em>*</em></dd>
+		<dd><span>电子邮箱:</span><input type="text" name="email" id="o_email"/><em>*</em></dd>
+		<dd><span>移动电话:</span><input type="text" name="cellphone" id="o_cellphone"/><em>*</em></dd>
+		<dd><span>联系电话:</span><input type="text" name="telephone" id="o_telephone"/><em>*</em></dd>
+		<dd><span>传真号码:</span><input type="text" name="fax" id="o_fax"/></dd>
+		<dd><span>邮编:</span><input type="text" name="postCode" id="o_postCode"/><em>*</em></dd>
 		
-		<dd><span>机构描述:</span><textarea name="introduction" id="o_introduction"></textarea></dd>
+		<dd><span>公司简介:</span><textarea name="introduction" id="o_introduction"></textarea></dd>
 		</form>
 	</div>
 
@@ -255,7 +322,7 @@ function validateCell(cell){
 		<form id="teacherForm">
 		<dd><span>姓名:</span><input type="text" name="realName" id="t_realName"/><em>*</em></dd>
 		<dd><span>所在城市:</span><input type="text"  name="city" id="t_city"/><em class="black">（您当前工作或居住的城市）</em></dd>
-		<dd><span>出生日期:</span><input type="text" name="birthday" id="t_birthday"/><em class="black">（格式为：1949-10-1）</em></dd>
+		<dd><span>出生日期:</span><input type="text" name="birthday" id="t_birthday"/><em class="black"><em>*</em>（格式为：1949-10-1）</em></dd>
 		<dd><span>主讲类别:</span><input type="text" name="majorCatgory" id="t_majorCatgory"/></dd>
 		<dd><span>密码:</span><input type="password"  name="password" id="t_password"/><em>*</em></dd>
 		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="t_confirmPassword"/><em>*</em></dd>
