@@ -12,13 +12,12 @@
 <script src="../ckeditor/ckeditor.js"></script>
 <title>课程管理界面</title>
 </head>
-<body>
-	<div style="margin: 10px 0;"></div>
-	<table id="dg" class="easyui-datagrid" title="课程管理"
-		style="width: 1000px; height: 600px" pagination="true" onClickRow:
+<body class="easyui-layout">
+	<div region="center" border="false" style='padding:5px'></div>
+	<table id="dg" class="easyui-datagrid" pagination="true" onClickRow:
 		onClickRow
 		loadMsg="正在加载，请稍候!"
-		data-options="rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb'">
+		data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb'">
 		<thead>
 			<tr>
 				<th data-options="field:'courseId',width:80,hidden:true">主键</th>
@@ -74,9 +73,8 @@
 	</div>
 
 	<div id="dlg" class="easyui-dialog"
-		style="width: 1000px; height: 650px; padding: 5px 10px ;top: 5px;" closed="true" 
+		style="width: 1000px; height: 650px; padding: 5px 5px ;top: 5px;" closed="true" 
 		modal="true" buttons="#dlg-buttons">
-		<div class="ftitle">课程详情</div>
 		<form id="fm" method="post">
 			<div class="fitem">
 				<input data-option="id:'CourseId'" name="dicId"

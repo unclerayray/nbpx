@@ -11,13 +11,11 @@
 <script src="../js/easyui/jquery.easyui.min.js"></script>
 <title>字典管理界面</title>
 </head>
-<body>
-	<div style="margin: 10px 0;"></div>
-	<table id="dg" class="easyui-datagrid" title="字典管理"
-		style="width: 700px; height: 600px" pagination="true" onClickRow:
+<body >
+	<table id="dg" class="easyui-datagrid"  pagination="true" onClickRow:
 		onClickRow 
 		loadMsg="正在加载，请稍候!"
-		data-options="rownumbers:true,singleSelect:true,url:'../struts/Dictionary_queryDictionary',toolbar:'#tb'">
+		data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Dictionary_queryDictionary',toolbar:'#tb'">
 		<thead>
 			<tr>
 				<th data-options="field:'dicId',width:80,hidden:true">主键</th>
@@ -72,9 +70,8 @@
 	</div>
 
 	<div id="dlg" class="easyui-dialog"
-		style="width: 400px; height: 330px; padding: 5px 10px" closed="true"
+		style="width: 360px; height: 300px; padding: 5px 5px" closed="true"
 		modal="true" buttons="#dlg-buttons">
-		<div class="ftitle">字典详情</div>
 		<form id="fm" method="post">
 			<div class="fitem">
 				<input data-option="id:'dicId'" name="dicId"
@@ -133,11 +130,11 @@
 	<div id="dlg_dt" class="easyui-dialog"
 		style="width: 700px; height: 435px; padding: 5px 10px" closed="true"
 		modal="true">
-		<table id="dg_dt" class="easyui-datagrid" title="字典管理"
+		<table id="dg_dt" class="easyui-datagrid"
 			style="width: 650px; height: 375px" pagination="true" onClickRow:
 			onClickRow 
 			loadMsg="正在加载，请稍候!" 
-			data-options="rownumbers:true,singleSelect:true,url:'../struts/Dictionary_queryDicType',toolbar:'#tb_dt'">
+			data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Dictionary_queryDicType',toolbar:'#tb_dt'">
 			<thead>
 				<tr>
 					<th data-options="field:'dicId',width:80,hidden:true">主键</th>
