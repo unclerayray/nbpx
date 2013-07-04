@@ -136,4 +136,27 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		return list;
 	}
 
+	@Override
+	public boolean checkDuplicateProp(final Course course) {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						"select count(d) from Course d where 1 = 1 ");
+				hql.append(" and courseCode = '" + course.getCourseCode() + "' ");
+				Query query = session.createQuery(hql.toString());
+				return query.list();
+			}
+		});
+		Long countL = (Long) list.get(0);
+		if(countL.intValue()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }
