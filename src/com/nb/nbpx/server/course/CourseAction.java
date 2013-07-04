@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrService;
@@ -32,6 +33,7 @@ public class CourseAction extends BaseAction {
 	public String category;
 	public String courseCode;
 	public Integer courseId;
+	public Course course;
 	
 	public String fullImport(){
 		try {
@@ -79,6 +81,34 @@ public class CourseAction extends BaseAction {
 	public String queryComboTeacher(){
 		String json = courseService.queryComboTeacher();
 		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String saveCourse(){
+		try {
+			//courseService
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+	}
+	
+	public String deleteCourse(){
+		try {
+			//courseService
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.DELETE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;
 	}
 

@@ -48,6 +48,7 @@
 		strict:true,
 		onSelect: function(rec){  
             var url = '../struts/Dictionary_queryComboDics?p_dicType='+rec.codeName;  
+            $('#p_codeName').combobox('clear');  
             $('#p_codeName').combobox('reload', url);  
         }
 		">
@@ -91,7 +92,7 @@
 				</select>
 			</div>
 			<div class="fitem">
-				<label>字典编码:</label> <input class="easyui-validatebox"
+				<label>字典编码:</label> <input class="easyui-validatebox" id="codeNameItem" 
 					name="codeName" required="true" style="width: 130px;">
 			</div>
 			<div class="fitem">
@@ -170,6 +171,7 @@
 				document.getElementById('dicTypeInForm').style.display = 'inline';
 			}
 			$('#fm').form('clear');
+			setEditable();
 			$('#flag').attr('checked', 'checked');
 		}
 		function editDic(attr) {
@@ -187,6 +189,7 @@
 				} else {
 					$('#dlg').dialog('open').dialog('setTitle', '编辑字典项');
 				}
+				setUnEditable();
 				$('#fm').form({
 					onLoadSuccess : function(data) {
 						if (data.flag)
@@ -289,6 +292,12 @@
 		function manageDicType() {
 			$('#dlg_dt').dialog('open').dialog('setTitle', '字典类型维护');
 
+		}
+		function setEditable(){
+			$('#codeNameItem').attr('readonly',false);
+		}
+		function setUnEditable(){
+			$('#codeNameItem').attr('readonly',true);
 		}
 	</script>
 	<style type="text/css">

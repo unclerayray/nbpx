@@ -16,4 +16,10 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	public Long queryCourseCount(String category,String courseCode);
 	public List<Dictionary> queryCourseType();
 	public List<TeacherInfo> queryTeachers();
+	/**
+	 * 验证CourseCode的唯一性，重复返回true
+	 * @param course
+	 * @return
+	 */
+	public boolean checkDuplicateProp(Course course);
 }

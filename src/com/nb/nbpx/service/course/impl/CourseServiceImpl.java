@@ -13,6 +13,7 @@ import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 
 @Component("CourseService")
 @SuppressWarnings("rawtypes")
@@ -74,6 +75,23 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		List<TeacherInfo> list = courseDao.queryTeachers();
 		String json = JsonUtil.formatListToJson(list);
 		return json;
+	}
+
+	@Override
+	public void saveCourse(Course course)  throws NbpxException {
+		if(course.getCourseId()==null){
+			if(courseDao.checkDuplicateProp(course)){
+				throw new NbpxException("已存在此课程编号");
+			}
+			courseDao.save(course);
+		}else{
+			courseDao.saveOrUpdate(course);
+		}
+	}
+
+	@Override
+	public void deleteCourse(Course course)  throws NbpxException {
+		courseDao.delete(course);
 	}
 
 }
