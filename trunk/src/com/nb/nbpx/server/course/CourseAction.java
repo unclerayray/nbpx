@@ -86,7 +86,7 @@ public class CourseAction extends BaseAction {
 	
 	public String saveCourse(){
 		try {
-			//courseService
+			courseService.saveCourse(course);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -100,7 +100,7 @@ public class CourseAction extends BaseAction {
 	
 	public String deleteCourse(){
 		try {
-			//courseService
+			courseService.deleteCourse(course);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -150,5 +150,21 @@ public class CourseAction extends BaseAction {
 
 	public void setCourseCode(String courseCode) {
 		this.courseCode = courseCode;
+	}
+
+	public Integer getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 }

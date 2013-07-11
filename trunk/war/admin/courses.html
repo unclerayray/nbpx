@@ -78,8 +78,13 @@
 		modal="true" buttons="#dlg-buttons">
 		<form id="fm" method="post">
 			<div class="fitem">
-				<input data-option="id:'CourseId'" name="dicId"
+				<input data-option="id:'CourseId'" name="courseId"
 					class="easyui-validatebox" type="hidden">
+			</div>
+			
+			<div class="fitem">
+				<label>课程标题:</label> <input class="easyui-validatebox"
+					name="title" required="true" style="width: 130px;">
 			</div>
 
 			<div id="dicTypeInForm" class="fitem">
@@ -109,11 +114,11 @@
 					strict:false
 					">
 			</div>
-			<div id="contentDiv" class="fitem">
-				<label>课程内容:</label><textarea name="content" id="content">sdfsdf</textarea>
-			</div>
 			<div class="fitem">
 				<label>是否启用:</label> <input name="state" id="state" type="checkbox">
+			</div>
+			<div id="contentDiv" class="fitem">
+				<label>课程内容:</label><textarea name="content" id="content">sdfsdf</textarea>
 			</div>
 		</form>
 	</div>
@@ -139,21 +144,24 @@
 		function newCourse(attr) {
 			$('#dlg').dialog('open').dialog('setTitle', '新建课程');
 			$('#fm').form('clear');
+			createCkeditor();
+			CKEDITOR.instances.content.setData('');
 			$('#state').attr('checked', 'checked');
 		}
 		function editCourse() {
 			var row = $('#dg').datagrid('getSelected');
 			//alert("row.state: "+row.state)
 			if (row) {
-				$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
 				$('#fm').form({
 					onLoadSuccess : function(data) {
-						var config = {uiColor: '#A0CFEC',language: 'zh-cn'};
-						var editor = CKEDITOR.replace('content',config);
+						createCkeditor();
+						//alert(data.state);
 						if (data.state)
 							$('#state').attr('checked', 'checked');
 						else
 							$('#state').attr('checked', false);
+						
+						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
 					}
 				});
 				$('#fm').form('load','../struts/Course_queryCourseById?courseId='+row.courseId);
@@ -168,7 +176,7 @@
 		}
 		function saveCourse() { 
 			var data = CKEDITOR.instances.content.getData();
-			alert(data);
+			//alert(data);
 			$('#fm').form('submit', {
 				url : '../struts/Course_saveCourse?objectName=course',
 				onSubmit : function() {
@@ -230,6 +238,13 @@
 									}
 								});
 			}
+		}
+		
+		function createCkeditor(){
+			var config = {uiColor: '#A0CFEC',language: 'zh-cn'};
+			var editor = CKEDITOR.instances['content'];
+		    if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('content',config);
 		}
 
 	</script>
