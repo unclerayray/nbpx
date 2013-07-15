@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css"
-	href="../js/easyui/themes/default/easyui.css"> 
+	href="../js/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="../css/demo.css">
 <link rel="stylesheet" type="text/css"
 	href="../js/easyui/themes/icon.css">
@@ -13,22 +13,20 @@
 <title>课程管理界面</title>
 </head>
 <body class="easyui-layout">
-	<div region="center" border="false" style='padding:5px'></div>
+	<div region="center" border="false" style='padding: 5px'></div>
 	<table id="dg" class="easyui-datagrid" pagination="true" onClickRow:
-		onClickRow
-		loadMsg="正在加载，请稍候!"
+		onClickRow loadMsg="正在加载，请稍候!"
 		data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb'">
 		<thead>
 			<tr>
 				<th data-options="field:'courseId',width:80,hidden:true">主键</th>
 				<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
 				<th data-options="field:'title',width:320">标题</th>
-				<th
-					data-options="field:'teacherName',width:120">讲师</th>
+				<th data-options="field:'teacherName',width:120">讲师</th>
 				<th
 					data-options="field:'category',width:120,formatter:function(value,row){return row.categoryName;}">课程类型</th>
 				<th data-options="field:'courseCode',width:120">课程编码</th>
-				<th data-options="field:'hits',width:120">课程点击量</th> 
+				<th data-options="field:'hits',width:120">课程点击量</th>
 				<th
 					data-options="field:'state',width:50,formatter:function(value,row){if(row.state) {return '启用';}else{return '禁用';}}">状态</th>
 			</tr>
@@ -69,57 +67,72 @@
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-search" onclick="queryCourse()">搜索</a> <a
 				href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-undo" onclick="clearTollBar()">重置</a> 
+				iconCls="icon-undo" onclick="clearTollBar()">重置</a>
 		</div>
 	</div>
 
 	<div id="dlg" class="easyui-dialog"
-		style="width: 1000px; height: 500px; padding: 5px 5px ;top: 5px;" closed="true" 
-		modal="true" buttons="#dlg-buttons">
+		style="width: 1000px; height: 500px; padding: 5px 5px; top: 5px;"
+		closed="true" modal="true" buttons="#dlg-buttons">
 		<form id="fm" method="post">
-			<div class="fitem">
-				<input data-option="id:'CourseId'" name="courseId"
-					class="easyui-validatebox" type="hidden">
-			</div>
-			
-			<div class="fitem">
-				<label>课程标题:</label> <input class="easyui-validatebox"
-					name="title" required="true" style="width: 130px;">
-			</div>
-
-			<div id="dicTypeInForm" class="fitem">
-				<label>课程类型:</label> <select class="easyui-combobox"
-					style="width: 130px;" name="category" id="category"
-					data-options="  
+			<table cellspacing="0" cellpadding="0" class="formTable">
+				<div>
+					<input data-option="id:'CourseId'" name="courseId"
+						class="easyui-validatebox" type="hidden">
+				</div>
+				<tr>
+					<td class="itemText">
+						<div>
+							<label>课程标题:</label> <input class="easyui-validatebox"
+								name="title" required="true" style="width: 130px;">
+						</div>
+					</td>
+					<td class="itemText">
+						<div id="dicTypeInForm">
+							<label>课程类型:</label> <select class="easyui-combobox"
+								style="width: 130px;" name="category" id="category"
+								data-options="  
 						url:'../struts/Course_queryComboCourseTypes',  
 						valueField:'codeName',  
 						textField:'showName',  
 						panelHeight:'auto'  ,
 						editable:false 
 				">
-				</select>
-			</div>
-			<div class="fitem">
-				<label>课程编码:</label> <input class="easyui-validatebox"
-					name="courseCode" required="true" style="width: 130px;">
-			</div>
-			<div class="fitem">
-				<label>课程讲师:</label> <input class="easyui-combobox" name="teacherId"
-				id="teacherId"
-				data-options="
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="itemText">
+						<div>
+							<label>课程编码:</label> <input class="easyui-validatebox"
+								name="courseCode" required="true" style="width: 130px;">
+						</div></td>
+					<td class="itemText">
+						<div>
+							<label>课程讲师:</label> <input class="easyui-combobox"
+								name="teacherId" id="teacherId"
+								data-options="
 					url:'../struts/Course_queryComboTeacher',
 					valueField:'teacherId',  
 					textField:'realName',  
-					panelHeight:'auto'  ,
-					strict:false
+					panelHeight:'auto'
 					">
-			</div>
-			<div class="fitem">
-				<label>是否启用:</label> <input name="state" id="state" type="checkbox">
-			</div>
-			<div id="contentDiv" class="fitem">
-				<label>课程内容:</label><textarea name="content" id="content">sdfsdf</textarea>
-			</div>
+						</div></td>
+					<td class="itemText">
+						<div>
+							<label>是否启用:</label> <input name="state" id="state"
+								type="checkbox">
+						</div></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<div id="contentDiv">
+							<label>  课程内容:</label>
+							<textarea name="content" id="content"  style="width:900px"></textarea>
+						</div></td>
+				</tr>
+			</table>
 		</form>
 	</div>
 
@@ -129,7 +142,7 @@
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 	</div>
-	
+
 	<script type="text/javascript">
 		function clearTollBar() {
 			$('#tb').form('clear');
@@ -160,11 +173,14 @@
 							$('#state').attr('checked', 'checked');
 						else
 							$('#state').attr('checked', false);
-						
+
 						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
 					}
 				});
-				$('#fm').form('load','../struts/Course_queryCourseById?courseId='+row.courseId);
+				$('#fm').form(
+						'load',
+						'../struts/Course_queryCourseById?courseId='
+								+ row.courseId);
 			} else {
 				$.messager.show({
 					title : '温馨提示',
@@ -174,7 +190,7 @@
 				});
 			}
 		}
-		function saveCourse() { 
+		function saveCourse() {
 			var data = CKEDITOR.instances.content.getData();
 			//alert(data);
 			$('#fm').form('submit', {
@@ -239,14 +255,18 @@
 								});
 			}
 		}
-		
-		function createCkeditor(){
-			var config = {uiColor: '#A0CFEC',language: 'zh-cn'};
-			var editor = CKEDITOR.instances['content'];
-		    if (editor) { editor.destroy(true); }
-		    CKEDITOR.replace('content',config);
-		}
 
+		function createCkeditor() {
+			var config = {
+				uiColor : '#A0CFEC',
+				language : 'zh-cn'
+			};
+			var editor = CKEDITOR.instances['content'];
+			if (editor) {
+				editor.destroy(true);
+			}
+			CKEDITOR.replace('content', config);
+		}
 	</script>
 	<style type="text/css">
 #fm {
@@ -269,6 +289,18 @@
 .fitem label {
 	display: inline-block;
 	width: 80px;
+}
+
+.itemText {
+	width: 300px;
+	text-align: left;
+	height: 30px;
+	padding-left: 10px;
+	vertical-align: top
+}
+
+.formTable td {
+	vertical-align: top
 }
 </style>
 </body>

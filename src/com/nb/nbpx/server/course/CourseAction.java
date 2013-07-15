@@ -34,57 +34,60 @@ public class CourseAction extends BaseAction {
 	public String courseCode;
 	public Integer courseId;
 	public Course course;
-	
-	public String fullImport(){
+
+	public String fullImport() {
 		try {
 			dataImportor.fullImport();
-		}catch(SolrServerException ce){
+		} catch (SolrServerException ce) {
 			ce.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
-					ResponseStatus.FAIL, ResponseStatus.IMPORT_FAILED+"Solr服务器连接失败！请检查服务器！"));
+					ResponseStatus.FAIL, ResponseStatus.IMPORT_FAILED
+							+ "Solr服务器连接失败！请检查服务器！"));
 			return "failure";
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
-					ResponseStatus.FAIL, ResponseStatus.IMPORT_FAILED+e.getMessage()));
+					ResponseStatus.FAIL,
+					ResponseStatus.IMPORT_FAILED + e.getMessage()));
 			return "failure";
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, ResponseStatus.IMPORT_SUCCESS));
 		return SUCCESS;
 	}
-	
+
 	public String queryCourses() {
-		String json = courseService.queryCourses(category, courseCode, rows, getStartPosi());
+		String json = courseService.queryCourses(category, courseCode, rows,
+				getStartPosi());
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
-	public String queryCourseById(){
+
+	public String queryCourseById() {
 		String json = courseService.queryCourseById(courseId);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
-	public String queryComboCourseTypes(){
+
+	public String queryComboCourseTypes() {
 		String json = courseService.queryComboCourseType();
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
-	public String queryComboCourseCode(){
+
+	public String queryComboCourseCode() {
 		String json = courseService.queryComboCourseName(category);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
-	public String queryComboTeacher(){
+
+	public String queryComboTeacher() {
 		String json = courseService.queryComboTeacher();
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
-	public String saveCourse(){
+
+	public String saveCourse() {
 		try {
 			courseService.saveCourse(course);
 		} catch (Exception e) {
@@ -97,8 +100,8 @@ public class CourseAction extends BaseAction {
 				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
 		return SUCCESS;
 	}
-	
-	public String deleteCourse(){
+
+	public String deleteCourse() {
 		try {
 			courseService.deleteCourse(course);
 		} catch (Exception e) {
@@ -113,7 +116,8 @@ public class CourseAction extends BaseAction {
 	}
 
 	/**
-	 * @param dataImportor the dataImportor to set
+	 * @param dataImportor
+	 *            the dataImportor to set
 	 */
 	@Resource
 	public void setDataImportor(ISolrService dataImportor) {
