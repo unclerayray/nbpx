@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.ICourseDao;
+import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
@@ -21,18 +22,20 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		ICourseService {
 
 	private ICourseDao courseDao;
+	private ITeacherInfoDao teacherDao;
 
 	@Override
-	public String queryCourses(String category, String courseCode, Integer rows,
-			Integer start) {
+	public String queryCourses(String category, String courseCode,
+			Integer rows, Integer start) {
 		String json = "";
-		List<Course> list = courseDao
-				.queryCourses(category, courseCode, rows, start);
+		List<Course> list = courseDao.queryCourses(category, courseCode, rows,
+				start);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
 		} else {
-			int count = courseDao.queryCourseCount(category, courseCode).intValue();
+			int count = courseDao.queryCourseCount(category, courseCode)
+					.intValue();
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
 		}
@@ -78,20 +81,51 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void saveCourse(Course course)  throws NbpxException {
-		if(course.getCourseId()==null){
-			if(courseDao.checkDuplicateProp(course)){
+	public void saveCourse(Course course) throws NbpxException {
+		if (course.getTeacherId() != null && !course.getTeacherId().isEmpty()) {
+			Integer id = null;
+			try {
+				id = Integer.parseInt(course.getTeacherId());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+			TeacherInfo teacher = null;
+			if (id == null) {
+				course.setTeacherName(course.getTeacherId());
+				course.setTeacherId(null);
+			} else {
+				teacher = teacherDao.get(id);
+				if (teacher == null) {
+					course.setTeacherName(course.getTeacherId());
+					course.setTeacherId(null);
+				}else{
+					course.setTeacherName(course.getTeacherId());
+					course.setTeacherId(null);
+				}
+			}
+		}
+		if (course.getCourseId() == null) {
+			if (courseDao.checkDuplicateProp(course)) {
 				throw new NbpxException("已存在此课程编号");
 			}
 			courseDao.save(course);
-		}else{
+		} else {
 			courseDao.saveOrUpdate(course);
 		}
 	}
 
 	@Override
-	public void deleteCourse(Course course)  throws NbpxException {
+	public void deleteCourse(Course course) throws NbpxException {
 		courseDao.delete(course);
+	}
+
+	public ITeacherInfoDao getTeacherDao() {
+		return teacherDao;
+	}
+
+	@Resource
+	public void setTeacherDao(ITeacherInfoDao teacherDao) {
+		this.teacherDao = teacherDao;
 	}
 
 }

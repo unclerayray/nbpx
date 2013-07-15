@@ -29,7 +29,7 @@ public class Course extends BaseEntity  implements Serializable {
 	private Integer courseId;
 	private String title;
 	private String courseCode;
-	private Integer teacherId;
+	private String teacherId;
 	private String teacherName;
 	private String category;
 	private String content;
@@ -52,7 +52,7 @@ public class Course extends BaseEntity  implements Serializable {
 	
 	
 	public Course(Integer courseId, String title, String courseCode,
-			Integer teacherId, String teacherName, String category,
+			String teacherId, String teacherName, String category,
 			String categoryName,Boolean state, Integer hits) {
 		super();
 		this.courseId = courseId;
@@ -86,10 +86,10 @@ public class Course extends BaseEntity  implements Serializable {
 	public void setCourseCode(String courseCode) {
 		this.courseCode = courseCode;
 	}
-	public Integer getTeacherId() {
+	public String getTeacherId() {
 		return teacherId;
 	}
-	public void setTeacherId(Integer teacherId) {
+	public void setTeacherId(String teacherId) {
 		this.teacherId = teacherId;
 	}
 	public String getTeacherName() {
