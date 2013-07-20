@@ -18,7 +18,7 @@ import com.nb.nbpx.pojo.BaseEntity;
  * @date 2013年7月20日
  */
 @Entity
-@Table(name = "courses", catalog = "nbpx")
+@Table(name = "courseinfo", catalog = "nbpx")
 public class CourseInfo extends BaseEntity  implements Serializable {
 	/**
 	 * 
