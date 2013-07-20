@@ -28,6 +28,7 @@ public class Course extends BaseEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer courseId;
 	private String title;
+	private Double price;
 	private String courseCode;
 	private String teacherId;
 	private String teacherName;
@@ -48,12 +49,9 @@ public class Course extends BaseEntity  implements Serializable {
 		
 	}
 	
-	
-	
-	
 	public Course(Integer courseId, String title, String courseCode,
 			String teacherId, String teacherName, String category,
-			String categoryName,Boolean state, Integer hits) {
+			String categoryName,Boolean state, Integer hits,Double price) {
 		super();
 		this.courseId = courseId;
 		this.title = title;
@@ -64,6 +62,7 @@ public class Course extends BaseEntity  implements Serializable {
 		this.categoryName = categoryName;
 		this.state = state;
 		this.hits = hits;
+		this.price = price;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -79,6 +78,12 @@ public class Course extends BaseEntity  implements Serializable {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 	public String getCourseCode() {
 		return courseCode;
