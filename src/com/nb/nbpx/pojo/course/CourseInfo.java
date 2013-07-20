@@ -24,6 +24,7 @@ public class CourseInfo extends BaseEntity  implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Integer courseInfoId;
 	private Integer courseId;
 	private Date startDate;
@@ -31,7 +32,15 @@ public class CourseInfo extends BaseEntity  implements Serializable {
 	private String city;
 	
 	public CourseInfo(){
-		
+	}
+	public CourseInfo(Integer courseInfoId, Integer courseId, Date startDate,
+			Date endDate, String city) {
+		super();
+		this.courseInfoId = courseInfoId;
+		this.courseId = courseId;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.city = city;
 	}
 	
 	@Id
