@@ -97,6 +97,7 @@ public class Course extends BaseEntity  implements Serializable {
 	public void setTeacherId(String teacherId) {
 		this.teacherId = teacherId;
 	}
+	@Transient
 	public String getTeacherName() {
 		return teacherName;
 	}
