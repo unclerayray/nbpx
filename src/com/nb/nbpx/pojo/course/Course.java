@@ -44,6 +44,7 @@ public class Course extends BaseEntity  implements Serializable {
 	private String creationDate;
 	private String lastUpdateDate;
 	private String categoryName;
+	private Boolean recommanded;
 	
 	public Course(){
 		
@@ -51,7 +52,7 @@ public class Course extends BaseEntity  implements Serializable {
 	
 	public Course(Integer courseId, String title, String courseCode,
 			String teacherId, String teacherName, String category,
-			String categoryName,Boolean state, Integer hits,Double price) {
+			String categoryName,Boolean state, Integer hits,Double price,Boolean recommanded) {
 		super();
 		this.courseId = courseId;
 		this.title = title;
@@ -63,6 +64,7 @@ public class Course extends BaseEntity  implements Serializable {
 		this.state = state;
 		this.hits = hits;
 		this.price = price;
+		this.recommanded = recommanded;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -176,5 +178,13 @@ public class Course extends BaseEntity  implements Serializable {
 	@Transient
 	public String getCategoryName() {
 		return categoryName;
+	}
+
+	public Boolean getRecommanded() {
+		return recommanded;
+	}
+
+	public void setRecommanded(Boolean recommanded) {
+		this.recommanded = recommanded;
 	}
 }

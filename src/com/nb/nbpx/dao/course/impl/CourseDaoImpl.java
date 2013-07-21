@@ -34,8 +34,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 						StringBuffer hql = new StringBuffer(
 								"select new com.nb.nbpx.pojo.course.Course"
 										+ " (c.courseId, c.title, c.courseCode, c.teacherId, " +
-												"c.teacherName, c.category, fd.showName," +
-												" c.state, c.hits) from Course c, Dictionary fd"
+												"ti.realName, c.category, fd.showName," +
+												" c.state, c.hits , c.price, c.recommanded) from Course c, Dictionary fd, TeacherInfo ti"
 										+ " where 1 = 1 ");
 						if (category != null && !category.isEmpty()) {
 							hql.append(" and category = ? ");
@@ -45,6 +45,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 							hql.append(" and courseCode = ? ");
 						}
 						hql.append(" and c.category = fd.codeName ");
+						hql.append(" and ti.teacherId = c.teacherId");
 						Query query = session.createQuery(hql.toString());
 
 						if (category != null && !category.isEmpty()) {

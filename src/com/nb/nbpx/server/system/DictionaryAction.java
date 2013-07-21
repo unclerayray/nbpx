@@ -80,7 +80,7 @@ public class DictionaryAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-
+	
 	public Dictionary getDictionary() {
 		return dictionary;
 	}
