@@ -3,6 +3,9 @@
  */
 package com.nb.nbpx.service.solr;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.nb.nbpx.service.IBaseService;
 
 /**
@@ -21,4 +24,10 @@ public interface ISolrService extends IBaseService{
 	 * @throws Exception
 	 */
 	public void deltaImport() throws Exception;
+	
+	/**
+	 * 切分text
+	 * @param text
+	 */
+	public String cutText(String text) throws IOException;
 }

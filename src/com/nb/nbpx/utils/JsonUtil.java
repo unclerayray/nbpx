@@ -28,6 +28,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author leilichao
  * @version V1.0
  */
+@SuppressWarnings({ "rawtypes" })
 public class JsonUtil {
 
 	/**
@@ -43,7 +44,6 @@ public class JsonUtil {
 	 *            list对象
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	public static String formatToJson(Integer total, boolean success,
 			String message, List tempList) {
 		JSONObject jsonObject = new JSONObject();
@@ -119,7 +119,6 @@ public class JsonUtil {
 		return json.toString();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static String formatToOpResJsonWithParam(boolean success,
 			String message, Map<String, String> map) {
 		JSONObject json = new JSONObject();
@@ -140,14 +139,12 @@ public class JsonUtil {
 	 * 将List和用于分页的总记录数封装成JSON对象(注意:javaBean中必须要用一个total变量,并且调用这方法list.get(0
 	 * ).setTotalCount(总记录数);)
 	 * 
-	 * @author huangjinfang
 	 * @param total
 	 *            记录总数
 	 * @param tempList
 	 *            list对象
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	public static String formatToJsonWithTotalCount(Integer total, List list) {
 		JSONObject jsonObject = new JSONObject();
 		if (list != null && list.size() > 0) {
@@ -168,7 +165,7 @@ public class JsonUtil {
 	 * @param tempList
 	 * @return
 	 */
-	@SuppressWarnings({ "rawtypes" })
+	
 	public static String formatListToJson(List tempList) {
 		String json = "";
 		if (tempList != null && tempList.size() > 0) {
@@ -179,6 +176,19 @@ public class JsonUtil {
 			return "[]";
 		}
 		return json;
+	}
+	
+	public static String formatMapToJson(Map map){
+		JSONObject json = new JSONObject();
+		Iterator iter = map.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			Object key = entry.getKey();
+			Object val = entry.getValue();
+			json.put(key.toString(), val.toString());
+		}
+
+		return json.toString();
 	}
 
 	/**
@@ -216,7 +226,6 @@ public class JsonUtil {
 	 *            list对象
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	public static String formatToJsonWithTimeStamp(Integer total,
 			boolean success, String message, List tempList) {
 		JSONObject jsonObject = new JSONObject();
