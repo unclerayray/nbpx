@@ -174,6 +174,21 @@ public class CourseAction extends BaseAction {
 				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;
 	}
+	
+	public String queryKeywords(){
+		String json = "";
+		try {
+			json = courseService.queryKeywords(courseId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.QUERY_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 
 	/**
 	 * @param dataImportor

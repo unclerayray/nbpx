@@ -1,16 +1,19 @@
 package com.nb.nbpx.course;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nb.nbpx.BaseServiceTest;
+import com.nb.nbpx.dao.course.ICourseDao;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.service.course.ICourseService;
@@ -28,6 +31,8 @@ import com.nb.nbpx.utils.NbpxException;
 public class CourseServiceTest  extends BaseServiceTest{
 	@Resource
 	private ICourseService courseService;
+	@Resource
+	private ICourseDao courseDao;
 	
 	/**
 	 * 测试保存后怎么获取ID
@@ -56,5 +61,14 @@ public class CourseServiceTest  extends BaseServiceTest{
 		CourseInfo courseInfo = new CourseInfo(null,2,new Date(),new Date(),"003_01","深圳");
 		courseService.saveCourseInfo(courseInfo);
 		Assert.assertNotNull(courseInfo.getCourseInfoId());
+	}
+	
+	@Test
+	public void testStringJoin(){
+		String hql = "select keyword from com.nb.nbpx.pojo.course.CourseKeyword where courseId = 10";
+		List list = courseDao.find(hql);
+		String sss = StringUtils.join(list, ",");
+		System.out.println("sss = "+ sss);
+		Assert.assertNotNull(sss);
 	}
 }

@@ -1,4 +1,4 @@
-package com.nb.nbpx.utils;
+package com.nb.nbpx.utils.converter;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

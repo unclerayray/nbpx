@@ -1,6 +1,7 @@
 package com.nb.nbpx.interceptor;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,13 +33,19 @@ public class EncodingInterceptor extends AbstractInterceptor {
   
    ActionContext actionContext = arg0.getInvocationContext();   
    HttpServletRequest request= (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST); 
-  System.out.println("Encoding Intercept...");
+  //System.out.println("Encoding Intercept...");
   /**
    * 此方法体对GET 和 POST方法均可
    */
+  //String methodName = request.getMethod();
+  //StringBuffer requestURL = request.getRequestURL();
+  //String queryString = request.getQueryString();
+  //System.out.println("methodName = "+methodName);
+  //System.out.println("requestURL = "+requestURL);
+  //System.out.println("queryString = "+queryString);
   if( request.getMethod().compareToIgnoreCase("post")>=0){
       try {
-       request.setCharacterEncoding("GBK");
+       request.setCharacterEncoding("UTF-8");
       } catch (UnsupportedEncodingException e) {
        // TODO Auto-generated catch block
        e.printStackTrace();

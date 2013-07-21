@@ -26,30 +26,49 @@ public class Course extends BaseEntity  implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer courseId;
-	private String title;
-	private Double price;
-	private String courseCode;
-	private String teacherId;
-	private String teacherName;
-	private String category;
-	private String content;
-	private String blockedContent;
-	private Boolean isInner;
-	private Boolean state;
-	private String videoUrl;
-	private Integer hits;
-	private Integer createdBy;
-	private Integer lastUpdatedBy;
-	private String creationDate;
-	private String lastUpdateDate;
-	private String categoryName;
-	private Boolean recommanded;
-	private Boolean classic;
+	public Integer courseId;
+	public String title;
+	public Double price;
+	public String courseCode;
+	public String teacherId;
+	public String teacherName;
+	public String category;
+	public String content;
+	public String blockedContent;
+	public Boolean isInner;
+	public Boolean state;
+	public String videoUrl;
+	public Integer hits;
+	public Integer createdBy;
+	public Integer lastUpdatedBy;
+	public String creationDate;
+	public String lastUpdateDate;
+	public String categoryName;
+	public Boolean recommanded;
+	public Boolean classic;
 	
 	public Course(){
-		
 	}
+	
+	public Course(Integer courseId, String title,Boolean isInner, String courseCode,
+			String teacherId, String teacherName, String category,
+			String categoryName,Boolean state, Integer hits,Double price,Boolean recommanded,Boolean classic) {
+		super();
+		this.courseId = courseId;
+		this.title = title;
+		this.courseCode = courseCode;
+		this.teacherId = teacherId;
+		this.isInner = isInner;
+		this.teacherName = teacherName;
+		this.category = category;
+		this.categoryName = categoryName;
+		this.state = state;
+		this.hits = hits;
+		this.price = price;
+		this.recommanded = recommanded;
+		this.classic = classic;
+	}
+	
 	
 	public Course(Integer courseId, String title, String courseCode,
 			String teacherId, String teacherName, String category,

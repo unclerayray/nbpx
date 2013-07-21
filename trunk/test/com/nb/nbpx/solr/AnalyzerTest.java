@@ -9,10 +9,7 @@ import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.Tokenizer;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.chenlb.mmseg4j.analysis.ComplexAnalyzer;
@@ -117,5 +114,17 @@ public class AnalyzerTest {
 		} catch (IOException e) {}
 
 		return words;
+	}
+	
+	
+	@Test
+	public void testCutTxt(){
+		String text="基于java语言开发的轻量级的中文分词工具包";  
+        //StringReader sr=new StringReader(text);  
+        Analyzer analyzer = new MaxWordAnalyzer();
+        //analyzer.tokenStream("text", sr);
+        
+        List<String> toWords =  toWords(  text, analyzer);
+        System.out.println("gagagah");
 	}
 }
