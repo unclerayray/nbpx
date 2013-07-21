@@ -38,7 +38,7 @@ public class CourseServiceTest  extends BaseServiceTest{
 	public void testSaveCourse(){
 		Course course = new Course(null, "hahah", "hdfdfahah",
 				"hahah", "hahah", "hahah",
-				"hahah",true, 2, 3.23,true);
+				"hahah",true, 2, 3.23,true,true);
 		
 		try {
 			courseService.saveCourse(course);

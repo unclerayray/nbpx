@@ -11,6 +11,10 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
+/**
+ * @author Roger
+ * @date 2013年7月21日
+ */
 public class EncodingInterceptor extends AbstractInterceptor {
 
  /**
