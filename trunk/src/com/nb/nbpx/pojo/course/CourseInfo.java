@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.nb.nbpx.pojo.BaseEntity;
 
@@ -30,17 +31,19 @@ public class CourseInfo extends BaseEntity  implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private String city;
+	private String cityName;
 	
 	public CourseInfo(){
 	}
 	public CourseInfo(Integer courseInfoId, Integer courseId, Date startDate,
-			Date endDate, String city) {
+			Date endDate, String city, String cityName) {
 		super();
 		this.courseInfoId = courseInfoId;
 		this.courseId = courseId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.city = city;
+		this.cityName = cityName;
 	}
 	
 	@Id
@@ -75,5 +78,12 @@ public class CourseInfo extends BaseEntity  implements Serializable {
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+	@Transient
+	public String getCityName() {
+		return cityName;
+	}
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 }

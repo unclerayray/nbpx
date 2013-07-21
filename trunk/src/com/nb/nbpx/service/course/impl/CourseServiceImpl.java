@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.ICourseDao;
+import com.nb.nbpx.dao.course.ICourseInfoDao;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
@@ -23,6 +25,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	private ICourseDao courseDao;
 	private ITeacherInfoDao teacherDao;
+ 	private ICourseInfoDao courseInfoDao;
 
 	@Override
 	public String queryCourses(String category, String courseCode,
@@ -81,7 +84,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void saveCourse(Course course) throws NbpxException {
+	public Course saveCourse(Course course) throws NbpxException {
+		/* 2013年7月19日 在课程修改和增加的地方添加了增加教师的功能
 		if (course.getTeacherId() != null && !course.getTeacherId().isEmpty()) {
 			Integer id = null;
 			try {
@@ -104,6 +108,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				}
 			}
 		}
+		*/
 		if (course.getCourseId() == null) {
 			if (courseDao.checkDuplicateProp(course)) {
 				throw new NbpxException("已存在此课程编号");
@@ -112,6 +117,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		} else {
 			courseDao.saveOrUpdate(course);
 		}
+		return course;
 	}
 
 	@Override
@@ -126,6 +132,37 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	@Resource
 	public void setTeacherDao(ITeacherInfoDao teacherDao) {
 		this.teacherDao = teacherDao;
+	}
+
+	public ICourseInfoDao getCourseInfoDao() {
+		return courseInfoDao;
+	}
+
+	@Resource
+	public void setCourseInfoDao(ICourseInfoDao courseInfoDao) {
+		this.courseInfoDao = courseInfoDao;
+	}
+
+	@Override
+	public String queryCourseInfo(String courseInfoId) {
+		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseInfoId);
+		String json = JsonUtil.formatListToJson(list);
+		return json;
+	}
+
+	@Override
+	public void saveCourseInfo(CourseInfo courseInfo) {
+		if(courseInfo.getCourseInfoId()!=null){
+			courseInfoDao.saveOrUpdate(courseInfo);
+		}
+		else{
+			courseInfoDao.save(courseInfo);
+		}
+	}
+
+	@Override
+	public void deleteCourseInfo(CourseInfo courseInfo) {
+		courseInfoDao.delete(courseInfo);
 	}
 
 }

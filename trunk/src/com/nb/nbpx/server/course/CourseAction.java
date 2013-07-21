@@ -3,6 +3,9 @@
  */
 package com.nb.nbpx.server.course;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.solr.client.solrj.SolrServerException;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrService;
@@ -34,6 +38,8 @@ public class CourseAction extends BaseAction {
 	public String courseCode;
 	public Integer courseId;
 	public Course course;
+	public String selected_courseId;
+	public CourseInfo courseInfo;
 
 	public String fullImport() {
 		try {
@@ -89,7 +95,56 @@ public class CourseAction extends BaseAction {
 
 	public String saveCourse() {
 		try {
-			courseService.saveCourse(course);
+			course = courseService.saveCourse(course);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("dlg_courseId", course.getCourseId().toString());
+		this.inputStream = castToInputStream(JsonUtil
+				.formatToOpResJsonWithParam(ResponseStatus.SUCCESS,
+						ResponseStatus.SAVE_SUCCESS, map));
+		return SUCCESS;
+	}
+
+	public String deleteCourse() {
+		try {
+			courseService.deleteCourse(course);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.DELETE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
+		return SUCCESS;
+	}
+
+	/**
+	 * <p>
+	 * 通过courseId查找课程安排
+	 * </p>
+	 * 
+	 * @return
+	 */
+	public String queryCourseInfo() {
+		String json = courseService.queryCourseInfo(selected_courseId);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+
+	/**
+	 * 保存课程安排
+	 * 
+	 * @return
+	 */
+	public String saveCourseInfo() {
+		try {
+			courseService.saveCourseInfo(courseInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -101,9 +156,14 @@ public class CourseAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String deleteCourse() {
+	/**
+	 * 删除课程安排
+	 * 
+	 * @return
+	 */
+	public String deleteCourseInfo() {
 		try {
-			courseService.deleteCourse(course);
+			courseService.deleteCourseInfo(courseInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -170,5 +230,21 @@ public class CourseAction extends BaseAction {
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+
+	public String getSelected_courseId() {
+		return selected_courseId;
+	}
+
+	public void setSelected_courseId(String selected_courseId) {
+		this.selected_courseId = selected_courseId;
+	}
+
+	public CourseInfo getCourseInfo() {
+		return courseInfo;
+	}
+
+	public void setCourseInfo(CourseInfo courseInfo) {
+		this.courseInfo = courseInfo;
 	}
 }
