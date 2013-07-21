@@ -1,5 +1,7 @@
 package com.nb.nbpx.service.course.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -119,12 +121,33 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		}
 		return course;
 	}
-
+	
 	@Override
 	public void deleteCourse(Course course) throws NbpxException {
 		courseDao.delete(course);
 	}
 
+	//根据城市获取课程信息
+	public String getCoursesByCity(String city,Integer rows, Integer start){
+		String result = "";
+		List<Course> courseList = this.courseDao.getCourseByCity(city, rows, start);
+		if(courseList == null || courseList.size() == 0)
+			return "<p style='font-size:12px'>暂无课程信息</p>";
+		for(int i=0;i<courseList.size();i++){
+			Course temp = courseList.get(i);
+			List<CourseInfo> infos = this.courseDao.getCourseInfoByCity(city, temp.getCourseId(), 1);
+			if(infos == null)
+				continue;
+			for(int j=0;j<infos.size();j++){
+				CourseInfo infoTemp = infos.get(j);
+				DateFormat format = new SimpleDateFormat("mm-dd");  
+				String startDate = format.format(infoTemp.getStartDate()); 
+				result +="<li><a href='#'>"+temp.getTitle()+"</a><div>"+startDate+"/<span class='money'>￥</span>"+temp.getPrice()+"</div></li>";
+			}
+		}
+		return result;
+	}
+	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}

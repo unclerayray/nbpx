@@ -123,7 +123,7 @@ public class CourseAction extends BaseAction {
 				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;
 	}
-
+	
 	/**
 	 * <p>
 	 * 通过courseId查找课程安排

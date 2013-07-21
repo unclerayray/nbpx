@@ -3,11 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="css/face.css" rel="stylesheet" />
-
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+<script src="js/easyui/jquery-1.8.0.min.js"></script>
+<script src="js/easyui/jquery.easyui.min.js"></script>
 <title>无标题文档</title>
 </head>
 
 <body>
+
 <!--醒目地区start-->
 <div class="mainContent area">
 	<ul>
@@ -334,23 +338,84 @@
 </div>
 <div class="clear"></div>
 <!--关键字 end-->
-
+<script>
+	function changeCity(flag){
+		for(var i=1;i<=5;i++){
+			if(i == flag){
+				$('#c'+i).attr('class','tabOn');
+				loadCityCourse(flag);
+			}
+			else
+				$('#c'+i).attr('class','tabOff');
+		}
+	}
+	function changeTab(flag){
+		for(var i=1;i<=3;i++){
+			if(i == flag){
+				$('#f'+i).attr('class','tabOn three2');
+				loadFirstTab(flag);
+			}else
+				$('#f'+i).attr('class','tabOff three2');
+		}	
+	}
+	function loadFirstTab(flag){
+		
+	}
+	function seePartTab(pre,flag,part){
+		var count = 0;
+		if(pre == 'a')
+			count = 3;
+		if(pre == 'b')
+			count = 4;
+		if(pre == 'c')
+			count = 2;
+		for(var i=1;i<=count;i++){
+			if(i == flag){
+				$('#'+pre+part+i).attr('class','tabOn');
+				loadPartDate(pre,flag,part);
+			}else
+				$('#'+pre+part+i).attr('class','tabOff');
+		}	
+	}
+	function loadPartDate(pre,flag,part){
+		
+	}
+	function loadCityCourse(flag){
+		var city;
+		if(flag == '1')
+			city = '北京';
+		else if(flag == '2')
+			city = '上海';
+		else if(flag == '3')
+			city = '深圳';
+		else if(flag == '4')
+			city = '广州';
+		else
+			city = '苏州';
+		$.ajax({
+			url:encodeURI('struts/Main_getCourseByCity?city='+city),
+			success: function(data){
+				$('#cityList').html(data);
+			}		
+		})
+	}
+</script>
 <!--主体 部分一 start-->
 
 <div class="mainContent partOne">
 	<div class="left">
 		<!--城市 start-->
 		<div class="firstHead">
-			<div class="tabOn">北京</div>
-			<div class="tabOff">上海</div>
-			<div class="tabOff">深圳</div>
-			<div class="tabOff">广州</div>
-			<div class="tabOff">苏州</div>
+			<div class="tabOn" id="c1"><a href="javascript:void(0)" onclick="javascript:changeCity(1)">北京</a></div>
+			<div class="tabOff" id="c2"><a href="javascript:void(0)" onclick="javascript:changeCity(2)">上海</a></div>
+			<div class="tabOff" id="c3" ><a href="javascript:void(0)" onclick="javascript:changeCity(3)">深圳</a></div>
+			<div class="tabOff" id="c4"><a href="javascript:void(0)" onclick="javascript:changeCity(4)">广州</a></div>
+			<div class="tabOff" id="c5"><a href="javascript:void(0)" onclick="javascript:changeCity(5)">苏州</a></div>
 			<div class="more"><a href="#">更多</a></div>
 			<div class="clear"></div>
 		</div>
-		<div class="bg" style="background:none;border-bottom:1px solid #ddeae0">
-			<ul class="list1">
+		<div class="bg" style="background:none;border-bottom:1px solid #ddeae0;height:210px">
+			<ul class="list1" id="cityList">
 				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
 				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
 				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
@@ -465,9 +530,9 @@
 	</div>
 	<div class="right">
 		<div class="head">
-			<div class="tabOn three2">企业培训</div>
-			<div class="tabOff three2">精品课程</div>
-			<div class="tabOff three2">热门培训</div>
+			<div class="tabOn three2" id="f1"><a href='javascript:void(0)' onclick="javascript:changeTab(1)">企业培训</a></div>
+			<div class="tabOff three2" id="f2"><a href='javascript:void(0)' onclick="javascript:changeTab(2)">精品课程</a></div>
+			<div class="tabOff three2" id="f3"><a href='javascript:void(0)' onclick="javascript:changeTab(3)">热门培训</a></div>
 		</div>
 		<div class="bg">
 			<div class="item first">
@@ -597,83 +662,6 @@
 			<img  src="images/partOne1.jpg" class="left"  style="width:377px;height:60px"/>
 			<img  src="images/partOne2.jpg" class="right"  style="width:250px;height:60px"/>
 		</div>
-		<!--<div class="middle">
-			<div class="news">
-				<div class="title">离开公司之际，带走了你的潜智吗？</div>
-				<div class="desc">[<a href="#">源谈企业重整之关键成功因素</a>] &nbsp; [<a href="#">老板与经理人：并非一道难解的题</a>]</div>
-				<div class="line">&nbsp;</div>
-			</div>
-			<div class="news">
-				<div class="title">离开公司之际，带走了你的潜智吗？</div>
-				<div class="desc">[<a href="#">源谈企业重整之关键成功因素</a>] &nbsp; [<a href="#">老板与经理人：并非一道难解的题</a>]</div>
-			</div>
-			<div class="best">
-				<div class="head">精品课程</div>
-				<div class="bg">
-					<ul>
-						<li><a href="#">最新版FMEA潜在失效模式及后果分析</a></li>
-						<li><a href="#">Word、PPT工作文档设计与演示技巧</a></li>
-						<li><a href="#">国际质量经理高级研修班</a></li>
-						<li><a href="#">国际质量经理高级研修班</a></li>
-						<li><a href="#">最新版FMEA潜在失效模式及后果分析</a></li>
-						<li><a href="#">Word、PPT工作文档设计与演示技巧</a></li>
-						<li><a href="#">国际质量经理高级研修班</a></li>
-						<li><a href="#">国际质量经理高级研修班</a></li>
-						<li><a href="#">最新版FMEA潜在失效模式及后果分析</a></li>
-						<li><a href="#">Word、PPT工作文档设计与演示技巧</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="side">
-			<div class="firstHead">推荐专题</div>
-			<div class="bg">
-				<div style="padding-bottom:10px"><img  src="images/adv.gif" height="60px" width="210px"/></div>
-				<ul class="list5">
-					<li><a href="#">班组长</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">班组长</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">班组长</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">班组长</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">班组长</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">班组长</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-					<li><a href="#">班组长</a></li>
-					<li><a href="#">IE工程</a></li>
-					<li><a href="#">车间管理</a></li>
-					<li><a href="#">6S现场</a></li>
-				</ul>
-				<div class="clear"></div>
-			</div>
-		</div>-->
 	</div>
 </div>
 <!-- 主体部分二 end-->
@@ -691,9 +679,9 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn">财务管理课程</div>
-				<div class="tabOff">经典课程</div>
-				<div class="tabOff">排行</div>
+				<div class="tabOn" id="a11"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,1)">财务管理课程</a></div>
+				<div class="tabOff" id="a12"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,1)">经典课程</a></div>
+				<div class="tabOff" id="a13"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,1)">排行</a></div>
 				<div class="more"><a href="#">更多</a></div>
 				<div class="clear"></div>
 			</div>
@@ -719,9 +707,9 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">物流供应链课程</div>
-					<div class="tabOff">经典课程</div>
-					<div class="tabOff">排行</div>
+					<div class="tabOn" id="a21"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,2)">物流供应链课程</a></div>
+					<div class="tabOff" id="a22"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,2)">经典课程</a></div>
+					<div class="tabOff" id="a23"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,2)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -774,9 +762,9 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">人力资源课程</div>
-					<div class="tabOff">经典课程</div>
-					<div class="tabOff">排行</div>
+					<div class="tabOn" id="a31"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,3)">人力资源课程</a></div>
+					<div class="tabOff" id="a32"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,3)">经典课程</a></div>
+					<div class="tabOff" id="a33"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,3)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -802,9 +790,9 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">生产管理课程</div>
-					<div class="tabOff">经典课程</div>
-					<div class="tabOff">排行</div>
+					<div class="tabOn" id="a41"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,4)">生产管理课程</a></div>
+					<div class="tabOff" id="a42"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,4)">经典课程</a></div>
+					<div class="tabOff" id="a43"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,4)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -857,9 +845,9 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">营销培训课程</div>
-					<div class="tabOff">经典课程</div>
-					<div class="tabOff">排行</div>
+					<div class="tabOn" id="a51"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,5)">营销培训课程</a></div>
+					<div class="tabOff" id="a52"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,5)">经典课程</a></div>
+					<div class="tabOff" id="a53"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,5)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -885,9 +873,9 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">综合战略课程</div>
-					<div class="tabOff">经典课程</div>
-					<div class="tabOff">排行</div>
+					<div class="tabOn" id="a61"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,6)">综合战略课程</a></div>
+					<div class="tabOff" id="a62"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,6)">经典课程</a></div>
+					<div class="tabOff" id="a63"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,6)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1048,10 +1036,10 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn">精品企业内训</div>
-				<div class="tabOff">最新</div>
-				<div class="tabOff">经典</div>
-				<div class="tabOff">排行</div>
+				<div class="tabOn" id="b11"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,1)">精品企业内训</a></div>
+				<div class="tabOff" id="b12"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,1)">最新</a></div>
+				<div class="tabOff" id="b13"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,1)">经典</a></div>
+				<div class="tabOff" id="b14"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,1)">排行</a></div>
 				<div class="more"><a href="#">更多</a></div>
 				<div class="clear"></div>
 			</div>
@@ -1084,10 +1072,10 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">最新开发企业内训</div>
-					<div class="tabOff">最新</div>
-					<div class="tabOff">经典</div>
-				    <div class="tabOff">排行</div>
+					<div class="tabOn" id="b21"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,2)">最新开发企业内训</a></div>
+					<div class="tabOff" id="b22"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,2)">最新</a></div>
+					<div class="tabOff" id="b23"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,2)">经典</a></div>
+				    <div class="tabOff" id="b24"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,2)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1148,10 +1136,10 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">财务管理企业内训</div>
-					<div class="tabOff">最新</div>
-					<div class="tabOff">经典</div>
-				    <div class="tabOff">排行</div>
+					<div class="tabOn" id="b31"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,3)">财务管理企业内训</a></div>
+					<div class="tabOff" id="b32"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,3)">最新</a></div>
+					<div class="tabOff" id="b33"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,3)">经典</a></div>
+				    <div class="tabOff" id="b34"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,3)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1184,10 +1172,10 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">物流供应链企业内训</div>
-					<div class="tabOff">最新</div>
-					<div class="tabOff">经典</div>
-				    <div class="tabOff">排行</div>
+					<div class="tabOn" id="b41"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,4)">物流供应链企业内训</a></div>
+					<div class="tabOff" id="b42"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,4)">最新</a></div>
+					<div class="tabOff" id="b43"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,4)">经典</a></div>
+				    <div class="tabOff" id="b44"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,4)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1248,10 +1236,10 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">人力资源企业内训</div>
-					<div class="tabOff">最新</div>
-					<div class="tabOff">经典</div>
-				    <div class="tabOff">排行</div>
+					<div class="tabOn" id="b51"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,5)">人力资源企业内训</a></div>
+					<div class="tabOff" id="b52"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,5)">最新</a></div>
+					<div class="tabOff" id="b53"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,5)">经典</a></div>
+				    <div class="tabOff" id="b54"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,5)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1284,10 +1272,10 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">生产管理企业内训</div>
-					<div class="tabOff">最新</div>
-					<div class="tabOff">经典</div>
-				    <div class="tabOff">排行</div>
+					<div class="tabOn" id="b61"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,6)">生产管理企业内训</a></div>
+					<div class="tabOff" id="b62"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,6)">最新</a></div>
+					<div class="tabOff" id="b63"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,6)">经典</a></div>
+				    <div class="tabOff" id="b64"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,6)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1348,10 +1336,10 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">营销客服企业内训</div>
-					<div class="tabOff">最新</div>
-					<div class="tabOff">经典</div>
-				    <div class="tabOff">排行</div>
+					<div class="tabOn" id="b71"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,7)">营销客服企业内训</a></div>
+					<div class="tabOff" id="b72"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,7)">最新</a></div>
+					<div class="tabOff" id="b73"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,7)">经典</a></div>
+				    <div class="tabOff" id="b74"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,7)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1384,10 +1372,10 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">综合战略企业内训</div>
-					<div class="tabOff">最新</div>
-					<div class="tabOff">经典</div>
-				    <div class="tabOff">排行</div>
+					<div class="tabOn" id="b81"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,8)">综合战略企业内训</a></div>
+					<div class="tabOff" id="b82"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,8)">最新</a></div>
+					<div class="tabOff" id="b83"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,8)">经典</a></div>
+				    <div class="tabOff" id="b84"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,8)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1470,8 +1458,8 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn">人力资源新闻</div>
-				<div class="tabOff">人力资源文章</div>
+				<div class="tabOn" id="c11"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,1)">人力资源新闻</a></div>
+				<div class="tabOff" id="c12"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,1)">人力资源文章</a></div>
 				<div class="more"><a href="#">更多</a></div>
 				<div class="clear"></div>
 			</div>
@@ -1497,8 +1485,8 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">职业生涯规划</div>
-					<div class="tabOff">市场营销管理</div>
+					<div class="tabOn" id="c21"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,2)">职业生涯规划</a></div>
+					<div class="tabOff" id="c22"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,2)">市场营销管理</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1551,8 +1539,8 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">案例管理文章</div>
-					<div class="tabOff">经理人文章</div>
+					<div class="tabOn" id="c31"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,3)">案例管理文章</a></div>
+					<div class="tabOff" id="c32"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,3)">经理人文章</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1578,8 +1566,8 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">生产管理文章</div>
-					<div class="tabOff">财务管理文章</div>
+					<div class="tabOn" id="c41"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,4)">生产管理文章</a></div>
+					<div class="tabOff" id="c42"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,4)">财务管理文章</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>

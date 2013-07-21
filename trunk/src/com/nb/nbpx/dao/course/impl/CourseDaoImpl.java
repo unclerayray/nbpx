@@ -2,6 +2,7 @@ package com.nb.nbpx.dao.course.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.dao.course.ICourseDao;
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 @Component("courseDao")
@@ -159,5 +161,58 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			return false;
 		}
 	}
+	//根据城市获取课程信息
+	public List<Course> getCourseByCity(final String city, final Integer rows, final Integer start){
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						int i = 0;
+						StringBuffer hql = new StringBuffer(
+								"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.courseCode,"+
+									"c.teacherId, '', c.category,"+
+									"'',c.state,c.hits,c.price) from Course c where c.courseId in (select b.courseId from CourseInfo b where b.city = (select d.codeName from Dictionary d where d.showName='"+city+"') and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0) order by c.courseId desc");
+						
+						Query query = session.createQuery(hql.toString());
+
+						if (start != null && rows != null) {
+							query.setFirstResult(start);
+							query.setMaxResults(rows);
+						}
+						return query.list();
+					}
+				});
+		return list;
+	}
+	
+	//根据课程和开课地点获取课程信息
+	public List<CourseInfo> getCourseInfoByCity(final String city, final Integer courseId,final Integer flag){
+		List<CourseInfo> list = new ArrayList<CourseInfo>();
+		list = getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						int i = 0;
+						StringBuffer hql = new StringBuffer(
+								"select new com.nb.nbpx.pojo.course.CourseInfor(c.courseInfoId, c.courseId, c.startDate,"+
+								"c.endDate, c.city) from CourseInfo c where c.city = (select d.codeName from Dictionary d where d.showName='"+city+"') and c.courseId = "+courseId);
+						if(flag == 1)
+							hql.append(" order by c.startDate desc");
+						else
+							hql.append(" order by c.startDate asc");
+						Query query = session.createQuery(hql.toString());
+
+						return query.list();
+					}
+				});
+		return list;
+		
+	}
+
+	
 
 }

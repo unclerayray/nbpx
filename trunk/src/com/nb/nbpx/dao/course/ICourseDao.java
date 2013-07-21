@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 
@@ -22,4 +23,9 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	 * @return
 	 */
 	public boolean checkDuplicateProp(Course course);
+	
+	//根据地点获取课程
+	public List<Course> getCourseByCity(final String city, final Integer rows, final Integer start);
+	//获取课程的信息
+	public List<CourseInfo> getCourseInfoByCity(final String city, final Integer courseId,final Integer flag);
 }
