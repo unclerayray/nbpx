@@ -22,7 +22,9 @@ ul{padding:0px;margin:0px}
 
 
 .tabOn{float:left;padding:0px 10px;;height:29px;line-height:27px; font-size:14px; font-weight: bold; background:white; border-top:2px solid #34a150; border-left:1px solid #d0e2d4;border-right:1px solid #d0e2d4; color:#2D4545}
+.tabOn a{display:block;outline:none;color:#2D4545;text-decoration:none}
 .tabOff{float:left;padding:0px 10px; font-size:14px; font-weight: normal; border:none;color:#2D4545;line-height:30px;}
+.tabOff a{display:block;outline:none;color:#2D4545;text-decoration:none}
 .half{ text-align:center; padding-left:0px;padding-right:0px;width:120px}
 .three{text-align:center; padding-left:0px;padding-right:0px;width:80px}
 .three2{text-align:center; padding-left:0px;padding-right:0px;width:172px;font-size:16px; line-height:30px}
@@ -545,3 +547,24 @@ ul{padding:0px;margin:0px}
 	.loginFormBg{background:url(../images/login.png) no-repeat;height:100px;width:100px;position:absolute;float:left;margin-left:250px;margin-top:-20px}
 	.registerBg{background:url(../images/register.png) no-repeat;height:100px;width:100px;position:absolute;float:left;margin-left:230px;margin-top:-20px}
 /*登陆*/
+
+/*提交需求*/
+.needForm h1{padding:10px;margin:0;font-size:20px;}
+.needForm em{color:red;padding-left:5px;font-size:12px;font-style:normal}
+.needForm em.black{color:#333}
+.need{height:400px;width:100%;font-size:12px;width:600px;}
+.need td{text-align:left;height:35px}
+.need textarea{border:1px solid #ccc;width:450px;height:80px;margin:0px}
+.need td input{border:1px solid #ccc;height:18px}
+.normalButton{display:block;text-align:center;height:29px;;line-height:29px;width:70px;border-left:1px solid #ccc;border-right:1px solid #ccc;background:url(../images/split.png) no-repeat -180px -5px;margin-left:10px;float:left;font-size:12px}
+/*提交需求*/
+
+/*投诉*/
+.tousu{height:400px}
+.tousu h1{padding:10px;margin:0;font-size:20px;}
+.tousu p{font-size:12px;line-height:23px;padding:0px 60px;text-indent:2em;text-align:left}
+.tousu p.center{text-align:center;padding-top:50px}
+.tousu dd{font-size:12px;line-height:23px;padding:0px 50px;text-align:left}
+.tousu dd.zhaosheng{padding-left:200px;font-size:14px;line-height:27px}
+.tousu dd.red{color:red}
+/*招生*/
