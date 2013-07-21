@@ -37,7 +37,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 								"select new com.nb.nbpx.pojo.course.Course"
 										+ " (c.courseId, c.title, c.courseCode, c.teacherId, " +
 												"ti.realName, c.category, fd.showName," +
-												" c.state, c.hits , c.price, c.recommanded) from Course c, Dictionary fd, TeacherInfo ti"
+												" c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
 										+ " where 1 = 1 ");
 						if (category != null && !category.isEmpty()) {
 							hql.append(" and category = ? ");
