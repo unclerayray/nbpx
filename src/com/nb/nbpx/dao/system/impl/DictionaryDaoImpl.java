@@ -201,5 +201,31 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 			return true;
 		}
 	}
+	
+	@Override
+	public Dictionary getDictionary(final String codeName,final String showName){
+		List<Dictionary> list = new ArrayList<Dictionary>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						"select new Dictionary(d.dicId,d.codeName,d.showName,d.discription,d.flag) from Dictionary d where 1=1 ");
+				if(codeName != null && !"".equals(codeName))
+					hql.append(" and d.codeName ='"+codeName+"'");
+				if(showName != null && !"".equals(showName))
+					hql.append(" and d.showName ='"+showName+"'");
+				Query query = session.createQuery(hql.toString());
+
+				return query.list();
+			}
+
+		});
+		if(list == null || list.size() == 0)
+			return null;
+		else
+			return list.get(0);
+	}
 
 }

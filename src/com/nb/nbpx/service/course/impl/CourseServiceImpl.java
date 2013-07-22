@@ -1,6 +1,7 @@
 package com.nb.nbpx.service.course.impl;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +17,13 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.ICourseDao;
 import com.nb.nbpx.dao.course.ICourseInfoDao;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
+import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.course.CourseKeyword;
+import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
@@ -36,7 +39,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	private ITeacherInfoDao teacherDao;
 	private ICourseInfoDao courseInfoDao;
 	private ICourseKeywordDao courseKeywordDao;
-
+ 	private IDictionaryDao dictionaryDao;
+ 	
 	// private ICourseKeywordDao courseKeywordDao;
 	// private ICourseKeywordDao courseKeywordDao;
 
@@ -159,11 +163,10 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				continue;
 			for (int j = 0; j < infos.size(); j++) {
 				CourseInfo infoTemp = infos.get(j);
-				DateFormat format = new SimpleDateFormat("mm-dd");
-				String startDate = format.format(infoTemp.getStartDate());
-				result += "<li><a href='#'>" + temp.getTitle() + "</a><div>"
-						+ startDate + "/<span class='money'>￥</span>"
-						+ temp.getPrice() + "</div></li>";
+				DateFormat format = new SimpleDateFormat("MM-dd");
+				DecimalFormat df = new DecimalFormat("0");
+				String startDate = format.format(infoTemp.getStartDate()); 
+				result +="<li><a href='#'>"+temp.getTitle()+"</a><div>"+startDate+"/<span class='money'>￥</span>"+df.format(temp.getPrice())+"</div></li>";
 			}
 		}
 		return result;
@@ -212,6 +215,77 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		return courseDao;
 	}
 
+	//得到培训的课程
+	public String getNXCourse(String type,int flag){
+		List<Course> courseList = null;
+		if(flag ==1)//推荐
+			courseList = this.courseDao.getLastedCourse(false, type, true, false, 10, 0);
+		if(flag == 2)
+			courseList = this.courseDao.getLastedCourse(false, type, false, true, 10, 0);
+		if(flag == 3)
+			courseList = this.courseDao.getHotCourse(false, type, 10, 0);
+		if(courseList == null)
+			return "暂无课程信息";
+		StringBuffer result = new StringBuffer("");
+		for(int i=0;i<courseList.size();i++){
+			Course temp = courseList.get(i);
+			if(temp == null)
+				continue;
+			result.append("<li><a href='#'>"+temp.getTitle()+"</a></li>");
+		}
+		
+		return result.toString();
+	}
+	
+	//获取首页推荐的 flag=1表示推荐，flag=2表示精品课程，flag=3表示热门课程
+	public String getTopCourse(int flag,Boolean isInner){
+		List<Course> courseList = null;
+		if(flag == 1)//推荐
+			courseList = this.courseDao.getLastedCourse(isInner,"", true, false, 30, 0);
+		if(flag == 2)//精品课程
+			courseList = this.courseDao.getLastedCourse(isInner,"", false, true, 30, 0);
+		if(flag == 3)//热门，按照点击顺序
+			courseList = this.courseDao.getHotCourse(isInner, "", 30, 0);
+		
+		if(courseList == null)
+			return "暂无课程信息";
+		StringBuffer result = new StringBuffer("");
+		int count = 0;
+		for(int i=0;i<courseList.size();i++){
+			Course temp = courseList.get(i);
+			if(temp == null)
+				 continue;
+			TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer.parseInt(temp.getTeacherId()));
+			String teacherName = "未知";
+			if(teacher != null)
+				teacherName = teacher.getRealName();
+			
+			List<CourseInfo> courseInfos = courseDao.getCourseInfoByCity("", temp.getCourseId(), 1);
+			if(courseInfos == null)
+				continue;
+			for(int j=0;j<courseInfos.size();j++){
+				CourseInfo courseInfo = courseInfos.get(j);
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Dictionary cityD = dictionaryDao.getDictionary(courseInfo.getCity(), "");
+				String cityName = "未知";
+				if(cityD != null)
+					cityName = cityD.getShowName();
+				if(count == 0)
+					result.append("<div class='item first'>");
+				else
+					result.append("<div class='item'>");
+				result.append("<div class='title'><a href='#'>"+temp.getTitle()+"</a></div>"+
+							  "<div class='infor'><span class='teacher'>["+teacherName+"]</span><span class='date'>"+format.format(courseInfo.getStartDate())+"</span><span class='city'>"+cityName+"</span></div>"+
+							  "</div>");
+				count ++;
+			}
+			
+		}
+
+		return result.toString();
+
+	}
+	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}
@@ -232,6 +306,20 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	public ICourseKeywordDao getCourseKeywordDao() {
 		return courseKeywordDao;
+	public IDictionaryDao getDictionaryDao() {
+		return dictionaryDao;
+	}
+	
+	@Resource
+	public void setDictionaryDao(IDictionaryDao dictionaryDao) {
+		this.dictionaryDao = dictionaryDao;
+	}
+
+	@Override
+	public String queryCourseInfo(String courseInfoId) {
+		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseInfoId);
+		String json = JsonUtil.formatListToJson(list);
+		return json;
 	}
 
 	@Resource

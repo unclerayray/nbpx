@@ -1,6 +1,7 @@
 package com.nb.nbpx.service.course;
 
 import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
@@ -20,6 +21,8 @@ public interface ICourseService extends IBaseService {
 	public void deleteCourse(Course course) throws NbpxException ;
 
 	public String getCoursesByCity(String city,Integer rows, Integer start);
+	public String getTopCourse(int flag,Boolean isInner);
+	public String getNXCourse(String type,int flag);
 	
 	public String queryCourseInfo(String courseInfoId);
 	public void saveCourseInfo(CourseInfo courseInfo);

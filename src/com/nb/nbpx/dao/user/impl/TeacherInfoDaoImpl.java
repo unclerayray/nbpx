@@ -58,5 +58,32 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 		
 		return result;
 	}
+	//根据Id获取老师的信息
+	public TeacherInfo getTeacherInfoById(final Integer teacherId){
+			List teacherList = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
+				if (teacherId != null) {
+					hql += " and teacherId = ?";
+				}
+				org.hibernate.Query query = session.createQuery(hql);
+				if (teacherId != null) {
+					query.setInteger(i++, teacherId);
+				}
+				
+				List list = query.list();
+				if(list == null || list.size() == 0)
+					return null;
+				return list;
+			}
+		});
+		
+		if(teacherList == null || teacherList.size() == 0)
+			return null;
+		else
+			return (TeacherInfo)teacherList.get(0);
+	}
 
 }
