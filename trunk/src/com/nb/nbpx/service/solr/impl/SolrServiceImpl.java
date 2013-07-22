@@ -70,7 +70,6 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	 */
 	@Override
 	public void deltaImport() throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -85,11 +84,11 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		while((word=mmSeg.next())!=null) {
 			String w = word.getString();
 			CourseKeyword ckw = new CourseKeyword();
-			Keyword keyword = new Keyword();
-			keyword.setKeyword(w);
-			keywordDao.save(keyword);
+//			Keyword keyword = new Keyword();
+//			keyword.setKeyword(w);
+//			keywordDao.save(keyword);
 			ckw.setKeyword(w);
-			ckw.setKeywordId(keyword.getKeyId());
+//			ckw.setKeywordId(keyword.getKeyId());
 			//courseKeywordDao.save(ckw);
 			//ckw.setKeyword(w);
 			list.add(ckw);

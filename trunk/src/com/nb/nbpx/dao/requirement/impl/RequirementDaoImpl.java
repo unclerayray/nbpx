@@ -14,7 +14,6 @@ public class RequirementDaoImpl extends BaseDaoImpl<Requirement, Integer> implem
 	@Override
 	public List<Requirement> getRequirement() {
 		
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

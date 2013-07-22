@@ -25,7 +25,7 @@ public class CourseMajor  extends BaseEntity   implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	public Integer courseMajorId;
-	public Integer majorId;
+	public String majorCode;
 	public Integer courseId;
 	public String major;
 	
@@ -33,14 +33,20 @@ public class CourseMajor  extends BaseEntity   implements Serializable {
 	public CourseMajor() {
 		super();
 	}
-	public CourseMajor(Integer courseMajorId, Integer majorId,
+
+	
+	
+	public CourseMajor(Integer courseMajorId, String majorCode,
 			Integer courseId, String major) {
 		super();
 		this.courseMajorId = courseMajorId;
-		this.majorId = majorId;
+		this.majorCode = majorCode;
 		this.courseId = courseId;
 		this.major = major;
 	}
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "courseMajorId", unique = true, nullable = false)
@@ -50,12 +56,9 @@ public class CourseMajor  extends BaseEntity   implements Serializable {
 	public void setCourseMajorId(Integer courseMajorId) {
 		this.courseMajorId = courseMajorId;
 	}
-	public Integer getMajorId() {
-		return majorId;
-	}
-	public void setMajorId(Integer majorId) {
-		this.majorId = majorId;
-	}
+
+	
+	
 	public Integer getCourseId() {
 		return courseId;
 	}
@@ -67,6 +70,18 @@ public class CourseMajor  extends BaseEntity   implements Serializable {
 	}
 	public void setMajor(String major) {
 		this.major = major;
+	}
+
+
+
+	public String getMajorCode() {
+		return majorCode;
+	}
+
+
+
+	public void setMajorCode(String majorCode) {
+		this.majorCode = majorCode;
 	}
 	
 	

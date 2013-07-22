@@ -19,7 +19,6 @@ public class OrgInfoDaoImpl extends BaseDaoImpl<OrgInfo, Integer>  implements IO
 	
 	@Override
 	public List<OrgInfo> getOrgInforByUserId(final Integer userId) {
-		// TODO Auto-generated method stub
 		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
@@ -42,7 +41,6 @@ public class OrgInfoDaoImpl extends BaseDaoImpl<OrgInfo, Integer>  implements IO
 
 	@Override
 	public Boolean saveOrgInfo(final OrgInfo orgInfor) {
-		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
 		Boolean result = getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)

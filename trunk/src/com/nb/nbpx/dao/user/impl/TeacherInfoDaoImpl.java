@@ -19,7 +19,6 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 
 	@Override
 	public List<TeacherInfo> getTeacherInforByUserId(final Integer userId) {
-		// TODO Auto-generated method stub
 		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
@@ -42,8 +41,6 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 
 	@Override
 	public Boolean saveTeacherInfor(final TeacherInfo teacherInfor) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
 		Boolean result = getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)

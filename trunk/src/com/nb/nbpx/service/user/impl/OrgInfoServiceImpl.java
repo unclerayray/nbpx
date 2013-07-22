@@ -20,7 +20,6 @@ public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoServi
 	
 	@Override
 	public String getOrgInfoByUserId(Integer userID) {
-		// TODO Auto-generated method stub
 		List<OrgInfo> orgInfoList = orgInfoDao.getOrgInforByUserId(userID);
 		String json = "";
 		
@@ -33,7 +32,6 @@ public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoServi
 
 	@Override
 	public String saveOrgInfor(OrgInfo orgInfor) {
-		// TODO Auto-generated method stub
 		String json = "";
 		Boolean result = this.orgInfoDao.saveOrgInfo(orgInfor);
 		if(result)

@@ -23,48 +23,62 @@ public class CourseTarget  extends BaseEntity   implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public Integer courseTargetTd;
+	public Integer courseTargetId;
 	public Integer courseId;
-	public Integer targetTd;
+	public String targetCode;
 	public String target;
 		
 	public CourseTarget() {
 		super();
 	}
-	public CourseTarget(Integer courseTargetTd, Integer courseId,
-			Integer targetTd, String target) {
+	
+	
+
+	
+	
+	public CourseTarget(Integer courseTargetId, Integer courseId,
+			String targetCode, String target) {
 		super();
-		this.courseTargetTd = courseTargetTd;
+		this.courseTargetId = courseTargetId;
 		this.courseId = courseId;
-		this.targetTd = targetTd;
+		this.targetCode = targetCode;
 		this.target = target;
 	}
+
+
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "courseTargetTd", unique = true, nullable = false)
-	public Integer getCourseTargetTd() {
-		return courseTargetTd;
+	@Column(name = "courseTargetId", unique = true, nullable = false)
+	public Integer getCourseTargetId() {
+		return courseTargetId;
 	}
-	public void setCourseTargetTd(Integer courseTargetTd) {
-		this.courseTargetTd = courseTargetTd;
+	public void setCourseTargetId(Integer courseTargetId) {
+		this.courseTargetId = courseTargetId;
 	}
+	
 	public Integer getCourseId() {
 		return courseId;
 	}
 	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
-	public Integer getTargetTd() {
-		return targetTd;
-	}
-	public void setTargetTd(Integer targetTd) {
-		this.targetTd = targetTd;
-	}
+
 	public String getTarget() {
 		return target;
 	}
 	public void setTarget(String target) {
 		this.target = target;
+	}
+
+	public String getTargetCode() {
+		return targetCode;
+	}
+
+	public void setTargetCode(String targetCode) {
+		this.targetCode = targetCode;
 	}
 	
 	

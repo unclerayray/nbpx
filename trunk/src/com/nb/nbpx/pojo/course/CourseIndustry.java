@@ -24,7 +24,7 @@ public class CourseIndustry  extends BaseEntity   implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	public Integer courseIndustryId;
-	public Integer industryId;
+	public String industryCode;
 	public Integer courseId;
 	public String industry;
 	
@@ -35,14 +35,21 @@ public class CourseIndustry  extends BaseEntity   implements Serializable {
 		super();
 	}
 	 
-	public CourseIndustry(Integer courseIndustryId, Integer industryId,
+	
+	
+	
+	public CourseIndustry(Integer courseIndustryId, String industryCode,
 			Integer courseId, String industry) {
 		super();
 		this.courseIndustryId = courseIndustryId;
-		this.industryId = industryId;
+		this.industryCode = industryCode;
 		this.courseId = courseId;
 		this.industry = industry;
 	}
+
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "courseIndustryId", unique = true, nullable = false)
@@ -52,12 +59,7 @@ public class CourseIndustry  extends BaseEntity   implements Serializable {
 	public void setCourseIndustryId(Integer courseIndustryId) {
 		this.courseIndustryId = courseIndustryId;
 	}
-	public Integer getIndustryId() {
-		return industryId;
-	}
-	public void setIndustryId(Integer industryId) {
-		this.industryId = industryId;
-	}
+
 	public Integer getCourseId() {
 		return courseId;
 	}
@@ -69,6 +71,20 @@ public class CourseIndustry  extends BaseEntity   implements Serializable {
 	}
 	public void setIndustry(String industry) {
 		this.industry = industry;
+	}
+
+
+
+
+	public String getIndustryCode() {
+		return industryCode;
+	}
+
+
+
+
+	public void setIndustryCode(String industryCode) {
+		this.industryCode = industryCode;
 	}
 	
 	

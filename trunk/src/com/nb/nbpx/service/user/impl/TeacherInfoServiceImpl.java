@@ -19,7 +19,6 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 
 	@Override
 	public String getTeacherInfoByUserId(Integer userID) {
-		// TODO Auto-generated method stub
 		List<TeacherInfo> teacherInfoList = teacherInfoDao.getTeacherInforByUserId(userID);
 		String json = "";
 		
@@ -32,7 +31,6 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 
 	@Override
 	public String saveTeacherInfor(TeacherInfo teacherInfor) {
-		// TODO Auto-generated method stub
 		String json = "";
 		Boolean result = this.teacherInfoDao.saveTeacherInfor(teacherInfor);
 		if(result)

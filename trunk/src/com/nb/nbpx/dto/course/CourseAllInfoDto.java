@@ -30,15 +30,22 @@ public class CourseAllInfoDto extends Course implements Serializable{
 	public CourseAllInfoDto(Course course){
 		this.courseId = course.courseId;
 		this.title = course.title;
+		this.price = course.price;
 		this.courseCode = course.courseCode;
 		this.teacherId = course.teacherId;
-		this.isInner = course.isInner;
 		this.teacherName = course.teacherName;
 		this.category = course.category;
-		this.categoryName = course.categoryName;
+		this.content = course.content;
+		this.blockedContent = course.blockedContent;
+		this.isInner = course.isInner;
 		this.state = course.state;
+		this.videoUrl = course.videoUrl;
 		this.hits = course.hits;
-		this.price = course.price;
+		this.createdBy = course.createdBy;
+		this.lastUpdatedBy = course.lastUpdatedBy;
+		this.creationDate = course.creationDate;
+		this.lastUpdateDate = course.lastUpdateDate;
+		this.categoryName = course.categoryName;
 		this.recommanded = course.recommanded;
 		this.classic = course.classic;
 	}

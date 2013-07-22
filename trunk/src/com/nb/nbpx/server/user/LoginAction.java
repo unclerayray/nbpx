@@ -65,7 +65,6 @@ public class LoginAction  extends BaseAction {
 		try {
 			UserService.saveUser(user);
 		} catch (NbpxException e) {//有重复用户名
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json = JsonUtil.format2Json(false, "用户名已存在!");
 			this.inputStream = castToInputStream(json);
@@ -92,7 +91,6 @@ public class LoginAction  extends BaseAction {
 		try {
 			UserService.saveUser(user);
 		} catch (NbpxException e) {//有重复用户名
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json = JsonUtil.format2Json(false, "用户名已存在!");
 			this.inputStream = castToInputStream(json);
@@ -103,7 +101,6 @@ public class LoginAction  extends BaseAction {
 		try {
 			teacherBirthday = sdf.parse(birthday);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		TeacherInfo teacher = new TeacherInfo(null,user.getUserId(),realName,teacherBirthday,majorCatgory,Float.parseFloat(externalPayment),Float.parseFloat(internalPayment),fax,telephone, cellphone, introduction,expertIn);
@@ -127,7 +124,6 @@ public class LoginAction  extends BaseAction {
 		try {
 			UserService.saveUser(user);
 		} catch (NbpxException e) {//有重复用户名
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json = JsonUtil.format2Json(false, "用户名已存在!");
 			this.inputStream = castToInputStream(json);

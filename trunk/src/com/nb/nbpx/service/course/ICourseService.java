@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.course;
 
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
@@ -17,7 +18,7 @@ public interface ICourseService extends IBaseService {
 	public String queryComboCourseName(String category);
 	public String queryComboTeacher();
 	public String queryCourseById(Integer courseId);
-	public Course saveCourse(Course course) throws NbpxException ;
+	public Course saveCourse(CourseAllInfoDto course) throws NbpxException ;
 	public void deleteCourse(Course course) throws NbpxException ;
 
 	public String getCoursesByCity(String city,Integer rows, Integer start);

@@ -81,7 +81,7 @@ var _11={};
 if(_10.onBeforeLoad.call(_e,_11)==false){
 return;
 }
-$.ajax({url:_f,data:_11,dataType:"json",success:function(_12){
+$.ajax({url:_f,data:_11,cache:false,dataType:"json",success:function(_12){
 _13(_12);
 },error:function(){
 _10.onLoadError.apply(_e,arguments);

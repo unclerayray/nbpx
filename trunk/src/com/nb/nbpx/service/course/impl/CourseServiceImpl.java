@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -85,19 +84,19 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		String industries = "";
 		String majors = "";
 		
-		String keywordsHql = "select keyword from com.nb.nbpx.pojo.course.CourseKeyword where courseId = " + courseId;
+		String keywordsHql = "select keywordId from com.nb.nbpx.pojo.course.CourseKeyword where courseId = " + courseId;
 		List keywordsList = courseDao.find(keywordsHql);
 		keywords = StringUtils.join(keywordsList, ",");
 		
-		String targetsHql = "select target from com.nb.nbpx.pojo.course.CourseTarget where courseId = " + courseId;
+		String targetsHql = "select targetCode from com.nb.nbpx.pojo.course.CourseTarget where courseId = " + courseId;
 		List targetsList = courseDao.find(targetsHql);
 		targets = StringUtils.join(targetsList, ",");
 		
-		String industriesHql = "select industry from com.nb.nbpx.pojo.course.CourseIndustry where courseId = " + courseId;
+		String industriesHql = "select industryCode from com.nb.nbpx.pojo.course.CourseIndustry where courseId = " + courseId;
 		List industriesList = courseDao.find(industriesHql);
 		industries = StringUtils.join(industriesList, ",");
 		
-		String majorsHql = "select major from com.nb.nbpx.pojo.course.CourseMajor where courseId = " + courseId;
+		String majorsHql = "select majorCode from com.nb.nbpx.pojo.course.CourseMajor where courseId = " + courseId;
 		List majorsList = courseDao.find(majorsHql);
 		majors = StringUtils.join(majorsList, ",");
 		
@@ -118,7 +117,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public Course saveCourse(Course course) throws NbpxException {
+	public Course saveCourse(CourseAllInfoDto courseDto) throws NbpxException {
 		/*
 		 * 2013年7月19日 在课程修改和增加的地方添加了增加教师的功能 if (course.getTeacherId() != null &&
 		 * !course.getTeacherId().isEmpty()) { Integer id = null; try { id =
@@ -132,11 +131,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		 * course.setTeacherName(course.getTeacherId());
 		 * course.setTeacherId(null); } } }
 		 */
+		Course course = new Course(courseDto);
 		if (course.getCourseId() == null) {
 			if (courseDao.checkDuplicateProp(course)) {
 				throw new NbpxException("已存在此课程编号");
 			}
 			courseDao.save(course);
+			courseDto.setCourseId(course.getCourseId());
 		} else {
 			courseDao.saveOrUpdate(course);
 		}
@@ -146,6 +147,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void deleteCourse(Course course) throws NbpxException {
 		courseDao.delete(course);
+		courseDao.deleteAllCourseInfo(course.getCourseId());;
+		
 	}
 
 	// 根据城市获取课程信息

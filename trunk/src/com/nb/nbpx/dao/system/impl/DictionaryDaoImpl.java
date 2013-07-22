@@ -93,13 +93,11 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public void addDic(Dictionary dictionary) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteDic(Dictionary dictionary) {
-		// TODO Auto-generated method stub
 
 	}
 

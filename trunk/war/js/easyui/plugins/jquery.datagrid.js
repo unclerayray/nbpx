@@ -1983,7 +1983,7 @@ var opts=$(this).datagrid("options");
 if(!opts.url){
 return false;
 }
-$.ajax({type:opts.method,url:opts.url,data:_203,dataType:"json",success:function(data){
+$.ajax({type:opts.method,url:opts.url,data:_203,cache:false,dataType:"json",success:function(data){
 _204(data);
 },error:function(){
 _205.apply(this,arguments);

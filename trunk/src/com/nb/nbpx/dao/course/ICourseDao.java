@@ -3,6 +3,7 @@ package com.nb.nbpx.dao.course;
 import java.util.List;
 
 import com.nb.nbpx.dao.IBaseDao;
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.system.Dictionary;
@@ -17,6 +18,10 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	public Long queryCourseCount(String category,String courseCode);
 	public List<Dictionary> queryCourseType();
 	public List<TeacherInfo> queryTeachers();
+	
+	public void deleteAllCourseInfo(Integer courseId);
+	
+	public void addAllCourseInfo(CourseAllInfoDto courseDto);
 	/**
 	 * 验证CourseCode的唯一性，重复返回true
 	 * @param course
