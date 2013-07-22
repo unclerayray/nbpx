@@ -34,13 +34,11 @@ public class MainAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	//获得内训的课程
 	public String getPeiXun(){
-		String typeCode = "";
-		if("1".equals(type))//财务管理
-			typeCode = "003_01";
+		String typeCode = "003_0"+type;//(01-财务管理,02-物流管理,03-人力资源,04-生产管理,05-营销培训,06-综合战略)
 		
 		String result = courseService.getNXCourse(typeCode, Integer.parseInt(flag));
-		
 		System.out.println(result);
 		this.inputStream = castToInputStream(result);
 	

@@ -188,7 +188,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 									"c.teacherId, '', c.category,"+
 									"'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where 1=1 ");
 						if(type != null && !"".equals(type))
-							hql.append(" and c.category = "+type );
+							hql.append(" and c.category = '"+type +"'");
 						if(ifInner != null){//区分内训和培训
 							if(ifInner)
 								hql.append(" and c.isInner = 1");
@@ -221,9 +221,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 						StringBuffer hql = new StringBuffer(
 								"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.courseCode,"+
 									"c.teacherId, '', c.category,"+
-									"'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where 1=1 ");
+									"'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c,CourseInfo b where c.courseId = b.courseId and 1=1 ");
 						if(type != null && !"".equals(type))
-							hql.append(" and c.category = "+type );
+							hql.append(" and c.category = '"+type+"'");
 						if(ifInner != null){//区分内训和培训
 							if(ifInner)
 								hql.append(" and c.isInner = 1");
@@ -235,8 +235,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 							hql.append(" and c.recommanded = 1 ");
 						if(ifClassic)
 							hql.append(" and c.classic = 1 ");
+						hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by b.startDate desc");
 						//取向后的有效的日期
-						hql.append(" and c.courseId in (select b.courseId from CourseInfo b where TO_DAYS(NOW())-TO_DAYS(b.startDate)<0) order by c.courseId desc");
+						//hql.append(" and c.courseId in (select b.courseId from CourseInfo b where TO_DAYS(NOW())-TO_DAYS(b.startDate)<0) order by c.courseId desc");
 						Query query = session.createQuery(hql.toString());
 
 						if (start != null && rows != null) {

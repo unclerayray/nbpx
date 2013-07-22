@@ -146,7 +146,7 @@ ul{padding:0px;margin:0px}
 .list3 li a{color:#2D4545; text-decoration:none;font-size: 14px;}
 .list3 li span{float: right;color: #B8B8B8;font-size: 14px;}
 
-.list4 li{ height:23px;line-height:23px;padding:0px;text-align:left;list-style-image:url(../images/zhli_icon.gif);}
+.list4 li{ height:23px;line-height:23px;padding:0px;text-align:left;list-style-image:url(../images/zhli_icon.gif);width:340px}
 .list4 li span{float: right;color: #B8B8B8;font-size: 12px;}
 .list4 li a{color:#2D4545; text-decoration:none;font-size: 12px;}
 .list4 li .right{padding-left:15px}
