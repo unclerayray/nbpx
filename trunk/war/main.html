@@ -353,13 +353,18 @@
 		for(var i=1;i<=3;i++){
 			if(i == flag){
 				$('#f'+i).attr('class','tabOn three2');
-				loadFirstTab(flag);
+				loadTop(flag);
 			}else
 				$('#f'+i).attr('class','tabOff three2');
 		}	
 	}
-	function loadFirstTab(flag){
-		
+	function loadTop(flag){
+		$.ajax({
+			url:encodeURI('struts/Main_getTopCourse?flag='+flag),
+			success: function(data){
+				$('#topCourse').html(data);
+			}		
+		})
 	}
 	function seePartTab(pre,flag,part){
 		var count = 0;
@@ -378,7 +383,15 @@
 		}	
 	}
 	function loadPartDate(pre,flag,part){
-		
+		if(pre == 'a'){
+			$.ajax({
+				url:encodeURI('struts/Main_getPeiXun?flag='+flag+'&type='+part),
+				success: function(data){
+					alert(data);
+					$('#'+pre+part).html(data);
+				}		
+			})
+		}
 	}
 	function loadCityCourse(flag){
 		var city;
@@ -534,7 +547,7 @@
 			<div class="tabOff three2" id="f2"><a href='javascript:void(0)' onclick="javascript:changeTab(2)">精品课程</a></div>
 			<div class="tabOff three2" id="f3"><a href='javascript:void(0)' onclick="javascript:changeTab(3)">热门培训</a></div>
 		</div>
-		<div class="bg">
+		<div class="bg" id="topCourse" style='height:750px;'>
 			<div class="item first">
 				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
 				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
@@ -687,7 +700,7 @@
 			</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
+						<ul class="list4" id="a1">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
