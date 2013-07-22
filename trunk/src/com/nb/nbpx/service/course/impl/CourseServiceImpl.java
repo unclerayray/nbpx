@@ -306,6 +306,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	public ICourseKeywordDao getCourseKeywordDao() {
 		return courseKeywordDao;
+	}
 	public IDictionaryDao getDictionaryDao() {
 		return dictionaryDao;
 	}
@@ -315,12 +316,6 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		this.dictionaryDao = dictionaryDao;
 	}
 
-	@Override
-	public String queryCourseInfo(String courseInfoId) {
-		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseInfoId);
-		String json = JsonUtil.formatListToJson(list);
-		return json;
-	}
 
 	@Resource
 	public void setCourseKeywordDao(ICourseKeywordDao courseKeywordDao) {
