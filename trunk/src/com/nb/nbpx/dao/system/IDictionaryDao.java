@@ -16,6 +16,12 @@ public interface IDictionaryDao extends IBaseDao<Dictionary, Integer> {
 	public Long queryDicTypesCount();
 	public void addDic(Dictionary dictionary);
 	public void deleteDic(Dictionary dictionary);
+	/**
+	 * 通过字典值或字典码获取字典
+	 * @param codeName
+	 * @param showName
+	 * @return
+	 */
 	public Dictionary getDictionary(String codeName,String showName);
 	/**
 	 * 检查重复字典项
