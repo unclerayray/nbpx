@@ -20,7 +20,6 @@ public class CompInfoServiceImpl extends BaseServiceImpl implements ICompInfoSer
 
 	@Override
 	public String getCompInfoByUserId(Integer userId) {
-		// TODO Auto-generated method stub
 		List<CompInfo> compInfoList = compInfoDao.getCompInforByUserId(userId);
 		String json = "";
 		
@@ -36,7 +35,6 @@ public class CompInfoServiceImpl extends BaseServiceImpl implements ICompInfoSer
 	
 	@Override
 	public String saveCompInfor(CompInfo compInfor) {
-		// TODO Auto-generated method stub
 		String json = "";
 		Boolean result = this.compInfoDao.saveCompInfor(compInfor);
 		if(result)

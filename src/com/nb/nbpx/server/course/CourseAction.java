@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.server.BaseAction;
@@ -40,6 +41,7 @@ public class CourseAction extends BaseAction {
 	public Course course;
 	public String selected_courseId;
 	public CourseInfo courseInfo;
+	public CourseAllInfoDto courseAllInfo;
 
 	public String fullImport() {
 		try {
@@ -95,7 +97,7 @@ public class CourseAction extends BaseAction {
 
 	public String saveCourse() {
 		try {
-			course = courseService.saveCourse(course);
+			course = courseService.saveCourse(courseAllInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -112,7 +114,7 @@ public class CourseAction extends BaseAction {
 
 	public String deleteCourse() {
 		try {
-			courseService.deleteCourse(course);
+			courseService.deleteCourse(courseAllInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -261,5 +263,13 @@ public class CourseAction extends BaseAction {
 
 	public void setCourseInfo(CourseInfo courseInfo) {
 		this.courseInfo = courseInfo;
+	}
+
+	public CourseAllInfoDto getCourseAllInfo() {
+		return courseAllInfo;
+	}
+
+	public void setCourseAllInfo(CourseAllInfoDto courseAllInfo) {
+		this.courseAllInfo = courseAllInfo;
 	}
 }

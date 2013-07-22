@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.BaseEntity;
 
 /**
@@ -69,6 +70,23 @@ public class Course extends BaseEntity  implements Serializable {
 		this.classic = classic;
 	}
 	
+	public Course(CourseAllInfoDto courseDto) {
+		super();
+		this.courseId = courseDto.courseId;
+		this.title = courseDto.title;
+		this.courseCode = courseDto.courseCode;
+		this.teacherId = courseDto.teacherId;
+		this.isInner = courseDto.isInner;
+		this.teacherName = courseDto.teacherName;
+		this.category = courseDto.category;
+		this.categoryName = courseDto.categoryName;
+		this.state = courseDto.state;
+		this.hits = courseDto.hits;
+		this.price = courseDto.price;
+		this.recommanded = courseDto.recommanded;
+		this.classic = courseDto.classic;
+	}
+	
 	
 	public Course(Integer courseId, String title, String courseCode,
 			String teacherId, String teacherName, String category,
@@ -87,6 +105,40 @@ public class Course extends BaseEntity  implements Serializable {
 		this.recommanded = recommanded;
 		this.classic = classic;
 	}
+	
+	
+	
+	
+	public Course(Integer courseId, String title, Double price,
+			String courseCode, String teacherId, String teacherName,
+			String category, String content, String blockedContent,
+			Boolean isInner, Boolean state, String videoUrl, Integer hits,
+			Integer createdBy, Integer lastUpdatedBy, String creationDate,
+			String lastUpdateDate, String categoryName, Boolean recommanded,
+			Boolean classic) {
+		super();
+		this.courseId = courseId;
+		this.title = title;
+		this.price = price;
+		this.courseCode = courseCode;
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
+		this.category = category;
+		this.content = content;
+		this.blockedContent = blockedContent;
+		this.isInner = isInner;
+		this.state = state;
+		this.videoUrl = videoUrl;
+		this.hits = hits;
+		this.createdBy = createdBy;
+		this.lastUpdatedBy = lastUpdatedBy;
+		this.creationDate = creationDate;
+		this.lastUpdateDate = lastUpdateDate;
+		this.categoryName = categoryName;
+		this.recommanded = recommanded;
+		this.classic = classic;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "courseId", unique = true, nullable = false)

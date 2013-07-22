@@ -29,7 +29,6 @@ public class EncodingInterceptor extends AbstractInterceptor {
  
  @Override
  public String intercept(ActionInvocation arg0) throws Exception {
-  // TODO Auto-generated method stub
   
    ActionContext actionContext = arg0.getInvocationContext();   
    HttpServletRequest request= (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST); 
@@ -47,7 +46,6 @@ public class EncodingInterceptor extends AbstractInterceptor {
       try {
        request.setCharacterEncoding("UTF-8");
       } catch (UnsupportedEncodingException e) {
-       // TODO Auto-generated catch block
        e.printStackTrace();
       }
      }else{

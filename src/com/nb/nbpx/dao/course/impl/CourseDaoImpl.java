@@ -4,14 +4,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dao.course.ICourseDao;
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.system.Dictionary;
@@ -20,6 +24,16 @@ import com.nb.nbpx.pojo.user.TeacherInfo;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		ICourseDao {
+	private JdbcTemplate jdbcTemplate;
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	@Resource
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public List<Course> queryCourses(final String category, final String courseCode,
@@ -289,6 +303,57 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					}
 				});
 		return list;
+		
+	}
+
+	@Override
+	public void deleteAllCourseInfo(Integer courseId) {
+		String sql1 = "delete from courseinfo where courseId =" + courseId;
+		String sql2 = "delete from coursekeywords where courseId =" + courseId;
+		String sql3 = "delete from coursemajor where courseId =" + courseId;
+		String sql4 = "delete from coursetarget where courseId =" + courseId;
+		String sql5 = "delete from courseindustry where courseId =" + courseId;
+		String[] sqlArr = {sql1,sql2,sql3,sql4,sql5};
+		jdbcTemplate.batchUpdate(sqlArr);
+	}
+
+	@Override
+	public void addAllCourseInfo(CourseAllInfoDto courseDto) {
+		Integer courseId = courseDto.getCourseId();
+		List<String> list = new ArrayList<String>();
+		String[] courseKeywords = courseDto.getKeywords().split(",");
+		String[] courseMajors = courseDto.getMajor().split(",");
+		String[] courseTargets = courseDto.getTargets().split(",");
+		String[] courseIndustry = courseDto.getIndustry().split(",");
+		for(String str:courseKeywords){
+			StringBuffer sql = new StringBuffer("insert into coursekeywords (courseId,keyword) values ");
+			// 在这里保存keyword实体
+			sql.append("(").append(courseId).append(",").append(str).append(");");
+			list.add(sql.toString());
+		}
+		
+		for(String str:courseMajors){
+			StringBuffer sql = new StringBuffer("insert into coursemajor (courseId,major) values ");
+			sql.append("(").append(courseId).append(",").append(str).append(");");
+			list.add(sql.toString());
+		}
+		
+		for(String str:courseTargets){
+			StringBuffer sql = new StringBuffer("insert into coursetargets (courseId,target) values ");
+			sql.append("(").append(courseId).append(",").append(str).append(");");
+			list.add(sql.toString());
+		}
+		
+		for(String str:courseIndustry){
+			StringBuffer sql = new StringBuffer("insert into coursemajor (courseId,indutry) values ");
+			sql.append("(").append(courseId).append(",").append(str).append(");");
+			list.add(sql.toString());
+		}
+		
+		//TODO  insert new generated keywords by Roger
+		
+		String[] sqlArr = list.toArray(new String[list.size()]);
+		jdbcTemplate.batchUpdate(sqlArr);
 		
 	}
 

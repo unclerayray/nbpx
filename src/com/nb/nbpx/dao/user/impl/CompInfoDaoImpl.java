@@ -18,7 +18,6 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer>  implements 
 
 	@Override
 	public Boolean saveCompInfor(final CompInfo compInfor) {
-		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
 		Boolean result = getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)
@@ -33,7 +32,6 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer>  implements 
 
 	@Override
 	public List<CompInfo> getCompInforByUserId(final Integer userId) {
-		// TODO Auto-generated method stub
 		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {

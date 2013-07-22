@@ -98,7 +98,7 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			<tr>
 				<td class="itemText"  colspan="4">
 					<div>
-						<label>课程关键字:</label> <input id="courseKeywords" name = "courseKeywords"
+						<label>课程关键字:</label> <input id="courseKeywords" name = "keywords"
 						data-options="required:true,multiple:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程关键字必填项'" style="width: 400px;">
 					</div>
 				</td>
@@ -152,37 +152,34 @@ closed="true" modal="true" buttons="#dlg-buttons">
 					</tr>
 					<tr>
 						<td  class="itemText">
-							<label>课程对象:</label> <input name="courseTarget" id="courseTarget"  class="easyui-combobox" data-options="  
-							url:'../struts/Dictionary_queryComboDics?p_dicType=010',  
+							<label>课程对象:</label> <input name="targets" id="courseTarget"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=010',   
 							valueField:'codeName',  
-							textField:'showName',  
+							textField:'showName',
 							panelHeight:'auto',
 							multiple:true,
 							editable:false"  
-							style="width: 135px;"
-							type="checkbox">
+							style="width: 135px;">
 						</td>
 						<td  class="itemText">
-							<label>课程专业:</label> <input name="courseMajor" id="courseMajor"  class="easyui-combobox" data-options="  
-							url:'../struts/Dictionary_queryComboDics?p_dicType=009',  
+							<label>课程专业:</label> <input name="major" id="courseMajor"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=009',   
 							valueField:'codeName',  
-							textField:'showName',  
+							textField:'showName',
 							panelHeight:'auto',
 							multiple:true,
 							editable:false"
-							style="width: 130px;"
-							type="checkbox">
+							style="width: 130px;">
 						</td>
 						<td  class="itemText">
-							<label>课程行业:</label> <input name="courseIndustry" id="courseIndustry"  class="easyui-combobox" data-options="  
-							url:'../struts/Dictionary_queryComboDics?p_dicType=008',  
+							<label>课程行业:</label> <input name="industry" id="courseIndustry"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=008',   
 							valueField:'codeName',  
-							textField:'showName',  
+							textField:'showName',
 							panelHeight:'auto',
 							multiple:true,
 							editable:false "
-							style="width: 160px;"
-							type="checkbox">
+							style="width: 160px;">
 						</td>
 					</tr>
 					<tr>
@@ -322,6 +319,7 @@ function clearTollBar() {
 }
 function queryCourse() {
 			//alert("ahhahhahahah  " + $('#category').combobox('getValue'));
+			//TODO 模糊查询
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
 				courseCode : $('#courseCode').combobox('getValue')
@@ -339,6 +337,24 @@ function queryCourse() {
 			//alert("row.state: "+row.state)
 			if (row) {
 				$('#fm').form({
+					onBeforeLoad : function(param) {
+						$('#courseTarget').combobox({
+							url:'../struts/Dictionary_queryComboDics?p_dicType=010',  
+							valueField:'codeName',  
+							textField:'showName'
+						}); 
+						$('#courseMajor').combobox({
+							url:'../struts/Dictionary_queryComboDics?p_dicType=009',  
+							valueField:'codeName',  
+							textField:'showName'
+						}); 
+						$('#courseIndustry').combobox({
+							url:'../struts/Dictionary_queryComboDics?p_dicType=008',  
+							valueField:'codeName',  
+							textField:'showName'
+						}); 
+						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
+					},
 					onLoadSuccess : function(data) {
 						createCkeditor();
 						//alert(data.state);
@@ -347,20 +363,23 @@ function queryCourse() {
 						else
 							$('#state').attr('checked', false);
 						$('#courseKeywords').combobox({
+							url:'../struts/Solr_cutText?textToCut='+data.title,  
 							valueField:'keywordId',  
 							textField:'keyword',
-							url:'../struts/Course_queryKeywords?courseId='+row.courseId
+							onBeforeLoad: function(param){
+								return $('#courseTitle').validatebox('validate');;
+							}
 						}); 
+						$('#courseKeywords').combobox('setValues',data.keywords.split(','));
+						$('#courseTarget').combobox('setValues',data.targets.split(','));
+						$('#courseMajor').combobox('setValues',data.major.split(',')); 
+						$('#courseIndustry').combobox('setValues',data.industry.split(',')); 
+
+
 						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
 					}
 				});
-
-				$('#fm').form(
-					'load',
-					'../struts/Course_queryCourseById?courseId='
-					+ row.courseId);
-
-				$('#courseKeywords').combobox('reload','../struts/Course_queryKeywords?courseId='+row.courseId);
+				$('#fm').form('load','../struts/Course_queryCourseById?courseId='+ row.courseId);
 			} else {
 				$.messager.show({
 					title : '温馨提示',
@@ -373,8 +392,9 @@ function queryCourse() {
 		function saveCourse(close_dlg) {
 			var data = CKEDITOR.instances.content.getData();
 			$('#fm').form('submit', {
-				url : '../struts/Course_saveCourse?objectName=course',
-				onSubmit : function() {
+				url : '../struts/Course_saveCourse?objectName=courseAllInfo',
+				onSubmit : function() {					
+						alert('keywords we got = ' + $('#courseKeywords').combobox('getValues'));
 					return $('#fm').form('validate');
 				},
 				success : function(data) {
@@ -449,6 +469,7 @@ function queryCourse() {
 		}
 
 		function createCkeditor() {
+			
 			var config = {
 				uiColor : '#A0CFEC',
 				language : 'zh-cn'
@@ -459,12 +480,12 @@ function queryCourse() {
 			}
 			CKEDITOR.replace('content', config);
 		}
-		
+
 		function addTeacher() {
 			$('#teacherFm').form('clear');		
 			$('#editTeacher').dialog('open');
 		}
-		
+
 		function saveTeacher() {
 			$('#teacherFm').form('submit',{  
 				url: '../struts/TeacherInfo_saveTeacherInfor?objectName=teacherInfor',  
@@ -647,11 +668,11 @@ function newCourseInfo(){
 		}
 
 		function cutupTitle(){
-			var textToCut = encodeURIComponent($('#courseTitle').val());
-			var textToCutdd = $('#courseTitle').val();
+			//var textToCut = encodeURIComponent($('#courseTitle').val());
+			var textToCut = $('#courseTitle').val();
 			alert('courseTitle = ' + textToCut);
 			$('#courseKeywords').combobox({
-				url:'../struts/Solr_cutText?textToCut='+textToCutdd,  
+				url:'../struts/Solr_cutText?textToCut='+textToCut,
 				valueField:'keywordId',  
 				textField:'keyword',
 				onBeforeLoad: function(param){

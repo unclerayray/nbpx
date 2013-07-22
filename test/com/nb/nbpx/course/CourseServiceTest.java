@@ -9,13 +9,17 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nb.nbpx.BaseServiceTest;
 import com.nb.nbpx.dao.course.ICourseDao;
+import com.nb.nbpx.dao.keyword.IKeywordDao;
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.utils.NbpxException;
 /**
@@ -33,6 +37,8 @@ public class CourseServiceTest  extends BaseServiceTest{
 	private ICourseService courseService;
 	@Resource
 	private ICourseDao courseDao;
+	@Resource
+	private IKeywordDao keywordDao;
 	
 	/**
 	 * 测试保存后怎么获取ID
@@ -44,10 +50,11 @@ public class CourseServiceTest  extends BaseServiceTest{
 		Course course = new Course(null, "hahah", "hdfdfahah",
 				"hahah", "hahah", "hahah",
 				"hahah",true, 2, 3.23,true,true);
+		CourseAllInfoDto dto = new CourseAllInfoDto(course);
 		
 		try {
-			courseService.saveCourse(course);
-			System.out.println("-------------courseId = "+course.getCourseId());
+			course = courseService.saveCourse(dto);
+			System.out.println("-------------courseId = "+dto.getCourseId());
 			Assert.assertNotNull(course.getCourseId());
 		} catch (NbpxException e) {
 			e.printStackTrace();
@@ -70,5 +77,22 @@ public class CourseServiceTest  extends BaseServiceTest{
 		String sss = StringUtils.join(list, ",");
 		System.out.println("sss = "+ sss);
 		Assert.assertNotNull(sss);
+	}
+	
+	/**
+	 * 测试违反唯一索引限制后会不会返回主键，结论是不会
+	 */
+	@Test
+	@Transactional
+	public void testDumplicateKeyword(){
+		Keyword keyword = new Keyword(null, "国家", true, null,
+				null, null);
+		try {
+			keywordDao.save(keyword);
+		} catch (DataIntegrityViolationException e) {
+			e.printStackTrace();
+		}
+		System.out.println(keyword.getKeyId());
+		Assert.assertNotNull(keyword.getKeyId());
 	}
 }
