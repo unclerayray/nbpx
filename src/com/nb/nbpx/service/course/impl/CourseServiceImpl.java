@@ -16,12 +16,14 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.ICourseDao;
 import com.nb.nbpx.dao.course.ICourseInfoDao;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
+import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.course.CourseKeyword;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
@@ -38,8 +40,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	private ITeacherInfoDao teacherDao;
 	private ICourseInfoDao courseInfoDao;
 	private ICourseKeywordDao courseKeywordDao;
- 	private IDictionaryDao dictionaryDao;
- 	
+	private IDictionaryDao dictionaryDao;
+	private IKeywordDao keywordDao;
+
 	// private ICourseKeywordDao courseKeywordDao;
 	// private ICourseKeywordDao courseKeywordDao;
 
@@ -83,23 +86,27 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		String targets = "";
 		String industries = "";
 		String majors = "";
-		
-		String keywordsHql = "select keyword from com.nb.nbpx.pojo.course.CourseKeyword where courseId = " + courseId;
+
+		String keywordsHql = "select keyword from com.nb.nbpx.pojo.course.CourseKeyword where courseId = "
+				+ courseId;
 		List keywordsList = courseDao.find(keywordsHql);
 		keywords = StringUtils.join(keywordsList, "，");
-		
-		String targetsHql = "select targetCode from com.nb.nbpx.pojo.course.CourseTarget where courseId = " + courseId;
+
+		String targetsHql = "select targetCode from com.nb.nbpx.pojo.course.CourseTarget where courseId = "
+				+ courseId;
 		List targetsList = courseDao.find(targetsHql);
 		targets = StringUtils.join(targetsList, ",");
-		
-		String industriesHql = "select industryCode from com.nb.nbpx.pojo.course.CourseIndustry where courseId = " + courseId;
+
+		String industriesHql = "select industryCode from com.nb.nbpx.pojo.course.CourseIndustry where courseId = "
+				+ courseId;
 		List industriesList = courseDao.find(industriesHql);
 		industries = StringUtils.join(industriesList, ",");
-		
-		String majorsHql = "select majorCode from com.nb.nbpx.pojo.course.CourseMajor where courseId = " + courseId;
+
+		String majorsHql = "select majorCode from com.nb.nbpx.pojo.course.CourseMajor where courseId = "
+				+ courseId;
 		List majorsList = courseDao.find(majorsHql);
 		majors = StringUtils.join(majorsList, ",");
-		
+
 		CourseAllInfoDto cdto = new CourseAllInfoDto(course);
 		cdto.setKeywords(keywords);
 		cdto.setTargets(targets);
@@ -117,7 +124,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public Course saveCourse(CourseAllInfoDto courseDto) throws NbpxException {
+	public Course saveCourse(Course course) throws Exception {
 		/*
 		 * 2013年7月19日 在课程修改和增加的地方添加了增加教师的功能 if (course.getTeacherId() != null &&
 		 * !course.getTeacherId().isEmpty()) { Integer id = null; try { id =
@@ -131,24 +138,85 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		 * course.setTeacherName(course.getTeacherId());
 		 * course.setTeacherId(null); } } }
 		 */
-		Course course = new Course(courseDto);
 		if (course.getCourseId() == null) {
 			if (courseDao.checkDuplicateProp(course)) {
 				throw new NbpxException("已存在此课程编号");
 			}
+			// 新增课程
 			courseDao.save(course);
-			courseDto.setCourseId(course.getCourseId());
 		} else {
+			// 修改课程内容
 			courseDao.saveOrUpdate(course);
 		}
 		return course;
 	}
+	
+
+	@Override
+	public void saveOtherCourseInfo(CourseAllInfoDto courseDto,Boolean deleteBeforeInsert) {
+		Map<Integer, String> keywordMap = new HashMap<Integer, String>();
+		Map<String, String> industryMap = new HashMap<String, String>();
+		Map<String, String> tagetMap = new HashMap<String, String>();
+		Map<String, String> majorMap = new HashMap<String, String>();
+
+		String[] courseKeywords = null;
+		String[] courseMajors = null;
+		String[] courseTargets = null;
+		String[] courseIndustry = null;
+		if (courseDto.getKeywords() != null) {
+			String keywordsStr = courseDto.getKeywords().replaceAll("，",
+					",");
+			courseKeywords = keywordsStr.split(",");
+		}
+		if (courseDto.getMajor() != null) {
+			courseMajors = courseDto.getMajor().split(",");
+		}
+		if (courseDto.getTargets() != null) {
+			courseTargets = courseDto.getTargets().split(",");
+		}
+		if (courseDto.getIndustry() != null) {
+			courseIndustry = courseDto.getIndustry().split(",");
+		}
+		for (int i = 0; courseKeywords != null && i < courseKeywords.length; i++) {
+			String keywordStr = StringUtils.trim(courseKeywords[i]);
+			Keyword keyword = new Keyword();
+			keyword.setKeyword(keywordStr);
+			keyword = keywordDao.saveOrGetExistsKeyword(keyword);
+			keywordMap.put(keyword.getKeyId(), keyword.getKeyword());
+		}
+
+		for (int i = 0; courseMajors != null && i < courseMajors.length; i++) {
+			String majorCode = StringUtils.trim(courseMajors[i]);
+			Dictionary dic = dictionaryDao.getDictionary(majorCode, null);
+			majorMap.put(dic.getCodeName(), dic.getShowName());
+		}
+
+		for (int i = 0; courseTargets != null && i < courseTargets.length; i++) {
+			String targetCode = StringUtils.trim(courseTargets[i]);
+			Dictionary dic = dictionaryDao.getDictionary(targetCode, null);
+			tagetMap.put(dic.getCodeName(), dic.getShowName());
+		}
+
+		for (int i = 0; courseIndustry != null && i < courseIndustry.length; i++) {
+			String industryCode = StringUtils.trim(courseIndustry[i]);
+			Dictionary dic = dictionaryDao
+					.getDictionary(industryCode, null);
+			industryMap.put(dic.getCodeName(), dic.getShowName());
+		}
+
+		if(deleteBeforeInsert){
+			courseDao.deleteAllOtherInfosCourse(courseDto.getCourseId());
+		}
+		
+		courseDao.addAllOtherCourseInfo(courseDto.getCourseId(), industryMap,
+				tagetMap, majorMap, keywordMap);
+	}
+
 
 	@Override
 	public void deleteCourse(Course course) throws NbpxException {
 		courseDao.delete(course);
-		courseDao.deleteAllCourseInfo(course.getCourseId());;
-		
+		courseDao.deleteAllOtherInfosCourse(course.getCourseId());
 	}
 
 	// 根据城市获取课程信息
@@ -168,8 +236,10 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				CourseInfo infoTemp = infos.get(j);
 				DateFormat format = new SimpleDateFormat("MM-dd");
 				DecimalFormat df = new DecimalFormat("0");
-				String startDate = format.format(infoTemp.getStartDate()); 
-				result +="<li><a href='#'>"+temp.getTitle()+"</a><div>"+startDate+"/<span class='money'>￥</span>"+df.format(temp.getPrice())+"</div></li>";
+				String startDate = format.format(infoTemp.getStartDate());
+				result += "<li><a href='#'>" + temp.getTitle() + "</a><div>"
+						+ startDate + "/<span class='money'>￥</span>"
+						+ df.format(temp.getPrice()) + "</div></li>";
 			}
 		}
 		return result;
@@ -218,77 +288,88 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		return courseDao;
 	}
 
-	//得到培训的课程
-	public String getNXCourse(String type,int flag){
+	// 得到培训的课程
+	public String getNXCourse(String type, int flag) {
 		List<Course> courseList = null;
-		if(flag ==1)//推荐
-			courseList = this.courseDao.getLastedCourse(false, type, true, false, 10, 0);
-		if(flag == 2)
-			courseList = this.courseDao.getLastedCourse(false, type, false, true, 10, 0);
-		if(flag == 3)
+		if (flag == 1)// 推荐
+			courseList = this.courseDao.getLastedCourse(false, type, true,
+					false, 10, 0);
+		if (flag == 2)
+			courseList = this.courseDao.getLastedCourse(false, type, false,
+					true, 10, 0);
+		if (flag == 3)
 			courseList = this.courseDao.getHotCourse(false, type, 10, 0);
-		if(courseList == null)
+		if (courseList == null)
 			return "暂无课程信息";
 		StringBuffer result = new StringBuffer("");
-		for(int i=0;i<courseList.size();i++){
+		for (int i = 0; i < courseList.size(); i++) {
 			Course temp = courseList.get(i);
-			if(temp == null)
+			if (temp == null)
 				continue;
-			result.append("<li><a href='#'>"+temp.getTitle()+"</a></li>");
+			result.append("<li><a href='#'>" + temp.getTitle() + "</a></li>");
 		}
-		
+
 		return result.toString();
 	}
-	
-	//获取首页推荐的 flag=1表示推荐，flag=2表示精品课程，flag=3表示热门课程
-	public String getTopCourse(int flag,Boolean isInner){
+
+	// 获取首页推荐的 flag=1表示推荐，flag=2表示精品课程，flag=3表示热门课程
+	public String getTopCourse(int flag, Boolean isInner) {
 		List<Course> courseList = null;
-		if(flag == 1)//推荐
-			courseList = this.courseDao.getLastedCourse(isInner,"", true, false, 30, 0);
-		if(flag == 2)//精品课程
-			courseList = this.courseDao.getLastedCourse(isInner,"", false, true, 30, 0);
-		if(flag == 3)//热门，按照点击顺序
+		if (flag == 1)// 推荐
+			courseList = this.courseDao.getLastedCourse(isInner, "", true,
+					false, 30, 0);
+		if (flag == 2)// 精品课程
+			courseList = this.courseDao.getLastedCourse(isInner, "", false,
+					true, 30, 0);
+		if (flag == 3)// 热门，按照点击顺序
 			courseList = this.courseDao.getHotCourse(isInner, "", 30, 0);
-		
-		if(courseList == null)
+
+		if (courseList == null)
 			return "暂无课程信息";
 		StringBuffer result = new StringBuffer("");
 		int count = 0;
-		for(int i=0;i<courseList.size();i++){
+		for (int i = 0; i < courseList.size(); i++) {
 			Course temp = courseList.get(i);
-			if(temp == null)
-				 continue;
-			TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer.parseInt(temp.getTeacherId()));
-			String teacherName = "未知";
-			if(teacher != null)
-				teacherName = teacher.getRealName();
-			
-			List<CourseInfo> courseInfos = courseDao.getCourseInfoByCity("", temp.getCourseId(), 1);
-			if(courseInfos == null)
+			if (temp == null)
 				continue;
-			for(int j=0;j<courseInfos.size();j++){
+			TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer
+					.parseInt(temp.getTeacherId()));
+			String teacherName = "未知";
+			if (teacher != null)
+				teacherName = teacher.getRealName();
+
+			List<CourseInfo> courseInfos = courseDao.getCourseInfoByCity("",
+					temp.getCourseId(), 1);
+			if (courseInfos == null)
+				continue;
+			for (int j = 0; j < courseInfos.size(); j++) {
 				CourseInfo courseInfo = courseInfos.get(j);
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				Dictionary cityD = dictionaryDao.getDictionary(courseInfo.getCity(), "");
+				Dictionary cityD = dictionaryDao.getDictionary(
+						courseInfo.getCity(), "");
 				String cityName = "未知";
-				if(cityD != null)
+				if (cityD != null)
 					cityName = cityD.getShowName();
-				if(count == 0)
+				if (count == 0)
 					result.append("<div class='item first'>");
 				else
 					result.append("<div class='item'>");
-				result.append("<div class='title'><a href='#'>"+temp.getTitle()+"</a></div>"+
-							  "<div class='infor'><span class='teacher'>["+teacherName+"]</span><span class='date'>"+format.format(courseInfo.getStartDate())+"</span><span class='city'>"+cityName+"</span></div>"+
-							  "</div>");
-				count ++;
+				result.append("<div class='title'><a href='#'>"
+						+ temp.getTitle() + "</a></div>"
+						+ "<div class='infor'><span class='teacher'>["
+						+ teacherName + "]</span><span class='date'>"
+						+ format.format(courseInfo.getStartDate())
+						+ "</span><span class='city'>" + cityName
+						+ "</span></div>" + "</div>");
+				count++;
 			}
-			
+
 		}
 
 		return result.toString();
 
 	}
-	
+
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}
@@ -310,19 +391,28 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	public ICourseKeywordDao getCourseKeywordDao() {
 		return courseKeywordDao;
 	}
+
 	public IDictionaryDao getDictionaryDao() {
 		return dictionaryDao;
 	}
-	
+
 	@Resource
 	public void setDictionaryDao(IDictionaryDao dictionaryDao) {
 		this.dictionaryDao = dictionaryDao;
 	}
 
-
 	@Resource
 	public void setCourseKeywordDao(ICourseKeywordDao courseKeywordDao) {
 		this.courseKeywordDao = courseKeywordDao;
+	}
+
+	public IKeywordDao getKeywordDao() {
+		return keywordDao;
+	}
+
+	@Resource
+	public void setKeywordDao(IKeywordDao keywordDao) {
+		this.keywordDao = keywordDao;
 	}
 
 }

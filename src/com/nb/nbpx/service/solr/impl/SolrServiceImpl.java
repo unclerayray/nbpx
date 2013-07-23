@@ -6,6 +6,7 @@ package com.nb.nbpx.service.solr.impl;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -33,6 +34,7 @@ import com.nb.nbpx.utils.NbpxException;
  * @date 2013-6-15
  */
 @Component("SolrService")
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 	private ICourseKeywordDao courseKeywordDao;
@@ -71,6 +73,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 	}
 
+	
 	@Override
 	public String cutText(String text) throws IOException {
 		//List<CourseKeyword> list = new ArrayList<CourseKeyword>();
@@ -83,7 +86,10 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		while((word=mmSeg.next())!=null) {
 			String w = word.getString();
 			list.add(w);
-			//TODO 去重
+			HashSet hs = new HashSet();
+			hs.addAll(list);
+			list.clear();
+			list.addAll(hs);
 		}
 		String json = StringUtils.join(list, "，");
 		return json;

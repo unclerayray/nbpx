@@ -352,7 +352,6 @@ modal="true" buttons="#dlg_addInfo-buttons">
 							valueField:'codeName',  
 							textField:'showName'
 						}); 
-						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
 					},
 					onLoadSuccess : function(data) {
 						createCkeditor();
@@ -681,7 +680,7 @@ function newCourseInfo(){
 			var textToCut = $('#courseTitle').val();
 			//alert('courseTitle = ' + textToCut);
 			if($('#courseTitle').validatebox('isValid')){
-				alert('textToCut to cut ' + $('#courseTitle').val());
+				//alert('textToCut to cut ' + $('#courseTitle').val());
 				$.ajax({
 					url:'../struts/Solr_cutText?textToCut='+textToCut,
 					success: function(data){

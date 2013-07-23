@@ -1,6 +1,7 @@
 package com.nb.nbpx.dao.course;
 
 import java.util.List;
+import java.util.Map;
 
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
@@ -19,9 +20,18 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	public List<Dictionary> queryCourseType();
 	public List<TeacherInfo> queryTeachers();
 	
-	public void deleteAllCourseInfo(Integer courseId);
 	
 	public void addAllCourseInfo(CourseAllInfoDto courseDto);
+	
+	/**
+	 * 一次性插入所有与课程相关的信息实体
+	 * @param courseId
+	 * @param industryMap
+	 * @param tagetMap
+	 * @param majorMap
+	 * @param keywordMap
+	 */
+	public void addAllOtherCourseInfo(Integer courseId,Map<String,String> industryMap,Map<String,String> tagetMap,Map<String,String> majorMap,Map<Integer,String> keywordMap);
 	/**
 	 * 验证CourseCode的唯一性，重复返回true
 	 * @param course
@@ -37,4 +47,10 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	public List<Course> getCourseByCity(final String city, final Integer rows, final Integer start);
 	//获取课程的信息
 	public List<CourseInfo> getCourseInfoByCity(final String city, final Integer courseId,final Integer flag);
+	
+	/**
+	 * 用于在保存的时候删除原有的课程下所有的行业、专业、对象、关键字等，把新的数据全部插入
+	 * @param courseId
+	 */
+	public void deleteAllOtherInfosCourse(Integer courseId);
 }

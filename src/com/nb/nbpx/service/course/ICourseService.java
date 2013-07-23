@@ -18,7 +18,8 @@ public interface ICourseService extends IBaseService {
 	public String queryComboCourseName(String category);
 	public String queryComboTeacher();
 	public String queryCourseById(Integer courseId);
-	public Course saveCourse(CourseAllInfoDto course) throws NbpxException ;
+	public Course saveCourse(Course course) throws Exception ;
+	public void saveOtherCourseInfo(CourseAllInfoDto courseDto, Boolean deleteBeforeInsert);
 	public void deleteCourse(Course course) throws NbpxException ;
 
 	public String getCoursesByCity(String city,Integer rows, Integer start);

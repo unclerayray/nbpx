@@ -97,7 +97,13 @@ public class CourseAction extends BaseAction {
 
 	public String saveCourse() {
 		try {
-			course = courseService.saveCourse(courseAllInfo);
+			Boolean deleteBeforeInsert=false;
+			if(courseAllInfo.getCourseId()!=null){
+				deleteBeforeInsert = true;
+			}
+			Course cou = courseService.saveCourse(courseAllInfo);
+			courseAllInfo.setCourseId(cou.getCourseId());
+			courseService.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
