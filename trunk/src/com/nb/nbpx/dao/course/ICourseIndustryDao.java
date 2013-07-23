@@ -14,4 +14,10 @@ public interface ICourseIndustryDao extends IBaseDao<CourseIndustry, Integer>{
 	 * @return
 	 */
 	public CourseIndustry saveCourseIndustry(CourseIndustry courseIndustry);
+	
+	/**
+	 * 用于在保存的时候删除原有的课程下所有的行业，把新的数据全部插入
+	 * @param courseId
+	 */
+	public void deleteAllCourseIndustry(Integer courseId);
 }

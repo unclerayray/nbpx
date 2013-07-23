@@ -1,6 +1,13 @@
 package com.nb.nbpx.dao.course.impl;
 
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dao.course.ICourseIndustryDao;
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
@@ -8,6 +15,8 @@ import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.pojo.course.CourseIndustry;
 import com.nb.nbpx.pojo.system.Dictionary;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
+@Component("courseIndustryDao")
 public class CourseIndustryDaoImpl extends BaseDaoImpl<CourseIndustry, Integer> implements ICourseIndustryDao{
 
 	private IDictionaryDao dicDao;
@@ -29,6 +38,22 @@ public class CourseIndustryDaoImpl extends BaseDaoImpl<CourseIndustry, Integer> 
 	@Resource
 	public void setDicDao(IDictionaryDao dicDao) {
 		this.dicDao = dicDao;
+	}
+
+	@Override
+	public void deleteAllCourseIndustry(final Integer courseId) {
+		getHibernateTemplate().execute(new HibernateCallback(){
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				String sql = "delete from courseIndustry where courseId =" + courseId;
+				
+				session.createQuery(sql).executeUpdate(); 
+				return null;
+			}   
+			
+		});
 	}
 
 }

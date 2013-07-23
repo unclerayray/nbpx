@@ -20,7 +20,7 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 	@Override
 	public Keyword saveOrGetExistsKeyword(Keyword keyword) {
 
-		List list = find("from Keyword where keyword = " + keyword.getKeyword());
+		List list = find("from Keyword where keyword = '" + keyword.getKeyword()+"'");
 		if (list.isEmpty()) {
 			// 不存在重复
 			save(keyword);

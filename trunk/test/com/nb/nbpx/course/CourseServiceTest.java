@@ -21,7 +21,6 @@ import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.course.ICourseService;
-import com.nb.nbpx.utils.NbpxException;
 /**
  * Course模块的单元测试类
  * @author Roger
@@ -56,7 +55,7 @@ public class CourseServiceTest  extends BaseServiceTest{
 			course = courseService.saveCourse(dto);
 			System.out.println("-------------courseId = "+dto.getCourseId());
 			Assert.assertNotNull(course.getCourseId());
-		} catch (NbpxException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
