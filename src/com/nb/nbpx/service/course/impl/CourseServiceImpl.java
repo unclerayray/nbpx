@@ -84,9 +84,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		String industries = "";
 		String majors = "";
 		
-		String keywordsHql = "select keywordId from com.nb.nbpx.pojo.course.CourseKeyword where courseId = " + courseId;
+		String keywordsHql = "select keyword from com.nb.nbpx.pojo.course.CourseKeyword where courseId = " + courseId;
 		List keywordsList = courseDao.find(keywordsHql);
-		keywords = StringUtils.join(keywordsList, ",");
+		keywords = StringUtils.join(keywordsList, "，");
 		
 		String targetsHql = "select targetCode from com.nb.nbpx.pojo.course.CourseTarget where courseId = " + courseId;
 		List targetsList = courseDao.find(targetsHql);

@@ -1,5 +1,6 @@
 package com.nb.nbpx.utils.converter;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 import org.apache.struts2.util.StrutsTypeConverter;
@@ -30,8 +31,16 @@ public class CheckboxValueConverter  extends StrutsTypeConverter {
 
 	
 	@Override
-	public String convertToString(Map arg0, Object arg1) {
-		return arg1.toString();
+	public String convertToString(Map arg0, Object object) {
+		if(object instanceof Boolean){
+			Boolean bo = (Boolean)object;
+			if(bo){
+				return "on";
+			}else{
+				return "off";
+			}
+		}
+		return "";
 	}
 
 }

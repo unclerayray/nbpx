@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -23,11 +24,8 @@ import com.chenlb.mmseg4j.Seg;
 import com.chenlb.mmseg4j.Word;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
-import com.nb.nbpx.pojo.course.CourseKeyword;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrService;
-import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 
 /**
@@ -75,25 +73,19 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 	@Override
 	public String cutText(String text) throws IOException {
-		List<CourseKeyword> list = new ArrayList<CourseKeyword>();
+		//List<CourseKeyword> list = new ArrayList<CourseKeyword>();
 		Dictionary dic = Dictionary.getInstance();;
 		StringReader input = new StringReader(text);
 		Seg seg =  new ComplexSeg(dic);	//取得不同的分词具体算法
 		MMSeg mmSeg = new MMSeg(input, seg);
 		Word word = null;
+		List<String> list = new ArrayList<String>();
 		while((word=mmSeg.next())!=null) {
 			String w = word.getString();
-			CourseKeyword ckw = new CourseKeyword();
-//			Keyword keyword = new Keyword();
-//			keyword.setKeyword(w);
-//			keywordDao.save(keyword);
-			ckw.setKeyword(w);
-//			ckw.setKeywordId(keyword.getKeyId());
-			//courseKeywordDao.save(ckw);
-			//ckw.setKeyword(w);
-			list.add(ckw);
+			list.add(w);
+			//TODO 去重
 		}
-		String json = JsonUtil.formatListToJson(list);
+		String json = StringUtils.join(list, "，");
 		return json;
 	}
 
