@@ -12,4 +12,5 @@ import com.nb.nbpx.pojo.course.CourseInfo;
  */
 public interface ICourseInfoDao  extends IBaseDao<CourseInfo, Integer>{
 	public List<CourseInfo> queryCourseInfo(String courseInfoId);
+	public List<CourseInfo> queryCourseInfoByCourseId(String courseId);
 }

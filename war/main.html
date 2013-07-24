@@ -339,6 +339,16 @@
 <div class="clear"></div>
 <!--关键字 end-->
 <script>
+	$(function(){
+		//加载地区
+		loadCityCourse(1);
+		//加载企业培训
+		loadTop(1);
+		//加载内训课程
+		for(var i=1;i<=6;i++)
+			seePartTab('a',1,i);
+	})
+	
 	function changeCity(flag){
 		for(var i=1;i<=5;i++){
 			if(i == flag){
@@ -728,7 +738,7 @@
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
+						<ul class="list4" id="a2">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
@@ -754,7 +764,7 @@
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 15px;"/>
-					<ul class="list7" style="padding-top:10px">
+					<ul class="list7" style="padding-top:10px" >
 						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
 						<li  class="line"><a><span class="red">2</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
 						<li class="line"><a><span class="red">3</span><span class="text">企业内训</span><span class="count">89989</span></a><div class="clear"></div></li>
@@ -783,7 +793,7 @@
 				</div>
 				<div class="bg h245" >
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
+						<ul class="list4" id="a3">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
@@ -811,7 +821,7 @@
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
+						<ul class="list4" id="a4">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
@@ -866,7 +876,7 @@
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
+						<ul class="list4" id="a5">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
@@ -894,7 +904,7 @@
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
+						<ul class="list4" id="a6">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>

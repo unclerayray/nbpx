@@ -19,7 +19,7 @@ image{border:none}
 a{ text-decoration:none;}
 a:hover{color:red; text-decoration:underline}
 ul{padding:0px;margin:0px}
-
+.classNum{font-size:14px;text-align:right;border-bottom:1px solid #b2c4b6;line-height:14px;padding-left:50px;color:#666;padding-bottom:2px;color:#254633}
 
 .tabOn{float:left;padding:0px 10px;;height:29px;line-height:27px; font-size:14px; font-weight: bold; background:white; border-top:2px solid #34a150; border-left:1px solid #d0e2d4;border-right:1px solid #d0e2d4; color:#2D4545}
 .tabOn a{display:block;outline:none;color:#2D4545;text-decoration:none}
@@ -149,6 +149,7 @@ ul{padding:0px;margin:0px}
 .list4 li{ height:23px;line-height:23px;padding:0px;text-align:left;list-style-image:url(../images/zhli_icon.gif);width:340px}
 .list4 li span{float: right;color: #B8B8B8;font-size: 12px;}
 .list4 li a{color:#2D4545; text-decoration:none;font-size: 12px;}
+.list4 li a:hover{color:red;text-decoration:underline}
 .list4 li .right{padding-left:15px}
 /*.list4.gray li a{color:#45402d}
 .list4.blue li a{color:#2D4545}*/

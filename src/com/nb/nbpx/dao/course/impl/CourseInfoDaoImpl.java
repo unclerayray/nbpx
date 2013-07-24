@@ -51,5 +51,22 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 		});
 		return list;
 	}
+	
+	public List<CourseInfo> queryCourseInfoByCourseId(final String courseId){
+		List<CourseInfo> list = new ArrayList<CourseInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.CourseInfo(c.courseInfoId, c.courseId, c.startDate,"
+								+ "c.endDate, c.city,'') from CourseInfo c where c.courseId="+courseId);
+				Query query = session.createQuery(hql.toString());
 
+				return query.list();
+			}
+		});
+		return list;
+	}
 }

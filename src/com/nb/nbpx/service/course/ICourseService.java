@@ -21,10 +21,12 @@ public interface ICourseService extends IBaseService {
 	public Course saveCourse(Course course) throws Exception ;
 	public void saveOtherCourseInfo(CourseAllInfoDto courseDto, Boolean deleteBeforeInsert);
 	public void deleteCourse(Course course) throws NbpxException ;
-
+	//首页加载课程
 	public String getCoursesByCity(String city,Integer rows, Integer start);
 	public String getTopCourse(int flag,Boolean isInner);
 	public String getNXCourse(String type,int flag);
+	//查看课程内容
+	public String viewCourse(String courseId,String flag);
 	
 	public String queryCourseInfo(String courseInfoId);
 	public void saveCourseInfo(CourseInfo courseInfo);
