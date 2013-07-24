@@ -50,7 +50,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course"
-								+ " (c.courseId, c.title, c.courseCode, c.teacherId, "
+								+ " (c.courseId, c.title,c.isInner, c.courseCode, c.teacherId, "
 								+ "ti.realName, c.category, fd.showName,"
 								+ " c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
 								+ " where 1 = 1 ");
@@ -428,5 +428,16 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		
 		String[] sqlArr = list.toArray(new String[list.size()]);
 		jdbcTemplate.batchUpdate(sqlArr);
+	}
+
+	@Override
+	public Course updateCourse(Course course) {
+		String sql = "update Course SET title = ?,courseCode = ?,teacherId = ?  ,category = ?  ,isInner = ?  ,price = ?  ,content = ?  ,"
+				+ "blockedContent = ?  ,videoUrl = ? ,lastUpdateDate = ?  ,"
+				+ "recommanded = ? ,state = ? ,classic = ? WHERE courseId = ?";
+		Object[] values = {course.getTitle(),course.getCourseCode(),course.getTeacherId(),course.getCategory(),course.getIsInner(),course.getPrice(),course.getContent(),
+				course.getBlockedContent(),course.getVideoUrl(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
+		getHibernateTemplate().bulkUpdate(sql, values);
+		return null;
 	}
 }

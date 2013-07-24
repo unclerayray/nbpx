@@ -19,6 +19,7 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	public Long queryCourseCount(String category,String courseCode);
 	public List<Dictionary> queryCourseType();
 	public List<TeacherInfo> queryTeachers();
+	public Course updateCourse(Course course);
 	
 	
 	public void addAllCourseInfo(CourseAllInfoDto courseDto);
