@@ -241,7 +241,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					hql.append(" and c.recommanded = 1 ");
 				if (ifClassic)
 					hql.append(" and c.classic = 1 ");
-				hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by b.startDate desc");
+				hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by b.startDate asc");
 				// 取向后的有效的日期
 				// hql.append(" and c.courseId in (select b.courseId from CourseInfo b where TO_DAYS(NOW())-TO_DAYS(b.startDate)<0) order by c.courseId desc");
 				Query query = session.createQuery(hql.toString());
@@ -313,6 +313,31 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		});
 		return list;
 
+	}
+	
+	//根据课程ID获取课程信息
+	public Course getCourseById(final Integer courseId){
+		List<Course> result = new ArrayList<Course>();
+		result = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"+
+						"c.courseCode,c.teacherId,'',"+
+						"c.category, c.content,c.blockedContent,"+
+						"c.isInner,c.state, c.videoUrl,c.hits,"+
+						"c.createdBy,c.lastUpdatedBy,c.creationDate,"+
+						"c.lastUpdateDate,'',c.recommanded,"+
+						"c.classic) from Course c where  c.courseId ="+courseId);
+				Query query = session.createQuery(hql.toString());
+				return query.list();
+			}
+		});
+		if(result == null || result.size() == 0)
+			return null;
+		return (Course)result.get(0);
 	}
 
 	@Override

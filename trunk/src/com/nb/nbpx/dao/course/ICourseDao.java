@@ -48,7 +48,8 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	public List<Course> getCourseByCity(final String city, final Integer rows, final Integer start);
 	//获取课程的信息
 	public List<CourseInfo> getCourseInfoByCity(final String city, final Integer courseId,final Integer flag);
-	
+	//根据课程ID获取课程信息
+	public Course getCourseById(final Integer courseId);
 	/**
 	 * 用于在保存的时候删除原有的课程下所有的行业、专业、对象、关键字等，把新的数据全部插入
 	 * @param courseId

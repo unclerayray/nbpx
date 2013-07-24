@@ -41,7 +41,7 @@ public class MainAction extends BaseAction{
 		String result = courseService.getNXCourse(typeCode, Integer.parseInt(flag));
 		System.out.println(result);
 		this.inputStream = castToInputStream(result);
-	
+
 		return SUCCESS;
 	}
 	

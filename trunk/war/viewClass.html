@@ -3,9 +3,36 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" href="css/face.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+<script src="js/easyui/jquery-1.8.0.min.js"></script>
+<script src="js/easyui/jquery.easyui.min.js"></script>
+<script src="js/project.js"></script>
 <title>无标题文档</title>
 </head>
+<script>
+$(function(){
+	var id = GetArgsFromHref('id');
+	loadClass(id,3);//加载课程标题
+	loadClass(id,1);//加载课程属性
+	loadClass(id,2);//加载课程内容
+})
+function loadClass(id,flag){
+	$.ajax({
+		url:encodeURI('struts/ViewClass_ViewClass?flag='+flag+'&id='+id),
+		success: function(data){
+			if(flag == 1)
+				$('#courseInfo').html(data);
+			if(flag == 2)
+				$('#courseContent').html(data);
+			if(flag == 3)
+				$('#courseHead').html(data);
+		}		
+	})
+}
 
+
+</script>
 <body>
 <!--当前路径 start-->
 <div class="mainContent path">
@@ -26,11 +53,11 @@
 	
 	<!--左边部分课程信息 start-->
 	<div class="leftInPart">
-		<div class="classDetail">
-			<h1>成为卓越领导、构建高绩效团队</h1>
-			<div style="font-size:14px;text-align:right;border-bottom:1px solid #b2c4b6;line-height:14px;padding-left:50px;color:#666;padding-bottom:2px;color:#254633">课程编号：12345</div>
+		<div class="classDetail" >
+			<div id="courseHead"><h1>成为卓越领导、构建高绩效团队</h1>
+			<div class="classNum">课程编号：12345</div></div>
 			<div class="detail">
-			<div class="classLeftPart">
+			<div class="classLeftPart" id="courseInfo">
 			<div class="time"><span>举办时间：</span><a href="#">2013-5-10 至 2013-5-15</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">2013-6-10 至 2013-6-19</a></div>
 			<div class="time"><span>上课地点：</span><a href="#">广州</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">北京</a></div>
 			<div class="time"><span>课程费用：</span>2800元/位; 7980元/3位; 13300元/5位;(包含上课所有中午餐,茶水和培训教材)</div>
@@ -52,12 +79,14 @@
 				</div>
 			<div class="clear"></div>
 			</div>
+			<div class="clear"></div>
+			<div id="courseContent">
 			<div class="intro">推荐理由</div>
 			<p>
 				高绩效团队课程旨在帮助学员对照新、旧工作模式及其结果来看清自身的“行为短板”，激发学员主动改变的动机；理解、掌握“团队工作模式”的过程和行为要领，并结合自身的经验运用于实际工作中；了解在团队中实施“团队工作模式”的阻力与解决策略，使得他们愿意带领团队尝试改变。 
 			</p>
-			<div class="intro">课程背景</div>
-			<p>
+			<div class="intro">课程内容</div>
+			<p >
 目前中国已经成为全球电子制造业的中心,随着电子产品的高密化、环保化、低利润化、高质量要求,电子制造企业的生存越来越艰难,只有在保证产品功能的情况下提高产品质量、降低产品成本,才能在竞争激烈的市场中争得一席之地。对电子产品质量影响最大的莫过于工艺缺陷,是否有能力准确地定位、分析、解决电子制造工艺缺陷成为提高电子产品质量的关键,本课程总结讲师多年的工作经验和实例,并综合业界最新的成果拟制而成,是业内少见的系统讲解工艺缺陷分析诊断与解决方案的精品课程。</p>
 <div class="intro">课程特点</div>
 <p>
@@ -134,7 +163,8 @@
 <p>工学博士，曾任职华为技术有限公司，8年以上大型企业研发及生产实践经验。主持建立华为公司SMT工艺可靠性技术研究平台，参与建设华为公司SMT工艺平台四大规范体系，擅长电子产品可制造性设计DFM 、SMT工艺可靠性设计DFR等DFx设计平台的建立与应用，在电子产品可制造性设计、SMT组装工艺缺陷机理分析与解决、失效分析、工艺可靠性等领域有深入研究与丰富的实践应用经验。获省部级科技进步一等奖一次，包括在《CHINES SCIENCE BULLETINE》等国际一流刊物发表学术论文30多篇，包括《BGA空洞形成的机理及对焊点可靠性的影响》、《微型片式元件焊接过程立碑工艺缺陷的分析与解决》、《QFN器件组装工艺缺陷的分析与解决》、《CCGA器件的可靠性返修》等SMT专业技术文章多篇。</p><p>培训和咨询过的知名企业：艾默生网络能源、南京熊猫爱立信、深圳市高新技术行业协会、日立汽车部件、霍尼韦尔安防（中国）有限公司、西蒙克拉电子(苏州)、上海大唐移动、中兴通讯、Optel通讯、厦门华侨电子、海尔、美的集团、格力电器、创维集团、康佳集团、联想集团、比亚迪、同洲电子、同维电子、TCL、大族激光、迈瑞生物医疗、富士康、英业达、炬力、固高科技、飞通光电、 步步高、万利达、宇龙、好易通、科立讯、金立、海康威视公司、长沙威胜集团、佛山伊戈尔集团、航盛电子、嘉兆电子科技（珠海）、斯比泰电子、中达电子、苏州万旭光电、山东省东营科英激光电子、南京汉业电子实业有限公司、深圳安科讯、电子十所、西安东风仪表厂、中海油服、北京人民电器厂。 
 			</p>
 		</div>
-	
+	</div>
+	<div class="clear"></div>
 	<!--报名表 start-->
 	<div class="attend">
 		<h2>报名/咨询</h2>
