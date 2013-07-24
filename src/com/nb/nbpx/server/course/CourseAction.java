@@ -96,12 +96,13 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String saveCourse() {
+		Course cou = new Course(courseAllInfo);
 		try {
 			Boolean deleteBeforeInsert=false;
 			if(courseAllInfo.getCourseId()!=null){
 				deleteBeforeInsert = true;
 			}
-			Course cou = courseService.saveCourse(courseAllInfo);
+			cou = courseService.saveCourse(cou);
 			courseAllInfo.setCourseId(cou.getCourseId());
 			courseService.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 		} catch (Exception e) {
@@ -111,7 +112,7 @@ public class CourseAction extends BaseAction {
 			return "failure";
 		}
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("dlg_courseId", course.getCourseId().toString());
+		map.put("dlg_courseId", cou.getCourseId().toString());
 		this.inputStream = castToInputStream(JsonUtil
 				.formatToOpResJsonWithParam(ResponseStatus.SUCCESS,
 						ResponseStatus.SAVE_SUCCESS, map));
@@ -120,7 +121,7 @@ public class CourseAction extends BaseAction {
 
 	public String deleteCourse() {
 		try {
-			courseService.deleteCourse(courseAllInfo);
+			courseService.deleteCourse(course);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,

@@ -4,6 +4,7 @@
 package com.nb.nbpx.pojo.course;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,8 +43,8 @@ public class Course extends BaseEntity  implements Serializable {
 	public Integer hits;
 	public Integer createdBy;
 	public Integer lastUpdatedBy;
-	public String creationDate;
-	public String lastUpdateDate;
+	public Date creationDate;
+	public Date lastUpdateDate;
 	public String categoryName;
 	public Boolean recommanded;
 	public Boolean classic;
@@ -70,19 +71,61 @@ public class Course extends BaseEntity  implements Serializable {
 		this.classic = classic;
 	}
 	
+	
+	
+	
+	
+	public Course(Integer courseId, String title, Double price,
+			String courseCode, String teacherId, String teacherName,
+			String category, String content, Boolean isInner, Boolean state,
+			Integer hits) {
+		super();
+		this.courseId = courseId;
+		this.title = title;
+		this.price = price;
+		this.courseCode = courseCode;
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
+		this.category = category;
+		this.content = content;
+		this.isInner = isInner;
+		this.state = state;
+		this.hits = hits;
+	}
+
+	/**
+	 * 测试用的
+	 * @param courseId
+	 * @param title
+	 * @param content
+	 */
+	public Course(Integer courseId, String title, String content) {
+		super();
+		this.courseId = courseId;
+		this.title = title;
+		this.content = content;
+	}
+
 	public Course(CourseAllInfoDto courseDto) {
 		super();
 		this.courseId = courseDto.courseId;
 		this.title = courseDto.title;
+		this.price = courseDto.price;
 		this.courseCode = courseDto.courseCode;
 		this.teacherId = courseDto.teacherId;
-		this.isInner = courseDto.isInner;
 		this.teacherName = courseDto.teacherName;
 		this.category = courseDto.category;
-		this.categoryName = courseDto.categoryName;
+		this.content = courseDto.content;
+		this.blockedContent = courseDto.blockedContent;
+		this.isInner = courseDto.isInner;
 		this.state = courseDto.state;
+		this.videoUrl = courseDto.videoUrl;
 		this.hits = courseDto.hits;
-		this.price = courseDto.price;
+		this.createdBy = courseDto.createdBy;
+		this.lastUpdatedBy = courseDto.lastUpdatedBy;
+		this.creationDate = courseDto.creationDate;
+		this.lastUpdateDate = courseDto.lastUpdateDate;
+		this.categoryName = courseDto.categoryName;
 		this.recommanded = courseDto.recommanded;
 		this.classic = courseDto.classic;
 	}
@@ -109,12 +152,35 @@ public class Course extends BaseEntity  implements Serializable {
 	
 	
 	
+	/**
+	 * Full constructor
+	 * @param courseId
+	 * @param title
+	 * @param price
+	 * @param courseCode
+	 * @param teacherId
+	 * @param teacherName
+	 * @param category
+	 * @param content
+	 * @param blockedContent
+	 * @param isInner
+	 * @param state
+	 * @param videoUrl
+	 * @param hits
+	 * @param createdBy
+	 * @param lastUpdatedBy
+	 * @param creationDate
+	 * @param lastUpdateDate
+	 * @param categoryName
+	 * @param recommanded
+	 * @param classic
+	 */
 	public Course(Integer courseId, String title, Double price,
 			String courseCode, String teacherId, String teacherName,
 			String category, String content, String blockedContent,
 			Boolean isInner, Boolean state, String videoUrl, Integer hits,
-			Integer createdBy, Integer lastUpdatedBy, String creationDate,
-			String lastUpdateDate, String categoryName, Boolean recommanded,
+			Integer createdBy, Integer lastUpdatedBy, Date creationDate,
+			Date lastUpdateDate, String categoryName, Boolean recommanded,
 			Boolean classic) {
 		super();
 		this.courseId = courseId;
@@ -233,16 +299,16 @@ public class Course extends BaseEntity  implements Serializable {
 	public void setLastUpdatedBy(Integer lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
-	public String getCreationDate() {
+	public Date getCreationDate() {
 		return creationDate;
 	}
-	public void setCreationDate(String creationDate) {
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public String getLastUpdateDate() {
+	public Date getLastUpdateDate() {
 		return lastUpdateDate;
 	}
-	public void setLastUpdateDate(String lastUpdateDate) {
+	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 	public void setCategoryName(String categoryName) {

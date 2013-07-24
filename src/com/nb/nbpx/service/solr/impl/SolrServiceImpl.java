@@ -77,7 +77,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	@Override
 	public String cutText(String text) throws IOException {
 		//List<CourseKeyword> list = new ArrayList<CourseKeyword>();
-		Dictionary dic = Dictionary.getInstance();;
+		Dictionary dic = Dictionary.getInstance();
 		StringReader input = new StringReader(text);
 		Seg seg =  new ComplexSeg(dic);	//取得不同的分词具体算法
 		MMSeg mmSeg = new MMSeg(input, seg);
@@ -85,12 +85,14 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		List<String> list = new ArrayList<String>();
 		while((word=mmSeg.next())!=null) {
 			String w = word.getString();
-			list.add(w);
-			HashSet hs = new HashSet();
-			hs.addAll(list);
-			list.clear();
-			list.addAll(hs);
+			if(w.length()>1){
+				list.add(w);
+			}
 		}
+		HashSet hs = new HashSet();
+		hs.addAll(list);
+		list.clear();
+		list.addAll(hs);
 		String json = StringUtils.join(list, "，");
 		return json;
 	}

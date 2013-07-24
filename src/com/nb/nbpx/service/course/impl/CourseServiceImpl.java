@@ -3,6 +3,7 @@ package com.nb.nbpx.service.course.impl;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,10 +144,15 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				throw new NbpxException("已存在此课程编号");
 			}
 			// 新增课程
+			course.setCreationDate(new Date());
+			course.setHits(200);
+			course.setLastUpdateDate(new Date());
 			courseDao.save(course);
 		} else {
 			// 修改课程内容
-			courseDao.saveOrUpdate(course);
+			//courseDao.saveOrUpdate(course);
+			courseDao.updateCourse(course);
+			course.setLastUpdateDate(new Date());
 		}
 		return course;
 	}

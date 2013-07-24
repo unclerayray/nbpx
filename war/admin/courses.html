@@ -17,13 +17,14 @@
 </head>
 <body class="easyui-layout">
 	<div region="center" border="false" style='padding: 5px'></div>
-	<table id="dg" class="easyui-datagrid" pagination="true" onClickRow:
+	<table id="dg" class="easyui-datagrid" pagination="true" pageSize=20 onClickRow:
 	onClickRow loadMsg="正在加载，请稍候!"
-	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb'">
+	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
 	<thead>
 		<tr>
 			<th data-options="field:'courseId',width:80,hidden:true">主键</th>
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
+			<th data-options="field:'isInner',width:60,formatter:function(value,row){if(row.isInner) {return '内训';}else{return '公开课';}}">类别</th>
 			<th data-options="field:'title',width:320">标题</th>
 			<th data-options="field:'teacherName',width:120">讲师</th>
 			<th
@@ -39,11 +40,13 @@
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-		onclick="newCourse(false)">新增课程</a> <a href="#"
+		onclick="newCourse()">新增课程</a> <a href="#"
 		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-		onclick="editCourse(false)">修改课程</a> <a href="#"
+		onclick="editCourse(null)">修改课程</a> <a href="#"
 		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-		onclick="destroyCourse(false)">删除课程</a>
+		onclick="destroyCourse()">删除课程</a><a
+		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
+		iconCls="icon-dic" onclick="openInfoDlg1()">课程安排</a>
 	</div>
 	<div>
 		课程类型: <input class="easyui-combobox" name="category" id="category"
@@ -55,12 +58,12 @@
 		strict:true,
 		onSelect: function(rec){  
 		var url = '../struts/Course_queryComboCourseCode?category='+rec.codeName;  
-		$('#courseCode').combobox('clear');  
-		$('#courseCode').combobox('reload', url);  
+		$('#courseCodeFS').combobox('clear');  
+		$('#courseCodeFS').combobox('reload', url);  
 	}
 	">
 	课程代码： <input class="easyui-combobox" name="courseCode"
-	id="courseCode"
+	id="courseCodeFS"
 	data-options="   
 	url:'../struts/Course_queryComboCourseCode',
 	valueField:'courseCode',  
@@ -99,7 +102,7 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			<tr>
 				<td class="itemText"  colspan="4">
 					<div>
-						<label>课程关键字:</label> <input id="courseKeywords" name = "keywords"
+						<label>课程关键字:</label> <input class="easyui-validatebox" id="courseKeywords" name = "keywords"
 						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程关键字必填项'" style="width: 400px;">
 					</div>
 				</td>
@@ -107,7 +110,7 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			<tr>
 				<td class="itemText">
 					<div>
-						<label>课程编码:</label> <input class="easyui-combobox" id="courseCodeInForm" 
+						<label>课程编码:</label> <input id="courseCodeInForm"  class="easyui-validatebox"
 						name="courseCode"  data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',validType:'length[3,10]'" style="width: 130px;">
 					</div></td>
 					<td class="itemText">
@@ -222,9 +225,6 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			<div id="dlg-buttons">
 				<a
 				href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-dic" onclick="openInfoDlg()">课程安排</a>
-				<a
-				href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-dic" onclick="addTeacher()">增加讲师</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-ok" onclick="saveCourse(true)">保存</a> <a
@@ -287,10 +287,10 @@ modal="true" buttons="#dlg_addInfo-buttons">
 		<input id="sId_in_fm" name="courseId" type="hidden">
 	</div>
 	<div class="fitem">
-		<label>开始时间:</label> <input style="width: 130px;" id="startDate" name="startDate" type="text" class="easyui-datebox" data-options="formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}" required="required"></input>
+		<label>开始时间:</label> <input style="width: 130px;" id="startDate" name="startDate" type="text" class="easyui-datebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}"></input>
 	</div>
 	<div class="fitem">
-		<label>结束时间:</label> <input style="width: 130px;" id="endDate" name="endDate" type="text" class="easyui-datebox" data-options="formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}" required="required"></input>
+		<label>结束时间:</label> <input style="width: 130px;" id="endDate" name="endDate" type="text" class="easyui-datebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}" required="required"></input>
 	</div>
 	<div class="fitem">
 		<label>城市:</label> <select class="easyui-combobox"
@@ -300,7 +300,7 @@ modal="true" buttons="#dlg_addInfo-buttons">
 		valueField:'codeName',  
 		textField:'showName',  
 		panelHeight:'auto'  ,
-		editable:false
+		editable:false,required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'
 		">
 	</select>
 </div>
@@ -313,27 +313,31 @@ modal="true" buttons="#dlg_addInfo-buttons">
 	iconCls="icon-cancel" onclick="javascript:$('#dlg_addInfo').dialog('close')">取消</a>
 </div>
 <script type="text/javascript">
-	function clearTollBar() {
-		$('#tb').form('clear');
-	}
-	function queryCourse() {
+function clearTollBar() {
+	$('#tb').form('clear');
+}
+function queryCourse() {
 			//alert("ahhahhahahah  " + $('#category').combobox('getValue'));
 			//TODO 模糊查询
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
-				courseCode : $('#courseCode').combobox('getValue')
+				courseCode : $('#courseCodeFS').combobox('getValue')
 			});
 		}
-		function newCourse(attr) {
+		function newCourse() {
 			$('#dlg').dialog('open').dialog('setTitle', '新建课程');
 			$('#fm').form('clear');
 			createCkeditor();
 			CKEDITOR.instances.content.setData('');
 			$('#state').attr('checked', 'checked');
 		}
-		function editCourse() {
-			var row = $('#dg').datagrid('getSelected');
-			//alert("row.state: "+row.state)
+		function editCourse(rowData) {
+			var row;
+			if(rowData){
+				row = rowData;
+			}else{
+				row = $('#dg').datagrid('getSelected');
+			}
 			if (row) {
 				$('#fm').form({
 					onBeforeLoad : function(param) {
@@ -407,6 +411,7 @@ function saveCourse(close_dlg) {
 		},
 		success : function(data) {
 					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					//alert('data = ' + data);
 					if (data.success) {
 						$.messager.show({
 							title : 'Success',
@@ -527,7 +532,7 @@ function saveTeacher() {
 function openInfoDlg(){
 	var data = CKEDITOR.instances.content.getData();
 	$('#fm').form('submit', {
-		url : '../struts/Course_saveCourse?objectName=course',
+		url : '../struts/Course_saveCourse?objectName=courseAllInfo',
 		onSubmit : function() {
 			return $('#fm').form('validate');
 		},
@@ -576,6 +581,30 @@ function openInfoDlg(){
 					}
 				}
 			});
+}
+
+function openInfoDlg1(){
+	var cid = $('#dg').datagrid('getSelected').courseId;
+	$('#dlg-courseId').val(cid);
+	$('#selected_courseId').val(cid);
+	$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
+	$('#dg_info').datagrid({
+		url:'../struts/Course_queryCourseInfo?selected_courseId='+cid,  
+		idField:'courseInfoId',  
+		width: 350,
+		height:355,  
+		pagination:false,  
+		toolbar:'#tb_info',
+		singleSelect:true,
+		fitColumns:true,  
+		loadMsg:'正在加载，请稍候!',
+		columns:[[  
+		{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
+		{field:'startDate',title:'开始时间',width:140},  
+		{field:'endDate',title:'结束时间',width:140},
+		{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
+		]]
+	});
 }
 
 function newCourseInfo(){
@@ -690,8 +719,8 @@ function newCourseInfo(){
 			}
 			
 		}
-	</script>
-	<style type="text/css">
+		</script>
+		<style type="text/css">
 		#fm {
 			margin: 0;
 			padding: 10px 40px;
@@ -725,6 +754,6 @@ function newCourseInfo(){
 		.formTable td {
 			vertical-align: top
 		}
-	</style>
-</body>
-</html>
+		</style>
+	</body>
+	</html>
