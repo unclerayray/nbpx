@@ -41,6 +41,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
     protected InputStream        inputStream;
     protected HttpServletRequest request;
     protected HttpSession        session;
+    protected String			 sort;
+    protected String			 order;
 
     public InputStream getInputStream() {
         return inputStream;
@@ -66,7 +68,23 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
 		this.rows = rows;
 	}
 
-    public InputStream castToInputStream(String str) {
+    public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	public InputStream castToInputStream(String str) {
         logger.debug("---------------------------------------------------------");
         logger.debug("服务器返回的数据---->:" + str);
         logger.debug("---------------------------------------------------------");

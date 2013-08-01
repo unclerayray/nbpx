@@ -1,5 +1,7 @@
 package com.nb.nbpx.dao.keyword;
 
+import java.util.List;
+
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.pojo.keyword.Keyword;
 
@@ -15,4 +17,12 @@ public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	 * @return
 	 */
 	public Keyword saveOrGetExistsKeyword(Keyword keyword);
+	
+	public List<Keyword> queryKeywords(Integer limit, Integer start, String category, String keyText, Integer keyId, String sort, String order);
+	
+	public Long querykeywordsCount(Integer limit, Integer start, String category, String keyText, Integer keyId);
+	
+	public Boolean recommandKeywords(String[] keyIds);
+	
+	public Boolean importKeywords(String category, String[] keywords);
 }

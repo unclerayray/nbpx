@@ -48,16 +48,16 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	// private ICourseKeywordDao courseKeywordDao;
 
 	@Override
-	public String queryCourses(String category, String courseCode,
+	public String queryCourses(String category, Integer courseId,
 			Integer rows, Integer start) {
 		String json = "";
-		List<Course> list = courseDao.queryCourses(category, courseCode, rows,
+		List<Course> list = courseDao.queryCourses(category, courseId, rows,
 				start);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
 		} else {
-			int count = courseDao.queryCourseCount(category, courseCode)
+			int count = courseDao.queryCourseCount(category, courseId)
 					.intValue();
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
@@ -141,18 +141,18 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		 */
 		if (course.getCourseId() == null) {
 			if (courseDao.checkDuplicateProp(course)) {
-				throw new NbpxException("已存在此课程编号");
+				throw new NbpxException("由此教师讲解的《"+course.getTitle()+"》课程已存在在数据库中，如需新增安排，请直接在列表中查出该课程，点击课程安排！");
 			}
 			// 新增课程
 			course.setCreationDate(new Date());
-			course.setHits(200);
+			course.setHits(500);
 			course.setLastUpdateDate(new Date());
 			courseDao.save(course);
 		} else {
 			// 修改课程内容
 			//courseDao.saveOrUpdate(course);
-			courseDao.updateCourse(course);
 			course.setLastUpdateDate(new Date());
+			courseDao.updateCourse(course);
 		}
 		return course;
 	}
@@ -186,6 +186,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		for (int i = 0; courseKeywords != null && i < courseKeywords.length; i++) {
 			String keywordStr = StringUtils.trim(courseKeywords[i]);
 			Keyword keyword = new Keyword();
+			keyword.setCategory(courseDto.getCategory());
 			keyword.setKeyword(keywordStr);
 			keyword = keywordDao.saveOrGetExistsKeyword(keyword);
 			keywordMap.put(keyword.getKeyId(), keyword.getKeyword());
@@ -427,7 +428,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 						  "<p>"+currCourse.getContent()+"</p><div class='clear'></div>");
 		}
 		if("3".equals(flag)){
-			result.append("<h1>"+currCourse.getTitle()+"</h1><div class=classNum>课程编号："+currCourse.getCourseCode()+"</div>");
+			result.append("<h1>"+currCourse.getTitle()+"</h1><div class=classNum>课程编号："+currCourse.getCourseId()+"</div>");
 		}
 		
 		return result.toString();

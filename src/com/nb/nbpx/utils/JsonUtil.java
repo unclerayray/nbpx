@@ -57,6 +57,9 @@ public class JsonUtil {
 					"yyyy-MM-dd");
 			jsonObject.put("rows", json);
 			jsonObject.put("total", total);
+		}else{
+			jsonObject.put("rows", "[]");
+			jsonObject.put("total", 0);
 		}
 		return jsonObject.toString();
 	}
@@ -115,7 +118,7 @@ public class JsonUtil {
 		JSONObject json = new JSONObject();
 		json.put("success", success);
 		json.put("message", message);
-
+		
 		return json.toString();
 	}
 

@@ -22,14 +22,13 @@
 	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
 	<thead>
 		<tr>
-			<th data-options="field:'courseId',width:80,hidden:true">主键</th>
+			<th data-options="field:'courseId',width:120">课程代码</th>
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
 			<th data-options="field:'isInner',width:60,formatter:function(value,row){if(row.isInner) {return '内训';}else{return '公开课';}}">类别</th>
 			<th data-options="field:'title',width:320">标题</th>
 			<th data-options="field:'teacherName',width:120">讲师</th>
 			<th
 			data-options="field:'category',width:120,formatter:function(value,row){return row.categoryName;}">课程类型</th>
-			<th data-options="field:'courseCode',width:120">课程编码</th>
 			<th data-options="field:'hits',width:120">课程点击量</th>
 			<th data-options="field:'price',width:120">课程收费</th>
 			<th
@@ -58,16 +57,16 @@
 		strict:true,
 		onSelect: function(rec){  
 		var url = '../struts/Course_queryComboCourseCode?category='+rec.codeName;  
-		$('#courseCodeFS').combobox('clear');  
-		$('#courseCodeFS').combobox('reload', url);  
+		$('#courseIdFS').combobox('clear');  
+		$('#courseIdFS').combobox('reload', url);  
 	}
 	">
-	课程代码： <input class="easyui-combobox" name="courseCode"
-	id="courseCodeFS"
+	课程代码： <input class="easyui-combobox" name="courseId"
+	id="courseIdFS"
 	data-options="   
 	url:'../struts/Course_queryComboCourseCode',
-	valueField:'courseCode',  
-	textField:'courseCode',  
+	valueField:'courseId',  
+	textField:'courseId',  
 	panelHeight:'auto'  ,
 	strict:true
 	">
@@ -110,8 +109,8 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			<tr>
 				<td class="itemText">
 					<div>
-						<label>课程编码:</label> <input id="courseCodeInForm"  class="easyui-validatebox"
-						name="courseCode"  data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',validType:'length[3,10]'" style="width: 130px;">
+						<label>课程编码:</label> <input id="courseCodeInForm"  class="easyui-validatebox" readonly="readonly"
+						name="courseId" style="width: 130px;">
 					</div></td>
 					<td class="itemText">
 						<div id="courseTypeInForm">
@@ -239,6 +238,7 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			handler:function(){
 			saveTeacher(); } },{
 			text:'取消',
+			iconCls:'icon-cancel',
 			handler:function(){
 			$('#editTeacher').dialog('close');
 		}
@@ -321,7 +321,7 @@ function queryCourse() {
 			//TODO 模糊查询
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
-				courseCode : $('#courseCodeFS').combobox('getValue')
+				courseCode : $('#courseIdFS').combobox('getValue')
 			});
 		}
 		function newCourse() {
@@ -584,27 +584,38 @@ function openInfoDlg(){
 }
 
 function openInfoDlg1(){
-	var cid = $('#dg').datagrid('getSelected').courseId;
-	$('#dlg-courseId').val(cid);
-	$('#selected_courseId').val(cid);
-	$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
-	$('#dg_info').datagrid({
-		url:'../struts/Course_queryCourseInfo?selected_courseId='+cid,  
-		idField:'courseInfoId',  
-		width: 350,
-		height:355,  
-		pagination:false,  
-		toolbar:'#tb_info',
-		singleSelect:true,
-		fitColumns:true,  
-		loadMsg:'正在加载，请稍候!',
-		columns:[[  
-		{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
-		{field:'startDate',title:'开始时间',width:140},  
-		{field:'endDate',title:'结束时间',width:140},
-		{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
-		]]
-	});
+	var row = $('#dg').datagrid('getSelected');
+	if(row){
+		var cid = row.courseId;
+		$('#dlg-courseId').val(cid);
+		$('#selected_courseId').val(cid);
+		$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
+		$('#dg_info').datagrid({
+			url:'../struts/Course_queryCourseInfo?selected_courseId='+cid,  
+			idField:'courseInfoId',  
+			width: 350,
+			height:355,  
+			pagination:false,  
+			toolbar:'#tb_info',
+			singleSelect:true,
+			fitColumns:true,  
+			loadMsg:'正在加载，请稍候!',
+			columns:[[  
+			{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
+			{field:'startDate',title:'开始时间',width:140},  
+			{field:'endDate',title:'结束时间',width:140},
+			{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
+			]]
+		});
+	}
+	else {
+		$.messager.show({
+			title : '温馨提示',
+			msg : '请先选择一行记录',
+			timeout : 2000,
+			showType : 'slide'
+		});
+	}
 }
 
 function newCourseInfo(){
