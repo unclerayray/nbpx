@@ -32,6 +32,7 @@ public class Course extends BaseEntity implements Serializable {
 	public String title;
 	public Double price;
 	// public String courseCode;
+	public String shortName;
 	public String teacherId;
 	public String teacherName;
 	public String category;
@@ -54,8 +55,8 @@ public class Course extends BaseEntity implements Serializable {
 
 	public Course(Integer courseId, String title, Boolean isInner,
 			String teacherId, String teacherName, String category,
-			String categoryName, Boolean state, Integer hits, Double price,
-			Boolean recommanded, Boolean classic) {
+			String categoryName, String shortName, Boolean state, Integer hits,
+			Double price, Boolean recommanded, Boolean classic) {
 		super();
 		this.courseId = courseId;
 		this.title = title;
@@ -64,6 +65,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.teacherName = teacherName;
 		this.category = category;
 		this.categoryName = categoryName;
+		this.shortName = shortName;
 		this.state = state;
 		this.hits = hits;
 		this.price = price;
@@ -101,6 +103,11 @@ public class Course extends BaseEntity implements Serializable {
 		this.content = content;
 	}
 
+	/**
+	 * 转换DTO用
+	 * 
+	 * @param courseDto
+	 */
 	public Course(CourseAllInfoDto courseDto) {
 		super();
 		this.courseId = courseDto.courseId;
@@ -108,6 +115,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.price = courseDto.price;
 		this.teacherId = courseDto.teacherId;
 		this.teacherName = courseDto.teacherName;
+		this.shortName = courseDto.shortName;
 		this.category = courseDto.category;
 		this.content = courseDto.content;
 		this.blockedContent = courseDto.blockedContent;
@@ -348,5 +356,13 @@ public class Course extends BaseEntity implements Serializable {
 
 	public void setClassic(Boolean classic) {
 		this.classic = classic;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 }

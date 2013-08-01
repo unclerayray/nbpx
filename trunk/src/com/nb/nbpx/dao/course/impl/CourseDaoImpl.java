@@ -51,7 +51,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course"
 								+ " (c.courseId, c.title,c.isInner, c.teacherId, "
-								+ "ti.realName, c.category, fd.showName,"
+								+ "ti.realName, c.category, fd.showName, c.shortName, "
 								+ " c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
 								+ " where 1 = 1 ");
 				if (category != null && !category.isEmpty()) {
@@ -458,10 +458,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 	@Override
 	public Course updateCourse(Course course) {
-		String sql = "update Course SET title = ?,teacherId = ?  ,category = ?  ,isInner = ?  ,price = ?  ,content = ?  ,"
+		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,shortName = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
 				+ "blockedContent = ?  ,videoUrl = ? ,lastUpdateDate = ?  ,"
 				+ "recommanded = ? ,state = ? ,classic = ? WHERE courseId = ?";
-		Object[] values = {course.getTitle(),course.getTeacherId(),course.getCategory(),course.getIsInner(),course.getPrice(),course.getContent(),
+		Object[] values = {course.getTitle(),course.getTeacherId(),course.getCategory(),course.getShortName(),course.getIsInner(),course.getPrice(),course.getContent(),
 				course.getBlockedContent(),course.getVideoUrl(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
