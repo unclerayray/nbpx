@@ -22,15 +22,16 @@
 	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
 	<thead>
 		<tr>
-			<th data-options="field:'courseId',width:120">课程代码</th>
+			<th data-options="field:'courseId',width:50">课程代码</th>
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
 			<th data-options="field:'isInner',width:60,formatter:function(value,row){if(row.isInner) {return '内训';}else{return '公开课';}}">类别</th>
 			<th data-options="field:'title',width:320">标题</th>
-			<th data-options="field:'teacherName',width:120">讲师</th>
+			<th data-options="field:'shortName',width:200">专题</th>
+			<th data-options="field:'teacherName',width:80">讲师</th>
 			<th
-			data-options="field:'category',width:120,formatter:function(value,row){return row.categoryName;}">课程类型</th>
-			<th data-options="field:'hits',width:120">课程点击量</th>
-			<th data-options="field:'price',width:120">课程收费</th>
+			data-options="field:'category',width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
+			<th data-options="field:'hits',width:80">课程点击量</th>
+			<th data-options="field:'price',width:80">课程收费</th>
 			<th
 			data-options="field:'state',width:50,formatter:function(value,row){if(row.state) {return '启用';}else{return '禁用';}}">状态</th>
 		</tr>
@@ -102,7 +103,15 @@ closed="true" modal="true" buttons="#dlg-buttons">
 				<td class="itemText"  colspan="4">
 					<div>
 						<label>课程关键字:</label> <input class="easyui-validatebox" id="courseKeywords" name = "keywords"
-						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程关键字必填项'" style="width: 400px;">
+						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程关键字是必填项'" style="width: 400px;">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="itemText"  colspan="4">
+					<div>
+						<label>课程专题:</label> <input class="easyui-validatebox" id="courseShortName" name = "shortName"
+						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程专题是必填项'" style="width: 400px;">
 					</div>
 				</td>
 			</tr>
