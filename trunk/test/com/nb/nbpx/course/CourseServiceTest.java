@@ -86,7 +86,9 @@ public class CourseServiceTest extends BaseServiceTest {
 	@Test
 	@Transactional
 	public void testDumplicateKeyword() {
-		Keyword keyword = new Keyword(null, "国家", true, null, null, null);
+		Keyword keyword = new Keyword();
+		keyword.setKeyword("国家");
+				//(null, "国家", true, null, null);
 		try {
 			keywordDao.save(keyword);
 		} catch (DataIntegrityViolationException e) {

@@ -40,7 +40,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 	@Override
 	public List<Course> queryCourses(final String category,
-			final String courseCode, final Integer rows, final Integer start) {
+			final Integer courseId, final Integer rows, final Integer start) {
 		List<Course> list = new ArrayList<Course>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -50,7 +50,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course"
-								+ " (c.courseId, c.title,c.isInner, c.courseCode, c.teacherId, "
+								+ " (c.courseId, c.title,c.isInner, c.teacherId, "
 								+ "ti.realName, c.category, fd.showName,"
 								+ " c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
 								+ " where 1 = 1 ");
@@ -58,8 +58,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					hql.append(" and category = ? ");
 				}
 
-				if (courseCode != null && !courseCode.isEmpty()) {
-					hql.append(" and courseCode = ? ");
+				if (courseId != null) {
+					hql.append(" and courseId = ? ");
 				}
 				hql.append(" and c.category = fd.codeName ");
 				hql.append(" and ti.teacherId = c.teacherId");
@@ -69,8 +69,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					query.setString(i++, category);
 				}
 
-				if (courseCode != null && !courseCode.isEmpty()) {
-					query.setString(i++, courseCode);
+				if (courseId != null) {
+					query.setInteger(i++, courseId);
 				}
 
 				if (start != null && rows != null) {
@@ -85,7 +85,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	}
 
 	@Override
-	public Long queryCourseCount(final String category, final String courseCode) {
+	public Long queryCourseCount(final String category, final Integer courseId) {
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -99,8 +99,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					hql.append(" and category = ? ");
 				}
 
-				if (courseCode != null && !courseCode.isEmpty()) {
-					hql.append(" and courseCode = ? ");
+				if (courseId != null) {
+					hql.append(" and courseId = ? ");
 				}
 				Query query = session.createQuery(hql.toString());
 
@@ -108,8 +108,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					query.setString(i++, category);
 				}
 
-				if (courseCode != null && !courseCode.isEmpty()) {
-					query.setString(i++, courseCode);
+				if (courseId != null) {
+					query.setInteger(i++, courseId);
 				}
 
 				return query.list();
@@ -164,8 +164,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer(
 						"select count(d) from Course d where 1 = 1 ");
-				hql.append(" and courseCode = '" + course.getCourseCode()
-						+ "' ");
+				hql.append(" and title = '" + course.getTitle()
+						+ "' and teacherId = '" + course.getTeacherId()
+						+ "'");
 				Query query = session.createQuery(hql.toString());
 				return query.list();
 			}
@@ -188,7 +189,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.courseCode,"
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
 								+ "c.teacherId, '', c.category,"
 								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where 1=1 ");
 				if (type != null && !"".equals(type))
@@ -225,7 +226,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.courseCode,"
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
 								+ "c.teacherId, '', c.category,"
 								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c,CourseInfo b where c.courseId = b.courseId and 1=1 ");
 				if (type != null && !"".equals(type))
@@ -267,7 +268,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.courseCode,"
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
 								+ "c.teacherId, '', c.category,"
 								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where c.courseId in (select b.courseId from CourseInfo b where b.city = (select d.codeName from Dictionary d where d.showName='"
 								+ city
@@ -325,7 +326,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"+
-						"c.courseCode,c.teacherId,'',"+
+						"c.teacherId,'',"+
 						"c.category, c.content,c.blockedContent,"+
 						"c.isInner,c.state, c.videoUrl,c.hits,"+
 						"c.createdBy,c.lastUpdatedBy,c.creationDate,"+
@@ -457,10 +458,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 	@Override
 	public Course updateCourse(Course course) {
-		String sql = "update Course SET title = ?,courseCode = ?,teacherId = ?  ,category = ?  ,isInner = ?  ,price = ?  ,content = ?  ,"
+		String sql = "update Course SET title = ?,teacherId = ?  ,category = ?  ,isInner = ?  ,price = ?  ,content = ?  ,"
 				+ "blockedContent = ?  ,videoUrl = ? ,lastUpdateDate = ?  ,"
 				+ "recommanded = ? ,state = ? ,classic = ? WHERE courseId = ?";
-		Object[] values = {course.getTitle(),course.getCourseCode(),course.getTeacherId(),course.getCategory(),course.getIsInner(),course.getPrice(),course.getContent(),
+		Object[] values = {course.getTitle(),course.getTeacherId(),course.getCategory(),course.getIsInner(),course.getPrice(),course.getContent(),
 				course.getBlockedContent(),course.getVideoUrl(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;

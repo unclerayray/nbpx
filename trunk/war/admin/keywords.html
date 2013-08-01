@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../css/demo.css">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css">
+	<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+	<script src="../js/easyui/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
+	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
+	<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
+	<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+	<title>关键字</title>
+</head>
+<table id="dg" class="easyui-datagrid"  pagination="true"  pageSize=20  
+loadMsg="正在加载，请稍候!"
+data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'../struts/Keyword_queryKeywords',toolbar:'#tb'">
+<thead>
+	<tr>
+		<th data-options="field:'keyId',width:80,hidden:true">主键</th>
+		<th
+		data-options="field:'categoryId',width:120,align:'center',formatter:function(value,row){return row.categoryName;}">关键词类别</th>
+		<th data-options="field:'keyword',width:120",align:'center'>关键词</th>
+		<th data-options="field:'searchCnt',width:120,sortable:true,align:'center'">搜索次数</th>
+		<th data-options="field:'hits',width:120,sortable:true,align:'center'">点击数</th>
+		<th data-options="field:'recommanded',width:120,align:'center',formatter:function(value,row){if(row.recommanded) {return '已推荐';}else{return '未推荐';}}">是否推荐</th>
+		<th data-options="field:'recommandDate',width:120,align:'center',sortable:true">最近推荐时间</th>
+	</tr>
+</thead>
+</table>
+
+
+<div id="tb" style="padding: 5px; height: auto">
+	<div style="margin-bottom: 5px">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="$('#dlg').dialog('open').dialog('setTitle', '导入关键词');">导入关键词</a> <a href="#"
+		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+		onclick="recommand()">推荐关键词</a>
+		<a
+		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
+		iconCls="icon-dic" onclick="stat()">统计最新</a>
+	</div>
+	<div>
+		关键词类别: <input class="easyui-combobox" name="category" id="category"
+		data-options="  
+		url:'../struts/Course_queryComboCourseTypes',  
+		valueField:'codeName',  
+		textField:'showName',   
+		panelHeight:'auto'  ,
+		strict:true,
+		onSelect: function(rec){  
+		var url = '../struts/Keyword_queryComboKeywords?category='+rec.codeName;  
+		$('#keywordStr').combobox('clear');  
+		$('#keywordStr').combobox('reload', url);  
+	}">
+	关键词: <input class="easyui-combobox" name="keywordStr" id="keywordStr"
+	data-options="  
+	url:'../struts/Keyword_queryComboKeywords',  
+	valueField:'keyId',  
+	textField:'keyword',   
+	panelHeight:'auto'  ,
+	strict:false">
+
+	<a href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-search" onclick="queryKeyords()">搜索</a> <a
+	href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a>
+</div>
+</div>
+
+
+<div id="dlg" class="easyui-dialog"
+style="width: 360px; height: 300px; padding: 5px 5px" closed="true"
+modal="true" data-options="buttons: [{
+text:'保存',
+iconCls:'icon-ok',
+handler:function(){
+importKeywords(); } },{
+text:'取消',
+iconCls:'icon-cancel',
+handler:function(){
+$('#dlg').dialog('close');
+}
+}]">
+<form id="fm" method="post">
+	<tr>
+	<td class="itemText" >
+	<div>
+	关键词类别: <input class="easyui-combobox" name="category" id="fm_category"
+	data-options="  
+	url:'../struts/Course_queryComboCourseTypes',  
+	valueField:'codeName',  
+	textField:'showName',   
+	panelHeight:'auto'  ,
+	strict:true,
+	required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'关键词类别是必填项'">
+	</div>
+	</td>
+	</tr>
+	<tr>
+	<td class="itemText" >
+	<div>
+		<label>关&nbsp;&nbsp;&nbsp;&nbsp;键&nbsp;&nbsp;&nbsp;&nbsp;词:</label>
+		<textarea class="easyui-textarea" id="fm_keywords" name="keywords" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'导入关键词的不能为空'"
+		style="height: 60px; width: 130px;" type="textarea" required="true"></textarea>
+	</div>
+	</td>
+	</tr>
+	<tr>
+	<td class="itemText"  colspan="2">
+	<div>
+		<label>多个关键词请用逗号隔开，导入的关键词可以是系统中已存在的，程序会自动忽略！</label>
+		</div>
+	</td>
+	</tr>
+</form>
+</div>
+
+<script type="text/javascript">
+function queryKeyords() {
+	//alert('getValue = ' + $('#keywordStr').combobox('getValue'));
+	//alert('text = ' + $('#keywordStr').combobox('getText'));
+			//alert("ahhahhahahah  " + $('#p_dicType').combobox('getValue'));
+			$('#dg').datagrid({
+				onLoadSuccess: function(data){
+					if(!data.success){
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+			$('#dg').datagrid('load', {
+				category : $('#category').combobox('getValue'),
+				keyCombValue : $('#keywordStr').combobox('getValue'),
+				keyCombText : $('#keywordStr').combobox('getText')
+			});
+			$('#keywordStr').removeAttr("selected");
+			$('#category').removeAttr("selected");
+		}
+
+		function recommand() {
+			var selectedRows = $('#dg').datagrid('getSelections');
+			var str = new Array(selectedRows.length);
+			for (var p in selectedRows) {
+				if (selectedRows.hasOwnProperty(p)) {
+					str[p] = selectedRows[p].keyId;
+				}
+			}
+			//alert('str = ' + str);
+			$.ajax({
+				url:'../struts/Keyword_saveKeywords?keyIds='+str.toString(),
+				success: function(data){
+						//$('#courseKeywords').val(data);
+						var data = eval('(' + data + ')'); 
+						$('#dg').datagrid('reload');
+						$.messager.show({
+							title : '温馨提示',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}		
+				});
+		}
+
+		function importKeywords(){
+			$('#fm').form('submit', {
+				url : '../struts/Keyword_importKeywords',
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					if (data.success) {
+						$.messager.show({
+							title : 'Success',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+						$('#dlg').dialog('close'); // close the dialog  
+						$('#dg').datagrid('reload'); // reload
+						$('#keywordStr').combobox('reload');
+					} else {
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+		}
+
+		function stat(){
+			alert('待实现的功能。');
+		}
+		</script>
+		<style type="text/css">
+		#fm {
+			margin: 0;
+			padding: 10px 40px;
+		}
+
+		.ftitle {
+			font-size: 14px;
+			font-weight: bold;
+			padding: 5px 0;
+			margin-bottom: 10px;
+			border-bottom: 1px solid #ccc;
+		}
+
+		.fitem {
+			margin-bottom: 5px;
+		}
+
+		.fitem label {
+			display: inline-block;
+			width: 80px;
+		}
+
+		.itemText {
+			width: 300px;
+			text-align: left;
+			height: 30px;
+			padding-left: 10px;
+			vertical-align: top
+		}
+
+		.formTable td {
+			vertical-align: top
+		}
+		</style>
+	</body>
+	</html>

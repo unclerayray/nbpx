@@ -65,7 +65,7 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String queryCourses() {
-		String json = courseService.queryCourses(category, courseCode, rows,
+		String json = courseService.queryCourses(category, courseId, rows,
 				getStartPosi());
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
