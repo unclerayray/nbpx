@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" type="text/css"
 	href="../js/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
@@ -431,7 +431,9 @@ function saveCourse(close_dlg) {
 						if(close_dlg){$('#dlg').dialog('close'); // close the dialog
 					}
 					$('#p_codeName').combobox('reload');  
+					$('#p_codeName').combobox('clear');  
 						$('#dg').datagrid('reload'); // reload the data grid  
+						$('#dg').datagrid('clearSelections');
 						//alert('data = '+data.dlg_courseId);
 						$('#dlg-courseId').val(data.dlg_courseId);
 						$('#selected_courseId').val(data.dlg_courseId);
@@ -465,6 +467,7 @@ function destroyCourse() {
 								$('#dg')
 								.datagrid(
 																				'reload'); // reload the Dic data
+								$('#dg').datagrid('clearSelections');
 							} else {
 								$.messager
 								.show({
@@ -476,6 +479,7 @@ function destroyCourse() {
 								$('#dg')
 								.datagrid(
 									'reload');
+								$('#dg').datagrid('clearSelections');
 							}
 						}, 'json');
 				}
@@ -525,6 +529,7 @@ function saveTeacher() {
 					});
 		        	$('#editTeacher').dialog('close');      // close the dialog  
 		        	$('#teacherId').combobox('reload');
+		        	$('#teacherId').combobox('clear');
 		        	$('#teacherFm').form('clear');					
 		        } else {
 		        	$.messager.show({  
@@ -555,7 +560,9 @@ function openInfoDlg(){
 							showType : 'fade'
 						});
 						$('#p_codeName').combobox('reload');  
+						$('#p_codeName').combobox('clear');  
 						$('#dg').datagrid('reload'); // reload the data grid  
+			        	$('#dg').datagrid('clearSelections');
 						//alert('data = '+data.dlg_courseId);
 						$('#dlg-courseId').val(data.dlg_courseId);
 						$('#selected_courseId').val(data.dlg_courseId);
@@ -658,8 +665,11 @@ function newCourseInfo(){
 					return $(this).form('validate');
 				},
 				success : function(data) {
+					alert(encodeURI(data));
 					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
 					if (data.success) {
+						alert(data);
+						alert(data.message);
 						$.messager.show({
 							title : 'Success',
 							msg : data.message,
@@ -667,6 +677,7 @@ function newCourseInfo(){
 							showType : 'fade'
 						});
 						$('#dg_info').datagrid('reload');
+			        	$('#dg_info').datagrid('clearSelections');
 						$('#dlg_addInfo').dialog('close'); // close the dialog  
 					} else {
 						$.messager.show({
@@ -683,6 +694,7 @@ function newCourseInfo(){
 		function destroyCourseInfo(){
 			var row;
 			row = $('#dg_info').datagrid('getSelected');
+			//alert(row);
 			if (row) {
 				$.messager
 				.confirm(
@@ -699,6 +711,7 @@ function newCourseInfo(){
 										$('#dg_info')
 										.datagrid(
 																				'reload'); // reload the Dic data
+							        	$('#dg_info').datagrid('clearSelections');
 									} else {
 										$.messager
 										.show({
@@ -710,6 +723,7 @@ function newCourseInfo(){
 										$('#dg_info')
 										.datagrid(
 											'reload');
+							        	$('#dg_info').datagrid('clearSelections');
 									}
 								}, 'json');
 						}

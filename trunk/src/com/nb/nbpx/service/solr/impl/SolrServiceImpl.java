@@ -8,13 +8,17 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +56,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		params.set("qt", "/dataimport");
 		params.set("command", "full-import");
 		params.set("commit", true);
-		params.set("command", "full-import");
+		//params.set("command", "full-import");
 		params.set("clean", true);
 		solrServer.ping();
 		QueryResponse response = solrServer.query(params);
@@ -70,7 +74,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	 */
 	@Override
 	public void deltaImport() throws Exception {
-
+		//TODO 
 	}
 
 	
@@ -96,6 +100,39 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		String json = StringUtils.join(list, "，");
 		return json;
 	}
+	
+
+	@Override
+	public String fullTextQueryForHl(String q, Integer start, Integer rows) throws SolrServerException, IOException {
+		SolrServer solrServer = new HttpSolrServer("http://localhost:8080/solr");
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		params.set("qt", "/select");
+		params.set("q", "content:"+q);
+		params.set("start", start);
+		params.set("rows", rows);
+		//params.set("wt", "foo");
+		params.set("indent", true);
+		params.set("rows", rows);
+		params.set("hl", true);
+		params.set("hl.fl", "content");
+		params.set("hl.simple.pre", "<em>");
+		params.set("hl.simple.post", "</em>");
+		
+		SolrQuery query = new SolrQuery();
+		//query.set("q","*.*");
+		query.add(params);
+		//query.setc
+		query.addHighlightField("title");
+		query.addHighlightField("content");
+		QueryResponse rsp =solrServer.query(query);
+		SolrDocumentList list = rsp.getResults();
+
+		solrServer.ping();
+		QueryResponse response = solrServer.query(params);
+		Map<String, Map<String, List<String>>>  hlMap = response.getHighlighting();
+		return null;
+	}
+
 
 	public ICourseKeywordDao getCourseKeywordDao() {
 		return courseKeywordDao;
