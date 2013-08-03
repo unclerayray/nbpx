@@ -28,6 +28,10 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author leilichao
  * @version V1.0
  */
+/**
+ * @author Roger
+ * @date 2013年8月3日
+ */
 @Component("BaseAction")
 public class BaseAction extends ActionSupport implements ServletRequestAware {
     /**
@@ -95,8 +99,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
         HttpServletResponse response = ServletActionContext.getResponse();
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
+        logger.debug("--------------------" + "执行了这一步");
         response.getWriter().write(content);
     }
+    
+    
 
     @Override
     public void setServletRequest(HttpServletRequest request) {

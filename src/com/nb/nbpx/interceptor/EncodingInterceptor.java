@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.StrutsStatics;
 
@@ -44,27 +45,30 @@ public class EncodingInterceptor extends AbstractInterceptor {
 		// System.out.println("requestURL = "+requestURL);
 		// System.out.println("queryString = "+queryString);
 		String charEncoding = request.getCharacterEncoding();
-		if (request.getMethod().compareToIgnoreCase("post") >= 0) {
+		if (request.getMethod().compareToIgnoreCase("post") >= 0||request.getMethod().compareToIgnoreCase("get") >= 0) {
 			try {
-				request.setCharacterEncoding("GBK");
+				request.setCharacterEncoding("UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
 		} else {
-
 			Iterator iter = request.getParameterMap().values().iterator();
 			while (iter.hasNext()) {
 				String[] parames = (String[]) iter.next();
 				for (int i = 0; i < parames.length; i++) {
 					try {
 						parames[i] = new String(
-								parames[i].getBytes(charEncoding), "UTF-8");// 此处GBK与页面编码一样
+								parames[i].getBytes(charEncoding), "UTF-8");// 此处UTF-8与页面编码一样
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		}
+		HttpServletResponse response = (HttpServletResponse)actionContext.get(StrutsStatics.HTTP_RESPONSE);
+		//System.out.println(response.getCharacterEncoding());
+		response.setCharacterEncoding("UTF-8");
+		//System.out.println(response.getCharacterEncoding());
 		return arg0.invoke();
 	}
 
