@@ -213,7 +213,6 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		});
 		return list;
 	}
-
 	// 获取最新的课程信息
 	public List<Course> getLastedCourse(final Boolean ifInner,
 			final String type, final Boolean ifRecommand,
@@ -270,7 +269,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
 								+ "c.teacherId, '', c.category,"
-								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where c.courseId in (select b.courseId from CourseInfo b where b.city = (select d.codeName from Dictionary d where d.showName='"
+								+ "c.shortName,c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where c.courseId in (select b.courseId from CourseInfo b where b.city = (select d.codeName from Dictionary d where d.showName='"
 								+ city
 								+ "') and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0) order by c.courseId desc");
 
@@ -327,7 +326,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"+
 						"c.teacherId,'',"+
-						"c.category, c.content,c.blockedContent,"+
+						"c.category,c.content,c.blockedContent,"+
 						"c.isInner,c.state, c.videoUrl,c.hits,"+
 						"c.createdBy,c.lastUpdatedBy,c.creationDate,"+
 						"c.lastUpdateDate,'',c.recommanded,"+

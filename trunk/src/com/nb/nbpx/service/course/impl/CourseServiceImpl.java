@@ -3,6 +3,7 @@ package com.nb.nbpx.service.course.impl;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -228,28 +229,30 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	// 根据城市获取课程信息
 	public String getCoursesByCity(String city, Integer rows, Integer start) {
-		String result = "";
-		List<Course> courseList = this.courseDao.getCourseByCity(city, rows,
-				start);
-		if (courseList == null || courseList.size() == 0)
-			return "<p style='font-size:12px'>暂无课程信息</p>";
-		for (int i = 0; i < courseList.size(); i++) {
-			Course temp = courseList.get(i);
-			List<CourseInfo> infos = this.courseDao.getCourseInfoByCity(city,
-					temp.getCourseId(), 1);
-			if (infos == null)
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		
+		List<CourseInfo> courseInfoList = this.courseInfoDao.queryCourseInfoByCity(city,start,rows);
+		if(courseInfoList == null || courseInfoList.size() == 0)
+			return "[]";
+		for(int i=0;i<courseInfoList.size();i++){
+			CourseInfo temp = courseInfoList.get(i);
+			if(temp == null)
 				continue;
-			for (int j = 0; j < infos.size(); j++) {
-				CourseInfo infoTemp = infos.get(j);
-				DateFormat format = new SimpleDateFormat("MM-dd");
-				DecimalFormat df = new DecimalFormat("0");
-				String startDate = format.format(infoTemp.getStartDate());
-				result += "<li><a href='viewClass.html?id="+temp.getCourseId()+"'>" + temp.getTitle() + "</a><div>"
-						+ startDate + "/<span class='money'>￥</span>"
-						+ df.format(temp.getPrice()) + "</div></li>";
-			}
+			Course course = this.courseDao.getCourseById(temp.getCourseId());
+			if(course == null)
+				continue;
+			Map<String,Object> row = new HashMap<String,Object>();
+			DateFormat format = new SimpleDateFormat("MM-dd");
+			DecimalFormat df = new DecimalFormat("0");
+			String startDate = format.format(temp.getStartDate());
+			row.put("id", course.getCourseId());
+			row.put("title", course.getTitle());
+			row.put("date", startDate);
+			row.put("price", df.format(course.getPrice()));
+			result.add(row);
 		}
-		return result;
+		
+		return JsonUtil.formatListToJson(result);
 	}
 
 	@Override
@@ -297,6 +300,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	// 得到培训的课程
 	public String getNXCourse(String type, int flag) {
+		
 		List<Course> courseList = null;
 		if (flag == 1)//推荐课程
 			courseList = this.courseDao.getLastedCourse(false, type, true,
@@ -308,20 +312,62 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			courseList = this.courseDao.getHotCourse(false, type, 10, 0);
 		if (courseList == null)
 			return "暂无课程信息";
-		StringBuffer result = new StringBuffer("");
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		for (int i = 0; i < courseList.size(); i++) {
+			
 			Course temp = courseList.get(i);
 			if (temp == null)
 				continue;
-			result.append("<li><a href='viewClass.html?id="+temp.getCourseId()+"'>" + temp.getTitle() + "</a></li>");
+			Map<String,Object> row = new HashMap<String,Object>();
+			row.put("id", temp.getCourseId());
+			row.put("title", temp.getTitle());
+			result.add(row);
 		}
-
-		return result.toString();
+		return JsonUtil.formatListToJson(result);
 	}
-
+	
 	// 获取首页推荐的 flag=1表示推荐，flag=2表示精品课程，flag=3表示热门课程
 	public String getTopCourse(int flag, Boolean isInner) {
-		List<Course> courseList = null;
+		List<CourseInfo> courseInfoList = null;
+		if(flag == 1)//推荐课程
+			courseInfoList = this.courseInfoDao.queryTop30CourseInfo(false,true,false);
+		else if(flag == 2)//精品课程
+			courseInfoList = this.courseInfoDao.queryTop30CourseInfo(false,false,true);
+		else
+			courseInfoList = null;
+		Map<String,String> existKey = new HashMap<String,String>();
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		int count = 0;
+		if(courseInfoList == null)
+			return "[]";
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		for(int i=0;i<courseInfoList.size();i++){
+			CourseInfo temp = courseInfoList.get(i);
+			if(temp == null)
+				continue;
+			if(existKey.containsKey(temp.getCourseId().toString()))
+				continue;
+			if(count >30)
+				break;
+			Map<String,Object> row = new HashMap<String,Object>();
+			Course course = this.courseDao.getCourseById(temp.getCourseId());
+			if(course == null)
+				continue;
+			TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer.parseInt(course.getTeacherId()));
+			String teacherName = "未知";
+			if (teacher != null)
+				teacherName = teacher.getRealName();
+			row.put("city","全国");
+			row.put("title", course.getTitle());
+			row.put("id", course.getCourseId());
+			row.put("teacher", teacherName);
+			row.put("date", format.format(temp.getStartDate()));
+			result.add(row);
+			existKey.put(course.getCourseId().toString(), course.getCourseId().toString());
+			count++;
+		}
+		
+		/*List<Course> courseList = null;
 		if (flag == 1)// 推荐
 			courseList = this.courseDao.getLastedCourse(isInner, "", true,
 					false, 30, 0);
@@ -333,8 +379,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 		if (courseList == null)
 			return "暂无课程信息";
-		StringBuffer result = new StringBuffer("");
-		int count = 0;
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		for (int i = 0; i < courseList.size(); i++) {
 			Course temp = courseList.get(i);
 			if (temp == null)
@@ -350,6 +395,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			if (courseInfos == null)
 				continue;
 			for (int j = 0; j < courseInfos.size(); j++) {
+				if(j >= 1)//只取最近的那条
+					break;
 				CourseInfo courseInfo = courseInfos.get(j);
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Dictionary cityD = dictionaryDao.getDictionary(
@@ -357,23 +404,19 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				String cityName = "未知";
 				if (cityD != null)
 					cityName = cityD.getShowName();
-				if (count == 0)
-					result.append("<div class='item first'>");
-				else
-					result.append("<div class='item'>");
-				result.append("<div class='title'><a href='viewClass.html?id="+temp.getCourseId()+"'>"
-						+ temp.getTitle() + "</a></div>"
-						+ "<div class='infor'><span class='teacher'>["
-						+ teacherName + "]</span><span class='date'>"
-						+ format.format(courseInfo.getStartDate())
-						+ "</span><span class='city'>" + cityName
-						+ "</span></div>" + "</div>");
-				count++;
+				Map<String,Object> tempMap = new HashMap<String,Object>();
+				tempMap.put("city",cityName);
+				tempMap.put("title", temp.getTitle());
+				tempMap.put("id", temp.getCourseId());
+				tempMap.put("teacher", teacherName);
+				tempMap.put("date", format.format(courseInfo.getStartDate()));
+		
+				result.add(tempMap);
 			}
+			
+		}*/
 
-		}
-
-		return result.toString();
+		return JsonUtil.formatListToJson(result);
 	}
 
 	//查看课程内容
