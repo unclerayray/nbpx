@@ -69,4 +69,55 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 		});
 		return list;
 	}
+	
+	public List<CourseInfo> queryCourseInfoByCity(final String city, final Integer start,final Integer rows){
+		List<CourseInfo> list = new ArrayList<CourseInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.CourseInfo(c.courseInfoId, c.courseId, c.startDate,"
+								+ "c.endDate, c.city,'') from CourseInfo c,Dictionary d where c.city= d.codeName and d.showName ='"+city +
+								"' and TO_DAYS(NOW())-TO_DAYS(c.startDate)<0 order by c.startDate");
+				Query query = session.createQuery(hql.toString());
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
+	public List<CourseInfo> queryTop30CourseInfo(final Boolean isInner,final Boolean isRecommand,final Boolean isClassic){
+		List<CourseInfo> list = new ArrayList<CourseInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer sql = new StringBuffer(
+						"select  c.courseInfoId, c.courseId, c.startDate,c.endDate, c.city from courseInfo c,(select  count(*) value,t.* from courseInfo t ,courses d   where t.courseId=d.courseId ");
+				if(isInner)
+					sql.append(" and d.isInner = 1 ");
+				else
+					sql.append(" and d.isInner = 0 ");
+				if(isRecommand)
+					sql.append(" and d.recommanded = 1 ");
+				if(isClassic)
+					sql.append(" and d.classic = 1 ");
+
+				sql.append("and TO_DAYS(NOW())-TO_DAYS(t.startDate)<0  group by t.courseId ) a where a.value >=3 and c.courseid =a.courseid");
+				
+				sql.append(" order by c.startDate asc");
+				Query query = session.createSQLQuery(sql.toString()).addEntity(CourseInfo.class);
+				
+				return query.list();
+			}
+		});
+		return list;
+	}
 }

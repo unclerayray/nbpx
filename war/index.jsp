@@ -1,16 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>南北培训网</title>
 <link type="text/css" href="css/face.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
-<title>无标题文档</title>
 </head>
-
 <body>
+<jsp:include page="head.jsp" flush="true"/>
 
 <!--醒目地区start-->
 <div class="mainContent area">
@@ -372,7 +374,18 @@
 		$.ajax({
 			url:encodeURI('struts/Main_getTopCourse?flag='+flag),
 			success: function(data){
-				$('#topCourse').html(data);
+				var jsonObject = eval("("+data+")");
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					if(n == 0)
+						valueStr += "<div class='item first'>";
+					else
+						valueStr += "<div class='item'>";	
+					valueStr += "<div class='title'><a href='#'>"+value.title+"</a></div>"+
+								"<div class='infor'><span class='teacher'>["+value.teacher+"]</span><span class='date'>"+value.date+
+								"</span><span class='city'>"+value.city+"</span></div></div>";
+				})
+				$('#topCourse').html(valueStr);
 			}		
 		})
 	}
@@ -397,8 +410,13 @@
 			$.ajax({
 				url:encodeURI('struts/Main_getPeiXun?flag='+flag+'&type='+part),
 				success: function(data){
-					//alert(data);
-					$('#'+pre+part).html(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						valueStr += "<li><a href='#'>"+value.title+"</a></li>";
+					});
+
+					$('#'+pre+part).html(valueStr);
 				}		
 			})
 		}
@@ -407,7 +425,13 @@
 		$.ajax({
 			url:encodeURI('struts/Main_getCourseByCity?flag='+flag),
 			success: function(data){
-				$('#cityList').html(data);
+				var jsonObject = eval("("+data+")");
+				alert(data);
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					valueStr += "<li><a href='#'>"+value.title+"</a><div>"+value.date+"/<span class='money'>￥</span>"+value.price+"</div></li>";
+				});
+				$('#cityList').html(valueStr);
 			}		
 		})
 	}
@@ -1841,7 +1865,6 @@
 <!--企业新闻 end -->
 
 
-
-
+<jsp:include page="foot.jsp" flush="true"/>
 </body>
 </html>

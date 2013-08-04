@@ -13,4 +13,6 @@ import com.nb.nbpx.pojo.course.CourseInfo;
 public interface ICourseInfoDao  extends IBaseDao<CourseInfo, Integer>{
 	public List<CourseInfo> queryCourseInfo(String courseInfoId);
 	public List<CourseInfo> queryCourseInfoByCourseId(String courseId);
+	public List<CourseInfo> queryCourseInfoByCity(String city,Integer start,Integer rows);
+	public List<CourseInfo> queryTop30CourseInfo(Boolean isInner,Boolean isRecommand,Boolean isClassic);
 }
