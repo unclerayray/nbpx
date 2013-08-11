@@ -425,8 +425,7 @@
 		$.ajax({
 			url:encodeURI('struts/Main_getCourseByCity?flag='+flag),
 			success: function(data){
-				var jsonObject = eval("("+data+")");
-				alert(data);
+				var jsonObject = eval("("+data+")");			
 				var valueStr = "";
 				$.each(jsonObject,function(n,value){
 					valueStr += "<li><a href='#'>"+value.title+"</a><div>"+value.date+"/<span class='money'>￥</span>"+value.price+"</div></li>";
