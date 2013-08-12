@@ -25,7 +25,7 @@ public interface ICourseService extends IBaseService {
 	public String getTopCourse(int flag,Boolean isInner);
 	public String getNXCourse(String type,int flag);
 	//查看课程内容
-	public String viewCourse(String courseId,String flag);
+	public String viewCourse(String courseId);
 	
 	public String queryCourseInfo(String courseInfoId);
 	public void saveCourseInfo(CourseInfo courseInfo);

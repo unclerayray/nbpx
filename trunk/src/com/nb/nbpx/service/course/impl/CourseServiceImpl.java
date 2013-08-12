@@ -35,8 +35,7 @@ import com.nb.nbpx.utils.NbpxException;
 
 @Component("CourseService")
 @SuppressWarnings("rawtypes")
-public class CourseServiceImpl extends BaseServiceImpl implements
-		ICourseService {
+public class CourseServiceImpl extends BaseServiceImpl implements ICourseService {
 
 	private ICourseDao courseDao;
 	private ITeacherInfoDao teacherDao;
@@ -367,114 +366,65 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			count++;
 		}
 		
-		/*List<Course> courseList = null;
-		if (flag == 1)// 推荐
-			courseList = this.courseDao.getLastedCourse(isInner, "", true,
-					false, 30, 0);
-		if (flag == 2)// 精品课程
-			courseList = this.courseDao.getLastedCourse(isInner, "", false,
-					true, 30, 0);
-		if (flag == 3)// 热门，按照点击顺序
-			courseList = this.courseDao.getHotCourse(isInner, "", 30, 0);
-
-		if (courseList == null)
-			return "暂无课程信息";
-		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
-		for (int i = 0; i < courseList.size(); i++) {
-			Course temp = courseList.get(i);
-			if (temp == null)
-				continue;
-			TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer
-					.parseInt(temp.getTeacherId()));
-			String teacherName = "未知";
-			if (teacher != null)
-				teacherName = teacher.getRealName();
-
-			List<CourseInfo> courseInfos = courseDao.getCourseInfoByCity("",
-					temp.getCourseId(), 1);
-			if (courseInfos == null)
-				continue;
-			for (int j = 0; j < courseInfos.size(); j++) {
-				if(j >= 1)//只取最近的那条
-					break;
-				CourseInfo courseInfo = courseInfos.get(j);
-				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				Dictionary cityD = dictionaryDao.getDictionary(
-						courseInfo.getCity(), "");
-				String cityName = "未知";
-				if (cityD != null)
-					cityName = cityD.getShowName();
-				Map<String,Object> tempMap = new HashMap<String,Object>();
-				tempMap.put("city",cityName);
-				tempMap.put("title", temp.getTitle());
-				tempMap.put("id", temp.getCourseId());
-				tempMap.put("teacher", teacherName);
-				tempMap.put("date", format.format(courseInfo.getStartDate()));
-		
-				result.add(tempMap);
-			}
-			
-		}*/
-
 		return JsonUtil.formatListToJson(result);
 	}
 
 	//查看课程内容
-	public String viewCourse(String courseId,String flag){
+	public String viewCourse(String courseId){
 		if(courseId == null || "".equals(courseId))
 			return "课程不存在";
 		Course currCourse = courseDao.getCourseById(Integer.parseInt(courseId));
 		if(currCourse == null)
 			return "课程不存在";
-		StringBuffer result = new StringBuffer("");
-		if("1".equals(flag)){//返回课程属性
-			//result.append("<h1>"+currCourse.getTitle()+"</h1><div class=classNum>课程编号："+currCourse.getCourseCode()+"</div>");
-			//result.append("<div class='detail'>");
-			//result.append("<div class='classLeftPart'>");
-			List<CourseInfo> courseInfos = courseInfoDao.queryCourseInfoByCourseId(courseId);
-			String timeStr = "";
-			String cityStr = "";
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			DecimalFormat df = new DecimalFormat("0");
-			for(int i=0;i<courseInfos.size();i++){
-				CourseInfo temp = courseInfos.get(i);
-				timeStr += format.format(temp.getStartDate())+" 至 "+ format.format(temp.getEndDate());
-				Dictionary cityD = dictionaryDao.getDictionary(temp.getCity(), "");
-				cityStr += "<a href='#'>"+cityD.getShowName()+"</a>";
-				if(i < courseInfos.size()-1){
-					timeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
-					cityStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
-				}
-			}
-			TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer
-					.parseInt(currCourse.getTeacherId()));
-			result.append("<div class='time'><span>举办时间：</span>"+timeStr+"</div>");
-			result.append("<div class='time'><span>上课地点：</span>"+cityStr+"</div>");
-			result.append("<div class='time'><span>课程费用：</span>"+df.format(currCourse.getPrice())+"元/位</div>");
-			result.append("<div class='time'><span>培训师：</span>"+teacher.getRealName()+"</div>");
-			result.append("<div class='time'><span>培训对象：</span><a href='#'>总经理</a>、<a href='#'>CEO</a>、<a href='#'>高级管理人员</a></div>");
-			result.append("<div class='time'><span>适用行业：</span><a href='#'>电力行业</a>、<a href='#'>生产行业</a></div>");
-			result.append("<div class='time'><span>适用专业：</span><a href='#'>工商管理</a>、<a href='#'>行政管理</a>、<a href='#'>人力资源</a></div>");
-			result.append("<div class='time'><span>关键词：</span><a href='#'>管理</a>、<a href='#'>团队建设</a></div>");
-			result.append("<div class='time'><span>专题：</span><a href='#'>企业管理</a></div>");
-			//result.append("</div>");
-			//result.append("<div class='classRightPart'><dd><a href='#'>打印课程提纲</a></dd><dd><a href='#'>打印报名表格</a></dd>"+
-			//		 	  "<dd><a href='#'>先加入收藏夹</a></dd><dd><a href='#'>引入内训申请</a></dd>"+
-			//		 	  "<dd><a href='#'>先发送至邮箱</a></dd><dd><a href='#'>保存电脑桌面</a></dd>"+
-			//		 	  "<dd><a href='#'>下载课程提纲</a></dd></div><div class='clear'></div>");
-			//result.append("</div>");
-		}
-		if("2".equals(flag)){//返回课程内容
-			result.append("<div class='intro'>推荐理由</div>"+
-						  "<p>"+currCourse.getBlockedContent()+"</p>"+
-						  "<div class='intro'>课程内容</div>"+
-						  "<p>"+currCourse.getContent()+"</p><div class='clear'></div>");
-		}
-		if("3".equals(flag)){
-			result.append("<h1>"+currCourse.getTitle()+"</h1><div class=classNum>课程编号："+currCourse.getCourseId()+"</div>");
-		}
 		
-		return result.toString();
+		List<CourseInfo> courseInfos = courseInfoDao.queryCourseInfoByCourseId(courseId);
+
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		DecimalFormat df = new DecimalFormat("0");
+		Map<String,Object> classInfo = new HashMap<String,Object>();
+			
+		List<Map<String,String>> details = new ArrayList<Map<String,String>>();
+		for(int i=0;i<courseInfos.size();i++){
+			CourseInfo temp = courseInfos.get(i);
+			Map<String,String> detail = new HashMap<String,String>();
+			detail.put("from", format.format(temp.getStartDate()));
+			detail.put("to", format.format(temp.getEndDate()));
+			Dictionary cityD = dictionaryDao.getDictionary(temp.getCity(), "");
+			detail.put("city", cityD.getShowName());
+			details.add(detail);
+		}
+			
+		classInfo.put("time", details);
+		TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer.parseInt(currCourse.getTeacherId()));
+		classInfo.put("price", df.format(currCourse.getPrice())+"元/位");
+		classInfo.put("teacher", teacher.getRealName());
+		classInfo.put("teacherID",teacher.getTeacherId());
+		classInfo.put("bloclContent", currCourse.getBlockedContent());
+		classInfo.put("content", currCourse.getContent());
+		classInfo.put("title", currCourse.getTitle());
+		classInfo.put("classNum", currCourse.getCourseId());
+			
+		//培训对象
+		List<Map<String,String>> trainObject = new ArrayList<Map<String,String>>();
+		classInfo.put("object", trainObject);
+			
+		//行业
+		List<Map<String,String>> indestory = new ArrayList<Map<String,String>>();
+		classInfo.put("indestory", indestory);
+			
+		//专业
+		List<Map<String,String>> major = new ArrayList<Map<String,String>>();
+		classInfo.put("major", major);
+			
+		//关键字
+		List<Map<String,String>> keyWords = new ArrayList<Map<String,String>>();
+		classInfo.put("keyWords", keyWords);
+		
+		//专题
+		List<Map<String,String>> series = new ArrayList<Map<String,String>>();
+		classInfo.put("series", series);
+
+		return JsonUtil.formatMapToJson(classInfo).toString();
 	}
 	
 	public ITeacherInfoDao getTeacherDao() {

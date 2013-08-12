@@ -14,11 +14,10 @@ public class ViewClassAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
 	private ICourseService courseService;
 	public String id;//课程ID
-	public String flag;//加载课程哪部分信息，1为课程属性，2为课程内容
 	
 	//查看课程信息
 	public String ViewClass(){
-		String result = courseService.viewCourse(id, flag);
+		String result = courseService.viewCourse(id);
 		this.inputStream = castToInputStream(result);
 		
 		return SUCCESS;
