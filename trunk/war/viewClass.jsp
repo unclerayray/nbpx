@@ -13,7 +13,21 @@
 </head>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
-<!--当前路径 start-->
+<script>
+	$(function(){
+		$.ajax({
+			url:"struts/ViewClass_ViewClass",
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				$('#titile').html(jsonObject.title);
+				$('#courseId').html(jsonObject.classNum);
+				$('#blockContent').html(jsonObject.bloclContent);
+			}
+		});
+		
+	});
+</script>
+<!--当前路径 start-->0
 <div class="mainContent path">
 	<ul>
 		<li>当前位置:&nbsp;</li>
@@ -33,8 +47,8 @@
 	<!--左边部分课程信息 start-->
 	<div class="leftInPart">
 		<div class="classDetail" >
-			<div id="courseHead"><h1>成为卓越领导、构建高绩效团队</h1>
-			<div class="classNum">课程编号：12345</div></div>
+			<div ><h1 id="title">成为卓越领导、构建高绩效团队</h1>
+			<div class="classNum" id="courseId">课程编号：12345</div></div>
 			<div class="detail">
 			<div class="classLeftPart" id="courseInfo">
 			<div class="time"><span>举办时间：</span><a href="#">2013-5-10 至 2013-5-15</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">2013-6-10 至 2013-6-19</a></div>
@@ -61,7 +75,7 @@
 			<div class="clear"></div>
 			<div id="courseContent">
 			<div class="intro">推荐理由</div>
-			<p>
+			<p id="blockContent">
 				高绩效团队课程旨在帮助学员对照新、旧工作模式及其结果来看清自身的“行为短板”，激发学员主动改变的动机；理解、掌握“团队工作模式”的过程和行为要领，并结合自身的经验运用于实际工作中；了解在团队中实施“团队工作模式”的阻力与解决策略，使得他们愿意带领团队尝试改变。 
 			</p>
 			<div class="intro">课程内容</div>
