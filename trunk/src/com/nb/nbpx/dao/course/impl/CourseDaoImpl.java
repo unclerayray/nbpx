@@ -51,7 +51,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course"
 								+ " (c.courseId, c.title,c.isInner, c.teacherId, "
-								+ "ti.realName, c.category, fd.showName, c.shortName, "
+								+ "ti.realName, c.category, fd.showName, "
 								+ " c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
 								+ " where 1 = 1 ");
 				if (category != null && !category.isEmpty()) {
@@ -341,14 +341,20 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	}
 
 	@Override
-	public void deleteAllOtherInfosCourse(Integer courseId) {
+	public void deleteAllOtherInfosCourse(Integer courseId,Boolean deleteCourseInfo) {
 		String sql1 = "delete from courseinfo where courseId =" + courseId;
 		String sql2 = "delete from coursekeywords where courseId =" + courseId;
 		String sql3 = "delete from coursemajor where courseId =" + courseId;
 		String sql4 = "delete from coursetarget where courseId =" + courseId;
 		String sql5 = "delete from courseindustry where courseId =" + courseId;
-		String[] sqlArr = { sql1, sql2, sql3, sql4, sql5 };
-		jdbcTemplate.batchUpdate(sqlArr);
+		String sql6 = "delete from courseSubjects where courseId =" + courseId;
+		if(deleteCourseInfo){
+			String[] sqlArr = { sql1, sql2, sql3, sql4, sql5, sql6 };
+			jdbcTemplate.batchUpdate(sqlArr);
+		}else{
+			String[] sqlArr = {sql2, sql3, sql4, sql5, sql6 };
+			jdbcTemplate.batchUpdate(sqlArr);
+		}
 	}
 
 	@Override
@@ -356,6 +362,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		Integer courseId = courseDto.getCourseId();
 		List<String> list = new ArrayList<String>();
 		String[] courseKeywords = courseDto.getKeywords().split(",");
+		String[] courseSubjects = courseDto.getSubject().split(",");
 		String[] courseMajors = courseDto.getMajor().split(",");
 		String[] courseTargets = courseDto.getTargets().split(",");
 		String[] courseIndustry = courseDto.getIndustry().split(",");
@@ -368,6 +375,15 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			list.add(sql.toString());
 		}
 
+		for (String str : courseSubjects) {
+			StringBuffer sql = new StringBuffer(
+					"insert into courseSubjects (courseId,subject) values ");
+			// 在这里保存keyword实体
+			sql.append("(").append(courseId).append(",'").append(str)
+					.append("');");
+			list.add(sql.toString());
+		}
+		
 		for (String str : courseMajors) {
 			StringBuffer sql = new StringBuffer(
 					"insert into coursemajor (courseId,major) values ");
@@ -401,12 +417,13 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	@Override
 	public void addAllOtherCourseInfo(Integer courseId,
 			Map<String, String> industryMap, Map<String, String> tagetMap,
-			Map<String, String> majorMap, Map<Integer, String> keywordMap) {
+			Map<String, String> majorMap, Map<Integer, String> keywordMap, Map<Integer, String> subjectMap) {
 		List<String> list = new ArrayList<String>();
 		Iterator industryIter = industryMap.entrySet().iterator();
 		Iterator tagetIter = tagetMap.entrySet().iterator();
 		Iterator majorIter = majorMap.entrySet().iterator();
 		Iterator keywordIter = keywordMap.entrySet().iterator();
+		Iterator subjectIter = subjectMap.entrySet().iterator();
 		while (industryIter.hasNext()) {
 			Map.Entry entry = (Map.Entry) industryIter.next();
 			String code = entry.getKey().toString();
@@ -451,16 +468,27 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			list.add(sql.toString());
 		}
 		
+		while (subjectIter.hasNext()) {
+			Map.Entry entry = (Map.Entry) subjectIter.next();
+			Integer subjectId = (Integer)(entry.getKey());
+			String value = entry.getValue().toString();
+			StringBuffer sql = new StringBuffer(
+					"insert into courseSubjects (courseId,subject,subjectId) values ");
+			sql.append("(").append(courseId).append(",'").append(value)
+					.append("','").append(subjectId).append("');");
+			list.add(sql.toString());
+		}
+		
 		String[] sqlArr = list.toArray(new String[list.size()]);
 		jdbcTemplate.batchUpdate(sqlArr);
 	}
 
 	@Override
 	public Course updateCourse(Course course) {
-		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,shortName = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
+		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
 				+ "blockedContent = ?  ,videoUrl = ? ,lastUpdateDate = ?  ,"
 				+ "recommanded = ? ,state = ? ,classic = ? WHERE courseId = ?";
-		Object[] values = {course.getTitle(),course.getTeacherId(),course.getCategory(),course.getShortName(),course.getIsInner(),course.getPrice(),course.getContent(),
+		Object[] values = {course.getTitle(),course.getTeacherId(),course.getCategory(),course.getIsInner(),course.getPrice(),course.getContent(),
 				course.getBlockedContent(),course.getVideoUrl(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;

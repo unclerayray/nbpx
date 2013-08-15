@@ -12,7 +12,7 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	
 	/**
-	 * 用于保存产生关键字，如果该关键字已存在于数据库中，就从数据库中把这条记录查出来并返回
+	 * 用于保存产生关键词，如果该关键词已存在于数据库中，就从数据库中把这条记录查出来并返回
 	 * @param keyword 只包含keyword值的对象，无id
 	 * @return
 	 */

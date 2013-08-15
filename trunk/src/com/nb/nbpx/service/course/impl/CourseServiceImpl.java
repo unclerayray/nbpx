@@ -19,6 +19,7 @@ import com.nb.nbpx.dao.course.ICourseDao;
 import com.nb.nbpx.dao.course.ICourseInfoDao;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
+import com.nb.nbpx.dao.subject.ISubjectDao;
 import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
@@ -26,6 +27,7 @@ import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.course.CourseKeyword;
 import com.nb.nbpx.pojo.keyword.Keyword;
+import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
@@ -43,6 +45,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	private ICourseKeywordDao courseKeywordDao;
 	private IDictionaryDao dictionaryDao;
 	private IKeywordDao keywordDao;
+	private ISubjectDao subjectDao;
 
 	// private ICourseKeywordDao courseKeywordDao;
 	// private ICourseKeywordDao courseKeywordDao;
@@ -87,11 +90,17 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		String targets = "";
 		String industries = "";
 		String majors = "";
+		String subjects = "";
 
 		String keywordsHql = "select keyword from com.nb.nbpx.pojo.course.CourseKeyword where courseId = "
 				+ courseId;
 		List keywordsList = courseDao.find(keywordsHql);
 		keywords = StringUtils.join(keywordsList, "，");
+		
+		String subjectsHql = "select subject from com.nb.nbpx.pojo.course.CourseSubject where courseId = "
+				+ courseId;
+		List subjectsList = courseDao.find(subjectsHql);
+		subjects = StringUtils.join(subjectsList, "，");
 
 		String targetsHql = "select targetCode from com.nb.nbpx.pojo.course.CourseTarget where courseId = "
 				+ courseId;
@@ -113,6 +122,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		cdto.setTargets(targets);
 		cdto.setIndustry(industries);
 		cdto.setMajor(majors);
+		cdto.setSubject(subjects);
 		String json = JsonUtil.getJsonString(cdto);
 		return json;
 	}
@@ -160,12 +170,15 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 
 	@Override
 	public void saveOtherCourseInfo(CourseAllInfoDto courseDto,Boolean deleteBeforeInsert) {
+		List<Keyword> keywordsForLink = new ArrayList<Keyword>();
 		Map<Integer, String> keywordMap = new HashMap<Integer, String>();
+		Map<Integer, String> subjectMap = new HashMap<Integer, String>();
 		Map<String, String> industryMap = new HashMap<String, String>();
 		Map<String, String> tagetMap = new HashMap<String, String>();
 		Map<String, String> majorMap = new HashMap<String, String>();
 
 		String[] courseKeywords = null;
+		String[] courseSubjects = null;
 		String[] courseMajors = null;
 		String[] courseTargets = null;
 		String[] courseIndustry = null;
@@ -173,6 +186,11 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			String keywordsStr = courseDto.getKeywords().replaceAll("，",
 					",");
 			courseKeywords = keywordsStr.split(",");
+		}
+		if (courseDto.getSubject() != null) {
+			String subjectStr = courseDto.getSubject().replaceAll("，",
+					",");
+			courseSubjects = subjectStr.split(",");
 		}
 		if (courseDto.getMajor() != null) {
 			courseMajors = courseDto.getMajor().split(",");
@@ -190,6 +208,16 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			keyword.setKeyword(keywordStr);
 			keyword = keywordDao.saveOrGetExistsKeyword(keyword);
 			keywordMap.put(keyword.getKeyId(), keyword.getKeyword());
+			keywordsForLink.add(keyword);
+		}
+		
+		for (int i = 0; courseSubjects != null && i < courseSubjects.length; i++) {
+			String subjectStr = StringUtils.trim(courseSubjects[i]);
+			Subject subject = new Subject();
+			subject.setCategory(courseDto.getCategory());
+			subject.setSubject(subjectStr);
+			subject = subjectDao.saveOrGetExistsSubject(subject);
+			subjectMap.put(subject.getSubjectId(), subject.getSubject());
 		}
 
 		for (int i = 0; courseMajors != null && i < courseMajors.length; i++) {
@@ -212,18 +240,18 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		}
 
 		if(deleteBeforeInsert){
-			courseDao.deleteAllOtherInfosCourse(courseDto.getCourseId());
+			courseDao.deleteAllOtherInfosCourse(courseDto.getCourseId(),false);
 		}
 		
 		courseDao.addAllOtherCourseInfo(courseDto.getCourseId(), industryMap,
-				tagetMap, majorMap, keywordMap);
+				tagetMap, majorMap, keywordMap, subjectMap);
 	}
 
 
 	@Override
 	public void deleteCourse(Course course) throws NbpxException {
 		courseDao.delete(course);
-		courseDao.deleteAllOtherInfosCourse(course.getCourseId());
+		courseDao.deleteAllOtherInfosCourse(course.getCourseId(),true);
 	}
 
 	// 根据城市获取课程信息
@@ -491,6 +519,15 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	@Resource
 	public void setKeywordDao(IKeywordDao keywordDao) {
 		this.keywordDao = keywordDao;
+	}
+
+	public ISubjectDao getSubjectDao() {
+		return subjectDao;
+	}
+	
+	@Resource
+	public void setSubjectDao(ISubjectDao subjectDao) {
+		this.subjectDao = subjectDao;
 	}
 
 }

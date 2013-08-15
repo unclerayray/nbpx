@@ -32,7 +32,7 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	 * @param majorMap
 	 * @param keywordMap
 	 */
-	public void addAllOtherCourseInfo(Integer courseId,Map<String,String> industryMap,Map<String,String> tagetMap,Map<String,String> majorMap,Map<Integer,String> keywordMap);
+	public void addAllOtherCourseInfo(Integer courseId,Map<String,String> industryMap,Map<String,String> tagetMap,Map<String,String> majorMap,Map<Integer,String> keywordMap,Map<Integer,String> subjectMap);
 	/**
 	 * 验证CourseCode的唯一性，重复返回true
 	 * @param course
@@ -54,5 +54,5 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	 * 用于在保存的时候删除原有的课程下所有的行业、专业、对象、关键字等，把新的数据全部插入
 	 * @param courseId
 	 */
-	public void deleteAllOtherInfosCourse(Integer courseId);
+	public void deleteAllOtherInfosCourse(Integer courseId,Boolean deleteCourseInfo);
 }

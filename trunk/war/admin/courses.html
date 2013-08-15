@@ -26,7 +26,6 @@
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
 			<th data-options="field:'isInner',width:60,formatter:function(value,row){if(row.isInner) {return '内训';}else{return '公开课';}}">类别</th>
 			<th data-options="field:'title',width:320">标题</th>
-			<th data-options="field:'shortName',width:200">专题</th>
 			<th data-options="field:'teacherName',width:80">讲师</th>
 			<th
 			data-options="field:'category',width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
@@ -46,7 +45,7 @@
 		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
 		onclick="destroyCourse()">删除课程</a><a
 		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-		iconCls="icon-dic" onclick="openInfoDlg1()">课程安排</a>
+		iconCls="icon-dic" onclick="openInfoDlg1(false)">课程安排</a>
 	</div>
 	<div>
 		课程类型: <input class="easyui-combobox" name="category" id="category"
@@ -80,7 +79,7 @@
 
 <div id="dlg" class="easyui-dialog"
 style="width: 1000px; height: 500px; padding: 5px 5px; top: 5px;"
-closed="true" modal="true" buttons="#dlg-buttons">
+closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 <form id="fm" method="post">
 	<table cellspacing="0" cellpadding="0" class="formTable">
 		<div>
@@ -110,7 +109,7 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			<tr>
 				<td class="itemText"  colspan="4">
 					<div>
-						<label>课程专题:</label> <input class="easyui-validatebox" id="courseShortName" name = "shortName"
+						<label>课程专题:</label> <input class="easyui-validatebox" id="courseSubject" name = "subject"
 						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程专题是必填项'" style="width: 400px;">
 					</div>
 				</td>
@@ -233,7 +232,9 @@ closed="true" modal="true" buttons="#dlg-buttons">
 			<div id="dlg-buttons">
 				<a
 				href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-dic" onclick="addTeacher()">增加讲师</a>
+				iconCls="icon-dic" onclick="addTeacher()">增加讲师</a><a
+				href="javascript:void(0)" class="easyui-linkbutton" 
+				iconCls="icon-dic" onclick="openInfoDlg1(true)">课程安排</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-ok" onclick="saveCourse(true)">保存</a> <a
 				href="javascript:void(0)" class="easyui-linkbutton"
@@ -268,7 +269,7 @@ closed="true" modal="true" buttons="#dlg-buttons">
 
 
 <div id="dlg_info" class="easyui-dialog"
-style="width: 380px; height: 435px; padding: 5px 10px" closed="true" 
+style="width: 380px; height: 435px; padding: 5px 10px" closed="true"  cache="false" 
 modal="true">
 <div id="tb_info" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
@@ -430,8 +431,8 @@ function saveCourse(close_dlg) {
 						});
 						if(close_dlg){$('#dlg').dialog('close'); // close the dialog
 					}
-					$('#p_codeName').combobox('reload');  
-					$('#p_codeName').combobox('clear');  
+					//$('#p_codeName').combobox('reload');  
+					//$('#p_codeName').combobox('clear');  
 						$('#dg').datagrid('reload'); // reload the data grid  
 						$('#dg').datagrid('clearSelections');
 						//alert('data = '+data.dlg_courseId);
@@ -559,10 +560,10 @@ function openInfoDlg(){
 							timeout : 1000,
 							showType : 'fade'
 						});
-						$('#p_codeName').combobox('reload');  
-						$('#p_codeName').combobox('clear');  
+						//$('#p_codeName').combobox('reload');  
+						//$('#p_codeName').combobox('clear');  
 						$('#dg').datagrid('reload'); // reload the data grid  
-			        	$('#dg').datagrid('clearSelections');
+						$('#dg').datagrid('clearSelections');
 						//alert('data = '+data.dlg_courseId);
 						$('#dlg-courseId').val(data.dlg_courseId);
 						$('#selected_courseId').val(data.dlg_courseId);
@@ -599,38 +600,87 @@ function openInfoDlg(){
 			});
 }
 
-function openInfoDlg1(){
-	var row = $('#dg').datagrid('getSelected');
-	if(row){
-		var cid = row.courseId;
-		$('#dlg-courseId').val(cid);
-		$('#selected_courseId').val(cid);
-		$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
-		$('#dg_info').datagrid({
-			url:'../struts/Course_queryCourseInfo?selected_courseId='+cid,  
-			idField:'courseInfoId',  
-			width: 350,
-			height:355,  
-			pagination:false,  
-			toolbar:'#tb_info',
-			singleSelect:true,
-			fitColumns:true,  
-			loadMsg:'正在加载，请稍候!',
-			columns:[[  
-			{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
-			{field:'startDate',title:'开始时间',width:140},  
-			{field:'endDate',title:'结束时间',width:140},
-			{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
-			]]
+function openInfoDlg1(openInside){
+	//alert('openInside = '+openInside);
+	if(openInside){
+		$.messager.confirm('Confirm','需要先保存课程记录，是否继续?',function(r) {
+			if (r) {
+				//alert('are we good?'); 
+				//var data = CKEDITOR.instances.content.getData();
+				$('#fm').form('submit', {
+					url : '../struts/Course_saveCourse?objectName=courseAllInfo',
+					onSubmit : function() {
+						return $('#fm').form('validate');
+					},success : function(data) {
+						var data = eval('(' + data + ')');
+						//alert('data = '+data);
+						//alert('data.success = ' + data.success);
+						if (data.success) {
+							$('#dlg-courseId').val(data.dlg_courseId);
+							$('#selected_courseId').val(data.dlg_courseId);
+							$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
+							$('#dg_info').datagrid({
+								url:'../struts/Course_queryCourseInfo?selected_courseId='+data.dlg_courseId,  
+								idField:'courseInfoId',  
+								width: 350,
+								height:355,  
+								pagination:false,  
+								toolbar:'#tb_info',
+								singleSelect:true,
+								fitColumns:true,  
+								loadMsg:'正在加载，请稍候!',
+								columns:[[  
+								{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
+								{field:'startDate',title:'开始时间',width:140},  
+								{field:'endDate',title:'结束时间',width:140},
+								{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
+								]]
+							});
+						} else {
+							$.messager.show({
+								title : 'Error',
+								msg : data.message,
+								timeout : 3000,
+								showType : 'fade'
+							});
+						}
+					}
+				});
+			}
 		});
-	}
-	else {
-		$.messager.show({
-			title : '温馨提示',
-			msg : '请先选择一行记录',
-			timeout : 2000,
-			showType : 'slide'
-		});
+	}else{
+		var row = $('#dg').datagrid('getSelected');
+		if(row){
+			var cid = row.courseId;
+			$('#dlg-courseId').val(cid);
+			$('#selected_courseId').val(cid);
+			$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
+			$('#dg_info').datagrid({
+				url:'../struts/Course_queryCourseInfo?selected_courseId='+cid,  
+				idField:'courseInfoId',  
+				width: 350,
+				height:355,  
+				pagination:false,  
+				toolbar:'#tb_info',
+				singleSelect:true,
+				fitColumns:true,  
+				loadMsg:'正在加载，请稍候!',
+				columns:[[  
+				{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
+				{field:'startDate',title:'开始时间',width:140},  
+				{field:'endDate',title:'结束时间',width:140},
+				{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
+				]]
+			});
+		}
+		else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
 	}
 }
 
@@ -665,11 +715,11 @@ function newCourseInfo(){
 					return $(this).form('validate');
 				},
 				success : function(data) {
-					alert(encodeURI(data));
+					//alert(encodeURI(data));
 					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
 					if (data.success) {
-						alert(data);
-						alert(data.message);
+						//alert(data);
+						//alert(data.message);
 						$.messager.show({
 							title : 'Success',
 							msg : data.message,
@@ -677,7 +727,7 @@ function newCourseInfo(){
 							showType : 'fade'
 						});
 						$('#dg_info').datagrid('reload');
-			        	$('#dg_info').datagrid('clearSelections');
+						$('#dg_info').datagrid('clearSelections');
 						$('#dlg_addInfo').dialog('close'); // close the dialog  
 					} else {
 						$.messager.show({
@@ -711,7 +761,7 @@ function newCourseInfo(){
 										$('#dg_info')
 										.datagrid(
 																				'reload'); // reload the Dic data
-							        	$('#dg_info').datagrid('clearSelections');
+										$('#dg_info').datagrid('clearSelections');
 									} else {
 										$.messager
 										.show({
@@ -723,7 +773,7 @@ function newCourseInfo(){
 										$('#dg_info')
 										.datagrid(
 											'reload');
-							        	$('#dg_info').datagrid('clearSelections');
+										$('#dg_info').datagrid('clearSelections');
 									}
 								}, 'json');
 						}
