@@ -23,10 +23,10 @@ public class ViewClassAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	
 	public ICourseService getCourseService() {
 		return courseService;
 	}
+	
 	@Resource
 	public void setCourseService(ICourseService courseService) {
 		this.courseService = courseService;
