@@ -1,10 +1,12 @@
 package com.nb.nbpx.keyword;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.nb.nbpx.BaseServiceTest;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
@@ -18,7 +20,7 @@ public class KeywordTest  extends BaseServiceTest {
 	@Resource
 	private IKeywordDao keywordDao;
 	
-	@Test
+	//@Test
 	@Rollback(true)
 	//@Transactional
 	public void testBatchInsert(){
@@ -27,10 +29,30 @@ public class KeywordTest  extends BaseServiceTest {
 		keywordDao.importKeywords(category, keywords);
 	}
 	
-	@Test
+	//@Test
 	public void testReplace(){
 		String str = "去符号标号！！当然。";
         str = str.replaceAll("\\pP", "");
         System.out.println(str);
+	}
+	
+	@Test
+	public void testAddHyperLink(){
+		String originalStr = "我们都爱企业培训，这样的<a href=\"http://www.baidu.com\">企业培训</a>是我们的好朋友，大家都喜欢企业培训一二三";
+		String reg = "";
+		String keywordStr = "企业培训";
+		reg = "[^(<a href=\".+\">)]?"+keywordStr+"[^(</a>)?]";
+		reg = "(?!((<.*?)|(<a.*?)))("+keywordStr+")(?!(([^<>]*?)>)|([^>]*?</a>))";
+//		reg = "[^"+keywordStr+"$]";
+		System.out.println("reg = " + reg);
+		String replacement = "<a href=\"http://www.baidu.com\">"+keywordStr+"</a>";
+		String result = originalStr.replaceAll(reg, replacement);
+		System.out.println("after Add HyperLink = " + result);
+		
+		String str = "正则表达式 Hello World,正则表达式 Hello World";
+		Pattern pattern = Pattern.compile(reg);
+		Matcher matcher = pattern.matcher(originalStr);
+		//替换第一个符合正则的数据
+		System.out.println(matcher.replaceAll(replacement));
 	}
 }

@@ -32,6 +32,7 @@ import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.NbpxException;
+import com.nb.nbpx.utils.SolrUtil;
 
 /**
  * @author Roger
@@ -104,33 +105,37 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 	@Override
 	public String fullTextQueryForHl(String q, Integer start, Integer rows) throws SolrServerException, IOException {
-		SolrServer solrServer = new HttpSolrServer("http://localhost:8080/solr");
+		String serverURL = SolrUtil.getCourseServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();
-		params.set("qt", "/select");
-		params.set("q", "content:"+q);
+		//params.set("qt", "/select");
+		//params.set("q", "content:"+q);
+		params.set("q", q);
 		params.set("start", start);
 		params.set("rows", rows);
+		//params.set("df","text_general");
 		//params.set("wt", "foo");
-		params.set("indent", true);
-		params.set("rows", rows);
+		//params.set("indent", true);
+		//params.set("rows", rows);
 		params.set("hl", true);
-		params.set("hl.fl", "content");
+		params.set("hl.fl", "title,content");
 		params.set("hl.simple.pre", "<em>");
 		params.set("hl.simple.post", "</em>");
 		
 		SolrQuery query = new SolrQuery();
+		query.set("qt", "search");
 		//query.set("q","*.*");
 		query.add(params);
 		//query.setc
-		query.addHighlightField("title");
-		query.addHighlightField("content");
+		//query.addHighlightField("title");
+		//query.addHighlightField("content");
 		QueryResponse rsp =solrServer.query(query);
 		SolrDocumentList list = rsp.getResults();
 
 		solrServer.ping();
 		QueryResponse response = solrServer.query(params);
 		Map<String, Map<String, List<String>>>  hlMap = response.getHighlighting();
-		return null;
+		return "";
 	}
 
 

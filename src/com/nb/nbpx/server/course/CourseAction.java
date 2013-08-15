@@ -4,6 +4,7 @@
 package com.nb.nbpx.server.course;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,8 +17,10 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
+import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
 
@@ -35,6 +38,7 @@ public class CourseAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private ISolrService dataImportor;
 	private ICourseService courseService;
+	private IKeywordService keywordService;
 	public String category;
 	public String courseCode;
 	public Integer courseId;
@@ -96,7 +100,9 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String saveCourse() {
+		List<Keyword> keywords = keywordService.saveKeywords(courseAllInfo);
 		Course cou = new Course(courseAllInfo);
+		cou.setContent(keywordService.setKeywordHyperLink(keywords, cou.getContent()));
 		try {
 			Boolean deleteBeforeInsert=false;
 			if(courseAllInfo.getCourseId()!=null){
@@ -277,6 +283,19 @@ public class CourseAction extends BaseAction {
 	}
 
 	public void setCourseAllInfo(CourseAllInfoDto courseAllInfo) {
+		//String regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
+		//String regEx1 = "[\\pP‘’“”]";
+		//courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(regEx1, ","));
+		//courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(regEx1, ","));
 		this.courseAllInfo = courseAllInfo;
+	}
+
+	public IKeywordService getKeywordService() {
+		return keywordService;
+	}
+
+	@Resource
+	public void setKeywordService(IKeywordService keywordService) {
+		this.keywordService = keywordService;
 	}
 }

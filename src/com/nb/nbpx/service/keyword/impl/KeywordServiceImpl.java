@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.keyword.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.keyword.IKeywordService;
@@ -70,5 +72,36 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 	}
 	public void setKeywordDao(IKeywordDao keywordDao) {
 		this.keywordDao = keywordDao;
+	}
+	@Override
+	public List<Keyword> saveKeywords(CourseAllInfoDto courseDto) {
+		List<Keyword> list = new ArrayList<Keyword>(); 
+		String[] keywordArr = null;
+		if (courseDto.getKeywords() != null) {
+			String keywordsStr = courseDto.getKeywords().replaceAll("，",
+					",");
+			keywordArr = keywordsStr.split(",");
+			for(String word:keywordArr){
+				Keyword keyword = new Keyword();
+				keyword.setCategory(courseDto.getCategory());
+				keyword.setKeyword(word);
+				keyword = keywordDao.saveOrGetExistsKeyword(keyword);
+				list.add(keyword);
+			}
+		}
+		return list;
+	}
+	@Override
+	public String setKeywordHyperLink(List<Keyword> keywords, String content) {
+		for(int i = 0;i<keywords.size();i++){
+			Keyword keyword = keywords.get(i);
+			if(keyword.getKeyword()==null||keyword.getKeyword().isEmpty()){
+				continue;
+			}
+			String reg = "(?!((<.*?)|(<a.*?)))("+keyword.getKeyword()+")(?!(([^<>]*?)>)|([^>]*?</a>))";
+			String replacement = "<a href=\"http://www.baidu.com\">"+keyword.getKeyword()+"</a>";
+			content = content.replaceAll(reg, replacement);
+		}
+		return content;
 	}
 }

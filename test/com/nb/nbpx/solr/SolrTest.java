@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import com.nb.nbpx.BaseServiceTest;
 import com.nb.nbpx.service.solr.ISolrService;
-import com.nb.nbpx.utils.SolrUtil;
 
 /**
  * SOLR相关的测试类
@@ -27,10 +26,10 @@ public class SolrTest extends BaseServiceTest {
 	@Resource
 	private ISolrService solrService;
 	
-	//@Test
+	@Test
 	public void testQuery() {
 		try {
-			String response = solrService.fullTextQueryForHl("工资", 0, 10);
+			String response = solrService.fullTextQueryForHl("领导", 0, 10);
 			Assert.assertNotNull(response);
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -53,7 +52,7 @@ public class SolrTest extends BaseServiceTest {
 	
 	//@Test
 	public void readFromProperty(){
-		SolrUtil.getCourseServiceUrl();
+		//SolrUtil.getCourseServiceUrl();
 	}
 
 	@Test
@@ -64,8 +63,8 @@ public class SolrTest extends BaseServiceTest {
 		String path = getClass().getProtectionDomain().getClassLoader().getResource(".").getPath();
 		System.out.println("path = "+path);
 		InputStream stream = ClassLoader.getSystemResourceAsStream("/solr.properties"); 
-		loc = "/"+loc.replace("\\", "/");
-		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"/conf/solr.properties"));
+		//loc = "/"+loc.replace("\\", "/");
+		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"\\conf\\solr.properties"));
 		//System.out.println("getName() = "+Main.class.getName());
 		//System.out.println("stream = "+stream.);
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();  

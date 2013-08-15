@@ -58,7 +58,6 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				int i = 0;
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.CourseInfo(c.courseInfoId, c.courseId, c.startDate,"
 								+ "c.endDate, c.city,'') from CourseInfo c where c.courseId="+courseId);

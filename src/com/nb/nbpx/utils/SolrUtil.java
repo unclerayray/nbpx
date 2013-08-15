@@ -1,45 +1,66 @@
 package com.nb.nbpx.utils;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class SolrUtil {
-	public static String getCourseServiceUrl(){
-		Properties props = new Properties();
-        FileInputStream fis;
+/**
+ * SOLR相关的工具类
+ * @author Roger
+ * @date 2013年8月4日
+ */
+public class SolrUtil {	
+	/**
+	 * 获取课程模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getCourseServerUrl() throws IOException{
+		String loc = new File(".").getCanonicalPath();
+		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"\\conf\\solr.properties"));
+		Properties prop = new Properties();
 		try {
-			fis = new FileInputStream("/conf/jdbc.properties");
-	        //loading properites from properties file
-	        props.load(fis);
-	        //reading property
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			prop.load(inxx);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-      
-        String username = props.getProperty("jdbc.username");
-        String driver = props.getProperty("jdbc.driver");
-		return "";
+		return prop.getProperty("solr.core_course.url");
 	}
 	
-	public static String getCourseServerUrl(){
+	/**
+	 * 获取文章模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getArticleServerUrl() throws IOException{
+		String loc = new File(".").getCanonicalPath();
+		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"\\conf\\solr.properties"));
 		Properties prop = new Properties();
-		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		InputStream stream = loader.getResourceAsStream("../../../../../conf/jdbc.properties");
 		try {
-			prop.load(stream);
+			prop.load(inxx);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//String url = prop.getProperty("solr.core_course.url");
-		String url = prop.getProperty("jdbc.url");
-		System.out.println("url = " + url);
-		return "";
+		return prop.getProperty("solr.core_article.url");
+	}
+	
+	/**
+	 * 获取关键词模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getKeywordServerUrl() throws IOException{
+		String loc = new File(".").getCanonicalPath();
+		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"\\conf\\solr.properties"));
+		Properties prop = new Properties();
+		try {
+			prop.load(inxx);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prop.getProperty("solr.core_keyword.url");
 	}
 }

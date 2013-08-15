@@ -21,6 +21,7 @@ public class CourseAllInfoDto extends Course implements Serializable{
 	private String targets;
 	private String major;
 	private String industry;
+	private String subject;
 	
 	
 	public CourseAllInfoDto(){
@@ -34,7 +35,7 @@ public class CourseAllInfoDto extends Course implements Serializable{
 		this.teacherId = course.teacherId;
 		this.teacherName = course.teacherName;
 		this.category = course.category;
-		this.shortName = course.shortName;
+		//this.shortName = course.shortName;
 		this.content = course.content;
 		this.blockedContent = course.blockedContent;
 		this.isInner = course.isInner;
@@ -51,13 +52,14 @@ public class CourseAllInfoDto extends Course implements Serializable{
 	}
 	
 	public CourseAllInfoDto(String keywords, String targets, String major,
-			String industry) {
+			String industry, String subject) {
 		super();
 		//this.setCourseId(courseId);
 		this.keywords = keywords;
 		this.targets = targets;
 		this.major = major;
 		this.industry = industry;
+		this.subject = subject;
 	}
 	public String getKeywords() {
 		return keywords;
@@ -82,5 +84,13 @@ public class CourseAllInfoDto extends Course implements Serializable{
 	}
 	public void setTargets(String targets) {
 		this.targets = targets;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 }
