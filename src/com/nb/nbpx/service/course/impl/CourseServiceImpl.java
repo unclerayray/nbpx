@@ -390,6 +390,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			detail.put("from", format.format(temp.getStartDate()));
 			detail.put("to", format.format(temp.getEndDate()));
 			Dictionary cityD = dictionaryDao.getDictionary(temp.getCity(), "");
+			detail.put("cityID", temp.getCity());
 			detail.put("city", cityD.getShowName());
 			details.add(detail);
 		}
@@ -406,23 +407,43 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			
 		//培训对象
 		List<Map<String,String>> trainObject = new ArrayList<Map<String,String>>();
+		Map<String,String> object = new HashMap<String,String>();
+		object.put("id", "1");
+		object.put("name", "总经理");
+		trainObject.add(object);
 		classInfo.put("object", trainObject);
 			
 		//行业
-		List<Map<String,String>> indestory = new ArrayList<Map<String,String>>();
-		classInfo.put("indestory", indestory);
+		List<Map<String,String>> indestorys = new ArrayList<Map<String,String>>();
+		Map<String,String> indestory = new HashMap<String,String>();
+		indestory.put("id", "1");
+		indestory.put("name", "电力行业");
+		indestorys.add(indestory);
+		classInfo.put("indestory", indestorys);
 			
 		//专业
-		List<Map<String,String>> major = new ArrayList<Map<String,String>>();
-		classInfo.put("major", major);
+		List<Map<String,String>> majors = new ArrayList<Map<String,String>>();
+		Map<String,String> major = new HashMap<String,String>();
+		major.put("id", "1");
+		major.put("name", "电气工程");
+		majors.add(major);
+		classInfo.put("major", majors);
 			
 		//关键字
 		List<Map<String,String>> keyWords = new ArrayList<Map<String,String>>();
+		Map<String,String> keyWord = new HashMap<String,String>();
+		keyWord.put("id", "1");
+		keyWord.put("name", "电力");
+		keyWords.add(keyWord);
 		classInfo.put("keyWords", keyWords);
 		
 		//专题
-		List<Map<String,String>> series = new ArrayList<Map<String,String>>();
-		classInfo.put("series", series);
+		List<Map<String,String>> serieses = new ArrayList<Map<String,String>>();
+		Map<String,String> series = new HashMap<String,String>();
+		series.put("id", "1");
+		series.put("name", "人力资源");
+		serieses.add(series);
+		classInfo.put("series", serieses);
 
 		return JsonUtil.formatMapToJson(classInfo).toString();
 	}
