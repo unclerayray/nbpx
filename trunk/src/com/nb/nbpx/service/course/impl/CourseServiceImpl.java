@@ -432,7 +432,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		classInfo.put("content", currCourse.getContent());
 		classInfo.put("title", currCourse.getTitle());
 		classInfo.put("classNum", currCourse.getCourseId());
-			
+		classInfo.put("isInner", currCourse.getIsInner());
+		
+		//path
+		classInfo.put("categoryID", currCourse.getCategory());
+		Dictionary catergory = dictionaryDao.getDictionary(currCourse.getCategory(), "");
+		classInfo.put("categoryName", catergory.getShowName());
+		
 		//培训对象
 		List<Map<String,String>> trainObject = new ArrayList<Map<String,String>>();
 		Map<String,String> object = new HashMap<String,String>();
@@ -473,7 +479,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		serieses.add(series);
 		classInfo.put("series", serieses);
 
-		return JsonUtil.formatMapToJson(classInfo).toString();
+		return JsonUtil.getJsonString(classInfo).toString();
 	}
 	
 	public ITeacherInfoDao getTeacherDao() {

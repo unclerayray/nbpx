@@ -28,25 +28,38 @@
 				$('#classContent').html(jsonObject.content);
 				$('#teacher').html("<span>培训师：</span>"+jsonObject.teacher);
 				$('#price').html("<span>课程费用：</span>"+jsonObject.price);
+				if(jsonObject.isInner == '0'){
+					$('#inAttend').css('display','block');
+					$('#outAttend').css('display','none');
+				}
+				else{
+					$('#inAttend').css('display','none');
+					$('#outAttend').css('display','block');
+				}
+				
+				//路径
+				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li>";
+				if(jsonObject.isInner == '0')
+					path += "<li><a href='#'>企业培训</a></li>";
+				else
+					path += "<li><a href='#'>企业内训</a></li>";
+				path += "<li class='bread'>&gt;&gt;</li><li><a href='xx.jsp?id="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li><li class='bread'>&gt;&gt;</li>";
+				path += "<li>"+jsonObject.title+"</li></ul><div class='clear'></div>";
+				$('#path').html(path);
+				
 				//添加时间 地点
-				alert(123);
 				var places = jsonObject.time;
-				alert(123);
 				var placeStr="<span>上课地点：</span>";
 				var timeStr = "<span>举办时间：</span>";
 			
 				$.each(places,function(n,value){
 					timeStr += value.from+"至"+value.to;
 					placeStr += value.city;
-				});
-				/*for(var i=0;i<place.length;i++){
-
-					if(i < place.length-1){
-						placeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
+					if(n<places.length-1){
 						timeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
+						placeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
 					}
-				}*/
-				alert(placeStr);
+				});
 				$('#place').html(placeStr);
 				$('#time').html(timeStr);
 				
@@ -99,23 +112,12 @@
 						seriesStr += ",";
 				}
 				$('#series').html(seriesStr);
-				
 			}
 		});
 	});
 </script>
 <!--当前路径 start-->
-<div class="mainContent path">
-	<ul>
-		<li>当前位置:&nbsp;</li>
-		<li><a href="main.html" target="_self">首页</a></li>
-		<li class="bread">&gt;&gt;</li>
-		<li><a href="#">企业培训</a></li>
-		<li class="bread">&gt;&gt;</li>
-		<li><a href="#">人力资源课程</a></li>
-		<li class="bread">&gt;&gt;</li>
-		<li>成为卓越领导、构建高绩效团队</li>
-	</ul>
+<div class="mainContent path" id="path">
 	<div class="clear"></div>
 </div>
 <!--当前路径 end-->
@@ -159,14 +161,14 @@
 	</div>
 	<div class="clear"></div>
 	<!--报名表 start-->
-	<div class="attend">
+	<div class="attend" id="inAttend">
 		<h2>报名/咨询</h2>
 		<div style="height:15px; display:block" class="clear"></div>
 		<div ><h3>企业培训:</h3><span>020-61908283</span><span>020-39948135</span></div>
 		<div class="clear"></div>
 	</div>
 	
-	<div class="attendTable">
+	<div class="attendTable" id="outAttend">
 		<table>
 			<thead><h2>报名/咨询表</h2></thead>
 			<tr>
