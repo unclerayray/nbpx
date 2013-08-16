@@ -22,7 +22,7 @@
 			url:"struts/ViewClass_ViewClass?id="+<%=id%>,
 			success:function(data){
 				var jsonObject = eval('('+data+')');
-				$('#titile').html(jsonObject.title);
+				$('#title').html("<h1>"+jsonObject.title+"</h1>");
 				$('#courseId').html("课程编号："+jsonObject.classNum);
 				$('#blockContent').html(jsonObject.bloclContent);
 				$('#classContent').html(jsonObject.content);
@@ -126,7 +126,7 @@
 	<!--左边部分课程信息 start-->
 	<div class="leftInPart">
 		<div class="classDetail" >
-			<div ><h1 id="title">成为卓越领导、123</h1>
+			<div ><span id="title"></span>
 			<div class="classNum" id="courseId">课程编号：12345</div></div>
 			<div class="detail">
 			<div class="classLeftPart" id="courseInfo">

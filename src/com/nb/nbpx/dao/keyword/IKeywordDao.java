@@ -3,6 +3,7 @@ package com.nb.nbpx.dao.keyword;
 import java.util.List;
 
 import com.nb.nbpx.dao.IBaseDao;
+import com.nb.nbpx.pojo.course.CourseKeyword;
 import com.nb.nbpx.pojo.keyword.Keyword;
 
 /**
@@ -25,4 +26,8 @@ public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	public Boolean recommandKeywords(String[] keyIds);
 	
 	public Boolean importKeywords(String category, String[] keywords);
+	
+	//得到关键词列表，flag:1代表点击率，2代表推荐，3代表热搜
+	public List<Keyword> getKeyWordsList(boolean isInner,Integer flag,Integer start,Integer rows);
+
 }

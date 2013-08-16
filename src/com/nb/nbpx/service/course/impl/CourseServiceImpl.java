@@ -326,7 +326,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	}
 
 	// 得到培训的课程
-	public String getNXCourse(String type, int flag) {
+	public String getPXCourse(String type, int flag) {
 		
 		List<Course> courseList = null;
 		if (flag == 1)//推荐课程
@@ -351,6 +351,23 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			result.add(row);
 		}
 		return JsonUtil.formatListToJson(result);
+	}
+	
+	//得到内训的课程
+	public String getNXCourse(String type,int flag){
+		List<Course> courseList = null;
+		if (flag == 1)//推荐课程
+			courseList = this.courseDao.getLastedCourse(true, type, true,
+					false, 10, 0);
+		if (flag == 2)//精品课程
+			courseList = this.courseDao.getLastedCourse(true, type, false,
+					true, 10, 0);
+		if (flag == 3)//热门课程
+			courseList = this.courseDao.getHotCourse(true, type, 10, 0);
+		if(flag == 4)//最新课程
+			courseList =null;
+		return "";
+		
 	}
 	
 	// 获取首页推荐的 flag=1表示推荐，flag=2表示精品课程，flag=3表示热门课程

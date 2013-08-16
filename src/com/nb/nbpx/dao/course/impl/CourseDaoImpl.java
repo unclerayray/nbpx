@@ -178,7 +178,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			return false;
 		}
 	}
-
+	
+	//按照点击率来选取
 	public List<Course> getHotCourse(final Boolean ifInner, final String type,
 			final Integer rows, final Integer start) {
 		List<Course> list = new ArrayList<Course>();
@@ -191,7 +192,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
 								+ "c.teacherId, '', c.category,"
-								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where 1=1 ");
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c ,CourseInfo b where c.courseId = b.courseId and 1=1 ");
 				if (type != null && !"".equals(type))
 					hql.append(" and c.category = '" + type + "'");
 				if (ifInner != null) {// 区分内训和培训
@@ -200,8 +201,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					else
 						hql.append(" and c.isInner = 0");
 				}
-				// 取向后的有效的日期
-				hql.append(" and c.courseId in (select b.courseId from CourseInfo b where TO_DAYS(NOW())-TO_DAYS(b.startDate)<0) order by c.hits desc");
+				
+				//取向后的有效的日期
+				hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				
 				Query query = session.createQuery(hql.toString());
 
 				if (start != null && rows != null) {
