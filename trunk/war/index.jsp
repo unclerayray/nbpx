@@ -349,6 +349,9 @@
 		//加载内训课程
 		for(var i=1;i<=6;i++)
 			seePartTab('a',1,i);
+		//加载关键词
+		for(var i=1;i<=3;i++)
+			seePartTab('k',1,i);
 	})
 	
 	function changeCity(flag){
@@ -381,7 +384,7 @@
 						valueStr += "<div class='item first'>";
 					else
 						valueStr += "<div class='item'>";	
-					valueStr += "<div class='title'><a href='#'>"+value.title+"</a></div>"+
+					valueStr += "<div class='title'><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></div>"+
 								"<div class='infor'><span class='teacher'>["+value.teacher+"]</span><span class='date'>"+value.date+
 								"</span><span class='city'>"+value.city+"</span></div></div>";
 				})
@@ -391,29 +394,86 @@
 	}
 	function seePartTab(pre,flag,part){
 		var count = 0;
+		var cssOn = "tabOn";
+		var cssOff = "tabOff";
 		if(pre == 'a')
 			count = 3;
 		if(pre == 'b')
 			count = 4;
-		if(pre == 'c')
-			count = 2;
+		if(pre == 'k'){//flag为1代表是培训关键词，2代表内训关键词，3代表文章关键词
+			if(part  == 1){
+				count = 2;
+				cssOn = "tabOn half";
+				cssOff = "tabOff half";
+			}else{
+				count = 3;
+				cssOn = "tabOn three";
+				cssOff = "tabOff three";
+			}
+		}
+		
 		for(var i=1;i<=count;i++){
 			if(i == flag){
-				$('#'+pre+part+i).attr('class','tabOn');
+				$('#'+pre+part+i).attr('class',cssOn);
 				loadPartDate(pre,flag,part);
 			}else
-				$('#'+pre+part+i).attr('class','tabOff');
+				$('#'+pre+part+i).attr('class',cssOff);
 		}	
 	}
+	
 	function loadPartDate(pre,flag,part){
-		if(pre == 'a'){
+		if(pre == 'a'){//获取培训的内容
 			$.ajax({
 				url:encodeURI('struts/Main_getPeiXun?flag='+flag+'&type='+part),
 				success: function(data){
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject,function(n,value){
-						valueStr += "<li><a href='#'>"+value.title+"</a></li>";
+						valueStr += "<li><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></li>";
+					});
+
+					$('#'+pre+part).html(valueStr);
+				}		
+			})
+		}
+		if(pre == 'k'){//获取关键词 flag 1代表是培训关键词，2代表内训关键词，3代表文章关键词
+			var urlStr;var sortType;
+			if(part == '1'){//培训关键词	
+				if(flag == '1')
+					sortType = '3';//热搜
+				else
+					sortType = '1';//点击率排行
+				urlStr = 'struts/Main_getKeywords?isInner=0';
+			}else if(part == '2'){//内训关键词
+				if(flag == '1')
+					sortType = '3';
+				else if(flag == '2')
+					sortType = '2';
+				else
+					sortType = '1';
+				urlStr = 'struts/Main_getKeywords?isInner=1';
+			}else{//文章关键词
+				if(flag == '1')
+					sortType = '3';
+				else if(flag == '2')
+					sortType = '1';
+				else
+					sortType = '2';
+				urlStr = "";
+			}
+			$.ajax({
+				url:encodeURI(urlStr+"&flag="+sortType),
+				success: function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						var color = "red";
+						if(n>2)
+							color = "blue";
+						if(sortType != '2' )//不是推荐的 会有访问次数
+							valueStr += "<li class='line'><a><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
+						else
+							valueStr += "<li class='line'><a><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
 					});
 
 					$('#'+pre+part).html(valueStr);
@@ -428,7 +488,7 @@
 				var jsonObject = eval("("+data+")");			
 				var valueStr = "";
 				$.each(jsonObject,function(n,value){
-					valueStr += "<li><a href='#'>"+value.title+"</a><div>"+value.date+"/<span class='money'>￥</span>"+value.price+"</div></li>";
+					valueStr += "<li><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a><div>"+value.date+"/<span class='money'>￥</span>"+value.price+"</div></li>";
 				});
 				$('#cityList').html(valueStr);
 			}		
@@ -498,7 +558,7 @@
 				<li><a href="#">05月</a><span>|</span></li>
 				<li><a href="#">06月</a><span>&nbsp;</span></li>
 				<li><a href="#">07月</a><span>|</span></li>
-				<li ><a href="#">08月</a><span>|</span></li>
+				<li><a href="#">08月</a><span>|</span></li>
 				<li><a href="#">09月</a><span>|</span></li>
 				<li><a href="#">10月</a><span>|</span></li>
 				<li><a href="#">11月</a><span>|</span></li>
@@ -574,122 +634,6 @@
 				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
 				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
 			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>			
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>	
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>	
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-				<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-			<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-			<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-			<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>	
-			<div class="item">
-			<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>
-			<div class="item">
-			<div class="title"><a href="#">成功的产品经理高级实务</a></div>
-				<div class="infor"><span class="teacher">[张守春]</span><span class="date">2013-04-12</span><span class="city">广州</span></div>
-			</div>	
 			<div class="clear"></div>
 		</div>
 		
@@ -724,15 +668,6 @@
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4" id="a1">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 				</div>
@@ -752,15 +687,6 @@
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4" id="a2">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 					
@@ -771,23 +697,13 @@
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn half" >关键词热搜</div>
-					<div class="tabOff half">关键词排行</div>
+					<div class="tabOn half" id="k11"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',1,1)">关键词热搜</a></div>
+					<div class="tabOff half" id="k12"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',2,1)">关键词排行</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 15px;"/>
-					<ul class="list7" style="padding-top:10px" >
+					<ul class="list7" style="padding-top:10px" id="k1">
 						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li  class="line"><a><span class="red">2</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">3</span><span class="text">企业内训</span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">4</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">5</span><span class="text">技术人员管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">6</span><span class="text">人力资源  </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">7</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">8</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">9</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">10</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">10</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -807,15 +723,6 @@
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4" id="a3">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 				</div>
@@ -834,15 +741,6 @@
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4" id="a4">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -890,15 +788,6 @@
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4" id="a5">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 				</div>
@@ -917,15 +806,6 @@
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4" id="a6">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1090,15 +970,6 @@
 					<div style="padding-left:25px">
 						<ul class="list4 blue">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 				</div>
@@ -1126,15 +997,6 @@
 					<div style="padding-left:25px">
 						<ul class="list4 blue">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 				</div>
@@ -1143,25 +1005,14 @@
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >关键词热搜</div>
-					<div class="tabOff three">关键词推荐</div>
-					<div class="tabOff three">排行</div>
+					<div class="tabOn three" id="k21"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',1,2)">关键词热搜</a></div>
+					<div class="tabOff three" id="k22"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',2,2)">关键词推荐</a></div>
+					<div class="tabOff three" id="k23"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',3,2)">排行</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg" style="padding:0px 15px;">
-					<ul class="list7" style="padding-top:10px">
+					<ul class="list7" style="padding-top:10px" id="k2">
 						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li  class="line"><a><span class="red">2</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">3</span><span class="text">企业内训</span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">4</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">5</span><span class="text">技术人员管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">6</span><span class="text">人力资源  </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">7</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">8</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">9</span><span class="text">技术人员管理技能</span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">10</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">11</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">12</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
 					</ul>
 					<div class="clear"></div>
 				</div>

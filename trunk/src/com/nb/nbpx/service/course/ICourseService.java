@@ -38,6 +38,7 @@ public interface ICourseService extends IBaseService {
 	//首页加载课程
 	public String getCoursesByCity(String city,Integer rows, Integer start);
 	public String getTopCourse(int flag,Boolean isInner);
+	public String getPXCourse(String type,int flag);
 	public String getNXCourse(String type,int flag);
 	//查看课程内容
 	public String viewCourse(String courseId);

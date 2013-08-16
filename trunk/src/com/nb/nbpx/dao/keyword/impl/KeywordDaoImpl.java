@@ -2,6 +2,7 @@ package com.nb.nbpx.dao.keyword.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -200,5 +201,36 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 		}
 		return true;
 	}
+	
+	//得到搜索排行关键词,flag:1代表点击率，2代表推荐，3代表热搜
+	@SuppressWarnings("unchecked")
+	public List<Keyword> getKeyWordsList(final boolean isInner,final Integer flag,final Integer start,final Integer rows){
+		List<Keyword> list = new ArrayList<Keyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from keywords k,coursekeywords a, courses b where a.courseId = b.courseId  and k.keyId=a.keywordId and k.flag=1 ");
+				if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的关键词也是培训的关键词，但是培训的关键词不一定是内训的关键词
+					sql.append("and b.isInner = 1");
+				if(flag == 1)
+					sql.append(" order by k.hits desc");
+				else if(flag == 2)
+					sql.append(" and k.recommanded =1 order by k.recommandDate desc");
+				else
+					sql.append(" order by k.searchCnt desc");
+				
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
 
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
 }

@@ -36,4 +36,6 @@ public interface IKeywordService extends IBaseService {
 	 * @return
 	 */
 	public String setKeywordHyperLink(List<Keyword> keywords,String content);
+	
+	public String getKeyWordsList(boolean isInner,Integer flag,Integer start,Integer rows);
 }

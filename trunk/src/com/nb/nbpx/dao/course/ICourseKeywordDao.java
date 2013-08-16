@@ -1,5 +1,7 @@
 package com.nb.nbpx.dao.course;
 
+import java.util.List;
+
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.pojo.course.CourseKeyword;
 
@@ -9,5 +11,4 @@ import com.nb.nbpx.pojo.course.CourseKeyword;
  * @date 2013年7月21日
  */
 public interface ICourseKeywordDao extends IBaseDao<CourseKeyword, Integer>{
-	
 }

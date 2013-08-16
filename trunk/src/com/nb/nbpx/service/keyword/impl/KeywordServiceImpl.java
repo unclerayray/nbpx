@@ -27,6 +27,27 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 
 	@Resource
 	private IKeywordDao keywordDao;
+	
+	//获取关键词列表
+	public String getKeyWordsList(boolean isInner,Integer flag,Integer start,Integer rows){
+		List<Keyword> list  = keywordDao.getKeyWordsList(isInner, flag, start, rows);
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Keyword temp : list){
+			Map<String,String> result = new HashMap<String,String>();
+			result.put("id", temp.getKeyId().toString());
+			result.put("name", temp.getKeyword());
+			if(flag == 1)//1代表点击率，2代表推荐，3代表热搜
+				result.put("count", temp.getHits().toString());
+			if(flag == 3)
+				result.put("count", temp.getSearchCnt().toString());
+			
+			results.add(result);
+		}
+		String json = JsonUtil.getJsonString(results);
+		
+		return json;
+	}
+	
 	@Override
 	public String queryKeywords(String category, String keywordText,Integer keywordId,
 			Integer rows, Integer start, String sort, String order) throws NbpxException {
