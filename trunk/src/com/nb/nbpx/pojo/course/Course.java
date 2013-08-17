@@ -40,7 +40,7 @@ public class Course extends BaseEntity implements Serializable {
 	public String blockedContent;
 	public Boolean isInner;
 	public Boolean state;
-	public String videoUrl;
+	public Boolean hasVideo;
 	public Integer hits;
 	public Integer createdBy;
 	public Integer lastUpdatedBy;
@@ -121,7 +121,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.blockedContent = courseDto.blockedContent;
 		this.isInner = courseDto.isInner;
 		this.state = courseDto.state;
-		this.videoUrl = courseDto.videoUrl;
+		this.hasVideo = courseDto.hasVideo;
 		this.hits = courseDto.hits;
 		this.createdBy = courseDto.createdBy;
 		this.lastUpdatedBy = courseDto.lastUpdatedBy;
@@ -163,7 +163,7 @@ public class Course extends BaseEntity implements Serializable {
 	 * @param blockedContent
 	 * @param isInner
 	 * @param state
-	 * @param videoUrl
+	 * @param hasVideo
 	 * @param hits
 	 * @param createdBy
 	 * @param lastUpdatedBy
@@ -176,7 +176,7 @@ public class Course extends BaseEntity implements Serializable {
 	public Course(Integer courseId, String title, Double price,
 			String teacherId, String teacherName, String category,
 			String content, String blockedContent, Boolean isInner,
-			Boolean state, String videoUrl, Integer hits, Integer createdBy,
+			Boolean state, Boolean hasVideo, Integer hits, Integer createdBy,
 			Integer lastUpdatedBy, Date creationDate, Date lastUpdateDate,
 			String categoryName, Boolean recommanded, Boolean classic) {
 		super();
@@ -190,7 +190,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.blockedContent = blockedContent;
 		this.isInner = isInner;
 		this.state = state;
-		this.videoUrl = videoUrl;
+		this.hasVideo = hasVideo;
 		this.hits = hits;
 		this.createdBy = createdBy;
 		this.lastUpdatedBy = lastUpdatedBy;
@@ -285,12 +285,12 @@ public class Course extends BaseEntity implements Serializable {
 		this.state = state;
 	}
 
-	public String getVideoUrl() {
-		return videoUrl;
+	public Boolean getHasVideo() {
+		return hasVideo;
 	}
 
-	public void setVideoUrl(String videoUrl) {
-		this.videoUrl = videoUrl;
+	public void setHasVideo(Boolean hasVideo) {
+		this.hasVideo = hasVideo;
 	}
 
 	public Integer getHits() {

@@ -194,7 +194,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 						</td>
 					</tr>
 					<tr>
-						<td colspan="4">
+						<td colspan="5">
 							<div id="contentDiv">
 								<textarea name="content" id="content"  style="width:900px"></textarea>
 							</div></td>
@@ -221,6 +221,14 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							<td class="itemText">
 								<div>
 									<label>是否内训:</label> <input name="isInner" id="isInner"
+									type="checkbox">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="itemText">
+								<div>
+									<label>是否有视频:</label> <input name="hasVideo" id="hasVideo"
 									type="checkbox">
 								</div>
 							</td>
@@ -386,6 +394,10 @@ function queryCourse() {
 							$('#isInner').attr('checked', 'checked');
 						else
 							$('#isInner').attr('checked', false);
+						if (data.hasVideo)
+							$('#hasVideo').attr('checked', 'checked');
+						else
+							$('#hasVideo').attr('checked', false);
 
 						//$('#courseKeywords').combobox('setValues',data.keywords.split(','));
 						if(data.targets!=''){
