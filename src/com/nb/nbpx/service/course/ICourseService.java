@@ -47,4 +47,6 @@ public interface ICourseService extends IBaseService {
 	public void saveCourseInfo(CourseInfo courseInfo);
 	public void deleteCourseInfo(CourseInfo courseInfo);
 	public String queryKeywords(Integer courseId);
+	//选择本周或者本月最热的培训课程
+	public String selectTimeTopCourse(String flag,int start,int rows);
 }

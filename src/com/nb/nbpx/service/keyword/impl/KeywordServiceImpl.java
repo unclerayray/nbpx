@@ -29,8 +29,8 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 	private IKeywordDao keywordDao;
 	
 	//获取关键词列表
-	public String getKeyWordsList(boolean isInner,Integer flag,Integer start,Integer rows){
-		List<Keyword> list  = keywordDao.getKeyWordsList(isInner, flag, start, rows);
+	public String getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows){
+		List<Keyword> list  = keywordDao.getKeyWordsList(isInner, flag, type, start, rows);
 		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
 		for(Keyword temp : list){
 			Map<String,String> result = new HashMap<String,String>();

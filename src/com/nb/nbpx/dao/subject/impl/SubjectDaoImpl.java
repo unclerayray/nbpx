@@ -187,5 +187,38 @@ public class SubjectDaoImpl extends BaseDaoImpl<Subject, Integer> implements ISu
 		}
 		return true;
 	}
+	
+	//得到专题列表，flag:1代表点击率，2代表推荐，3代表热搜
+	public List<Subject> getSubjectsList(final boolean isInner,final String type,final Integer flag,final Integer start,final Integer rows){
+		List<Subject> list = getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						StringBuffer sql = new StringBuffer(
+								"select s.*  from subjects s,coursesubjects a, courses b where a.courseId = b.courseId  and s.subjectId=a.subjectId and s.flag=1 ");
+						if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的关键词也是培训的关键词，但是培训的关键词不一定是内训的关键词
+							sql.append("and b.isInner = 1");
+						if(type != null && "".equals(type))//关键词类别
+							sql.append(" and s.category="+type);
+							
+						if(flag == 1)
+							sql.append(" order by s.hits desc");
+						else if(flag == 2)
+							sql.append(" and s.recommanded =1 order by s.recommandDate desc");
+						else
+							sql.append(" order by s.searchCnt desc");
+						
+						Query query =  session.createSQLQuery(sql.toString()).addEntity(Subject.class);
+						if (start != null && rows != null) {
+							query.setFirstResult(start);
+							query.setMaxResults(rows);
+						}
+						return query.list();
+					}
+				});
+		return list;
+	}
 
 }

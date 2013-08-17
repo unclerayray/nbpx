@@ -204,7 +204,7 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 	
 	//得到搜索排行关键词,flag:1代表点击率，2代表推荐，3代表热搜
 	@SuppressWarnings("unchecked")
-	public List<Keyword> getKeyWordsList(final boolean isInner,final Integer flag,final Integer start,final Integer rows){
+	public List<Keyword> getKeyWordsList(final boolean isInner,final Integer flag,final String type,final Integer start,final Integer rows){
 		List<Keyword> list = new ArrayList<Keyword>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			@Override
@@ -213,7 +213,10 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 				StringBuffer sql = new StringBuffer(
 						"select k.*  from keywords k,coursekeywords a, courses b where a.courseId = b.courseId  and k.keyId=a.keywordId and k.flag=1 ");
 				if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的关键词也是培训的关键词，但是培训的关键词不一定是内训的关键词
-					sql.append("and b.isInner = 1");
+					sql.append(" and b.isInner = 1");
+				if(type != null && "".equals(type))//关键词类别
+					sql.append(" and k.category="+type);
+					
 				if(flag == 1)
 					sql.append(" order by k.hits desc");
 				else if(flag == 2)

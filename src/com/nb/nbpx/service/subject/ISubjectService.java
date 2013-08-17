@@ -1,5 +1,8 @@
 package com.nb.nbpx.service.subject;
 
+import java.util.List;
+
+import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
 
@@ -17,4 +20,7 @@ public interface ISubjectService extends IBaseService{
 	public Boolean saveRecommands(String[] subjectIds);
 	
 	public Boolean importSubjects(String category, String[] subjectsArray);
+	
+	//得到专题列表，flag:1代表点击率，2代表推荐，3代表热搜
+	public String getSubjectsList(boolean isInner,String type,Integer flag,Integer start,Integer rows);
 }

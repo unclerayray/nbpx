@@ -346,12 +346,18 @@
 		loadCityCourse(1);
 		//加载企业培训
 		loadTop(1);
-		//加载内训课程
+		//加载培训课程
 		for(var i=1;i<=6;i++)
 			seePartTab('a',1,i);
+		//加载内训课程
+		for(var i=1;i<=8;i++)
+			seePartTab('b',1,i);
 		//加载关键词
 		for(var i=1;i<=3;i++)
 			seePartTab('k',1,i);
+		//加载专题
+		for(var i=1;i<=2;i++)
+			seePartTab('s',1,i);
 	})
 	
 	function changeCity(flag){
@@ -392,6 +398,7 @@
 			}		
 		})
 	}
+	
 	function seePartTab(pre,flag,part){
 		var count = 0;
 		var cssOn = "tabOn";
@@ -411,6 +418,12 @@
 				cssOff = "tabOff three";
 			}
 		}
+		if(pre == 's' || pre == 't'){//专题
+			count = 3;
+			cssOn = "tabOn three";
+			cssOff = "tabOff three";
+		}
+
 		
 		for(var i=1;i<=count;i++){
 			if(i == flag){
@@ -435,6 +448,79 @@
 					$('#'+pre+part).html(valueStr);
 				}		
 			})
+		}
+		if(pre == 'b'){//加载内训的内容
+			$.ajax({
+				url:encodeURI('struts/Main_getNeiXun?flag='+flag+'&type='+part),
+				success: function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						if(n == 0){
+							$('#'+pre+part+"P").html("<img src=\""+value.img+"\" />");
+							$('#'+pre+part+"T").html(value.title);
+							$('#'+pre+part+"C").html(value.content+"...<span>[<a href='viewClass.jsp?id="+value.id+"'>详细</a>]</span>");
+						}else
+							valueStr += "<li><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></li>";
+					});
+
+					$('#'+pre+part).html(valueStr);
+				}		
+			})
+		}
+		if(pre == 't'){//推荐、本月最热、本周最热
+			var returnValue = "[]";
+			if(flag == '1'){//课程推荐
+				
+			}else{//本周最热、本月最热
+				var time = 1;//一周
+				if(flag == '2')
+					time = 2;//一个月
+				$.ajax({
+					url:"structs/Main_getTimeTopCourse?flag="+time,
+					success:function(data){
+						returnValue = data;
+					}
+				});
+			}
+			var jsonObject = eval('('+returnValue+')');
+			var valueStr = "";
+			$.each(jsonObject,function(n,value){
+				valueStr += "<li><a class='left' href='viewClass.jsp?id="+value.id+"'>"+value.name+"</a></li>";
+			});
+			$('#'+pre+part).html(valueStr);
+			
+		}
+		if(pre == 's'){//获取专题，flag 1代表培训专题，2代表内训关键词
+			var urlStr;var sortType;
+			if(part == '1')//培训
+				urlStr = "struts/Main_getSubjects?isInner=0";
+			else//内训
+				urlStr = "struts/Main_getSubjects?isInner=1";
+			if(flag == '1')
+				sortType = "2";
+			else if(flag == '2')
+				sortType = "3";
+			else
+				sortType = "1";
+			$.ajax({
+				url:encodeURI(urlStr+"&flag="+sortType),
+				success:function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						var color = "red";
+						if(n>2)
+							color = "blue";
+						if(sortType == '2')//推荐的 没有次数
+							valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
+						else
+							valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
+					});
+					$('#'+pre+part).html(valueStr);
+				}
+			});
+			
 		}
 		if(pre == 'k'){//获取关键词 flag 1代表是培训关键词，2代表内训关键词，3代表文章关键词
 			var urlStr;var sortType;
@@ -475,7 +561,7 @@
 						else
 							valueStr += "<li class='line'><a><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
 					});
-
+			
 					$('#'+pre+part).html(valueStr);
 				}		
 			})
@@ -751,24 +837,14 @@
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >专题推荐</div>
-					<div class="tabOff three">专题热搜</div>
-					<div class="tabOff three">专题排行</div>
+					<div class="tabOn three" id="s11"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',1,1)">专题推荐</a></div>
+					<div class="tabOff three" id="s12"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',2,1)">专题热搜</a></div>
+					<div class="tabOff three" id="s13"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',3,1)">专题排行</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 15px;">
-					<ul class="list7" style="padding-top:10px">
+					<ul class="list7" style="padding-top:10px" id="s1">
 						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li  class="line"><a><span class="red">2</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">3</span><span class="text">企业内训</span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">4</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">5</span><span class="text">技术人员管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">6</span><span class="text">人力资源  </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">7</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">8</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">9</span><span class="text">技术人员管理技能</span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">10</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">11</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -907,25 +983,14 @@
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >培训推荐</div>
-					<div class="tabOff three">本月最热</div>
-					<div class="tabOff three">本周最热</div>
+					<div class="tabOn three" id="t11"><a href='javascript:void(0)' onclick="javascript:seePartTab('t',1,1)">培训推荐</a></div>
+					<div class="tabOff three" id="t12"><a href='javascript:void(0)' onclick="javascript:seePartTab('t',2,1)">本月最热</a></div>
+					<div class="tabOff three" id="t13"><a href='javascript:void(0)' onclick="javascript:seePartTab('t',3,1)">本周最热</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg" style="padding:0px 0px 0px 15px;">
-					<ul class="list5" style="padding-top:10px;width:230px;">
+					<ul class="list5" style="padding-top:10px;width:230px;" id="t1">
 						<li><a class="left">生产管理技能提升</a></li>
-						<li><a class="left">薪酬体系设计与薪酬管理技巧</a></li>
-						<li><a class="left">采购谈判技巧</a></li>
-						<li><a class="left">生产管理技能提升</a></li>
-						<li><a class="left">薪酬体系设计与薪酬管理技巧</a></li>
-						<li><a class="left">采购谈判技巧</a></li>
-						<li><a class="left">生产管理技能提升</a></li>
-						<li><a class="left">薪酬体系设计与薪酬管理技巧</a></li>
-						<li><a class="left">采购谈判技巧</a></li>
-						<li><a class="left">生产管理技能提升</a></li>
-						<li><a class="left">薪酬体系设计与薪酬管理技巧</a></li>
-						<li><a class="left">薪酬体系设计与薪酬管理技巧</a></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -951,24 +1016,24 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn" id="b11"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,1)">精品企业内训</a></div>
-				<div class="tabOff" id="b12"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,1)">最新</a></div>
-				<div class="tabOff" id="b13"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,1)">经典</a></div>
-				<div class="tabOff" id="b14"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,1)">排行</a></div>
+				<div class="tabOn" id="b71"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,7)">精品企业内训</a></div>
+				<div class="tabOff" id="b72"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,7)">最新</a></div>
+				<div class="tabOff" id="b73"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,7)">经典</a></div>
+				<div class="tabOff" id="b74"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,7)">排行</a></div>
 				<div class="more"><a href="#">更多</a></div>
 				<div class="clear"></div>
 			</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b7P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b7T">战略性人力资源管理规划</div>
+							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
+						<ul class="list4 blue" id="b7">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -978,24 +1043,24 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b21"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,2)">最新开发企业内训</a></div>
-					<div class="tabOff" id="b22"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,2)">最新</a></div>
-					<div class="tabOff" id="b23"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,2)">经典</a></div>
-				    <div class="tabOff" id="b24"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,2)">排行</a></div>
+					<div class="tabOn" id="b81"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,8)">最新开发企业内训</a></div>
+					<div class="tabOff" id="b82"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,8)">最新</a></div>
+					<div class="tabOff" id="b83"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,8)">经典</a></div>
+				    <div class="tabOff" id="b84"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,8)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b8P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b8T">战略性人力资源管理规划</div>
+							<div class="desc" id="b8C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
+						<ul class="list4 blue" id="b8">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1022,33 +1087,24 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b31"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,3)">财务管理企业内训</a></div>
-					<div class="tabOff" id="b32"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,3)">最新</a></div>
-					<div class="tabOff" id="b33"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,3)">经典</a></div>
-				    <div class="tabOff" id="b34"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,3)">排行</a></div>
+					<div class="tabOn" id="b11"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,1)">财务管理企业内训</a></div>
+					<div class="tabOff" id="b12"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,1)">最新</a></div>
+					<div class="tabOff" id="b13"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,1)">经典</a></div>
+				    <div class="tabOff" id="b14"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,1)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b1P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b1T">战略性人力资源管理规划</div>
+							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 blue" id="b1">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1058,33 +1114,24 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b41"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,4)">物流供应链企业内训</a></div>
-					<div class="tabOff" id="b42"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,4)">最新</a></div>
-					<div class="tabOff" id="b43"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,4)">经典</a></div>
-				    <div class="tabOff" id="b44"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,4)">排行</a></div>
+					<div class="tabOn" id="b21"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,2)">物流供应链企业内训</a></div>
+					<div class="tabOff" id="b22"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,2)">最新</a></div>
+					<div class="tabOff" id="b23"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,2)">经典</a></div>
+				    <div class="tabOff" id="b24"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,2)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b2P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b7T">战略性人力资源管理规划</div>
+							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 blue" id="b2">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1094,25 +1141,14 @@
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >专题推荐</div>
-					<div class="tabOff three">专题热搜</div>
-					<div class="tabOff three">专题排行</div>
+					<div class="tabOn three" id="s21"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',1,2)">专题推荐</a></div>
+					<div class="tabOff three" id="s22"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',2,2)">专题热搜</a></div>
+					<div class="tabOff three" id="s23"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',3,2)">专题排行</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg" style="padding:0px 15px;"> 
-					<ul class="list7" style="padding-top:10px">
+					<ul class="list7" style="padding-top:10px" id="s2">
 						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li  class="line"><a><span class="red">2</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">3</span><span class="text">企业内训</span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">4</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">5</span><span class="text">技术人员管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">6</span><span class="text">人力资源  </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">7</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">8</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">9</span><span class="text">技术人员管理技能</span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">10</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">11</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">12</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -1122,33 +1158,24 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b51"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,5)">人力资源企业内训</a></div>
-					<div class="tabOff" id="b52"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,5)">最新</a></div>
-					<div class="tabOff" id="b53"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,5)">经典</a></div>
-				    <div class="tabOff" id="b54"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,5)">排行</a></div>
+					<div class="tabOn" id="b31"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,3)">人力资源企业内训</a></div>
+					<div class="tabOff" id="b32"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,3)">最新</a></div>
+					<div class="tabOff" id="b33"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,3)">经典</a></div>
+				    <div class="tabOff" id="b34"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,3)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b3P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b3T">战略性人力资源管理规划</div>
+							<div class="desc" id="b3C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 blue" id="b3">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1158,33 +1185,24 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b61"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,6)">生产管理企业内训</a></div>
-					<div class="tabOff" id="b62"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,6)">最新</a></div>
-					<div class="tabOff" id="b63"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,6)">经典</a></div>
-				    <div class="tabOff" id="b64"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,6)">排行</a></div>
+					<div class="tabOn" id="b41"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,4)">生产管理企业内训</a></div>
+					<div class="tabOff" id="b42"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,4)">最新</a></div>
+					<div class="tabOff" id="b43"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,4)">经典</a></div>
+				    <div class="tabOff" id="b44"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,4)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b4P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b4T">战略性人力资源管理规划</div>
+							<div class="desc" id="b4C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 blue" id="b4">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1222,33 +1240,24 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b71"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,7)">营销客服企业内训</a></div>
-					<div class="tabOff" id="b72"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,7)">最新</a></div>
-					<div class="tabOff" id="b73"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,7)">经典</a></div>
-				    <div class="tabOff" id="b74"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,7)">排行</a></div>
+					<div class="tabOn" id="b51"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,5)">营销客服企业内训</a></div>
+					<div class="tabOff" id="b52"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,5)">最新</a></div>
+					<div class="tabOff" id="b53"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,5)">经典</a></div>
+				    <div class="tabOff" id="b54"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,5)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b5P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b5T">战略性人力资源管理规划</div>
+							<div class="desc" id="b5C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 blue" id="b5">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1258,33 +1267,24 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b81"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,8)">综合战略企业内训</a></div>
-					<div class="tabOff" id="b82"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,8)">最新</a></div>
-					<div class="tabOff" id="b83"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,8)">经典</a></div>
-				    <div class="tabOff" id="b84"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,8)">排行</a></div>
+					<div class="tabOn" id="b61"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,6)">综合战略企业内训</a></div>
+					<div class="tabOff" id="b62"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,6)">最新</a></div>
+					<div class="tabOff" id="b63"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,6)">经典</a></div>
+				    <div class="tabOff" id="b64"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,6)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b6P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title">战略性人力资源管理规划</div>
-							<div class="desc">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b6T">战略性人力资源管理规划</div>
+							<div class="desc" id="b6C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 blue" id="b6">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>

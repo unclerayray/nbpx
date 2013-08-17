@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.subject.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.subject.ISubjectDao;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.subject.ISubjectService;
@@ -56,6 +58,27 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 		}
 		List<Subject> list = subjectDao.queryEntityListByProperties(Subject.class, null, null, propsMap);
 		return JsonUtil.formatListToJson(list);
+	}
+
+	//得到专题列表，flag:1代表点击率，2代表推荐，3代表热搜
+	public String getSubjectsList(boolean isInner,String type,Integer flag,Integer start,Integer rows){
+		List<Subject> subjects = subjectDao.getSubjectsList(isInner, type, flag, start, rows);
+		
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Subject temp : subjects){
+			Map<String,String> result = new HashMap<String,String>();
+			result.put("id", temp.getSubjectId().toString());
+			result.put("name", temp.getSubject());
+			if(flag == 1)//1代表点击率，2代表推荐，3代表热搜
+				result.put("count", temp.getHits().toString());
+			if(flag == 3)
+				result.put("count", temp.getSearchCnt().toString());
+			
+			results.add(result);
+		}
+		String json = JsonUtil.getJsonString(results);
+		
+		return json;
 	}
 
 	@Override

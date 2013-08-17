@@ -55,4 +55,6 @@ public interface ICourseDao extends IBaseDao<Course, Integer>{
 	 * @param courseId
 	 */
 	public void deleteAllOtherInfosCourse(Integer courseId,Boolean deleteCourseInfo);
+	//获取本月或者本周最热的培训课程
+	public List<Course> selectTimeTopCourse(String flag,Integer start,Integer rows);
 }
