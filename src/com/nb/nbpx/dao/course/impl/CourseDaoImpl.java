@@ -330,7 +330,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"+
 						"c.teacherId,'',"+
 						"c.category,c.content,c.blockedContent,"+
-						"c.isInner,c.state, c.videoUrl,c.hits,"+
+						"c.isInner,c.state, c.hasVideo,c.hits,"+
 						"c.createdBy,c.lastUpdatedBy,c.creationDate,"+
 						"c.lastUpdateDate,'',c.recommanded,"+
 						"c.classic) from Course c where  c.courseId ="+courseId);
@@ -489,10 +489,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	@Override
 	public Course updateCourse(Course course) {
 		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
-				+ "blockedContent = ?  ,videoUrl = ? ,lastUpdateDate = ?  ,"
+				+ "blockedContent = ?  ,hasVideo = ? ,lastUpdateDate = ?  ,"
 				+ "recommanded = ? ,state = ? ,classic = ? WHERE courseId = ?";
 		Object[] values = {course.getTitle(),course.getTeacherId(),course.getCategory(),course.getIsInner(),course.getPrice(),course.getContent(),
-				course.getBlockedContent(),course.getVideoUrl(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
+				course.getBlockedContent(),course.getHasVideo(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
 	}
