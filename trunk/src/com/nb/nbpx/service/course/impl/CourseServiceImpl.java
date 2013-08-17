@@ -337,7 +337,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 					true, 10, 0);
 		if (flag == 3)//热门课程
 			courseList = this.courseDao.getHotCourse(false, type, 10, 0);
-		if (courseList == null)
+		if (courseList == null)//最新课程
 			return "暂无课程信息";
 		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		for (int i = 0; i < courseList.size(); i++) {
@@ -357,16 +357,31 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	public String getNXCourse(String type,int flag){
 		List<Course> courseList = null;
 		if (flag == 1)//推荐课程
-			courseList = this.courseDao.getLastedCourse(true, type, true,
-					false, 10, 0);
-		if (flag == 2)//精品课程
-			courseList = this.courseDao.getLastedCourse(true, type, false,
-					true, 10, 0);
-		if (flag == 3)//热门课程
-			courseList = this.courseDao.getHotCourse(true, type, 10, 0);
-		if(flag == 4)//最新课程
-			courseList =null;
-		return "";
+			courseList = this.courseDao.getLastedCourse(true, type, true,false, 11, 0);
+		if(flag == 2)//最新课程
+			courseList = this.courseDao.getLastedCourse(true, null, false, false, 11, 0);
+		if (flag == 3)//精品课程
+			courseList = this.courseDao.getLastedCourse(true, type, false,true, 11, 0);
+		if (flag == 4)//热门排行课程
+			courseList = this.courseDao.getHotCourse(true, type, 11, 0);
+
+		
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		for (int i = 0; i < courseList.size(); i++) {
+			
+			Course temp = courseList.get(i);
+			if (temp == null)
+				continue;
+			Map<String,Object> row = new HashMap<String,Object>();
+			if(i==0){
+				row.put("content","我是一个测试内容长度为30，啊哈哈哈哈哈阿道夫京哈发借款方");
+				row.put("img", "images/824.jpg");//老师头像的照片地址，需要修改
+			}
+			row.put("id", temp.getCourseId());
+			row.put("title", temp.getTitle());
+			result.add(row);
+		}
+		return JsonUtil.formatListToJson(result);
 		
 	}
 	
@@ -499,6 +514,19 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		return JsonUtil.getJsonString(classInfo).toString();
 	}
 	
+	@Override
+	public String selectTimeTopCourse(String flag,int start,int rows) {
+		List<Course> courses = courseDao.selectTimeTopCourse(flag,start,rows);
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Course temp : courses){
+			Map<String,String> row = new HashMap<String,String>();
+			row.put("id", temp.getCourseId().toString());
+			row.put("name", temp.getTitle());
+			results.add(row);
+		}
+		return JsonUtil.getJsonString(results);
+	}
+	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}
@@ -552,5 +580,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	public void setSubjectDao(ISubjectDao subjectDao) {
 		this.subjectDao = subjectDao;
 	}
+
+
 
 }

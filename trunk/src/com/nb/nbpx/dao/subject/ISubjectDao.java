@@ -3,6 +3,7 @@ package com.nb.nbpx.dao.subject;
 import java.util.List;
 
 import com.nb.nbpx.dao.IBaseDao;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 
 public interface ISubjectDao extends IBaseDao<Subject,Integer>{
@@ -20,4 +21,7 @@ public interface ISubjectDao extends IBaseDao<Subject,Integer>{
 	public Boolean recommandSubjects(String[] keyIds);
 	
 	public Boolean importSubjects(String category, String[] subjects);
+	
+	//得到专题列表，flag:1代表点击率，2代表推荐，3代表热搜
+	public List<Subject> getSubjectsList(boolean isInner,String type,Integer flag,Integer start,Integer rows);
 }

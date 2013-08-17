@@ -230,7 +230,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
 								+ "c.teacherId, '', c.category,"
-								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c,CourseInfo b where c.courseId = b.courseId and 1=1 ");
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c,CourseInfo b where c.courseId = b.courseId and c.state=1 and 1=1 ");
 				if (type != null && !"".equals(type))
 					hql.append(" and c.category = '" + type + "'");
 				if (ifInner != null) {// 区分内训和培训
@@ -495,5 +495,32 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				course.getBlockedContent(),course.getHasVideo(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
+	}
+	
+	//flag:1为一个星期，2为一个月
+	@Override
+	public List<Course> selectTimeTopCourse(final String flag,final Integer start,final Integer rows) {
+		List<Course> result = new ArrayList<Course>();
+		result = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+					int days = 7;
+					if("2".equals(flag))
+						days = 30;
+					StringBuffer sql = new StringBuffer("select distinct a.* from courses a,courseinfo b where a.courseId = b.courseId and a.state=1 and TO_DAYS(NOW())-TO_DAYS(b.startDate) between 0 and "+days+" order by a.hits desc");
+					
+					Query query = session.createSQLQuery(sql.toString()).addEntity(Course.class);
+					
+					if (start != null && rows != null) {
+						query.setFirstResult(start);
+						query.setMaxResults(rows);
+					}
+					
+					return query.list();
+			}
+		});
+	
+		return result;
 	}
 }

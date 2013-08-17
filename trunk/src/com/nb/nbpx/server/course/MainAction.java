@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.keyword.IKeywordService;
+import com.nb.nbpx.service.subject.ISubjectService;
 
 @Component("MainAction")
 @Scope("prototype")
@@ -15,6 +16,7 @@ public class MainAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
 	private ICourseService courseService;
 	private IKeywordService keywordService;
+	private ISubjectService subjectService;
 
 	public String flag;//标记top Course的三种属性(1-推荐，2-精品，3-排行)||关键词(1-点击，2-推荐，3-热搜)
 	public String isInner;//标记是内训还是培训
@@ -58,11 +60,15 @@ public class MainAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	//获得
+	//获得内训的课程
 	public String getNeiXun(){
 		String typeCode = "003_0"+type;//(01-财务管理,02-物流管理,03-人力资源,04-生产管理,05-营销培训,06-综合战略)
-		
-		//String result = courseService
+		String result  = "";
+		if(!"7".equals(type) && !"8".equals(type))
+			result = courseService.getNXCourse(typeCode, Integer.parseInt(flag));
+		else
+			result = "[]";
+		this.inputStream = castToInputStream(result);
 		
 		return SUCCESS;
 	}
@@ -78,7 +84,35 @@ public class MainAction extends BaseAction{
 			rows = 12;
 			ifInner = true;
 		}	
-		String result = keywordService.getKeyWordsList(ifInner, Integer.parseInt(flag), start, rows);
+		String result = keywordService.getKeyWordsList(ifInner, Integer.parseInt(flag),null, start, rows);
+		
+		this.inputStream = castToInputStream(result);
+		return SUCCESS;
+	}
+	
+	//获取培训专题或者内训专题排行
+	public String getSubjects(){
+		int start = 0;
+		int rows = 0;
+		Boolean ifInner = false;
+		if("0".equals(isInner))//培训是10行
+			rows = 11;
+		else{//内训是12行
+			rows = 12;
+			ifInner = true;
+		}
+		
+		String result = subjectService.getSubjectsList(ifInner, null, Integer.parseInt(flag), start, rows);
+		
+		this.inputStream = castToInputStream(result);
+		return SUCCESS;
+	}
+	
+	//获取本周最热或者本月最热的培训课程
+	public String getTimeTopCourse(){
+		int start = 0;
+		int rows = 10;
+		String result = courseService.selectTimeTopCourse(flag,start,rows);
 		
 		this.inputStream = castToInputStream(result);
 		return SUCCESS;
@@ -87,11 +121,17 @@ public class MainAction extends BaseAction{
 	
 	
 	
-	
+
+	public ISubjectService getSubjectService() {
+		return subjectService;
+	}
+	@Resource
+	public void setSubjectService(ISubjectService subjectService) {
+		this.subjectService = subjectService;
+	}
 	public IKeywordService getKeywordService() {
 		return keywordService;
 	}
-	
 	@Resource
 	public void setKeywordService(IKeywordService keywordService) {
 		this.keywordService = keywordService;
