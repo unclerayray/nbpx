@@ -1,7 +1,6 @@
 package com.nb.nbpx.utils;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,14 +12,14 @@ import java.util.Properties;
  * @date 2013年8月4日
  */
 public class SolrUtil {	
+	public static String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 	/**
 	 * 获取课程模块的Server URL
 	 * @return
 	 * @throws IOException
 	 */
 	public static String getCourseServerUrl() throws IOException{
-		String loc = new File(".").getCanonicalPath();
-		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"\\conf\\solr.properties"));
+		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
 			prop.load(inxx);
@@ -36,8 +35,7 @@ public class SolrUtil {
 	 * @throws IOException
 	 */
 	public static String getArticleServerUrl() throws IOException{
-		String loc = new File(".").getCanonicalPath();
-		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"\\conf\\solr.properties"));
+		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
 			prop.load(inxx);
@@ -53,8 +51,7 @@ public class SolrUtil {
 	 * @throws IOException
 	 */
 	public static String getKeywordServerUrl() throws IOException{
-		String loc = new File(".").getCanonicalPath();
-		InputStream inxx = new BufferedInputStream(new FileInputStream(loc+"\\conf\\solr.properties"));
+		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
 			prop.load(inxx);
@@ -62,5 +59,21 @@ public class SolrUtil {
 			e.printStackTrace();
 		}
 		return prop.getProperty("solr.core_keyword.url");
+	}
+	
+	/**
+	 * 获取专题模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getSubjectServerUrl() throws IOException{
+		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
+		Properties prop = new Properties();
+		try {
+			prop.load(inxx);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prop.getProperty("solr.core_subject.url");
 	}
 }

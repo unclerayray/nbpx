@@ -40,7 +40,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 	@Override
 	public List<Course> queryCourses(final String category,
-			final Integer courseId, final Integer rows, final Integer start) {
+			final Integer courseId, final Integer rows, final Integer start, final String sort, final String order) {
 		List<Course> list = new ArrayList<Course>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -51,7 +51,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Course"
 								+ " (c.courseId, c.title,c.isInner, c.teacherId, "
-								+ "ti.realName, c.category, fd.showName, "
+								+ "ti.realName, c.category, fd.showName, c.lastUpdateDate, "
 								+ " c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
 								+ " where 1 = 1 ");
 				if (category != null && !category.isEmpty()) {
@@ -63,6 +63,15 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				}
 				hql.append(" and c.category = fd.codeName ");
 				hql.append(" and ti.teacherId = c.teacherId");
+
+				if (sort != null && !sort.isEmpty()) {
+					hql.append(" order by c." + sort);
+				}else{
+					hql.append(" order by c.lastUpdateDate desc ");
+				}
+				if (order != null && !order.isEmpty()) {
+					hql.append(" " + order);
+				}
 				Query query = session.createQuery(hql.toString());
 
 				if (category != null && !category.isEmpty()) {
@@ -165,8 +174,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer(
 						"select count(d) from Course d where 1 = 1 ");
 				hql.append(" and title = '" + course.getTitle()
-						+ "' and teacherId = '" + course.getTeacherId()
-						+ "'");
+						+ "' and teacherId = '" + course.getTeacherId() + "'");
 				Query query = session.createQuery(hql.toString());
 				return query.list();
 			}
@@ -178,8 +186,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			return false;
 		}
 	}
-	
-	//按照点击率来选取
+
+	// 按照点击率来选取
 	public List<Course> getHotCourse(final Boolean ifInner, final String type,
 			final Integer rows, final Integer start) {
 		List<Course> list = new ArrayList<Course>();
@@ -201,10 +209,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					else
 						hql.append(" and c.isInner = 0");
 				}
-				
-				//取向后的有效的日期
+
+				// 取向后的有效的日期
 				hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
-				
+
 				Query query = session.createQuery(hql.toString());
 
 				if (start != null && rows != null) {
@@ -216,6 +224,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		});
 		return list;
 	}
+
 	// 获取最新的课程信息
 	public List<Course> getLastedCourse(final Boolean ifInner,
 			final String type, final Boolean ifRecommand,
@@ -317,9 +326,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		return list;
 
 	}
-	
-	//根据课程ID获取课程信息
-	public Course getCourseById(final Integer courseId){
+
+	// 根据课程ID获取课程信息
+	public Course getCourseById(final Integer courseId) {
 		List<Course> result = new ArrayList<Course>();
 		result = getHibernateTemplate().executeFind(new HibernateCallback() {
 			@Override
@@ -327,35 +336,38 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"+
-						"c.teacherId,'',"+
-						"c.category,c.content,c.blockedContent,"+
-						"c.isInner,c.state, c.hasVideo,c.hits,"+
-						"c.createdBy,c.lastUpdatedBy,c.creationDate,"+
-						"c.lastUpdateDate,'',c.recommanded,"+
-						"c.classic) from Course c where  c.courseId ="+courseId);
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"
+								+ "c.teacherId,'',"
+								+ "c.category,c.content,c.blockedContent,"
+								+ "c.isInner,c.state, c.hasVideo,c.hits,"
+								+ "c.createdBy,c.lastUpdatedBy,c.creationDate,"
+								+ "c.lastUpdateDate,'',c.recommanded,"
+								+ "c.classic) from Course c where  c.courseId ="
+								+ courseId);
 				Query query = session.createQuery(hql.toString());
 				return query.list();
 			}
 		});
-		if(result == null || result.size() == 0)
+		if (result == null || result.size() == 0)
 			return null;
-		return (Course)result.get(0);
+		return (Course) result.get(0);
 	}
 
 	@Override
-	public void deleteAllOtherInfosCourse(Integer courseId,Boolean deleteCourseInfo) {
+	public void deleteAllOtherInfosCourse(Integer courseId,
+			Boolean deleteCourseInfo) {
 		String sql1 = "delete from courseinfo where courseId =" + courseId;
 		String sql2 = "delete from coursekeywords where courseId =" + courseId;
 		String sql3 = "delete from coursemajor where courseId =" + courseId;
 		String sql4 = "delete from coursetarget where courseId =" + courseId;
 		String sql5 = "delete from courseindustry where courseId =" + courseId;
 		String sql6 = "delete from courseSubjects where courseId =" + courseId;
-		if(deleteCourseInfo){
-			String[] sqlArr = { sql1, sql2, sql3, sql4, sql5, sql6 };
+		String sql7 = "delete from courseProduct where courseId =" + courseId;
+		if (deleteCourseInfo) {
+			String[] sqlArr = { sql1, sql2, sql3, sql4, sql5, sql6, sql7 };
 			jdbcTemplate.batchUpdate(sqlArr);
-		}else{
-			String[] sqlArr = {sql2, sql3, sql4, sql5, sql6 };
+		} else {
+			String[] sqlArr = { sql2, sql3, sql4, sql5, sql6, sql7 };
 			jdbcTemplate.batchUpdate(sqlArr);
 		}
 	}
@@ -369,6 +381,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		String[] courseMajors = courseDto.getMajor().split(",");
 		String[] courseTargets = courseDto.getTargets().split(",");
 		String[] courseIndustry = courseDto.getIndustry().split(",");
+		String[] courseProduct = courseDto.getIndustry().split(",");
 		for (String str : courseKeywords) {
 			StringBuffer sql = new StringBuffer(
 					"insert into coursekeywords (courseId,keyword) values ");
@@ -386,7 +399,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					.append("');");
 			list.add(sql.toString());
 		}
-		
+
 		for (String str : courseMajors) {
 			StringBuffer sql = new StringBuffer(
 					"insert into coursemajor (courseId,major) values ");
@@ -410,7 +423,14 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					.append("');");
 			list.add(sql.toString());
 		}
-
+		
+		for (String str : courseProduct) {
+			StringBuffer sql = new StringBuffer(
+					"insert into courseProduct (courseId,product) values ");
+			sql.append("(").append(courseId).append(",'").append(str)
+					.append("');");
+			list.add(sql.toString());
+		}
 
 		String[] sqlArr = list.toArray(new String[list.size()]);
 		jdbcTemplate.batchUpdate(sqlArr);
@@ -420,13 +440,15 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	@Override
 	public void addAllOtherCourseInfo(Integer courseId,
 			Map<String, String> industryMap, Map<String, String> tagetMap,
-			Map<String, String> majorMap, Map<Integer, String> keywordMap, Map<Integer, String> subjectMap) {
+			Map<String, String> majorMap, Map<Integer, String> keywordMap,
+			Map<Integer, String> subjectMap, Map<String, String> productMap) {
 		List<String> list = new ArrayList<String>();
 		Iterator industryIter = industryMap.entrySet().iterator();
 		Iterator tagetIter = tagetMap.entrySet().iterator();
 		Iterator majorIter = majorMap.entrySet().iterator();
 		Iterator keywordIter = keywordMap.entrySet().iterator();
 		Iterator subjectIter = subjectMap.entrySet().iterator();
+		Iterator productIter = productMap.entrySet().iterator();
 		while (industryIter.hasNext()) {
 			Map.Entry entry = (Map.Entry) industryIter.next();
 			String code = entry.getKey().toString();
@@ -448,6 +470,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					.append("','").append(code).append("');");
 			list.add(sql.toString());
 		}
+		
+		while (productIter.hasNext()) {
+			Map.Entry entry = (Map.Entry) productIter.next();
+			String code = entry.getKey().toString();
+			String value = entry.getValue().toString();
+			StringBuffer sql = new StringBuffer(
+					"insert into courseProduct (courseId,product,productCode) values ");
+			sql.append("(").append(courseId).append(",'").append(value)
+					.append("','").append(code).append("');");
+			list.add(sql.toString());
+		}
 
 		while (majorIter.hasNext()) {
 			Map.Entry entry = (Map.Entry) majorIter.next();
@@ -459,10 +492,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					.append("','").append(code).append("');");
 			list.add(sql.toString());
 		}
-		
+
 		while (keywordIter.hasNext()) {
 			Map.Entry entry = (Map.Entry) keywordIter.next();
-			Integer wordId = (Integer)(entry.getKey());
+			Integer wordId = (Integer) (entry.getKey());
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
 					"insert into courseKeywords (courseId,keyword,keywordId) values ");
@@ -470,10 +503,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					.append("','").append(wordId).append("');");
 			list.add(sql.toString());
 		}
-		
+
 		while (subjectIter.hasNext()) {
 			Map.Entry entry = (Map.Entry) subjectIter.next();
-			Integer subjectId = (Integer)(entry.getKey());
+			Integer subjectId = (Integer) (entry.getKey());
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
 					"insert into courseSubjects (courseId,subject,subjectId) values ");
@@ -481,7 +514,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					.append("','").append(subjectId).append("');");
 			list.add(sql.toString());
 		}
-		
+
 		String[] sqlArr = list.toArray(new String[list.size()]);
 		jdbcTemplate.batchUpdate(sqlArr);
 	}
@@ -491,8 +524,12 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
 				+ "blockedContent = ?  ,hasVideo = ? ,lastUpdateDate = ?  ,"
 				+ "recommanded = ? ,state = ? ,classic = ? WHERE courseId = ?";
-		Object[] values = {course.getTitle(),course.getTeacherId(),course.getCategory(),course.getIsInner(),course.getPrice(),course.getContent(),
-				course.getBlockedContent(),course.getHasVideo(),course.getLastUpdateDate(),course.getRecommanded(),course.getState(),course.getClassic(),course.getCourseId()};
+		Object[] values = { course.getTitle(), course.getTeacherId(),
+				course.getCategory(), course.getIsInner(), course.getPrice(),
+				course.getContent(), course.getBlockedContent(),
+				course.getHasVideo(), course.getLastUpdateDate(),
+				course.getRecommanded(), course.getState(),
+				course.getClassic(), course.getCourseId() };
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
 	}

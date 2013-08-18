@@ -22,17 +22,18 @@
 	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
 	<thead>
 		<tr>
-			<th data-options="field:'courseId',width:50">课程代码</th>
+			<th data-options="field:'courseId',sortable:true,width:50">课程代码</th>
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
 			<th data-options="field:'isInner',width:60,formatter:function(value,row){if(row.isInner) {return '内训';}else{return '公开课';}}">类别</th>
-			<th data-options="field:'title',width:320">标题</th>
-			<th data-options="field:'teacherName',width:80">讲师</th>
+			<th data-options="field:'title',sortable:true,width:320">标题</th>
+			<th data-options="field:'teacherName',sortable:true,width:80">讲师</th>
 			<th
-			data-options="field:'category',width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
-			<th data-options="field:'hits',width:80">课程点击量</th>
-			<th data-options="field:'price',width:80">课程收费</th>
+			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
+			<th data-options="field:'hits',sortable:true,width:80">课程点击量</th>
+			<th data-options="field:'price',sortable:true,width:80">课程收费</th>
+			<th data-options="field:'lastUpdateDate',sortable:true,width:120">更新时间</th>
 			<th
-			data-options="field:'state',width:50,formatter:function(value,row){if(row.state) {return '启用';}else{return '禁用';}}">状态</th>
+			data-options="field:'state',width:50,sortable:true,formatter:function(value,row){if(row.state) {return '启用';}else{return '禁用';}}">状态</th>
 		</tr>
 	</thead>
 </table>
@@ -141,7 +142,8 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 				</td>
 				<td class="itemText">
 					<div>
-						<label>课程讲师:</label> <input class="easyui-combobox"
+						<label>课程讲师:</label>
+						<input type="hidden" name="teacherName" id="teacherName"> <input class="easyui-combobox"
 						name="teacherId" id="teacherId"
 						data-options="
 						url:'../struts/Course_queryComboTeacher',
@@ -170,7 +172,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							panelHeight:'auto',
 							multiple:true,
 							editable:false"  
-							style="width: 135px;">
+							style="width: 120px;">
 						</td>
 						<td  class="itemText">
 							<label>课程专业:</label> <input name="major" id="courseMajor"  class="easyui-combobox" data-options="  
@@ -180,7 +182,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							panelHeight:'auto',
 							multiple:true,
 							editable:false"
-							style="width: 130px;">
+							style="width: 120px;">
 						</td>
 						<td  class="itemText">
 							<label>课程行业:</label> <input name="industry" id="courseIndustry"  class="easyui-combobox" data-options="  
@@ -190,7 +192,17 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							panelHeight:'auto',
 							multiple:true,
 							editable:false "
-							style="width: 160px;">
+							style="width: 120px;">
+						</td>
+						<td  class="itemText">
+							<label>课程产品:</label> <input name="product" id="courseProduct"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=011',   
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'auto',
+							multiple:true,
+							editable:false "
+							style="width: 120px;">
 						</td>
 					</tr>
 					<tr>
@@ -374,6 +386,11 @@ function queryCourse() {
 							valueField:'codeName',  
 							textField:'showName'
 						}); 
+						$('#courseProduct').combobox({
+							url:'../struts/Dictionary_queryComboDics?p_dicType=011',  
+							valueField:'codeName',  
+							textField:'showName'
+						}); 
 					},
 					onLoadSuccess : function(data) {
 						createCkeditor();
@@ -409,6 +426,10 @@ function queryCourse() {
 						if(data.industry!=''){
 							$('#courseIndustry').combobox('setValues',data.industry.split(',')); 
 						}
+						//alert('data.product = ' + data.product);
+						if(data.product!=''){
+							$('#courseProduct').combobox('setValues',data.product.split(',')); 
+						}
 
 						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
 					}
@@ -424,7 +445,8 @@ $('#fm').form('load','../struts/Course_queryCourseById?courseId='+ row.courseId)
 }
 }
 function saveCourse(close_dlg) {
-	var data = CKEDITOR.instances.content.getData();
+	//var data = CKEDITOR.instances.content.getData();
+	$('#teacherName').val($('#teacherId').combobox('getText'));
 	$('#fm').form('submit', {
 		url : '../struts/Course_saveCourse?objectName=courseAllInfo',
 		onSubmit : function() {					

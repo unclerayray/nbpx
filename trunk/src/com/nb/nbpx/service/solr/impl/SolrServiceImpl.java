@@ -129,7 +129,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		//query.setc
 		//query.addHighlightField("title");
 		//query.addHighlightField("content");
-		QueryResponse rsp =solrServer.query(query);
+		QueryResponse rsp = solrServer.query(query);
 		SolrDocumentList list = rsp.getResults();
 
 		solrServer.ping();

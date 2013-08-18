@@ -21,6 +21,7 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.keyword.IKeywordService;
+import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
 
@@ -39,6 +40,7 @@ public class CourseAction extends BaseAction {
 	private ISolrService dataImportor;
 	private ICourseService courseService;
 	private IKeywordService keywordService;
+	private ISolrCourseService solrCourseService;
 	public String category;
 	public String courseCode;
 	public Integer courseId;
@@ -70,7 +72,7 @@ public class CourseAction extends BaseAction {
 
 	public String queryCourses() {
 		String json = courseService.queryCourses(category, courseId, rows,
-				getStartPosi());
+				getStartPosi(),sort,order);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -111,6 +113,7 @@ public class CourseAction extends BaseAction {
 			cou = courseService.saveCourse(cou);
 			courseAllInfo.setCourseId(cou.getCourseId());
 			courseService.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
+			solrCourseService.addCourse2Solr(courseAllInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -297,5 +300,14 @@ public class CourseAction extends BaseAction {
 	@Resource
 	public void setKeywordService(IKeywordService keywordService) {
 		this.keywordService = keywordService;
+	}
+
+	public ISolrCourseService getSolrCourseService() {
+		return solrCourseService;
+	}
+	
+	@Resource
+	public void setSolrCourseService(ISolrCourseService solrCourseService) {
+		this.solrCourseService = solrCourseService;
 	}
 }

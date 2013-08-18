@@ -37,6 +37,7 @@ public class Keyword extends BaseEntity implements Serializable {
 	private Integer hits;
 	private Integer searchCnt;
 	private Date recommandDate;
+	private Boolean indexed;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -131,6 +132,14 @@ public class Keyword extends BaseEntity implements Serializable {
 		this.hits = hits;
 		this.searchCnt = searchCnt;
 		this.recommandDate = recommandDate;
+	}
+
+	public Boolean getIndexed() {
+		return indexed;
+	}
+
+	public void setIndexed(Boolean indexed) {
+		this.indexed = indexed;
 	}
 	
 }

@@ -15,6 +15,7 @@ import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.keyword.IKeywordService;
+import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 
@@ -27,6 +28,8 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 
 	@Resource
 	private IKeywordDao keywordDao;
+	@Resource
+	private ISolrKeywordService solrKeywordService;
 	
 	//获取关键词列表
 	public String getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows){
@@ -82,6 +85,8 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 	@Override
 	public Boolean importKeywords(String category, String[] keywordsArray) {
 		keywordDao.importKeywords(category, keywordsArray);
+		List<Keyword> keywordList =  keywordDao.getNotIndexedKeyWordsList();
+		solrKeywordService.addKeywords2Solr(keywordList);
 		return true;
 	}
 	@Override
@@ -106,10 +111,12 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 				Keyword keyword = new Keyword();
 				keyword.setCategory(courseDto.getCategory());
 				keyword.setKeyword(word);
+				keyword.setIndexed(true);
 				keyword = keywordDao.saveOrGetExistsKeyword(keyword);
 				list.add(keyword);
 			}
 		}
+		solrKeywordService.addKeywords2Solr(list);
 		return list;
 	}
 	@Override

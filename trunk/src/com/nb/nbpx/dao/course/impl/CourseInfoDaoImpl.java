@@ -24,7 +24,7 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 		implements ICourseInfoDao {
 
 	@Override
-	public List<CourseInfo> queryCourseInfo(final String courseInfoId) {
+	public List<CourseInfo> queryCourseInfo(final String courseId) {
 		List<CourseInfo> list = new ArrayList<CourseInfo>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -36,14 +36,14 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 						+ "(c.courseInfoId,c.courseId,c.startDate,c.endDate,c.city,d.showName)"
 						+ " from CourseInfo c, Dictionary d where 1=1 ");
 				hql.append("and c.city = d.codeName ");
-				if (courseInfoId != null && !courseInfoId.isEmpty()) {
+				if (courseId != null && !courseId.isEmpty()) {
 					hql.append(" and courseId=? ");
 				}
 
 				Query query = session.createQuery(hql.toString());
 
-				if (courseInfoId != null && !courseInfoId.isEmpty()) {
-					query.setString(0, courseInfoId);
+				if (courseId != null && !courseId.isEmpty()) {
+					query.setString(0, courseId);
 				}
 				return query.list();
 			}

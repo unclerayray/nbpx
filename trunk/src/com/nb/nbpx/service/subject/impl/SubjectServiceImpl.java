@@ -89,6 +89,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 	@Override
 	public Boolean importSubjects(String category, String[] subjectsArray) {
 		subjectDao.importSubjects(category, subjectsArray);
+		//TODO 其实暂时没有导入专题，没有用  ，加了的话要加solr索引函数
 		return true;
 	}
 
