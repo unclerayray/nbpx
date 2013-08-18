@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.subject.ISubjectDao;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
+import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.service.subject.ISubjectService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
@@ -26,6 +26,8 @@ import com.nb.nbpx.utils.NbpxException;
 public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectService{
 	@Resource
 	private ISubjectDao subjectDao;
+	@Resource
+	private ISolrSubjectService solrSubjectService;
 	@Override
 	public String querySubjects(String category, String subjectText,
 			Integer subjectId, Integer rows, Integer start, String sort,
