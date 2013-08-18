@@ -183,7 +183,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 
 	@Override
 	public void saveOtherCourseInfo(CourseAllInfoDto courseDto,Boolean deleteBeforeInsert) {
-		List<Keyword> keywordsForLink = new ArrayList<Keyword>();
+		//List<Keyword> keywordsForLink = new ArrayList<Keyword>();
 		Map<Integer, String> keywordMap = new HashMap<Integer, String>();
 		Map<Integer, String> subjectMap = new HashMap<Integer, String>();
 		Map<String, String> industryMap = new HashMap<String, String>();
@@ -224,17 +224,22 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			Keyword keyword = new Keyword();
 			keyword.setCategory(courseDto.getCategory());
 			keyword.setKeyword(keywordStr);
+			keyword.setHits(500);
+			keyword.setSearchCnt(500);
 			keyword = keywordDao.saveOrGetExistsKeyword(keyword);
 			keywordMap.put(keyword.getKeyId(), keyword.getKeyword());
-			keywordsForLink.add(keyword);
+			//keywordsForLink.add(keyword);
 			solrKeywordService.addKeyword2Solr(keyword); // index it to solr
 		}
 		
+		//保存专题
 		for (int i = 0; courseSubjects != null && i < courseSubjects.length; i++) {
 			String subjectStr = StringUtils.trim(courseSubjects[i]);
 			Subject subject = new Subject();
 			subject.setCategory(courseDto.getCategory());
 			subject.setSubject(subjectStr);
+			subject.setHits(500);
+			subject.setSearchCnt(500);
 			subject = subjectDao.saveOrGetExistsSubject(subject);
 			subjectMap.put(subject.getSubjectId(), subject.getSubject());
 			solrSubjectService.addSubject2Solr(subject);
