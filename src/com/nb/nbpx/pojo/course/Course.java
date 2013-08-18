@@ -53,9 +53,25 @@ public class Course extends BaseEntity implements Serializable {
 	public Course() {
 	}
 
+	/**
+	 * 后台管理系统的查询函数Constructor
+	 * @param courseId
+	 * @param title
+	 * @param isInner
+	 * @param teacherId
+	 * @param teacherName
+	 * @param category
+	 * @param categoryName
+	 * @param lastUpdateDate
+	 * @param state
+	 * @param hits
+	 * @param price
+	 * @param recommanded
+	 * @param classic
+	 */
 	public Course(Integer courseId, String title, Boolean isInner,
 			String teacherId, String teacherName, String category,
-			String categoryName,  Boolean state, Integer hits,
+			String categoryName, Date lastUpdateDate, Boolean state, Integer hits,
 			Double price, Boolean recommanded, Boolean classic) {
 		super();
 		this.courseId = courseId;
@@ -66,6 +82,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.category = category;
 		this.categoryName = categoryName;
 //		this.shortName = shortName;
+		this.lastUpdateDate = lastUpdateDate;
 		this.state = state;
 		this.hits = hits;
 		this.price = price;

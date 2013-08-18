@@ -236,4 +236,20 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 		});
 		return list;
 	}
+
+	@Override
+	public List<Keyword> getNotIndexedKeyWordsList() {
+		List<Keyword> list = new ArrayList<Keyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from keywords k where k.indexed = 0 ");
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
+				return query.list();
+			}
+		});
+		return list;
+	}
 }

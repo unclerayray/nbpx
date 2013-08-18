@@ -10,6 +10,8 @@ import org.springframework.test.annotation.Rollback;
 
 import com.nb.nbpx.BaseServiceTest;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
+import com.nb.nbpx.pojo.keyword.Keyword;
+import com.nb.nbpx.service.solr.ISolrKeywordService;
 
 /**
  * 关键词模块的单元测试类
@@ -19,6 +21,8 @@ import com.nb.nbpx.dao.keyword.IKeywordDao;
 public class KeywordTest  extends BaseServiceTest {
 	@Resource
 	private IKeywordDao keywordDao;
+	@Resource
+	private ISolrKeywordService solrKeywordService;
 	
 	//@Test
 	@Rollback(true)
@@ -54,5 +58,18 @@ public class KeywordTest  extends BaseServiceTest {
 		Matcher matcher = pattern.matcher(originalStr);
 		//替换第一个符合正则的数据
 		System.out.println(matcher.replaceAll(replacement));
+	}
+	
+	@Test
+	public void testAddKeyword2Solr(){
+		Keyword keyword = new Keyword();
+		keyword.setKeyId(777);
+		keyword.setKeyword("从来没有");
+		solrKeywordService.addKeyword2Solr(keyword);
+		
+		Keyword keyword1 = new Keyword();
+		keyword1.setKeyId(96);
+		keyword1.setKeyword("企业");
+		solrKeywordService.addKeyword2Solr(keyword1);
 	}
 }

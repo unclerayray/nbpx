@@ -239,7 +239,7 @@ public class JsonUtil {
 			}.getType();
 
 			String json = SerializerMethod.bean2json(tempList, type,
-					"yyyy-MM-dd hh:mm:ss");
+					"yyyy-MM-dd HH:mm:ss");
 			jsonObject.put("rows", json);
 			jsonObject.put("total", total);
 			return jsonObject.toString();
@@ -257,7 +257,7 @@ public class JsonUtil {
 	public static String getJsonString(Object o) {
 		ObjectMapper om = new ObjectMapper();
 		StringWriter sw = new StringWriter();
-		DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		om.setDateFormat(myDateFormat);
 		try {
 			JsonGenerator jg = new JsonFactory().createJsonGenerator(sw);

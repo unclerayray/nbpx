@@ -5,7 +5,6 @@ import java.util.List;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
 
@@ -15,7 +14,7 @@ import com.nb.nbpx.utils.NbpxException;
  *
  */
 public interface ICourseService extends IBaseService {
-	public String queryCourses(String category,Integer courseId,Integer rows, Integer start);
+	public String queryCourses(String category,Integer courseId,Integer rows, Integer start, String sort, String order);
 	public String queryComboCourseType();
 	public String queryComboCourseName(String category);
 	public String queryComboTeacher();
@@ -43,10 +42,17 @@ public interface ICourseService extends IBaseService {
 	//查看课程内容
 	public String viewCourse(String courseId);
 	
-	public String queryCourseInfo(String courseInfoId);
+	public String queryCourseInfo(String courseId);
 	public void saveCourseInfo(CourseInfo courseInfo);
 	public void deleteCourseInfo(CourseInfo courseInfo);
 	public String queryKeywords(Integer courseId);
 	//选择本周或者本月最热的培训课程
 	public String selectTimeTopCourse(String flag,int start,int rows);
+	
+	/**
+	 * 根据CourseId得到课程安排
+	 * @param courseId
+	 * @return
+	 */
+	public List<CourseInfo> queryCourseInfoList(Integer courseId);
 }

@@ -15,7 +15,10 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.junit.Test;
 
 import com.nb.nbpx.BaseServiceTest;
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
+import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.service.solr.ISolrService;
+import com.nb.nbpx.utils.SolrUtil;
 
 /**
  * SOLR相关的测试类
@@ -26,7 +29,10 @@ public class SolrTest extends BaseServiceTest {
 	@Resource
 	private ISolrService solrService;
 	
-	@Test
+	@Resource
+	private ISolrCourseService solrCourseService;
+	
+	//@Test
 	public void testQuery() {
 		try {
 			String response = solrService.fullTextQueryForHl("领导", 0, 10);
@@ -51,11 +57,21 @@ public class SolrTest extends BaseServiceTest {
 	}
 	
 	//@Test
-	public void readFromProperty(){
-		//SolrUtil.getCourseServiceUrl();
+	public void readFromProperty() throws IOException{
+		SolrUtil.getCourseServerUrl();
+	}
+	
+	@Test
+	public void indexCourse2Solr(){
+		CourseAllInfoDto cai = new CourseAllInfoDto();
+		cai.setCourseId(10001);
+		cai.setTitle("为共产主义青年团而奋斗");
+		cai.setContent("好啊  怎样奋斗  你说了算");
+		cai.setKeywords("共产,注意,主义");
+		solrCourseService.addCourse2Solr(cai);
 	}
 
-	@Test
+	//@Test
 	public void readUrlFromProperty() throws IOException{
 		//SolrUtil.getCourseServerUrl();
 		String loc = new File(".").getCanonicalPath();

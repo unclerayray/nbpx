@@ -32,6 +32,8 @@ import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
+import com.nb.nbpx.service.solr.ISolrKeywordService;
+import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 
@@ -46,16 +48,20 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	private IDictionaryDao dictionaryDao;
 	private IKeywordDao keywordDao;
 	private ISubjectDao subjectDao;
+	@Resource
+	private ISolrKeywordService solrKeywordService;
+	@Resource
+	private ISolrSubjectService solrSubjectService;
 
 	// private ICourseKeywordDao courseKeywordDao;
 	// private ICourseKeywordDao courseKeywordDao;
 
 	@Override
 	public String queryCourses(String category, Integer courseId,
-			Integer rows, Integer start) {
+			Integer rows, Integer start,String sort, String order) {
 		String json = "";
 		List<Course> list = courseDao.queryCourses(category, courseId, rows,
-				start);
+				start,sort,order);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
@@ -78,7 +84,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 
 	@Override
 	public String queryComboCourseName(String category) {
-		List<Course> list = courseDao.queryCourses(category, null, null, null);
+		List<Course> list = courseDao.queryCourses(category, null, null, null,null,null);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
 	}
@@ -91,6 +97,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		String industries = "";
 		String majors = "";
 		String subjects = "";
+		String products = "";
 
 		String keywordsHql = "select keyword from com.nb.nbpx.pojo.course.CourseKeyword where courseId = "
 				+ courseId;
@@ -111,6 +118,11 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 				+ courseId;
 		List industriesList = courseDao.find(industriesHql);
 		industries = StringUtils.join(industriesList, ",");
+		
+		String productsHql = "select productCode from com.nb.nbpx.pojo.course.CourseProduct where courseId = "
+				+ courseId;
+		List productsList = courseDao.find(productsHql);
+		products = StringUtils.join(productsList, ",");
 
 		String majorsHql = "select majorCode from com.nb.nbpx.pojo.course.CourseMajor where courseId = "
 				+ courseId;
@@ -123,6 +135,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		cdto.setIndustry(industries);
 		cdto.setMajor(majors);
 		cdto.setSubject(subjects);
+		cdto.setProduct(products);
 		String json = JsonUtil.getJsonString(cdto);
 		return json;
 	}
@@ -176,12 +189,14 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		Map<String, String> industryMap = new HashMap<String, String>();
 		Map<String, String> tagetMap = new HashMap<String, String>();
 		Map<String, String> majorMap = new HashMap<String, String>();
+		Map<String, String> productMap = new HashMap<String, String>();
 
 		String[] courseKeywords = null;
 		String[] courseSubjects = null;
 		String[] courseMajors = null;
 		String[] courseTargets = null;
 		String[] courseIndustry = null;
+		String[] courseProduct = null;
 		if (courseDto.getKeywords() != null) {
 			String keywordsStr = courseDto.getKeywords().replaceAll("，",
 					",");
@@ -201,6 +216,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		if (courseDto.getIndustry() != null) {
 			courseIndustry = courseDto.getIndustry().split(",");
 		}
+		if (courseDto.getProduct() != null) {
+			courseProduct = courseDto.getProduct().split(",");
+		}
 		for (int i = 0; courseKeywords != null && i < courseKeywords.length; i++) {
 			String keywordStr = StringUtils.trim(courseKeywords[i]);
 			Keyword keyword = new Keyword();
@@ -209,6 +227,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			keyword = keywordDao.saveOrGetExistsKeyword(keyword);
 			keywordMap.put(keyword.getKeyId(), keyword.getKeyword());
 			keywordsForLink.add(keyword);
+			solrKeywordService.addKeyword2Solr(keyword); // index it to solr
 		}
 		
 		for (int i = 0; courseSubjects != null && i < courseSubjects.length; i++) {
@@ -218,6 +237,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			subject.setSubject(subjectStr);
 			subject = subjectDao.saveOrGetExistsSubject(subject);
 			subjectMap.put(subject.getSubjectId(), subject.getSubject());
+			solrSubjectService.addSubject2Solr(subject);
 		}
 
 		for (int i = 0; courseMajors != null && i < courseMajors.length; i++) {
@@ -238,13 +258,19 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 					.getDictionary(industryCode, null);
 			industryMap.put(dic.getCodeName(), dic.getShowName());
 		}
+		
+		for (int i = 0; courseProduct != null && i < courseProduct.length; i++) {
+			String productCode = StringUtils.trim(courseProduct[i]);
+			Dictionary dic = dictionaryDao.getDictionary(productCode, null);
+			productMap.put(dic.getCodeName(), dic.getShowName());
+		}
 
 		if(deleteBeforeInsert){
 			courseDao.deleteAllOtherInfosCourse(courseDto.getCourseId(),false);
 		}
 		
 		courseDao.addAllOtherCourseInfo(courseDto.getCourseId(), industryMap,
-				tagetMap, majorMap, keywordMap, subjectMap);
+				tagetMap, majorMap, keywordMap, subjectMap, productMap);
 	}
 
 
@@ -283,8 +309,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	}
 
 	@Override
-	public String queryCourseInfo(String courseInfoId) {
-		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseInfoId);
+	public String queryCourseInfo(String courseId) {
+		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseId);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
 	}
@@ -579,6 +605,12 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	@Resource
 	public void setSubjectDao(ISubjectDao subjectDao) {
 		this.subjectDao = subjectDao;
+	}
+
+	@Override
+	public List<CourseInfo> queryCourseInfoList(Integer courseId) {
+		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseId.toString());
+		return list;
 	}
 
 
