@@ -2,6 +2,7 @@ package com.nb.nbpx.dao.subject.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.dao.subject.ISubjectDao;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 
 /**
@@ -218,6 +220,22 @@ public class SubjectDaoImpl extends BaseDaoImpl<Subject, Integer> implements ISu
 						return query.list();
 					}
 				});
+		return list;
+	}
+
+	@Override
+	public List<Subject> getNotIndexedSubjectsList() {
+		List<Subject> list = new ArrayList<Subject>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from subjects k where k.indexed = 0 ");
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
+				return query.list();
+			}
+		});
 		return list;
 	}
 

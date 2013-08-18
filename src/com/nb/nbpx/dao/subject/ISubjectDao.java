@@ -22,6 +22,9 @@ public interface ISubjectDao extends IBaseDao<Subject,Integer>{
 	
 	public Boolean importSubjects(String category, String[] subjects);
 	
+	//TODO 暂时不需要批量导入，所以，这个函数先备用，目前运行不了，因为subject表没有index字段
+	public  List<Subject> getNotIndexedSubjectsList();
+	
 	//得到专题列表，flag:1代表点击率，2代表推荐，3代表热搜
 	public List<Subject> getSubjectsList(boolean isInner,String type,Integer flag,Integer start,Integer rows);
 }
