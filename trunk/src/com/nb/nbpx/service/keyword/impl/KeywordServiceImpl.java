@@ -111,6 +111,8 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 				Keyword keyword = new Keyword();
 				keyword.setCategory(courseDto.getCategory());
 				keyword.setKeyword(word);
+				keyword.setSearchCnt(500);
+				keyword.setHits(500);
 				keyword.setIndexed(true);
 				keyword = keywordDao.saveOrGetExistsKeyword(keyword);
 				list.add(keyword);

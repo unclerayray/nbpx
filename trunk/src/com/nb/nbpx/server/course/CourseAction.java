@@ -103,8 +103,9 @@ public class CourseAction extends BaseAction {
 
 	public String saveCourse() {
 		List<Keyword> keywords = keywordService.saveKeywords(courseAllInfo);
+		//让Keyword提前保存，生成超链接的时候才有ID可以对应
 		Course cou = new Course(courseAllInfo);
-		cou.setContent(keywordService.setKeywordHyperLink(keywords, cou.getContent()));
+		cou.setContent(keywordService.setKeywordHyperLink(keywords, cou.getContent()));//生成超链接
 		try {
 			Boolean deleteBeforeInsert=false;
 			if(courseAllInfo.getCourseId()!=null){
