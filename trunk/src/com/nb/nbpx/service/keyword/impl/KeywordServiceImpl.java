@@ -129,7 +129,7 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 				continue;
 			}
 			String reg = "(?!((<.*?)|(<a.*?)))("+keyword.getKeyword()+")(?!(([^<>]*?)>)|([^>]*?</a>))";
-			String replacement = "<a href=\"http://www.baidu.com\">"+keyword.getKeyword()+"</a>";
+			String replacement = "<a href=\"http://www.baidu.com\"  target=\"_blank\">"+keyword.getKeyword()+"</a>";
 			content = content.replaceAll(reg, replacement);
 		}
 		return content;
