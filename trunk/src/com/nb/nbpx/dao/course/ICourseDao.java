@@ -62,7 +62,13 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	// 根据地点获取课程
 	public List<Course> getCourseByCity(final String city, final Integer rows,
 			final Integer start);
+	
+	//地点分页，获取总页数
+	public Integer CountCourseByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start);
+	//根据地点分页获取课程
+	public List<CourseInfo> getCourseInfoByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start);
 
+	
 	// 获取课程的信息
 	public List<CourseInfo> getCourseInfoByCity(final String city,
 			final Integer courseId, final Integer flag);

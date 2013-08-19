@@ -112,6 +112,7 @@ public class MainAction extends BaseAction{
 	public String getTimeTopCourse(){
 		int start = 0;
 		int rows = 10;
+		System.out.println(flag);
 		String result = courseService.selectTimeTopCourse(flag,start,rows);
 		
 		this.inputStream = castToInputStream(result);

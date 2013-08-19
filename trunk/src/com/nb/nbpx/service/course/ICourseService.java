@@ -55,4 +55,6 @@ public interface ICourseService extends IBaseService {
 	 * @return
 	 */
 	public List<CourseInfo> queryCourseInfoList(Integer courseId);
+	//分页获取地点下的课程（可以按照月份）
+	public String queryCourseByCity(String cityName,String month,String orderFlag,Integer rows,Integer start);
 }
