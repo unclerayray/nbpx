@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -267,7 +268,57 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		});
 		return list;
 	}
-
+	
+	public Integer CountCourseByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start){
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer("select count(*) as val from courseInfo a,sys_dictionary b where a.city = b.codeName ");
+				if(cityName != null)
+					hql.append(" and b.showName='"+cityName+"'");
+				if(month != null)
+					hql.append(" and month(a.startDate) ='"+month+"'");
+				if("1".equals(flag))
+					hql.append(" order by a.startDate asc");
+				else
+					hql.append(" order by a.startDate desc");
+				Query query = session.createSQLQuery(hql.toString()).addScalar("val",Hibernate.INTEGER);
+				
+				return query.list();
+			}
+		});
+		return (Integer)list.get(0);
+	}
+	
+	public List<CourseInfo> getCourseInfoByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start){
+		List<CourseInfo> list = new ArrayList<CourseInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer("select a.* from courseInfo a,sys_dictionary b where a.city = b.codeName ");
+				if(cityName != null)
+					hql.append(" and b.showName='"+cityName+"'");
+				if(month != null)
+					hql.append(" and month(a.startDate) ='"+month+"'");
+				if("1".equals(flag))
+					hql.append(" order by a.startDate asc");
+				else
+					hql.append(" order by a.startDate desc");
+				Query query = session.createSQLQuery(hql.toString()).addEntity(CourseInfo.class);
+				
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		
+		return list;
+	}
 	// 根据城市获取课程信息
 	public List<Course> getCourseByCity(final String city, final Integer rows,
 			final Integer start) {

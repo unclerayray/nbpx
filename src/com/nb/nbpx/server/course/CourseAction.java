@@ -49,6 +49,7 @@ public class CourseAction extends BaseAction {
 	public CourseInfo courseInfo;
 	public CourseAllInfoDto courseAllInfo;
 
+
 	public String fullImport() {
 		try {
 			dataImportor.fullImport();
@@ -76,7 +77,7 @@ public class CourseAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-
+	
 	public String queryCourseById() {
 		String json = courseService.queryCourseById(courseId);
 		this.inputStream = castToInputStream(json);
@@ -209,9 +210,11 @@ public class CourseAction extends BaseAction {
 	}
 	
 
+	
+	
 	/**
 	 * @param dataImportor
-	 *            the dataImportor to set
+	 *           the dataImportor to set
 	 */
 	@Resource
 	public void setDataImportor(ISolrService dataImportor) {

@@ -476,13 +476,16 @@
 				var time = 1;//一周
 				if(flag == '2')
 					time = 2;//一个月
+				alert(time);
 				$.ajax({
-					url:"structs/Main_getTimeTopCourse?flag="+time,
+					url:encodeURI("struts/Main_getTimeTopCourse?flag="+time),
 					success:function(data){
+						alert(data);
 						returnValue = data;
 					}
 				});
 			}
+		
 			var jsonObject = eval('('+returnValue+')');
 			var valueStr = "";
 			$.each(jsonObject,function(n,value){

@@ -74,6 +74,48 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 
 		return json;
 	}
+	
+	//分页获取地点下的课程（可以按照月份）
+	public String queryCourseByCity(String cityName,String month,String orderFlag,Integer rows,Integer start){
+		List<CourseInfo> courseInfos = courseDao.getCourseInfoByCity(cityName, month, orderFlag, rows, start);
+		if(courseInfos == null)
+			return "";
+		Map<String,Object> returnValue = new HashMap<String,Object>();
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		for(CourseInfo courseInfo : courseInfos){
+			if(courseInfo == null)
+				continue;
+			Course course = courseDao.getCourseById(courseInfo.getCourseId());
+			if(course == null)
+				continue;
+			Map<String,Object> row = new HashMap<String,Object>();
+			row.put("title", course.getTitle());
+			if(course.getContent() != null ){
+				if(course.getContent().length() <= 200)
+					row.put("content",course.getContent());
+				else
+					row.put("content", course.getContent().substring(0,100));
+			}
+			else
+				row.put("content", "暂无课程内容介绍");
+			row.put("id", course.getCourseId());
+			row.put("price", course.getPrice());
+			SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
+			row.put("startDate", dateFormate.format(courseInfo.getStartDate()));
+			row.put("endDate", dateFormate.format(courseInfo.getEndDate()));
+			result.add(row);
+		}
+		Integer rowsCount = courseDao.CountCourseByCity(cityName, month, orderFlag, rows, start);
+		int allPages = 0;
+		if(rowsCount%rows == 0)
+			allPages = (int)(rowsCount/rows);
+		else
+			allPages = (int)(rowsCount/rows) +1;
+		returnValue.put("pages", allPages);
+		returnValue.put("rows", result);
+		
+		return JsonUtil.getJsonString(returnValue);
+	}
 
 	@Override
 	public String queryComboCourseType() {
