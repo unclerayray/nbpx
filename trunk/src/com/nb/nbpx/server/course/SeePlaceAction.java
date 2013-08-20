@@ -33,7 +33,6 @@ public class SeePlaceAction extends BaseAction{
 	//获取最热的课程
 	public String getHotCourse(){
 		String json = "";
-		cityName="广州";
 		if("1".equals(flag)){//获取地点热门课程
 			json = courseService.queryHotCourseByPlace(null, cityName, 5, 0);
 		}else{//获取当月该地点的热门课程

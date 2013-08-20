@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
     <%
-    	String currMonth = "8";//request.getParameter("month");
+    	String currMonth = request.getParameter("month");
     %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,16 +12,17 @@
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
+<script src="js/project.js"></script>
 <title>南北培训网</title>
 </head>
 <script>
 	$(function(){
-		loadClass(0);
+		loadCourses(0);
 	});
-	function loadClass(page){
+	function loadCourses(page){
 		var currMonth = $('#currMonth').val();
 		$.ajax({
-			url:"struts/SeeMonthCourse_getCourseByMonth?month=9",
+			url:"struts/SeeMonthCourse_getCourseByMonth?page="+page+"&rows=10&month="+currMonth,
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -38,7 +39,10 @@
 							"<div class='clear'></div>"+
 							"<div class='classDownload'><span>课纲下载：</span><a href='#'>"+value.title+".doc</a></div></div>";
 				});
-
+				if(valueStr == ""){
+					valueStr = "<div class='notice'>该月份暂时没有任何课程信息</div>";
+				}else
+					$('#pageDiv').css('display','block');
 				$('#classes').html(valueStr);
 				$('#pages').html(pages);
 				$('#currPage').html(parseInt(page)+1);
@@ -71,18 +75,18 @@
 			<h2>培训日历</h2>
 			<div class="resultContent" style="padding-left:20px">
 					<ul class="list2" style="width:690px">
-						<li ><a href="#">01月</a><span>|</span></li>
-						<li><a href="#">02月</a><span>|</span></li>
-						<li><a href="#">03月</a><span>|</span></li>
-						<li><a href="#">04月</a><span>|</span></li>
-						<li><a href="#">05月</a><span>|</span></li>
-						<li><a href="#">06月</a><span>&nbsp;</span></li>
-						<li><a href="#">07月</a><span>|</span></li>
-						<li ><a href="#">08月</a><span>|</span></li>
-						<li><a href="#">09月</a><span>|</span></li>
-						<li><a href="#">10月</a><span>|</span></li>
-						<li><a href="#">11月</a><span>|</span></li>
-						<li><a href="#">12月</a></li>
+						<li ><a href="seeMonthCourse.jsp?month=1">01月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=2">02月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=3">03月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=4">04月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=5">05月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=6">06月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=7">07月</a><span>&nbsp;</span></li>
+						<li ><a href="seeMonthCourse.jsp?month=8">08月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=9">09月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=10">10月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=11">11月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=12">12月</a></li>
 					</ul>
 					<div class="clear" style="height:10px"></div>
 			</div>
@@ -90,49 +94,17 @@
 		<!--消费者相关专题 end-->
 		<div id="classes"></div>
 		<!--课程介绍 end-->
-		<div class="resultFoot">
-					<a href="javascript:void(0)" onclick="javascript:loadCourses(0)">第一页</a>			
-					<a href="javascript:void(0)" onclick="javascript:seePre();">上一页</a>				
-					<a href="javascript:void(0)" onclick="javascript:seeNext();">下一页</a>
-					<a href="javascript:void(0)" onclick="javascript:seeLast();">最后一页</a>
-					&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
+		<div class="resultFoot" id="pageDiv" style='display:none'>
+					<a href="javascript:void(0)" onclick="javascript:page.seeFirst();">第一页</a>			
+					<a href="javascript:void(0)" onclick="javascript:page.seePre();">上一页</a>				
+					<a href="javascript:void(0)" onclick="javascript:page.seeNext();">下一页</a>
+					<a href="javascript:void(0)" onclick="javascript:page.seeLast();">最后一页</a>
+					&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:page.jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
 					</div>
 		<div class="clear"></div>
 	</div>
 	<!--右边部分 start-->
 	<div class="rightInPart">
-		<!--热门培训 培训计划 培训下载 start-->
-		<div class="sortList">
-		<div class="head">
-					<div class="tabOn half" id="tab1"><a href="javascript:void(0)" onclick="javascript:loadHot(1);">培训排行</a></div>
-					<div class="tabOff half" id="tab2"><a href="javascript:void(0)" onclick="javascript:loadHot(2);">本月最热</a></div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg h315" style="padding:0px 15px 4px 15px;">
-					<ul class="list7" style="padding-top:10px" id="tabContent">
-						<li class="line"><a><span class="red">1</span>企业资本运作与投融资顾问</a></li>
-						<li  class="line"><a><span class="red">2</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">3</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">4</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">5</span>企业资本运作与投融资顾问</a></li>
-					</ul>
-					<div class="clear"></div>
-				</div>
-		</div>
-		<!--热门培训 培训计划 培训下载 end-->
-		<!--企业培训师 start-->
-		<div style="height:10px; display:block"></div>
-		<div class="rightTeacher" >
-			<h5>培训机构</h5>
-			<ul class="list7" style="padding-top:10px;padding-left:15px;">
-				<li class="line"><a><span class="red">1</span><span class="text">三人行教育培训机构</span></a></li>
-				<li class="line"><a><span class="red">2</span><span class="text">众行机构</span></a></li>
-				<li class="line"><a><span class="blue">3</span><span class="text">三人行教育培训机构</span></a></li>
-				<li class="line"><a><span class="blue">4</span><span class="text">众行机构</span></a></li>
-				<li class="line"><a><span class="blue">5</span><span class="text">众行机构</span></a></li>
-			</ul>
-			<div class="clear" style="height:10px"></div>
-		</div>
 		<!--企业培训动态 start-->
 		<div style="height:10px; display:block"></div>
 		<div class="rightTeacher">

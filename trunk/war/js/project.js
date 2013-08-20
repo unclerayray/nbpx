@@ -26,3 +26,44 @@ function GetArgsFromHref(sArgName){
 	}
 	return retval;
 } 
+
+var page = {
+	'test':function(){
+		alert('1');
+	},
+	'seeNext':function(){
+		var currPage = parseInt($('#currPage').html());
+		var pages = parseInt($('#pages').html());
+		if(currPage +1 >= pages)
+			loadCourses(pages-1);
+		else
+			loadCourses(currPage);
+	},
+	'seePre':function(){
+		var currPage = parseInt($('#currPage').html());
+		if(currPage-1 > 0)
+			loadCourses(currPage-2);
+		else
+			loadCourses(0);
+	},
+	'seeFirst':function(){
+		loadCourses(0);
+	},
+	'seeLast':function(){
+		var pages = $('#pages').html();
+		loadCourses(pages-1);
+	},
+	'jump':function(){
+		if($('#jump').val() == ''){
+			alert('请输入页码！');
+			return false;
+		}
+		var jumpTo = parseInt($('#jump').val());
+		var allPages = parseInt($('#pages').html());
+		if(jumpTo <=0 || jumpTo> allPages){
+			alert('页码范围不正确！');
+			return false;
+		}
+		loadCourses(jumpTo-1);
+	}
+};
