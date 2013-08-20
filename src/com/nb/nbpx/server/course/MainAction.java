@@ -113,7 +113,7 @@ public class MainAction extends BaseAction{
 		int start = 0;
 		int rows = 10;
 		System.out.println(flag);
-		String result = courseService.selectTimeTopCourse(flag,start,rows);
+		String result = courseService.selectTimeTopCourse(flag,null,start,rows);
 		
 		this.inputStream = castToInputStream(result);
 		return SUCCESS;

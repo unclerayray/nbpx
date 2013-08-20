@@ -26,6 +26,6 @@ public class MyContextLoaderListener extends ContextLoaderListener {
 				.getRequiredWebApplicationContext(context);
 		//保存系统的ApplicationContext对象
 		SystemApplicationContext.setContext(ctx);
- 
+  
 	}
 }

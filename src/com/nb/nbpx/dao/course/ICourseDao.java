@@ -83,6 +83,8 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	 */
 	public void deleteAllOtherInfosCourse(Integer courseId,
 			Boolean deleteCourseInfo);
+	//获取培训或者内训的最热课程(可以按照地点)
+	public List<Course> getHotCourseByPlace(final Boolean ifInner, final String cityName,final Integer rows, final Integer start);
 	//获取本月或者本周最热的培训课程
-	public List<Course> selectTimeTopCourse(String flag,Integer start,Integer rows);
+	public List<Course> selectTimeTopCourse(String flag,String cityName,Boolean isInner,Integer start,Integer rows);
 }
