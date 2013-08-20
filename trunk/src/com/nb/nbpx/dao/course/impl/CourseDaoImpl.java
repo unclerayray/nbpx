@@ -298,11 +298,12 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				StringBuffer hql = new StringBuffer("select a.* from courseInfo a,sys_dictionary b where a.city = b.codeName ");
+				StringBuffer hql = new StringBuffer("select a.* from courseInfo a,sys_dictionary b,courses c where a.city = b.codeName and a.courseId = c.courseId and c.state=1 ");
 				if(cityName != null)
 					hql.append(" and b.showName='"+cityName+"'");
 				if(month != null)
 					hql.append(" and month(a.startDate) ='"+month+"'");
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(a.startDate)<0 ");
 				if("1".equals(flag))
 					hql.append(" order by a.startDate asc");
 				else
@@ -585,18 +586,23 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		return null;
 	}
 	
-	//flag:1为一个星期，2为一个月
+	//flag:0为一个星期，1,2,3...为月份,cityName不为空时查找的是改城市下最热的课程
 	@Override
-	public List<Course> selectTimeTopCourse(final String flag,final Integer start,final Integer rows) {
+	public List<Course> selectTimeTopCourse(final String flag,final String cityName,final Boolean isInner,final Integer start,final Integer rows) {
 		List<Course> result = new ArrayList<Course>();
 		result = getHibernateTemplate().executeFind(new HibernateCallback() {
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-					int days = 7;
-					if("2".equals(flag))
-						days = 30;
-					StringBuffer sql = new StringBuffer("select distinct a.* from courses a,courseinfo b where a.courseId = b.courseId and a.state=1 and TO_DAYS(NOW())-TO_DAYS(b.startDate) between 0 and "+days+" order by a.hits desc");
+					StringBuffer sql = new StringBuffer("select distinct a.* from courses a,courseinfo b,sys_dictionary c where a.courseId = b.courseId and b.city = c.codeName and a.state=1");
+					if(cityName != null && !"".equals(cityName))
+						sql.append(" and c.showName='"+cityName+"'");
+					if(isInner)
+						sql.append(" and a.isInner = 1");
+					if("".equals(flag))
+						sql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate) between 0 and 7 order by a.hits desc");
+					else
+						sql.append(" and month(b.startDate) ='"+flag+"'");
 					
 					Query query = session.createSQLQuery(sql.toString()).addEntity(Course.class);
 					
@@ -610,5 +616,39 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		});
 	
 		return result;
+	}
+	//根据地点获取最热的课程
+	public List<Course> getHotCourseByPlace(final Boolean ifInner, final String cityName,final Integer rows, final Integer start){
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
+								+ "c.teacherId, '', c.category,"
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c ,CourseInfo b,Dictionary d where c.courseId = b.courseId and b.city = d.codeName and 1=1 ");
+				if (ifInner != null) {// 区分内训和培训
+					if (ifInner)
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+				if(cityName != null && !"".equals(cityName))
+					hql.append(" and d.showName = '"+cityName+"'");
+				// 取向后的有效的日期
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
 	}
 }

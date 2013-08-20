@@ -74,6 +74,23 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 
 		return json;
 	}
+	//获取最热的培训（可以按照地点）
+	public String queryHotCourseByPlace(Boolean ifInner, String cityName,Integer rows,Integer start){
+		List<Course> courses = courseDao.getHotCourseByPlace(ifInner, cityName, rows, start);
+		if(courses == null)
+			return "";
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		for(Course course : courses){
+			if(course == null)
+				continue;
+			Map<String,Object> row = new HashMap<String,Object>();
+			row.put("title", course.getTitle());
+			row.put("id", course.getCourseId());
+			result.add(row);
+		}
+		
+		return JsonUtil.getJsonString(result);
+	}
 	
 	//分页获取地点下的课程（可以按照月份）
 	public String queryCourseByCity(String cityName,String month,String orderFlag,Integer rows,Integer start){
@@ -103,6 +120,10 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
 			row.put("startDate", dateFormate.format(courseInfo.getStartDate()));
 			row.put("endDate", dateFormate.format(courseInfo.getEndDate()));
+			
+			Dictionary city = dictionaryDao.getDictionary(courseInfo.getCity(), null);
+			row.put("city", city.getShowName());
+			
 			result.add(row);
 		}
 		Integer rowsCount = courseDao.CountCourseByCity(cityName, month, orderFlag, rows, start);
@@ -588,13 +609,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	}
 	
 	@Override
-	public String selectTimeTopCourse(String flag,int start,int rows) {
-		List<Course> courses = courseDao.selectTimeTopCourse(flag,start,rows);
+	public String selectTimeTopCourse(String flag,String cityName,int start,int rows) {
+		List<Course> courses = courseDao.selectTimeTopCourse(flag,cityName,false,rows,start);
 		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
 		for(Course temp : courses){
 			Map<String,String> row = new HashMap<String,String>();
 			row.put("id", temp.getCourseId().toString());
-			row.put("name", temp.getTitle());
+			row.put("title", temp.getTitle());
 			results.add(row);
 		}
 		return JsonUtil.getJsonString(results);

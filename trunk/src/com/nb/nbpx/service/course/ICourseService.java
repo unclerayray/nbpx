@@ -47,7 +47,7 @@ public interface ICourseService extends IBaseService {
 	public void deleteCourseInfo(CourseInfo courseInfo);
 	public String queryKeywords(Integer courseId);
 	//选择本周或者本月最热的培训课程
-	public String selectTimeTopCourse(String flag,int start,int rows);
+	public String selectTimeTopCourse(String timeFlag,String cityName,int start,int rows);
 	
 	/**
 	 * 根据CourseId得到课程安排
@@ -57,4 +57,5 @@ public interface ICourseService extends IBaseService {
 	public List<CourseInfo> queryCourseInfoList(Integer courseId);
 	//分页获取地点下的课程（可以按照月份）
 	public String queryCourseByCity(String cityName,String month,String orderFlag,Integer rows,Integer start);
+	public String queryHotCourseByPlace(Boolean ifInner, String cityName,Integer rows,Integer start);
 }
