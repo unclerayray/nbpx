@@ -12,7 +12,8 @@
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
-<title>根据地点查看培训</title>
+<script src="js/project.js"></script>
+<title>南北培训网</title>
 </head>
 <script>
 	$(function(){
@@ -50,7 +51,7 @@
 	
 	function loadCourses(page){
 		$.ajax({
-			url:encodeURI('struts/SeePlace_getCityCourse?page='+page+'&rows=10&city='+"广州"),
+			url:encodeURI('struts/SeePlace_getCityCourse?page='+page+'&rows=10&city='+"xx"),
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -67,43 +68,15 @@
 								"<div class='clear'></div>"+
 								"<div class='classDownload'><span>课纲下载：</span><a href='#'>"+value.title+".doc</a></div></div>";
 				});
+				if(valueStr == ""){
+					valueStr = "<div class='notice'>该城市暂时没有任何课程信息</div>";
+				}else
+					$('#pageDiv').css('display','block');
 				$('#classes').html(valueStr);
 				$('#pages').html(pages);
 				$('#currPage').html(parseInt(page)+1);
 			}
 		});
-	}
-	function seePre(){
-		var currPage = parseInt($('#currPage').html());
-		if(currPage-1 > 0)
-			loadCourses(currPage-2);
-		else
-			loadCourses(0);
-	}
-	function jump(){
-		if($('#jump').val() == ''){
-			alert('请输入页码！');
-			return false;
-		}
-		var jumpTo = parseInt($('#jump').val());
-		var allPages = parseInt($('#pages').html());
-		if(jumpTo <=0 || jumpTo> allPages){
-			alert('页码范围不正确！');
-			return false;
-		}
-		loadCourses(jumpTo-1);
-	}
-	function seeNext(){
-		var currPage = parseInt($('#currPage').html());
-		var pages = parseInt($('#pages').html());
-		if(currPage +1 >= pages)
-			loadCourses(pages-1);
-		else
-			loadCourses(currPage);
-	}
-	function seeLast(){
-		var pages = $('#pages').html();
-		loadCourses(pages-1);
 	}
 </script>
 <body>
@@ -186,12 +159,12 @@
 		<!--消费者相关专题 end-->
 		<div id="classes"></div>
 		<!--课程介绍 end-->
-		<div class="resultFoot">
-					<a href="javascript:void(0)" onclick="javascript:loadCourses(0)">第一页</a>			
-					<a href="javascript:void(0)" onclick="javascript:seePre();">上一页</a>				
-					<a href="javascript:void(0)" onclick="javascript:seeNext();">下一页</a>
-					<a href="javascript:void(0)" onclick="javascript:seeLast();">最后一页</a>
-					&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
+		<div class="resultFoot" id="pageDiv" style='display:none'>
+					<a href="javascript:void(0)" onclick="javascript:page.seeFirst();">第一页</a>			
+					<a href="javascript:void(0)" onclick="javascript:page.seePre();">上一页</a>				
+					<a href="javascript:void(0)" onclick="javascript:page.seeNext();">下一页</a>
+					<a href="javascript:void(0)" onclick="javascript:page.seeLast();">最后一页</a>
+					&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:page.jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
 					</div>
 		<div class="clear"></div>
 	</div>

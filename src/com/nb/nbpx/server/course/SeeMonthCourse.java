@@ -17,7 +17,7 @@ public class SeeMonthCourse extends BaseAction{
 	public String cityName;
 	
 	public String getCourseByMonth(){
-		String json = courseService.queryCourseByCity(null, month, "1", 10, 0);
+		String json = courseService.queryCourseByCity(null, month, "1", rows, page);
 		
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
