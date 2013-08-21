@@ -19,6 +19,7 @@ public class SeePlaceAction extends BaseAction{
 	
 	public String cityName;
 	public String flag;
+	public String month;
 	
 
 
@@ -29,7 +30,13 @@ public class SeePlaceAction extends BaseAction{
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
+	//分页获取城市的月度课程信息
+	public String getCityMonthCourse(){
+		String json = courseService.queryCourseByCity(cityName,month, "1", rows,page);
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
 	//获取最热的课程
 	public String getHotCourse(){
 		String json = "";

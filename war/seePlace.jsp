@@ -85,7 +85,7 @@
 <div class="mainContent path">
 	<ul>
 		<li>当前位置:&nbsp;</li>
-		<li><a href="main.html" target="_self">首页</a></li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
 		<li><%=cityName %>培训网</li>
 	</ul>
@@ -118,18 +118,18 @@
 			<h2><%=cityName %>培训日历</h2>
 			<div class="resultContent" style="padding-left:20px">
 					<ul class="list2" style="width:340px">
-						<li ><a href="#">01月</a><span>|</span></li>
-						<li><a href="#">02月</a><span>|</span></li>
-						<li><a href="#">03月</a><span>|</span></li>
-						<li><a href="#">04月</a><span>|</span></li>
-						<li><a href="#">05月</a><span>|</span></li>
-						<li><a href="#">06月</a><span>&nbsp;</span></li>
-						<li><a href="#">07月</a><span>|</span></li>
-						<li ><a href="#">08月</a><span>|</span></li>
-						<li><a href="#">09月</a><span>|</span></li>
-						<li><a href="#">10月</a><span>|</span></li>
-						<li><a href="#">11月</a><span>|</span></li>
-						<li><a href="#">12月</a></li>
+						<li ><a href="seePlaceMonth.jsp?month=1&city=<%=cityName %>>">01月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=2&city=<%=cityName %>>">02月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=3&city=<%=cityName %>>">03月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=4&city=<%=cityName %>>">04月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=5&city=<%=cityName %>>">05月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=6&city=<%=cityName %>>">06月</a><span>&nbsp;</span></li>
+						<li><a href="seePlaceMonth.jsp?month=7&city=<%=cityName %>>">07月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=8&city=<%=cityName %>>">08月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=9&city=<%=cityName %>>">09月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=10&city=<%=cityName %>>">10月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=11&city=<%=cityName %>>">11月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=12&city=<%=cityName %>>">12月</a></li>
 					</ul>
 					<div class="clear" style="height:10px"></div>
 			</div>
