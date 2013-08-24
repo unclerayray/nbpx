@@ -42,7 +42,7 @@
 				$.each(jsonObject,function(n,value){
 					if(n>=2)
 						color="blue";
-					valueStr += "<li class='line'><a href='viewClass.jsp?id="+value.id+"'><span class='"+color+"'>"+(n+1)+"</span>"+value.title+"</a></li>";
+					valueStr += "<li class='line'><span class='"+color+"'>"+(n+1)+"</span><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></li>";
 				});
 				$('#tabContent').html(valueStr);
 			}
@@ -180,10 +180,6 @@
 				<div class="bg h315" style="padding:0px 15px 4px 15px;">
 					<ul class="list7" style="padding-top:10px" id="tabContent">
 						<li class="line"><a><span class="red">1</span>企业资本运作与投融资顾问</a></li>
-						<li  class="line"><a><span class="red">2</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">3</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">4</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">5</span>企业资本运作与投融资顾问</a></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
