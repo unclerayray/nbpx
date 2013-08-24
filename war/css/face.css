@@ -165,12 +165,12 @@ ul{padding:0px;margin:0px}
 
 .list7{padding-top:5px;}
 .list7 .line{background:url(../images/line.jpg) repeat-x 0px 18px;}
-.list7 li{list-style:none;margin:0px;width:200px; line-height:26px;display:block;height:26px}
-.list7 li a{ text-decoration:none;font-size:14px; display:block;width:100%;overflow:hidden;display:inline;color:#2D4545;}
+.list7 li{list-style:none;margin:0px;width:200px; line-height:26px;display:block;height:26px;text-align:left;}
+.list7 li a{ text-decoration:none;font-size:14px; display:block;width:100%;overflow:hidden;display:inline;color:#2D4545;padding-left:5px}
 .list7 .text{font-size:14px;display:block;float:left;padding-left:5px;color:#2D4545}
 .list7 .count{font-size:14px;display:block;float:right;color:#2D4545;}
-.list7 .red{ background:url(../images/split.png) no-repeat -205px -95px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px}
-.list7 .blue{ background:url(../images/split.png) no-repeat -205px -121px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px}
+.list7 .red{ background:url(../images/split.png) no-repeat -205px -95px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px;text-align:center;}
+.list7 .blue{ background:url(../images/split.png) no-repeat -205px -121px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px;text-align:center;}
 
 .list8{padding-top:10px;}
 .list8 li{list-style:none;margin:0px;padding:0px 5px;line-height:28px;height:28px;float:left}
