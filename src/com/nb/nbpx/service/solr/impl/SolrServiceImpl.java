@@ -6,6 +6,7 @@ package com.nb.nbpx.service.solr.impl;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
@@ -29,8 +31,10 @@ import com.chenlb.mmseg4j.Seg;
 import com.chenlb.mmseg4j.Word;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
+import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrService;
+import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 
@@ -44,7 +48,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 	private ICourseKeywordDao courseKeywordDao;
 	private IKeywordDao keywordDao;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -57,7 +61,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		params.set("qt", "/dataimport");
 		params.set("command", "full-import");
 		params.set("commit", true);
-		//params.set("command", "full-import");
+		// params.set("command", "full-import");
 		params.set("clean", true);
 		solrServer.ping();
 		QueryResponse response = solrServer.query(params);
@@ -75,22 +79,21 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	 */
 	@Override
 	public void deltaImport() throws Exception {
-		//TODO 
+		// TODO
 	}
 
-	
 	@Override
 	public String cutText(String text) throws IOException {
-		//List<CourseKeyword> list = new ArrayList<CourseKeyword>();
+		// List<CourseKeyword> list = new ArrayList<CourseKeyword>();
 		Dictionary dic = Dictionary.getInstance();
 		StringReader input = new StringReader(text);
-		Seg seg =  new ComplexSeg(dic);	//取得不同的分词具体算法
+		Seg seg = new ComplexSeg(dic); // 取得不同的分词具体算法
 		MMSeg mmSeg = new MMSeg(input, seg);
 		Word word = null;
 		List<String> list = new ArrayList<String>();
-		while((word=mmSeg.next())!=null) {
+		while ((word = mmSeg.next()) != null) {
 			String w = word.getString();
-			if(w.length()>1){
+			if (w.length() > 1) {
 				list.add(w);
 			}
 		}
@@ -101,43 +104,101 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		String json = StringUtils.join(list, "，");
 		return json;
 	}
-	
 
 	@Override
-	public String fullTextQueryForHl(String q, Integer start, Integer rows) throws SolrServerException, IOException {
+	public String fullTextQueryForHl(String q, Integer start, Integer rows)
+			throws SolrServerException, IOException {
+		//TODO 统计搜索次数 put that into Action, not here
 		String serverURL = SolrUtil.getCourseServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();
-		//params.set("qt", "/select");
-		//params.set("q", "content:"+q);
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
 		params.set("q", q);
 		params.set("start", start);
 		params.set("rows", rows);
-		//params.set("df","text_general");
-		//params.set("wt", "foo");
-		//params.set("indent", true);
-		//params.set("rows", rows);
+		// params.set("df","text_general");
+		// params.set("wt", "foo");
+		// params.set("indent", true);
+		// params.set("rows", rows);
 		params.set("hl", true);
 		params.set("hl.fl", "title,content");
+		params.set("hl.snippets", 3);
 		params.set("hl.simple.pre", "<em>");
 		params.set("hl.simple.post", "</em>");
-		
+
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "search");
-		//query.set("q","*.*");
+		query.set("echoParams", "explicit");
+		query.set("df", "title,keyword,content");
+		query.set("mlt.qf", "title^10.0 keyword^10.0 content^1.0");
+		query.set("defType", "edismax");
+		query.set("pf", "title keyword content");
+		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
+		// query.set("q","*.*");
 		query.add(params);
-		//query.setc
-		//query.addHighlightField("title");
-		//query.addHighlightField("content");
-		QueryResponse rsp = solrServer.query(query);
-		SolrDocumentList list = rsp.getResults();
-
+		
+		query.setRequestHandler("search");
+		System.out.println(query.getHighlightSnippets());
+		System.out.println(query.get("pf"));
+		// query.setc
+		// query.addHighlightField("title");
+		// query.addHighlightField("content");
 		solrServer.ping();
-		QueryResponse response = solrServer.query(params);
-		Map<String, Map<String, List<String>>>  hlMap = response.getHighlighting();
-		return "";
-	}
+		QueryResponse response = solrServer.query(query);
+		System.out.println(response.getResponseHeader().get("pf"));
+		SolrDocumentList list = response.getResults();
 
+		//QueryResponse response = solrServer.query(params);
+		Map<String, Map<String, List<String>>> hlMap = response
+				.getHighlighting();
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		//numFound
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Map<String, Object> valueMap = sd.getFieldValueMap();
+			//String[] courseInfo = null;
+			List<String> courseInfo = (List<String>) sd.getFieldValue("courseInfo");
+			Object obj = sd.getFieldValue("courseInfo");
+			Object idobj = sd.getFieldValue("courseId");
+			Double price = Double.valueOf(sd.getFieldValue("price").toString());
+			Map<String,List<String>> lst=hlMap.get(idobj.toString());
+			Object conObj = lst.get("content");
+			Object titleObj = lst.get("title");
+			String content = "";
+			String title = "";
+			if(conObj!=null){
+				content = ((List<String>) conObj).get(0);
+			}else{
+				content = sd.getFieldValue("content").toString();
+				if(content.length()>50)
+					content = content.substring(0, 50);
+			}
+			if(titleObj!=null){
+				title = ((List<String>) titleObj).get(0);
+			}else{
+				title = sd.getFieldValue("title").toString();
+			}
+			//lst.g
+			CourseSearchResult csr = new CourseSearchResult(
+					(Integer) idobj, title , price,
+					sd.getFieldValue("teacherName").toString(), content, courseInfo);
+			resultList.add(csr);
+		}
+		int allPages = 0;
+		if(numFound%rows == 0)
+			allPages = (int)(numFound/rows);
+		else
+			allPages = (int)(numFound/rows) +1;
+		resultMap.put("rows", resultList);
+		resultMap.put("pages", allPages);
+		//return JsonUtil.formatListToJson(resultList);
+		return JsonUtil.getJsonString(resultMap);
+	}
 
 	public ICourseKeywordDao getCourseKeywordDao() {
 		return courseKeywordDao;

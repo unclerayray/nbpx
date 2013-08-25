@@ -32,10 +32,11 @@ public class SolrTest extends BaseServiceTest {
 	@Resource
 	private ISolrCourseService solrCourseService;
 	
-	//@Test
+	@Test
 	public void testQuery() {
 		try {
-			String response = solrService.fullTextQueryForHl("领导", 0, 10);
+			String response = solrService.fullTextQueryForHl("我去", 0, 10);
+			System.out.println(response);
 			Assert.assertNotNull(response);
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -61,7 +62,7 @@ public class SolrTest extends BaseServiceTest {
 		SolrUtil.getCourseServerUrl();
 	}
 	
-	@Test
+	//@Test
 	public void indexCourse2Solr(){
 		CourseAllInfoDto cai = new CourseAllInfoDto();
 		cai.setCourseId(10001);

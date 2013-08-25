@@ -29,7 +29,7 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			serverURL = SolrUtil.getCourseServerUrl();
 			SolrServer solrServer = new HttpSolrServer(serverURL);
 			SolrInputDocument sid = new SolrInputDocument();
-			sid.addField("courseID", cai.getCourseId());
+			sid.addField("courseId", cai.getCourseId());
 			sid.addField("title", cai.getTitle());
 			sid.addField("content", cai.getContent());
 			String[] courseKeywords = cai.getKeywords().split(",");
