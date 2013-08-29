@@ -11,4 +11,7 @@ import com.nb.nbpx.pojo.course.CourseKeyword;
  * @date 2013年7月21日
  */
 public interface ICourseKeywordDao extends IBaseDao<CourseKeyword, Integer>{
+	
+	List<CourseKeyword> getCourseKeyWords(int courseId);
+	
 }

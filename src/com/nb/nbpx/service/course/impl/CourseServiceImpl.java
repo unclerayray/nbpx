@@ -591,10 +591,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			
 		//关键字
 		List<Map<String,String>> keyWords = new ArrayList<Map<String,String>>();
-		Map<String,String> keyWord = new HashMap<String,String>();
-		keyWord.put("id", "1");
-		keyWord.put("name", "电力");
-		keyWords.add(keyWord);
+		List<CourseKeyword> courseKeyWords = courseKeywordDao.getCourseKeyWords(Integer.parseInt(courseId));
+		for(CourseKeyword temp : courseKeyWords){
+			Map<String,String> keyWord = new HashMap<String,String>();
+			keyWord.put("id", temp.getCourseKeywordId().toString());
+			keyWord.put("name", temp.getKeyword());
+			keyWords.add(keyWord);
+		}
 		classInfo.put("keyWords", keyWords);
 		
 		//专题
