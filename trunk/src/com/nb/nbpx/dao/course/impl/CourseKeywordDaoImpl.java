@@ -21,8 +21,25 @@ import com.nb.nbpx.pojo.course.CourseKeyword;
  * @date 2013年7月21日
  */
 @Component("courseKeywordDaoDao")
-//@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings("unchecked")
 public class CourseKeywordDaoImpl extends BaseDaoImpl<CourseKeyword, Integer> implements ICourseKeywordDao{
+
+	
+	@Override																											
+	public List<CourseKeyword> getCourseKeyWords(final int courseId) {
+		List<CourseKeyword> list = new ArrayList<CourseKeyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select * from coursekeywords t where t.courseId="+courseId);
+				Query query = session.createSQLQuery(sql.toString()).addEntity(CourseKeyword.class);
+				return query.list();
+			}
+		});
+		return list;
+	}
 	
 
 }
