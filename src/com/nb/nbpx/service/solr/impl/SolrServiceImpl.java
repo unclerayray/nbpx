@@ -109,6 +109,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	public String fullTextQueryForHl(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException {
 		//TODO 统计搜索次数 put that into Action, not here
+		//TODO ping查看连接，连不上的话就throw相应的Exception
 		String serverURL = SolrUtil.getCourseServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();

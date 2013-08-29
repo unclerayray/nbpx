@@ -12,6 +12,7 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.keyword.IKeywordService;
+import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.utils.JsonUtil;
 
 /**
@@ -31,6 +32,8 @@ public class KeywordAction extends BaseAction {
 	public String allKeywords;
 	@Resource
 	public IKeywordService keywordService;
+	@Resource
+	public ISolrKeywordService solrKeywordService;
 	/**
 	 * 
 	 */
@@ -119,6 +122,22 @@ public class KeywordAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
+	
+	
+	/**
+	 * 给课程或文章的多个关键词查找相关关键词
+	 * @return
+	 */
+	public String queryRelatedKeywords() {
+		String json = "";
+		try {
+			json = solrKeywordService.queryRelatedKeywords(keywords,null,null);
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
+		}
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
 
 	public String saveKeyword() {
 		return SUCCESS;
@@ -186,6 +205,14 @@ public class KeywordAction extends BaseAction {
 
 	public void setKeywordService(IKeywordService keywordService) {
 		this.keywordService = keywordService;
+	}
+
+	public ISolrKeywordService getSolrKeywordService() {
+		return solrKeywordService;
+	}
+
+	public void setSolrKeywordService(ISolrKeywordService solrKeywordService) {
+		this.solrKeywordService = solrKeywordService;
 	}
 
 }
