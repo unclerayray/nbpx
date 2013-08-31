@@ -1,5 +1,7 @@
 package com.nb.nbpx.dao.course;
 
+import java.util.List;
+
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.pojo.course.CourseIndustry;
 
@@ -20,4 +22,6 @@ public interface ICourseIndustryDao extends IBaseDao<CourseIndustry, Integer>{
 	 * @param courseId
 	 */
 	public void deleteAllCourseIndustry(Integer courseId);
+	
+	public List<CourseIndustry> getCourseIndustryByCourseId(String courseId);
 }
