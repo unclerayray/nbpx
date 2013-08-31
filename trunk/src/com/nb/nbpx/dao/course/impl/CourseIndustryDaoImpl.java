@@ -1,10 +1,13 @@
 package com.nb.nbpx.dao.course.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Component;
@@ -13,6 +16,7 @@ import com.nb.nbpx.dao.course.ICourseIndustryDao;
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.pojo.course.CourseIndustry;
+import com.nb.nbpx.pojo.course.CourseKeyword;
 import com.nb.nbpx.pojo.system.Dictionary;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -54,6 +58,22 @@ public class CourseIndustryDaoImpl extends BaseDaoImpl<CourseIndustry, Integer> 
 			}   
 			
 		});
+	}
+
+	@Override
+	public List<CourseIndustry> getCourseIndustryByCourseId(final String courseId) {
+		List<CourseIndustry> list = new ArrayList<CourseIndustry>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select * from courseindustry t where t.courseId="+courseId);
+				Query query = session.createSQLQuery(sql.toString()).addEntity(CourseIndustry.class);
+				return query.list();
+			}
+		});
+		return list;
 	}
 
 }

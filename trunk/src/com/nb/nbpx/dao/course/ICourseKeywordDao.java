@@ -14,4 +14,5 @@ public interface ICourseKeywordDao extends IBaseDao<CourseKeyword, Integer>{
 	
 	List<CourseKeyword> getCourseKeyWords(int courseId);
 	
+	
 }

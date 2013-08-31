@@ -16,16 +16,24 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.ICourseDao;
+import com.nb.nbpx.dao.course.ICourseIndustryDao;
 import com.nb.nbpx.dao.course.ICourseInfoDao;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
+import com.nb.nbpx.dao.course.ICourseMajorDao;
+import com.nb.nbpx.dao.course.ICourseSubjectDao;
+import com.nb.nbpx.dao.course.ICourseTargetDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.dao.subject.ISubjectDao;
 import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.CourseIndustry;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.course.CourseKeyword;
+import com.nb.nbpx.pojo.course.CourseMajor;
+import com.nb.nbpx.pojo.course.CourseSubject;
+import com.nb.nbpx.pojo.course.CourseTarget;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.pojo.system.Dictionary;
@@ -45,6 +53,11 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	private ITeacherInfoDao teacherDao;
 	private ICourseInfoDao courseInfoDao;
 	private ICourseKeywordDao courseKeywordDao;
+	private ICourseIndustryDao courseIndustryDao;
+	private ICourseSubjectDao courseSubjectDao;
+	private ICourseTargetDao courseTargetDao;
+	private ICourseMajorDao courseMajorDao;
+
 	private IDictionaryDao dictionaryDao;
 	private IKeywordDao keywordDao;
 	private ISubjectDao subjectDao;
@@ -567,26 +580,35 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		
 		//培训对象
 		List<Map<String,String>> trainObject = new ArrayList<Map<String,String>>();
-		Map<String,String> object = new HashMap<String,String>();
-		object.put("id", "1");
-		object.put("name", "总经理");
-		trainObject.add(object);
+		List<CourseTarget> targets = courseTargetDao.getCourseTargetsByCourseId(courseId);
+		for(CourseTarget target : targets){
+			Map<String,String> object = new HashMap<String,String>();
+			object.put("id", target.getTargetCode());
+			object.put("name", target.getTarget());
+			trainObject.add(object);
+		}
 		classInfo.put("object", trainObject);
 			
 		//行业
 		List<Map<String,String>> indestorys = new ArrayList<Map<String,String>>();
-		Map<String,String> indestory = new HashMap<String,String>();
-		indestory.put("id", "1");
-		indestory.put("name", "电力行业");
-		indestorys.add(indestory);
+		List<CourseIndustry> industries = courseIndustryDao.getCourseIndustryByCourseId(courseId);	
+		for(CourseIndustry industry : industries){
+			Map<String,String> indestory = new HashMap<String,String>();
+			indestory.put("id", industry.getIndustryCode());
+			indestory.put("name", industry.getIndustry());
+			indestorys.add(indestory);
+		}
 		classInfo.put("indestory", indestorys);
-			
+		
 		//专业
 		List<Map<String,String>> majors = new ArrayList<Map<String,String>>();
-		Map<String,String> major = new HashMap<String,String>();
-		major.put("id", "1");
-		major.put("name", "电气工程");
-		majors.add(major);
+		List<CourseMajor> majorList = courseMajorDao.getCourseMajorByCourseId(courseId);
+		for(CourseMajor major :majorList){
+			Map<String,String> temp = new HashMap<String,String>();
+			temp.put("id", major.getMajorCode());
+			temp.put("name", major.getMajor());
+			majors.add(temp);
+		}
 		classInfo.put("major", majors);
 			
 		//关键字
@@ -602,10 +624,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		
 		//专题
 		List<Map<String,String>> serieses = new ArrayList<Map<String,String>>();
-		Map<String,String> series = new HashMap<String,String>();
-		series.put("id", "1");
-		series.put("name", "人力资源");
-		serieses.add(series);
+		List<CourseSubject> subjects = courseSubjectDao.getCourseSubjectByCourseId(courseId);
+		for(CourseSubject subject : subjects){
+			Map<String,String> series = new HashMap<String,String>();
+			series.put("id", subject.getSubjectId().toString());
+			series.put("name", subject.getSubject());
+			serieses.add(series);
+		}
 		classInfo.put("series", serieses);
 
 		return JsonUtil.getJsonString(classInfo).toString();
@@ -683,7 +708,34 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseId.toString());
 		return list;
 	}
-
-
+	
+	public ICourseIndustryDao getCourseIndustryDao() {
+		return courseIndustryDao;
+	}
+	@Resource
+	public void setCourseIndustryDao(ICourseIndustryDao courseIndustryDao) {
+		this.courseIndustryDao = courseIndustryDao;
+	}
+	public ICourseMajorDao getCourseMajorDao() {
+		return courseMajorDao;
+	}
+	@Resource
+	public void setCourseMajorDao(ICourseMajorDao courseMajorDao) {
+		this.courseMajorDao = courseMajorDao;
+	}
+	public ICourseSubjectDao getCourseSubjectDao() {
+		return courseSubjectDao;
+	}
+	@Resource
+	public void setCourseSubjectDao(ICourseSubjectDao courseSubjectDao) {
+		this.courseSubjectDao = courseSubjectDao;
+	}
+	public ICourseTargetDao getCourseTargetDao() {
+		return courseTargetDao;
+	}
+	@Resource
+	public void setCourseTargetDao(ICourseTargetDao courseTargetDao) {
+		this.courseTargetDao = courseTargetDao;
+	}
 
 }
