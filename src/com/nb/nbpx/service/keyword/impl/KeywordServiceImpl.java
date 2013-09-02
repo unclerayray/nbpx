@@ -87,6 +87,7 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 		keywordDao.importKeywords(category, keywordsArray);
 		List<Keyword> keywordList =  keywordDao.getNotIndexedKeyWordsList();
 		solrKeywordService.addKeywords2Solr(keywordList);
+		//TODO needs debug
 		return true;
 	}
 	@Override

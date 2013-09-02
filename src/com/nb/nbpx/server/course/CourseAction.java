@@ -103,6 +103,14 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String saveCourse() {
+		//String regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
+		String regEx1 = "[\\pP‘’“”]";
+		if(courseAllInfo.getKeywords()!=null){
+			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(regEx1, ","));
+		}
+		if(courseAllInfo.getSubject()!=null){
+			courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(regEx1, ","));
+		}
 		List<Keyword> keywords = keywordService.saveKeywords(courseAllInfo);
 		//让Keyword提前保存，生成超链接的时候才有ID可以对应
 		Course cou = new Course(courseAllInfo);
@@ -165,6 +173,8 @@ public class CourseAction extends BaseAction {
 	public String saveCourseInfo() {
 		try {
 			courseService.saveCourseInfo(courseInfo);
+			solrCourseService.updateCourseInfo2Solr(courseInfo.getCourseId());
+			//TODO SOLR update
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -184,6 +194,7 @@ public class CourseAction extends BaseAction {
 	public String deleteCourseInfo() {
 		try {
 			courseService.deleteCourseInfo(courseInfo);
+			solrCourseService.updateCourseInfo2Solr(courseInfo.getCourseId());
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,

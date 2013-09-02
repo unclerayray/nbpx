@@ -20,6 +20,7 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.PinYinUtil;
 import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrKeywordService")
 public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeywordService{
@@ -60,6 +61,11 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 				SolrInputDocument sid = new SolrInputDocument();
 				sid.addField("keyId", keyword.getKeyId());
 				sid.addField("keyword", keyword.getKeyword());
+				if(keyword.getKeyword()!=null){
+					String pinyin = PinYinUtil.getPinYin(keyword.getKeyword());
+					sid.addField("pinyin", pinyin);
+				}
+				
 				documents.add(sid);
 			}
 			solrServer.add(documents);
