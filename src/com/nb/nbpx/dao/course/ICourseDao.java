@@ -64,9 +64,9 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 			final Integer start);
 	
 	//地点分页，获取总页数
-	public Integer CountCourseByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start);
+	public Integer CountCourseByCity(final String cityName,final String year,final String month,final String flag,final Integer rows,final Integer start);
 	//根据地点分页获取课程
-	public List<CourseInfo> getCourseInfoByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start);
+	public List<CourseInfo> getCourseInfoByCity(final String cityName,final String year,final String month,final String flag,final Integer rows,final Integer start);
 
 	
 	// 获取课程的信息
@@ -87,4 +87,12 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	public List<Course> getHotCourseByPlace(final Boolean ifInner, final String cityName,final Integer rows, final Integer start);
 	//获取本月或者本周最热的培训课程
 	public List<Course> selectTimeTopCourse(String flag,String cityName,Boolean isInner,Integer start,Integer rows);
+	//根据行业、专业、产品、职位获取(flag:1-行业，2-专业，3-产品，4-职位)
+	public List<Course> getHotCourseByType(Boolean isInner,String type,String flag,Integer start,Integer rows);
+	//获取培训中价格最贵的高端课程，按照日期和价格排序
+	public List<Course> getCourseByPrice(Boolean isInner,String type,Integer start,Integer rows);
+	//获取经典培训或者内训
+	public List<Course> getClassicCourse(Boolean isInner,String type,Integer start,Integer rows);
+	//获取内训或培训中推荐老师信息
+	public List<TeacherInfo> getTeacherRecommand(Boolean isInner,String type,Integer start,Integer rows);
 }

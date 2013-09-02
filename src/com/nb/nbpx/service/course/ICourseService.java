@@ -56,6 +56,18 @@ public interface ICourseService extends IBaseService {
 	 */
 	public List<CourseInfo> queryCourseInfoList(Integer courseId);
 	//分页获取地点下的课程（可以按照月份）
-	public String queryCourseByCity(String cityName,String month,String orderFlag,Integer rows,Integer start);
+	public String queryCourseByCity(String cityName,String year,String month,String orderFlag,Integer rows,Integer start);
 	public String queryHotCourseByPlace(Boolean ifInner, String cityName,Integer rows,Integer start);
+	//按照行业、专业、职位、产品获取热门课程
+	public String queryHotCourseByType(Boolean isInner,String flag,String type,Integer rows,Integer start);
+	//获取高端课程
+	public String queryCourseByPrice(Boolean isInner,String type,Integer rows,Integer start);
+	//获取热门课程，不分类别
+	public String queryHotCourse(Boolean isInner,Integer rows,Integer start);
+	//获取经典课程，不分类别
+	public String queryClassiscCourse(Boolean isInner,Integer rows,Integer start);
+	//获取行业、专业、职位、产品
+	public String queryCourseType(String flag,Integer rows,Integer start);
+	//获取高端课程推荐的内训师或者培训师
+	public String getTeacherRecommand(Boolean isInner,String type,Integer rows,Integer start);
 }

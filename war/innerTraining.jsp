@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" import="java.util.*"
     pageEncoding="utf-8"%>
    <%
-   Calendar now = Calendar.getInstance();
-   int currYear = now.get(Calendar.YEAR);
+   int currYear = 2013;
    int nextYear = currYear+1;
    
    %>
@@ -15,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
-<title>企业培训</title>
+<title>企业内训</title>
 </head>
 <script>
 	$(function(){
@@ -39,7 +38,7 @@
 	});
 	function loadKeyWords(){
 		$.ajax({
-			url:"struts/Train_getPXRelatedKeyWords",
+			url:"struts/Train_getNXRelatedKeyWords",
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -53,7 +52,7 @@
 	
 	function loadSubjects(){
 		$.ajax({
-			url:"struts/Train_getPXRelatedSubjects",
+			url:"struts/Train_getNXRelatedSubjects",
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr1 = "";
@@ -72,9 +71,10 @@
 			}
 		})
 	}
+	
 	function loadClassicCourse(){
 		$.ajax({
-			url:"struts/Train_getClassicPXCourse",
+			url:"struts/Train_getClassicNXCourse",
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -90,7 +90,7 @@
 	
 	function loadHotCourse(){
 		$.ajax({
-			url:"struts/Train_getPXHotCourse",
+			url:"struts/Train_getNXHotCourse",
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -142,7 +142,7 @@
 	function loadPartData(pre,flag,part){
 		if(pre == 'a'){//加载行业培训等	
 			$.ajax({
-				url:"struts/Train_getPXTypeCourse?catogery="+flag+"&flag="+part,
+				url:"struts/Train_getNXTypeCourse?catogery="+flag+"&flag="+part,
 				success:function(data){
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
@@ -158,7 +158,7 @@
 		if(pre == 'b'){
 			if(flag == '1'){//加载高端课程
 				$.ajax({
-					url:"struts/Train_getPXCourseByPrice?catogery="+part,
+					url:"struts/Train_getNXCourseByPrice?catogery="+part,
 					success:function(data){
 						var jsonObject = eval('('+data+')');
 						var valueStr = "";
@@ -174,7 +174,7 @@
 				
 			}else{//加载推荐老师
 				$.ajax({
-					url:"struts/Train_getPXTeachers?catogery="+part,
+					url:"struts/Train_getNXTeachers?catogery="+part,
 					success:function(data){
 						var jsonObject = eval('('+data+')');
 						var valueStr = "";
@@ -198,7 +198,7 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li>企业培训</li>
+		<li>企业内训</li>
 	</ul>
 	<div class="clear"></div>
 </div>
@@ -219,20 +219,14 @@
 		</div>
 	<div class="clear"></div>
 	<div class="classtic left">
-		<h2 class="first">经典培训<span class="more"><a href="#">更多</a></span></h2>
+		<h2 class="first">金牌内训<span class="more"><a href="#">更多</a></span></h2>
 		<ul id="classiscCourse">
 			<li><a href="#">定向引爆式大客户销售</a></li>
 		</ul>
 		<div class="clear"></div>
-		<h2>热门课程<span class="more"><a href="#">更多</a></span></h2>
+		<h2>热门内训<span class="more"><a href="#">更多</a></span></h2>
 		<ul class="hot" id="hotCourse">
 			<li><span class="red">1</span><a href="#">定向引爆式大客户销售</a></li>
-			<li><span class="red">2</span><a href="#">企业应收账款管理及信用风险控制...</a></li>
-			<li><span class="red">3</span><a href="#">成功的产品经理—产品经理核心管...</a></li>
-			<li><span class="blue">4</span><a href="#">心理学：洞察人心（性）之道</a></li>
-			<li><span class="blue">5</span><a href="#">产品需求分析与需求管理</a></li>
-			<li><span class="blue">6</span><a href="#">研发质量管理培训</a></li>
-			<li><span class="blue">7</span><a href="#">产品需求分析与需求管理</a></li>
 		</ul>
 		<div class="clear"></div>
 	</div>
@@ -272,7 +266,7 @@
 		<li class="noneStyle">
 			<div class="part left" >
 				<div class="head">
-					<div class="title left" >行业培训</div>
+					<div class="title left" >行业内训</div>
 					<div class="tabOn" id="a11"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',1,1)">财务</a></div>
 					<div class="tabOff" id="a12"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',2,1)">物流</a></div>
 					<div class="tabOff" id="a13"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',3,1)">人力</a></div>
@@ -292,7 +286,7 @@
 		<li class="noneStyle" >
 			<div class="part left">
 				<div class="head">
-					<div class="title left" >专业培训</div>
+					<div class="title left" >专业内训</div>
 					<div class="tabOn" id="a21"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',1,2)">财务</a></div>
 					<div class="tabOff" id="a22"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',2,2)">物流</a></div>
 					<div class="tabOff" id="a23"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',3,2)">人力</a></div>
@@ -313,7 +307,7 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="title left" >职位培训</div>
+					<div class="title left" >职位内训</div>
 					<div class="tabOn" id="a31"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',1,3)">财务</a></div>
 					<div class="tabOff" id="a32"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',2,3)">物流</a></div>
 					<div class="tabOff" id="a33"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',3,3)">人力</a></div>
@@ -333,7 +327,7 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="title left" >产品培训</div>
+					<div class="title left" >产品内训</div>
 					<div class="tabOn" id="a41"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',1,4)">财务</a></div>
 					<div class="tabOff" id="a42"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',2,4)">物流</a></div>
 					<div class="tabOff" id="a43"><a href="javascript:void(0)" onclick="javascript:seePartTab('a',3,4)">人力</a></div>
@@ -358,7 +352,7 @@
 					<div class="head">
 						<div class="tabOn" id="b11"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',1,1)">财务管理高端课程</a></div>	
 						<div class="tabOff" id="b12"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',2,1)">学员推荐</a></div>
-						<div class="tabOff" id="b13"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,1)">培训师推荐</a></div>
+						<div class="tabOff" id="b13"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,1)">内训师推荐</a></div>
 						<div class="clear"></div>
 					</div>
 					<div class="bg h245">
@@ -376,7 +370,7 @@
 					<div class="head">
 						<div class="tabOn" id="b21"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',1,2)">物流供应链高端课程</a></div>
 						<div class="tabOff" id="b22"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',2,2)">学员推荐</a></div>
-						<div class="tabOff" id="b23"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,2)">培训师推荐</a></div>
+						<div class="tabOff" id="b23"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,2)">内训师推荐</a></div>
 						<div class="clear"></div>
 					</div>
 					<div class="bg h245">
@@ -394,7 +388,7 @@
 					<div class="head">
 						<div class="tabOn" id="b31"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',1,3)">人力资源高端课程</a></div>	
 						<div class="tabOff" id="b32"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',2,3)">学员推荐</a></div>
-						<div class="tabOff" id="b33"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,3)">培训师推荐</a></div>
+						<div class="tabOff" id="b33"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,3)">内训师推荐</a></div>
 						<div class="clear"></div>
 					</div>
 					<div class="bg h245" >
@@ -412,7 +406,7 @@
 					<div class="head">
 						<div class="tabOn" id="b41"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',1,4)">生产管理高端课程</a></div>
 						<div class="tabOff" id="b42"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',2,4)">学员推荐</a></div>
-						<div class="tabOff" id="b43"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,4)">培训师推荐</a></div>
+						<div class="tabOff" id="b43"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,4)">内训师推荐</a></div>
 						<div class="clear"></div>
 					</div>
 					<div class="bg h245" >
@@ -430,7 +424,7 @@
 				<div class="head">
 					<div class="tabOn" id="b51"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',1,5)">营销客服高端课程</a></div>	
 					<div class="tabOff" id="b52"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',2,5)">学员推荐</a></div>
-					<div class="tabOff" id="b53"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,5)">培训师推荐</a></div>
+					<div class="tabOff" id="b53"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,5)">内训师推荐</a></div>
 					<div class="clear" ></div>
 				</div>
 				<div class="bg h245">
@@ -448,7 +442,7 @@
 				<div class="head">
 					<div class="tabOn" id="b61"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',1,6)">综合战略高端课程</a></div>
 					<div class="tabOff" id="b62"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',2,6)">学员推荐</a></div>
-					<div class="tabOff" id="b63"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,6)">培训师推荐</a></div>
+					<div class="tabOff" id="b63"><a href="javascript:void(0)" onclick="javascript:seePartTab('b',3,6)">内训师推荐</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -461,139 +455,16 @@
 				<img  src="images/class5.jpg" />
 	</div>
 	</li>
-	
-	<li class="noneStyle">
-			<div class="part left">
-				<div class="head">
-					<div class="title left">研修班</div>
-					<div class="tabOn">北大</div>
-					<div class="tabOff">清华</div>
-					<div class="tabOff">交大</div>
-					<div class="tabOff">复大</div>
-					<div class="tabOff">中大</div>
-					<div class="more"><a href="#">更多</a></div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg">
-					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
-							<li><a href="#">北京大学私富有研修班</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</li>
-	<li class="noneStyle">
-	<div class="part left">
-				<div class="head">
-					<div class="tabOn">工商管理</div>
-					<div class="tabOff">金融投资</div>
-					<div class="tabOff">总裁战略</div>
-					<div class="tabOff">房地产班</div>
-					<div class="more"><a href="#">更多</a></div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg">
-					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4">
-							<li><a href="#">北京大学私富有研修班</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-						</ul>
-					</div>
-				</div>
-	</div>
-	</li>
 	</ul>
 	</div>
 	<!--右边部分 start-->
 	<div class="rightInPart">
-	<!--月份 start-->
-		<div class="head"><%=currYear %>年企业培训日历</div>
-		<div class="bg p5 h40">
-			<ul class="list2">
-				<li><a href="seeMonthCourse.jsp?month=1&year=<%=currYear%>">01月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=2&year=<%=currYear%>">02月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=3&year=<%=currYear%>">03月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=4&year=<%=currYear%>">04月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=5&year=<%=currYear%>">05月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=6&year=<%=currYear%>">06月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=7&year=<%=currYear%>">07月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=8&year=<%=currYear%>">08月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=9&year=<%=currYear%>">09月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=10&year=<%=currYear%>">10月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=11&year=<%=currYear%>">11月</a></li>
-				<li><a href="seeMonthCourse.jsp?month=12&year=<%=currYear%>">12月</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-		<!--月份 end-->
-		
-		<!--内训 start-->
-		<div class="head"><%=nextYear %>年企业培训日历</div>
-		<div class="bg p5 h40" >
-				<ul class="list2">
-					<li><a href="seeMonthCourse.jsp?month=1&year=<%=nextYear%>">01月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=2&year=<%=nextYear%>">02月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=3&year=<%=nextYear%>">03月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=4&year=<%=nextYear%>">04月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=5&year=<%=nextYear%>">05月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=6&year=<%=nextYear%>">06月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=7&year=<%=nextYear%>">07月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=8&year=<%=nextYear%>">08月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=9&year=<%=nextYear%>">09月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=10&year=<%=nextYear%>">10月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=11&year=<%=nextYear%>">11月</a></li>
-					<li><a href="seeMonthCourse.jsp?month=12&year=<%=nextYear%>">12月</a></li>
-				</ul>
-			<div class="clear"></div>
-		</div>
-		<!--内训 end-->
-		<!--地点 start-->
-		<div class="head">开课地点</div>
-		<div class="bg h45" style="border-bottom:1px solid #ebebeb">
-			<ul class="list2 city">
-				<li><a href="seePlace.jsp?city=北京">北京</a></li>
-				<li><a href="seePlace.jsp?city=上海">上海</a></li>
-				<li><a href="seePlace.jsp?city=深圳">深圳</a></li>
-				<li><a href="seePlace.jsp?city=广州">广州</a></li>
-				<li><a href="seePlace.jsp?city=杭州">杭州</a></li>
-				<li><a href="seePlace.jsp?city=东莞">东莞</a></li>
-				<li><a href="seePlace.jsp?city=苏州">苏州</a></li>
-				<li><a href="seePlace.jsp?city=全国">全国</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-		<!--地点 end-->
-		<div style="height:10px; display:block"></div>
 		<!--培训关键词 start-->
 		<div class="rightTeacher">
-				<h5  class="first">企业培训相关关键词</h5>
+				<h5  class="first">企业内训相关关键词</h5>
 				<div class="bg h315" style="padding:0px 15px 4px 15px;border:none"/>
 					<div class="clear" style="height:10px;"></div>
-					<ul class="list8" id="relatedKeywords">
+					<ul class="list8" id="relatedKeywords" >
 						<li><a href="#">EMBA</a></li>
 						<li><a href="#">KPI</a></li>
 						<li><a href="#">财务管理</a></li>
@@ -643,7 +514,7 @@
 		<!--培训专题start-->
 		<div style="height:10px; display:block"></div>
 		<div class="rightTeacher">
-				<h5  class="first">企业培训相关专题</h5>
+				<h5  class="first">企业内训相关专题</h5>
 				<div class="bg h315" style="padding:0px 0px 4px 0px;border:none"/>
 					<div class="clear" style="height:0px"></div>
 					<dl class="bestCustomer leftPart left" style="width:110px;" id="relatedSubjects1">
@@ -678,47 +549,26 @@
 		</div>
 		<!--培训专题end-->
 		
-		<!--热门培训 培训计划 培训下载 start-->
-	<div style="height:10px; display:block"></div>
-		<div class="sortList">
-		<div class="head">
-					<div class="tabOn half">培训计划</div>
-					<div class="tabOff half">培训下载</div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg h315" style="padding:0px 15px 4px 15px;">
-					<ul class="list7" style="padding-top:10px">
-						<li class="line"><a><span class="red">1</span>企业资本运作与投融资顾问</a></li>
-						<li  class="line"><a><span class="red">2</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">3</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">4</span>企业资本运作与投融资顾问</a></li>
-						<li class="line"><a><span class="blue">5</span>企业资本运作与投融资顾问</a></li>
-					</ul>
-					<div class="clear"></div>
-				</div>
-		</div>
-		<!--热门培训 培训计划 培训下载 end-->
-		
 
 		<!--专业培训/行业培训/产品培训 start-->
 		<div style="height:10px; display:block"></div>
 		<div class="trainKind" style="padding:5px 0px 8px 15px;border:1px solid #ddeae0;">
-			<h4>专业培训</h4>
+			<h4>专业内训</h4>
 			<ul id="type1">
 				<li><a href="#">软件工程</a></li>
 			</ul>
 			<div class="clear"></div>
-			<h4>行业培训</h4>
+			<h4>行业内训</h4>
 			<ul id="type2">
 				<li><a href="#">化工</a></li>
 			</ul>
 			<div class="clear"></div>
-			<h4>产品培训</h4>
+			<h4>产品内训</h4>
 			<ul id="type3">
 				<li><a href="#">手机</a></li>
 			</ul>
 			<div class="clear"></div>
-			<h4>职位培训</h4>
+			<h4>职位内训</h4>
 			<ul id="type4">
 				<li><a href="#">HR经理</a></li>
 			</ul>
@@ -729,7 +579,7 @@
 		<!--企业培训师 start-->
 		<div style="height:10px; display:block"></div>
 		<div class="rightTeacher" >
-			<h5 class=" first">企业培训师</h5>
+			<h5 class=" first">企业内训师</h5>
 			<div style="padding-left:15px;padding-bottom:10px">
 			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
 			<dl class="left">
@@ -804,7 +654,7 @@
 		<!--企业培训动态 start-->
 		<div style="height:10px; display:block"></div>
 		<div class="rightTeacher">
-				<h5  class="first">培训动态</h5>
+				<h5  class="first">内训动态</h5>
 				<div style="padding:0px 0px 10px 15px;height:140px">
 					<marquee  direction="up" scrollamount="3" behavior="scroll" class="lasted" height="150px" onmouseover="this.stop();" onMouseOut="this.start()">
 					<ul class="list5" style="width:230px;">

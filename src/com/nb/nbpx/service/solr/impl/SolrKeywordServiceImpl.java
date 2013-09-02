@@ -101,6 +101,7 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 			params.set("rows", rows);
 		}
 		query.set("qt", "select");
+		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int numFound = (int) response.getResults().getNumFound();
 		int count = response.getResults().size();

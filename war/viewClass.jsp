@@ -94,27 +94,63 @@
 				$('#major').html(majorStr);
 				
 				//添加关键词
+				var queryKeyWords = "";
 				var keyWords = jsonObject.keyWords;
 				var keyWordsStr = "<span>关键词：</span>";
 				for(var i=0;i<keyWords.length;i++){
 					keyWordsStr += "<a href='xx.jsp?id="+keyWords[i].id+"'>"+keyWords[i].name+"</a>";
+					queryKeyWords += keyWords[i].name;
 					if(i<keyWords.length-1)
 						keyWordsStr += ",";
 				}
 				$('#keyWords').html(keyWordsStr);
+				loadRelatedKeyWords(queryKeyWords);
 				
 				//添加专题
+				var querySubjects = "";
 				var series = jsonObject.series;
 				var seriesStr = "<span>专题：</span>";
 				for(var i=0;i<series.length;i++){
 					seriesStr += "<a href='xx.jsp?id="+series[i].id+"'>"+series[i].name+"</a>";
+					querySubjects += series[i].name;
 					if(i<series.length-1)
 						seriesStr += ",";
 				}
+				loadRelatedSubjects(querySubjects);
 				$('#series').html(seriesStr);
+
+				
 			}
 		});
 	});
+	
+	function loadRelatedKeyWords(condition){
+		$.ajax({
+			url:encodeURI("struts/ViewClass_getRelatedKeyWords?condition="+condition),
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject.rows,function(n,value){
+					valueStr +="<li><a href='#'>"+value.keyword+"</a></li>";
+				});
+				$('#relatedKeywords').html(valueStr);
+			}
+		})
+	}
+	
+	function loadRelatedSubjects(condition){
+		$.ajax({
+			url:encodeURI("struts/ViewClass_getRelatedSubjects?condition="+condition),
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject.rows,function(n,value){
+					valueStr +="<li><a href='#'>"+value.subject+"</a></li>";
+				});
+				$('#relatedSubjects').html(valueStr);
+			}
+		})
+	}
 </script>
 <!--当前路径 start-->
 <div class="mainContent path" id="path">
@@ -258,13 +294,13 @@
 				<h5  class="first">相关关键词</h5>
 				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:85px;"/>
 					<div class="clear" style="height:10px;"></div>
-				<ul class="list8"><li><a href="#">绩效管理</a></li><li><a href="#">团队管理</a></li><li><a href="#">团队素质</a></li><li><a href="#">团队文化建设</a></li><li><a href="#">团队执行力</a></li><li><a href="#">领导力</a></li><li><a href="#">绩效考核</a></li><li><a href="#">绩效测评</a></li></ul>
+				<ul class="list8" id="relatedKeywords"><li><a href="#">绩效管理</a></li><li><a href="#">团队管理</a></li><li><a href="#">团队素质</a></li><li><a href="#">团队文化建设</a></li><li><a href="#">团队执行力</a></li><li><a href="#">领导力</a></li><li><a href="#">绩效考核</a></li><li><a href="#">绩效测评</a></li></ul>
 				<div class="clear"></div>
 				</div>
 				<h5 >相关专题</h5>
 				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:85px;"/>
 					<div class="clear" style="height:10px;"></div>
-				<ul class="list8"><li><a href="#">绩效管理</a></li><li><a href="#">团队管理</a></li><li><a href="#">团队素质</a></li><li><a href="#">团队文化建设</a></li><li><a href="#">团队执行力</a></li><li><a href="#">领导力</a></li><li><a href="#">绩效考核</a></li><li><a href="#">绩效测评</a></li></ul>
+				<ul class="list8" id="relatedSubjects"><li><a href="#">绩效管理</a></li><li><a href="#">团队管理</a></li><li><a href="#">团队素质</a></li><li><a href="#">团队文化建设</a></li><li><a href="#">团队执行力</a></li><li><a href="#">领导力</a></li><li><a href="#">绩效考核</a></li><li><a href="#">绩效测评</a></li></ul>
 				<div class="clear"></div>
 				</div>
 			</div>

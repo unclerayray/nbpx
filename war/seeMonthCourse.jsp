@@ -2,6 +2,7 @@
     pageEncoding="utf-8"%>
     <%
     	String currMonth = request.getParameter("month");
+    	String currYear = request.getParameter("year");
     %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -21,8 +22,9 @@
 	});
 	function loadCourses(page){
 		var currMonth = $('#currMonth').val();
+		var currYear = $('#currYear').val();
 		$.ajax({
-			url:"struts/SeeMonthCourse_getCourseByMonth?page="+page+"&rows=10&month="+currMonth,
+			url:"struts/SeeMonthCourse_getCourseByMonth?page="+page+"&rows=10&month="+currMonth+"&year="+currYear,
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -61,32 +63,32 @@
 		<li class="bread">&gt;&gt;</li>
 		<li><a href="training.jsp" target="_self">企业培训</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li><%=currMonth %>月份培训课程</li>
+		<li><%=currYear%>年<%=currMonth %>月份培训课程</li>
 	</ul>
 	<div class="clear"></div>
 </div>
 <!--当前路径 end-->
-<input type="hidden" value="<%=currMonth%>" id="currMonth"/>
+<input type="hidden" value="<%=currMonth%>" id="currMonth"/><input type="hidden" value="<%=currYear%>" id="currYear"/>
 <!--主体部分二 start-->
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
 	<div class="leftInPart">
 		<!--消费者相关专题 start-->
 		<div class="resultPart padding10"  style="width:700px;float:left">
-			<h2>培训日历</h2>
+			<h2><%=currYear%>年培训日历</h2>
 			<div class="resultContent" style="padding-left:20px">
 					<ul class="list2" style="width:690px">
-						<li ><a href="seeMonthCourse.jsp?month=1">01月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=2">02月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=3">03月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=4">04月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=5">05月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=6">06月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=7">07月</a><span>&nbsp;</span></li>
-						<li ><a href="seeMonthCourse.jsp?month=8">08月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=9">09月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=10">10月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=11">11月</a><span>&nbsp;</span></li>
-						<li><a href="seeMonthCourse.jsp?month=12">12月</a></li>
+						<li ><a href="seeMonthCourse.jsp?month=1&year=<%=currYear%>">01月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=2&year=<%=currYear%>">02月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=3&year=<%=currYear%>">03月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=4&year=<%=currYear%>">04月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=5&year=<%=currYear%>">05月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=6&year=<%=currYear%>">06月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=7&year=<%=currYear%>">07月</a><span>&nbsp;</span></li>
+						<li ><a href="seeMonthCourse.jsp?month=8&year=<%=currYear%>">08月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=9&year=<%=currYear%>">09月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=10&year=<%=currYear%>">10月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=11&year=<%=currYear%>">11月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=12&year=<%=currYear%>">12月</a></li>
 					</ul>
 					<div class="clear" style="height:10px"></div>
 			</div>

@@ -14,10 +14,11 @@ public class SeeMonthCourse extends BaseAction{
 	
 	private ICourseService courseService;
 	public String month;
+	public String year;
 	public String cityName;
 	
 	public String getCourseByMonth(){
-		String json = courseService.queryCourseByCity(null, month, "1", rows, page);
+		String json = courseService.queryCourseByCity(null,year, month, "1", rows, page);
 		
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -36,7 +37,13 @@ public class SeeMonthCourse extends BaseAction{
 	public void setMonth(String month) {
 		this.month = month;
 	}
+	public String getYear() {
+		return year;
+	}
 
+	public void setYear(String year) {
+		this.year = year;
+	}
 	
 	
 }

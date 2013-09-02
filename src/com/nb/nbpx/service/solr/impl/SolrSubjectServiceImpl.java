@@ -4,15 +4,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
+import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrSubjectService")
 public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubjectService{
@@ -65,6 +73,50 @@ public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubj
 			logger.error("commit未成功。"+e.getMessage());;
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String queryRelatedSubject(String q, Integer start, Integer rows)
+			throws SolrServerException, IOException {
+		String json = "";
+		String serverURL = SolrUtil.getSubjectServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		q = SolrUtil.escapeQueryChars(q);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
+		q = "subject:"+q;
+		params.set("q", q);
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<Subject> resultList = new ArrayList<Subject>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Object subjectIdobj = sd.getFieldValue("subjectId");
+			Object subjectobj = sd.getFieldValue("subject");
+			if(subjectIdobj==null){
+				continue;
+			}
+			Subject subject = new Subject();
+			subject.setSubjectId((Integer)subjectIdobj);
+			subject.setSubject(subjectobj.toString());
+			resultList.add(subject);
+		}
+		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
+				ResponseStatus.SUCCESS, "", list);
+		return json;
 	}
 
 }
