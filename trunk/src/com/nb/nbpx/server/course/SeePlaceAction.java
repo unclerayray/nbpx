@@ -1,5 +1,6 @@
 package com.nb.nbpx.server.course;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.util.Calendar;
 
@@ -17,7 +18,7 @@ public class SeePlaceAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
 	private ICourseService courseService;
 	
-	public String cityName;
+	public String city;
 	public String flag;
 	public String month;
 	
@@ -25,14 +26,16 @@ public class SeePlaceAction extends BaseAction{
 
 	//分页获取城市课程信息
 	public String getCityCourse(){
-		String json = courseService.queryCourseByCity(cityName,null, "1", rows,page);
+		String json = courseService.queryCourseByCity(city,null,null, "1", rows,page);
 		
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
 	//分页获取城市的月度课程信息
 	public String getCityMonthCourse(){
-		String json = courseService.queryCourseByCity(cityName,month, "1", rows,page);
+		Calendar date = Calendar.getInstance();
+		String currYear = date.YEAR+"";
+		String json = courseService.queryCourseByCity(city,currYear,month, "1", rows,page);
 		
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -41,11 +44,11 @@ public class SeePlaceAction extends BaseAction{
 	public String getHotCourse(){
 		String json = "";
 		if("1".equals(flag)){//获取地点热门课程
-			json = courseService.queryHotCourseByPlace(null, cityName, 5, 0);
+			json = courseService.queryHotCourseByPlace(null, city, 5, 0);
 		}else{//获取当月该地点的热门课程
 			Calendar c = Calendar.getInstance();
 			int currMonth = c.get(Calendar.MONTH)+1;
-			json = courseService.selectTimeTopCourse(currMonth+"", cityName, 5, 0);
+			json = courseService.selectTimeTopCourse(currMonth+"", city, 5, 0);
 		}
 		
 		this.inputStream = castToInputStream(json);
@@ -59,12 +62,14 @@ public class SeePlaceAction extends BaseAction{
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
-	public String getCityName() {
-		return cityName;
+	public String getCity() {
+		return city;
 	}
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
+	public void setCity(String city) throws UnsupportedEncodingException {
+		if(city != null)
+			city =  new String(city.getBytes("iso-8859-1"),"utf-8");
+		this.city = city;
 	}
 	
 	public ICourseService getCourseService() {

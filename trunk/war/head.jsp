@@ -39,7 +39,7 @@
 	</div>
 	<div class="logoRight">
 		<ul class="menuUl">
-			<li><a href="#">企业培训</a><span>|</span></li>
+			<li><a href="training.jsp">企业培训</a><span>|</span></li>
 			<li><a href="#">培训计划</a><span>|</span></li>
 			<li><a href="#">培训专题</a><span>|</span></li>
 			<li><a href="#">培训下载</a><span>|</span></li>
@@ -54,7 +54,7 @@
 			
 			
 			<li><a href="#">产品培训</a><span>|</span></li>
-			<li><a href="#">企业内训</a><span>|</span></li>
+			<li><a href="innerTraining.jsp">企业内训</a><span>|</span></li>
 			<li><a href="#" class="red">经典内训</a><span>|</span></li>
 			<li><a href="#">内训视频</a><span>|</span></li>
 			<li><a href="#">内训专题</a><span>|</span></li>

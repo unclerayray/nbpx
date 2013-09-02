@@ -106,8 +106,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	}
 	
 	//分页获取地点下的课程（可以按照月份）
-	public String queryCourseByCity(String cityName,String month,String orderFlag,Integer rows,Integer start){
-		List<CourseInfo> courseInfos = courseDao.getCourseInfoByCity(cityName, month, orderFlag, rows, start);
+	public String queryCourseByCity(String cityName,String year,String month,String orderFlag,Integer rows,Integer start){
+		List<CourseInfo> courseInfos = courseDao.getCourseInfoByCity(cityName, year,month, orderFlag, rows, start);
 		if(courseInfos == null)
 			return "";
 		Map<String,Object> returnValue = new HashMap<String,Object>();
@@ -139,7 +139,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			
 			result.add(row);
 		}
-		Integer rowsCount = courseDao.CountCourseByCity(cityName, month, orderFlag, rows, start);
+		Integer rowsCount = courseDao.CountCourseByCity(cityName,year, month, orderFlag, rows, start);
 		int allPages = 0;
 		if(rowsCount%rows == 0)
 			allPages = (int)(rowsCount/rows);
@@ -649,6 +649,102 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		return JsonUtil.getJsonString(results);
 	}
 	
+	@Override
+	public String queryHotCourseByType(Boolean isInner, String flag,
+			String type, Integer rows, Integer start) {
+		List<Course> courses = courseDao.getHotCourseByType(isInner, type, flag, start, rows);
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Course course : courses){
+			Map<String,String> row = new HashMap<String,String>();
+			row.put("id", course.getCourseId().toString());
+			row.put("title", course.getTitle());
+			results.add(row);
+		}
+
+		return JsonUtil.getJsonString(results);
+	}
+	
+	@Override
+	public String queryCourseByPrice(Boolean isInner, String type, Integer rows, Integer start) {
+		List<Course> courses = courseDao.getCourseByPrice(isInner, type, start, rows);
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Course course : courses){
+			Map<String,String> row = new HashMap<String,String>();
+			row.put("id", course.getCourseId().toString());
+			row.put("title", course.getTitle());
+			results.add(row);
+		}
+
+		return JsonUtil.getJsonString(results);
+	}
+
+	@Override
+	public String queryHotCourse(Boolean isInner, Integer rows, Integer start) {
+		List<Course> courses = courseDao.getHotCourse(isInner, null, rows, start);
+		
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Course course : courses){
+			Map<String,String> row = new HashMap<String,String>();
+			row.put("id", course.getCourseId().toString());
+			row.put("title", course.getTitle());
+			results.add(row);
+		}
+
+		return JsonUtil.getJsonString(results);
+	}
+	
+	@Override
+	public String queryClassiscCourse(Boolean isInner, Integer rows,
+			Integer start) {
+		List<Course> courses = courseDao.getClassicCourse(isInner,null, start, rows);
+		
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Course course : courses){
+			Map<String,String> row = new HashMap<String,String>();
+			row.put("id", course.getCourseId().toString());
+			row.put("title", course.getTitle());
+			results.add(row);
+		}
+
+		return JsonUtil.getJsonString(results);
+	}
+	
+	//获取行业、专业、职位、产品
+	public String queryCourseType(String flag,Integer rows,Integer start){
+		String dicType = "";
+		if("1".equals(flag))//行业
+			dicType = "008";
+		else if("2".equals(flag))//专业
+			dicType = "009";
+		else if("3".equals(flag))//职位
+			dicType = "010";
+		else
+			dicType = "011";//产品
+		List<Dictionary> dictionarys = dictionaryDao.queryDictionary(dicType, null, rows, start);
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Dictionary temp : dictionarys){
+			Map<String,String> row = new HashMap<String,String>();
+			row.put("id", temp.getCodeName());
+			row.put("name", temp.getShowName());
+			results.add(row);
+		}
+		return JsonUtil.getJsonString(results);
+	}
+	
+	//获取高端课程的培训师或者内训师
+	public String getTeacherRecommand(Boolean isInner,String type,Integer rows,Integer start){
+		List<TeacherInfo> teachers = courseDao.getTeacherRecommand(isInner, type, start, rows);
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(TeacherInfo teacher : teachers){
+			Map<String,String> row = new HashMap<String,String>();
+			row.put("id", teacher.getTeacherId().toString());
+			row.put("name", teacher.getRealName());
+			row.put("best", teacher.getMajorCatgory());
+			results.add(row);
+		}
+		return JsonUtil.getJsonString(results);
+	}
+	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}
@@ -737,5 +833,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	public void setCourseTargetDao(ICourseTargetDao courseTargetDao) {
 		this.courseTargetDao = courseTargetDao;
 	}
+	
+
 
 }

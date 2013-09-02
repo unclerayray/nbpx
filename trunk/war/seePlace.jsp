@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%
-	String cityName = "广州";//request.getParameter("city");
+	request.setCharacterEncoding("utf-8");
+	String cityName = new String(request.getParameter("city").getBytes("iso-8859-1"),"utf-8");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -51,7 +52,7 @@
 	
 	function loadCourses(page){
 		$.ajax({
-			url:encodeURI('struts/SeePlace_getCityCourse?page='+page+'&rows=10&city='+"xx"),
+			url:encodeURI('struts/SeePlace_getCityCourse?page='+page+'&rows=10&city='+$('#currCity').val()),
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -101,7 +102,7 @@
 			<h2><%=cityName %>周边培训</h2>
 			<div class="resultContent">
 					<ul class="list10">
-						<li><a href="#">中山</a></li>
+						<li><a href="seePlace.jsp?city=中山">中山</a></li>
 						<li><a href="#">东莞</a></li>
 						<li><a href="#">珠海</a></li>
 						<li><a href="#">茂名</a></li>
@@ -118,18 +119,18 @@
 			<h2><%=cityName %>培训日历</h2>
 			<div class="resultContent" style="padding-left:20px">
 					<ul class="list2" style="width:340px">
-						<li ><a href="seePlaceMonth.jsp?month=1&city=<%=cityName %>>">01月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=2&city=<%=cityName %>>">02月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=3&city=<%=cityName %>>">03月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=4&city=<%=cityName %>>">04月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=5&city=<%=cityName %>>">05月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=6&city=<%=cityName %>>">06月</a><span>&nbsp;</span></li>
-						<li><a href="seePlaceMonth.jsp?month=7&city=<%=cityName %>>">07月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=8&city=<%=cityName %>>">08月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=9&city=<%=cityName %>>">09月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=10&city=<%=cityName %>>">10月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=11&city=<%=cityName %>>">11月</a><span>|</span></li>
-						<li><a href="seePlaceMonth.jsp?month=12&city=<%=cityName %>>">12月</a></li>
+						<li ><a href="seePlaceMonth.jsp?month=1&city=<%=cityName %>">01月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=2&city=<%=cityName %>">02月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=3&city=<%=cityName %>">03月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=4&city=<%=cityName %>">04月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=5&city=<%=cityName %>">05月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=6&city=<%=cityName %>">06月</a><span>&nbsp;</span></li>
+						<li><a href="seePlaceMonth.jsp?month=7&city=<%=cityName %>">07月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=8&city=<%=cityName %>">08月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=9&city=<%=cityName %>">09月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=10&city=<%=cityName %>">10月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=11&city=<%=cityName %>">11月</a><span>|</span></li>
+						<li><a href="seePlaceMonth.jsp?month=12&city=<%=cityName %>">12月</a></li>
 					</ul>
 					<div class="clear" style="height:10px"></div>
 			</div>

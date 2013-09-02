@@ -269,7 +269,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		return list;
 	}
 	
-	public Integer CountCourseByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start){
+	public Integer CountCourseByCity(final String cityName,final String year,final String month,final String flag,final Integer rows,final Integer start){
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			@Override
@@ -278,6 +278,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer("select count(*) as val from courseInfo a,sys_dictionary b where a.city = b.codeName ");
 				if(cityName != null)
 					hql.append(" and b.showName='"+cityName+"'");
+				if(year != null)
+					hql.append(" and year(a.startDate) ='"+year+"'");
 				if(month != null)
 					hql.append(" and month(a.startDate) ='"+month+"'");
 				if("1".equals(flag))
@@ -292,7 +294,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		return (Integer)list.get(0);
 	}
 	
-	public List<CourseInfo> getCourseInfoByCity(final String cityName,final String month,final String flag,final Integer rows,final Integer start){
+	public List<CourseInfo> getCourseInfoByCity(final String cityName,final String year,final String month,final String flag,final Integer rows,final Integer start){
 		List<CourseInfo> list = new ArrayList<CourseInfo>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			@Override
@@ -301,6 +303,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				StringBuffer hql = new StringBuffer("select a.* from courseInfo a,sys_dictionary b,courses c where a.city = b.codeName and a.courseId = c.courseId and c.state=1 ");
 				if(cityName != null)
 					hql.append(" and b.showName='"+cityName+"'");
+				if(year != null)
+					hql.append(" and year(a.startDate) ='"+year+"'");
 				if(month != null)
 					hql.append(" and month(a.startDate) ='"+month+"'");
 				hql.append(" and TO_DAYS(NOW())-TO_DAYS(a.startDate)<0 ");
@@ -650,5 +654,169 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			}
 		});
 		return list;
+	}
+
+	//根据行业、专业、产品、职位获取(flag:1-行业，2-专业，3-产品，4-职位),按照热度排行
+	public List<Course> getHotCourseByType(final Boolean isInner,final String type,
+			final String flag, final Integer start, final Integer rows) {
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
+								+ "c.teacherId, '', c.category,"
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c ,CourseInfo b where c.courseId = b.courseId and 1=1 ");
+				if (type != null && !"".equals(type))
+					hql.append(" and c.category = '" + type + "'");
+				if (isInner != null) {// 区分内训和培训
+					if (isInner)
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+				String tableName = "";
+				if("1".equals(flag))
+					tableName = "CourseIndustry";
+				else if("2".equals(flag))
+					tableName = "CourseMajor";
+				else if("3".equals(flag))
+					tableName = "CourseTarget";
+				else
+					tableName = "CourseProduct";
+				
+				// 取向后的有效的日期
+				hql.append(" and c.state = 1 ");
+				hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0");
+				hql.append(" and exists( select 1 from  "+tableName+" s where c.courseId=s.courseId)");
+				hql.append(" order by c.hits desc");
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+		
+	}
+
+	@Override
+	public List<Course> getCourseByPrice(final Boolean isInner, final String type,
+			final Integer start, final Integer rows) {
+		
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
+								+ "c.teacherId, '', c.category,"
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c ,CourseInfo b where c.courseId = b.courseId and 1=1 ");
+				if (type != null && !"".equals(type))
+					hql.append(" and c.category = '" + type + "'");
+				if (isInner != null) {// 区分内训和培训
+					if (isInner)
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+
+				hql.append(" and c.state = 1 ");
+				// 取向后的有效的日期
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.price desc");
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+		
+	}
+
+	@Override
+	public List<Course> getClassicCourse(final Boolean isInner,final String type, final Integer start,
+			final Integer rows) {
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
+								+ "c.teacherId, '', c.category,"
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c ,CourseInfo b where c.courseId = b.courseId and 1=1 ");
+				if (type != null && !"".equals(type))
+					hql.append(" and c.category = '" + type + "'");
+				if (isInner != null) {// 区分内训和培训
+					if (isInner)
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+
+				hql.append(" and c.classic = 1 ");
+				hql.append(" and c.state = 1 ");
+				// 取向后的有效的日期
+				hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
+	//获取推荐的老师
+	public List<TeacherInfo> getTeacherRecommand(final Boolean isInner,final String type,final Integer start,final Integer rows){
+		List<TeacherInfo> list = new ArrayList<TeacherInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select distinct t.*  from courses c,courseinfo b,teacher_info t where t.teacherId = c.teacherId ");
+				if (type != null && !"".equals(type))
+					hql.append(" and c.category = '" + type + "'");
+				if (isInner != null) {//区分内训和培训
+					if (isInner)
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+
+				hql.append(" and c.state = 1 ");
+				// 取向后的有效的日期
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				Query query = session.createSQLQuery(hql.toString()).addEntity(TeacherInfo.class);
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+		
 	}
 }

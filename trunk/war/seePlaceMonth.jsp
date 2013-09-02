@@ -2,7 +2,9 @@
     pageEncoding="utf-8"%>
  <%
  	String currMonth = request.getParameter("month");
- 	String cityName = "广州";//request.getParameter("city");
+ 	request.setCharacterEncoding("utf-8");
+	String cityName = new String(request.getParameter("city").getBytes("iso-8859-1"),"utf-8");	
+ //String cityName = request.getParameter("city");
  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
