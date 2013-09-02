@@ -147,6 +147,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		// query.addHighlightField("title");
 		// query.addHighlightField("content");
 		solrServer.ping();
+		//TODO 判断连接 throw exception
 		QueryResponse response = solrServer.query(query);
 		System.out.println(response.getResponseHeader().get("pf"));
 		SolrDocumentList list = response.getResults();

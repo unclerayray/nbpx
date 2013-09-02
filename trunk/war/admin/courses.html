@@ -323,7 +323,7 @@ modal="true" buttons="#dlg_addInfo-buttons">
 		<label>结束时间:</label> <input style="width: 130px;" id="endDate" name="endDate" type="text" class="easyui-datebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}" required="required"></input>
 	</div>
 	<div class="fitem">
-		<label>城市:</label> <select class="easyui-combobox"
+		<label>城市:</label><input type="hidden" name="cityName" id="cityName"> <select class="easyui-combobox"
 		style="width: 130px;" name="city" id="city"
 		data-options="  
 		url:'../struts/Dictionary_queryComboDics?p_dicType=007',  
@@ -703,6 +703,7 @@ function openInfoDlg1(openInside){
 				{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
 				{field:'startDate',title:'开始时间',width:140},  
 				{field:'endDate',title:'结束时间',width:140},
+				{field:'cityName',title:'城市名',width:140,hidden:true},
 				{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
 				]]
 			});

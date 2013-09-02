@@ -10,6 +10,10 @@ import com.nb.nbpx.BaseServiceTest;
 import com.nb.nbpx.service.user.IUserService;
 
 
+/**
+ * @author Roger
+ * @date 2013年8月31日
+ */
 public class UserServiceTest extends BaseServiceTest{
 	@Resource
 	private IUserService userService;
@@ -21,4 +25,6 @@ public class UserServiceTest extends BaseServiceTest{
 		System.out.println("json = " + json);
 		Assert.assertNotNull(json);
 	}
+	
+	
 }

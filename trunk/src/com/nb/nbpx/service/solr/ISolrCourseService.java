@@ -1,5 +1,9 @@
 package com.nb.nbpx.service.solr;
 
+import java.io.IOException;
+
+import org.apache.solr.client.solrj.SolrServerException;
+
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.service.IBaseService;
 
@@ -10,4 +14,5 @@ import com.nb.nbpx.service.IBaseService;
  */
 public interface ISolrCourseService extends IBaseService {
 	public void addCourse2Solr(CourseAllInfoDto cai);
+	public void updateCourseInfo2Solr(Integer courseId) throws IOException, SolrServerException ;
 }
