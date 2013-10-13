@@ -58,7 +58,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 		if(category!=null&&category.isEmpty()){
 			propsMap.put("category",category);
 		}
-		List<Subject> list = subjectDao.queryEntityListByProperties(Subject.class, null, null, propsMap);
+		List<Subject> list = subjectDao.queryEntityListByProperties(Subject.class, null, null, null, null , propsMap);
 		return JsonUtil.formatListToJson(list);
 	}
 

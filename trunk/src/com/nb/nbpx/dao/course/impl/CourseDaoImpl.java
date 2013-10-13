@@ -67,11 +67,11 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 				if (sort != null && !sort.isEmpty()) {
 					hql.append(" order by c." + sort);
+					if (order != null && !order.isEmpty()) {
+						hql.append(" " + order);
+					}
 				}else{
 					hql.append(" order by c.lastUpdateDate desc ");
-				}
-				if (order != null && !order.isEmpty()) {
-					hql.append(" " + order);
 				}
 				Query query = session.createQuery(hql.toString());
 

@@ -175,6 +175,7 @@ public class CourseAction extends BaseAction {
 			courseService.saveCourseInfo(courseInfo);
 			solrCourseService.updateCourseInfo2Solr(courseInfo.getCourseId());
 			//TODO SOLR update
+			
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,

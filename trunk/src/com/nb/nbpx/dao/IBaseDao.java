@@ -302,7 +302,7 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	 * @return
 	 */
 	public List<T> queryEntityListByProperties(Class<T> entityClass, Integer limit,
-			Integer start, Map<String, Object> propsMap);
+			Integer start, String sort, String order, Map<String, Object> propsMap);
 
 	/**
 	 * 根据实体对象及其属性查询实体总数
