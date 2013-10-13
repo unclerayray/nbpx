@@ -415,7 +415,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		Map<String, Object> propsMap = new HashMap<String, Object>();
 		propsMap.put("courseId", courseId);
 		List<CourseKeyword> list = courseKeywordDao
-				.queryEntityListByProperties(CourseKeyword.class, null, null,
+				.queryEntityListByProperties(CourseKeyword.class, null, null,null,null,
 						propsMap);
 		String json = JsonUtil.formatListToJson(list);
 		return json;

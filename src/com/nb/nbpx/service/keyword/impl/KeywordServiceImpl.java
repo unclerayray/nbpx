@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
+import com.nb.nbpx.dto.article.ArticleDetail;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
@@ -79,7 +80,7 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 		if(category!=null&&category.isEmpty()){
 			propsMap.put("category",category);
 		}
-		List<Keyword> list = keywordDao.queryEntityListByProperties(Keyword.class, null, null, propsMap);
+		List<Keyword> list = keywordDao.queryEntityListByProperties(Keyword.class, null, null , null, null , propsMap);
 		return JsonUtil.formatListToJson(list);
 	}
 	@Override
@@ -122,6 +123,29 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 		solrKeywordService.addKeywords2Solr(list);
 		return list;
 	}
+
+	@Override
+	public List<Keyword> saveKeywords(ArticleDetail articleDetail) {
+		List<Keyword> list = new ArrayList<Keyword>(); 
+		String[] keywordArr = null;
+		if (articleDetail.getKeywords() != null) {
+			String keywordsStr = articleDetail.getKeywords().replaceAll("，",
+					",");
+			keywordArr = keywordsStr.split(",");
+			for(String word:keywordArr){
+				Keyword keyword = new Keyword();
+				keyword.setCategory(articleDetail.getCategory());
+				keyword.setKeyword(word);
+				keyword.setSearchCnt(500);
+				keyword.setHits(500);
+				keyword.setIndexed(true);
+				keyword = keywordDao.saveOrGetExistsKeyword(keyword);
+				list.add(keyword);
+			}
+		}
+		solrKeywordService.addKeywords2Solr(list);
+		return list;
+	}
 	@Override
 	public String setKeywordHyperLink(List<Keyword> keywords, String content) {
 		for(int i = 0;i<keywords.size();i++){
@@ -135,4 +159,5 @@ public class KeywordServiceImpl extends BaseServiceImpl implements IKeywordServi
 		}
 		return content;
 	}
+
 }

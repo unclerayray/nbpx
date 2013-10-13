@@ -401,10 +401,10 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
     //根据装载实体属性的Map查询实体列表
     @Override
 	public List<T> queryEntityListByProperties(
-			Class<T> entityClass, Integer limit, Integer start,
+			Class<T> entityClass, Integer limit, Integer start, String sort, String order, 
 			Map<String, Object> propertyMap) {
 		Map<String, Object> propsMap = MapUtil.removeNullValue(propertyMap);
-		String hql = createHqlFromProtitiesMap(entityClass, propsMap);
+		String hql = createHqlFromProtitiesMapWithOrder(entityClass, propsMap , sort, order);
 		Object[] conditions = propsMap.values().toArray();
 		List<T> entityList = queryEntityListByConditions(hql, limit,
 				start, conditions);
@@ -468,4 +468,14 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 		return hql;
 	}
     
+	private String createHqlFromProtitiesMapWithOrder(Class entityClass, Map<String, Object> propsMap, String sort, String order) {
+		String hql = createHqlFromProtitiesMap(entityClass,propsMap);
+		if (sort != null && !sort.isEmpty()) {
+			hql += " order by c." + sort;
+			if (order != null && !order.isEmpty()) {
+				hql += " " + order;
+			}
+		}
+		return hql;
+	}
 }

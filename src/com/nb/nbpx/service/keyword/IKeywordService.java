@@ -2,6 +2,7 @@ package com.nb.nbpx.service.keyword;
 
 import java.util.List;
 
+import com.nb.nbpx.dto.article.ArticleDetail;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.IBaseService;
@@ -30,6 +31,12 @@ public interface IKeywordService extends IBaseService {
 	public List<Keyword> saveKeywords(CourseAllInfoDto courseDto);
 	
 
+	/**
+	 * 保存通过切割生成的Keywords，重复的忽略
+	 * @return 带ID的keyword List
+	 */
+	public List<Keyword> saveKeywords(ArticleDetail articleDetail);
+	
 	/**
 	 * 在内容中添加关键词的超链接
 	 * @param content

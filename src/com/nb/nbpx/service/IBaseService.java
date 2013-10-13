@@ -1,5 +1,9 @@
 package com.nb.nbpx.service;
 
+import java.util.Map;
+
+import com.nb.nbpx.utils.daotool.Equality;
+
 /**
  * <p>
  * 类的简介说明
@@ -10,5 +14,5 @@ package com.nb.nbpx.service;
  * @version V1.0
  */
 public interface IBaseService {
-
+	Map<String, Object> createPropMap(Equality... equs);
 }
