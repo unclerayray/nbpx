@@ -199,11 +199,11 @@ public class SubjectDaoImpl extends BaseDaoImpl<Subject, Integer> implements ISu
 					public Object doInHibernate(Session session)
 							throws HibernateException, SQLException {
 						StringBuffer sql = new StringBuffer(
-								"select s.*  from subjects s,coursesubjects a, courses b where a.courseId = b.courseId  and s.subjectId=a.subjectId and s.flag=1 ");
-						if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的关键词也是培训的关键词，但是培训的关键词不一定是内训的关键词
+								"select distinct s.*  from subjects s,coursesubjects a, courses b where a.courseId = b.courseId  and s.subjectId=a.subjectId and s.flag=1 ");
+						if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的专题也是培训的专题，但是培训的专题不一定是内训的专题
 							sql.append("and b.isInner = 1");
-						if(type != null && "".equals(type))//关键词类别
-							sql.append(" and s.category="+type);
+						if(type != null && !"".equals(type))//专题类别
+							sql.append(" and s.category='"+type+"'");
 							
 						if(flag == 1)
 							sql.append(" order by s.hits desc");
@@ -222,7 +222,71 @@ public class SubjectDaoImpl extends BaseDaoImpl<Subject, Integer> implements ISu
 				});
 		return list;
 	}
+	
+	//根据课程类别获取专题，按照是否推荐、推荐日期、创建日期来排序
+	public List<Subject> getSubjectsListByCategory(final boolean isInner,final String type,final Integer start,final Integer rows){
+		List<Subject> list = getHibernateTemplate().executeFind(
+				new HibernateCallback() {
 
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						StringBuffer sql = new StringBuffer(
+								"select distinct s.*  from subjects s,coursesubjects a, courses b where a.courseId = b.courseId  and s.subjectId=a.subjectId and s.flag=1 ");
+						if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的专题也是培训的专题，但是培训的专题不一定是内训的专题
+							sql.append("and b.isInner = 1");
+						if(type != null && !"".equals(type))//关键词类别
+							sql.append(" and s.category='"+type+"'");
+							
+						sql.append(" order by s.recommanded desc,s.recommandDate desc,s.subjectId desc");
+						
+						Query query =  session.createSQLQuery(sql.toString()).addEntity(Subject.class);
+						if (start != null && rows != null) {
+							query.setFirstResult(start);
+							query.setMaxResults(rows);
+						}
+						return query.list();
+					}
+				});
+		return list;
+	}
+	
+	//根据行业、职位、产品、专业获取专题，按照是否推荐、推荐日期、创建日期来排序
+	public List<Subject> getSubjectsListByOthers(final boolean isInner,final String type,final Integer start,final Integer rows){
+		List<Subject> list = getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						
+						String tableName = "";
+						
+						if("1".equals(type))//行业
+							tableName = "courseindustry";
+						else if("2".equals(type))//职位
+							tableName = "coursetarget";
+						else if("3".equals(type))//产品
+							tableName = "courseproduct";
+						else//专业
+							tableName = "coursemajor";
+						StringBuffer sql = new StringBuffer("select distinct s.*  from subjects s,coursesubjects a, courses b,"+tableName+" c where a.courseId = b.courseId  and s.subjectId=a.subjectId and b.courseId=c.courseId and s.flag=1 ");
+						if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的专题也是培训的专题，但是培训的专题不一定是内训的专题
+							sql.append("and b.isInner = 1");
+							
+						sql.append(" order by s.recommanded desc,s.recommandDate desc,s.subjectId desc");
+						
+						Query query =  session.createSQLQuery(sql.toString()).addEntity(Subject.class);
+						if (start != null && rows != null) {
+							query.setFirstResult(start);
+							query.setMaxResults(rows);
+						}
+						return query.list();
+					}
+				});
+		return list;
+	}
+
+	
 	@Override
 	public List<Subject> getNotIndexedSubjectsList() {
 		List<Subject> list = new ArrayList<Subject>();

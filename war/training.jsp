@@ -13,8 +13,11 @@
 <link type="text/css" href="css/face.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="js/nav/goodnav.css">
+
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
+<script src="js/nav/jquery.litenav.js"></script>
 <title>企业培训</title>
 </head>
 <script>
@@ -208,7 +211,29 @@
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
 	<div class="leftInPart">
 	<div class="top">
-		<img  src="images/peixunFlash.jpg"  style="width:290px;height:200px;padding:0px" class="left"/>
+		<!-- 代码 开始 -->
+	    <div id="hotpic">
+	        <div id="NewsPic">
+	            <a target="_blank" href="#" style="visibility: visible; display: block;">
+	                <img src="images/peixunFlash.jpg" class="Picture"  title="第1张图片的说明文字" /></a>
+	            <a style="visibility: hidden; display: none;" target="_blank" href="#">
+	                <img class="Picture" src="images/peixunFlash.jpg"  title="第2张图片的说明文字" /></a>
+	             <a style="visibility: hidden; display: none;" target="_blank" href="#">
+	                <img class="Picture" src="images/peixunFlash.jpg" title="第2张图片的说明文字" /></a>
+	            <div class="Nav">
+	            	<span class="Normal">3</span>
+	                <span class="Normal">2</span>
+	                <span class="Cur">1</span>
+	            </div>
+	        </div>
+
+	    </div>
+	    <script type="text/javascript">
+	        $('#hotpic').liteNav(1000);
+	    </script>
+	    <!-- 代码 结束 -->
+
+		<!--<img  src="images/peixunFlash.jpg"  style="width:290px;height:200px;padding:0px" class="left"/>-->
 		<div class="inNews">
 			<h2>职场EQ与情绪管理培训</h2>
 			<p>本课程详细介绍企业常用公文的写作特点、写作规范和技巧，学习快速搭建公文结构的方法，通过典型案例...</p>

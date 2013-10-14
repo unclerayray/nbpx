@@ -70,4 +70,7 @@ public interface ICourseService extends IBaseService {
 	public String queryCourseType(String flag,Integer rows,Integer start);
 	//获取高端课程推荐的内训师或者培训师
 	public String getTeacherRecommand(Boolean isInner,String type,Integer rows,Integer start);
+	
+	//获取培训计划，默认一页是显示4个月的培训计划，
+	public String getTranPlan(Integer rows,Integer start);
 }

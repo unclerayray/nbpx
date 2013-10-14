@@ -95,4 +95,9 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	public List<Course> getClassicCourse(Boolean isInner,String type,Integer start,Integer rows);
 	//获取内训或培训中推荐老师信息
 	public List<TeacherInfo> getTeacherRecommand(Boolean isInner,String type,Integer start,Integer rows);
+	
+	//根据月份获取培训计划
+	public List<Course> getTrainPlanByMonth(String year,String month,Integer start,Integer rows);
+	//获得当前时间之后，有培训计划的月数总数
+	public List<String> getTrainPlanMonth(Integer start,Integer rows);
 }

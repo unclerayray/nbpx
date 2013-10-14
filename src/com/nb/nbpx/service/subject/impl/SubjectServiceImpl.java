@@ -82,6 +82,40 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 		
 		return json;
 	}
+	
+	//分课程类别获取专题
+	public String getSubjectsListByCategory(boolean isInner,String type,Integer start,Integer rows){
+		List<Subject> subjects = subjectDao.getSubjectsListByCategory(isInner, type, start, rows);
+		
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Subject temp : subjects){
+			Map<String,String> result = new HashMap<String,String>();
+			result.put("id", temp.getSubjectId().toString());
+			result.put("name", temp.getSubject());
+			
+			results.add(result);
+		}
+		String json = JsonUtil.getJsonString(results);
+		
+		return json;
+	}
+
+	//根据行业、职位、产品、专业获取专题
+	public String getSubjectsListByOthers(boolean isInner,String type,Integer start,Integer rows){
+		List<Subject> subjects = subjectDao.getSubjectsListByOthers(isInner, type, start, rows);
+		
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		for(Subject temp : subjects){
+			Map<String,String> result = new HashMap<String,String>();
+			result.put("id", temp.getSubjectId().toString());
+			result.put("name", temp.getSubject());
+			
+			results.add(result);
+		}
+		String json = JsonUtil.getJsonString(results);
+		
+		return json;
+	}
 
 	@Override
 	public Boolean saveRecommands(String[] subjectIds) {

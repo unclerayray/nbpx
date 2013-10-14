@@ -745,6 +745,57 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		return JsonUtil.getJsonString(results);
 	}
 	
+	//获取培训计划，默认一页是显示4个月的培训计划，
+	public String getTranPlan(Integer rows,Integer start){
+		List<String> pageMonth = courseDao.getTrainPlanMonth(start, rows);
+		if(pageMonth == null || pageMonth.size() == 0)
+			return "";
+		List<Map<String,Object>> results = new ArrayList<Map<String,Object>>();
+		
+		for(int i=0;i<pageMonth.size();i++){
+			String time = pageMonth.get(i);
+			String[] times = time.split("-");
+			List<Course> courses = courseDao.getTrainPlanByMonth(times[0], times[1], null, null);
+			
+			Map<String,Object> month = new HashMap<String,Object>();
+			month.put("month", time);
+			
+			List<Map<String,String>> tableRows = new ArrayList<Map<String,String>>();
+			for(int j=0;j<courses.size();j++){
+				Course temp = courses.get(j);
+				Map<String,String> row = new HashMap<String,String>();
+				row.put("id", temp.getCourseId().toString());
+				row.put("name", temp.getTitle());
+				row.put("price", temp.getPrice().toString());
+				//得到老师的名字
+				TeacherInfo teacher = teacherDao.getTeacherInfoById(Integer.parseInt(temp.getTeacherId()));
+				String teacherName = "未知";
+				if (teacher != null)
+					teacherName = teacher.getRealName();
+				row.put("teacherName", teacherName);
+				row.put("teacherId",teacher.getTeacherId().toString());
+				
+				//得到城市
+				List<CourseInfo> courseInfo = courseInfoDao.queryCourseInfoWithTime(times[0], times[1], temp.getCourseId().toString());
+				String city = "";
+				if(courseInfo == null || courseInfo.size() == 0)
+					city = "未知";
+				else if(courseInfo.size() >= 3)
+					city = "全国";
+				else if(courseInfo.size() == 1)
+					city =courseInfo.get(0).getCityName();
+				else
+					city = courseInfo.get(0).getCityName() +"|"+courseInfo.get(1).getCityName();
+				row.put("city", city);
+				tableRows.add(row);
+			}
+			month.put("rows",tableRows);
+			results.add(month);
+		}
+		return JsonUtil.getJsonString(results);
+	}
+	
+	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}

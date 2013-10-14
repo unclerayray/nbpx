@@ -27,4 +27,11 @@ public interface ISubjectDao extends IBaseDao<Subject,Integer>{
 	
 	//得到专题列表，flag:1代表点击率，2代表推荐，3代表热搜
 	public List<Subject> getSubjectsList(boolean isInner,String type,Integer flag,Integer start,Integer rows);
+	
+	//根据课程类别获取专题，按照是否推荐、推荐日期、创建日期来排序
+	public List<Subject> getSubjectsListByCategory(boolean isInner,String type,Integer start,Integer rows);
+	
+	//根据行业、职位、产品、专业获取专题，按照是否推荐、推荐日期、创建日期来排序
+	public List<Subject> getSubjectsListByOthers(boolean isInner,String type,Integer start,Integer rows);
+
 }
