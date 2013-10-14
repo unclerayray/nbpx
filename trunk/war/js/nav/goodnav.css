@@ -1,0 +1,9 @@
+img {border: 0;padding:0;margin:0 }
+#hotpic { width: 290px; height: 200px; overflow: hidden; margin: 0 auto; float:left;padding:0px}
+#NewsPic { position: relative; width: 288px; height: 198px; overflow: hidden; border: solid 1px #000; padding:0px;margin:0px;background:red}
+    #NewsPic a { overflow: visible; border: 0; text-decoration: none; padding:0px;margin:0px;top:0px;}
+    #NewsPic .Picture { position: absolute; left: 0; top: 0;width:290px;height:198px}
+    #NewsPic .Nav { position: absolute; height: 13px; line-height: 14px; bottom: 0; right: 0; }
+        #NewsPic .Nav span { font-size: 12px; font-weight: 400; color: #FFF; float: right; display: block; width: 24px; text-align: center; background: #000; border-left: solid 1px #FFF; cursor: pointer; }
+            #NewsPic .Nav span.Normal { color: #FFF; background: #000; filter: Alpha(opacity=50); opacity: .5; }
+            #NewsPic .Nav span.Cur { background: #ce0609; color: #FFF; }

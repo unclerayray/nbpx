@@ -68,6 +68,26 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 		});
 		return list;
 	}
+	//检索当前日期之后的有效的课程信息
+	public List<CourseInfo> queryCourseInfoWithTime(final String year,final String month, final String courseId){
+		List<CourseInfo> list = new ArrayList<CourseInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.CourseInfo(c.courseInfoId, c.courseId, c.startDate,"
+								+ "c.endDate, c.city,'') from CourseInfo c,Dictionary d where c.city= d.codeName and c.courseId='"+courseId+"'"
+								+" and year(c.startDate) = '"+year+"' and month(c.startDate)='"+month+"'"+
+								" and TO_DAYS(NOW())-TO_DAYS(c.startDate)<0 order by c.startDate");
+				Query query = session.createQuery(hql.toString());
+
+				return query.list();
+			}
+		});
+		return list;
+	}
 	
 	public List<CourseInfo> queryCourseInfoByCity(final String city, final Integer start,final Integer rows){
 		List<CourseInfo> list = new ArrayList<CourseInfo>();

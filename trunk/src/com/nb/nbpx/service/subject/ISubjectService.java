@@ -23,4 +23,11 @@ public interface ISubjectService extends IBaseService{
 	
 	//得到专题列表，flag:1代表点击率，2代表推荐，3代表热搜
 	public String getSubjectsList(boolean isInner,String type,Integer flag,Integer start,Integer rows);
+	
+	//分课程类别获取专题
+	public String getSubjectsListByCategory(boolean isInner,String type,Integer start,Integer rows);
+	
+	//根据行业、职位、产品、专业获取专题
+	public String getSubjectsListByOthers(boolean isInner,String type,Integer start,Integer rows);
+
 }

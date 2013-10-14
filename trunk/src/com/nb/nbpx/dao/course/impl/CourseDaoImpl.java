@@ -819,4 +819,59 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		return list;
 		
 	}
+	
+	//根据年分和月份获取当月的培训计划
+	public List<Course> getTrainPlanByMonth(final String year,final String month,final Integer start,final Integer rows){
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select distinct c.*  from courses c,courseinfo b where c.courseid=b.courseid ");
+				
+				hql.append(" and c.state = 1 ");
+				hql.append(" and year(b.startDate)='"+year+"' and   month(b.startDate) = '"+month+"'  ");
+				
+				// 取向后的有效的日期
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				Query query = session.createSQLQuery(hql.toString()).addEntity(TeacherInfo.class);
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
+	//获得指定时间之后，有培训计划的月数总数
+	public List<String> getTrainPlanMonth(final Integer start,final Integer rows){
+		List<String> list = new ArrayList<String>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select distinct concat(year(b.startdate),'-',month(b.startdate)) value from courses c,courseinfo b  ");
+				
+				hql.append(" and c.state = 1 ");
+				// 取向后的有效的日期
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				Query query = session.createSQLQuery(hql.toString());
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
 }

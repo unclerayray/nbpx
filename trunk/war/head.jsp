@@ -41,7 +41,7 @@
 		<ul class="menuUl">
 			<li><a href="training.jsp">企业培训</a><span>|</span></li>
 			<li><a href="#">培训计划</a><span>|</span></li>
-			<li><a href="#">培训专题</a><span>|</span></li>
+			<li><a href="pxSeries.jsp">培训专题</a><span>|</span></li>
 			<li><a href="#">培训下载</a><span>|</span></li>
 			<li><a href="#">热门培训</a><span>|</span></li>
 			<li><a href="#">培训现场</a><span>|</span></li>
@@ -57,7 +57,7 @@
 			<li><a href="innerTraining.jsp">企业内训</a><span>|</span></li>
 			<li><a href="#" class="red">经典内训</a><span>|</span></li>
 			<li><a href="#">内训视频</a><span>|</span></li>
-			<li><a href="#">内训专题</a><span>|</span></li>
+			<li><a href="nxSeries.jsp">内训专题</a><span>|</span></li>
 			<li><a href="#">金牌内训</a><span>|</span></li>
 			<li><a href="#">内训计划</a><span>|</span></li>
 			<li><a href="#">会员商城</a><span>|</span></li>

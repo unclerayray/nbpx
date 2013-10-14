@@ -15,4 +15,6 @@ public interface ICourseInfoDao  extends IBaseDao<CourseInfo, Integer>{
 	public List<CourseInfo> queryCourseInfoByCourseId(String courseId);
 	public List<CourseInfo> queryCourseInfoByCity(String city,Integer start,Integer rows);
 	public List<CourseInfo> queryTop30CourseInfo(Boolean isInner,Boolean isRecommand,Boolean isClassic);
+	//检索当前日期之后的有效的课程信息
+	public List<CourseInfo> queryCourseInfoWithTime(String year,String month,String courseId);
 }
