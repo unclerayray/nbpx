@@ -750,7 +750,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		List<String> pageMonth = courseDao.getTrainPlanMonth(start, rows);
 		if(pageMonth == null || pageMonth.size() == 0)
 			return "";
-		List<Map<String,Object>> results = new ArrayList<Map<String,Object>>();
+		
+		Map<String,Object> results = new HashMap<String,Object>();
+		List<Map<String,Object>> monthInfo = new ArrayList<Map<String,Object>>();
 		
 		for(int i=0;i<pageMonth.size();i++){
 			String time = pageMonth.get(i);
@@ -758,7 +760,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			List<Course> courses = courseDao.getTrainPlanByMonth(times[0], times[1], null, null);
 			
 			Map<String,Object> month = new HashMap<String,Object>();
-			month.put("month", time);
+			month.put("month", times[0]+"年"+times[1]+"月");
 			
 			List<Map<String,String>> tableRows = new ArrayList<Map<String,String>>();
 			for(int j=0;j<courses.size();j++){
@@ -790,8 +792,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 				tableRows.add(row);
 			}
 			month.put("rows",tableRows);
-			results.add(month);
+			
+			monthInfo.add(month);
 		}
+		results.put("monthInfo", monthInfo);
+		List<String> monthCount = courseDao.getTrainPlanMonth(null, null);
+		results.put("pageCount", monthCount.size());
+		
 		return JsonUtil.getJsonString(results);
 	}
 	
