@@ -40,7 +40,7 @@
 	<div class="logoRight">
 		<ul class="menuUl">
 			<li><a href="training.jsp">企业培训</a><span>|</span></li>
-			<li><a href="#">培训计划</a><span>|</span></li>
+			<li><a href="trainPlan.jsp">培训计划</a><span>|</span></li>
 			<li><a href="pxSeries.jsp">培训专题</a><span>|</span></li>
 			<li><a href="#">培训下载</a><span>|</span></li>
 			<li><a href="#">热门培训</a><span>|</span></li>

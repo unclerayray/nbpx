@@ -830,13 +830,14 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select distinct c.*  from courses c,courseinfo b where c.courseid=b.courseid ");
+						"select distinct c.*  from courses c,courseinfo b where c.courseid = b.courseid ");
 				
 				hql.append(" and c.state = 1 ");
-				hql.append(" and year(b.startDate)='"+year+"' and   month(b.startDate) = '"+month+"'  ");
+				hql.append(" and year(b.startDate)='"+year+"' and   month(b.startDate) ='"+month+"'  ");
 				
 				// 取向后的有效的日期
-				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by b.startDate desc");
+				System.out.println(hql.toString());
 				Query query = session.createSQLQuery(hql.toString()).addEntity(TeacherInfo.class);
 
 				if (start != null && rows != null) {
@@ -863,7 +864,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				
 				hql.append(" and c.state = 1 ");
 				// 取向后的有效的日期
-				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0");
 				Query query = session.createSQLQuery(hql.toString());
 				if (start != null && rows != null) {
 					query.setFirstResult(start);

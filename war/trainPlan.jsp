@@ -13,6 +13,47 @@
 <script src="js/project.js"></script>
 <title>南北培训网</title>
 </head>
+<script>
+	$(function(){
+		//加载培训计划
+		initMonth(1);
+	});
+	
+	
+	function initMonth(page){
+		$.ajax({
+			url:encodeURI('struts/TrainPlan_getTrainPlanInfo?page='+page+'&rows=1'),
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				//var pageCount = jsonObject.pageCount;
+				var monthInfo = jsonObject.monthInfo;
+				
+				var valueStr = "";
+				$.each(monthInfo,function(n,value){
+					var monthValueStr = "<div class='resultPart'><h2>"+value.month+"培训计划</h2>"+
+										"<div class='resultContent'>"+
+										"<table class='planTable' cellpadding='0' cellpadding='0'>";
+					var tableRows = value.rows;
+					monthValueStr += "<tr><th class='className'>课程主题</th><th class='place'>地点</th><th class='planTeacher'>讲师</th><th class='price'>￥元/人</th><th class='download'>相关下载</th></tr>";
+					//遍历下面的行
+					$.each(tableRows,function(n,row){
+						monthValueStr+= "<tr>"
+										+"<td class='className'><a href='#'>"+row.name+"</a></td>"
+										+"<td>"+row.city+"</td>"
+										+"<td>"+row.teacherName+"</td>"
+										+"<td>"+row.price+"</td>"
+										+"<td><a href='#?"+row.id+"'>课纲下载</a></td>"
+									    +"</tr>";
+					});
+					valueStr += monthValueStr +"</table><div class='clear' style='height:10px;'></div></div></div>";
+				});
+				
+				$('#leftPart').html(valueStr);
+			}
+		});
+	}
+	
+</script>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
 <!--当前路径 start-->
@@ -29,7 +70,7 @@
 
 <!--主体部分二 start-->
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
-	<div class="leftInPart">
+	<div class="leftInPart" id="leftPart">
 		<!--培训计划 start-->
 		<div class="resultPart">
 			<h2>2013年5月培训计划</h2>
