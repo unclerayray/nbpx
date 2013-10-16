@@ -7,10 +7,57 @@ pageEncoding="utf-8"%>
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 	<script src="js/easyui/jquery-1.8.0.min.js"></script>
 	<script src="js/easyui/jquery.easyui.min.js"></script>
+
+	<script src="ui/jquery.ui.core.js"></script>
+	<script src="ui/jquery.ui.widget.js"></script>
+	<script src="ui/jquery.ui.position.js"></script>
+	<script src="ui/jquery.ui.menu.js"></script>
+	<script src="ui/jquery.ui.autocomplete.js"></script>
+
+	<link type="text/css" href="css/search.css" rel="stylesheet" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
 	<title>搜索结果</title>
+	<style>
+	.ui-autocomplete-loading {
+		background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
+	}
+	#searchWord { width: 25em; }
+	</style>
+	<script>
+	$(function() {
+		var cache = {};
+		$( "#searchWord" ).autocomplete({
+			minLength: 2,
+			source: function(request, response) {
+				$.ajax({
+					url: "http://localhost:8080/solr/core_keyword/select",
+					dataType: "jsonp",
+					jsonp: "json.wrf",
+					data: {
+						featureClass: "P",
+						style: "full",
+						maxRows: 12,
+						wt:"json",
+						q:"suggest:" + $("#searchWord").val(),
+						name_startsWith: request.term
+					},
+					success: function(data) {
+						response($.map(data.response.docs, function(item) {
+							return {
+								label: item.keyword,
+								value: item.keyword
+							}
+						}));
+					}
+				});
+			}
+		});
+	});
+	</script>
+
 </head>
 
 <script>
@@ -111,17 +158,17 @@ var pager = {
 			<li>当前位置:&nbsp;</li>
 			<li><a href="main.html" target="_self">首页</a></li>
 			<li class="bread">&gt;&gt;</li>
-			<li>深圳培训网</li>
+			<li>搜索结果</li>
 		</ul>
 		<div class="clear"></div>
 	</div>
 	<!--当前路径 end-->
 
-	<div class="searchBox">
-		<input id="searchWord" name="searchWord"/>
+	<div class="ui-widget">
+		<input id="searchWord" class="input_txt border_radius" name="searchWord"/>
 		<button type="button" class="formBtn"
 		onclick="search(1);">
-		<img src="images/icon_submit.png"> 搜索
+		<img src="images/7.gif"> 搜索
 	</button>
 </div>
 
