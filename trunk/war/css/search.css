@@ -1,0 +1,109 @@
+.ui-autocomplete-loading {
+		background: white url('../images/ui-anim_basic_16x16.gif') right center no-repeat;
+}
+form {
+	width: 500px;
+	height: 450px;
+	margin: 10px auto;
+	border: solid 1px #E0DEDE;
+	background: #FFFFFF;
+	font-family: "Î¢ÈíÑÅºÚ";
+	padding: 30px;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1) inset;
+}
+
+.input_txt {
+	width: 500px;
+	font-family: "Î¢ÈíÑÅºÚ";
+	border-left: 2px;
+	border-top: 2px;
+	border: solid 1px #ccc;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1) inset;
+	line-height:34px;
+	height: 38px;
+	text-indent: 10px;
+	
+}
+
+.input_txt:focus {
+	box-shadow: 0 0 6px rgba(0, 0, 255, 0.4);
+	font-family: "Î¢ÈíÑÅºÚ";
+	border-left: 2px;
+	border-top: 2px;
+	border: solid 1px #C1CDC1;
+	text-indent: 10px;
+	line-height:34px;
+	height: 38px;
+}
+
+.border_radius {
+	border-radius: 5px;
+	color: #030303;
+}
+
+.h2 {
+	font-family: "Î¢ÈíÑÅºÚ";
+	color: #000000;
+	font-weight: 400;
+	font-size: 24px;
+	font-stretch: wider;
+	text-shadow: 1px 1px 1px #000000;
+}
+
+.mytextarea {
+	width: 398px;
+	border: solid 1px #ccc;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1) inset;
+	font-family: "Î¢ÈíÑÅºÚ";
+	text-indent: 10px;
+	border-radius: 5px;
+	line-height:34px;
+	height: 38px;
+	color: #030303;
+	max-width: 398px;
+	max-height: 38px;
+	min-width: 398px;
+	min-height: 100px;
+	line-height:25px;
+	height: 38px;
+}
+
+.mytextarea:focus {
+	box-shadow: 0 0 4px rgba(0, 0, 255, 0.4);
+	font-family: "Î¢ÈíÑÅºÚ";
+	border: solid 1px #C1CDC1;
+	text-indent: 10px;
+	line-height:25px;
+	height: 38px;
+}
+
+@charset "utf-8";
+
+.mainDiv table tr{
+	height: 70px;
+}
+
+.mainDiv table .leftTd{
+	width: 100px;
+	text-align: right;
+}
+
+.mainDiv table .rightTd{
+	text-align: left;
+}
+
+.descTr{
+	height: 150px;
+}
+
+/*±íµ¥°´Å¥ÑùÊ½*/
+.formBtn {
+	width: auto;
+	height: 30px;
+	list-style: none;
+	line-height: 20px;
+	font-size: 13pt;
+	text-align: center;
+	cursor: pointer;
+	font-family: Arial, Verdana, sans-serif;
+}

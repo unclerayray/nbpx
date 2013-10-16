@@ -34,10 +34,13 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 			SolrInputDocument sid = new SolrInputDocument();
 			sid.addField("keyId", keyword.getKeyId());
 			sid.addField("keyword", keyword.getKeyword());
-			//SolrQuery query = new SolrQuery();
-			//query.addFilterQuery("keyId:"+keyword.getKeyId());
-			//QueryResponse rsp = solrServer.query(query);
-			//rsp.getResponse().get("numFound");
+			if(keyword.getKeyword()!=null){
+				List<String> pinyinList = PinYinUtil.getPinYinList(keyword.getKeyword());
+				for(String str:pinyinList){
+					sid.addField("pinyin", str);
+				}
+				sid.addField("kwfreq", 23);
+			}
 			solrServer.add(sid);
             solrServer.commit();
             logger.debug("已成功为插入的关键词创建索引");
@@ -64,6 +67,7 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 				if(keyword.getKeyword()!=null){
 					String pinyin = PinYinUtil.getPinYin(keyword.getKeyword());
 					sid.addField("pinyin", pinyin);
+					sid.addField("kwfreq", 23);
 				}
 				
 				documents.add(sid);
