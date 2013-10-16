@@ -43,7 +43,7 @@
 			<li><a href="trainPlan.jsp">培训计划</a><span>|</span></li>
 			<li><a href="pxSeries.jsp">培训专题</a><span>|</span></li>
 			<li><a href="#">培训下载</a><span>|</span></li>
-			<li><a href="#">热门培训</a><span>|</span></li>
+			<li><a href="hotPX.jsp">热门培训</a><span>|</span></li>
 			<li><a href="#">培训现场</a><span>|</span></li>
 			<li><a href="#">内训现场</a><span>|</span></li>
 			<li><a href="#">积分问答</a><span>|</span></li>

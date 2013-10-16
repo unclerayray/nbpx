@@ -802,6 +802,50 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		return JsonUtil.getJsonString(results);
 	}
 	
+	//获取热门培训（单页展示）
+	public String queryHotPageCourse(Boolean ifInner,Integer rows,Integer start){
+		List<Course> courses = courseDao.getHotCourse(ifInner, null, rows, start);
+		if(courses == null)
+			return "";
+		Map<String,Object> returnValue = new HashMap<String,Object>();
+//		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+//		for(Course temp : courses)
+//			Course course = courseDao.getCourseById(courseInfo.getCourseId());
+//			if(course == null)
+//				continue;
+//			Map<String,Object> row = new HashMap<String,Object>();
+//			row.put("title", course.getTitle());
+//			if(course.getContent() != null ){
+//				if(course.getContent().length() <= 200)
+//					row.put("content",course.getContent());
+//				else
+//					row.put("content", course.getContent().substring(0,100));
+//			}
+//			else
+//				row.put("content", "暂无课程内容介绍");
+//			row.put("id", course.getCourseId());
+//			row.put("price", course.getPrice());
+//			SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
+//			row.put("startDate", dateFormate.format(courseInfo.getStartDate()));
+//			row.put("endDate", dateFormate.format(courseInfo.getEndDate()));
+//			
+//			Dictionary city = dictionaryDao.getDictionary(courseInfo.getCity(), null);
+//			row.put("city", city.getShowName());
+//			
+//			result.add(row);
+//		}
+//		Integer rowsCount = courseDao.CountCourseByCity(cityName,year, month, orderFlag, rows, start);
+//		int allPages = 0;
+//		if(rowsCount%rows == 0)
+//			allPages = (int)(rowsCount/rows);
+//		else
+//			allPages = (int)(rowsCount/rows) +1;
+//		returnValue.put("pages", allPages);
+//		returnValue.put("rows", result);
+//		
+//		return JsonUtil.getJsonString(returnValue);
+		return "";
+	}
 	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;

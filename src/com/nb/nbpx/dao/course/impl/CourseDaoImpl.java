@@ -12,6 +12,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Component;
@@ -838,7 +839,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				// 取向后的有效的日期
 				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by b.startDate desc");
 				System.out.println(hql.toString());
-				Query query = session.createSQLQuery(hql.toString()).addEntity(TeacherInfo.class);
+				Query query = session.createSQLQuery(hql.toString()).addEntity(Course.class);
 
 				if (start != null && rows != null) {
 					query.setFirstResult(start);
@@ -860,17 +861,24 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select distinct concat(year(b.startdate),'-',month(b.startdate)) value from courses c,courseinfo b  ");
+						"select distinct concat(year(b.startdate),'-',month(b.startdate)) value from courses c,courseinfo b  where");
 				
-				hql.append(" and c.state = 1 ");
+				hql.append(" c.state = 1 ");
 				// 取向后的有效的日期
 				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0");
-				Query query = session.createSQLQuery(hql.toString());
+				Query query = session.createSQLQuery(hql.toString()).addScalar("value",Hibernate.STRING).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 				if (start != null && rows != null) {
 					query.setFirstResult(start);
 					query.setMaxResults(rows);
 				}
-				return query.list();
+				List temp = query.list();
+				System.out.println(temp.size());
+				List result = new ArrayList();
+				for(Object tempMap : temp){
+					result.add(((Map)tempMap).get("value"));
+					System.out.println(((Map)tempMap).get("value"));
+				}
+				return result;
 			}
 		});
 		return list;
