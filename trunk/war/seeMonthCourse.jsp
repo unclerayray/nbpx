@@ -84,7 +84,7 @@
 						<li><a href="seeMonthCourse.jsp?month=5&year=<%=currYear%>">05月</a><span>&nbsp;</span></li>
 						<li><a href="seeMonthCourse.jsp?month=6&year=<%=currYear%>">06月</a><span>&nbsp;</span></li>
 						<li><a href="seeMonthCourse.jsp?month=7&year=<%=currYear%>">07月</a><span>&nbsp;</span></li>
-						<li ><a href="seeMonthCourse.jsp?month=8&year=<%=currYear%>">08月</a><span>&nbsp;</span></li>
+						<li><a href="seeMonthCourse.jsp?month=8&year=<%=currYear%>">08月</a><span>&nbsp;</span></li>
 						<li><a href="seeMonthCourse.jsp?month=9&year=<%=currYear%>">09月</a><span>&nbsp;</span></li>
 						<li><a href="seeMonthCourse.jsp?month=10&year=<%=currYear%>">10月</a><span>&nbsp;</span></li>
 						<li><a href="seeMonthCourse.jsp?month=11&year=<%=currYear%>">11月</a><span>&nbsp;</span></li>

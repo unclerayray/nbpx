@@ -29,7 +29,35 @@ public class TrainPlanAction extends BaseAction{
 		
 		return SUCCESS;
 	}
+	//获取培训计划相关关键词
+	public String getPlanRelatedKeyWords(){
+		try {
+			String result = solrKeywordService.queryRelatedKeywords("培训计划", 0, 30);
+			this.inputStream = castToInputStream(result);
+		} catch (SolrServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
 	
+	//获取培训计划相关专题
+	public String getPlanRelatedSubjects(){
+		try {
+			String result = solrSubjectService.queryRelatedSubject("企业计划", 0, 30);
+			this.inputStream = castToInputStream(result);
+		} catch (SolrServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
 	
 	public ICourseService getCourseService() {
 		return courseService;
