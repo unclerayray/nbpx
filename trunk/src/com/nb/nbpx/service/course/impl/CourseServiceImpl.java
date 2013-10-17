@@ -808,43 +808,111 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		if(courses == null)
 			return "";
 		Map<String,Object> returnValue = new HashMap<String,Object>();
-//		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
-//		for(Course temp : courses)
-//			Course course = courseDao.getCourseById(courseInfo.getCourseId());
-//			if(course == null)
-//				continue;
-//			Map<String,Object> row = new HashMap<String,Object>();
-//			row.put("title", course.getTitle());
-//			if(course.getContent() != null ){
-//				if(course.getContent().length() <= 200)
-//					row.put("content",course.getContent());
-//				else
-//					row.put("content", course.getContent().substring(0,100));
-//			}
-//			else
-//				row.put("content", "暂无课程内容介绍");
-//			row.put("id", course.getCourseId());
-//			row.put("price", course.getPrice());
-//			SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
-//			row.put("startDate", dateFormate.format(courseInfo.getStartDate()));
-//			row.put("endDate", dateFormate.format(courseInfo.getEndDate()));
-//			
-//			Dictionary city = dictionaryDao.getDictionary(courseInfo.getCity(), null);
-//			row.put("city", city.getShowName());
-//			
-//			result.add(row);
-//		}
-//		Integer rowsCount = courseDao.CountCourseByCity(cityName,year, month, orderFlag, rows, start);
-//		int allPages = 0;
-//		if(rowsCount%rows == 0)
-//			allPages = (int)(rowsCount/rows);
-//		else
-//			allPages = (int)(rowsCount/rows) +1;
-//		returnValue.put("pages", allPages);
-//		returnValue.put("rows", result);
-//		
-//		return JsonUtil.getJsonString(returnValue);
-		return "";
+		List<Map<String,Object>> result = getCourseDetailList(courses);
+		List totalRows = courseDao.getHotCourse(ifInner, null, null, null);
+		int rowsCount = totalRows==null?0:totalRows.size();
+		int allPages = 0;
+		if(rowsCount%rows == 0)
+			allPages = (int)(rowsCount/rows);
+		else
+			allPages = (int)(rowsCount/rows) +1;
+		returnValue.put("pages", allPages);
+		returnValue.put("rows", result);
+		
+		return JsonUtil.getJsonString(returnValue);
+	}
+	
+	//获取经典课程（单页展示）
+	public String queryClassiscPageCourse(Boolean ifInner,Integer rows,Integer start){
+			List<Course> courses = courseDao.getClassicCourse(ifInner, null, rows, start);
+			if(courses == null)
+				return "";
+			Map<String,Object> returnValue = new HashMap<String,Object>();
+			List<Map<String,Object>> result = getCourseDetailList(courses);
+			List totalRows = courseDao.getClassicCourse(ifInner, null, null, null);
+			int rowsCount = totalRows==null?0:totalRows.size();
+			int allPages = 0;
+			if(rowsCount%rows == 0)
+				allPages = (int)(rowsCount/rows);
+			else
+				allPages = (int)(rowsCount/rows) +1;
+			returnValue.put("pages", allPages);
+			returnValue.put("rows", result);
+			
+			return JsonUtil.getJsonString(returnValue);
+	}
+	
+	//获取金牌课程(单页展示)
+	public String queryGoldPageCourse(Boolean ifInner,Integer rows,Integer start,Integer price){
+		List<Course> courses = courseDao.getGoldCourse(ifInner, null, rows, start,price);
+		if(courses == null)
+			return "";
+		Map<String,Object> returnValue = new HashMap<String,Object>();
+		List<Map<String,Object>> result = getCourseDetailList(courses);
+		List totalRows = courseDao.getGoldCourse(ifInner, null, null, null,price);
+		int rowsCount = totalRows==null?0:totalRows.size();
+		int allPages = 0;
+		if(rowsCount%rows == 0)
+			allPages = (int)(rowsCount/rows);
+		else
+			allPages = (int)(rowsCount/rows) +1;
+		returnValue.put("pages", allPages);
+		returnValue.put("rows", result);
+		
+		return JsonUtil.getJsonString(returnValue);
+	}
+	
+	private List<Map<String,Object>> getCourseDetailList(List<Course> courses){
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		
+		for(int i=0;i<courses.size();i++){
+			Map<String,Object> row = new HashMap<String,Object>();
+			Course currCourse = courses.get(i);
+			row.put("id", currCourse.getCourseId());
+			row.put("price", currCourse.getPrice());
+			row.put("title", currCourse.getTitle());
+			Course currCourseWithCount = courseDao.getCourseById(currCourse.getCourseId());
+			if(currCourseWithCount.getContent() != null ){
+				if(currCourseWithCount.getContent().length() <= 200)
+					row.put("content",currCourseWithCount.getContent());
+				else
+					row.put("content", currCourseWithCount.getContent().substring(0,100));
+			}
+			else
+				row.put("content", "暂无课程内容介绍");
+			
+			List<CourseInfo> courseInfors = courseInfoDao.queryCourseInfoWithTime(null, null, currCourse.getCourseId().toString());
+			int cityCount = 0;
+			String cityStr = "";
+			Date startDate = null;
+			Date endDate = null;
+			if(courseInfors != null){
+				for(int j=0;j<courseInfors.size();j++){
+					CourseInfo courseInfo  = courseInfors.get(j);
+					if(j == 0)
+						startDate = courseInfo.getStartDate();
+					if(j == courseInfors.size() -1)
+						endDate = courseInfo.getEndDate();
+					
+					Dictionary cityTemp = dictionaryDao.getDictionary(courseInfo.getCity(), null);
+					if(!cityStr.contains(cityTemp.getShowName())){
+						cityStr += cityTemp.getShowName();
+						if(j != courseInfors.size() -1)
+							cityStr += "|";
+						cityCount ++;
+					}
+				}
+			}
+			
+			SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
+			row.put("startDate", dateFormate.format(startDate));
+			row.put("endDate", dateFormate.format(endDate));
+			if(cityCount >=3)
+				cityStr = "全国";
+			row.put("city", cityStr);
+			result.add(row);
+		}
+		return result;
 	}
 	
 	public ITeacherInfoDao getTeacherDao() {

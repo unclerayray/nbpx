@@ -15,7 +15,21 @@ public class HotCourseAction extends BaseAction{
 	private ICourseService courseService;
 	
 	public String getHotPXCourse(){
-		String json = courseService.queryHotCourse(false, rows, this.getStartPosi());
+		String json = courseService.queryHotPageCourse(null, rows, this.getStartPosi());//内训也是培训
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String getClassiscNXCourse(){
+		String json = courseService.queryClassiscPageCourse(true, rows, this.getStartPosi());
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String getGoldNXCourse(){
+		String json = courseService.queryGoldPageCourse(true, rows, this.getStartPosi(),1000);
 		
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -23,7 +37,8 @@ public class HotCourseAction extends BaseAction{
 	
 	public ICourseService getCourseService() {
 		return courseService;
-	}	
+	}
+	
 	@Resource
 	public void setCourseService(ICourseService courseService) {
 		this.courseService = courseService;

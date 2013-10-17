@@ -55,10 +55,10 @@
 			
 			<li><a href="#">产品培训</a><span>|</span></li>
 			<li><a href="innerTraining.jsp">企业内训</a><span>|</span></li>
-			<li><a href="#" class="red">经典内训</a><span>|</span></li>
+			<li><a href="classiscNX.jsp" class="red">经典内训</a><span>|</span></li>
 			<li><a href="#">内训视频</a><span>|</span></li>
 			<li><a href="nxSeries.jsp">内训专题</a><span>|</span></li>
-			<li><a href="#">金牌内训</a><span>|</span></li>
+			<li><a href="goldNX.jsp">金牌内训</a><span>|</span></li>
 			<li><a href="#">内训计划</a><span>|</span></li>
 			<li><a href="#">会员商城</a><span>|</span></li>
 			<li><a href="#">企业文库</a><span>|</span></li>

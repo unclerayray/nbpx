@@ -746,7 +746,47 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		return list;
 		
 	}
+	//获取金牌课程
+	@Override
+	public List<Course> getGoldCourse(final Boolean isInner,final String type, final Integer start,
+			final Integer rows,final Integer price) {
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
+								+ "c.teacherId, '', c.category,"
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c ,CourseInfo b where c.courseId = b.courseId and 1=1 ");
+				if (type != null && !"".equals(type))
+					hql.append(" and c.category = '" + type + "'");
+				if (isInner != null) {// 区分内训和培训
+					if (isInner)
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+
+				hql.append(" and c.classic = 1 ");
+				hql.append(" and c.state = 1 ");
+				hql.append(" and c.price > "+price);
+				// 取向后的有效的日期
+				hql.append(" and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
 	@Override
 	public List<Course> getClassicCourse(final Boolean isInner,final String type, final Integer start,
 			final Integer rows) {
