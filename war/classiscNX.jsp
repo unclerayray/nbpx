@@ -55,7 +55,7 @@
 	function loadHotKeyWord(){
 		var urlStr;var sortType;
 		sortType = '1';//点击率排行
-		urlStr = 'struts/Main_getKeywords?isInner=0';
+		urlStr = 'struts/Main_getKeywords?isInner=1';
 		$.ajax({
 			url:encodeURI(urlStr+"&flag="+sortType),
 			success: function(data){
@@ -77,7 +77,7 @@
 	}
 	function loadHotSubjects(){
 		var urlStr;var sortType;
-		urlStr = "struts/Main_getSubjects?isInner=0";
+		urlStr = "struts/Main_getSubjects?isInner=1";
 		sortType = "1";
 		$.ajax({
 			url:encodeURI(urlStr+"&flag="+sortType),
@@ -106,7 +106,7 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li>热门培训</li>
+		<li>经典内训</li>
 	</ul>
 	<div class="clear"></div>
 </div>
@@ -140,7 +140,7 @@
 	<div class="rightInPart">
 		<!--培训关键词 start-->	
 		<div class="rightTeacher">
-				<h5  class="first">热门关键字</h5>
+				<h5  class="first">热门内训关键字</h5>
 				<div class="bg" style="padding:0px 0px 4px 15px;border:none;height:290px"/>
 				<div class="clear" style="height:10px;"></div>
 					<ul class="list7" id="hotKeywords">
@@ -152,7 +152,7 @@
 		<!--培训关键词 start-->	
 		<div class="clear" style="height:10px"></div>
 		<div class="rightTeacher">
-				<h5  class="first">热门专题</h5>
+				<h5  class="first">热门内训专题</h5>
 				<div class="bg" style="padding:0px 0px 4px 20px;border:none;height:290px"/>
 					<div class="clear" style="height:0px"></div>
 					<ul class="list7" style="padding-top:10px" id="hotSubjects">

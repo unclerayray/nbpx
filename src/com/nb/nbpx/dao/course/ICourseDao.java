@@ -100,4 +100,7 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	public List<Course> getTrainPlanByMonth(String year,String month,Integer start,Integer rows);
 	//获得当前时间之后，有培训计划的月数总数
 	public List<String> getTrainPlanMonth(Integer start,Integer rows);
+	//获取金牌课程
+	public List<Course> getGoldCourse(final Boolean isInner,final String type, final Integer start,
+			final Integer rows,final Integer price);
 }

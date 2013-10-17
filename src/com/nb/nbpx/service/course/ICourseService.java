@@ -73,4 +73,10 @@ public interface ICourseService extends IBaseService {
 	
 	//获取培训计划，默认一页是显示4个月的培训计划，
 	public String getTranPlan(Integer rows,Integer start);
+	//获取热门培训（单页展示）
+	public String queryHotPageCourse(Boolean ifInner,Integer rows,Integer start);
+	//获取经典课程(单页展示)
+	public String queryClassiscPageCourse(Boolean ifInner,Integer rows,Integer start);
+	//获取金牌课程(单页展示)
+	public String queryGoldPageCourse(Boolean ifInner,Integer rows,Integer start,Integer price);
 }

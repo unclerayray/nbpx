@@ -25,7 +25,7 @@
 		var currMonth = $('#currMonth').val();
 		var currYear = $('#currYear').val();
 		$.ajax({
-			url:"struts/HotCourse_getHotPXCourse?page="+page+"&rows=10",
+			url:"struts/HotCourse_getGoldNXCourse?page="+page+"&rows=10",
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -55,7 +55,7 @@
 	function loadHotKeyWord(){
 		var urlStr;var sortType;
 		sortType = '1';//点击率排行
-		urlStr = 'struts/Main_getKeywords?isInner=0';
+		urlStr = 'struts/Main_getKeywords?isInner=1';
 		$.ajax({
 			url:encodeURI(urlStr+"&flag="+sortType),
 			success: function(data){
@@ -77,7 +77,7 @@
 	}
 	function loadHotSubjects(){
 		var urlStr;var sortType;
-		urlStr = "struts/Main_getSubjects?isInner=0";
+		urlStr = "struts/Main_getSubjects?isInner=1";
 		sortType = "1";
 		$.ajax({
 			url:encodeURI(urlStr+"&flag="+sortType),
@@ -106,7 +106,7 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li>热门培训</li>
+		<li>金牌内训</li>
 	</ul>
 	<div class="clear"></div>
 </div>
@@ -138,32 +138,62 @@
 	</div>
 	<!--右边部分 start-->
 	<div class="rightInPart">
-		<!--培训关键词 start-->	
-		<div class="rightTeacher">
-				<h5  class="first">热门关键字</h5>
-				<div class="bg" style="padding:0px 0px 4px 15px;border:none;height:290px"/>
-				<div class="clear" style="height:10px;"></div>
-					<ul class="list7" id="hotKeywords">
-					</ul>
-				</div>
-			</div>
-		<!--内训关键词 end-->	
 		
-		<!--培训关键词 start-->	
-		<div class="clear" style="height:10px"></div>
-		<div class="rightTeacher">
-				<h5  class="first">热门专题</h5>
-				<div class="bg" style="padding:0px 0px 4px 20px;border:none;height:290px"/>
-					<div class="clear" style="height:0px"></div>
-					<ul class="list7" style="padding-top:10px" id="hotSubjects">
-						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-					</ul>
-				</div>
+		<!--企业培训师 start-->
+		<div style="height:10px; display:block"></div>
+		<div class="rightTeacher" >
+			<h5 class=" first">金牌内训师</h5>
+			<div style="padding-left:15px;padding-bottom:10px">
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<h4>名字热搜</h4>
+			<ul class="teacher">
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+			</ul>
+			<div class="clear"></div>
 			</div>
 		<!--内训关键词 end-->	
+		<h5>推荐培训机构</h5>
+			<ul class="list7" style="padding-top:10px;padding-left:15px;">
+				<li class="line"><a><span class="red">1</span><span class="text">三人行教育培训机构</span></a></li>
+				<li class="line"><a><span class="red">2</span><span class="text">众行机构</span></a></li>
+				<li class="line"><a><span class="blue">3</span><span class="text">三人行教育培训机构</span></a></li>
+				<li class="line"><a><span class="blue">4</span><span class="text">众行机构</span></a></li>
+				<li class="line"><a><span class="blue">5</span><span class="text">众行机构</span></a></li>
+			</ul>
+		<div class="clear" style="height:10px"></div>
     </div>
 	<!--右边部分 end-->
-	<div class="clear">
+
 	
 	
 	</div>
