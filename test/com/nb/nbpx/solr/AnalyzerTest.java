@@ -1,7 +1,6 @@
 package com.nb.nbpx.solr;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.chenlb.mmseg4j.analysis.ComplexAnalyzer;
@@ -28,7 +28,7 @@ public class AnalyzerTest {
 	}
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void testSimple() {
 		SimpleAnalyzer analyzer = new SimpleAnalyzer();
 		System.out.println("txt = " +txt);
@@ -42,7 +42,7 @@ public class AnalyzerTest {
 	}
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void testComplex() {
 		Analyzer analyzer = new ComplexAnalyzer();
 		try {
@@ -62,7 +62,7 @@ public class AnalyzerTest {
 	}
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void testMaxWord() {
 		Analyzer analyzer = new MaxWordAnalyzer();
 		try {
@@ -122,6 +122,9 @@ public class AnalyzerTest {
         //analyzer.tokenStream("text", sr);
         
         List<String> toWords =  toWords(  text, analyzer);
+        for(String str:toWords){
+            System.out.println(str);
+        }
         System.out.println("gagagah");
 	}
 }

@@ -3,13 +3,19 @@
  */
 package com.nb.nbpx.server.course;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +55,6 @@ public class CourseAction extends BaseAction {
 	public CourseInfo courseInfo;
 	public CourseAllInfoDto courseAllInfo;
 
-
 	public String fullImport() {
 		try {
 			dataImportor.fullImport();
@@ -73,11 +78,11 @@ public class CourseAction extends BaseAction {
 
 	public String queryCourses() {
 		String json = courseService.queryCourses(category, courseId, rows,
-				getStartPosi(),sort,order);
+				getStartPosi(), sort, order);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
+
 	public String queryCourseById() {
 		String json = courseService.queryCourseById(courseId);
 		this.inputStream = castToInputStream(json);
@@ -103,26 +108,31 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String saveCourse() {
-		//String regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
+		// String
+		// regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
 		String regEx1 = "[\\pP‘’“”]";
-		if(courseAllInfo.getKeywords()!=null){
-			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(regEx1, ","));
+		if (courseAllInfo.getKeywords() != null) {
+			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(
+					regEx1, ","));
 		}
-		if(courseAllInfo.getSubject()!=null){
-			courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(regEx1, ","));
+		if (courseAllInfo.getSubject() != null) {
+			courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(
+					regEx1, ","));
 		}
 		List<Keyword> keywords = keywordService.saveKeywords(courseAllInfo);
-		//让Keyword提前保存，生成超链接的时候才有ID可以对应
+		// 让Keyword提前保存，生成超链接的时候才有ID可以对应
 		Course cou = new Course(courseAllInfo);
-		cou.setContent(keywordService.setKeywordHyperLink(keywords, cou.getContent()));//生成超链接
+		cou.setContent(keywordService.setKeywordHyperLink(keywords,
+				cou.getContent()));// 生成超链接
 		try {
-			Boolean deleteBeforeInsert=false;
-			if(courseAllInfo.getCourseId()!=null){
+			Boolean deleteBeforeInsert = false;
+			if (courseAllInfo.getCourseId() != null) {
 				deleteBeforeInsert = true;
 			}
 			cou = courseService.saveCourse(cou);
 			courseAllInfo.setCourseId(cou.getCourseId());
-			courseService.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
+			courseService
+					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 			solrCourseService.addCourse2Solr(courseAllInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -151,7 +161,7 @@ public class CourseAction extends BaseAction {
 				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * <p>
 	 * 通过courseId查找课程安排
@@ -174,8 +184,8 @@ public class CourseAction extends BaseAction {
 		try {
 			courseService.saveCourseInfo(courseInfo);
 			solrCourseService.updateCourseInfo2Solr(courseInfo.getCourseId());
-			//TODO SOLR update
-			
+			// TODO SOLR update
+
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -206,8 +216,8 @@ public class CourseAction extends BaseAction {
 				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;
 	}
-	
-	public String queryKeywords(){
+
+	public String queryKeywords() {
 		String json = "";
 		try {
 			json = courseService.queryKeywords(courseId);
@@ -220,13 +230,55 @@ public class CourseAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
 
-	
-	
+	/**
+	 * 根据条件报表<br />
+	 * 使用Jxls导出，模板放于XLSTemplate文件夹下
+	 */
+	public String exportAttendance() {
+		int year = 2013;
+		int month = 12;
+		String cate = "财务管理";
+		OutputStream output = null; // 响应报文输出流
+		FileInputStream input = null; // 文件输入流
+		try {
+			StringBuilder src = new StringBuilder();
+			HttpServletResponse response = null; // 响应报文
+			String templateSrc = null; // 模板路径
+
+			templateSrc = ServletActionContext.getServletContext().getRealPath(
+					"/XLSTemplate");
+			src.append(templateSrc);
+			src.append("/template-attendance.xls");
+			response = setResponseInfo("application/x-download;charset=utf-8",
+					+year +"年"+month + "月份"+cate+"培训计划.xls");
+			output = response.getOutputStream();
+			input = new FileInputStream(src.toString());
+			courseService.exportExcel(cate, year, month, input, output);
+			output.flush();
+		} catch (Exception e) {
+			logger.info("系统发生异常：", e);
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != input) {
+					input.close();
+				}
+
+				if (null != output) {
+					output.close();
+				}
+			} catch (IOException e) {
+				logger.error("导出工资excel报表IOException:", e);
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @param dataImportor
-	 *           the dataImportor to set
+	 *            the dataImportor to set
 	 */
 	@Resource
 	public void setDataImportor(ISolrService dataImportor) {
@@ -302,10 +354,13 @@ public class CourseAction extends BaseAction {
 	}
 
 	public void setCourseAllInfo(CourseAllInfoDto courseAllInfo) {
-		//String regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
-		//String regEx1 = "[\\pP‘’“”]";
-		//courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(regEx1, ","));
-		//courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(regEx1, ","));
+		// String
+		// regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+		// String regEx1 = "[\\pP‘’“”]";
+		// courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(regEx1,
+		// ","));
+		// courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(regEx1,
+		// ","));
 		this.courseAllInfo = courseAllInfo;
 	}
 
@@ -321,7 +376,7 @@ public class CourseAction extends BaseAction {
 	public ISolrCourseService getSolrCourseService() {
 		return solrCourseService;
 	}
-	
+
 	@Resource
 	public void setSolrCourseService(ISolrCourseService solrCourseService) {
 		this.solrCourseService = solrCourseService;

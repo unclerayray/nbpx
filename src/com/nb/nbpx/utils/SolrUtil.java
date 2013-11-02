@@ -78,6 +78,36 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获得自定义词典路径
+	 * @return
+	 */
+	public static String getDictionaryPath() throws IOException{
+		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
+		Properties prop = new Properties();
+		try {
+			prop.load(inxx);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prop.getProperty("solr.dictionary.path");
+	}
+	
+	/**
+	 * 获得自定义词典文件路径
+	 * @return
+	 */
+	public static String getDictionaryFilePath() throws IOException{
+		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
+		Properties prop = new Properties();
+		try {
+			prop.load(inxx);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prop.getProperty("solr.dictionary.path");
+	}
+	
+	/**
 	 * 过滤solr query 非法字符串的方法
 	 * @param s
 	 * @return
