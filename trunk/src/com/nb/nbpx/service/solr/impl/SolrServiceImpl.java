@@ -3,6 +3,7 @@
  */
 package com.nb.nbpx.service.solr.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -24,11 +25,12 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
-import com.chenlb.mmseg4j.ComplexSeg;
 import com.chenlb.mmseg4j.Dictionary;
 import com.chenlb.mmseg4j.MMSeg;
 import com.chenlb.mmseg4j.Seg;
+import com.chenlb.mmseg4j.SimpleSeg;
 import com.chenlb.mmseg4j.Word;
+import com.nb.nbpx.common.SystemConstants;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.pojo.course.CourseSearchResult;
@@ -84,10 +86,11 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 	@Override
 	public String cutText(String text) throws IOException {
-		// List<CourseKeyword> list = new ArrayList<CourseKeyword>();
-		Dictionary dic = Dictionary.getInstance();
+		String dicPath = SolrUtil.getDictionaryPath();
+		File file = new File(dicPath);
+		Dictionary dic = Dictionary.getInstance(file);
 		StringReader input = new StringReader(text);
-		Seg seg = new ComplexSeg(dic); // 取得不同的分词具体算法
+		Seg seg = new SimpleSeg(dic); // 取得不同的分词具体算法
 		MMSeg mmSeg = new MMSeg(input, seg);
 		Word word = null;
 		List<String> list = new ArrayList<String>();

@@ -1,5 +1,7 @@
 package com.nb.nbpx.service.course.impl;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -11,7 +13,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.jxls.transformer.XLSTransformer;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
@@ -27,6 +32,8 @@ import com.nb.nbpx.dao.subject.ISubjectDao;
 import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
+import com.nb.nbpx.dto.course.CourseReport;
+import com.nb.nbpx.dto.course.ReportDTO;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseIndustry;
 import com.nb.nbpx.pojo.course.CourseInfo;
@@ -914,6 +921,38 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		}
 		return result;
 	}
+	
+	@Override
+	public void exportExcel(String category, int year, int month,InputStream input, OutputStream output) throws Exception{
+		List<String> sheetNames = new ArrayList<String>();
+		sheetNames.add(category);
+		List<ReportDTO> records = new ArrayList<ReportDTO>();
+		List<CourseReport> reports = new ArrayList<CourseReport>();
+		CourseReport report = new CourseReport(11111,"测试的课程1",12000.0,"雷理超",new Date(),new Date(),"广州");
+		CourseReport report1 = new CourseReport(11111,"测试的课程1",12000.0,"雷理超",new Date(),new Date(),"广州");
+		CourseReport report2 = new CourseReport(11111,"测试的课程1",12000.0,"雷理超",new Date(),new Date(),"广州");
+		CourseReport report3 = new CourseReport(11111,"测试的课程2",7000.0,"雷理超",new Date(),new Date(),"广州");
+		CourseReport report4 = new CourseReport(11111,"测试的课程3",8000.0,"雷理超",new Date(),new Date(),"广州");
+		CourseReport report5 = new CourseReport(11111,"测试的课程3",8000.0,"雷理超",new Date(),new Date(),"广州");
+		CourseReport report6 = new CourseReport(11111,"测试的课程3",8000.0,"雷理超",new Date(),new Date(),"广州");
+		CourseReport report7 = new CourseReport(11111,"测试的课程1",12000.0,"雷理超",new Date(),new Date(),"广州");
+		reports.add(report);
+		reports.add(report1);
+		reports.add(report2);
+		reports.add(report3);
+		reports.add(report4);
+		reports.add(report5);
+		reports.add(report6);
+		reports.add(report7);
+		ReportDTO dto = new ReportDTO(year,month,category,reports);
+		records.add(dto);
+		XLSTransformer transformer = new XLSTransformer();
+        Workbook resultWorkbook = transformer.transformMultipleSheetsList(input,
+        		records, sheetNames, "records",
+        		new HashMap<String, Object>(), 0);
+        resultWorkbook.write(output);
+	}
+	
 	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;

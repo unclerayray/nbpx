@@ -1,5 +1,7 @@
 package com.nb.nbpx.service.keyword;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import com.nb.nbpx.dto.article.ArticleDetail;
@@ -45,4 +47,8 @@ public interface IKeywordService extends IBaseService {
 	public String setKeywordHyperLink(List<Keyword> keywords,String content);
 	
 	public String getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);
+	
+	public void saveKeyword2Dic(String keyword) throws IOException;
+	
+	public void saveKeywords2Dic(String[] keywords) throws IOException;
 }

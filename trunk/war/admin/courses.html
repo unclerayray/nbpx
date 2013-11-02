@@ -40,7 +40,10 @@
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-		onclick="newCourse()">新增课程</a> <a href="#"
+		onclick="newCourse()">新增课程</a> 
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="newInnerCourse()">新增内训课程</a>
+		<a href="#"
 		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 		onclick="editCourse(null)">修改课程</a> <a href="#"
 		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
@@ -232,7 +235,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							</td>
 							<td class="itemText">
 								<div>
-									<label>是否内训:</label> <input name="isInner" id="isInner"
+									<label>是否内训:</label> <input name="isInner" id="isInner" disabled="disabled"
 									type="checkbox">
 								</div>
 							</td>
@@ -360,6 +363,15 @@ function queryCourse() {
 			createCkeditor();
 			CKEDITOR.instances.content.setData('');
 			$('#state').attr('checked', 'checked');
+			//$('#isInner').attr('enabled', false);
+		}
+		function newInnerCourse() {
+			$('#dlg').dialog('open').dialog('setTitle', '新建课程');
+			$('#fm').form('clear');
+			createCkeditor();
+			CKEDITOR.instances.content.setData('');
+			$('#state').attr('checked', 'checked');
+			$('#isInner').attr('checked', 'checked');
 		}
 		function editCourse(rowData) {
 			var row;
@@ -637,6 +649,15 @@ function openInfoDlg(){
 function openInfoDlg1(openInside){
 	//alert('openInside = '+openInside);
 	if(openInside){
+		if($('#isInner').attr('checked')=='checked'){
+			$.messager.show({
+					title : '温馨提示',
+					msg : '内训课程无固定课程安排。',
+					timeout : 2000,
+					showType : 'slide'
+				});
+			return;
+		}
 		$.messager.confirm('Confirm','需要先保存课程记录，是否继续?',function(r) {
 			if (r) {
 				//alert('are we good?'); 
@@ -684,7 +705,7 @@ function openInfoDlg1(openInside){
 		});
 	}else{
 		var row = $('#dg').datagrid('getSelected');
-		if(row){
+		if(row&&!row.isInner){
 			var cid = row.courseId;
 			$('#dlg-courseId').val(cid);
 			$('#selected_courseId').val(cid);
@@ -706,6 +727,13 @@ function openInfoDlg1(openInside){
 				{field:'cityName',title:'城市名',width:140,hidden:true},
 				{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
 				]]
+			});
+		}else if(row&&row.isInner){
+			$.messager.show({
+				title : '温馨提示',
+				msg : '内训课程无固定课程安排。',
+				timeout : 2000,
+				showType : 'slide'
 			});
 		}
 		else {

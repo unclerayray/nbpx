@@ -1,51 +1,53 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" type="text/css"
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css"
 	href="../js/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
-	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
-	<link rel="stylesheet" type="text/css"
+<link rel="stylesheet" type="text/css"
+	href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
+<link rel="stylesheet" type="text/css"
+	href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
+<link rel="stylesheet" type="text/css"
 	href="../js/easyui/themes/icon.css">
-	<script src="../js/easyui/jquery-1.8.0.min.js"></script>
-	<script src="../js/easyui/jquery.easyui.min.js"></script>
-	<script src="../ckeditor/ckeditor.js"></script>
-	<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
-	<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
-	<title>文章管理界面</title>
+<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+<script src="../js/easyui/jquery.easyui.min.js"></script>
+<script src="../ckeditor/ckeditor.js"></script>
+<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
+<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+<title>文章管理界面</title>
 </head>
 <body class="easyui-layout">
 	<div region="center" border="false" style='padding: 5px'></div>
-	<table id="dg" class="easyui-datagrid" pagination="true" pageSize=20 onClickRow:
-	onClickRow loadMsg="正在加载，请稍候!"
-	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Article_queryArticles',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editArticle(rowData);}">
-	<thead>
-		<tr>
-			<th data-options="field:'articleId',sortable:true,width:50">文章代码</th>
-			<th data-options="field:'author',width:120">作者</th>
-			<th data-options="field:'articleTitle',sortable:true,width:320">标题</th>
-			<th
-			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">文章类型</th>
-			<th data-options="field:'hits',sortable:true,width:80">文章点击量</th>
-			<th data-options="field:'lastUpdateDate',sortable:true,width:120">更新时间</th>
-			<th
-			data-options="field:'state',width:50,sortable:true,formatter:function(value,row){if(row.state) {return '启用';}else{return '禁用';}}">状态</th>
-		</tr>
-	</thead>
-</table>
-<div id="tb" style="padding: 5px; height: auto">
-	<div style="margin-bottom: 5px">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-		onclick="newArticle()">新增文章</a> <a href="#"
-		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-		onclick="editArticle(null)">修改文章</a> <a href="#"
-		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-		onclick="destroyArticle()">删除文章</a>
-	</div>
-	<div>
-		文章类型: <input class="easyui-combobox" name="category" id="category"
-		data-options="  
+	<table id="dg" class="easyui-datagrid" pagination="true" pageSize=20
+		onClickRow: onClickRow loadMsg="正在加载，请稍候!"
+		data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Article_queryArticles',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editArticle(rowData);}">
+		<thead>
+			<tr>
+				<th data-options="field:'articleId',sortable:true,width:50">文章代码</th>
+				<th data-options="field:'author',width:120">作者</th>
+				<th data-options="field:'articleTitle',sortable:true,width:320">标题</th>
+				<th
+					data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">文章类型</th>
+				<th data-options="field:'hits',sortable:true,width:80">文章点击量</th>
+				<th data-options="field:'lastUpdateDate',sortable:true,width:120">更新时间</th>
+				<th
+					data-options="field:'state',width:50,sortable:true,formatter:function(value,row){if(row.state) {return '启用';}else{return '禁用';}}">状态</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="tb" style="padding: 5px; height: auto">
+		<div style="margin-bottom: 5px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="newArticle()">新增文章</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+				onclick="editArticle(null)">修改文章</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+				onclick="destroyArticle()">删除文章</a>
+		</div>
+		<div>
+			文章类型: <input class="easyui-combobox" name="category" id="category"
+				data-options="  
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
 		textField:'showName',   
@@ -57,75 +59,82 @@
 		$('#articleIdFS').combobox('reload', url);  
 	}
 	">
-	文章代码： <input class="easyui-combobox" name="articleId"
-	id="articleIdFS"
-	data-options="   
+			文章代码： <input class="easyui-combobox" name="articleId"
+				id="articleIdFS"
+				data-options="   
 	url:'../struts/Article_queryComboArticleCode',
 	valueField:'articleId',  
 	textField:'articleId',  
 	panelHeight:'auto'  ,
 	strict:true
 	">
-	<a href="javascript:void(0)" class="easyui-linkbutton"
-	iconCls="icon-search" onclick="queryArticle()">搜索</a> <a
-	href="javascript:void(0)" class="easyui-linkbutton"
-	iconCls="icon-undo" onclick="clearTollBar()">重置</a>
-</div>
-</div>
-
-<div id="dlg" class="easyui-dialog"
-style="width: 1000px; height: 500px; padding: 5px 5px; top: 5px;"
-closed="true" modal="true" cache="false" buttons="#dlg-buttons">
-<form id="fm" method="post">
-	<table cellspacing="0" cellpadding="0" class="formTable">
-		<div>
-			<input id="dlg-articleId" name="articleId" type="hidden">
-		</div>
-		<tr>
-			<td class="itemText"  colspan="2">
-				<div>
-					<label>文章标题:</label> <input class="easyui-validatebox" id="articleTitle"
-					name="articleTitle" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'" style="width: 400px;">
-				</div>
-			</td>
-			<td>
-				<a
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-search" onclick="queryArticle()">搜索</a> <a
 				href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-dic" onclick="cutupTitle()">拆分关键词</a></td>
+				iconCls="icon-undo" onclick="clearTollBar()">重置</a>
+		</div>
+	</div>
 
-			</tr>
-			<tr>
-				<td class="itemText"  colspan="3">
-					<div>
-						<label>文章关键字:</label> <input class="easyui-validatebox" id="articleKeywords" name = "keywords"
-						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'文章关键字是必填项'" style="width: 400px;">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="itemText"  colspan="3">
-					<div>
-						<label>文章专题:</label> <input class="easyui-validatebox" id="articleSubject" name = "subjects"
-						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'文章专题是必填项'" style="width: 400px;">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="itemText">
-					<div>
-						<label>文章编码:</label> <input id="articleCodeInForm"  class="easyui-validatebox" disabled="disabled" readonly="readonly"
-						name="articleId" style="width: 130px;">
-					</div></td>
-				<td class="itemText">
-					<div>
-						<label>文章作者:</label> <input id="author"  class="easyui-validatebox"
-						name="author" style="width: 130px;">
-					</div></td>
+	<div id="dlg" class="easyui-dialog"
+		style="width: 1000px; height: 500px; padding: 5px 5px; top: 5px;"
+		closed="true" modal="true" cache="false" buttons="#dlg-buttons">
+		<form id="fm" method="post">
+			<table cellspacing="0" cellpadding="0" class="formTable">
+				<div>
+					<input id="dlg-articleId" name="articleId" type="hidden">
+				</div>
+				<tr>
+					<td class="itemText" colspan="2">
+						<div>
+							<label>文章标题:</label> <input class="easyui-validatebox"
+								id="articleTitle" name="articleTitle"
+								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'"
+								style="width: 400px;">
+						</div>
+					</td>
+					<td><a href="javascript:void(0)" class="easyui-linkbutton"
+						iconCls="icon-dic" onclick="cutupTitle()">拆分关键词</a></td>
+
+				</tr>
+				<tr>
+					<td class="itemText" colspan="3">
+						<div>
+							<label>文章关键字:</label> <input class="easyui-validatebox"
+								id="articleKeywords" name="keywords"
+								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'文章关键字是必填项'"
+								style="width: 400px;">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="itemText" colspan="3">
+						<div>
+							<label>文章专题:</label> <input class="easyui-validatebox"
+								id="articleSubject" name="subjects"
+								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'文章专题是必填项'"
+								style="width: 400px;">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="itemText">
+						<div>
+							<label>文章编码:</label> <input id="articleCodeInForm"
+								class="easyui-validatebox" disabled="disabled"
+								readonly="readonly" name="articleId" style="width: 130px;">
+						</div>
+					</td>
+					<td class="itemText">
+						<div>
+							<label>文章作者:</label> <input id="author"
+								class="easyui-validatebox" name="author" style="width: 130px;">
+						</div>
+					</td>
 					<td class="itemText">
 						<div id="articleTypeInForm">
 							<label>文章类型:</label> <input class="easyui-combobox"
-							style="width: 130px;" name="category" id="category"
-							data-options="  
+								style="width: 130px;" name="category" id="category"
+								data-options="  
 							url:'../struts/Course_queryComboCourseTypes',  
 							valueField:'codeName',  
 							textField:'showName',  
@@ -137,27 +146,28 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							className:'tip-darkgray',
 							missingMessage:'必填项'
 							">
-						</input>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="5">
-					<div id="contentDiv">
-						<textarea name="content" id="content"  style="width:900px"></textarea>
-					</div></td>
+							</input>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="5">
+						<div id="contentDiv">
+							<textarea name="content" id="content" style="width: 900px"></textarea>
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<td class="itemText">
 						<div>
 							<label>是否启用:</label> <input name="state" id="state"
-							type="checkbox">
+								type="checkbox">
 						</div>
 					</td>
 					<td class="itemText">
 						<div>
 							<label>是否推荐:</label> <input name="recommanded" id="recommanded"
-							type="checkbox">
+								type="checkbox">
 						</div>
 					</td>
 				</tr>
@@ -167,21 +177,21 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 
 	<div id="dlg-buttons">
 		<a href="javascript:void(0)" class="easyui-linkbutton"
-		iconCls="icon-ok" onclick="saveArticle(true)">保存</a> <a
-		href="javascript:void(0)" class="easyui-linkbutton"
-		iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+			iconCls="icon-ok" onclick="saveArticle()">保存</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 	</div>
 
-<input id="selected_articleId" name="selected_articleId"
-type="hidden">
-<table id="dg_info"> </table>
-</div>
+	<input id="selected_articleId" name="selected_articleId" type="hidden">
+	<table id="dg_info">
+	</table>
+	</div>
 
-<script type="text/javascript">
-function clearTollBar() {
-	$('#tb').form('clear');
-}
-function queryArticle() {
+	<script type="text/javascript">
+		function clearTollBar() {
+			$('#tb').form('clear');
+		}
+		function queryArticle() {
 			//alert("ahhahhahahah  " + $('#category').combobox('getValue'));
 			//TODO 模糊查询
 			$('#dg').datagrid('load', {
@@ -198,9 +208,9 @@ function queryArticle() {
 		}
 		function editArticle(rowData) {
 			var row;
-			if(rowData){
+			if (rowData) {
 				row = rowData;
-			}else{
+			} else {
 				row = $('#dg').datagrid('getSelected');
 			}
 			if (row) {
@@ -223,24 +233,27 @@ function queryArticle() {
 						$('#dlg').dialog('open').dialog('setTitle', '编辑文章');
 					}
 				});
-$('#fm').form('load','../struts/Article_queryArticleDetail?selected_articleId='+ row.articleId);
-} else {
-	$.messager.show({
-		title : '温馨提示',
-		msg : '请先选择一行记录',
-		timeout : 2000,
-		showType : 'slide'
-	});
-}
-}
-function saveArticle(close_dlg) {
-	$('#fm').form('submit', {
-		url : '../struts/Article_saveArticle?objectName=articleDetail',
-		onSubmit : function() {					
-			//alert('keywords we got = ' + $('#articleKeywords').combobox('getValues'));
-			return $('#fm').form('validate');
-		},
-		success : function(data) {
+				$('#fm').form(
+						'load',
+						'../struts/Article_queryArticleDetail?selected_articleId='
+								+ row.articleId);
+			} else {
+				$.messager.show({
+					title : '温馨提示',
+					msg : '请先选择一行记录',
+					timeout : 2000,
+					showType : 'slide'
+				});
+			}
+		}
+		function saveArticle() {
+			$('#fm').form('submit', {
+				url : '../struts/Article_saveArticle?objectName=articleDetail',
+				onSubmit : function() {
+					//alert('keywords we got = ' + $('#articleKeywords').combobox('getValues'));
+					return $('#fm').form('validate');
+				},
+				success : function(data) {
 					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
 					//alert('data = ' + data);
 					if (data.success) {
@@ -250,8 +263,7 @@ function saveArticle(close_dlg) {
 							timeout : 3000,
 							showType : 'fade'
 						});
-						if(close_dlg){$('#dlg').dialog('close'); // close the dialog
-					}
+						$('#dlg').dialog('close'); // close the dialog
 						$('#dg').datagrid('reload'); // reload the data grid  
 						$('#dg').datagrid('clearSelections');
 					} else {
@@ -264,115 +276,119 @@ function saveArticle(close_dlg) {
 					}
 				}
 			});
-}
-function destroyArticle() {
-	var row = $('#dg').datagrid('getSelected');
-	if (row) {
-		$.messager
-		.confirm(
-			'Confirm',
-			'确认要删除此行记录吗?',
-			function(r) {
-				if (r) {
-					$
-					.post(
-						'../struts/Article_deleteArticle?objectName=article',
-						row,
-						function(data) {
-							if (data.success) {
-								$('#dg')
-								.datagrid(
+		}
+		function destroyArticle() {
+			var row = $('#dg').datagrid('getSelected');
+			if (row) {
+				$.messager
+						.confirm(
+								'Confirm',
+								'确认要删除此行记录吗?',
+								function(r) {
+									if (r) {
+										$
+												.post(
+														'../struts/Article_deleteArticle?objectName=article',
+														row,
+														function(data) {
+															if (data.success) {
+																$('#dg')
+																		.datagrid(
 																				'reload'); // reload the Dic data
-								$('#dg').datagrid('clearSelections');
-							} else {
-								$.messager
-								.show({
-									title : 'Error',
-									msg : data.message,
-									timeout : 3000,
-									showType : 'fade'
+																$('#dg')
+																		.datagrid(
+																				'clearSelections');
+															} else {
+																$.messager
+																		.show({
+																			title : 'Error',
+																			msg : data.message,
+																			timeout : 3000,
+																			showType : 'fade'
+																		});
+																$('#dg')
+																		.datagrid(
+																				'reload');
+																$('#dg')
+																		.datagrid(
+																				'clearSelections');
+															}
+														}, 'json');
+									}
 								});
-								$('#dg')
-								.datagrid(
-									'reload');
-								$('#dg').datagrid('clearSelections');
-							}
-						}, 'json');
-				}
-			});
-	}else{
-		$.messager.show({
-			title : '温馨提示',
-			msg : '请先选择一行记录',
-			timeout : 2000,
-			showType : 'slide'
-		});
-	}
-}
+			} else {
+				$.messager.show({
+					title : '温馨提示',
+					msg : '请先选择一行记录',
+					timeout : 2000,
+					showType : 'slide'
+				});
+			}
+		}
 
-function createCkeditor() {
+		function createCkeditor() {
 
-	var config = {
-		uiColor : '#A0CFEC',
-		language : 'zh-cn'
-	};
-	var editor = CKEDITOR.instances['content'];
-	if (editor) {
-		editor.destroy(true);
-	}
-	CKEDITOR.replace('content', config);
-}
+			var config = {
+				uiColor : '#A0CFEC',
+				language : 'zh-cn'
+			};
+			var editor = CKEDITOR.instances['content'];
+			if (editor) {
+				editor.destroy(true);
+			}
+			CKEDITOR.replace('content', config);
+		}
 
-function cutupTitle(){
+		function cutupTitle() {
 			//var textToCut = encodeURIComponent($('#articleTitle').val());
 			var textToCut = $('#articleTitle').val();
 			//alert('articleTitle = ' + textToCut);
-			if($('#articleTitle').validatebox('isValid')){
+			if ($('#articleTitle').validatebox('isValid')) {
 				//alert('textToCut to cut ' + $('#articleTitle').val());
 				$.ajax({
-					url:'../struts/Solr_cutText?textToCut='+textToCut,
-					success: function(data){
+					url : '../struts/Solr_cutText?textToCut=' + textToCut,
+					success : function(data) {
 						$('#articleKeywords').val(data);
-					}		
+					}
 				});
 			}
-			
-		}
-		</script>
-		<style type="text/css">
-		#fm {
-			margin: 0;
-			padding: 10px 40px;
-		}
 
-		.ftitle {
-			font-size: 14px;
-			font-weight: bold;
-			padding: 5px 0;
-			margin-bottom: 10px;
-			border-bottom: 1px solid #ccc;
 		}
+	</script>
+	<style type="text/css">
+#fm {
+	margin: 0;
+	padding: 10px 40px;
+}
 
-		.fitem {
-			margin-bottom: 5px;
-		}
+.ftitle {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
 
-		.fitem label {
-			display: inline-block;
-			width: 80px;
-		}
+.fitem {
+	margin-bottom: 5px;
+}
 
-		.itemText {
-			width: 300px;
-			text-align: left;
-			height: 30px;
-			padding-left: 10px;
-			vertical-align: top
-		}
+.fitem label {
+	display: inline-block;
+	width: 80px;
+}
 
-		.formTable td {
-			vertical-align: top
-		}
-		</style>
-	</body>
-	</html>
+.itemText {
+	width: 300px;
+	text-align: left;
+	height: 30px;
+	padding-left: 10px;
+	vertical-align: top
+}
+
+.formTable td {
+	vertical-align: top
+}
+</style>
+</body>
+</html>
