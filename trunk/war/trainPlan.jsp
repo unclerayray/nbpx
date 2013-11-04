@@ -111,7 +111,53 @@
 
 <!--主体部分二 start-->
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
-	<div class="leftInPart" id="leftPart">
+	<div class="leftInPart" >
+		<style>
+			.searchType{width:70px;float:left;text-align:right;padding-right:5px;font-size:14px;font-weight:bold;color:#2D4545}
+			.searchOption{float:left;width:570px;font-size:14px}
+			.searchOption ul{list-style:none;}
+			.searchOption li{float:left;font-size:12px;padding-right:5px;padding-left:5px;}
+			.searchOption li a{color:#333;text-decoration:none;font-size:12px;}
+			.searchOption li a.on{background:#2D4545;color:white;font-weight:bold;padding:2px;font-size:12px}
+		</style>
+		<!--消费者相关专题 start-->
+		<div class="resultPart"  style="width:700px;float:left">
+			<h2>按条件检索</h2>
+		 	<div class="resultContent" style="padding-left:20px;height:120px;">
+				<div style='padding-top:10px'>
+					<div class='searchType'>按年度:</div>
+					<div class='searchOption'>
+						<ul><li><a href='#' class="on">全部</a></li><li><a href='#'>2013</a></li><li><a href='#'>2012</a></li></ul>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div style='padding-top:10px'>
+					<div class='searchType'>按月份:</div>
+					<div class='searchOption'>
+						<ul><li><a href='#' class="on">全部</a></li><li>1月</li><li>2月</li><li>3月</li><li>4月</li><li>5月</li><li>6月</li><li>7月</li><li>8月</li><li>9月</li><li>10月</li><li>11月</li><li>12月</li></ul>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div style='padding-top:10px'>
+					<div class='searchType'>按专题:</div>
+					<div class='searchOption'>
+						<ul><li><a href='#' class="on">全部</a></li><li>财务管理</li><li>物流供应链</li><li>人力资源</li><li>生产管理</li><li>营销培训</li><li>综合战略</li></ul>
+					</div>
+				</div>			
+				<div class="clear"></div>
+				<div style='padding-top:10px'>
+					<div class='searchType'>按城市:</div>
+					<div class='searchOption'>
+						<ul><li><a href='#' class="on">全部</a></li><li>广州</li><li>北京</li><li>苏州</li><li>南京</li><li>上海</li><li>无锡</li></ul>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear" style="height:10px"></div>
+		
+		<!--消费者相关专题 end-->
+		<div id="leftPart">
 		<!--培训计划 start-->
 		<div class="resultPart">
 			<h2>2013年5月培训计划</h2>
@@ -439,6 +485,7 @@
 			<a href="#">最后一页</a>
 			共有56页,当前第1页(共200条记录),快速跳到第<input  type="text" value="1"/>页
 		</div>
+		</div>
 	</div>
 	<!--右边部分 start-->
 	<div class="rightInPart">
@@ -524,82 +571,6 @@
 			</div>
 		<!--内训关键词 end-->	
 		
-		<!--培训关键词 start-->	
-		<div class="clear" style="height:10px"></div>
-		<div class="rightTeacher">
-				<h5  class="first">培训计划相关专业</h5>
-				<div class="bg" style="padding:0px 0px 4px 0px;border:none;height:135px;"/>
-					<dl class="bestCustomer leftPart left" style="width:110px;height:120px">
-						<dd><a href="#">消费者培训</a></dd>
-						<dd><a href="#">消费者市场</a></dd>
-						<dd><a href="#">消费者行为</a></dd>
-						<dd><a href="#">大众消费</a></dd>
-						<dd><a href="#">消费市场</a></dd>
-					</dl>
-					<dl class="bestCustomer rightPart right" style="width:130px;height:120px">
-						<dd><a href="#">绩效考核</a></dd>
-						<dd><a href="#">新社会保险法</a></dd>
-						<dd><a href="#">员工关系管理</a></dd>
-						<dd><a href="#">风险管理</a></dd>
-						<dd><a href="#">目标管理</a></dd>
-					</dl>
-				</div>
-				<div class="clear"></div>
-				<h5>培训计划相关职业</h5>
-				<div class="bg" style="padding:0px 0px 4px 0px;border:none;height:135px"/>
-					<dl class="bestCustomer leftPart left" style="width:110px;height:120px">
-						<dd><a href="#">老师</a></dd>
-						<dd><a href="#">HR</a></dd>
-						<dd><a href="#">经理</a></dd>
-						<dd><a href="#">销售总监</a></dd>
-						<dd><a href="#">市场专员</a></dd>
-					</dl>
-					<dl class="bestCustomer rightPart right" style="width:130px;height:120px">
-						<dd><a href="#">公务员</a></dd>
-						<dd><a href="#">财务会计</a></dd>
-						<dd><a href="#">出纳</a></dd>
-						<dd><a href="#">销售总监</a></dd>
-						<dd><a href="#">市场专员</a></dd>
-					</dl>
-				</div>
-				<div class="clear"></div>
-				<h5>培训计划相关行业</h5>
-				<div class="bg" style="padding:0px 0px 4px 0px;border:none;height:135px"/>
-					<dl class="bestCustomer leftPart left" style="width:110px;height:120px">
-						<dd><a href="#">电力行业</a></dd>
-						<dd><a href="#">化工</a></dd>
-						<dd><a href="#">房地产</a></dd>
-						<dd><a href="#">外贸</a></dd>
-						<dd><a href="#">咨询</a></dd>
-					</dl>
-					<dl class="bestCustomer rightPart right" style="width:130px;height:120px">
-						<dd><a href="#">零售行业</a></dd>
-						<dd><a href="#">律师</a></dd>
-						<dd><a href="#">公务员</a></dd>
-						<dd><a href="#">咨询</a></dd>
-						<dd><a href="#">市场专员</a></dd>
-					</dl>
-				</div>
-				<div class="clear"></div>
-				<h5>培训计划相关产品</h5>
-				<div class="bg" style="padding:0px 0px 4px 0px;border:none;height:135px"/>
-					<dl class="bestCustomer leftPart left" style="width:110px;height:120px">
-						<dd><a href="#">手机</a></dd>
-						<dd><a href="#">电视</a></dd>
-						<dd><a href="#">冰箱</a></dd>
-						<dd><a href="#">电话</a></dd>
-						<dd><a href="#">平板电脑</a></dd>
-					</dl>
-					<dl class="bestCustomer rightPart right" style="width:130px;height:120px">
-						<dd><a href="#">服装</a></dd>
-						<dd><a href="#">珠宝首饰</a></dd>
-						<dd><a href="#">电子商务</a></dd>
-						<dd><a href="#">软件</a></dd>
-						<dd><a href="#">财务报表</a></dd>
-					</dl>
-				</div>
-			</div>
-		<!--内训关键词 end-->	
     </div>
 	<!--右边部分 end-->
 	<div class="clear">

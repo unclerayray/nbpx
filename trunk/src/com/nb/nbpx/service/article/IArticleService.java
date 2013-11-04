@@ -25,4 +25,8 @@ public interface IArticleService extends IBaseService {
 	 */
 	public void saveArticleDetail(ArticleDetail articleDetail, Boolean deleteBeforeInsert);
 	
+	//根据分类获取文章列表
+	public String getArticleList(String category,Integer rows, Integer start);
+	//根据ID获取文章的内容
+	public String getArticleDetail(String id);
 }
