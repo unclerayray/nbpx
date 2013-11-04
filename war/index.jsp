@@ -44,8 +44,6 @@
 				<li class="on"><a href="#" >企业培训</a></li>
 				<li><a href="#">培训师</a></li>
 				<li><a href="#">培训计划</a></li>
-				<li><a href="#">培训关键词</a></li>
-				<li><a href="#">内训关键词</a></li>
 				<li><a href="#">培训专题</a></li>
 				<li><a href="#">内训专题</a></li>
 				<li><a href="#">内训计划</a></li>
@@ -358,6 +356,9 @@
 		//加载专题
 		for(var i=1;i<=2;i++)
 			seePartTab('s',1,i);
+		//加载文章
+		for(var i=1;i<=4;i++)
+			seePartTab('c',1,i);
 	})
 	
 	function changeCity(flag){
@@ -394,6 +395,8 @@
 								"<div class='infor'><span class='teacher'>["+value.teacher+"]</span><span class='date'>"+value.date+
 								"</span><span class='city'>"+value.city+"</span></div></div>";
 				})
+				if(valueStr == "")
+						valueStr = "<div class='notice'>没有最新的培训</div>";
 				$('#topCourse').html(valueStr);
 			}		
 		})
@@ -407,6 +410,8 @@
 			count = 3;
 		if(pre == 'b')
 			count = 4;
+		if(pre == 'c');
+			count = 2;
 		if(pre == 'k'){//flag为1代表是培训关键词，2代表内训关键词，3代表文章关键词
 			if(part  == 1){
 				count = 2;
@@ -424,7 +429,6 @@
 			cssOff = "tabOff three";
 		}
 
-		
 		for(var i=1;i<=count;i++){
 			if(i == flag){
 				$('#'+pre+part+i).attr('class',cssOn);
@@ -444,7 +448,8 @@
 					$.each(jsonObject,function(n,value){
 						valueStr += "<li><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></li>";
 					});
-
+					if(valueStr == "")
+						valueStr = "<div class='notice'>没有最新的培训</div>";
 					$('#'+pre+part).html(valueStr);
 				}		
 			})
@@ -463,11 +468,28 @@
 						}else
 							valueStr += "<li><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></li>";
 					});
-
+					if(valueStr == "")
+						valueStr = "<div class='notice'>没有最新的内训</div>";
 					$('#'+pre+part).html(valueStr);
 				}		
 			})
 		}
+		if(pre == 'c'){//加载文章内容
+			$.ajax({
+				url:encodeURI('struts/Main_getArticle?flag='+flag+'&type='+part),
+				success: function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						valueStr += "<li><a href='viewArticle.jsp?id="+value.articleId+"'>"+value.articleTitle+"</a></li>";
+					});
+					if(valueStr == "")
+						valueStr = "<div class='notice'>没有最新的文章</div>";
+					$('#'+pre+"n"+part).html(valueStr);
+				}		
+			})
+		}
+		
 		if(pre == 't'){//推荐、本月最热、本周最热
 			var returnValue = "[]";
 			if(flag == '1'){//课程推荐
@@ -579,6 +601,8 @@
 				$.each(jsonObject,function(n,value){
 					valueStr += "<li><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a><div>"+value.date+"/<span class='money'>￥</span>"+value.price+"</div></li>";
 				});
+				if(valueStr == "")
+					valueStr = "<div class='notice'>没有最新的培训</div>";
 				$('#cityList').html(valueStr);
 			}		
 		})
@@ -663,7 +687,7 @@
 				<div class="tabOff">最新发布培训</div>
 				<div class="clear"></div>
 			</div>
-			<div class="bg" style="height:133px;background:none;border-bottom:1px solid #ddeae0;">
+			<div class="bg" style="height:177px;background:none;border-bottom:1px solid #ddeae0;">
 				<marquee  direction="up" scrollamount="2" behavior="scroll" class="lasted" height="133px" onmouseover="this.stop();" onMouseOut="this.start()">
 					<ul>
 						<li><a href="#">步步为赢销售谈判策略</a><span>一个小时前</span></li>
@@ -678,7 +702,7 @@
 		<!--最新消息 end-->
 		
 		<!--广告start-->
-		<div style="padding:10px 0px 0px 0px">
+		<!--  <div style="padding:10px 0px 0px 0px">
 			<div class="typeMenu">
 			<div class="leftType">
 				<ul>
@@ -709,7 +733,7 @@
 				</ul>
 			</div>
 			</div>
-		</div>
+		</div>-->
 		<!--广告end-->
 	</div>
 	<div class="right">
@@ -726,13 +750,53 @@
 			<div class="clear"></div>
 		</div>
 		
-		<div style="padding-top:10px;">
+		<!-- <div style="padding-top:10px;">
 			<img  src="images/partOne1.jpg" class="left"  style="width:377px;height:60px"/>
 			<img  src="images/partOne2.jpg" class="right"  style="width:250px;height:60px"/>
-		</div>
+		</div> -->
 	</div>
 </div>
 <!-- 主体部分二 end-->
+<!--flash start-->
+<div class="clear"></div>
+<div class="mainContent flash" style="padding-top:10px;">
+	<img  src="images/flash2.jpg" width="960"/>
+</div>
+<!--flash end -->
+
+<!-- 专业、职位、等 start -->
+<style>
+	.typeUl,.keyUl{text-decoration:none;list-style:none}
+	.typeUl li{float:left;list-style:none;padding:3px 20px;background:red}
+	.keyUl{float:left;margin-right:5px;}
+</style>
+<div class="mainContent partTwo">
+	<div style="background:yellow;height:30px">
+	<ul class="typeUl"><li>行业培训</li><li>专业培训</li><li>职位培训</li><li>产品培训</li></ul>
+	<div class="clear"></div>
+	</div>
+	<div style="height:120px;background:pink">
+		<ul class="keyUl">
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+			</ul>
+	</div>
+</div>
+<!-- 专业、职位、等 end -->
 
 <!--flash start-->
 <div class="clear"></div>
@@ -1354,16 +1418,7 @@
 			</div>
 			<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="cn1">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1381,16 +1436,7 @@
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="cn2">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1435,16 +1481,7 @@
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="cn3">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1462,16 +1499,7 @@
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="cn4">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1717,6 +1745,29 @@
 </div>
 <!--企业新闻 end -->
 
+<div class="mainContent partTwo">
+	<div style="height:120px;background:pink">
+		<ul class="keyUl">
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+			</ul>
+	</div>
+</div>
+<!-- 专业、职位、等 end -->
 
 <jsp:include page="foot.jsp" flush="true"/>
 </body>

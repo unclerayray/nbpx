@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.article.IArticleService;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.subject.ISubjectService;
@@ -17,10 +18,11 @@ public class MainAction extends BaseAction{
 	private ICourseService courseService;
 	private IKeywordService keywordService;
 	private ISubjectService subjectService;
+	private IArticleService articleService;
 
 	public String flag;//标记top Course的三种属性(1-推荐，2-精品，3-排行)||关键词(1-点击，2-推荐，3-热搜)
 	public String isInner;//标记是内训还是培训
-	public String type;//课程类别
+	public String type;//课程类别/文章类别
 	
 
 	public String getCourseByCity(){
@@ -119,10 +121,27 @@ public class MainAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	//获取文章内容(10个)
+	public String getArticle(){
+		int start = 0;
+		int rows = 10;
+		int currIndex = Integer.parseInt(flag)+(Integer.parseInt(type)-1)*2;
+		String typeCode = "004_0"+currIndex;//(01-人力资源新闻,02-人力资源文章,03-职业生涯规划,04-市场营销管理,05-案例管理文章,06-经理人文章,07-生产管理文章,08-财务管理文章)
+		
+		String result = articleService.getArticleList(typeCode, rows, start);
+		
+		this.inputStream = castToInputStream(result);
+		return SUCCESS;
+	}
 	
 	
-	
-
+	public IArticleService getArticleService() {
+		return articleService;
+	}
+	@Resource
+	public void setArticleService(IArticleService articleService) {
+		this.articleService = articleService;
+	}
 	public ISubjectService getSubjectService() {
 		return subjectService;
 	}

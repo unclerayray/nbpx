@@ -178,6 +178,26 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 		return JsonUtil.getJsonString(detail);
 	}
 
+	//根据分类获取文章列表
+	public String getArticleList(String category,Integer rows, Integer start){
+		List<Article> list = articleDao.getArticleList(category, rows, start);
+		
+		return JsonUtil.getJsonString(list);
+	}
+	
+	public String getArticleDetail(String id){
+		Article article = articleDao.getById(Article.class, Integer.parseInt(id));
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		resultMap.put("title", article.getArticleTitle());
+		resultMap.put("id", article.getArticleId());
+		resultMap.put("createdate", article.getLastUpdateDate().toString());
+		
+		
+		
+		//resultMap.put("", value)
+		return "";
+	}
+	
 	public IKeywordDao getKeywordDao() {
 		return keywordDao;
 	}

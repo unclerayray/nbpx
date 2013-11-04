@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.dao.article.IArticleDao;
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.pojo.article.Article;
+import com.nb.nbpx.pojo.article.ArticleKeyword;
+import com.nb.nbpx.pojo.article.ArticleSubject;
 import com.nb.nbpx.pojo.course.Course;
 
 /**
@@ -169,4 +171,101 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
 	}
+	
+	//按照发布时间，获取文章列表
+	public List<Article> getArticleList(final String category,final Integer rows,final Integer start){
+		List<Article> list = new ArrayList<Article>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+			String sql = "select t.* from articles t where t.category = '"+category+"' and t.state = '1' order by t.lastUpdateDate desc ";
+			Query query = session.createSQLQuery(sql).addEntity(Article.class);
+			
+			if (start != null && rows != null) {
+				query.setFirstResult(start);
+				query.setMaxResults(rows);
+			}
+			
+			return query.list();
+			}
+			});		
+		return list;
+	}
+	
+	//获取排行数据(点击率、推荐),默认按照时间倒叙排序
+	public List<Article> getHotArticleList(final Integer rows,final Integer start){
+		List<Article> list = new ArrayList<Article>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+			String sql = "select t.* from articles t where t.state = '1' order by t.hits desc";
+			Query query = session.createSQLQuery(sql).addEntity(Article.class);
+			
+			if (start != null && rows != null) {
+				query.setFirstResult(start);
+				query.setMaxResults(rows);
+			}
+			
+			return query.list();
+			}
+			});		
+		return list;
+		
+	}
+	
+	//获取推荐的文章，按照更新时间倒序
+	public List<Article> getRecommendArticleList(final Integer rows,final Integer start){
+		List<Article> list = new ArrayList<Article>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+			String sql = "select t.* from articles t where t.state = '1' and t.recommanded=1 order by t.lastUpdateDate desc";
+			Query query = session.createSQLQuery(sql).addEntity(Article.class);
+			
+			if (start != null && rows != null) {
+				query.setFirstResult(start);
+				query.setMaxResults(rows);
+			}
+			
+			return query.list();
+			}
+			});		
+		return list;
+	}
+	
+	//根据文章ID获取文章的关键词
+	public List<ArticleKeyword> getArticleKeywordsById(final String articleID){
+		List<ArticleKeyword> list = new ArrayList<ArticleKeyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+			String sql = "select a.* from articlekeywords a,keywords b where a.keywordId = b.keyId and b.flag=1 and a.articleId='"+articleID+"'";
+			Query query = session.createSQLQuery(sql).addEntity(ArticleKeyword.class);
+			
+			return query.list();
+			}
+			});		
+		return list;
+	}
+	
+	//根据文章ID获取文章的专题
+	public List<ArticleSubject> getArticleSubjectById(final String articleID){
+		List<ArticleSubject> list = new ArrayList<ArticleSubject>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+			String sql = "select a.* from articlesubjects a,subjects b where a.subjectId = b.subjectId and b.flag=1 and a.articleId='"+articleID+"'";
+			Query query = session.createSQLQuery(sql).addEntity(ArticleSubject.class);
+			
+			return query.list();
+			}
+			});		
+		return list;
+	}
+	
 }
