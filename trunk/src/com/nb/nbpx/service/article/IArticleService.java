@@ -29,4 +29,12 @@ public interface IArticleService extends IBaseService {
 	public String getArticleList(String category,Integer rows, Integer start);
 	//根据ID获取文章的内容
 	public String getArticleDetail(String id);
+	//获得推荐的文章
+	public String getRecommandArticle(Integer rows,Integer start);
+	//获得最热文章
+	public String getHotArticle(Integer rows,Integer start);
+	//更新阅读次数
+	public void addReadTime(String articleID);
+	//根据文章分类获取文章内容列表
+	public String viewArticleType(String category,Integer rows, Integer start);
 }

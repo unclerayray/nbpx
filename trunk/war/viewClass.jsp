@@ -71,7 +71,7 @@
 					if(i<object.length-1)
 						objectStr += ",";
 				}
-				$('#object').html(objectStr);
+				$('#object').html(objectStr+"<br>");
 				
 				//添加适用行业
 				var indestory = jsonObject.indestory;
@@ -81,7 +81,7 @@
 					if(i<indestory.length-1)
 						indestoryStr += ",";
 				}
-				$('#indestory').html(indestoryStr);
+				$('#indestory').html(indestoryStr+"<br>");
 				
 				//添加适用专业
 				var major = jsonObject.major;
@@ -91,7 +91,7 @@
 					if(i<major.length-1)
 						majorStr += ",";
 				}
-				$('#major').html(majorStr);
+				$('#major').html(majorStr+"<br>");
 				
 				//添加关键词
 				var queryKeyWords = "";
@@ -103,7 +103,7 @@
 					if(i<keyWords.length-1)
 						keyWordsStr += ",";
 				}
-				$('#keyWords').html(keyWordsStr);
+				$('#keyWords').html(keyWordsStr+"<br>");
 				loadRelatedKeyWords(queryKeyWords);
 				
 				//添加专题
@@ -116,7 +116,7 @@
 					if(i<series.length-1)
 						seriesStr += ",";
 				}
-				loadRelatedSubjects(querySubjects);
+				loadRelatedSubjects(querySubjects+"<br>");
 				$('#series').html(seriesStr);
 
 				

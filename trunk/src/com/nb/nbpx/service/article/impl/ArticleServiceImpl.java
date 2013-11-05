@@ -1,5 +1,7 @@
 package com.nb.nbpx.service.article.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +16,15 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.article.IArticleDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.dao.subject.ISubjectDao;
+import com.nb.nbpx.dao.system.IDictionaryDao;
+import com.nb.nbpx.dao.system.impl.DictionaryDaoImpl;
 import com.nb.nbpx.dto.article.ArticleDetail;
 import com.nb.nbpx.pojo.article.Article;
+import com.nb.nbpx.pojo.article.ArticleKeyword;
+import com.nb.nbpx.pojo.article.ArticleSubject;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
+import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.service.article.IArticleService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
@@ -35,6 +42,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 	private IKeywordDao keywordDao;
 	@Resource
 	private ISubjectDao subjectDao;
+	@Resource
+	private IDictionaryDao dictionaryDao;
 	@Resource
 	private ISolrKeywordService solrKeywordService;
 	@Resource
@@ -185,17 +194,107 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 		return JsonUtil.getJsonString(list);
 	}
 	
+	//根据分类查询新闻包括分页
+	public String viewArticleType(String category,Integer rows, Integer start){
+		Map<String,Object> returnValue = new HashMap<String,Object>();
+		List<Article> list = articleDao.getArticleList(category, rows, start);
+		
+		Dictionary type = dictionaryDao.getDictionary(category, null);
+		returnValue.put("categoryName", type.getShowName());
+		
+		long count = articleDao.queryArticleCount(category);
+		int allPages = 0;
+		if(count%rows == 0)
+			allPages = (int)(count/rows);
+		else
+			allPages = (int)(count/rows) +1;
+		returnValue.put("pages", allPages);
+		returnValue.put("rows", list);
+		
+		return JsonUtil.getJsonString(returnValue);
+	}
+	
+	
+	//根据文章的ID，获取文章的详情
 	public String getArticleDetail(String id){
 		Article article = articleDao.getById(Article.class, Integer.parseInt(id));
 		Map<String,Object> resultMap = new HashMap<String,Object>();
-		resultMap.put("title", article.getArticleTitle());
-		resultMap.put("id", article.getArticleId());
-		resultMap.put("createdate", article.getLastUpdateDate().toString());
+		if(article == null)
+			return "";
+		resultMap.put("title", article.getArticleTitle());//文章标题	
+		resultMap.put("id", article.getArticleId());//文章ID
+		resultMap.put("hot", article.hits);//阅读次数
+		SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
+		resultMap.put("createdate",dateFormate.format(article.getLastUpdateDate()));//创建日期
+		resultMap.put("content", article.getContent());
+		resultMap.put("categoryID", article.getCategory());
 		
+		Dictionary category = dictionaryDao.getDictionary(article.getCategory(), null);
+		if(category != null)
+			resultMap.put("categoryName", category.getShowName());
+		else
+			resultMap.put("categoryName", "字典中不存在该分类");
 		
+		List<ArticleKeyword> keys = articleDao.getArticleKeywordsById(id);
+		List<Map<String,Object>> keyList = new ArrayList<Map<String,Object>>();
+		for(ArticleKeyword key : keys){
+			Map<String,Object> temp = new HashMap<String,Object>();
+			temp.put("name", key.getKeyword());
+			temp.put("id", key.getKeywordId());
+			keyList.add(temp);
+		}
+		resultMap.put("keyWords", keyList);//关键词
 		
-		//resultMap.put("", value)
-		return "";
+		List<ArticleSubject> subjects = articleDao.getArticleSubjectById(id);
+		List<Map<String,Object>> subjectList = new ArrayList<Map<String,Object>>();
+		for(ArticleSubject subject : subjects){
+			Map<String,Object> temp = new HashMap<String,Object>();
+			temp.put("name", subject.getSubject());
+			temp.put("id", subject.getSubjectId());
+			subjectList.add(temp);
+		}
+		resultMap.put("series", subjectList);//主题
+		
+		return JsonUtil.getJsonString(resultMap);
+	}
+	
+	//获得最热文章
+	public String getHotArticle(Integer rows,Integer start){
+		List<Article> hotArticles = articleDao.getHotArticleList(rows, start);
+		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+		
+		for(Article temp : hotArticles){
+			Map<String,Object> article = new HashMap<String,Object>();
+			article.put("id", temp.getArticleId());
+			article.put("title", temp.getArticleTitle());
+			article.put("hot", temp.getHits());
+			resultList.add(article);
+		}
+
+		return JsonUtil.getJsonString(resultList);
+	}
+	
+	//获得推荐文章
+	public String getRecommandArticle(Integer rows,Integer start){
+		List<Article> recommandArticles = articleDao.getRecommendArticleList(rows, start);
+		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+		
+		for(Article temp : recommandArticles){
+			Map<String,Object> article = new HashMap<String,Object>();
+			article.put("id", temp.getArticleId());
+			article.put("title", temp.getArticleTitle());
+			resultList.add(article);
+		}
+
+		return JsonUtil.getJsonString(resultList);
+	}
+	//更新阅读次数
+	public void addReadTime(String articleID){
+		Article article = articleDao.getById(Article.class, Integer.parseInt(articleID));
+		if(article == null)
+			return;
+		article.setHits(article.getHits()+1);
+		articleDao.update(article);
 	}
 	
 	public IKeywordDao getKeywordDao() {
@@ -229,5 +328,13 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 	public void setSolrSubjectService(ISolrSubjectService solrSubjectService) {
 		this.solrSubjectService = solrSubjectService;
 	}
+	public IDictionaryDao getDictionaryDao() {
+		return dictionaryDao;
+	}
+
+	public void setDictionaryDao(IDictionaryDao dictionaryDao) {
+		this.dictionaryDao = dictionaryDao;
+	}
+
 
 }

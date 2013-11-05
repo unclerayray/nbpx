@@ -571,3 +571,7 @@ ul{padding:0px;margin:0px}
 .tousu dd.red{color:red}
 /*упиЗ*/
 .notice{text-align:center;font-size:12px;color:red;padding:20px 0px}
+
+.tooLong{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.w150{width:150px}
+.w160{width:160px;}

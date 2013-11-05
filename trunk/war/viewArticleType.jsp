@@ -2,7 +2,7 @@
     pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-	String id = request.getParameter("id");
+	String category = request.getParameter("id");
 %>
 <html>
 <head>
@@ -19,45 +19,24 @@
 <script>
 	$(function(){
 		
-		
 		$.ajax({
-			url:"struts/ViewArticle_viewArticle?id="+<%=id%>,
+			url:"struts/ViewArticle_getArticleList?&rows=10&page=0&id="+<%=category%>,
 			success:function(data){
-				var jsonObject = eval('('+data+')');
-				$('#title').html("<h1>"+jsonObject.title+"</h1>");
-				$('#courseId').html("阅读次数:"+jsonObject.hot+"&nbsp;&nbsp;"+jsonObject.createdate);
-				$('#classContent').html(jsonObject.content);
-				
+				var jsonObject = eval('('+data+')');				
 				//路径
 				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li>";
-				path += "<li><a href='#?id="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li>";
-				path += "<li class='bread'>&gt;&gt;</li>";
-				path += "<li>"+jsonObject.title+"</li></ul><div class='clear'></div>";
+				path += "<li>"+jsonObject.categoryName+"</li>";
 				$('#path').html(path);				
-				
-				//添加关键词
-				var queryKeyWords = "";
-				var keyWords = jsonObject.keyWords;
-				var keyWordsStr = "<span>关键词：</span>";
-				for(var i=0;i<keyWords.length;i++){
-					keyWordsStr += "<a href='xx.jsp?id="+keyWords[i].id+"'>"+keyWords[i].name+"</a>";
-					queryKeyWords += keyWords[i].name;
-					if(i<keyWords.length-1)
-						keyWordsStr += "、";
+								
+				//添加行数
+				var rows = jsonObject.rows;
+				var valueStr = "";
+	
+				for(var i=0;i<rows.length;i++){
+					var curr = rows[i];
+					valueStr += "<div class='tdDiv'><a href='viewArticle.jsp?id="+curr.articleId+"' class='title'>"+curr.articleTitle+"</a><span class='articleTime'>"+curr.lastUpdateDate+"</span></div>";
 				}
-				$('#keyWords').html(keyWordsStr+"<br>");
-				
-				//添加专题
-				var querySubjects = "";
-				var series = jsonObject.series;
-				var seriesStr = "<span>专题：</span>";
-				for(var i=0;i<series.length;i++){
-					seriesStr += "<a href='xx.jsp?id="+series[i].id+"'>"+series[i].name+"</a>";
-					querySubjects += series[i].name;
-					if(i<series.length-1)
-						seriesStr += "、";
-				}
-				$('#series').html(seriesStr+"<br>");				
+				$('#articles').html(valueStr);				
 			}
 		});
 		//加载热门文章
@@ -104,27 +83,30 @@
 <div class="mainContent path" id="path">
 	<div class="clear"></div>
 </div>
+<div class="clear"></div>
 <!--当前路径 end-->
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px;">
 	
 	<!--左边部分课程信息 start-->
 	<div class="leftInPart">
-		<div class="classDetail" >
-			<div ><span id="title">我是一个文章</span>
-			<div class="classNum" id="courseId">2013-11-1</div></div>
-			<div class="detail">
-			<div class="classLeftPart" id="courseInfo">
-			<div class="time" id="keyWords"><span>关键词：</span><a href="#">管理</a>、<a href="#">团队建设</a></div>
-			<div class="time" id="series"><span>专题：</span><a href="#">企业管理</a></div>
-			</div>
-			
-			<div class="clear"></div>
-			</div>
-			<div class="clear"></div>
-			<div id="courseContent">
-					<p id="classContent">我是一个人</p>
-			</div>
+	<style>
+		.tdDiv{border-bottom:1px dashed #c7c7c7;height:24px;padding-top:7px;padding-left:10px;padding-right:10px}
+		.tdDiv .title:hover{color:red;text-decoration:none}
+		.tdDiv .title{float:left;color:#234a35}	
+		.tdDiv .articleTime{float:right;};
+	</style>
+	<div id="articles" style="padding-right:10px">
+		<div class="tdDiv"><a href='#' class="title">我是一个经理人</a><span class="articleTime">2013-11-1</span></div>
+		<div class="tdDiv"><span class="title">我是一个经理人</span><span class="articleTime">2013-11-1</span></div>
 	</div>
+	<!--课程介绍 end-->
+	<div class="resultFoot" id="pageDiv" style='display:none'>
+					<a href="javascript:void(0)" onclick="javascript:page.seeFirst();">第一页</a>			
+					<a href="javascript:void(0)" onclick="javascript:page.seePre();">上一页</a>				
+					<a href="javascript:void(0)" onclick="javascript:page.seeNext();">下一页</a>
+					<a href="javascript:void(0)" onclick="javascript:page.seeLast();">最后一页</a>
+					&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:page.jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
+					</div>
 	<div class="clear"></div>
 	</div>
 	<!--左边部分课程信息 end-->
@@ -135,21 +117,13 @@
 				<h5  class="first">热门文章</h5>
 				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:195px;"/>
 					<div class="clear" style="height:5px;"></div>
-					<ul class="list7" id="hotArticle">
-						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">2</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">3</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>					
-					</ul>	
+					<ul class="list7" id="hotArticle"></ul>	
 					<div class="clear"></div>
 				</div>
 				<h5>推荐文章</h5>
 				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:195px;"/>
 					<div class="clear" style="height:5px;"></div>
-					<ul class="list7" id="recommandArticle">
-						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">2</span><span class="text">人力资源 </span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="red">3</span><span class="text">人力资源 </span></a><div class="clear"></div></li>				
-					</ul>
+					<ul class="list7" id="recommandArticle"></ul>
 				<div class="clear"></div>
 				</div>
 			</div>

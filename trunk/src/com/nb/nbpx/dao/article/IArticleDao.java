@@ -45,4 +45,5 @@ public interface IArticleDao extends IBaseDao<Article, Integer> {
 	//获取排行数据推荐，默认按照时间倒叙排序
 	public List<Article> getRecommendArticleList(Integer rows,Integer start);
 	
+
 }
