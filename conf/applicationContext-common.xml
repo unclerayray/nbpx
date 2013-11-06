@@ -101,4 +101,6 @@
    </bean>  
    
 
+	<!-- 引入quartz计划任务配置 -->
+	<import resource="timedTaskConf.xml"/>
 </beans>

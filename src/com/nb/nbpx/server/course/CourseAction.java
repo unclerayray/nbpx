@@ -30,6 +30,7 @@ import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.mapTool.MapTool;
 
 /**
  * @author Roger

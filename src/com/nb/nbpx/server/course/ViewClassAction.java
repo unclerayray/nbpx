@@ -13,7 +13,12 @@ import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
+import com.nb.nbpx.utils.mapTool.MapTool;
 
+/**
+ * @author Roger
+ * @date 2013年11月6日
+ */
 @Component("ViewClassAction")
 @Scope("prototype")
 public class ViewClassAction extends BaseAction{
@@ -29,7 +34,12 @@ public class ViewClassAction extends BaseAction{
 	public String ViewClass(){
 		String result = courseService.viewCourse(id);
 		this.inputStream = castToInputStream(result);
-		
+		try{
+			Integer intId = Integer.parseInt(id);
+			MapTool.addcoursesHit(intId);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		return SUCCESS;
 	}
 	
