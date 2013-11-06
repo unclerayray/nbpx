@@ -5,16 +5,14 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop">
 	
-	<!-- <bean name="fetchService"  class="cn.sinobest.ncpsys.wsclient.task.FetchTask" /> -->
-	<!-- <bean name="changeTest" class="cn.sinobest.ncpsys.wsclient.task.TestJob" /> -->
 
     <bean id="methodInvokingJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
        <property name="targetObject">
-           <!-- <ref bean="fetchService" /> -->
-           <bean id="fetchService" name="fetchService" class="cn.sinobest.ncpsys.wsclient.task.FetchTask" lazy-init="true" ></bean>
+           <!-- <ref bean="updateService" /> -->
+           <bean id="updateService" name="updateService" class="com.nb.nbpx.task.UpdateTask" lazy-init="true" ></bean>
        </property>
        <property name="targetMethod">
-           <value>callFetch</value>
+           <value>callUpdate</value>
        </property>
        <!-- 
        <property name="targetObject">
@@ -34,7 +32,7 @@
        <property name="cronExpression">
            <!-- <value>0/1 * * * * ?</value>  -->
            <!-- <value>0 0 0 0/1 * * ?</value> -->
-           <value>0 15 23 * * ? *</value>
+           <value>0 35 23 * * ? *</value>
        </property>
 
     </bean>
