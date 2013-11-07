@@ -40,14 +40,14 @@
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-		onclick="newCourse()">新增课程</a> 
+		onclick="newCourse()">新增公开课</a> 
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
 		onclick="newInnerCourse()">新增内训课程</a>
 		<a href="#"
 		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-		onclick="editCourse(null)">修改课程</a> <a href="#"
+		onclick="editCourse(null)">修改</a> <a href="#"
 		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-		onclick="destroyCourse()">删除课程</a><a
+		onclick="destroyCourse()">删除</a><a
 		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
 		iconCls="icon-dic" onclick="openInfoDlg1(false)">课程安排</a>
 	</div>
@@ -354,11 +354,11 @@ function queryCourse() {
 			//TODO 模糊查询
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
-				courseCode : $('#courseIdFS').combobox('getValue')
+				courseId : $('#courseIdFS').combobox('getValue')
 			});
 		}
 		function newCourse() {
-			$('#dlg').dialog('open').dialog('setTitle', '新建课程');
+			$('#dlg').dialog('open').dialog('setTitle', '新建公开课');
 			$('#fm').form('clear');
 			createCkeditor();
 			CKEDITOR.instances.content.setData('');
@@ -366,7 +366,7 @@ function queryCourse() {
 			//$('#isInner').attr('enabled', false);
 		}
 		function newInnerCourse() {
-			$('#dlg').dialog('open').dialog('setTitle', '新建课程');
+			$('#dlg').dialog('open').dialog('setTitle', '新建内训课程');
 			$('#fm').form('clear');
 			createCkeditor();
 			CKEDITOR.instances.content.setData('');

@@ -95,7 +95,8 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
         StringBuilder out = new StringBuilder(); 
         StringReader strReader = new StringReader(value); 
         try { 
-            HTMLStripCharFilter html = new HTMLStripCharFilter(new BufferedReader(strReader)); 
+        	BufferedReader bfr = new BufferedReader(strReader);
+            HTMLStripCharFilter html = new HTMLStripCharFilter(bfr);
             char[] cbuf = new char[1024 * 10]; 
             while (true) { 
                 int count = html.read(cbuf); 
