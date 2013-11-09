@@ -20,10 +20,14 @@ public class CheckboxValueConverter  extends StrutsTypeConverter {
 		if (Boolean.class == arg2) {
             String boolStr = arg1[0];
             // System.out.println("获取到的字符串" + doubleStr);
-            if("on".equals(boolStr)){
-            	return true;
+            if(boolStr!=null&&!boolStr.isEmpty()){
+            	if("on".equals(boolStr)||"true".equals(boolStr)){
+                	return true;
+                }else{
+                	return false;
+                }
             }else{
-            	return false;
+            	return null;
             }
         }
         return false;

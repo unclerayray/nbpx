@@ -34,7 +34,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 			String order) throws NbpxException {
 		String json = "";
 		Map<String,Object> propsMap = new HashMap<String,Object>();
-		if(category!=null&&category.isEmpty()){
+		if(category!=null){
 			propsMap.put("category",category);
 		}
 		//TODO combobox的取值验证
@@ -55,7 +55,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 	@Override
 	public String queryComboSubjects(String category) {
 		Map<String,Object> propsMap = new HashMap<String,Object>();
-		if(category!=null&&category.isEmpty()){
+		if(category!=null){
 			propsMap.put("category",category);
 		}
 		List<Subject> list = subjectDao.queryEntityListByProperties(Subject.class, null, null, null, null , propsMap);

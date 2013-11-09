@@ -1,6 +1,6 @@
-package com.nb.nbpx.service.requirement;
+package com.nb.nbpx.service.course;
 
-import com.nb.nbpx.pojo.requirement.Requirement;
+import com.nb.nbpx.pojo.course.Requirement;
 import com.nb.nbpx.service.IBaseService;
 
 public interface IRequirementService extends IBaseService {
