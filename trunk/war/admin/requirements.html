@@ -15,7 +15,7 @@
 	</head>
 	<table id="dg" class="easyui-datagrid"  pagination="true"  pageSize=20  
 	loadMsg="正在加载，请稍候!"
-	data-options="autoRowHeight:true,fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'../struts/Requirement_queryRequirements',toolbar:'#tb'">
+	data-options="autoRowHeight:true,fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Requirement_queryRequirements',toolbar:'#tb'">
 	<thead>
 		<tr>
 			<th data-options="field:'requirementId',width:80,hidden:true">主键</th>
@@ -32,7 +32,6 @@
 			<th data-options="field:'comp_name',width:60">公司名</th>
 			<th data-options="field:'description',width:120">需求描述</th>
 			<th data-options="field:'reply',width:120">回复</th>
-			<th data-options="field:'courseId',width:50">课程编号</th>
 			<th data-options="field:'email',width:80">邮件</th>
 			<th data-options="field:'hasReplied',width:50,align:'center',formatter:function(value,row){if(row.hasReplied) {return '已回复';}else{return '未回复';}}">是否已回复</th>
 			<th data-options="field:'createDate',width:70,align:'center',sortable:true">创建时间</th>
@@ -72,10 +71,9 @@
 		<tr>
 		<td class="itemText" >
 		<div>
-			<label>回复:</label>
 			<input id="requireId" name="requireId" type="hidden">
 			<textarea class="easyui-textarea" id="replys" name="replys" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'需求回复的不能为空'"
-			style="height: 60px; width: 130px;" type="textarea" required="true"></textarea>
+			style="width: 260px; height: 180px;" maxlength="200" type="textarea" required="true"></textarea>
 		</div>
 		</td>
 		</tr>

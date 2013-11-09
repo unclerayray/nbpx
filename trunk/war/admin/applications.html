@@ -1,0 +1,211 @@
+			<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+			<html>
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+				<link rel="stylesheet" type="text/css" href="../js/easyui/themes/default/easyui.css">
+				<link rel="stylesheet" type="text/css" href="../css/demo.css">
+				<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css">
+				<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+				<script src="../js/easyui/jquery.easyui.min.js"></script>
+				<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
+				<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
+				<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
+				<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+				<title>申请管理</title>
+			</head>
+			<table id="dg" class="easyui-datagrid"  pagination="true"  pageSize=20  
+			loadMsg="正在加载，请稍候!"
+			data-options="autoRowHeight:true,fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Application_queryApplications',toolbar:'#tb'">
+			<thead>
+				<tr>
+					<th data-options="field:'applyId',width:80,hidden:true">主键</th>
+					<th data-options="field:'applyCourseId',width:50">课程编号</th>
+					<th data-options="field:'applyCourse',width:120">课程名</th>
+					<th data-options="field:'headCount',width:30,sortable:true,align:'center'">人数</th>
+					<th data-options="field:'applicantCompany',width:70">公司名</th>
+					<th data-options="field:'contact',width:50">联系人</th>
+					<th data-options="field:'remarks',width:120">备注</th>
+					<th data-options="field:'stateInfo',width:120">跟进情况</th>
+					<th data-options="field:'confirmed',width:50,align:'center',formatter:function(value,row){if(row.confirmed) {return '确认报名';}else{return '未确认';}}">报名状态</th>
+					<th data-options="field:'email',width:80">邮件</th>
+					<th data-options="field:'telephone',width:60">电话</th>
+					<th data-options="field:'cellphone',width:60">手机</th>
+					<th data-options="field:'fax',width:60">传真</th>
+					<th data-options="field:'createDate',width:70,align:'center',sortable:true">创建时间</th>
+				</tr>
+			</thead>
+			</table>
+
+
+			<div id="tb" style="padding: 5px; height: auto">
+				<div style="margin-bottom: 5px">
+				报名状态: <select id="confirm" name="confirm" class="easyui-combobox" style="panelHeight:30px;">
+					<option></option>
+		    		<option value="true">已确认报名</option>
+		    		<option value="false">考虑中</option>
+				</select>
+			是否已跟进： <select id="follow" name="follow" class="easyui-combobox" style="panelHeight:30px;">>
+						<option></option>
+					    <option value="true">已跟进</option>
+					    <option value="false">未跟进</option>
+				</select>
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-search" onclick="queryApplications()">搜索</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a><a href="#"
+					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+					onclick="openDlg()">跟进申请</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+					onclick="confirm()">确认报名</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+					onclick="test()">test</a>
+			</div>
+
+
+			<div id="dlg" class="easyui-dialog"
+			style="width: 360px; height: 300px; padding: 5px 5px" closed="true"  cache="false" 
+			modal="true" data-options="buttons: [{
+			text:'保存',
+			iconCls:'icon-ok',
+			handler:function(){
+			answer(); } },{
+			text:'取消',
+			iconCls:'icon-cancel',
+			handler:function(){
+			$('#dlg').dialog('close');
+			}
+			}]">
+			<form id="fm" method="post">
+				<tr>
+				<td class="itemText" >
+				<div>
+					<input id="applicationId" name="applicationId" type="hidden">
+					<textarea class="easyui-textarea" id="replys" name="replys" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'跟进信息不能为空'"
+					style="width: 260px; height: 180px;"  maxlength="200" type="textarea" required="true"></textarea>
+				</div>
+				</td>
+				</tr>
+			</form>
+			</div>
+
+			<script type="text/javascript">
+			function queryApplications() {
+						var con = $('#confirm').combobox('getValue');
+						var fol = $('#follow').combobox('getValue');
+						// alert(con + ' '+fol);
+						$('#dg').datagrid('load', {confirmed : con, follow : fol});
+					}
+
+					function test(){
+						$('#dg').datagrid('loadData', {'success':true,'message':'','total':0,'rows':[]});
+					}
+
+					function openDlg(){
+						var row= $('#dg').datagrid('getSelected');
+						if (row) {
+							$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '跟进情况');
+							$('#applicationId').val(row.applyId);
+							$('#replys').val(row.stateInfo);
+						}else{
+							$.messager.show({
+								title : '温馨提示',
+								msg : '请先选择一行记录',
+								timeout : 2000,
+								showType : 'slide'
+							});
+						}
+					}
+
+					function answer(){
+						$('#fm').form('submit', {
+							url : '../struts/Application_followApplication?applicationId='+$('#applicationId').val()+'&stateInfo='+$('#replys').val(),
+							onSubmit : function() {
+								return $(this).form('validate');
+							},
+							success : function(data) {
+								var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+								if (data.success) {
+									$.messager.show({
+										title : 'Success',
+										msg : data.message,
+										timeout : 3000,
+										showType : 'fade'
+									});
+									$('#dlg').dialog('close'); // close the dialog  
+									$('#dg').datagrid('reload'); // reload
+								} else {
+									$.messager.show({
+										title : 'Error',
+										msg : data.message,
+										timeout : 3000,
+										showType : 'fade'
+									});
+								}
+							}
+						});
+					}
+
+					function confirm(){
+						var row= $('#dg').datagrid('getSelected');
+						if (row) {
+							$.ajax({
+								url:'../struts/Application_confirmApplication?applicationId='+row.applyId,
+								success: function(data){
+								//$('#courseKeywords').val(data);
+								var data = eval('(' + data + ')'); 
+								$('#dg').datagrid('reload');
+								$.messager.show({
+									title : '温馨提示',
+									msg : data.message,
+									timeout : 3000,
+									showType : 'fade'
+								});
+						}		
+					});
+						}else{
+							$.messager.show({
+								title : '温馨提示',
+								msg : '请先选择一行记录',
+								timeout : 2000,
+								showType : 'slide'
+							});
+						}
+					}
+					</script>
+					<style type="text/css">
+					#fm {
+						margin: 0;
+						padding: 10px 40px;
+					}
+
+					.ftitle {
+						font-size: 14px;
+						font-weight: bold;
+						padding: 5px 0;
+						margin-bottom: 10px;
+						border-bottom: 1px solid #ccc;
+					}
+
+					.fitem {
+						margin-bottom: 5px;
+					}
+
+					.fitem label {
+						display: inline-block;
+						width: 80px;
+					}
+
+					.itemText {
+						width: 300px;
+						text-align: left;
+						height: 30px;
+						padding-left: 10px;
+						vertical-align: top
+					}
+
+					.formTable td {
+						vertical-align: top
+					}
+					</style>
+				</body>
+				</html>

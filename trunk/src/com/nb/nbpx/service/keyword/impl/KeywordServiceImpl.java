@@ -73,7 +73,7 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 			String order) throws NbpxException {
 		String json = "";
 		Map<String, Object> propsMap = new HashMap<String, Object>();
-		if (category != null && category.isEmpty()) {
+		if (category != null) {
 			propsMap.put("category", category);
 		}
 		// TODO combobox的取值验证
@@ -98,7 +98,7 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 	@Override
 	public String queryComboKeywords(String category) {
 		Map<String, Object> propsMap = new HashMap<String, Object>();
-		if (category != null && category.isEmpty()) {
+		if (category != null) {
 			propsMap.put("category", category);
 		}
 		List<Keyword> list = keywordDao.queryEntityListByProperties(

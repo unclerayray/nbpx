@@ -1,4 +1,4 @@
-package com.nb.nbpx.pojo.requirement;
+package com.nb.nbpx.pojo.course;
 
 import java.io.Serializable;
 

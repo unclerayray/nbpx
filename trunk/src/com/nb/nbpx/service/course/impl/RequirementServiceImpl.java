@@ -1,4 +1,4 @@
-package com.nb.nbpx.service.requirement.impl;
+package com.nb.nbpx.service.course.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -9,11 +9,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.dao.requirement.IRequirementDao;
-import com.nb.nbpx.pojo.article.Article;
-import com.nb.nbpx.pojo.requirement.Requirement;
+import com.nb.nbpx.dao.course.IRequirementDao;
+import com.nb.nbpx.pojo.course.Requirement;
+import com.nb.nbpx.service.course.IRequirementService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
-import com.nb.nbpx.service.requirement.IRequirementService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.daotool.Equality;
 

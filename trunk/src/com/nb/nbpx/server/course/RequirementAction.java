@@ -1,4 +1,4 @@
-package com.nb.nbpx.server.requirement;
+package com.nb.nbpx.server.course;
 
 import javax.annotation.Resource;
 
@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.server.BaseAction;
-import com.nb.nbpx.service.requirement.*;
+import com.nb.nbpx.service.course.IRequirementService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.pojo.requirement.Requirement;
+import com.nb.nbpx.pojo.course.Requirement;
 
 @Component("RequirementAction")
 @Scope("prototype")

@@ -63,6 +63,17 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
      * 
      */
     public void updateWithLock(T entity, LockMode lock);
+    
+    /**
+     * 根据主键更新个别属性
+     * @param entityClass
+     * @param id
+     * @param propertyMap
+     * @return
+     * @throws Exception
+     */
+    public int updateWithPK(Class<T> entityClass,Integer id,
+			Map<String, Object> propertyMap) throws Exception;
 
     /**
      * 存储实体到数据库
