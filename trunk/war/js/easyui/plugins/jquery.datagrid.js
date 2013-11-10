@@ -1381,7 +1381,6 @@ _13c(_151);
 setTimeout(function(){
 $(_151).datagrid("loaded");
 },0);
-alert('haha');
 opts.onLoadError.apply(_151,arguments);
 });
 if(_155==false){
