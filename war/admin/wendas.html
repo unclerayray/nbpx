@@ -1,0 +1,489 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../css/demo.css">
+<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/icon.css">
+<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+<script src="../js/easyui/jquery.easyui.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
+<link rel="stylesheet" type="text/css"
+	href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
+<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
+<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+<title>问答管理</title>
+</head>
+<table id="dg" class="easyui-datagrid" pagination="true" pageSize=20
+	loadMsg="正在加载，请稍候!"
+	data-options="autoRowHeight:true,fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Wenda_queryQuestions',toolbar:'#tb'">
+	<thead>
+		<tr>
+			<th data-options="field:'questionId',width:80">提问ID</th>
+			<th data-options="field:'title',width:320">题目</th>
+			<th data-options="field:'askDate',width:70,sortable:true">提问时间</th>
+			<th data-options="field:'askedBy',width:50,sortable:true">提问人</th>
+			<th data-options="field:'answerNum',width:50,sortable:true">回答数</th>
+			<th
+				data-options="field:'isClosed',width:50,align:'center',formatter:function(value,row){if(row.isClosed) {return '已关闭';}else{return '打开';}}">关闭状态</th>
+		</tr>
+	</thead>
+</table>
+
+
+<div id="tb" style="padding: 5px; height: auto">
+	<div style="margin-bottom: 5px">
+		报名状态: <select id="confirm" name="confirm" class="easyui-combobox"
+			style="panelHeight: 30px;">
+			<option></option>
+			<option value="true">已确认报名</option>
+			<option value="false">考虑中</option>
+		</select> 是否已跟进： <select id="follow" name="follow" class="easyui-combobox"
+			style="panelHeight: 30px;">>
+			<option></option>
+			<option value="true">已跟进</option>
+			<option value="false">未跟进</option>
+		</select> <a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-search" onclick="queryQuestions()">搜索</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a> <a
+			href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+			onclick="newQuestion()">新增</a><a href="#" class="easyui-linkbutton"
+			iconCls="icon-edit" plain="true" onclick="editQuestion()">修改</a> <a
+			href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+			onclick="destroyQuestion()">删除</a><a href="javascript:void(0)"
+			class="easyui-linkbutton" plain="true" iconCls="icon-dic"
+			onclick="openAnswers()">查看回答</a>
+	</div>
+</div>
+
+<!-- 回答 -->
+
+<div id="dlg_answers" class="easyui-dialog"
+	style="width: 380px; height: 435px; padding: 5px 10px" closed="true"
+	cache="false" modal="true">
+	<div id="tb_answers" style="padding: 5px; height: auto">
+		<div style="margin-bottom: 5px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="newAnswer()">新回答</a> <a href="#" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="editAnswer()">修改回答</a> <a
+				href="#" class="easyui-linkbutton" iconCls="icon-remove"
+				plain="true" onclick="destroyAnswer()">删除回答</a>
+		</div>
+	</div>
+	<input id="selected_questionId" name="selected_questionId"
+		type="hidden">
+	<table id="dg_answers">
+	</table>
+</div>
+
+<div id="dlg_addAnswer" class="easyui-dialog"
+	style="width: 360px; height: 300px; padding: 5px 5px" closed="true"
+	modal="true" buttons="#dlg_addAnswer-buttons">
+	<form id="answer-fm" method="post">
+		<div class="fitem">
+			<input id="questionId_in_afm" name="questionId" type="hidden">
+		</div>
+		<div class="fitem">
+			<input id="answerId_in_fm" name="answerId" type="hidden">
+		</div>
+		<div class="fitem">
+			<input id="answerdDate" name="answerdDate" type="hidden"></input> <input
+				id="isBest" name="isBest" type="hidden"></input>
+		</div>
+		<div class="fitem">
+			<label>回答者:</label> <input id="answeredBy" name="answeredBy"
+				type="text"> </input>
+		</div>
+		<div class="fitem">
+			<label>回答:</label>
+			<textarea class="easyui-textarea" id="content" name="content"
+				data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'跟进信息不能为空'"
+				style="width: 260px; height: 180px;" maxlength="200" type="textarea"
+				required="true"></textarea>
+		</div>
+	</form>
+</div>
+
+<div id="dlg_addAnswer-buttons">
+	<a href="javascript:void(0)" class="easyui-linkbutton"
+		iconCls="icon-ok" onclick="answer()">保存</a> <a
+		href="javascript:void(0)" class="easyui-linkbutton"
+		iconCls="icon-cancel"
+		onclick="javascript:$('#dlg_addAnswer').dialog('close')">取消</a>
+</div>
+
+<!-- 回答 -->
+
+<!-- 问题 -->
+
+
+<div id="dlg_questions" class="easyui-dialog"
+	style="width: 380px; height: 435px; padding: 5px 10px" closed="true"
+	cache="false" modal="true">
+	<div id="tb_questions" style="padding: 5px; height: auto">
+		<div style="margin-bottom: 5px">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+				onclick="newQuestion()">新回答</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+				onclick="editQuestion()">修改回答</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+				onclick="destroyQuestion()">删除回答</a>
+		</div>
+	</div>
+	<input id="selected_questionId" name="selected_questionId"
+		type="hidden">
+	<table id="dg_questions">
+	</table>
+</div>
+
+<div id="dlg_addQuestion" class="easyui-dialog"
+	style="width: 360px; height: 300px; padding: 5px 5px" closed="true"
+	modal="true" buttons="#dlg_addQuestion-buttons">
+	<form id="question-fm" method="post">
+		<div class="fitem">
+			<input id="questionId_in_qfm" name="questionId" type="hidden">
+		</div>
+		<div class="fitem">
+			<input id="askDate" name="askDate" type="hidden"></input> <input
+				id="isClosed" name="isClosed" type="hidden"></input>
+		</div>
+		<div class="fitem">
+			<label>标题:</label> <input id="title" name="title" type="text">
+			</input>
+		</div>
+		<div class="fitem">
+			<label>提问人:</label> <input id="askedBy" name="askedBy" type="text">
+			</input>
+		</div>
+		<div class="fitem">
+			<label>问题:</label>
+			<textarea class="easyui-textarea" id="content" name="content"
+				data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'跟进信息不能为空'"
+				style="width: 260px; height: 180px;" maxlength="200" type="textarea"
+				required="true"></textarea>
+		</div>
+	</form>
+</div>
+
+<div id="dlg_addQuestion-buttons">
+	<a href="javascript:void(0)" class="easyui-linkbutton"
+		iconCls="icon-ok" onclick="saveQuestion()">保存</a> <a
+		href="javascript:void(0)" class="easyui-linkbutton"
+		iconCls="icon-cancel"
+		onclick="javascript:$('#dlg_addQuestion').dialog('close')">取消</a>
+</div>
+
+<!-- 问题 -->
+<script type="text/javascript">
+//------问题
+	function queryQuestions() {
+		var con = $('#confirm').combobox('getValue');
+		var fol = $('#follow').combobox('getValue');
+		// alert(con + ' '+fol);
+		$('#dg').datagrid('load', {
+			confirmed : con,
+			follow : fol
+		});
+	}
+
+	function newQuestion() {
+		$('#question-fm').form('clear');
+		$('#dlg_addQuestion').dialog('open').dialog('setTitle', '新增问题');
+	}
+
+	function editQuestion() {
+		var row = $('#dg_questions').datagrid('getSelected');
+		$('#dlg_addQuestion').dialog('open').dialog('setTitle', '修改问题');
+		if (row) {
+			$('#question-fm').form('load', row);
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+
+	function saveQuestion(){
+		$('#question-fm').form('submit', {
+			url : '../struts/Wenda_saveQuestion?objectName=question',
+			onSubmit : function() {
+				return $(this).form('validate');
+			},
+			success : function(data) {
+				var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+				if (data.success) {
+					$.messager.show({
+						title : 'Success',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+					$('#dlg_addQuestion').dialog('close'); // close the dialog  
+					$('#dg').datagrid('reload'); // reload
+				} else {
+					$.messager.show({
+						title : 'Error',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+				}
+			}
+		});
+	}
+
+	function destroyQuestion() {
+		var row = $('#dg_questions').datagrid('getSelected');
+		if (row) {
+			$.messager
+					.confirm(
+							'Confirm',
+							'确认要删除此行记录吗?',
+							function(r) {
+								if (r) {
+									$
+											.post(
+													'../struts/Wenda_deleteQuestion?objectName=question',
+													row,
+													function(data) {
+														if (data.success) {
+															$('#dg_questions')
+																	.datagrid(
+																			'reload'); // reload the Dic data
+															$('#dg_questions')
+																	.datagrid(
+																			'clearSelections');
+														} else {
+															$.messager
+																	.show({
+																		title : 'Error',
+																		msg : data.message,
+																		timeout : 3000,
+																		showType : 'fade'
+																	});
+															$('#dg_questions')
+																	.datagrid(
+																			'reload');
+															$('#dg_questions')
+																	.datagrid(
+																			'clearSelections');
+														}
+													}, 'json');
+								}
+							});
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+//------问题
+//------回答	
+
+	function answer() {
+		$('#answer-fm').form('submit', {
+			url : '../struts/Wenda_saveAnswer?objectName=answer',
+			onSubmit : function() {
+				return $(this).form('validate');
+			},
+			success : function(data) {
+				var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+				if (data.success) {
+					$.messager.show({
+						title : 'Success',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+					$('#dlg_addAnswer').dialog('close'); // close the dialog  
+					$('#dg_answers').datagrid('reload'); // reload
+				} else {
+					$.messager.show({
+						title : 'Error',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+				}
+			}
+		});
+	}
+
+
+	function openAnswers() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row) {
+			$('#dlg_answers').dialog('open').dialog('setTitle', '管理回答');
+			$('#selected_questionId').val(row.questionId);
+			$('#dg_answers').datagrid(
+					{
+						url : '../struts/Wenda_queryAnswers?questionId='
+								+ row.questionId,
+						idField : 'answerId',
+						width : 350,
+						height : 355,
+						pagination : false,
+						toolbar : '#tb_answers',
+						singleSelect : true,
+						fitColumns : true,
+						loadMsg : '正在加载，请稍候!',
+						columns : [ [ {
+							field : 'answerId',
+							title : '主键ID',
+							width : 80
+						}, {
+							field : 'answeredBy',
+							title : '回答者',
+							width : 80
+						}, {
+							field : 'answerdDate',
+							title : '回答时间',
+							width : 140
+						}, {
+							field : 'isBest',
+							title : '是否最佳',
+							width : 140,
+							formatter : function(value, row) {
+								if (row.isBest) {
+									return '最佳';
+								} else {
+									return '普通';
+								}
+							}
+						}, {
+							field : 'content',
+							title : '回答内容',
+							width : 200
+						} ] ]
+					});
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+
+
+
+	function newAnswer() {
+		$('#answer-fm').form('clear');
+		$('#dlg_addAnswer').dialog('open').dialog('setTitle', '新增问题');
+		$('#questionId_in_afm').val($('#selected_questionId').val());
+	}
+
+	function editAnswer() {
+		var row = $('#dg_answers').datagrid('getSelected');
+		$('#dlg_addAnswer').dialog('open').dialog('setTitle', '修改问题');
+		if (row) {
+			$('#answer-fm').form('load', row);
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+
+	function destroyAnswer() {
+		var row = $('#dg_answers').datagrid('getSelected');
+		if (row) {
+			$.messager
+					.confirm(
+							'Confirm',
+							'确认要删除此行记录吗?',
+							function(r) {
+								if (r) {
+									$
+											.post(
+													'../struts/Wenda_deleteAnswer?objectName=answer',
+													row,
+													function(data) {
+														if (data.success) {
+															$('#dg_answers')
+																	.datagrid(
+																			'reload'); // reload the Dic data
+															$('#dg_answers')
+																	.datagrid(
+																			'clearSelections');
+														} else {
+															$.messager
+																	.show({
+																		title : 'Error',
+																		msg : data.message,
+																		timeout : 3000,
+																		showType : 'fade'
+																	});
+															$('#dg_answers')
+																	.datagrid(
+																			'reload');
+															$('#dg_answers')
+																	.datagrid(
+																			'clearSelections');
+														}
+													}, 'json');
+								}
+							});
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+//------回答
+</script>
+<style type="text/css">
+#fm {
+	margin: 0;
+	padding: 10px 40px;
+}
+
+.ftitle {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.fitem {
+	margin-bottom: 5px;
+}
+
+.fitem label {
+	display: inline-block;
+	width: 80px;
+}
+
+.itemText {
+	width: 300px;
+	text-align: left;
+	height: 30px;
+	padding-left: 10px;
+	vertical-align: top
+}
+
+.formTable td {
+	vertical-align: top
+}
+</style>
+</body>
+</html>

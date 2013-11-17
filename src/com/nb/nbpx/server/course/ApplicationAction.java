@@ -27,7 +27,7 @@ public class ApplicationAction extends BaseAction {
 	public String queryApplications() {
 		String json = applicationService.queryApplications(rows,
 				getStartPosi(), sort, order, confirmed, follow);
-		//json = "{'success':true,'message':'','total':0,'rows':[]}";
+		//json = "{'total':'0','rows':[]}";
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
