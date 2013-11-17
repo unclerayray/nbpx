@@ -11,13 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.nb.nbpx.pojo.BaseEntity;
+
 /**
  * @author Roger
  * @date 2013年11月9日
  */
 @Entity
 @Table(name = "applications", catalog = "nbpx")
-public class Application implements Serializable {
+public class Application extends BaseEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
