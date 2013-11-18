@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../css/demo.css">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css">
+	<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+	<script src="../js/easyui/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
+	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
+	<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
+	<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+	<title>下载管理</title>
+</head>
+<table id="dg" class="easyui-datagrid"  pagination="true"  pageSize=20  
+loadMsg="正在加载，请稍候!"
+data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'../struts/Download_queryDownloads',toolbar:'#tb'">
+<thead>
+	<tr>
+		<th data-options="field:'downloadId',width:80">主键</th>
+		<th
+		data-options="field:'filetype',width:120">下载类别</th>
+		<th data-options="field:'title',width:120,align:'center'">标题</th>
+		<th data-options="field:'description',width:120,align:'center'">说明</th>
+		<th data-options="field:'author',width:120,align:'center'">作者</th>
+		<th data-options="field:'filepath',width:120,align:'center',hidden:true">存放路径</th>
+		<th data-options="field:'downloadCnt',width:120,sortable:true,align:'center'">下载次数</th>
+		<th data-options="field:'hits',width:120,sortable:true,align:'center'">点击数</th>
+		<th data-options="field:'uploadDate',width:120,align:'center',sortable:true">上传时间</th>
+	</tr>
+</thead>
+</table>
+
+
+<div id="tb" style="padding: 5px; height: auto">
+	<div style="margin-bottom: 5px">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '新增下载');">导入下载</a> <a href="#"
+		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+		onclick="recommand()">推荐下载</a>
+		<a
+		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
+		iconCls="icon-dic" onclick="stat()">统计最新</a>
+	</div>
+	<div>
+		下载类别: <select id="filetype" name="filetype" class="easyui-combobox" style="panelHeight:30px;">
+					<option></option>
+		    		<option value="ppt">ppt</option>
+		    		<option value="doc">doc</option>
+		    		<option value="pdf">pdf</option>
+				</select>
+
+	<a href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-search" onclick="queryDownloads()">搜索</a> <a
+	href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a>
+</div>
+</div>
+
+
+<div id="dlg" class="easyui-dialog"
+style="width: 500px; height: 400px; padding: 5px 5px" closed="true"  cache="false" 
+modal="true" data-options="buttons: [{
+text:'保存',
+iconCls:'icon-ok',
+handler:function(){
+saveDownload(); } },{
+text:'取消',
+iconCls:'icon-cancel',
+handler:function(){
+$('#dlg').dialog('close');
+}
+}]">
+<form id="fm" method="post">
+	<tr>
+	<td class="itemText" >
+	<div>
+	下载类别: <select id="fm_filetype" name="filetype" class="easyui-combobox" style="panelHeight:30px;">
+					<option></option>
+		    		<option value="ppt">ppt</option>
+		    		<option value="doc">doc</option>
+		    		<option value="pdf">pdf</option>
+				</select>
+	</div>
+	</td>
+	</tr>
+	<tr>
+	<td class="itemText" >
+	<div>
+		<label>描述:</label>
+		<textarea class="easyui-textarea" id="fm_downloads" name="downloads" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'描述不能为空'"
+		style="height: 60px; width: 130px;" type="textarea" required="true"></textarea>
+	</div>
+	</td>
+	</tr>
+</form>
+</div>
+
+<script type="text/javascript">
+function queryDownloads() {
+			$('#dg').datagrid({
+				onLoadSuccess: function(data){
+					if(!data.success){
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+			$('#dg').datagrid('load', {
+				category : $('#category').combobox('getValue'),
+				keyCombValue : $('#downloadStr').combobox('getValue'),
+				keyCombText : $('#downloadStr').combobox('getText')
+			});
+			$('#downloadStr').removeAttr("selected");
+			$('#category').removeAttr("selected");
+		}
+
+	function editDownload() {
+		var row = $('#dg_downloads').datagrid('getSelected');
+		$('#dlg_addDownload').dialog('open').dialog('setTitle', '修改问题');
+		if (row) {
+			$('#download-fm').form('load', row);
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+
+	function saveDownload(){
+		$('#download-fm').form('submit', {
+			url : '../struts/Download_saveDownload?objectName=download',
+			onSubmit : function() {
+				return $(this).form('validate');
+			},
+			success : function(data) {
+				var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+				if (data.success) {
+					$.messager.show({
+						title : 'Success',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+					$('#dlg_addDownload').dialog('close'); // close the dialog  
+					$('#dg').datagrid('reload'); // reload
+				} else {
+					$.messager.show({
+						title : 'Error',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+				}
+			}
+		});
+	}
+
+	function destroyDownload() {
+		var row = $('#dg_downloads').datagrid('getSelected');
+		if (row) {
+			$.messager
+					.confirm(
+							'Confirm',
+							'确认要删除此行记录吗?',
+							function(r) {
+								if (r) {
+									$
+											.post(
+													'../struts/Download_deleteDownload?objectName=download',
+													row,
+													function(data) {
+														if (data.success) {
+															$('#dg_downloads')
+																	.datagrid(
+																			'reload'); // reload the Dic data
+															$('#dg_downloads')
+																	.datagrid(
+																			'clearSelections');
+														} else {
+															$.messager
+																	.show({
+																		title : 'Error',
+																		msg : data.message,
+																		timeout : 3000,
+																		showType : 'fade'
+																	});
+															$('#dg_downloads')
+																	.datagrid(
+																			'reload');
+															$('#dg_downloads')
+																	.datagrid(
+																			'clearSelections');
+														}
+													}, 'json');
+								}
+							});
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+		</script>
+		<style type="text/css">
+		#fm {
+			margin: 0;
+			padding: 10px 40px;
+		}
+
+		.ftitle {
+			font-size: 14px;
+			font-weight: bold;
+			padding: 5px 0;
+			margin-bottom: 10px;
+			border-bottom: 1px solid #ccc;
+		}
+
+		.fitem {
+			margin-bottom: 5px;
+		}
+
+		.fitem label {
+			display: inline-block;
+			width: 80px;
+		}
+
+		.itemText {
+			width: 300px;
+			text-align: left;
+			height: 30px;
+			padding-left: 10px;
+			vertical-align: top
+		}
+
+		.formTable td {
+			vertical-align: top
+		}
+		</style>
+	</body>
+	</html>

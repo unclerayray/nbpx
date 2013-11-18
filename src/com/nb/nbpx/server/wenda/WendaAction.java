@@ -50,7 +50,7 @@ public class WendaAction  extends BaseAction {
 	}
 	
 	public String deleteAnswer() {
-		answerService.saveAnswer(answer);
+		answerService.deleteAnswer(answer);
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;
