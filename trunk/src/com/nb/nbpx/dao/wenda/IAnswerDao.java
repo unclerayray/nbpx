@@ -8,5 +8,4 @@ import com.nb.nbpx.pojo.wenda.Answer;
  * @date 2013年11月17日
  */
 public interface IAnswerDao  extends IBaseDao<Answer,Integer>{
-
 }

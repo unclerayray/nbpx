@@ -58,9 +58,29 @@ public class WendaAction  extends BaseAction {
 	
 	
 	public String queryQuestions(){
-		String json = qestionService.queryQuestions(rows,
-				getStartPosi(), sort, order, closed);
+		String json = "";
+		if(questionId!=null){
+			json = qestionService.queryQuestions(answerId, getStartPosi(), sort, order, questionId);
+		}else{
+			json = qestionService.queryQuestions(rows,
+					getStartPosi(), sort, order, closed);
+		}
 		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String setBestAnswer(){
+		try {
+			answerService.setBestAnswer(answerId, questionId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"设置最佳答案失败" + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "设置最佳答案成功"));
 		return SUCCESS;
 	}
 	

@@ -66,4 +66,18 @@ public class AnswerServiceImpl  extends BaseServiceImpl implements IAnswerServic
 		answerDao.delete(answer);
 	}
 
+	@Override
+	public Boolean setBestAnswer(Integer answerId, Integer questionId) {
+		String sql = "update Answer set isBest = false where questionId = " + questionId;
+		int i = answerDao.bulkUpdate(sql);
+		String sql1 = " update Answer set isBest = true where questionId = " + questionId + " and answerId = " + answerId;
+		answerDao.bulkUpdate(sql1);
+		if(i > 0){
+			return false;
+		}else{
+			return true;
+		}
+		
+	}
+
 }

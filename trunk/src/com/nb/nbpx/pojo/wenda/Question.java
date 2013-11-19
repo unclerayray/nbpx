@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.nb.nbpx.pojo.BaseEntity;
 
@@ -29,7 +28,6 @@ public class Question extends BaseEntity implements Serializable {
 	public Boolean isClosed;
 	public Date askDate;
 	public String askedBy;
-	public Long answerNum;
 
 	
 	
@@ -72,14 +70,13 @@ public class Question extends BaseEntity implements Serializable {
 	 * @param askedBy
 	 */
 	public Question(Integer questionId, String title, Boolean isClosed,
-			Date askDate, String askedBy, Long answerNum) {
+			Date askDate, String askedBy) {
 		super();
 		this.questionId = questionId;
 		this.title = title;
 		this.isClosed = isClosed;
 		this.askDate = askDate;
 		this.askedBy = askedBy;
-		this.answerNum = answerNum;
 	}
 
 
@@ -133,16 +130,5 @@ public class Question extends BaseEntity implements Serializable {
 
 	public void setAskedBy(String askedBy) {
 		this.askedBy = askedBy;
-	}
-
-
-	@Transient
-	public Long getAnswerNum() {
-		return answerNum;
-	}
-
-
-	public void setAnswerNum(Long answerNum) {
-		this.answerNum = answerNum;
 	}
 }

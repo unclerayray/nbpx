@@ -88,8 +88,26 @@ $('#dlg').dialog('close');
 	<tr>
 	<td class="itemText" >
 	<div>
+	标题: <input id="title" name="title">
+	</div>
+	</td>
+	</tr>
+	<tr>
+	<td class="itemText" >
+	<div>
+	作者: <input id="author" name="author" >
+	<input id="downloadCnt" name="downloadCnt" type="hidden">
+	<input id="filepath" name="filepath" value='c://va/df.txt' type="hidden">
+	<input id="hits" name="hits" type="hidden">
+	<input id="uploadDate" name="uploadDate" type="hidden">
+	</div>
+	</td>
+	</tr>
+	<tr>
+	<td class="itemText" >
+	<div>
 		<label>描述:</label>
-		<textarea class="easyui-textarea" id="fm_downloads" name="downloads" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'描述不能为空'"
+		<textarea class="easyui-textarea" id="description" name="description" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'描述不能为空'"
 		style="height: 60px; width: 130px;" type="textarea" required="true"></textarea>
 	</div>
 	</td>
@@ -124,7 +142,7 @@ function queryDownloads() {
 		var row = $('#dg_downloads').datagrid('getSelected');
 		$('#dlg_addDownload').dialog('open').dialog('setTitle', '修改问题');
 		if (row) {
-			$('#download-fm').form('load', row);
+			$('#fm').form('load', row);
 		} else {
 			$.messager.show({
 				title : '温馨提示',
@@ -136,7 +154,8 @@ function queryDownloads() {
 	}
 
 	function saveDownload(){
-		$('#download-fm').form('submit', {
+		console.log('hello!');
+		$('#fm').form('submit', {
 			url : '../struts/Download_saveDownload?objectName=download',
 			onSubmit : function() {
 				return $(this).form('validate');
@@ -150,7 +169,7 @@ function queryDownloads() {
 						timeout : 3000,
 						showType : 'fade'
 					});
-					$('#dlg_addDownload').dialog('close'); // close the dialog  
+					$('#dlg').dialog('close'); // close the dialog  
 					$('#dg').datagrid('reload'); // reload
 				} else {
 					$.messager.show({
@@ -179,10 +198,10 @@ function queryDownloads() {
 													row,
 													function(data) {
 														if (data.success) {
-															$('#dg_downloads')
+															$('#dg')
 																	.datagrid(
 																			'reload'); // reload the Dic data
-															$('#dg_downloads')
+															$('#dg')
 																	.datagrid(
 																			'clearSelections');
 														} else {
@@ -193,10 +212,10 @@ function queryDownloads() {
 																		timeout : 3000,
 																		showType : 'fade'
 																	});
-															$('#dg_downloads')
+															$('#dg')
 																	.datagrid(
 																			'reload');
-															$('#dg_downloads')
+															$('#dg')
 																	.datagrid(
 																			'clearSelections');
 														}

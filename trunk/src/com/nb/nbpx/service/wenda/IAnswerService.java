@@ -11,4 +11,5 @@ public interface IAnswerService extends IBaseService  {
 	public String queryAnswers(Integer questionId);
 	public Answer saveAnswer(Answer answer);
 	public void deleteAnswer(Answer answer);
+	public Boolean setBestAnswer(Integer answerId, Integer questionId);
 }
