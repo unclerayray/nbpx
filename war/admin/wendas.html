@@ -24,10 +24,10 @@
 	<thead>
 		<tr>
 			<th data-options="field:'questionId',width:80">提问ID</th>
-			<th data-options="field:'title',width:320">题目</th>
+			<th data-options="field:'title',width:300">标题</th>
+			<th data-options="field:'content',width:320">问题描述</th>
 			<th data-options="field:'askDate',width:70,sortable:true">提问时间</th>
 			<th data-options="field:'askedBy',width:50,sortable:true">提问人</th>
-			<th data-options="field:'answerNum',width:50,sortable:true">回答数</th>
 			<th
 				data-options="field:'isClosed',width:50,align:'center',formatter:function(value,row){if(row.isClosed) {return '已关闭';}else{return '打开';}}">关闭状态</th>
 		</tr>
@@ -37,17 +37,12 @@
 
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
-		报名状态: <select id="confirm" name="confirm" class="easyui-combobox"
+		状态: <select id="p_isClosed" name="p_isClosed" class="easyui-combobox"
 			style="panelHeight: 30px;">
 			<option></option>
-			<option value="true">已确认报名</option>
-			<option value="false">考虑中</option>
-		</select> 是否已跟进： <select id="follow" name="follow" class="easyui-combobox"
-			style="panelHeight: 30px;">>
-			<option></option>
-			<option value="true">已跟进</option>
-			<option value="false">未跟进</option>
-		</select> <a href="javascript:void(0)" class="easyui-linkbutton"
+			<option value="true">打开</option>
+			<option value="false">关闭</option>
+		</select> ID： <input id="p_id" name="p_id" style="width: 60px;"> <a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryQuestions()">搜索</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a> <a
@@ -64,7 +59,7 @@
 <!-- 回答 -->
 
 <div id="dlg_answers" class="easyui-dialog"
-	style="width: 380px; height: 435px; padding: 5px 10px" closed="true"
+	style="width: 670px; height: 475px; padding: 5px 10px" closed="true"
 	cache="false" modal="true">
 	<div id="tb_answers" style="padding: 5px; height: auto">
 		<div style="margin-bottom: 5px">
@@ -72,7 +67,9 @@
 				onclick="newAnswer()">新回答</a> <a href="#" class="easyui-linkbutton"
 				iconCls="icon-edit" plain="true" onclick="editAnswer()">修改回答</a> <a
 				href="#" class="easyui-linkbutton" iconCls="icon-remove"
-				plain="true" onclick="destroyAnswer()">删除回答</a>
+				plain="true" onclick="destroyAnswer()">删除回答</a> <a
+				href="#" class="easyui-linkbutton" iconCls="icon-remove"
+				plain="true" onclick="setBestAnswer()">设为最佳回答</a>
 		</div>
 	</div>
 	<input id="selected_questionId" name="selected_questionId"
@@ -96,14 +93,15 @@
 				id="isBest" name="isBest" type="hidden"></input>
 		</div>
 		<div class="fitem">
-			<label>回答者:</label> <input id="answeredBy" name="answeredBy"
-				type="text"> </input>
+			<label>回答者:</label> <input class="easyui-validatebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'回答者不能为空'"
+				style="width: 260px; height: 140px;"  id="answeredBy" name="answeredBy" 
+				type="text"></input>
 		</div>
 		<div class="fitem">
 			<label>回答:</label>
-			<textarea class="easyui-textarea" id="content" name="content"
-				data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'跟进信息不能为空'"
-				style="width: 260px; height: 180px;" maxlength="200" type="textarea"
+			<textarea class="easyui-textarea easyui-validatebox" id="content" name="content"
+				data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'回答不能为空'"
+				style="width: 260px; height: 140px;" maxlength="200" type="textarea"
 				required="true"></textarea>
 		</div>
 	</form>
@@ -119,30 +117,8 @@
 
 <!-- 回答 -->
 
-<!-- 问题 -->
-
-
-<div id="dlg_questions" class="easyui-dialog"
-	style="width: 380px; height: 435px; padding: 5px 10px" closed="true"
-	cache="false" modal="true">
-	<div id="tb_questions" style="padding: 5px; height: auto">
-		<div style="margin-bottom: 5px">
-			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-				onclick="newQuestion()">新回答</a> <a href="#"
-				class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-				onclick="editQuestion()">修改回答</a> <a href="#"
-				class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-				onclick="destroyQuestion()">删除回答</a>
-		</div>
-	</div>
-	<input id="selected_questionId" name="selected_questionId"
-		type="hidden">
-	<table id="dg_questions">
-	</table>
-</div>
-
 <div id="dlg_addQuestion" class="easyui-dialog"
-	style="width: 360px; height: 300px; padding: 5px 5px" closed="true"
+	style="width: 700px; height: 500px; padding: 5px 5px" closed="true"
 	modal="true" buttons="#dlg_addQuestion-buttons">
 	<form id="question-fm" method="post">
 		<div class="fitem">
@@ -153,17 +129,17 @@
 				id="isClosed" name="isClosed" type="hidden"></input>
 		</div>
 		<div class="fitem">
-			<label>标题:</label> <input id="title" name="title" type="text">
+			<label>标题:</label> <input id="title" name="title" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'标题不能为空'"  class="easyui-validatebox" type="text">
 			</input>
 		</div>
 		<div class="fitem">
-			<label>提问人:</label> <input id="askedBy" name="askedBy" type="text">
+			<label>提问人:</label> <input id="askedBy" class="easyui-validatebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'提问人不能为空'" name="askedBy" type="text">
 			</input>
 		</div>
 		<div class="fitem">
 			<label>问题:</label>
-			<textarea class="easyui-textarea" id="content" name="content"
-				data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'跟进信息不能为空'"
+			<textarea  class="easyui-validatebox" id="content" name="content"
+				data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'问题描述不能为空'"
 				style="width: 260px; height: 180px;" maxlength="200" type="textarea"
 				required="true"></textarea>
 		</div>
@@ -182,12 +158,12 @@
 <script type="text/javascript">
 //------问题
 	function queryQuestions() {
-		var con = $('#confirm').combobox('getValue');
-		var fol = $('#follow').combobox('getValue');
+		var isClosed = $('#p_isClosed').combobox('getValue');
+		var id = $('#p_id').val();
 		// alert(con + ' '+fol);
 		$('#dg').datagrid('load', {
-			confirmed : con,
-			follow : fol
+			closed : isClosed,
+			questionId : id
 		});
 	}
 
@@ -197,7 +173,7 @@
 	}
 
 	function editQuestion() {
-		var row = $('#dg_questions').datagrid('getSelected');
+		var row = $('#dg').datagrid('getSelected');
 		$('#dlg_addQuestion').dialog('open').dialog('setTitle', '修改问题');
 		if (row) {
 			$('#question-fm').form('load', row);
@@ -215,7 +191,8 @@
 		$('#question-fm').form('submit', {
 			url : '../struts/Wenda_saveQuestion?objectName=question',
 			onSubmit : function() {
-				return $(this).form('validate');
+				console.log($('#question-fm').form('validate'));
+				return $('#question-fm').form('validate');
 			},
 			success : function(data) {
 				var data = eval('(' + data + ')'); // change the JSON string to javascript object  
@@ -241,7 +218,7 @@
 	}
 
 	function destroyQuestion() {
-		var row = $('#dg_questions').datagrid('getSelected');
+		var row = $('#dg').datagrid('getSelected');
 		if (row) {
 			$.messager
 					.confirm(
@@ -255,10 +232,10 @@
 													row,
 													function(data) {
 														if (data.success) {
-															$('#dg_questions')
+															$('#dg')
 																	.datagrid(
 																			'reload'); // reload the Dic data
-															$('#dg_questions')
+															$('#dg')
 																	.datagrid(
 																			'clearSelections');
 														} else {
@@ -269,10 +246,10 @@
 																		timeout : 3000,
 																		showType : 'fade'
 																	});
-															$('#dg_questions')
+															$('#dg')
 																	.datagrid(
 																			'reload');
-															$('#dg_questions')
+															$('#dg')
 																	.datagrid(
 																			'clearSelections');
 														}
@@ -320,6 +297,33 @@
 		});
 	}
 
+	function setBestAnswer(){
+		var row= $('#dg_answers').datagrid('getSelected');
+						if (row) {
+							$.ajax({
+								url:'../struts/Wenda_setBestAnswer?answerId='+row.answerId+'&questionId='+row.questionId,
+								success: function(data){
+								//$('#courseKeywords').val(data);
+								var data = eval('(' + data + ')'); 
+								$('#dg_answers').datagrid('reload');
+								$.messager.show({
+									title : '温馨提示',
+									msg : data.message,
+									timeout : 3000,
+									showType : 'fade'
+								});
+						}		
+					});
+						}else{
+							$.messager.show({
+								title : '温馨提示',
+								msg : '请先选择一行记录',
+								timeout : 2000,
+								showType : 'slide'
+							});
+						}
+	}
+
 
 	function openAnswers() {
 		var row = $('#dg').datagrid('getSelected');
@@ -331,8 +335,8 @@
 						url : '../struts/Wenda_queryAnswers?questionId='
 								+ row.questionId,
 						idField : 'answerId',
-						width : 350,
-						height : 355,
+						width : 640,
+						height : 420,
 						pagination : false,
 						toolbar : '#tb_answers',
 						singleSelect : true,
@@ -340,8 +344,8 @@
 						loadMsg : '正在加载，请稍候!',
 						columns : [ [ {
 							field : 'answerId',
-							title : '主键ID',
-							width : 80
+							title : 'ID',
+							width : 20
 						}, {
 							field : 'answeredBy',
 							title : '回答者',
@@ -349,11 +353,11 @@
 						}, {
 							field : 'answerdDate',
 							title : '回答时间',
-							width : 140
+							width : 120
 						}, {
 							field : 'isBest',
 							title : '是否最佳',
-							width : 140,
+							width : 60,
 							formatter : function(value, row) {
 								if (row.isBest) {
 									return '最佳';
@@ -364,7 +368,7 @@
 						}, {
 							field : 'content',
 							title : '回答内容',
-							width : 200
+							width : 300
 						} ] ]
 					});
 		} else {

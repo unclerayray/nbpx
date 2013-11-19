@@ -299,7 +299,7 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	 * 
 	 * @param entityClass
 	 *            实体对象
-	 * @param limit
+	 * @param rows
 	 *            页面最大显示长度
 	 * @param start
 	 *            查询其实位置
@@ -312,7 +312,7 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	 *            </p>
 	 * @return
 	 */
-	public List<T> queryEntityListByProperties(Class<T> entityClass, Integer limit,
+	public List<T> queryEntityListByProperties(Class<T> entityClass, Integer rows,
 			Integer start, String sort, String order, Map<String, Object> propsMap);
 
 	/**
@@ -337,7 +337,7 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	 * 
 	 * @param entityClass
 	 *            实体对象
-	 * @param limit
+	 * @param rows
 	 *            页面最大显示长度
 	 * @param start
 	 *            查询其实位置

@@ -344,7 +344,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 
 	// 根据搜索条件查询实体List
 	public List queryEntityListByConditions(final String hql,
-			final Integer limit, final Integer start,
+			final Integer rows, final Integer start,
 			final Object... conditions) {
 		List list = this.getHibernateTemplate().executeFind(
 				new HibernateCallback() {
@@ -355,9 +355,9 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 						for (int i = 0; i < conditions.length; i++) {
 							query.setParameter(i, conditions[i]);
 						}
-						if (start != null && limit != null) {
+						if (start != null && rows != null) {
 							query.setFirstResult(start);
-							query.setMaxResults(limit);
+							query.setMaxResults(rows);
 						}
 						return query.list();
 					}
@@ -407,13 +407,13 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 	// 根据装载实体属性的Map查询实体列表
 	@Override
 	public List<T> queryEntityListByProperties(Class<T> entityClass,
-			Integer limit, Integer start, String sort, String order,
+			Integer rows, Integer start, String sort, String order,
 			Map<String, Object> propertyMap) {
 		Map<String, Object> propsMap = MapUtil.removeNullValue(propertyMap);
 		String hql = createHqlFromProtitiesMapWithOrder(entityClass, propsMap,
 				sort, order);
 		Object[] conditions = propsMap.values().toArray();
-		List<T> entityList = queryEntityListByConditions(hql, limit, start,
+		List<T> entityList = queryEntityListByConditions(hql, rows, start,
 				conditions);
 		return entityList;
 	}

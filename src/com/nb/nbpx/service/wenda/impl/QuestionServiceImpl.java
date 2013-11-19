@@ -39,7 +39,7 @@ public class QuestionServiceImpl extends BaseServiceImpl implements IQuestionSer
 			String order, Boolean closed) {
 		String json = "";
 		Map<String, Object> propsMap = this.createPropMap(new Equality(
-				"closed", closed));
+				"isClosed", closed));
 		List<Question>  list = questionDao.queryQuestions(rows, start, sort, order, closed);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
@@ -73,6 +73,25 @@ public class QuestionServiceImpl extends BaseServiceImpl implements IQuestionSer
 	@Override
 	public void deleteQuestion(Question question) {
 		questionDao.delete(question);
+	}
+
+	@Override
+	public String queryQuestions(Integer rows,
+			Integer start, String sort, String order,Integer questionId) {
+		String json = "";
+		Map<String, Object> propsMap = this.createPropMap(new Equality(
+				"questionId", questionId));
+		List<Question>  list = questionDao.queryEntityListByProperties(Question.class, rows, start, sort, order, propsMap);
+		if (list.isEmpty()) {
+			json = JsonUtil.formatToJsonWithTimeStamp(0,
+					ResponseStatus.SUCCESS, "", list);
+		} else {
+			int count = questionDao.queryTotalCount(Question.class, propsMap).intValue();
+			json = JsonUtil.formatToJsonWithTimeStamp(count,
+					ResponseStatus.SUCCESS, "", list);
+		}
+
+		return json;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.zixun.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +65,10 @@ public class DownloadServiceImpl extends BaseServiceImpl implements IDownloadSer
 			if(downloadDao.queryEntityByProperties(Download.class, propsMap)!=null){
 				throw new Exception("已有同名的下载存在，请不要重复上传!");
 			}
+			download.setDownloadCnt(200);
+			download.setHits(200);
+			download.setUploadDate(new Date());
+			downloadDao.save(download);
 		}
 		return download;
 	}
