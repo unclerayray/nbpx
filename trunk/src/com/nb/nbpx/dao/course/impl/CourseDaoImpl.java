@@ -413,19 +413,19 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	@Override
 	public void deleteAllOtherInfosCourse(Integer courseId,
 			Boolean deleteCourseInfo) {
-		String sql1 = "delete from courseinfo where courseId =" + courseId;
-		String sql2 = "delete from coursekeywords where courseId =" + courseId;
-		String sql3 = "delete from coursemajor where courseId =" + courseId;
-		String sql4 = "delete from coursetarget where courseId =" + courseId;
-		String sql5 = "delete from courseindustry where courseId =" + courseId;
-		String sql6 = "delete from courseSubjects where courseId =" + courseId;
-		String sql7 = "delete from courseProduct where courseId =" + courseId;
+		String sql1 = "delete from courseinfo where courseId = " + courseId;
+		String sql2 = "delete from coursekeywords where courseId = " + courseId;
+		String sql3 = "delete from coursemajor where courseId = " + courseId;
+		String sql4 = "delete from coursetarget where courseId = " + courseId;
+		String sql5 = "delete from courseindustry where courseId = " + courseId;
+		String sql7 = "delete from coursesubjects where courseId = " + courseId;
+		String sql6 = "delete from courseproduct where courseId = " + courseId;
 		if (deleteCourseInfo) {
 			String[] sqlArr = { sql1, sql2, sql3, sql4, sql5, sql6, sql7 };
-			jdbcTemplate.batchUpdate(sqlArr);
+			int i[] = jdbcTemplate.batchUpdate(sqlArr);
 		} else {
 			String[] sqlArr = { sql2, sql3, sql4, sql5, sql6, sql7 };
-			jdbcTemplate.batchUpdate(sqlArr);
+			int i[] = jdbcTemplate.batchUpdate(sqlArr);
 		}
 	}
 
@@ -433,13 +433,13 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	public void addAllCourseInfo(CourseAllInfoDto courseDto) {
 		Integer courseId = courseDto.getCourseId();
 		List<String> list = new ArrayList<String>();
-		String[] courseKeywords = courseDto.getKeywords().split(",");
-		String[] courseSubjects = courseDto.getSubject().split(",");
-		String[] courseMajors = courseDto.getMajor().split(",");
-		String[] courseTargets = courseDto.getTargets().split(",");
-		String[] courseIndustry = courseDto.getIndustry().split(",");
-		String[] courseProduct = courseDto.getIndustry().split(",");
-		for (String str : courseKeywords) {
+		String[] coursekeywords = courseDto.getKeywords().split(",");
+		String[] coursesubjects = courseDto.getSubject().split(",");
+		String[] coursemajors = courseDto.getMajor().split(",");
+		String[] coursetargets = courseDto.getTargets().split(",");
+		String[] courseindustry = courseDto.getIndustry().split(",");
+		String[] courseproduct = courseDto.getIndustry().split(",");
+		for (String str : coursekeywords) {
 			StringBuffer sql = new StringBuffer(
 					"insert into coursekeywords (courseId,keyword) values ");
 			// 在这里保存keyword实体
@@ -448,16 +448,16 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			list.add(sql.toString());
 		}
 
-		for (String str : courseSubjects) {
+		for (String str : coursesubjects) {
 			StringBuffer sql = new StringBuffer(
-					"insert into courseSubjects (courseId,subject) values ");
+					"insert into coursesubjects (courseId,subject) values ");
 			// 在这里保存keyword实体
 			sql.append("(").append(courseId).append(",'").append(str)
 					.append("');");
 			list.add(sql.toString());
 		}
 
-		for (String str : courseMajors) {
+		for (String str : coursemajors) {
 			StringBuffer sql = new StringBuffer(
 					"insert into coursemajor (courseId,major) values ");
 			sql.append("(").append(courseId).append(",'").append(str)
@@ -465,7 +465,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			list.add(sql.toString());
 		}
 
-		for (String str : courseTargets) {
+		for (String str : coursetargets) {
 			StringBuffer sql = new StringBuffer(
 					"insert into coursetargets (courseId,target) values ");
 			sql.append("(").append(courseId).append(",'").append(str)
@@ -473,17 +473,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			list.add(sql.toString());
 		}
 
-		for (String str : courseIndustry) {
+		for (String str : courseindustry) {
 			StringBuffer sql = new StringBuffer(
-					"insert into courseIndustry (courseId,industry) values ");
+					"insert into courseindustry (courseId,industry) values ");
 			sql.append("(").append(courseId).append(",'").append(str)
 					.append("');");
 			list.add(sql.toString());
 		}
 		
-		for (String str : courseProduct) {
+		for (String str : courseproduct) {
 			StringBuffer sql = new StringBuffer(
-					"insert into courseProduct (courseId,product) values ");
+					"insert into courseproduct (courseId,product) values ");
 			sql.append("(").append(courseId).append(",'").append(str)
 					.append("');");
 			list.add(sql.toString());
@@ -511,7 +511,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			String code = entry.getKey().toString();
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into courseIndustry (courseId,industry,industryCode) values ");
+					"insert into courseindustry (courseId,industry,industryCode) values ");
 			sql.append("(").append(courseId).append(",'").append(value)
 					.append("','").append(code).append("');");
 			list.add(sql.toString());
@@ -522,7 +522,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			String code = entry.getKey().toString();
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into courseTarget (courseId,target,targetCode) values ");
+					"insert into coursetarget (courseId,target,targetCode) values ");
 			sql.append("(").append(courseId).append(",'").append(value)
 					.append("','").append(code).append("');");
 			list.add(sql.toString());
@@ -533,7 +533,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			String code = entry.getKey().toString();
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into courseProduct (courseId,product,productCode) values ");
+					"insert into courseproduct (courseId,product,productCode) values ");
 			sql.append("(").append(courseId).append(",'").append(value)
 					.append("','").append(code).append("');");
 			list.add(sql.toString());
@@ -544,7 +544,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			String code = entry.getKey().toString();
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into courseMajor (courseId,major,majorCode) values ");
+					"insert into coursemajor (courseId,major,majorCode) values ");
 			sql.append("(").append(courseId).append(",'").append(value)
 					.append("','").append(code).append("');");
 			list.add(sql.toString());
@@ -555,7 +555,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			Integer wordId = (Integer) (entry.getKey());
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into courseKeywords (courseId,keyword,keywordId) values ");
+					"insert into coursekeywords (courseId,keyword,keywordId) values ");
 			sql.append("(").append(courseId).append(",'").append(value)
 					.append("','").append(wordId).append("');");
 			list.add(sql.toString());
@@ -566,7 +566,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 			Integer subjectId = (Integer) (entry.getKey());
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into courseSubjects (courseId,subject,subjectId) values ");
+					"insert into coursesubjects (courseId,subject,subjectId) values ");
 			sql.append("(").append(courseId).append(",'").append(value)
 					.append("','").append(subjectId).append("');");
 			list.add(sql.toString());

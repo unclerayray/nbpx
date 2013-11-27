@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
+import com.nb.nbpx.server.course.CourseAction;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -25,6 +28,9 @@ import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrSubjectService")
 public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubjectService{
 
+
+	public static Logger log = LogManager.getLogger(SolrSubjectServiceImpl.class);
+	
 	@Override
 	public void addSubject2Solr(Subject subject) {
 		String serverURL;
@@ -40,12 +46,12 @@ public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubj
 			//rsp.getResponse().get("numFound");
 			solrServer.add(sid);
             solrServer.commit();
-            logger.debug("已成功为插入的专题创建索引");
+            log.debug("已成功为插入的专题创建索引");
 		} catch (IOException e) {
-			logger.error("未能取得专题的SolrServer URL。"+e.getMessage());;
+			log.error("未能取得专题的SolrServer URL。"+e.getMessage());;
 			e.printStackTrace();
 		} catch (SolrServerException e) {
-			logger.error("commit为成功。"+e.getMessage());;
+			log.error("commit为成功。"+e.getMessage());;
 			e.printStackTrace();
 		}
 	}
@@ -65,12 +71,12 @@ public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubj
 			}
 			solrServer.add(documents);
 	        solrServer.commit();
-	        logger.debug("已成功为插入的专题创建索引");
+	        log.debug("已成功为插入的专题创建索引");
 		} catch (IOException e) {
-			logger.error("未能取得专题的SolrServer URL。"+e.getMessage());;
+			log.error("未能取得专题的SolrServer URL。"+e.getMessage());;
 			e.printStackTrace();
 		} catch (SolrServerException e) {
-			logger.error("commit未成功。"+e.getMessage());;
+			log.error("commit未成功。"+e.getMessage());;
 			e.printStackTrace();
 		}
 	}

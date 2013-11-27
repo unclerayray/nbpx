@@ -14,6 +14,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
@@ -55,6 +57,7 @@ public class CourseAction extends BaseAction {
 	public String selected_courseId;
 	public CourseInfo courseInfo;
 	public CourseAllInfoDto courseAllInfo;
+	public static Logger log = LogManager.getLogger(CourseAction.class);
 
 	public String fullImport() {
 		try {
@@ -252,13 +255,13 @@ public class CourseAction extends BaseAction {
 			src.append(templateSrc);
 			src.append("/template-attendance.xls");
 			response = setResponseInfo("application/x-download;charset=utf-8",
-					+year +"年"+month + "月份"+cate+"培训计划.xls");
+					+year + "年" + month + "月份" + cate + "培训计划.xls");
 			output = response.getOutputStream();
 			input = new FileInputStream(src.toString());
 			courseService.exportExcel(cate, year, month, input, output);
 			output.flush();
 		} catch (Exception e) {
-			logger.info("系统发生异常：", e);
+			log.info("系统发生异常：", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -270,7 +273,7 @@ public class CourseAction extends BaseAction {
 					output.close();
 				}
 			} catch (IOException e) {
-				logger.error("导出工资excel报表IOException:", e);
+				log.error("导出工资excel报表IOException:", e);
 				e.printStackTrace();
 			}
 		}

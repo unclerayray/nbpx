@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 import com.chenlb.mmseg4j.Dictionary;
@@ -25,6 +26,7 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
+import com.nb.nbpx.service.solr.impl.SolrSubjectServiceImpl;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
@@ -37,7 +39,7 @@ import com.nb.nbpx.utils.SolrUtil;
 public class KeywordServiceImpl extends BaseServiceImpl implements
 		IKeywordService {
 
-	private static final Logger log = Logger.getLogger(BaseServiceImpl.class
+	private static final Logger log = Logger.getLogger(KeywordServiceImpl.class
 			.getName());
 
 	@Resource

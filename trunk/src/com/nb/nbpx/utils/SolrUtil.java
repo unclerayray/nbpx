@@ -1,10 +1,11 @@
 package com.nb.nbpx.utils;
 
-import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * SOLR相关的工具类
@@ -13,19 +14,26 @@ import java.util.Properties;
  */
 public class SolrUtil {	
 	public static String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+
+    public static Logger         logger           = LogManager
+            .getLogger(SolrUtil.class);
 	/**
 	 * 获取课程模块的Server URL
 	 * @return
 	 * @throws IOException
 	 */
 	public static String getCourseServerUrl() throws IOException{
-		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
-			prop.load(inxx);
-		} catch (IOException e) {
-			e.printStackTrace();
+			logger.debug("before");
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+			logger.debug("solr.core_course.url = " + prop.getProperty("solr.core_course.url"));
+		} catch (Exception e) {
+			logger.debug("exception");
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+			logger.debug("solr.core_course.url = " + prop.getProperty("solr.core_course.url"));
 		}
+		logger.debug("solr.core_course.url = " + prop.getProperty("solr.core_course.url"));
 		return prop.getProperty("solr.core_course.url");
 	}
 	
@@ -35,13 +43,13 @@ public class SolrUtil {
 	 * @throws IOException
 	 */
 	public static String getArticleServerUrl() throws IOException{
-		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
-			prop.load(inxx);
-		} catch (IOException e) {
-			e.printStackTrace();
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
 		}
+		logger.debug("solr.core_article.url = " + prop.getProperty("solr.core_article.url"));
 		return prop.getProperty("solr.core_article.url");
 	}
 	
@@ -51,13 +59,13 @@ public class SolrUtil {
 	 * @throws IOException
 	 */
 	public static String getKeywordServerUrl() throws IOException{
-		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
-			prop.load(inxx);
-		} catch (IOException e) {
-			e.printStackTrace();
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
 		}
+		logger.info("solr.core_keyword.url = " + prop.getProperty("solr.core_keyword.url"));
 		return prop.getProperty("solr.core_keyword.url");
 	}
 	
@@ -67,13 +75,13 @@ public class SolrUtil {
 	 * @throws IOException
 	 */
 	public static String getSubjectServerUrl() throws IOException{
-		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
-			prop.load(inxx);
-		} catch (IOException e) {
-			e.printStackTrace();
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
 		}
+		logger.debug("solr.core_subject.url = " + prop.getProperty("solr.core_subject.url"));
 		return prop.getProperty("solr.core_subject.url");
 	}
 	
@@ -82,13 +90,13 @@ public class SolrUtil {
 	 * @return
 	 */
 	public static String getDictionaryPath() throws IOException{
-		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
-			prop.load(inxx);
-		} catch (IOException e) {
-			e.printStackTrace();
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
 		}
+		logger.debug("solr.dictionary.path = " + prop.getProperty("solr.dictionary.path"));
 		return prop.getProperty("solr.dictionary.path");
 	}
 	
@@ -97,13 +105,13 @@ public class SolrUtil {
 	 * @return
 	 */
 	public static String getDictionaryFilePath() throws IOException{
-		InputStream inxx = new BufferedInputStream(new FileInputStream(classpath+"solr.properties"));
 		Properties prop = new Properties();
 		try {
-			prop.load(inxx);
-		} catch (IOException e) {
-			e.printStackTrace();
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
 		}
+		logger.debug("solr.dictionary.file.path = " + prop.getProperty("solr.dictionary.file.path"));
 		return prop.getProperty("solr.dictionary.path");
 	}
 	
