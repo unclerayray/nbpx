@@ -536,24 +536,24 @@
 <script>
 	$(function(){
 		//加载地区
-		//loadCityCourse(1);
+		loadCityCourse(1);
 		//加载企业培训
-		//loadTop(1);
+		loadTop(1);
 		//加载培训课程
 		for(var i=1;i<=8;i++)
 			seePartTab('a',1,i);
 		//加载内训课程
-		//for(var i=1;i<=8;i++)
+		for(var i=1;i<=8;i++)
 		//	seePartTab('b',1,i);
 		//加载关键词u
-		//for(var i=1;i<=3;i++)
-		//	seePartTab('k',1,i);
+		for(var i=1;i<=3;i++)
+			seePartTab('k',1,i);
 		//加载专题
-		//for(var i=1;i<=2;i++)
-		//	seePartTab('s',1,i);
+		for(var i=1;i<=2;i++)
+			seePartTab('s',1,i);
 		//加载文章
-		//for(var i=1;i<=4;i++)
-		//	seePartTab('c',1,i);
+		for(var i=1;i<=4;i++)
+			seePartTab('c',1,i);
 	})
 	
 	function changeCity(flag){
