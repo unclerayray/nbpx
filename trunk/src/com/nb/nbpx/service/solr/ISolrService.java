@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
 
+import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.service.IBaseService;
 
 /**
@@ -39,4 +40,10 @@ public interface ISolrService extends IBaseService{
 	 * @return
 	 */
 	public String fullTextQueryForHl(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	/**
+	 * 通过变量全文查找，用于显示列表。高亮显示
+	 * @param q 查找参数
+	 * @return
+	 */
+	public List<CourseSearchResult> fullTextQueryForHlReturnList(String q, Integer start, Integer rows) throws SolrServerException, IOException;
 }

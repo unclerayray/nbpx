@@ -17,14 +17,14 @@
 		</div>
 		<div class="mininavRight">
 			<ul>
-				<li><a href="main.html" target='contentFrame' class="navButton index">返回首页</a></li>
+				<li><a href="index.jsp" class="navButton index">返回首页</a></li>
 				<li><a href="#"  class="navButton publishClass">发布课程</a></li>
-				<li><a href="publicNeed.html" target='contentFrame'  class="navButton publishClass">发布需求</a></li>
-				<li><a href="publishNeixun.html" target='contentFrame'  class="navButton publishRequest">内训申请</a></li>
+				<li><a href="publishNeed.jsp" class="navButton publishClass">发布需求</a></li>
+				<li><a href="publishNeixun.jsp"  class="navButton publishRequest">内训申请</a></li>
 				<li><a href="#"   class="navButton apply">发布内训</a></li>
-				<li><a href="login.html" target='contentFrame' class="navButton login">会员登录</a></li>
-				<li><a href="zhaosheng.html"  target='contentFrame' class="navButton student">招生合作</a></li>
-				<li><a href="tousu.html"  target='contentFrame' class="navButton complain">客户投诉</a></li>
+				<li><a href="login.jsp" class="navButton login">会员登录</a></li>
+				<li><a href="zhaosheng.jsp"  class="navButton student">招生合作</a></li>
+				<li><a href="tousu.jsp" class="navButton complain">客户投诉</a></li>
 				<li><a href="#" onclick="window.external.addFavorite('http://localhost:8080/')" class="navButton add">加入收藏</a></li>
 			</ul>
 		</div>

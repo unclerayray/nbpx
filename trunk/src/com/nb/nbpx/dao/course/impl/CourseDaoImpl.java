@@ -206,7 +206,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				if (type != null && !"".equals(type))
 					hql.append(" and c.category = '" + type + "'");
 				if (ifInner != null) {// 区分内训和培训
-					if (ifInner)
+					if (ifInner) 
 						hql.append(" and c.isInner = 1");
 					else
 						hql.append(" and c.isInner = 0");

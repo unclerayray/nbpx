@@ -18,13 +18,13 @@ public class MyContextLoaderListener extends ContextLoaderListener {
 	public static Logger logger = LogManager
 			.getLogger(MyContextLoaderListener.class);
 
-	@Override
+	@Override 
 	public void contextInitialized(ServletContextEvent event) {
 		ServletContext context = event.getServletContext();
 		super.contextInitialized(event);
 		ApplicationContext ctx = WebApplicationContextUtils
 				.getRequiredWebApplicationContext(context);
-		//保存系统的ApplicationContext对象
+		//保存系统的ApplicationContext对象 
 		SystemApplicationContext.setContext(ctx);
   
 	}
