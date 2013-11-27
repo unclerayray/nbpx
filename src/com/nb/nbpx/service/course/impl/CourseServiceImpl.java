@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.course.impl;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -17,6 +18,7 @@ import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
@@ -39,6 +41,7 @@ import com.nb.nbpx.pojo.course.CourseIndustry;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.course.CourseKeyword;
 import com.nb.nbpx.pojo.course.CourseMajor;
+import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.pojo.course.CourseSubject;
 import com.nb.nbpx.pojo.course.CourseTarget;
 import com.nb.nbpx.pojo.keyword.Keyword;
@@ -48,6 +51,7 @@ import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
+import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
@@ -72,6 +76,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	private ISolrKeywordService solrKeywordService;
 	@Resource
 	private ISolrSubjectService solrSubjectService;
+	@Resource
+	private ISolrService solrService;
 
 	// private ICourseKeywordDao courseKeywordDao;
 	// private ICourseKeywordDao courseKeywordDao;
@@ -443,14 +449,44 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	public String getPXCourse(String type, int flag) {
 		
 		List<Course> courseList = null;
-		if (flag == 1)//推荐课程
-			courseList = this.courseDao.getLastedCourse(false, type, true,
-					false, 10, 0);
-		if (flag == 2)//精品课程
+		if(flag == 1){//solr搜索
+			
+			Dictionary dic = dictionaryDao.getDictionary(type, null);
+			if(dic == null)
+				return "";
+			else{
+				try {
+					List<CourseSearchResult> result = solrService.fullTextQueryForHlReturnList(dic.getShowName(), 0, 10);
+					if(result == null){
+						System.out.println("结果为0");
+						return "";
+					}
+					else{
+						System.out.println("结果"+result.size());
+		
+						return JsonUtil.formatListToJson(result);
+					}
+				} catch (SolrServerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		if(flag == 2){//经典课程
 			courseList = this.courseDao.getLastedCourse(false, type, false,
 					true, 10, 0);
-		if (flag == 3)//热门课程
+		}
+		if(flag == 3){//按点击率排行
 			courseList = this.courseDao.getHotCourse(false, type, 10, 0);
+		}
+		if(flag == 4){//推荐课程
+			courseList = this.courseDao.getLastedCourse(false, type, true,
+					false, 10, 0);
+		}
+
 		if (courseList == null)//最新课程
 			return "暂无课程信息";
 		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
@@ -460,7 +496,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			if (temp == null)
 				continue;
 			Map<String,Object> row = new HashMap<String,Object>();
-			row.put("id", temp.getCourseId());
+			row.put("courseId", temp.getCourseId());
 			row.put("title", temp.getTitle());
 			result.add(row);
 		}

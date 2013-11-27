@@ -54,7 +54,7 @@ public class MainAction extends BaseAction{
 	
 	//获得培训的课程
 	public String getPeiXun(){
-		String typeCode = "003_0"+type;//(01-财务管理,02-物流管理,03-人力资源,04-生产管理,05-营销培训,06-综合战略)
+		String typeCode = "003_0"+type;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
 		
 		String result = courseService.getPXCourse(typeCode, Integer.parseInt(flag));
 		this.inputStream = castToInputStream(result);
@@ -64,12 +64,10 @@ public class MainAction extends BaseAction{
 	
 	//获得内训的课程
 	public String getNeiXun(){
-		String typeCode = "003_0"+type;//(01-财务管理,02-物流管理,03-人力资源,04-生产管理,05-营销培训,06-综合战略)
+		String typeCode = "003_0"+type;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
 		String result  = "";
-		if(!"7".equals(type) && !"8".equals(type))
-			result = courseService.getNXCourse(typeCode, Integer.parseInt(flag));
-		else
-			result = "[]";
+		result = courseService.getNXCourse(typeCode, Integer.parseInt(flag));
+
 		this.inputStream = castToInputStream(result);
 		
 		return SUCCESS;

@@ -44,13 +44,13 @@
 				<li class="on"><a href="#" >企业培训</a></li>
 				<li><a href="#">培训师</a></li>
 				<li><a href="#">培训计划</a></li>
-				<li><a href="#">培训专题</a></li>
-				<li><a href="#">内训专题</a></li>
-				<li><a href="#">内训计划</a></li>
 				<li><a href="#">企业内训</a></li>
 				<li><a href="#">内训师</a></li>
 				<li><a href="#">内训视频</a></li>
+				<li><a href="#">下载</a></li>
 				<li><a href="#">文库</a></li>
+				<li><a href="#">机构</a></li>
+				<li><a href="#">问答</a></li>
 			</ul>
 		</div>
 	</div>
@@ -141,7 +141,7 @@
 		</div>
 	</div>
 		<div class="item">
-		<div class="title"><a href="#">营销客服</a></div>
+		<div class="title"><a href="#">采购供应链仓储</a></div>
 		<div class="content">
 			<ul>
 				<li><a href="#">税收 非财</a></li>
@@ -335,30 +335,225 @@
 			</ul>
 		</div>
 	</div>
+	<div class="item">
+		<div class="title"><a href="#">战略管理</a></div>
+		<div class="content">
+			<ul>
+				<li><a href="#">税收 非财</a></li>
+				<li>|</li>
+				<li><a href="#">企业所得税</a></li>
+				<li>|</li>
+				<li><a href="#">全面预算</a></li>
+				<li>|</li>
+				<li><a href="#">应收账款</a></li>
+				<li>|</li>
+				<li><a href="#">企业内部</a></li>
+				<li>|</li>
+				<li><a href="#">新会计准则</a></li>
+				<li>|</li>
+				<li><a href="#">纳税筹划 </a></li>
+				<li>|</li>
+				<li><a href="#">成本管理</a></li>
+				<li>|</li>
+				<li><a href="#">融资</a></li>
+				<li>|</li>
+				<li><a href="#">Excel PPT </a></li>
+				<li>|</li>
+				<li><a href="#">财务总监</a></li>
+				<li>|</li>
+				<li><a href="#">资本运营</a></li>
+				<li>|</li>
+				<li><a href="#">大客户</a></li>
+				<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li>|</li>
+				<li><a href="#">商务礼仪</a></li>
+				<li>|</li>
+				<li><a href="#">进出口</a></li>
+											<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li>|</li>
+				<li><a href="#">商务礼仪</a></li>
+				<li>|</li>
+				<li><a href="#">进出口</a></li>
+								<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="item">
+		<div class="title"><a href="#">项目管理</a></div>
+		<div class="content">
+			<ul>
+				<li><a href="#">税收 非财</a></li>
+				<li>|</li>
+				<li><a href="#">企业所得税</a></li>
+				<li>|</li>
+				<li><a href="#">全面预算</a></li>
+				<li>|</li>
+				<li><a href="#">应收账款</a></li>
+				<li>|</li>
+				<li><a href="#">企业内部</a></li>
+				<li>|</li>
+				<li><a href="#">新会计准则</a></li>
+				<li>|</li>
+				<li><a href="#">纳税筹划 </a></li>
+				<li>|</li>
+				<li><a href="#">成本管理</a></li>
+				<li>|</li>
+				<li><a href="#">融资</a></li>
+				<li>|</li>
+				<li><a href="#">Excel PPT </a></li>
+				<li>|</li>
+				<li><a href="#">财务总监</a></li>
+				<li>|</li>
+				<li><a href="#">资本运营</a></li>
+				<li>|</li>
+				<li><a href="#">大客户</a></li>
+				<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li>|</li>
+				<li><a href="#">商务礼仪</a></li>
+				<li>|</li>
+				<li><a href="#">进出口</a></li>
+											<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li>|</li>
+				<li><a href="#">商务礼仪</a></li>
+				<li>|</li>
+				<li><a href="#">进出口</a></li>
+								<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="item">
+		<div class="title"><a href="#">职业技能</a></div>
+		<div class="content">
+			<ul>
+				<li><a href="#">税收 非财</a></li>
+				<li>|</li>
+				<li><a href="#">企业所得税</a></li>
+				<li>|</li>
+				<li><a href="#">全面预算</a></li>
+				<li>|</li>
+				<li><a href="#">应收账款</a></li>
+				<li>|</li>
+				<li><a href="#">企业内部</a></li>
+				<li>|</li>
+				<li><a href="#">新会计准则</a></li>
+				<li>|</li>
+				<li><a href="#">纳税筹划 </a></li>
+				<li>|</li>
+				<li><a href="#">成本管理</a></li>
+				<li>|</li>
+				<li><a href="#">融资</a></li>
+				<li>|</li>
+				<li><a href="#">Excel PPT </a></li>
+				<li>|</li>
+				<li><a href="#">财务总监</a></li>
+				<li>|</li>
+				<li><a href="#">资本运营</a></li>
+				<li>|</li>
+				<li><a href="#">大客户</a></li>
+				<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li>|</li>
+				<li><a href="#">商务礼仪</a></li>
+				<li>|</li>
+				<li><a href="#">进出口</a></li>
+											<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li>|</li>
+				<li><a href="#">商务礼仪</a></li>
+				<li>|</li>
+				<li><a href="#">进出口</a></li>
+								<li>|</li>
+				<li><a href="#">商务谈判</a></li>
+				<li>|</li>
+				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			</ul>
+		</div>
+	</div>
 </div>
 <div class="clear"></div>
 <!--关键字 end-->
 <script>
 	$(function(){
 		//加载地区
-		loadCityCourse(1);
+		//loadCityCourse(1);
 		//加载企业培训
-		loadTop(1);
+		//loadTop(1);
 		//加载培训课程
-		for(var i=1;i<=6;i++)
+		for(var i=1;i<=8;i++)
 			seePartTab('a',1,i);
 		//加载内训课程
-		for(var i=1;i<=8;i++)
-			seePartTab('b',1,i);
-		//加载关键词
-		for(var i=1;i<=3;i++)
-			seePartTab('k',1,i);
+		//for(var i=1;i<=8;i++)
+		//	seePartTab('b',1,i);
+		//加载关键词u
+		//for(var i=1;i<=3;i++)
+		//	seePartTab('k',1,i);
 		//加载专题
-		for(var i=1;i<=2;i++)
-			seePartTab('s',1,i);
+		//for(var i=1;i<=2;i++)
+		//	seePartTab('s',1,i);
 		//加载文章
-		for(var i=1;i<=4;i++)
-			seePartTab('c',1,i);
+		//for(var i=1;i<=4;i++)
+		//	seePartTab('c',1,i);
 	})
 	
 	function changeCity(flag){
@@ -407,10 +602,10 @@
 		var cssOn = "tabOn";
 		var cssOff = "tabOff";
 		if(pre == 'a')
-			count = 3;
+			count = 4;
 		if(pre == 'b')
 			count = 4;
-		if(pre == 'c');
+		if(pre == 'c')
 			count = 2;
 		if(pre == 'k'){//flag为1代表是培训关键词，2代表内训关键词，3代表文章关键词
 			if(part  == 1){
@@ -423,12 +618,12 @@
 				cssOff = "tabOff three";
 			}
 		}
+
 		if(pre == 's' || pre == 't'){//专题
 			count = 3;
 			cssOn = "tabOn three";
 			cssOff = "tabOff three";
 		}
-
 		for(var i=1;i<=count;i++){
 			if(i == flag){
 				$('#'+pre+part+i).attr('class',cssOn);
@@ -446,7 +641,7 @@
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject,function(n,value){
-						valueStr += "<li><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></li>";
+						valueStr += "<li><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></li>";
 					});
 					if(valueStr == "")
 						valueStr = "<div class='notice'>没有最新的培训</div>";
@@ -738,9 +933,9 @@
 	</div>
 	<div class="right">
 		<div class="head">
-			<div class="tabOn three2" id="f1"><a href='javascript:void(0)' onclick="javascript:changeTab(1)">企业培训</a></div>
-			<div class="tabOff three2" id="f2"><a href='javascript:void(0)' onclick="javascript:changeTab(2)">精品课程</a></div>
-			<div class="tabOff three2" id="f3"><a href='javascript:void(0)' onclick="javascript:changeTab(3)">热门培训</a></div>
+			<div class="tabOn three2" id="f1"><a href='javascript:void(0)' onclick="javascript:changeTab(1)">企业培训(solr)</a></div>
+			<div class="tabOff three2" id="f2"><a href='javascript:void(0)' onclick="javascript:changeTab(2)">企业管理(solr)</a></div>
+			<div class="tabOff three2" id="f3"><a href='javascript:void(0)' onclick="javascript:changeTab(3)">热门培训(点击率+推荐)</a></div>
 		</div>
 		<div class="bg" id="topCourse" style='height:750px;'>
 			<div class="item first">
@@ -769,14 +964,164 @@
 	.typeUl,.keyUl{text-decoration:none;list-style:none}
 	.typeUl li{float:left;list-style:none;padding:3px 20px;background:red}
 	.keyUl{float:left;margin-right:5px;}
+	.keyUl li{padding:5px 3px;margin:0px}
+	.keyUl li a{color:#2D4545;text-decoration:none;font-size:12px}
+	.keyUl li a:hover{color:red}
 </style>
-<div class="mainContent partTwo">
-	<div style="background:yellow;height:30px">
-	<ul class="typeUl"><li>行业培训</li><li>专业培训</li><li>职位培训</li><li>产品培训</li></ul>
-	<div class="clear"></div>
-	</div>
-	<div style="height:120px;background:pink">
+<div class="mainContent partTwo" style='padding-top:10px;'>
+				<div class="head" style='width:100%;background:url(images/longBg.png) -2px -1px no-repeat;'>
+				<div class="tabOn"><a href='javascript:void(0)'">行业培训</a></div>
+				<div class="tabOff" ><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,1)">专业培训</a></div>
+				<div class="tabOff"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,1)">职位培训</a></div>
+				<div class="tabOff"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,1)">产品培训</a></div>
+				<div class="clear"></div>
+				</div>
+	<div style="height:285px;padding:10px;border:1px solid #D0E2D4;border-top:none">
 		<ul class="keyUl">
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+										<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+										<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+										<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+															<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
+					<li><a href="#">软件工程师</a></li>
+					<li><a href="#">培训师</a></li>
+					<li><a href="#">老师</a></li>
+					<li><a href="#">公务员</a></li>
 					<li><a href="#">软件工程师</a></li>
 					<li><a href="#">培训师</a></li>
 					<li><a href="#">老师</a></li>
@@ -800,7 +1145,7 @@
 
 <!--flash start-->
 <div class="clear"></div>
-<div class="mainContent flash" style="padding-top:10px;">
+<div class="mainContent flash">
 	<img  src="images/flash2.jpg" width="960"/>
 </div>
 <!--flash end -->
@@ -811,9 +1156,10 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn" id="a11"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,1)">财务管理课程</a></div>
-				<div class="tabOff" id="a12"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,1)">经典课程</a></div>
+				<div class="tabOn" id="a11"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,1)">财务管理</a></div>
+				<div class="tabOff" id="a12"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,1)">经典培训</a></div>
 				<div class="tabOff" id="a13"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,1)">排行</a></div>
+				<div class="tabOff" id="a14"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,1)">推荐</a></div>
 				<div class="more"><a href="#">更多</a></div>
 				<div class="clear"></div>
 			</div>
@@ -830,9 +1176,10 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="a21"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,2)">物流供应链课程</a></div>
-					<div class="tabOff" id="a22"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,2)">经典课程</a></div>
+					<div class="tabOn" id="a21"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,2)">采购供应链仓储</a></div>
+					<div class="tabOff" id="a22"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,2)">经典培训</a></div>
 					<div class="tabOff" id="a23"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,2)">排行</a></div>
+					<div class="tabOff" id="a24"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,2)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -866,9 +1213,10 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="a31"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,3)">人力资源课程</a></div>
-					<div class="tabOff" id="a32"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,3)">经典课程</a></div>
+					<div class="tabOn" id="a31"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,3)">人力资源管理</a></div>
+					<div class="tabOff" id="a32"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,3)">经典培训</a></div>
 					<div class="tabOff" id="a33"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,3)">排行</a></div>
+					<div class="tabOff" id="a34"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,3)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -885,9 +1233,10 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="a41"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,4)">生产管理课程</a></div>
-					<div class="tabOff" id="a42"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,4)">经典课程</a></div>
+					<div class="tabOn" id="a41"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,4)">生产管理</a></div>
+					<div class="tabOff" id="a42"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,4)">经典培训</a></div>
 					<div class="tabOff" id="a43"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,4)">排行</a></div>
+					<div class="tabOff" id="a44"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,4)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -921,9 +1270,10 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="a51"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,5)">营销培训课程</a></div>
-					<div class="tabOff" id="a52"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,5)">经典课程</a></div>
+					<div class="tabOn" id="a51"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,5)">市场营销</a></div>
+					<div class="tabOff" id="a52"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,5)">经典培训</a></div>
 					<div class="tabOff" id="a53"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,5)">排行</a></div>
+					<div class="tabOff" id="a54"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,5)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -940,9 +1290,10 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="a61"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,6)">综合战略课程</a></div>
-					<div class="tabOff" id="a62"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,6)">经典课程</a></div>
+					<div class="tabOn" id="a61"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,6)">战略管理</a></div>
+					<div class="tabOff" id="a62"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,6)">经典培训</a></div>
 					<div class="tabOff" id="a63"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,6)">排行</a></div>
+					<div class="tabOff" id="a64"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,6)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -981,8 +1332,73 @@
 					<div class="clear"></div>
 				</div>
 			</div>
-		
+	</li>
+	<li class="noneStyle">
+			<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="a51"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,7)">项目管理</a></div>
+					<div class="tabOff" id="a52"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,7)">经典培训</a></div>
+					<div class="tabOff" id="a53"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,7)">排行</a></div>
+					<div class="tabOff" id="a53"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,7)">推荐</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h245">
+					<div style="padding-left:25px;padding-top:10px">
+						<ul class="list4" id="a5">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+				<img  src="images/class2.jpg" />
+			</div>
 		</li>
+	<li class="noneStyle">
+	<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="a61"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,8)">职业技能</a></div>
+					<div class="tabOff" id="a62"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,8)">经典培训</a></div>
+					<div class="tabOff" id="a63"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,8)">排行</a></div>
+					<div class="tabOff" id="a63"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,8)">推荐</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h245">
+					<div style="padding-left:25px;padding-top:10px">
+						<ul class="list4" id="a6">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+				<img  src="images/class5.jpg" />
+	</div>
+	</li>
+	<li class="last noneStyle">
+			<div class="partLeft left">
+				<div class="head">
+					<div class="tabOn three" >培训类别</div>
+					<div class="tabOff three">内训类别</div>
+					<div class="tabOff three">排行</div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h315" style="padding:0px 0px 0px 25px;">
+					<ul class="list5" style="padding-top:10px;width:230px;">
+						<li><a class="left">战略管理</a><span>&nbsp;</span><a class="left">人力资源管理</a></li>
+						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
+						<li><a class="left">财务管理</a><span>&nbsp;</span><a class="left">客户服务</a></li>
+						<li><a class="left">采购物流</a><span>&nbsp;</span><a class="left">职业技能</a></li>
+						<li><a class="left">质量管理</a><span>&nbsp;</span><a class="left">项目管理</a></li>
+						<li><a class="left">团队建设</a><span>&nbsp;</span><a class="left">MBA总裁研修班</a></li>
+						<li><a class="left">行政管理</a><span>&nbsp;</span><a class="left">领导力</a></li>
+						<li><a class="left">战略管理</a><span>&nbsp;</span><a class="left">人力资源管理</a></li>
+						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
+						<li><a class="left">财务管理</a><span>&nbsp;</span><a class="left">客户服务</a></li>
+						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+	</li>
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
@@ -1073,6 +1489,489 @@
 <!--flash start-->
 
 <div class="mainContent flash" >
+	<img  src="images/flash2.jpg" width="960"/>
+</div>
+<div style='height:10px'></div>
+<style>
+.item_box {
+	border: 1px solid #D0E2D4;
+	width:960px;
+}
+.item_title {
+	height: 32px;
+	line-height: 32px;
+	background: #F8F8F8;
+	font-size: 14px;
+	color: #1D2736;
+	border-top: 1px solid #FFF;
+	padding: 0 15px;
+	position: relative;
+	text-align:left;
+	_zoom: 1;
+	font-weight: bold;
+	background:url(images/longBg.png) -2px -1px no-repeat;
+}
+.item_body {
+	padding: 0px 20px 10px 20px;
+}
+ .item_wallpaper {
+	_zoom: 1;
+	width: 920px;
+	overflow: hidden;
+}
+ .item_body ul {
+	width: 960px;
+	margin-top: -1px;
+	margin-left: -10px;
+}
+ .item_body li {
+	float: left;
+	width: 274px;
+	border-top: 1px solid #EEE;
+	border-right: 1px solid #EEE;
+	padding: 0px 20px 10px 20px;
+	line-height: 22px;
+	height: 120px;
+	overflow: hidden;
+}
+.item_body li dl {
+	display: block;
+	text-align:left;
+}
+.item_body dt {
+font-size: 14px;
+color: #555;
+font-weight: bold;
+padding-bottom: 2px;
+	text-align:left;
+}
+.item_body dd {
+	height: 88px;
+	overflow: hidden;
+	padding-left:10px;
+	margin:0px
+}
+.item_body dd .pic_text {
+	float: right;
+	line-height: 18px;
+	width: 80px;
+	height: 80px;
+	margin-top: 5px;
+	overflow: hidden;
+}
+.item_body dd .pic_text .pic {
+	height: 80px;
+}
+.item_body dd a {
+	float: left;
+	white-space: nowrap;
+	padding-right: 13px;
+	font-size:12px;
+	padding-left:0px;
+}
+.clearfix:{background:blue}
+</style>
+<!-- 新增培训导航 start -->
+<div class="item_box mainContent">
+		<div class="item_title" >职位导航</div>
+		<div class="item_body">
+			<div class="item_wallpaper">
+				<ul class="clearfix">
+					<li>
+						<dl>
+							<dt>销售/客服/技术支持</dt>
+							<dd class="clearfix">
+								<div class="pic_text">
+									<div class="pic"><a href="/activities/sales/index.xhtml" title="销售类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="销售类岗位招聘专场"></a></div>
+								</div>								
+								<a  href='#' target="_blank">sales</a>
+								<a href='#' target="_blank">销售代表</a>
+								<a href='#' target="_blank">业务员</a>
+								<a href='#' target="_blank">客户经理</a>
+								<a href='#' target="_blank">电话销售</a>
+								<a href='#' target="_blank">网络销售</a>
+								<a href='#' target="_blank">销售管理</a>
+								<a  href='#' target="_blank">销售经理</a>
+								<a href='#' target="_blank">销售主管</a>
+								<a href='#' target="_blank">销售工程师</a>
+								<a href='#' target="_blank">销售总监</a>
+								<a href='#' target="_blank">销售助理</a>
+								<a href='#'  target="_blank">客服</a>
+								<a href='#' target="_blank">客服经理</a>
+							</dd>
+						</dl>
+					</li>
+					<li> 
+						<dl>
+							<dt>人事/行政/文职/高级管理</dt>
+							<dd class="clearfix">
+								<div class="pic_text">
+									<div class="pic"><a href="/activities/hr.xhtml" title="人事行政类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="人事行政类岗位招聘专场"></a></div>
+								</div>							
+								<a >HR</a>
+								<a>人事专员</a>
+								<a href='#' target="_blank">行政专员</a>
+								<a href='#' target="_blank">招聘</a>
+								<a href='#' target="_blank">培训</a>
+								<a href='#' target="_blank">薪酬</a>
+								<a href='#' target="_blank">员工关系</a>								
+								<a href='#' target="_blank">绩效</a>
+								<a href='#' target="_blank">企业文化</a>
+								<a href='#' target="_blank">人力资源总监</a>
+								<a href='#'  target="_blank">人事经理</a>
+								<a href='#'  target="_blank">总务</a>
+								<a href='#' target="_blank">文员</a>
+								<a href='#' target="_blank">秘书</a>
+								<a href='#' target="_blank">助理</a>
+								<a href='#' target="_blank">档案管理</a>
+								<a href='#' target="_blank">总监</a>
+								<a href='#' target="_blank">部门经理</a>
+								<a href='#' target="_blank">项目经理</a>
+								<a href='#' target="_blank">厂长</a>
+								<a href='#' target="_blank">总裁</a>
+								<a href='#' target="_blank">总经理</a>								
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>
+							<dt>财会/金融/银行/保险</dt>
+							<dd class="clearfix">
+								<div class="pic_text">
+									<div class="pic"><a href="#" title="财务审计类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="财务审计类岗位招聘专场"></a></div>
+								</div>							
+								<a href="=会计" target="_blank">会计</a>
+								<a href="=会计师" target="_blank">会计师</a>
+								<a href="=注册会计师" target="_blank">注册会计师</a>
+								<a href="=成本会计" target="_blank">成本会计</a>
+								<a href="=管理会计" target="_blank">管理会计</a>
+								<a href="=出纳" target="_blank">出纳</a>
+								<a href="=税务" target="_blank">税务</a>								
+								<a href="=财务管理" target="_blank">财务管理</a>
+								<a href="=财务总监" target="_blank">财务总监</a>
+								<a href="=财务经理" target="_blank">财务经理</a>
+								<a href="=会计主管" target="_blank">会计主管</a>
+								<a href="=审计" target="_blank">审计</a>
+								<a href="=稽核" target="_blank">稽核</a>
+								<a href="=保险" target="_blank">保险</a>
+								<a href="=理财" target="_blank">理财</a>
+								<a href="=信贷" target="_blank">信贷</a>
+								<a href="=证券" target="_blank">证券</a>
+								<a href="=投资" target="_blank">投资</a>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt>生产/加工/制造</dt>
+							<dd class="clearfix">
+								<a href="=IE工程师" target="_blank">IE工程师</a>
+								<a href="=PE工程师" target="_blank">PE工程师</a>
+								<a href="=ME工程师" target="_blank">ME工程师</a>
+								<a href="=SMT工程师" target="_blank">SMT工程师</a>
+								<a href="=包装工程师" target="_blank">包装工程师</a>
+								<a href="=项目工程师" target="_blank">项目工程师</a>
+								<a href="=模具工程师" target="_blank">模具工程师</a>								
+								<a href="=生产管理" target="_blank">生产管理</a>
+								<a href="=拉长" target="_blank">拉长</a>
+								<a href="=车间主管" target="_blank">车间主管</a>
+								<a href="=生产经理" target="_blank">生产经理</a>
+								<a href="=PMC" target="_blank">PMC</a>
+								<a href="=普工" target="_blank">普工</a>
+								<a href="=技工" target="_blank">技工</a>
+								<a href="=电工" target="_blank">电工</a>
+								<a href="=车工" target="_blank">车工</a>
+								<a href="=铣" target="_blank">铣</a>
+								<a href="=焊" target="_blank">焊</a>
+								<a href="=钳" target="_blank">钳</a>
+								<a href="=钣金" target="_blank">钣金</a>
+								<a href="=冲压" target="_blank">冲压</a>
+								<a href="=打磨" target="_blank">打磨</a>
+								<a href="=抛光" target="_blank">抛光</a>
+								<a href="=装配" target="_blank">装配</a>
+								<a href="=注塑" target="_blank">注塑</a>								
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>
+							<dt>采购/贸易/物流</dt>
+							<dd class="clearfix">
+								<div class="pic_text">
+									<div class="bx-wrapper" style="width:80px; position:relative;"><div class="bx-window" style="width:80px; height:80px; position:relative; overflow:hidden;"><dl id="pos_nav_slider" style="height: 999999px; position: relative; top: -91.7157287525381px;"><dd class="pic" style="list-style: none; height: 80px;"><a href="/activities/trade.xhtml" title="外贸类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="外贸类职位招聘专场"></a></dd>
+										<dd class="pic bx-child" style="list-style: none; height: 80px;"><a href="/activities/purchase.xhtml" title="物流/采购类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="物流/采购类职位招聘专场"></a></dd>
+										<dd class="pic bx-child" style="list-style: none; height: 80px;"><a href="/activities/trade.xhtml" title="外贸类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="外贸类职位招聘专场"></a></dd>
+									<dd class="pic" style="list-style: none; height: 80px;"><a href="/activities/purchase.xhtml" title="物流/采购类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="物流/采购类职位招聘专场"></a></dd></dl></div><div class="bx-pager"><a href="" class="pager-link pager-1">1</a><a href="" class="pager-link pager-2 pager-active">2</a></div></div>
+								</div>
+								<a href="=采购" target="_blank">采购</a>
+								<a href="=采购经理" target="_blank">采购经理</a>
+								<a href="=采购工程师" target="_blank">采购工程师</a>
+								<a href="=供应商开发" target="_blank">供应商开发</a>
+								<a href="=国际贸易" target="_blank">国际贸易</a>
+								<a href="=跟单" target="_blank">跟单</a>
+								<a href="=报检" target="_blank">报检</a>								
+								<a href="=报关" target="_blank">报关</a>
+								<a href="=外销" target="_blank">外销</a>
+								<a href="=船务" target="_blank">船务</a>
+								<a href="=外贸业务员" target="_blank">外贸业务员</a>
+								<a href="=外贸助理" target="_blank">外贸助理</a>
+								<a href="=外贸专员" target="_blank">外贸专员</a>
+								<a href="=外贸经理" target="_blank">外贸经理</a>
+								<a href="=物流" target="_blank">物流</a>
+								<a href="=调度" target="_blank">调度</a>
+								<a href="=供应链" target="_blank">供应链</a>
+								<a href="=配送" target="_blank">配送</a>
+								<a href="=运输" target="_blank">运输</a>
+								<a href="=快递" target="_blank">快递</a>
+								<a href="=仓储" target="_blank">仓储</a>
+								<a href="=仓管" target="_blank">仓管</a>
+								<a href="=仓库主管" target="_blank">仓库主管</a>
+								<a href="=仓库文员" target="_blank">仓库文员</a>							
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>
+							<dt>质量管理/安全防护</dt>
+							<dd class="clearfix">
+								<div class="pic_text">
+									<div class="pic"><a href="/activities/qc.xhtml" title="质量管理类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="质量管理类职位招聘专场"></a></div>
+								</div>							
+								<a href="=品检" target="_blank">品检</a>
+								<a href="=QC" target="_blank">QC</a>
+								<a href="=IQC" target="_blank">IQC</a>
+								<a href="=FQC" target="_blank">FQC</a>
+								<a href="=OQC" target="_blank">OQC</a>
+								<a href="=IPQC" target="_blank">IPQC</a>
+								<a href="=品管" target="_blank">品管</a>								
+								<a href="=QA" target="_blank">QA</a>
+								<a href="=品质管理" target="_blank">品质管理</a>
+								<a href="=质量管理" target="_blank">质量管理</a>
+								<a href="=品质经理" target="_blank">品质经理</a>
+								<a href="=QE" target="_blank">QE</a>
+								<a href="=品质工程师" target="_blank">品质工程师</a>
+								<a href="=化验员" target="_blank">化验员</a>
+								<a href="=检验员" target="_blank">检验员</a>
+								<a href="=体系工程师" target="_blank">体系工程师</a>
+								<a href="=ISO" target="_blank">ISO</a>
+								<a href="=内审" target="_blank">内审</a>
+								<a href="=供应商管理" target="_blank">供应商管理</a>
+								<a href="=产品认证" target="_blank">产品认证</a>
+								<a href="=计量" target="_blank">计量</a>
+								<a href="=安全工程师" target="_blank">安全工程师</a>
+								<a href="=安全主管" target="_blank">安全主管</a>
+								<a href="=EHS" target="_blank">EHS</a>
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>  
+							<dt>IT/计算机/互联网/通信</dt>
+							<dd class="clearfix">
+								<div class="pic_text">
+									<div class="pic"><a href="/activities/it.xhtml" title="IT类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="IT类岗位招聘专场"></a></div>
+									<!-- div class="text"><span>·</span><a href="">教务主管</a></div -->
+								</div>							
+								<a href="=程序员" target="_blank">程序员</a>
+								<a href="=软件工程师" target="_blank">软件工程师</a>
+								<a href="=java" target="_blank">java</a>
+								<a href="=php" target="_blank">php</a>
+								<a href="=Android" target="_blank">Android</a>
+								<a href="=架构" target="_blank">架构</a>
+								<a href="=IT" target="_blank">IT</a>								
+								<a href="=网页设计" target="_blank">网页设计</a>
+								<a href="=产品经理" target="_blank">产品经理</a>
+								<a href="=产品开发" target="_blank">产品开发</a>
+								<a href="=网络营销" target="_blank">网络营销</a>
+								<a href="=SEO" target="_blank">SEO</a>
+								<a href="=技术总监" target="_blank">技术总监</a>
+								<a href="=测试工程师" target="_blank">测试工程师</a>
+								<a href="=硬件工程师" target="_blank">硬件工程师</a>
+								<a href="=网络管理员" target="_blank">网络管理员</a>
+								<a href="=ERP" target="_blank">ERP</a>
+								<a href="=电子商务" target="_blank">电子商务</a>
+								<a href="=运营" target="_blank">运营</a>
+								<a href="=通讯" target="_blank">通讯</a>
+								<a href="=通信" target="_blank">通信</a>
+								<a href="=无线" target="_blank">无线</a>
+								<a href="=射频" target="_blank">射频</a>
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>
+							<dt>电子/机械/仪器仪表</dt>
+							<dd class="clearfix">
+								<div class="pic_text hide">
+									<div class="pic"><img src="images/sales.jpg" width="80" height="80" border="0" alt="青岛海信通信有限公司"></div>
+									<div class="text"><span>·</span><a href="">校区负责人</a></div>
+									<div class="text"><span>·</span><a href="">教务主管</a></div>
+								</div>
+								<a href="=电子工程师" target="_blank">电子工程师</a>
+								<a href="=电气工程师" target="_blank">电气工程师</a>
+								<a href="=电气设计" target="_blank">电气设计</a>
+								<a href="=电路设计" target="_blank">电路设计</a>
+								<a href="=电子测试" target="_blank">电子测试</a>
+								<a href="=电气维修" target="_blank">电气维修</a>
+								<a href="=数控" target="_blank">数控</a>								
+								<a href="=CNC" target="_blank">CNC</a>
+								<a href="=工艺工程师" target="_blank">工艺工程师</a>
+								<a href="=结构工程师" target="_blank">结构工程师</a>
+								<a href="=机械工程师" target="_blank">机械工程师</a>
+								<a href="=机电工程师" target="_blank">机电工程师</a>
+								<a href="=ME" target="_blank">ME</a>
+								<a href="=制造工程师" target="_blank">制造工程师</a>
+								<a href="=机械设计" target="_blank">机械设计</a>
+								<a href="=夹具" target="_blank">夹具</a>
+								<a href="=焊接" target="_blank">焊接</a>
+								<a href="=调试" target="_blank">调试</a>
+								<a href="=激光" target="_blank">激光</a>
+								<a href="=可靠性测试" target="_blank">可靠性测试</a>
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>
+							<dt>房地产/物业/建筑/园林</dt>
+							<dd class="clearfix">
+								<div class="pic_text hide">
+									<div class="pic"><img src="images/sales.jpg" width="80" height="80" border="0" alt="青岛海信通信有限公司"></div>
+									<div class="text"><span>·</span><a href="">校区负责人</a></div>
+									<div class="text"><span>·</span><a href="">教务主管</a></div>
+								</div>
+								<a href="=房地产开发" target="_blank">房地产开发</a>
+								<a href="=房地产策划" target="_blank">房地产策划</a>
+								<a href="=房地产中介" target="_blank">房地产中介</a>
+								<a href="=房地产销售" target="_blank">房地产销售</a>
+								<a href="=置业顾问" target="_blank">置业顾问</a>
+								<a href="=招标" target="_blank">招标</a>
+								<a href="=报建" target="_blank">报建</a>								
+								<a href="=物业" target="_blank">物业</a>
+								<a href="=物业管理" target="_blank">物业管理</a>
+								<a href="=招商" target="_blank">招商</a>
+								<a href="=园林" target="_blank">园林</a>
+								<a href="=景观" target="_blank">景观</a>
+								<a href="=建筑设计" target="_blank">建筑设计</a>
+								<a href="=建筑工程" target="_blank">建筑工程</a>
+								<a href="=监理" target="_blank">监理</a>
+								<a href="=室内设计" target="_blank">室内设计</a>
+								<a href="=土建工程师" target="_blank">土建工程师</a>
+								<a href="=水电工程师" target="_blank">水电工程师</a>
+								<a href="=建造师" target="_blank">建造师</a>
+								<a href="=造价师" target="_blank">造价师</a>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt>广告/市场/传媒/设计/出版</dt>
+							<dd class="clearfix">
+								<div class="pic_text hide">
+									<div class="pic"><img src="images/sales.jpg" width="80" height="80" border="0" alt="青岛海信通信有限公司"></div>
+									<div class="text"><span>·</span><a href="">校区负责人</a></div>
+									<div class="text"><span>·</span><a href="">教务主管</a></div>
+								</div>
+								<a href="=广告设计" target="_blank">广告设计</a>
+								<a href="=美工" target="_blank">美工</a>
+								<a href="=网页设计" target="_blank">网页设计</a>
+								<a href="=平面设计" target="_blank">平面设计</a>
+								<a href="=产品设计" target="_blank">产品设计</a>
+								<a href="=包装设计" target="_blank">包装设计</a>
+								<a href="=工业设计" target="_blank">工业设计</a>								
+								<a href="=设计总监" target="_blank">设计总监</a>
+								<a href="=文案" target="_blank">文案</a>
+								<a href="=文案策划" target="_blank">文案策划</a>
+								<a href="=编辑" target="_blank">编辑</a>
+								<a href="=摄影" target="_blank">摄影</a>
+								<a href="=数据分析" target="_blank">数据分析</a>
+								<a href="=企划" target="_blank">企划</a>
+								<a href="=公关" target="_blank">公关</a>
+								<a href="=市场营销" target="_blank">市场营销</a>
+								<a href="=市场总监" target="_blank">市场总监</a>
+								<a href="=品牌推广" target="_blank">品牌推广</a>
+								<a href="=业务拓展" target="_blank">业务拓展</a>
+								<a href="=市场拓展" target="_blank">市场拓展</a>
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>
+							<dt>服装纺织/皮革/鞋帽/化工</dt>
+							<dd class="clearfix">
+								<div class="pic_text">
+									<div class="pic"><a href="/activities/clothing.xhtml" title="服装纺织/鞋帽/皮革职位专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="IT类岗位招聘专场"></a></div>
+									<!-- div class="text"><span>·</span><a href="">教务主管</a></div -->
+								</div>							
+								<a href="=服装设计" target="_blank">服装设计</a>
+								<a href="=服装跟单" target="_blank">服装跟单</a>
+								<a href="=面料" target="_blank">面料</a>
+								<a href="=辅料" target="_blank">辅料</a>
+								<a href="=皮革" target="_blank">皮革</a>
+								<a href="=制衣" target="_blank">制衣</a>
+								<a href="=板房" target="_blank">板房</a>								
+								<a href="=纸样" target="_blank">纸样</a>
+								<a href="=打样" target="_blank">打样</a>
+								<a href="=制版" target="_blank">制版</a>
+								<a href="=裁床" target="_blank">裁床</a>
+								<a href="=车板" target="_blank">车板</a>
+								<a href="=放码" target="_blank">放码</a>
+								<a href="=印花" target="_blank">印花</a>
+								<a href="=车缝" target="_blank">车缝</a>
+								<a href="=化工" target="_blank">化工</a>
+								<a href="=调色" target="_blank">调色</a>
+								<a href="=配色" target="_blank">配色</a>
+								<a href="=涂料" target="_blank">涂料</a>
+								<a href="=光学" target="_blank">光学</a>
+								<a href="=环保" target="_blank">环保</a>
+								<a href="=表面处理" target="_blank">表面处理</a>
+								<a href="=高分子材料" target="_blank">高分子材料</a>
+								<a href="=化学分析" target="_blank">化学分析</a>
+								<a href="=电镀" target="_blank">电镀</a>							
+							</dd>
+						</dl>
+					</li>
+					<li>
+						<dl>
+							<dt>服务业/其他</dt>
+							<dd class="clearfix">
+								<a href="=店员" target="_blank">前台</a>
+								<a href="=店员" target="_blank">服务员</a>
+								<a href="=店员" target="_blank">酒店管理</a>
+								<a href="=店员" target="_blank">计调</a>
+								<a href="=店员" target="_blank">美容</a>
+								<a href="=店员" target="_blank">店员</a>
+								<a href="=店长" target="_blank">店长</a>								
+								<a href="=营业员" target="_blank">营业员</a>
+								<a href="=导购" target="_blank">导购</a>
+								<a href="=收银" target="_blank">收银</a>
+								<a href="=理货" target="_blank">理货</a>
+								<a href="=陈列" target="_blank">陈列</a>
+								<a href="=保安" target="_blank">保安</a>
+								<a href="=司机" target="_blank">司机</a>
+								<a href="=清洁" target="_blank">清洁</a>
+								<a href="=厨师" target="_blank">厨师</a>
+								<a href="=后勤" target="_blank">后勤</a>
+								<a href="=顾问" target="_blank">顾问</a>
+								<a href="=咨询" target="_blank">咨询</a>
+								<a href="=法务" target="_blank">法务</a>
+								<a href="=翻译" target="_blank">翻译</a>
+								<a href="=日语" target="_blank">日语</a>
+								<a href="=英语" target="_blank">英语</a>
+								<a href="=韩语" target="_blank">韩语</a>
+								<a href="" target="_blank">教师</a>
+								<a href="">培训师</a>										
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+<!-- 新增培训导航 end -->
+<div style='height:10px'></div>
+<div class="mainContent flash" >
 	<img  src="images/flash3.jpg" width="960"/>
 </div>
 <!--flash end -->
@@ -1081,83 +1980,12 @@
 <div class="mainContent partTwo blue">
 	<ul>
 		<li class="noneStyle">
-			<div class="part left">
+		<div class="part left">
 				<div class="head">
-				<div class="tabOn" id="b71"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,7)">精品企业内训</a></div>
-				<div class="tabOff" id="b72"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,7)">最新</a></div>
-				<div class="tabOff" id="b73"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,7)">经典</a></div>
-				<div class="tabOff" id="b74"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,7)">排行</a></div>
-				<div class="more"><a href="#">更多</a></div>
-				<div class="clear"></div>
-			</div>
-				<div class="bg">
-					<div>
-						<div class="left pic" id="b7P"><img  src="images/824.jpg"/></div>
-						<div class="left content">
-							<div class="title" id="b7T">战略性人力资源管理规划</div>
-							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
-						</div>
-					</div>
-					<div class="clear"></div>
-					<div style="padding-left:25px">
-						<ul class="list4 blue" id="b7">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</li>
-		<li class="noneStyle">
-			<div class="part left">
-				<div class="head">
-					<div class="tabOn" id="b81"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,8)">最新开发企业内训</a></div>
-					<div class="tabOff" id="b82"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,8)">最新</a></div>
-					<div class="tabOff" id="b83"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,8)">经典</a></div>
-				    <div class="tabOff" id="b84"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,8)">排行</a></div>
-					<div class="more"><a href="#">更多</a></div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg">
-					<div>
-						<div class="left pic" id="b8P"><img  src="images/824.jpg"/></div>
-						<div class="left content">
-							<div class="title" id="b8T">战略性人力资源管理规划</div>
-							<div class="desc" id="b8C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
-						</div>
-					</div>
-					<div class="clear"></div>
-					<div style="padding-left:25px">
-						<ul class="list4 blue" id="b8">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</li>
-		<li class="last noneStyle">
-			<div class="partLeft left">
-				<div class="head">
-					<div class="tabOn three" id="k21"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',1,2)">关键词热搜</a></div>
-					<div class="tabOff three" id="k22"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',2,2)">关键词推荐</a></div>
-					<div class="tabOff three" id="k23"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',3,2)">排行</a></div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg" style="padding:0px 15px;">
-					<ul class="list7" style="padding-top:10px" id="k2">
-						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
-					</ul>
-					<div class="clear"></div>
-				</div>
-			</div>
-		
-		</li>
-	<li class="noneStyle">
-	<div class="part left">
-				<div class="head">
-					<div class="tabOn" id="b11"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,1)">财务管理企业内训</a></div>
-					<div class="tabOff" id="b12"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,1)">最新</a></div>
-					<div class="tabOff" id="b13"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,1)">经典</a></div>
-				    <div class="tabOff" id="b14"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,1)">排行</a></div>
+					<div class="tabOn" id="b11"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,1)">财务管理内训</a></div>
+					<div class="tabOff" id="b12"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,1)">经典</a></div>
+					<div class="tabOff" id="b13"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,1)">排行</a></div>
+				    <div class="tabOff" id="b14"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,1)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1181,10 +2009,10 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b21"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,2)">物流供应链企业内训</a></div>
-					<div class="tabOff" id="b22"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,2)">最新</a></div>
-					<div class="tabOff" id="b23"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,2)">经典</a></div>
-				    <div class="tabOff" id="b24"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,2)">排行</a></div>
+					<div class="tabOn" id="b21"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,2)">采购供应链仓储内训</a></div>
+					<div class="tabOff" id="b22"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,2)">经典</a></div>
+					<div class="tabOff" id="b23"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,2)">排行</a></div>
+				    <div class="tabOff" id="b24"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,2)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1208,27 +2036,26 @@
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" id="s21"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',1,2)">专题推荐</a></div>
-					<div class="tabOff three" id="s22"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',2,2)">专题热搜</a></div>
-					<div class="tabOff three" id="s23"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',3,2)">专题排行</a></div>
+					<div class="tabOn three" id="k21"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',1,2)">关键词热搜</a></div>
+					<div class="tabOff three" id="k22"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',2,2)">关键词推荐</a></div>
+					<div class="tabOff three" id="k23"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',3,2)">排行</a></div>
 					<div class="clear"></div>
 				</div>
-				<div class="bg" style="padding:0px 15px;"> 
-					<ul class="list7" style="padding-top:10px" id="s2">
+				<div class="bg" style="padding:0px 15px;">
+					<ul class="list7" style="padding-top:10px" id="k2">
 						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
 			</div>
-		
 		</li>
-		<li class="noneStyle">
+	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b31"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,3)">人力资源企业内训</a></div>
-					<div class="tabOff" id="b32"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,3)">最新</a></div>
-					<div class="tabOff" id="b33"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,3)">经典</a></div>
-				    <div class="tabOff" id="b34"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,3)">排行</a></div>
+					<div class="tabOn" id="b31"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,3)">人力资源管理内训</a></div>
+					<div class="tabOff" id="b32"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,3)">经典</a></div>
+					<div class="tabOff" id="b33"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,3)">排行</a></div>
+				    <div class="tabOff" id="b34"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,3)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1248,14 +2075,14 @@
 					</div>
 				</div>
 			</div>
-		</li>
+	</li>
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b41"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,4)">生产管理企业内训</a></div>
-					<div class="tabOff" id="b42"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,4)">最新</a></div>
-					<div class="tabOff" id="b43"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,4)">经典</a></div>
-				    <div class="tabOff" id="b44"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,4)">排行</a></div>
+					<div class="tabOn" id="b41"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,4)">生产管理内训</a></div>
+					<div class="tabOff" id="b42"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,4)">经典</a></div>
+					<div class="tabOff" id="b43"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,4)">排行</a></div>
+				    <div class="tabOff" id="b44"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,4)">推荐</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1276,6 +2103,79 @@
 				</div>
 	</div>
 	</li>
+	
+	<li class="last noneStyle">
+			<div class="partLeft left">
+				<div class="head">
+					<div class="tabOn three" id="s21"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',1,2)">专题推荐</a></div>
+					<div class="tabOff three" id="s22"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',2,2)">专题热搜</a></div>
+					<div class="tabOff three" id="s23"><a href='javascript:void(0)' onclick="javascript:seePartTab('s',3,2)">专题排行</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg" style="padding:0px 15px;"> 
+					<ul class="list7" style="padding-top:10px" id="s2">
+						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		
+		</li>
+	<li class="noneStyle">
+			<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="b51"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,5)">项目管理内训</a></div>
+					<div class="tabOff" id="b52"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,5)">经典</a></div>
+					<div class="tabOff" id="b53"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,5)">排行</a></div>
+				    <div class="tabOff" id="b54"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,5)">推荐</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg">
+					<div>
+						<div class="left pic" id="b5P"><img  src="images/824.jpg"/></div>
+						<div class="left content">
+							<div class="title" id="b5T">战略性人力资源管理规划</div>
+							<div class="desc" id="b5C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div style="padding-left:25px">
+						<ul class="list4 blue" id="b5">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</li>
+	<li class="noneStyle">
+	<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="b61"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,6)">职业技能内训</a></div>
+					<div class="tabOff" id="b62"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,6)">经典</a></div>
+					<div class="tabOff" id="b63"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,6)">排行</a></div>
+				    <div class="tabOff" id="b64"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,6)">推荐</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg">
+					<div>
+						<div class="left pic" id="b6P"><img  src="images/824.jpg"/></div>
+						<div class="left content">
+							<div class="title" id="b6T">战略性人力资源管理规划</div>
+							<div class="desc" id="b6C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div style="padding-left:25px">
+						<ul class="list4 blue" id="b6">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+	</div>
+	</li>	
+		
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
@@ -1307,57 +2207,57 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b51"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,5)">营销客服企业内训</a></div>
-					<div class="tabOff" id="b52"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,5)">最新</a></div>
-					<div class="tabOff" id="b53"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,5)">经典</a></div>
-				    <div class="tabOff" id="b54"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,5)">排行</a></div>
-					<div class="more"><a href="#">更多</a></div>
-					<div class="clear"></div>
-				</div>
+				<div class="tabOn" id="b71"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,7)">财务管理内训</a></div>
+				<div class="tabOff" id="b72"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,7)">最新</a></div>
+				<div class="tabOff" id="b73"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,7)">经典</a></div>
+				<div class="tabOff" id="b74"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,7)">排行</a></div>
+				<div class="more"><a href="#">更多</a></div>
+				<div class="clear"></div>
+			</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b5P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b7P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title" id="b5T">战略性人力资源管理规划</div>
-							<div class="desc" id="b5C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b7T">战略性人力资源管理规划</div>
+							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue" id="b5">
+						<ul class="list4 blue" id="b7">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</li>
-	<li class="noneStyle">
-	<div class="part left">
+		<li class="noneStyle">
+			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b61"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,6)">综合战略企业内训</a></div>
-					<div class="tabOff" id="b62"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,6)">最新</a></div>
-					<div class="tabOff" id="b63"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,6)">经典</a></div>
-				    <div class="tabOff" id="b64"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,6)">排行</a></div>
+					<div class="tabOn" id="b81"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,8)">采购供应链内训</a></div>
+					<div class="tabOff" id="b82"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,8)">最新</a></div>
+					<div class="tabOff" id="b83"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,8)">经典</a></div>
+				    <div class="tabOff" id="b84"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,8)">排行</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b6P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b8P"><img  src="images/824.jpg"/></div>
 						<div class="left content">
-							<div class="title" id="b6T">战略性人力资源管理规划</div>
-							<div class="desc" id="b6C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b8T">战略性人力资源管理规划</div>
+							<div class="desc" id="b8C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
-						<ul class="list4 blue" id="b6">
+						<ul class="list4 blue" id="b8">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
 				</div>
-	</div>
-	</li>
+			</div>
+		</li>
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
@@ -1411,8 +2311,10 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn" id="c11"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,1)">人力资源新闻</a></div>
-				<div class="tabOff" id="c12"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,1)">人力资源文章</a></div>
+				<div class="tabOn" id="c11"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,1)">财务管理</a></div>
+				<div class="tabOff" id="c12"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,1)">内务控制</a></div>
+				<div class="tabOff" id="c13"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,1)">融资</a></div>
+				<div class="tabOff" id="c14"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,1)">税收</a></div>
 				<div class="more"><a href="#">更多</a></div>
 				<div class="clear"></div>
 			</div>
@@ -1429,8 +2331,9 @@
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c21"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,2)">职业生涯规划</a></div>
-					<div class="tabOff" id="c22"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,2)">市场营销管理</a></div>
+					<div class="tabOn" id="c21"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,2)">采购供应链仓储</a></div>
+					<div class="tabOff" id="c22"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,2)">供应商</a></div>
+					<div class="tabOff" id="c23"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,2)">采购谈判</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1474,8 +2377,10 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c31"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,3)">案例管理文章</a></div>
-					<div class="tabOff" id="c32"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,3)">经理人文章</a></div>
+					<div class="tabOn" id="c31"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,3)">人力资源管理</a></div>
+					<div class="tabOff" id="c32"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,3)">绩效考核</a></div>
+					<div class="tabOff" id="c33"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,3)">薪酬设计</a></div>
+					<div class="tabOff" id="c34"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,3)">招聘</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1492,8 +2397,10 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c41"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,4)">生产管理文章</a></div>
-					<div class="tabOff" id="c42"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,4)">财务管理文章</a></div>
+					<div class="tabOn" id="c41"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,4)">生产管理</a></div>
+					<div class="tabOff" id="c42"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,4)">PMC</a></div>
+					<div class="tabOff" id="c43"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,4)">班组长</a></div>
+					<div class="tabOff" id="c44"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,4)">TPM</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1580,10 +2487,235 @@
 		
 		</li>
 		<li class="noneStyle">
+	<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="c51"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,5)">市场营销</a></div>
+					<div class="tabOff" id="c52"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,5)">销售</a></div>
+					<div class="tabOff" id="c53"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,5)">团队</a></div>
+					<div class="tabOff" id="c54"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,5)">市场调研</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h245">
+					<div style="padding-left:25px;padding-top:10px">
+						<ul class="list4 gray" id="cn5">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+				<img  src="images/new3.jpg"/>
+	</div>
+	</li>
+	<li class="noneStyle">
+			<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="c61"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,6)">战略管理</a></div>
+					<div class="tabOff" id="c62"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,6)">领导力</a></div>
+					<div class="tabOff" id="c63"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,6)">执行力</a></div>
+					<div class="tabOff" id="c64"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,6)">运营</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h245">
+					<div style="padding-left:25px;padding-top:10px">
+						<ul class="list4 gray" id="cn6">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+				<img  src="images/class5.jpg"/>
+			</div>
+		</li>
+		<li class="last noneStyle">
+			<div class="partLeft left">
+				<div class="head">
+					<div class="tabOn three" >文库分类</div>
+					<div class="tabOff three">文库排行</div>
+					<div class="tabOff three">本月排行</div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h315" style="padding:0px 15px;">
+					<div class="docType">
+						<h5>财务管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+					<div class="docType">
+						<h5>生产管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+					<div class="docType">
+						<h5>企业管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>					
+					<div class="docType">
+						<h5>企业管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+
+				</div>
+			</div>
+		
+		</li>
+			<li class="noneStyle">
+	<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="c71"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,7)">项目管理</a></div>
+					<div class="tabOff" id="c72"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,7)">研发</a></div>
+					<div class="tabOff" id="c73"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,7)">品牌</a></div>
+					<div class="tabOff" id="c74"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,7)">时间</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h245">
+					<div style="padding-left:25px;padding-top:10px">
+						<ul class="list4 gray" id="cn5">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+				<img  src="images/new3.jpg"/>
+	</div>
+	</li>
+	<li class="noneStyle">
+			<div class="part left">
+				<div class="head">
+					<div class="tabOn" id="c61"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,6)">职业技能</a></div>
+					<div class="tabOff" id="c62"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,6)">秘书</a></div>
+					<div class="tabOff" id="c63"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,6)">认证</a></div>
+					<div class="tabOff" id="c64"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,6)">英语</a></div>
+					<div class="more"><a href="#">更多</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h245">
+					<div style="padding-left:25px;padding-top:10px">
+						<ul class="list4 gray" id="cn6">
+							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						</ul>
+					</div>
+				</div>
+				<img  src="images/class5.jpg"/>
+			</div>
+		</li>
+		<li class="last noneStyle">
+			<div class="partLeft left">
+				<div class="head">
+					<div class="tabOn three" >文库分类</div>
+					<div class="tabOff three">文库排行</div>
+					<div class="tabOff three">本月排行</div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h315" style="padding:0px 15px;">
+					<div class="docType">
+						<h5>财务管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+					<div class="docType">
+						<h5>生产管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+					<div class="docType">
+						<h5>企业管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>					
+					<div class="docType">
+						<h5>企业管理</h5>
+						<ul>
+							<li>[税收]</li>
+							<li>[预算]</li>
+							<li>[企业内部]</li>
+							<li>[成本]</li>
+							<li>[融资]</li>
+							<li>[税收]</li>
+							<li>[预算]</li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+
+				</div>
+			</div>
+		
+		</li>
+		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
 					<div class="tabOn">企业培训PPT下载</div>
 					<div class="tabOff">热门下载</div>
+					<div class="tabOff">热门搜索</div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1611,6 +2743,7 @@
 				<div class="head">
 					<div class="tabOn">企业培训机构</div>
 					<div class="tabOff">培训机构排名</div>
+					<div class="tabOff">热门搜索</div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
@@ -1745,29 +2878,6 @@
 </div>
 <!--企业新闻 end -->
 
-<div class="mainContent partTwo">
-	<div style="height:120px;background:pink">
-		<ul class="keyUl">
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-			</ul>
-	</div>
-</div>
-<!-- 专业、职位、等 end -->
 
 <jsp:include page="foot.jsp" flush="true"/>
 </body>
