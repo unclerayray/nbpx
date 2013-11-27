@@ -2,7 +2,6 @@ package com.nb.nbpx.dao.article.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +85,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 				return query.list();
 			}
 		});
-		Map<String, Object> propertyMap = new HashMap<String, Object>();
+		//Map<String, Object> propertyMap = new HashMap<String, Object>();
 		return list;
 	}
 
@@ -140,7 +139,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 			Integer subjectId = (Integer) (entry.getKey());
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into articleSubjects (articleId,subject,subjectId) values ");
+					"insert into articlesubjects (articleId,subject,subjectId) values ");
 			sql.append("(").append(articleId).append(",'").append(value)
 					.append("','").append(subjectId).append("');");
 			list.add(sql.toString());
@@ -154,7 +153,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 	public void deleteArticleDetail(Integer articleId) {
 		String sql1 = "delete from articlekeywords where articleId ="
 				+ articleId;
-		String sql2 = "delete from articleSubjects where articleId ="
+		String sql2 = "delete from articlesubjects where articleId ="
 				+ articleId;
 
 		String[] sqlArr = { sql1, sql2 };

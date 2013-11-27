@@ -4,8 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.charfilter.HTMLStripCharFilter;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -20,7 +21,6 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dto.article.ArticleDetail;
-import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrArticleService;
 import com.nb.nbpx.utils.SolrUtil;
@@ -28,6 +28,8 @@ import com.nb.nbpx.utils.SolrUtil;
 public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		ISolrArticleService {
 
+	public static Logger log = LogManager.getLogger(SolrArticleServiceImpl.class);
+	
 	@Override
 	public void addArticle2Solr(ArticleDetail artiDetail) {
 		String serverURL;
@@ -40,6 +42,7 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 			sid.addField("author", artiDetail.getAuthor());
 			String contents = artiDetail.getContent();
 			contents = stripHTMLX(contents);
+			
 			sid.addField("content", contents);
 			String[] courseKeywords = artiDetail.getKeywords().split(",");
 			String[] courseSubjects = artiDetail.getSubjects().split(",");
@@ -85,6 +88,27 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
         solrServer.commit();
 	}
 
+	
+	private String stripHTML(String value){
+		StringBuilder out = new StringBuilder();
+		  StringReader strReader = new StringReader(value);
+		  try {
+		    HTMLStripCharFilter html = new HTMLStripCharFilter(new BufferedReader(strReader.markSupported() ? strReader : new BufferedReader(strReader)));
+		    char[] cbuf = new char[1024 * 10];
+		    while (true) {
+		      int count = html.read(cbuf);
+		      if (count == -1)
+		        break; // end of stream mark is -1
+		      if (count > 0)
+		        out.append(cbuf, 0, count);
+		    }
+		    html.close();
+		  } catch (IOException e) {
+		    log.error("error");
+		  }
+		  return out.toString();
+	}
+	
 	
 	/**
 	 * 清除课程内容中的HTML标签，并存入SOLR中
