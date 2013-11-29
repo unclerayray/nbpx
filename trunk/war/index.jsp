@@ -544,7 +544,7 @@
 			seePartTab('a',1,i);
 		//加载内训课程
 		for(var i=1;i<=8;i++)
-		//	seePartTab('b',1,i);
+			seePartTab('b',1,i);
 		//加载关键词u
 		for(var i=1;i<=3;i++)
 			seePartTab('k',1,i);
