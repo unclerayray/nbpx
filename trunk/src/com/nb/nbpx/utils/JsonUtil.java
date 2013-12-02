@@ -158,7 +158,7 @@ public class JsonUtil {
 			jsonObject.put("total", total);
 			return jsonObject.toString();
 		} else {
-			return "{'total':0,'rows':[]}";
+			return "{\"total\":0,\"rows\":[]}";
 		}
 	}
 
@@ -244,7 +244,7 @@ public class JsonUtil {
 			jsonObject.put("total", total);
 			return jsonObject.toString();
 		} else {
-			return "{'success':true,'message':'','total':0,'rows':[]}";
+			return "{\"success\":true,\"message\":\"\",\"total\":0,\"rows\":[]}";
 		}
 	}
 

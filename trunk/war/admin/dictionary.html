@@ -24,12 +24,13 @@
 		<tr>
 			<th data-options="field:'dicId',width:80,hidden:true">主键</th>
 			<th
-			data-options="field:'dicType',width:120,formatter:function(value,row){return row.dicTypeName;}">字典类型</th>
-			<th data-options="field:'codeName',width:120">字典编码</th>
-			<th data-options="field:'showName',width:120">字典项值</th>
-			<th data-options="field:'discription',width:250">字典描述</th>
+			data-options="field:'dicType',width:120,sortable:true,formatter:function(value,row){return row.dicTypeName;}">字典类型</th>
+			<th data-options="field:'codeName',sortable:true,width:120">字典编码</th>
+			<th data-options="field:'orderNum',sortable:true,width:100">排列顺序</th>
+			<th data-options="field:'showName',sortable:true,width:120">字典项值</th>
+			<th data-options="field:'discription',sortable:true,width:250">字典描述</th>
 			<th
-			data-options="field:'flag',width:50,formatter:function(value,row){if(row.flag) {return '启用';}else{return '禁用';}}">状态</th>
+			data-options="field:'flag',sortable:true,width:50,formatter:function(value,row){if(row.flag) {return '启用';}else{return '禁用';}}">状态</th>
 		</tr>
 	</thead>
 </table>
@@ -96,17 +97,18 @@ modal="true" buttons="#dlg-buttons">
 	</select>
 </div>
 <div class="fitem">
-	<label>字典编码:</label> <input class="easyui-validatebox" id="codeNameItem" 
-	name="codeName" required="true" style="width: 130px;">
+	<label>字典项值:</label> <input class="easyui-validatebox"
+	name="showName" required="true" style="width: 130px;"><input  type="hidden" 
+	name="codeName" style="width: 130px;">
 </div>
 <div class="fitem">
-	<label>字典项值:</label> <input class="easyui-validatebox"
-	name="showName" required="true" style="width: 130px;">
+	<label>字典顺序编号:</label> <input id="codeNameItem" 
+	name="orderNum" style="width: 130px;">
 </div>
 <div class="fitem">
 	<label>字典描述:</label>
 	<textarea class="easyui-textarea" name="discription"
-	style="height: 60px; width: 130px;" type="textarea" required="true"></textarea>
+	style="height: 60px; width: 130px;" type="textarea"></textarea>
 </div>
 <div class="fitem">
 	<label>是否启用:</label> <input name="flag" id="flag" type="checkbox">
@@ -143,11 +145,11 @@ data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Dictiona
 <thead>
 	<tr>
 		<th data-options="field:'dicId',width:80,hidden:true">主键</th>
-		<th data-options="field:'codeName',width:100">字典类编码</th>
-		<th data-options="field:'showName',width:100">字典类</th>
+		<th data-options="field:'codeName',sortable:true,width:100">字典类编码</th>
+		<th data-options="field:'showName',sortable:true,width:100">字典类</th>
 		<th data-options="field:'discription',width:330">字典类描述</th>
 		<th
-		data-options="field:'flag',width:50,formatter:function(value,row){if(row.flag) {return '启用';}else{return '禁用';}}">状态</th>
+		data-options="field:'flag',width:50,sortable:true,formatter:function(value,row){if(row.flag) {return '启用';}else{return '禁用';}}">状态</th>
 	</tr>
 </thead>
 </table>
@@ -175,7 +177,7 @@ function queryDic(atr1) {
 				document.getElementById('dicTypeInForm').style.display = 'inline';
 			}
 			$('#fm').form('clear');
-			setEditable();
+			//setEditable();
 			$('#flag').attr('checked', 'checked');
 		}
 		function editDic(attr) {
@@ -193,7 +195,7 @@ function queryDic(atr1) {
 				} else {
 					$('#dlg').dialog('open').dialog('setTitle', '编辑字典项');
 				}
-				setUnEditable();
+				//setUnEditable();
 				$('#fm').form({
 					onLoadSuccess : function(data) {
 						if (data.flag)

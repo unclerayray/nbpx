@@ -17,7 +17,12 @@ import com.nb.nbpx.pojo.user.TeacherInfo;
 public interface ICourseDao extends IBaseDao<Course, Integer> {
 	public List<Course> queryCourses(String category, Integer courseId,
 			Integer rows, Integer start , String sort, String order);
+	
+	public List<Course> queryCoursesWithTitle(String category, String courseTitle,
+			Integer rows, Integer start , String sort, String order);
 
+	public Long queryCourseCount(String category, String courseTitle);
+	
 	public Long queryCourseCount(String category, Integer courseId);
 
 	public List<Dictionary> queryCourseType();

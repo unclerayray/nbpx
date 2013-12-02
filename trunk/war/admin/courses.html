@@ -57,7 +57,7 @@
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
 		textField:'showName',   
-		panelHeight:'auto'  ,
+		panelHeight:'auto',
 		strict:true,
 		onSelect: function(rec){  
 		var url = '../struts/Course_queryComboCourseCode?category='+rec.codeName;  
@@ -65,6 +65,7 @@
 		$('#courseIdFS').combobox('reload', url);  
 	}
 	">
+	课程名： <input id="q_title" name="q_title" style="width: 180px;">
 	课程代码： <input class="easyui-combobox" name="courseId"
 	id="courseIdFS"
 	data-options="   
@@ -173,8 +174,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							valueField:'codeName',  
 							textField:'showName',
 							panelHeight:'auto',
-							multiple:true,
-							editable:false"  
+							multiple:true"  
 							style="width: 120px;">
 						</td>
 						<td  class="itemText">
@@ -352,10 +352,29 @@ function clearTollBar() {
 function queryCourse() {
 			//alert("ahhahhahahah  " + $('#category').combobox('getValue'));
 			//TODO 模糊查询
-			$('#dg').datagrid('load', {
-				category : $('#category').combobox('getValue'),
-				courseId : $('#courseIdFS').combobox('getValue')
-			});
+			// $('#dg').datagrid('load', {
+			// 	category : $('#category').combobox('getValue'),
+			// 	courseId : $('#courseIdFS').combobox('getValue')
+			// });
+			// alert('what up bitches!!!!!!');
+			//var ss = jQuery.parseJSON( '{'success':true,'message':'','total':0,'rows':[]}' );
+			//alert(ss.success);
+			$.ajax({
+			      type: "POST",
+			      url: '../struts/Course_queryCourses',
+			      dataType: 'json',
+			          data: {
+			          	category : $('#category').combobox('getValue'),  
+			          	courseId : $('#courseIdFS').combobox('getValue'),
+			          	q_title : $('#q_title').val(),
+			          	} 
+		    	}).done(function( responseJson ) 
+      			{
+      				// alert('what up bitch');
+		          $('#dg').datagrid('loadData', responseJson );
+		          // alert(responseJson.total);
+		          });
+		    //$('#dg').datagrid('loadData', {'success':true,'message':'','total':0,'rows':[]});
 		}
 		function newCourse() {
 			$('#dlg').dialog('open').dialog('setTitle', '新建公开课');
@@ -670,11 +689,11 @@ function openInfoDlg1(openInside){
 						var data = eval('(' + data + ')');
 						//alert('data = '+data);
 						//alert('data.success = ' + data.success);
-							Console.log('what the fuck');
+						//   	Console.log('what the fuck');
 						if (data.success) {
 							$('#dlg-courseId').val(data.dlg_courseId);
 							$('#selected_courseId').val(data.dlg_courseId);
-							Console.log('what the fuck');
+							//Console.log('what the fuck');
 							$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
 							$('#dg_info').datagrid({
 								url:'../struts/Course_queryCourseInfo?selected_courseId='+data.dlg_courseId,  

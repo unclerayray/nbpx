@@ -24,53 +24,53 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public List<Dictionary> queryDictionary(final String dicType,
-			final String codeName, final Integer rows, final Integer start) {
+			final String codeName, final Integer rows, final Integer start, String sort, String order) {
 		List<Dictionary> list = new ArrayList<Dictionary>();
-		list = getHibernateTemplate().executeFind(
-				new HibernateCallback() {
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
-					@Override
-					public Object doInHibernate(Session session)
-							throws HibernateException, SQLException {
-						int i = 0;
-						StringBuffer hql = new StringBuffer(
-								"select new com.nb.nbpx.pojo.system.Dictionary"
-										+ " (d.dicId, d.dicType, d.codeName, d.showName, d.orderNum,"
-										+ " d.attribute1, d.attribute2, d.attribute3, d.flag,"
-										+ " d.discription, fd.showName) from Dictionary d, Dictionary fd"
-										+ " where 1 = 1 ");
-						if (dicType != null && !dicType.isEmpty()) {
-							hql.append(" and d.dicType = ? ");
-						}
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.system.Dictionary"
+								+ " (d.dicId, d.dicType, d.codeName, d.showName, d.orderNum,"
+								+ " d.attribute1, d.attribute2, d.attribute3, d.flag,"
+								+ " d.discription, fd.showName) from Dictionary d, Dictionary fd"
+								+ " where 1 = 1 ");
+				if (dicType != null && !dicType.isEmpty()) {
+					hql.append(" and d.dicType = ? ");
+				}
 
-						if (codeName != null && !codeName.isEmpty()) {
-							hql.append(" and d.codeName = ? ");
-						}
+				if (codeName != null && !codeName.isEmpty()) {
+					hql.append(" and d.codeName = ? ");
+				}
 
-						hql.append(" and d.dicType = fd.codeName ");
-						Query query = session.createQuery(hql.toString());
+				hql.append(" and d.dicType = fd.codeName ");
+				Query query = session.createQuery(hql.toString());
 
-						if (dicType != null && !dicType.isEmpty()) {
-							query.setString(i++, dicType);
-						}
+				if (dicType != null && !dicType.isEmpty()) {
+					query.setString(i++, dicType);
+				}
 
-						if (codeName != null && !codeName.isEmpty()) {
-							query.setString(i++, codeName);
-						}
+				if (codeName != null && !codeName.isEmpty()) {
+					query.setString(i++, codeName);
+				}
 
-						if (start != null && rows != null) {
-							query.setFirstResult(start);
-							query.setMaxResults(rows);
-						}
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
 
-						return query.list();
-					}
-				});
+				return query.list();
+			}
+		});
 		return list;
 	}
 
 	@Override
-	public List<Dictionary> queryDicTypes(final Integer rows, final Integer start) {
+	public List<Dictionary> queryDicTypes(final Integer rows,
+			final Integer start) {
 		List<Dictionary> list = new ArrayList<Dictionary>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -162,17 +162,20 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer(
 						"select count(d) from Dictionary d where 1 = 1 ");
-				hql.append(" and codeName = '" + dictionary.getCodeName() + "' ");
-				hql.append(" and ( dicType = '" + dictionary.getDicType() + "' ");
-				hql.append(" or showName = '" + dictionary.getShowName() + "' ) ");
+				hql.append(" and codeName = '" + dictionary.getCodeName()
+						+ "' ");
+				hql.append(" and ( dicType = '" + dictionary.getDicType()
+						+ "' ");
+				hql.append(" or showName = '" + dictionary.getShowName()
+						+ "' ) ");
 				Query query = session.createQuery(hql.toString());
 				return query.list();
 			}
 		});
 		Long countL = (Long) list.get(0);
-		if(countL.intValue()>0){
+		if (countL.intValue() > 0) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -193,15 +196,15 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 			}
 		});
 		Long countL = (Long) list.get(0);
-		if(countL.intValue()>0){
+		if (countL.intValue() > 0) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
-	
+
 	@Override
-	public Dictionary getDictionary(final String codeName,final String showName){
+	public Dictionary getDictionary(final String codeName, final String showName) {
 		List<Dictionary> list = new ArrayList<Dictionary>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -210,20 +213,35 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer(
 						"select new Dictionary(d.dicId,d.codeName,d.showName,d.discription,d.flag) from Dictionary d where 1=1 ");
-				if(codeName != null && !"".equals(codeName))
-					hql.append(" and d.codeName ='"+codeName+"'");
-				if(showName != null && !"".equals(showName))
-					hql.append(" and d.showName ='"+showName+"'");
+				if (codeName != null && !"".equals(codeName))
+					hql.append(" and d.codeName ='" + codeName + "'");
+				if (showName != null && !"".equals(showName))
+					hql.append(" and d.showName ='" + showName + "'");
 				Query query = session.createQuery(hql.toString());
 
 				return query.list();
 			}
 
 		});
-		if(list == null || list.size() == 0)
+		if (list == null || list.size() == 0)
 			return null;
 		else
 			return list.get(0);
+	}
+
+	@Override
+	public String getLatestCode(String type) {
+		String sql = "select SUBSTRING(codeName,5)+1 from  Dictionary d where d.dicType =  "
+				+ "'"
+				+ type
+				+ "'"
+				+ " order by substring(codeName,5) desc limit 1;";
+		List list = find(sql);
+		if (list == null || list.isEmpty()) {
+			return type + "_" + "0000";
+		} else {
+			return type + "_" + list.get(0).toString();
+		}
 	}
 
 }
