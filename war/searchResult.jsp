@@ -35,6 +35,8 @@ pageEncoding="utf-8"%>
 				$.ajax({
 					url: "http://localhost:8080/solr/core_keyword/select",
 					dataType: "jsonp",
+					delay: 500,
+					timeout: 5000,
 					jsonp: "json.wrf",
 					data: {
 						featureClass: "P",
@@ -156,7 +158,7 @@ var pager = {
 	<div class="mainContent path">
 		<ul>
 			<li>当前位置:&nbsp;</li>
-			<li><a href="main.html" target="_self">首页</a></li>
+			<li><a href="index.jsp" target="_self">首页</a></li>
 			<li class="bread">&gt;&gt;</li>
 			<li>搜索结果</li>
 		</ul>

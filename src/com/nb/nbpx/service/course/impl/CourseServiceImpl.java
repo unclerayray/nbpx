@@ -19,6 +19,7 @@ import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
@@ -33,6 +34,7 @@ import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.dao.subject.ISubjectDao;
 import com.nb.nbpx.dao.system.IDictionaryDao;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
+import com.nb.nbpx.dao.user.IUserDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.dto.course.CourseReport;
 import com.nb.nbpx.dto.course.ReportDTO;
@@ -48,6 +50,7 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
+import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
@@ -63,6 +66,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	private ICourseDao courseDao;
 	private ITeacherInfoDao teacherDao;
 	private ICourseInfoDao courseInfoDao;
+	private IUserDao userDao;
 	private ICourseKeywordDao courseKeywordDao;
 	private ICourseIndustryDao courseIndustryDao;
 	private ICourseSubjectDao courseSubjectDao;
@@ -83,17 +87,28 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	// private ICourseKeywordDao courseKeywordDao;
 
 	@Override
-	public String queryCourses(String category, Integer courseId,
+	public String queryCourses(String category, Integer courseId, String title, 
 			Integer rows, Integer start,String sort, String order) {
 		String json = "";
-		List<Course> list = courseDao.queryCourses(category, courseId, rows,
-				start,sort,order);
+		List<Course> list ;
+		if(title!=null && !title.isEmpty()){
+			list = courseDao.queryCoursesWithTitle(category, title, rows, start, sort, order);
+		}else{
+			list = courseDao.queryCourses(category, courseId, rows, start, sort, order);
+		}
+				
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
 		} else {
-			int count = courseDao.queryCourseCount(category, courseId)
-					.intValue();
+			int count = 0;
+			if(title!=null && !title.isEmpty()){
+				count = courseDao.queryCourseCount(category, title)
+						.intValue();
+			}else{
+				count = courseDao.queryCourseCount(category, courseId)
+						.intValue();
+			}
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
 		}
@@ -251,6 +266,15 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 		 * course.setTeacherName(course.getTeacherId());
 		 * course.setTeacherId(null); } } }
 		 */
+		//如果讲师不存在与数据库中，则添加讲师
+		if(!StringUtil.isNumeric(course.getTeacherId())){
+			User user = new User();
+			userDao.save(user);
+			TeacherInfo teacher = new TeacherInfo();
+			teacher.setUserId(user.getUserId());
+			teacher.setRealName(course.getTeacherId());
+			teacherDao.save(teacher);
+		}
 		if (course.getCourseId() == null) {
 			if (courseDao.checkDuplicateProp(course)) {
 				throw new NbpxException("由此教师讲解的《"+course.getTitle()+"》课程已存在在数据库中，如需新增安排，请直接在列表中查出该课程，点击课程安排！");
@@ -763,7 +787,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 			dicType = "010";
 		else
 			dicType = "011";//产品
-		List<Dictionary> dictionarys = dictionaryDao.queryDictionary(dicType, null, rows, start);
+		List<Dictionary> dictionarys = dictionaryDao.queryDictionary(dicType, null, rows, start,null,null);
 		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
 		for(Dictionary temp : dictionarys){
 			Map<String,String> row = new HashMap<String,String>();
@@ -1077,6 +1101,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements ICourseService
 	@Resource
 	public void setCourseTargetDao(ICourseTargetDao courseTargetDao) {
 		this.courseTargetDao = courseTargetDao;
+	}
+	public IUserDao getUserDao() {
+		return userDao;
+	}
+	@Resource
+	public void setUserDao(IUserDao userDao) {
+		this.userDao = userDao;
 	}
 	
 

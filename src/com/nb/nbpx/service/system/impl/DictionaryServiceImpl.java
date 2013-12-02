@@ -30,16 +30,16 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 	
 	@Override
 	public String queryComboDics(String dicType) {
-		List list = dicDao.queryDictionary(dicType, null, null, null);
+		List list = dicDao.queryDictionary(dicType, null, null, null, null, null);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
 	}
 
 	@Override
 	public String queryDic(String dicType, String showName, Integer rows,
-			Integer start) {
+			Integer start, String sort, String order) {
 		String json = "";
-		List<Dictionary> list = dicDao.queryDictionary(dicType, showName, rows, start);
+		List<Dictionary> list = dicDao.queryDictionary(dicType, showName, rows, start, sort, order);
 		if(list.isEmpty()){
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
@@ -76,6 +76,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 			if(dicDao.checkDuplicateProp(dictionary)){
 				throw new NbpxException("字典项重复，请检查！");
 			}
+			dictionary.setCodeName(dicDao.getLatestCode(dictionary.getDicType()));
 			dicDao.save(dictionary);
 		}else{
 			dicDao.saveOrUpdate(dictionary);

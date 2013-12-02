@@ -923,4 +923,93 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 		});
 		return list;
 	}
+
+	@Override
+	public List<Course> queryCoursesWithTitle(final String category, final String courseTitle,
+			final Integer rows, final Integer start, final String sort, final String order) {
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course"
+								+ " (c.courseId, c.title,c.isInner, c.teacherId, "
+								+ "ti.realName, c.category, fd.showName, c.lastUpdateDate, "
+								+ " c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
+								+ " where 1 = 1 ");
+				if (category != null && !category.isEmpty()) {
+					hql.append(" and category = ? ");
+				}
+
+				if (courseTitle != null) {
+					hql.append(" and c.title like ? ");
+				}
+				hql.append(" and c.category = fd.codeName ");
+				hql.append(" and ti.teacherId = c.teacherId");
+
+				if (sort != null && !sort.isEmpty()) {
+					hql.append(" order by c." + sort);
+					if (order != null && !order.isEmpty()) {
+						hql.append(" " + order);
+					}
+				}else{
+					hql.append(" order by c.lastUpdateDate desc ");
+				}
+				Query query = session.createQuery(hql.toString());
+
+				if (category != null && !category.isEmpty()) {
+					query.setString(i++, category);
+				}
+
+				if (courseTitle != null) {
+					query.setString(i++, "%"+courseTitle+"%");
+				}
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public Long queryCourseCount(final String category, final String courseTitle) {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select count(c) from Course c where 1 = 1");
+				if (category != null && !category.isEmpty()) {
+					hql.append(" and category = ? ");
+				}
+
+				if (courseTitle != null) {
+					hql.append(" and title like ? ");
+				}
+				Query query = session.createQuery(hql.toString());
+
+				if (category != null && !category.isEmpty()) {
+					query.setString(i++, category);
+				}
+
+				if (courseTitle != null) {
+					query.setString(i++, "%"+courseTitle+"%");
+				}
+
+				return query.list();
+			}
+		});
+		return (Long) list.get(0);
+	}
 }

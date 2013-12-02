@@ -13,7 +13,7 @@ public interface IDictionaryService extends IBaseService {
 	 * @param start
 	 * @return
 	 */
-	public String queryDic(String dicType,String codeName,Integer rows, Integer start);
+	public String queryDic(String dicType,String codeName,Integer rows, Integer start, String sort, String order);
 	
 	/**
 	 * 获取【字典类别DataGrid】的JSON

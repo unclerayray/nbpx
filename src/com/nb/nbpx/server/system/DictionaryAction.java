@@ -27,7 +27,7 @@ public class DictionaryAction extends BaseAction {
 
 	public String queryDictionary() {
 		String json = dictionaryService.queryDic(p_dicType, p_codeName, rows,
-				getStartPosi());
+				getStartPosi(), sort, order);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}

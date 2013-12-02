@@ -34,6 +34,7 @@ public class Download extends BaseEntity implements Serializable {
 	public Date uploadDate;
 	public Integer downloadCnt;
 	public Integer hits;
+	public Double size;
 	
 	
 	
@@ -56,7 +57,7 @@ public class Download extends BaseEntity implements Serializable {
 	 */
 	public Download(Integer downloadId, String title, String filepath,
 			String filetype, String description, String author,
-			Date uploadDate, Integer downloadCnt, Integer hits) {
+			Date uploadDate, Integer downloadCnt, Integer hits, Double size) {
 		super();
 		this.downloadId = downloadId;
 		this.title = title;
@@ -67,6 +68,7 @@ public class Download extends BaseEntity implements Serializable {
 		this.uploadDate = uploadDate;
 		this.downloadCnt = downloadCnt;
 		this.hits = hits;
+		this.size = size;
 	}
 
 	@Id
@@ -159,6 +161,14 @@ public class Download extends BaseEntity implements Serializable {
 
 	public void setHits(Integer hits) {
 		this.hits = hits;
+	}
+
+	public Double getSize() {
+		return size;
+	}
+
+	public void setSize(Double size) {
+		this.size = size;
 	}
 	
 	

@@ -10,7 +10,7 @@ import com.nb.nbpx.pojo.system.Dictionary;
  * @date 2013-4-29
  */
 public interface IDictionaryDao extends IBaseDao<Dictionary, Integer> {
-	public List<Dictionary> queryDictionary(String dicType,String codeName,Integer rows, Integer start);
+	public List<Dictionary> queryDictionary(String dicType,String codeName,Integer rows, Integer start, String sort, String order);
 	public Long queryDictionaryCount(String dicType,String showName);
 	public List<Dictionary> queryDicTypes(Integer rows, Integer start);
 	public Long queryDicTypesCount();
@@ -35,4 +35,11 @@ public interface IDictionaryDao extends IBaseDao<Dictionary, Integer> {
 	 * @return true表示可删除，false表示不可删除
 	 */
 	public boolean checkShouldDelete(Dictionary dictionary);
+	
+	/**
+	 * 获取该类别下的最新code
+	 * @param type
+	 * @return
+	 */
+	public String getLatestCode(String type);
 }

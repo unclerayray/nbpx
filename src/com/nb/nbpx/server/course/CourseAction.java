@@ -52,6 +52,7 @@ public class CourseAction extends BaseAction {
 	private ISolrCourseService solrCourseService;
 	public String category;
 	public String courseCode;
+	public String q_title;
 	public Integer courseId;
 	public Course course;
 	public String selected_courseId;
@@ -81,7 +82,7 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String queryCourses() {
-		String json = courseService.queryCourses(category, courseId, rows,
+		String json = courseService.queryCourses(category, courseId,	q_title, rows,
 				getStartPosi(), sort, order);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -384,5 +385,13 @@ public class CourseAction extends BaseAction {
 	@Resource
 	public void setSolrCourseService(ISolrCourseService solrCourseService) {
 		this.solrCourseService = solrCourseService;
+	}
+
+	public String getQ_title() {
+		return q_title;
+	}
+
+	public void setQ_title(String q_title) {
+		this.q_title = q_title;
 	}
 }

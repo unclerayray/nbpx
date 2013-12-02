@@ -16,7 +16,7 @@ import com.nb.nbpx.utils.NbpxException;
  * 
  */
 public interface ICourseService extends IBaseService {
-	public String queryCourses(String category, Integer courseId, Integer rows,
+	public String queryCourses(String category, Integer courseId, String title,  Integer rows,
 			Integer start, String sort, String order);
 
 	public String queryComboCourseType();
