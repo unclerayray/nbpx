@@ -29,15 +29,17 @@ pageEncoding="utf-8"%>
 	<script>
 	$(function() {
 		var cache = {};
+		//
+		//			jsonp: "json.wrf",
+		//url: "http://localhost:8080/solr/core_keyword/select",
 		$( "#searchWord" ).autocomplete({
 			minLength: 2,
 			source: function(request, response) {
 				$.ajax({
-					url: "http://localhost:8080/solr/core_keyword/select",
-					dataType: "jsonp",
+					url: "struts/Search_queryKeywordsByKeyword",
 					delay: 500,
+					dataType:'json',
 					timeout: 5000,
-					jsonp: "json.wrf",
 					data: {
 						featureClass: "P",
 						style: "full",
@@ -47,7 +49,7 @@ pageEncoding="utf-8"%>
 						name_startsWith: request.term
 					},
 					success: function(data) {
-						response($.map(data.response.docs, function(item) {
+						response($.map(data, function(item) {
 							return {
 								label: item.keyword,
 								value: item.keyword

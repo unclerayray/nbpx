@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.nb.nbpx.pojo.BaseEntity;
-
 /**
  * @author Roger
  * @date 2013年7月21日
@@ -23,7 +21,7 @@ import com.nb.nbpx.pojo.BaseEntity;
  */
 @Entity
 @Table(name = "keywords", catalog = "nbpx")
-public class Keyword extends BaseEntity implements Serializable {
+public class Keyword implements Serializable {
 	/**
 	 * 
 	 */
@@ -38,6 +36,94 @@ public class Keyword extends BaseEntity implements Serializable {
 	private Integer searchCnt;
 	private Date recommandDate;
 	private Boolean indexed;
+	
+	
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result
+				+ ((categoryName == null) ? 0 : categoryName.hashCode());
+		result = prime * result + ((flag == null) ? 0 : flag.hashCode());
+		result = prime * result + ((hits == null) ? 0 : hits.hashCode());
+		result = prime * result + ((indexed == null) ? 0 : indexed.hashCode());
+		result = prime * result + ((keyId == null) ? 0 : keyId.hashCode());
+		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
+		result = prime * result
+				+ ((recommandDate == null) ? 0 : recommandDate.hashCode());
+		result = prime * result
+				+ ((recommanded == null) ? 0 : recommanded.hashCode());
+		result = prime * result
+				+ ((searchCnt == null) ? 0 : searchCnt.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Keyword other = (Keyword) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (categoryName == null) {
+			if (other.categoryName != null)
+				return false;
+		} else if (!categoryName.equals(other.categoryName))
+			return false;
+		if (flag == null) {
+			if (other.flag != null)
+				return false;
+		} else if (!flag.equals(other.flag))
+			return false;
+		if (hits == null) {
+			if (other.hits != null)
+				return false;
+		} else if (!hits.equals(other.hits))
+			return false;
+		if (indexed == null) {
+			if (other.indexed != null)
+				return false;
+		} else if (!indexed.equals(other.indexed))
+			return false;
+		if (keyId == null) {
+			if (other.keyId != null)
+				return false;
+		} else if (!keyId.equals(other.keyId))
+			return false;
+		if (keyword == null) {
+			if (other.keyword != null)
+				return false;
+		} else if (!keyword.equals(other.keyword))
+			return false;
+		if (recommandDate == null) {
+			if (other.recommandDate != null)
+				return false;
+		} else if (!recommandDate.equals(other.recommandDate))
+			return false;
+		if (recommanded == null) {
+			if (other.recommanded != null)
+				return false;
+		} else if (!recommanded.equals(other.recommanded))
+			return false;
+		if (searchCnt == null) {
+			if (other.searchCnt != null)
+				return false;
+		} else if (!searchCnt.equals(other.searchCnt))
+			return false;
+		return true;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
