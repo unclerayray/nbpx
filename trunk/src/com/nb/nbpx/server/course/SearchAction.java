@@ -24,11 +24,26 @@ public class SearchAction  extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private ISolrService solrService;
 	private String key;
+	private String q;
 
 	public String queryBySolr(){
 		String json;
 		try {
 			json = solrService.fullTextQueryForHl(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+	
+	public String queryKeywordsByKeyword(){
+		String json;
+		try {
+			json = solrService.queryKeywordsByKeyword(q, 0, 10);
 			this.inputStream = castToInputStream(json);
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -53,5 +68,15 @@ public class SearchAction  extends BaseAction {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+
+	public String getQ() {
+		return q;
+	}
+
+
+	public void setQ(String q) {
+		this.q = q;
 	}
 }

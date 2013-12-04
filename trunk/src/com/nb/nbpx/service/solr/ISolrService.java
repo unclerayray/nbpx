@@ -40,6 +40,17 @@ public interface ISolrService extends IBaseService{
 	 * @return
 	 */
 	public String fullTextQueryForHl(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	
+	
+	/**
+	 * @param q
+	 * @param start
+	 * @param rows
+	 * @return
+	 * @throws SolrServerException
+	 * @throws IOException
+	 */
+	public String queryKeywordsByKeyword(String q, Integer start, Integer rows) throws SolrServerException, IOException;
 	/**
 	 * 通过变量全文查找，用于显示列表。高亮显示
 	 * @param q 查找参数
