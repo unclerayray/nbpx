@@ -27,7 +27,7 @@ public class User extends BaseEntity  implements Serializable {
     private String            userType;
 	private String            email;
 	private Date			  registerDate;
-	private Integer			  state;
+	private Boolean			  state;
 	private String 			  city;
 	private String			  typeName;	
 	
@@ -36,7 +36,7 @@ public class User extends BaseEntity  implements Serializable {
 	
 	public User(Integer userId, String userName, String passWord,
 			String userType, String email, String typeName, 
-			String city,Integer state,Date registerDate) {
+			String city,Boolean state,Date registerDate) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -87,10 +87,10 @@ public class User extends BaseEntity  implements Serializable {
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
 	}
-	public Integer getState() {
+	public Boolean getState() {
 		return state;
 	}
-	public void setState(Integer state) {
+	public void setState(Boolean state) {
 		this.state = state;
 	}
 	public String getCity() {

@@ -46,6 +46,14 @@ public interface IKeywordService extends IBaseService {
 	 */
 	public String setKeywordHyperLink(List<Keyword> keywords,String content);
 	
+	/**
+	 * 在内容中添加超链接
+	 * @param links
+	 * @param content
+	 * @return
+	 */
+	public String setHyperLink(String[]  links,String content);
+	
 	public String getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);
 	
 	public void saveKeyword2Dic(String keyword) throws IOException;

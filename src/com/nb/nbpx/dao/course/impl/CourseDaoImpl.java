@@ -42,7 +42,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 	@Override
 	public List<Course> queryCourses(final String category,
-			final Integer courseId, final Integer rows, final Integer start, final String sort, final String order) {
+			final Integer courseId, final Integer rows, final Integer start, final String sort, final String order, final Boolean isInner) {
 		List<Course> list = new ArrayList<Course>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -63,11 +63,19 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				if (courseId != null) {
 					hql.append(" and courseId = ? ");
 				}
+				
+				if (isInner != null) {
+					hql.append(" and isInner = ? ");
+				}
 				hql.append(" and c.category = fd.codeName ");
 				hql.append(" and ti.teacherId = c.teacherId");
 
 				if (sort != null && !sort.isEmpty()) {
-					hql.append(" order by c." + sort);
+					if("teacherName".equals(sort)){
+						hql.append(" order by c.teacherId");
+					}else{
+						hql.append(" order by c." + sort);
+					}
 					if (order != null && !order.isEmpty()) {
 						hql.append(" " + order);
 					}
@@ -82,6 +90,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 				if (courseId != null) {
 					query.setInteger(i++, courseId);
+				}
+				
+				if (isInner != null) {
+					query.setBoolean(i++, isInner);
 				}
 
 				if (start != null && rows != null) {
@@ -177,6 +189,11 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 						"select count(d) from Course d where 1 = 1 ");
 				hql.append(" and title = '" + course.getTitle()
 						+ "' and teacherId = '" + course.getTeacherId() + "'");
+				if(course.getIsInner()){
+					hql.append(" and isInner = '1'");
+				}else{
+					hql.append(" and isInner = '0'");
+				}
 				Query query = session.createQuery(hql.toString());
 				return query.list();
 			}
@@ -580,13 +597,13 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 	public Course updateCourse(Course course) {
 		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
 				+ "blockedContent = ?  ,hasVideo = ? ,lastUpdateDate = ?  ,"
-				+ "recommanded = ? ,state = ? ,classic = ? WHERE courseId = ?";
+				+ "recommanded = ? ,state = ? ,classic = ?, links = ? WHERE courseId = ?";
 		Object[] values = { course.getTitle(), course.getTeacherId(),
 				course.getCategory(), course.getIsInner(), course.getPrice(),
 				course.getContent(), course.getBlockedContent(),
 				course.getHasVideo(), course.getLastUpdateDate(),
 				course.getRecommanded(), course.getState(),
-				course.getClassic(), course.getCourseId() };
+				course.getClassic(), course.getLinks() , course.getCourseId() };
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
 	}
@@ -926,7 +943,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 
 	@Override
 	public List<Course> queryCoursesWithTitle(final String category, final String courseTitle,
-			final Integer rows, final Integer start, final String sort, final String order) {
+			final Integer rows, final Integer start, final String sort, final String order, final Boolean isInner) {
 		List<Course> list = new ArrayList<Course>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -951,7 +968,11 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements
 				hql.append(" and ti.teacherId = c.teacherId");
 
 				if (sort != null && !sort.isEmpty()) {
-					hql.append(" order by c." + sort);
+					if("teacherName".equals(sort)){
+						hql.append(" order by c.teacherId");
+					}else{
+						hql.append(" order by c." + sort);
+					}
 					if (order != null && !order.isEmpty()) {
 						hql.append(" " + order);
 					}

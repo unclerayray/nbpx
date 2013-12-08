@@ -38,6 +38,7 @@ public class CourseAllInfoDto extends Course implements Serializable{
 		this.category = course.category;
 		//this.shortName = course.shortName;
 		this.content = course.content;
+		this.links = course.links;
 		this.blockedContent = course.blockedContent;
 		this.isInner = course.isInner;
 		this.state = course.state;

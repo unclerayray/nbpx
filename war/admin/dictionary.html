@@ -71,10 +71,12 @@
 	href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-undo" onclick="clearTollBar()">重置</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
-	iconCls="icon-dic" onclick="manageDicType()">字典种类维护</a>
+	iconCls="icon-dic" onclick="manageDicType()">字典种类维护</a> <a
+	href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-dic" onclick="$('#fm-bc').form('clear');$('#dlg-dc').dialog('open').dialog('setTitle', '批量导入字典');">批量导入字典</a>
 </div>
 </div>
-
+<!-- single dialog -->
 <div id="dlg" class="easyui-dialog"
 style="width: 360px; height: 300px; padding: 5px 5px" closed="true"  cache="false" 
 modal="true" buttons="#dlg-buttons">
@@ -115,12 +117,55 @@ modal="true" buttons="#dlg-buttons">
 </div>
 </form>
 </div>
+<!-- single dialog -->
+
+<!-- multiple dialog -->
+<div id="dlg-dc" class="easyui-dialog"
+style="width: 720px; height: 500px; padding: 5px 5px" closed="true"  cache="false" 
+modal="true" buttons="#dlg-buttons-a">
+<form id="fm-bc" method="post">
+	<div id="dicTypeInForm-bc" class="fitem">
+		<label>字典类型:</label> <select class="easyui-combobox"
+		style="width: 130px;" name="p_dicType" id="dicTypeFielda"
+		data-options="  
+		url:'../struts/Dictionary_queryComboDicTypes',  
+		valueField:'codeName',  
+		textField:'showName',  
+		panelHeight:'auto'  ,
+		editable:false,
+		required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'字典类型是必填项'
+		">
+	</select>
+</div>
+<div class="fitem">
+	<label>字典项值:</label>
+		<textarea class="easyui-textarea" id="dics" name="dics" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'导入字典项值不能为空'"
+		style="height: 360px; width: 500px;" type="textarea" required="true"></textarea>
+</div>
+<div>
+	<tr>
+	<td class="itemText"  colspan="2">
+	<div>
+		<label>多个字典请用逗号隔开，导入的字典可以是系统中已存在的，程序会自动忽略！</label>
+		</div>
+	</td>
+	</tr>
+</div>
+</form>
+</div>
+<!-- multiple dialog -->
 
 <div id="dlg-buttons">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-ok" onclick="saveDic()">保存</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
+<div id="dlg-buttons-a">
+	<a href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-ok" onclick="importDics()">导入</a> <a
+	href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-cancel" onclick="javascript:$('#dlg-dc').dialog('close')">取消</a>
 </div>
 <!--字典种类信息维护 -->
 
@@ -299,7 +344,34 @@ function queryDic(atr1) {
 
 		function manageDicType() {
 			$('#dlg_dt').dialog('open').dialog('setTitle', '字典类型维护');
-
+		}
+		function importDics() {
+			$('#fm-bc').form('submit', {
+				url : '../struts/Dictionary_batchImport',
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					if (data.success) {
+						$.messager.show({
+							title : 'Success',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+						$('#dlg-dc').dialog('close'); // close the dialog  
+						$('#dg').datagrid('reload'); // reload
+					} else {
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
 		}
 		function setEditable(){
 			$('#codeNameItem').attr('readonly',false);

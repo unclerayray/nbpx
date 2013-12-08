@@ -5,10 +5,8 @@ package com.nb.nbpx.server.course;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,6 +16,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.struts2.ServletActionContext;
+import org.jsoup.helper.StringUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -25,14 +24,12 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
-import com.nb.nbpx.utils.mapTool.MapTool;
 
 /**
  * @author Roger
@@ -54,7 +51,10 @@ public class CourseAction extends BaseAction {
 	public String courseCode;
 	public String q_title;
 	public Integer courseId;
+	public Boolean state;
+	public Boolean sync;
 	public Course course;
+	public Boolean isInner;
 	public String selected_courseId;
 	public CourseInfo courseInfo;
 	public CourseAllInfoDto courseAllInfo;
@@ -80,10 +80,24 @@ public class CourseAction extends BaseAction {
 				ResponseStatus.SUCCESS, ResponseStatus.IMPORT_SUCCESS));
 		return SUCCESS;
 	}
+	
+	public String AuditCourse() {
+		try {
+			courseService.auditCourse(!state, courseId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.DELETE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
+		return SUCCESS;
+	}
 
 	public String queryCourses() {
 		String json = courseService.queryCourses(category, courseId,	q_title, rows,
-				getStartPosi(), sort, order);
+				getStartPosi(), sort, order,isInner);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -101,7 +115,7 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String queryComboCourseCode() {
-		String json = courseService.queryComboCourseName(category);
+		String json = courseService.queryComboCourseName(category,isInner);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -113,21 +127,13 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String saveCourse() {
-		// String
-		// regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
-		String regEx1 = "[\\pP‘’“”]";
-		if (courseAllInfo.getKeywords() != null) {
-			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(
-					regEx1, ","));
-		}
-		if (courseAllInfo.getSubject() != null) {
-			courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(
-					regEx1, ","));
-		}
-		List<Keyword> keywords = keywordService.saveKeywords(courseAllInfo);
+		//TODO save with created by
+		validateCourseInfo();
+		String[] links = courseAllInfo.getLinks().split(",");
+		// List<Keyword> keywords = keywordService.saveKeywords(courseAllInfo);
 		// 让Keyword提前保存，生成超链接的时候才有ID可以对应
 		Course cou = new Course(courseAllInfo);
-		cou.setContent(keywordService.setKeywordHyperLink(keywords,
+		cou.setContent(keywordService.setHyperLink(links,
 				cou.getContent()));// 生成超链接
 		try {
 			Boolean deleteBeforeInsert = false;
@@ -139,6 +145,17 @@ public class CourseAction extends BaseAction {
 			courseService
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 			solrCourseService.addCourse2Solr(courseAllInfo);
+			if(sync!=null&&sync&&!deleteBeforeInsert){
+				//同步到内训
+				Course innerCou = cou;
+				innerCou.setCourseId(null);
+				innerCou.setIsInner(true);
+				innerCou = courseService.saveCourse(innerCou);
+				courseAllInfo.setCourseId(innerCou.getCourseId());
+				courseService
+						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
+				solrCourseService.addCourse2Solr(courseAllInfo);
+			}
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -152,10 +169,75 @@ public class CourseAction extends BaseAction {
 						ResponseStatus.SAVE_SUCCESS, map));
 		return SUCCESS;
 	}
+	
+	/**
+	 * 处理课程的详细信息，更正各种不合法的输入
+	 */
+	private void validateCourseInfo(){
+		// String
+		// regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+		String regEx1 = "[\\pP‘’“”_]";
+		if (courseAllInfo.getLinks() != null) {
+			courseAllInfo.setLinks(courseAllInfo.getLinks().replace(" ", ""));
+			courseAllInfo.setLinks(courseAllInfo.getLinks().replaceAll(
+					regEx1, ","));
+		}
+		if (courseAllInfo.getKeywords() != null) {
+			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replace(" ", ""));
+			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(
+					regEx1, ","));
+		}
+		if (courseAllInfo.getSubject() != null) {
+			courseAllInfo.setSubject(courseAllInfo.getSubject().replace(" ", ""));
+			courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(
+					regEx1, ","));
+		}
+		if (courseAllInfo.getTargets() != null) {
+			courseAllInfo.setTargets(courseAllInfo.getTargets().replace(" ", ""));
+			if(StringUtil.isNumeric(courseAllInfo.getTargets().replaceAll(regEx1, ""))){
+				courseAllInfo.setTargets(courseAllInfo.getTargets().replaceAll(
+						"，", ","));
+			}else{
+				courseAllInfo.setTargets(courseAllInfo.getTargets().replaceAll(
+						regEx1, ","));
+			}
+		}
+		if (courseAllInfo.getMajor() != null) {
+			courseAllInfo.setMajor(courseAllInfo.getMajor().replace(" ", ""));
+			if(StringUtil.isNumeric(courseAllInfo.getMajor().replaceAll(regEx1, ""))){
+				courseAllInfo.setMajor(courseAllInfo.getMajor().replaceAll(
+						"，", ","));
+			}else{
+				courseAllInfo.setMajor(courseAllInfo.getMajor().replaceAll(
+						regEx1, ","));
+			}
+		}
+		if (courseAllInfo.getProduct() != null) {
+			courseAllInfo.setProduct(courseAllInfo.getProduct().replace(" ", ""));
+			if(StringUtil.isNumeric(courseAllInfo.getProduct().replaceAll(regEx1, ""))){
+				courseAllInfo.setProduct(courseAllInfo.getProduct().replaceAll(
+						"，", ","));
+			}else{
+				courseAllInfo.setProduct(courseAllInfo.getProduct().replaceAll(
+						regEx1, ","));
+			}
+		}
+		if (courseAllInfo.getIndustry() != null) {
+			courseAllInfo.setIndustry(courseAllInfo.getIndustry().replace(" ", ""));
+			if(StringUtil.isNumeric(courseAllInfo.getIndustry().replaceAll(regEx1, ""))){
+				courseAllInfo.setIndustry(courseAllInfo.getIndustry().replaceAll(
+						"，", ","));
+			}else{
+				courseAllInfo.setIndustry(courseAllInfo.getIndustry().replaceAll(
+						regEx1, ","));
+			}
+		}
+	}
 
 	public String deleteCourse() {
 		try {
 			courseService.deleteCourse(course);
+			solrCourseService.removeCourseFromSolr(course.getCourseId());
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -393,5 +475,29 @@ public class CourseAction extends BaseAction {
 
 	public void setQ_title(String q_title) {
 		this.q_title = q_title;
+	}
+
+	public Boolean getIsInner() {
+		return isInner;
+	}
+
+	public void setIsInner(Boolean isInner) {
+		this.isInner = isInner;
+	}
+
+	public Boolean getState() {
+		return state;
+	}
+
+	public void setState(Boolean state) {
+		this.state = state;
+	}
+
+	public Boolean getSync() {
+		return sync;
+	}
+
+	public void setSync(Boolean sync) {
+		this.sync = sync;
 	}
 }

@@ -15,4 +15,5 @@ import com.nb.nbpx.service.IBaseService;
 public interface ISolrCourseService extends IBaseService {
 	public void addCourse2Solr(CourseAllInfoDto cai);
 	public void updateCourseInfo2Solr(Integer courseId) throws IOException, SolrServerException ;
+	public void removeCourseFromSolr(Integer courseId) throws SolrServerException, IOException;
 }
