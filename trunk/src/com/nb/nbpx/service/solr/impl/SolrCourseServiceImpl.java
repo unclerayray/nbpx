@@ -135,4 +135,12 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 		//System.out.println(stripHTMLX(content));
 	}
 
+	@Override
+	public void removeCourseFromSolr(Integer courseId) throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getCourseServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(courseId+"");
+		solrServer.commit();
+	}
+
 }

@@ -70,6 +70,6 @@ public class RequirementServiceImpl extends BaseServiceImpl implements IRequirem
 
 	@Override
 	public void replyRequirement(Integer requirementId, String reply) {
-		jdbcTemplate.update("UPDATE requirements SET reply = ? and hasReplied = ? WHERE requirementId = ?", new Object[] {reply, true, requirementId}); 
+		jdbcTemplate.update("UPDATE requirements SET reply = ? , hasReplied = ? WHERE requirementId = ?", new Object[] {reply, true, requirementId}); 
 	}
 }

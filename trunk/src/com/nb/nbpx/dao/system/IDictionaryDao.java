@@ -22,7 +22,13 @@ public interface IDictionaryDao extends IBaseDao<Dictionary, Integer> {
 	 * @param showName
 	 * @return
 	 */
-	public Dictionary getDictionary(String codeName,String showName);
+	public Dictionary getDictionary(String codeName,String showName);/**
+	 * 通过字典值或字典码获取字典
+	 * @param codeName
+	 * @param showName
+	 * @return
+	 */
+	public Dictionary getDictionary(String codeName,String showName, String dicType);
 	/**
 	 * 检查重复字典项
 	 * @param dictionary

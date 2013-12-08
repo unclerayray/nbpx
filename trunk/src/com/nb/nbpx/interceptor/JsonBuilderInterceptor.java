@@ -29,7 +29,9 @@ public class JsonBuilderInterceptor extends AbstractInterceptor {
 				entry.setValue(entry.getValue());
 				if ("objectName".equals(entry.getKey())) {
 					parameters.put(entry.getKey().toString(), entry.getValue());
-				} else {
+				}else if("sync".equals(entry.getKey())){
+					parameters.put(entry.getKey().toString(), entry.getValue());
+				}else {
 					String key = ((String[]) paramMap.get("objectName"))[0]
 							+ "." + entry.getKey();
 					obj.put(key, entry.getValue());

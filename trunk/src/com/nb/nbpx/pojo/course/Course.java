@@ -36,10 +36,11 @@ public class Course extends BaseEntity implements Serializable {
 	public String teacherId;
 	public String teacherName;
 	public String category;
+	public String links;
 	public String content;
 	public String blockedContent;
-	public Boolean isInner;
-	public Boolean state;
+	public Boolean isInner = false;
+	public Boolean state = false;
 	public Boolean hasVideo;
 	public Integer hits;
 	public Integer createdBy;
@@ -47,8 +48,8 @@ public class Course extends BaseEntity implements Serializable {
 	public Date creationDate;
 	public Date lastUpdateDate;
 	public String categoryName;
-	public Boolean recommanded;
-	public Boolean classic;
+	public Boolean recommanded = false;
+	public Boolean classic = false;
 
 	public Course() {
 	}
@@ -132,6 +133,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.price = courseDto.price;
 		this.teacherId = courseDto.teacherId;
 		this.teacherName = courseDto.teacherName;
+		this.links = courseDto.links;
 		//this.shortName = courseDto.shortName;
 		this.category = courseDto.category;
 		this.content = courseDto.content;
@@ -191,7 +193,7 @@ public class Course extends BaseEntity implements Serializable {
 	 * @param classic
 	 */
 	public Course(Integer courseId, String title, Double price,
-			String teacherId, String teacherName, String category,
+			String teacherId, String teacherName, String category, String links, 
 			String content, String blockedContent, Boolean isInner,
 			Boolean state, Boolean hasVideo, Integer hits, Integer createdBy,
 			Integer lastUpdatedBy, Date creationDate, Date lastUpdateDate,
@@ -206,6 +208,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.content = content;
 		this.blockedContent = blockedContent;
 		this.isInner = isInner;
+		this.links = links;
 		this.state = state;
 		this.hasVideo = hasVideo;
 		this.hits = hits;
@@ -253,6 +256,14 @@ public class Course extends BaseEntity implements Serializable {
 		this.teacherId = teacherId;
 	}
 
+	public String getLinks() {
+		return links;
+	}
+
+	public void setLinks(String links) {
+		this.links = links;
+	}
+
 	@Transient
 	public String getTeacherName() {
 		return teacherName;
@@ -285,7 +296,8 @@ public class Course extends BaseEntity implements Serializable {
 	public void setBlockedContent(String blockedContent) {
 		this.blockedContent = blockedContent;
 	}
-
+	
+	@Column(name="isInner", columnDefinition=" tinyint(1) default '0'")
 	public Boolean getIsInner() {
 		return isInner;
 	}

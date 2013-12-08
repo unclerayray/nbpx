@@ -61,7 +61,7 @@ public class LoginAction  extends BaseAction {
 		user.setPassWord(password);
 		user.setRegisterDate(new Date());
 		user.setUserType("001_03");
-		user.setState(0);
+		user.setState(false);
 		try {
 			UserService.saveUser(user);
 		} catch (NbpxException e) {//有重复用户名
@@ -87,7 +87,7 @@ public class LoginAction  extends BaseAction {
 		user.setPassWord(password);
 		user.setRegisterDate(new Date());
 		user.setUserType("001_02");
-		user.setState(0);
+		user.setState(false);
 		try {
 			UserService.saveUser(user);
 		} catch (NbpxException e) {//有重复用户名
@@ -120,7 +120,7 @@ public class LoginAction  extends BaseAction {
 		user.setPassWord(password);
 		user.setRegisterDate(new Date());
 		user.setUserType("001_01");
-		user.setState(0);
+		user.setState(false);
 		try {
 			UserService.saveUser(user);
 		} catch (NbpxException e) {//有重复用户名

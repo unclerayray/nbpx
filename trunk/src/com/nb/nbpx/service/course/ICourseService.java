@@ -17,17 +17,19 @@ import com.nb.nbpx.utils.NbpxException;
  */
 public interface ICourseService extends IBaseService {
 	public String queryCourses(String category, Integer courseId, String title,  Integer rows,
-			Integer start, String sort, String order);
+			Integer start, String sort, String order, Boolean isInner);
 
 	public String queryComboCourseType();
 
-	public String queryComboCourseName(String category);
+	public String queryComboCourseName(String category,Boolean isInner);
 
 	public String queryComboTeacher();
 
 	public String queryCourseById(Integer courseId);
 
 	public Course saveCourse(Course course) throws Exception;
+	
+	public void auditCourse(Boolean state, Integer courseId);
 
 	/**
 	 * 导出Excel

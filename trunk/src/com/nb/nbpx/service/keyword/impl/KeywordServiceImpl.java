@@ -187,6 +187,7 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 			if (keyword.getKeyword() == null || keyword.getKeyword().isEmpty()) {
 				continue;
 			}
+			//TODO set hyper link
 			String reg = "(?!((<.*?)|(<a.*?)))(" + keyword.getKeyword()
 					+ ")(?!(([^<>]*?)>)|([^>]*?</a>))";
 			String replacement = "<a href=\"http://www.baidu.com\"  target=\"_blank\">"
@@ -263,6 +264,22 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 		}else{
 			log.info("dictionary wasn't inited");
 		}
+	}
+
+	@Override
+	public String setHyperLink(String[] links, String content) {
+		for (int i = 0; i < links.length; i++) {
+			String word = links[i];
+			if (word == null || word.isEmpty()) {
+				continue;
+			}
+			String reg = "(?!((<.*?)|(<a.*?)))(" + word
+					+ ")(?!(([^<>]*?)>)|([^>]*?</a>))";
+			String replacement = "<a href=\"http://www.baidu.com\"  target=\"_blank\">"
+					+ word + "</a>";
+			content = content.replaceAll(reg, replacement);
+		}
+		return content;
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.nb.nbpx.server.system;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -10,6 +14,7 @@ import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.system.IDictionaryService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 
 @Component("DictionaryAction")
 @Scope("prototype")
@@ -24,6 +29,7 @@ public class DictionaryAction extends BaseAction {
 	public IDictionaryService dictionaryService;
 	public String p_dicType;
 	public String p_codeName;
+	public String dics;
 
 	public String queryDictionary() {
 		String json = dictionaryService.queryDic(p_dicType, p_codeName, rows,
@@ -40,7 +46,8 @@ public class DictionaryAction extends BaseAction {
 
 	public String saveDic() {
 		try {
-			if(dictionary.getDicType()==null||dictionary.getDicType().isEmpty()){
+			if (dictionary.getDicType() == null
+					|| dictionary.getDicType().isEmpty()) {
 				dictionary.setDicType("998");
 			}
 			dictionaryService.saveDic(dictionary);
@@ -52,6 +59,35 @@ public class DictionaryAction extends BaseAction {
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+	}
+
+	public String batchImport() {
+		String regEx = "[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+		String regEx1 = "[\\pP‘’“”]";
+		dics = dics.replaceAll(" ", "");
+		dics = dics.replaceAll(regEx1, ",");
+		String[] dicsArr = dics.split(",");
+		Set<String> uniqueWords = new HashSet<String>(Arrays.asList(dicsArr));
+		dicsArr = uniqueWords.toArray(new String[0]);
+		String msg = "";
+		int cnt = 0;
+		for (String dic : dicsArr) {
+			Dictionary di = new Dictionary();
+			di.setDicType(p_dicType);
+			di.setShowName(dic);
+			di.setFlag(true);
+			try {
+				dictionaryService.saveDic(di);
+			} catch (NbpxException e) {
+				cnt++;
+			}
+		}
+		if(cnt>0){
+			msg = cnt+"项重复，已忽略！";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS+msg));
 		return SUCCESS;
 	}
 
@@ -80,7 +116,7 @@ public class DictionaryAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
-	
+
 	public Dictionary getDictionary() {
 		return dictionary;
 	}
@@ -112,6 +148,14 @@ public class DictionaryAction extends BaseAction {
 
 	public void setP_codeName(String p_codeName) {
 		this.p_codeName = p_codeName;
+	}
+
+	public String getDics() {
+		return dics;
+	}
+
+	public void setDics(String dics) {
+		this.dics = dics;
 	}
 
 }

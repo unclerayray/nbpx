@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nb.nbpx.BaseServiceTest;
+import com.nb.nbpx.dao.user.IUserDao;
+import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.service.user.IUserService;
 
 
@@ -17,6 +19,8 @@ import com.nb.nbpx.service.user.IUserService;
 public class UserServiceTest extends BaseServiceTest{
 	@Resource
 	private IUserService userService;
+	@Resource
+	private IUserDao userdao;
 	
 	@Test
 	@Transactional(readOnly = true)
@@ -24,6 +28,12 @@ public class UserServiceTest extends BaseServiceTest{
 		String json = userService.queryUserByType("1", 10, 2);
 		System.out.println("json = " + json);
 		Assert.assertNotNull(json);
+	}
+	
+	//@Test
+	public void testSaveUser(){
+		User user = new User();
+		userdao.save(user);
 	}
 	
 	
