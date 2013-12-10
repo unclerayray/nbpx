@@ -108,4 +108,7 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	//获取金牌课程
 	public List<Course> getGoldCourse(final Boolean isInner,final String type, final Integer start,
 			final Integer rows,final Integer price);
+	//根据课程类别获取课程列表，按照开课日期倒叙
+	public List<Course> getCourseType(Boolean isInner,String type,Integer start,Integer rows);
+
 }

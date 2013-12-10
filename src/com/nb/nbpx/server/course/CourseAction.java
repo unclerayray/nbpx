@@ -318,6 +318,18 @@ public class CourseAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	public String queryCourseType(){
+		String json = "";
+		String typeCode = "003_0"+category;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
+		Boolean innerFlag = true;
+		if("0".equals(isInner))
+			innerFlag = false;
+		
+		json = courseService.queryCourseByType(innerFlag, typeCode, rows, this.getStartPosi());
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 	/**
 	 * 根据条件报表<br />
 	 * 使用Jxls导出，模板放于XLSTemplate文件夹下
@@ -411,7 +423,7 @@ public class CourseAction extends BaseAction {
 	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
-
+		
 	public Course getCourse() {
 		return course;
 	}

@@ -1160,7 +1160,7 @@
 				<div class="tabOff" id="a12"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,1)">经典培训</a></div>
 				<div class="tabOff" id="a13"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,1)">排行</a></div>
 				<div class="tabOff" id="a14"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,1)">推荐</a></div>
-				<div class="more"><a href="#">更多</a></div>
+				<div class="more"><a href="viewCourseType.jsp?isInner=0&type=1">更多</a></div>
 				<div class="clear"></div>
 			</div>
 				<div class="bg h245">
@@ -1180,7 +1180,7 @@
 					<div class="tabOff" id="a22"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,2)">经典培训</a></div>
 					<div class="tabOff" id="a23"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,2)">排行</a></div>
 					<div class="tabOff" id="a24"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,2)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=0&type=2">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -1217,7 +1217,7 @@
 					<div class="tabOff" id="a32"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,3)">经典培训</a></div>
 					<div class="tabOff" id="a33"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,3)">排行</a></div>
 					<div class="tabOff" id="a34"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,3)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=0&type=3">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245" >
@@ -1237,7 +1237,7 @@
 					<div class="tabOff" id="a42"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,4)">经典培训</a></div>
 					<div class="tabOff" id="a43"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,4)">排行</a></div>
 					<div class="tabOff" id="a44"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,4)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=0&type=4">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -1274,7 +1274,7 @@
 					<div class="tabOff" id="a52"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,5)">经典培训</a></div>
 					<div class="tabOff" id="a53"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,5)">排行</a></div>
 					<div class="tabOff" id="a54"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,5)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=0&type=5">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -1294,7 +1294,7 @@
 					<div class="tabOff" id="a62"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,6)">经典培训</a></div>
 					<div class="tabOff" id="a63"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,6)">排行</a></div>
 					<div class="tabOff" id="a64"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,6)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=0&type=6">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -1336,11 +1336,11 @@
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="a51"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,7)">项目管理</a></div>
-					<div class="tabOff" id="a52"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,7)">经典培训</a></div>
-					<div class="tabOff" id="a53"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,7)">排行</a></div>
-					<div class="tabOff" id="a53"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,7)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="tabOn" id="a71"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,7)">项目管理</a></div>
+					<div class="tabOff" id="a72"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,7)">经典培训</a></div>
+					<div class="tabOff" id="a73"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,7)">排行</a></div>
+					<div class="tabOff" id="a74"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,7)">推荐</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=0&type=7">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -1356,11 +1356,11 @@
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="a61"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,8)">职业技能</a></div>
-					<div class="tabOff" id="a62"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,8)">经典培训</a></div>
-					<div class="tabOff" id="a63"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,8)">排行</a></div>
-					<div class="tabOff" id="a63"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,8)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="tabOn" id="a81"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',1,8)">职业技能</a></div>
+					<div class="tabOff" id="a82"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,8)">经典培训</a></div>
+					<div class="tabOff" id="a83"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,8)">排行</a></div>
+					<div class="tabOff" id="a84"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',4,8)">推荐</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=0&type=8">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -1986,7 +1986,7 @@ padding-bottom: 2px;
 					<div class="tabOff" id="b12"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,1)">经典</a></div>
 					<div class="tabOff" id="b13"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,1)">排行</a></div>
 				    <div class="tabOff" id="b14"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,1)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=1&type=1">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
@@ -2013,7 +2013,7 @@ padding-bottom: 2px;
 					<div class="tabOff" id="b22"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,2)">经典</a></div>
 					<div class="tabOff" id="b23"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,2)">排行</a></div>
 				    <div class="tabOff" id="b24"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,2)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=1&type=2">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
@@ -2056,7 +2056,7 @@ padding-bottom: 2px;
 					<div class="tabOff" id="b32"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,3)">经典</a></div>
 					<div class="tabOff" id="b33"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,3)">排行</a></div>
 				    <div class="tabOff" id="b34"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,3)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=1&type=3">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
@@ -2083,7 +2083,7 @@ padding-bottom: 2px;
 					<div class="tabOff" id="b42"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,4)">经典</a></div>
 					<div class="tabOff" id="b43"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,4)">排行</a></div>
 				    <div class="tabOff" id="b44"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,4)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=1&type=4">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
@@ -2128,7 +2128,7 @@ padding-bottom: 2px;
 					<div class="tabOff" id="b52"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,5)">经典</a></div>
 					<div class="tabOff" id="b53"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,5)">排行</a></div>
 				    <div class="tabOff" id="b54"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,5)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=1&type=5">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
@@ -2155,7 +2155,7 @@ padding-bottom: 2px;
 					<div class="tabOff" id="b62"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,6)">经典</a></div>
 					<div class="tabOff" id="b63"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,6)">排行</a></div>
 				    <div class="tabOff" id="b64"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,6)">推荐</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=1&type=6">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
@@ -2211,7 +2211,7 @@ padding-bottom: 2px;
 				<div class="tabOff" id="b72"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,7)">最新</a></div>
 				<div class="tabOff" id="b73"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,7)">经典</a></div>
 				<div class="tabOff" id="b74"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,7)">排行</a></div>
-				<div class="more"><a href="#">更多</a></div>
+				<div class="more"><a href="viewCourseType.jsp?isInner=1&type=7">更多</a></div>
 				<div class="clear"></div>
 			</div>
 				<div class="bg">
@@ -2238,7 +2238,7 @@ padding-bottom: 2px;
 					<div class="tabOff" id="b82"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,8)">最新</a></div>
 					<div class="tabOff" id="b83"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,8)">经典</a></div>
 				    <div class="tabOff" id="b84"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,8)">排行</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewCourseType.jsp?isInner=1&type=8">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg">
