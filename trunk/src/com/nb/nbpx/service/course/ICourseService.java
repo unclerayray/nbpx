@@ -133,4 +133,7 @@ public interface ICourseService extends IBaseService {
 	// 获取金牌课程(单页展示)
 	public String queryGoldPageCourse(Boolean ifInner, Integer rows,
 			Integer start, Integer price);
+	
+	//根据培训类别获取培训类表
+	public String queryCourseByType(Boolean ifInner,String courseType,Integer rows,Integer start);
 }

@@ -1156,7 +1156,34 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				new HashMap<String, Object>(), 0);
 		resultWorkbook.write(output);
 	}
-
+	
+	//根据培训类别获取培训列表
+	public String queryCourseByType(Boolean ifInner,String courseType,Integer rows,Integer start){
+		List<Course> courses = courseDao.getCourseType(ifInner, courseType, start, rows);
+		
+		if(courses == null)
+			return "";
+		Map<String,Object> returnValue = new HashMap<String,Object>();
+		List<Map<String,Object>> result = getCourseDetailList(courses);
+		List totalRows = courseDao.getCourseType(ifInner, courseType, null, null);
+		int rowsCount = totalRows==null?0:totalRows.size();
+		int allPages = 0;
+		if(rowsCount%rows == 0)
+			allPages = (int)(rowsCount/rows);
+		else
+			allPages = (int)(rowsCount/rows) +1;
+		returnValue.put("pages", allPages);
+		returnValue.put("rows", result);
+	
+		Dictionary type = dictionaryDao.getDictionary(courseType, null);
+		if(type != null)
+			returnValue.put("type", type.getShowName());
+		else
+			returnValue.put("type", "培训课程");
+		
+		return JsonUtil.getJsonString(returnValue);
+	}
+	
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}
