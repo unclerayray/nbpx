@@ -1,6 +1,8 @@
 package com.nb.nbpx.pojo.course;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -44,6 +46,31 @@ public class CourseInfo extends BaseEntity  implements Serializable {
 		this.endDate = endDate;
 		this.city = city;
 		this.cityName = cityName;
+	}
+	public CourseInfo(Integer courseInfoId, Integer courseId, Date startDate,
+			Date endDate, String city) {
+		super();
+		this.courseInfoId = courseInfoId;
+		this.courseId = courseId;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.city = city;
+	}
+
+	public CourseInfo(Integer courseInfoId, Integer courseId, String startDate,
+			String endDate, String city) {
+		super();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+        	this.startDate = format.parse(startDate);
+        	this.endDate = format.parse(endDate);
+        } catch (ParseException e) {
+        	this.startDate = null;
+        	this.endDate = null;
+        }
+		this.courseInfoId = courseInfoId;
+		this.courseId = courseId;
+		this.city = city;
 	}
 	
 	@Id

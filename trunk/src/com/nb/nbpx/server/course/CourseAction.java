@@ -6,11 +6,16 @@ package com.nb.nbpx.server.course;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -57,6 +62,8 @@ public class CourseAction extends BaseAction {
 	public Boolean isInner;
 	public String selected_courseId;
 	public CourseInfo courseInfo;
+	public String jsonArray;
+	public List<CourseInfo> infos;
 	public CourseAllInfoDto courseAllInfo;
 	public static Logger log = LogManager.getLogger(CourseAction.class);
 
@@ -84,6 +91,22 @@ public class CourseAction extends BaseAction {
 	public String AuditCourse() {
 		try {
 			courseService.auditCourse(!state, courseId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"更改审核状态失败!" + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "更改审核状态失败!"));
+		return SUCCESS;
+	}
+	
+	public String deleteAndSaveCourseInfo(){
+		//System.out.println(infos);
+		try {
+			courseService.deleteCourseInfo(infos.get(0).getCourseId());
+			courseService.SaveCourseInfo(infos);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -511,5 +534,21 @@ public class CourseAction extends BaseAction {
 
 	public void setSync(Boolean sync) {
 		this.sync = sync;
+	}
+
+	public String getJsonArray() {
+		return jsonArray;
+	}
+
+	public void setJsonArray(String jsonArray) {
+		this.jsonArray = jsonArray;
+	}
+
+	public List<CourseInfo> getInfos() {
+		return infos;
+	}
+
+	public void setInfos(List<CourseInfo> infos) {
+		this.infos = infos;
 	}
 }

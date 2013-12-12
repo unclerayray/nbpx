@@ -277,6 +277,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		 * course.setTeacherId(null); } } }
 		 */
 		// 如果讲师不存在与数据库中，则添加讲师
+		if(course.getIsInner()==null){
+			course.setIsInner(true);
+		}
 		if (!StringUtil.isNumeric(course.getTeacherId())) {
 			User user = new User();
 			user.setRegisterDate(new Date());
@@ -1156,34 +1159,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				new HashMap<String, Object>(), 0);
 		resultWorkbook.write(output);
 	}
-	
-	//根据培训类别获取培训列表
-	public String queryCourseByType(Boolean ifInner,String courseType,Integer rows,Integer start){
-		List<Course> courses = courseDao.getCourseType(ifInner, courseType, start, rows);
-		
-		if(courses == null)
-			return "";
-		Map<String,Object> returnValue = new HashMap<String,Object>();
-		List<Map<String,Object>> result = getCourseDetailList(courses);
-		List totalRows = courseDao.getCourseType(ifInner, courseType, null, null);
-		int rowsCount = totalRows==null?0:totalRows.size();
-		int allPages = 0;
-		if(rowsCount%rows == 0)
-			allPages = (int)(rowsCount/rows);
-		else
-			allPages = (int)(rowsCount/rows) +1;
-		returnValue.put("pages", allPages);
-		returnValue.put("rows", result);
-	
-		Dictionary type = dictionaryDao.getDictionary(courseType, null);
-		if(type != null)
-			returnValue.put("type", type.getShowName());
-		else
-			returnValue.put("type", "培训课程");
-		
-		return JsonUtil.getJsonString(returnValue);
-	}
-	
+
 	public ITeacherInfoDao getTeacherDao() {
 		return teacherDao;
 	}
@@ -1295,6 +1271,28 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		String queryString = "update Course set state = ? where courseId = ";
 		Object[] values = {state, courseId};
 		courseDao.bulkUpdate(queryString, values);
+	}
+
+	@Override
+	public void SaveCourseInfo(List<CourseInfo> list) {
+		for(CourseInfo info:list){
+			courseInfoDao.save(info);
+		}
+	}
+
+	@Override
+	public String queryCourseByType(Boolean ifInner, String courseType,
+			Integer rows, Integer start) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteCourseInfo(Integer courseId) {
+		List<CourseInfo> list = courseInfoDao.queryCourseInfo(courseId.toString());
+		for(CourseInfo info:list){
+			courseInfoDao.delete(info);
+		}
 	}
 
 }
