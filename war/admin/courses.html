@@ -12,6 +12,7 @@
 	href="../js/easyui/themes/icon.css">
 	<script src="../js/easyui/jquery-1.8.0.min.js"></script>
 	<script src="../js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js"></script> 
 	<script src="../ckeditor/ckeditor.js"></script>
 	<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
 	<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
@@ -258,7 +259,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							<td colspan="3"  nowrap>
 								<div style="margin-bottom: 5px">
 									<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-									onclick="$('#dg_info_in').datagrid('appendRow',{});">新增开课安排</a> <a href="#"
+									onclick="insertEmptyRow()">新增开课安排</a> <a href="#"
 									class="easyui-linkbutton" iconCls="icon-remove" plain="true"
 									onclick="removeSelectedRow();">删除开课安排</a>
 								</div>
@@ -377,6 +378,7 @@ function queryCourse() {
 				row = rowData;
 			}else{
 				row = $('#dg').datagrid('getSelected');
+				alert(row.courseId);
 			}
 			if (row) {
 				$('#fm').form({
@@ -413,7 +415,6 @@ function queryCourse() {
 							multiple:true,
 							editable:true
 						}); 
-						createInfoGrid(row);
 					},
 					onLoadSuccess : function(data) {
 						createCkeditor();
@@ -458,6 +459,7 @@ function queryCourse() {
 						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
 					}
 				});
+createInfoGrid(row);
 $('#fm').form('load','../struts/Course_queryCourseById?courseId='+ row.courseId);
 } else {
 	$.messager.show({
@@ -472,10 +474,12 @@ function createInfoGrid(row){
 	var infoUrl = '../struts/Course_queryCourseInfo?selected_courseId=none';
 	if(row){
 		infoUrl = '../struts/Course_queryCourseInfo?selected_courseId='+row.courseId;
+		alert(infoUrl);
 	}
 	$('#dg_info_in').datagrid({
 		title:'课程安排',
 		url:infoUrl,  
+		cache:'false',
 		idField:'courseInfoId',  
 		width: 350,
 		height: 'auto',
@@ -523,7 +527,7 @@ function saveCourse(close_dlg) {
 	$('#fm').form('submit', {
 		url : submitUrl,
 		onSubmit : function() {
-			//alert('courseTarget we got = ' + $('#courseTarget').combobox('getValues'));
+			$('#dg_info_in').datagrid('acceptChanges');
 			return $('#fm').form('validate');
 		},
 		success : function(data) {
@@ -546,6 +550,24 @@ function saveCourse(close_dlg) {
 						$('#dlg-courseId').val(data.dlg_courseId);
 						$('#selected_courseId').val(data.dlg_courseId);
 						$('#courseInfoId_in_fm').val(data.dlg_courseId);
+						var rows = $('#dg_info_in').datagrid('getRows');
+						var infos = {};
+						for(var i=0;i<rows.length;i++){
+							 infos["infos[" + i + "].startDate"] = rows[i].startDate;
+							 infos["infos[" + i + "].endDate"] = rows[i].endDate;
+							 infos["infos[" + i + "].city"] = rows[i].city;
+							 infos["infos[" + i + "].courseId"] = data.dlg_courseId;
+						}
+						if(rows.length>0){
+							$.ajax('../struts/Course_deleteAndSaveCourseInfo', {
+							      type:'POST',
+							      dataType: 'json',
+							      data: infos,
+								  success: function(msg){
+								     alert('Yeha!!'+msg);
+								  }
+							 });
+						}
 					} else {
 						$.messager.show({
 							title : 'Error',
@@ -614,6 +636,18 @@ function createCkeditor() {
 	}
 	CKEDITOR.replace('content', config);
 }
+
+function insertEmptyRow(){
+			var index = 0;
+			$('#dg_info_in').datagrid('insertRow', {
+				index: index,
+				row:{
+				}
+			});
+			$('#dg_info_in').datagrid('selectRow',index);
+			$('#dg_info_in').datagrid('beginEdit',index);
+		}
+
 
 function getRowIndex(){
 	var tr = $('#dg_info_in').closest('tr.datagrid-row');

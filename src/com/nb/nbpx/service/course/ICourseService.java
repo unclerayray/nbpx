@@ -30,6 +30,13 @@ public interface ICourseService extends IBaseService {
 	public Course saveCourse(Course course) throws Exception;
 	
 	public void auditCourse(Boolean state, Integer courseId);
+	
+	/**
+	 * @param list
+	 */
+	public void SaveCourseInfo(List<CourseInfo> list);
+	
+	public void deleteCourseInfo(Integer courseId);
 
 	/**
 	 * 导出Excel
