@@ -277,9 +277,6 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		 * course.setTeacherId(null); } } }
 		 */
 		// 如果讲师不存在与数据库中，则添加讲师
-		if(course.getIsInner()==null){
-			course.setIsInner(true);
-		}
 		if (!StringUtil.isNumeric(course.getTeacherId())) {
 			User user = new User();
 			user.setRegisterDate(new Date());
@@ -379,9 +376,14 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			if (majorCode.isEmpty()) {
 				continue;
 			}
-			if (StringUtil.isNumeric(majorCode.replace("_", ""))) {
+			if (majorCode.contains("_")&&StringUtil.isNumeric(majorCode.replace("_", ""))) {
 				// it's code
 				Dictionary dic = dictionaryDao.getDictionary(majorCode, null,
+						SystemConstants.COURSE_MAJOR_TYPE_CODE);
+				majorMap.put(dic.getCodeName(), dic.getShowName());
+			} else {
+				// it's text
+				Dictionary dic = dictionaryDao.getDictionary(null, majorCode,
 						SystemConstants.COURSE_MAJOR_TYPE_CODE);
 				if (dic == null) {
 					dic = new Dictionary();
@@ -392,11 +394,6 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 					dictionaryDao.save(dic);
 				}
 				majorMap.put(dic.getCodeName(), dic.getShowName());
-			} else {
-				// it's text
-				Dictionary dic = dictionaryDao.getDictionary(null, majorCode,
-						SystemConstants.COURSE_MAJOR_TYPE_CODE);
-				majorMap.put(dic.getCodeName(), dic.getShowName());
 			}
 		}
 
@@ -406,7 +403,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				continue;
 			}
 			// numbic
-			if (StringUtil.isNumeric(targetCode.replace("_", ""))) {
+			if (targetCode.contains("_")&&StringUtil.isNumeric(targetCode.replace("_", ""))) {
 				// it's code
 				Dictionary dic = dictionaryDao.getDictionary(targetCode, null,
 						SystemConstants.COURSE_TARGET_TYPE_CODE);
@@ -432,7 +429,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			if (industryCode.isEmpty()) {
 				continue;
 			}
-			if (StringUtil.isNumeric(industryCode.replace("_", ""))) {
+			if (industryCode.contains("_")&&StringUtil.isNumeric(industryCode.replace("_", ""))) {
 				// it's code
 				Dictionary dic = dictionaryDao.getDictionary(industryCode,
 						null, SystemConstants.COURSE_INDUSTRY_TYPE_CODE);
@@ -459,7 +456,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			if (productCode.isEmpty()) {
 				continue;
 			}
-			if (StringUtil.isNumeric(productCode.replace("_", ""))) {
+			if (productCode.contains("_")&&StringUtil.isNumeric(productCode.replace("_", ""))) {
 				// it's code
 				Dictionary dic = dictionaryDao.getDictionary(productCode, null,
 						SystemConstants.COURSE_PRODUCT_TYPE_CODE);

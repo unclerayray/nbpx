@@ -168,6 +168,7 @@ public class CourseAction extends BaseAction {
 			courseService
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 			solrCourseService.addCourse2Solr(courseAllInfo);
+			solrCourseService.updateCourseInfo2Solr(cou.getCourseId());
 			if(sync!=null&&sync&&!deleteBeforeInsert){
 				//同步到内训
 				Course innerCou = cou;
@@ -178,6 +179,7 @@ public class CourseAction extends BaseAction {
 				courseService
 						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 				solrCourseService.addCourse2Solr(courseAllInfo);
+				solrCourseService.updateCourseInfo2Solr(innerCou.getCourseId());
 			}
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
