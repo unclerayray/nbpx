@@ -49,7 +49,7 @@
 		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
 		onclick="destroyCourse()">删除</a><a
 		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-		iconCls="icon-dic" onclick="openInfoDlg1(false)">课程安排</a>
+		iconCls="icon-dic" onclick="openInfoDlg()">课程安排</a>
 	</div>
 	<div>
 		课程类型: <input class="easyui-combobox" name="category" id="category"
@@ -367,6 +367,7 @@ function queryCourse() {
 			$('#dlg').dialog('open').dialog('setTitle', '新建公开课');
 			$('#fm').form('clear');
 			$('#syncDiv').show();
+			$('#dg').datagrid('clearSelections');
 			createInfoGrid(null);	
 			createCkeditor();
 			CKEDITOR.instances.content.setData('');
@@ -378,7 +379,6 @@ function queryCourse() {
 				row = rowData;
 			}else{
 				row = $('#dg').datagrid('getSelected');
-				alert(row.courseId);
 			}
 			if (row) {
 				$('#fm').form({
@@ -432,10 +432,6 @@ function queryCourse() {
 							$('#classic').attr('checked', 'checked');
 						else
 							$('#classic').attr('checked', false);
-						if (data.isInner)
-							$('#isInner').attr('checked', 'checked');
-						else
-							$('#isInner').attr('checked', false);
 						if (data.hasVideo)
 							$('#hasVideo').attr('checked', 'checked');
 						else
@@ -474,7 +470,6 @@ function createInfoGrid(row){
 	var infoUrl = '../struts/Course_queryCourseInfo?selected_courseId=none';
 	if(row){
 		infoUrl = '../struts/Course_queryCourseInfo?selected_courseId='+row.courseId;
-		alert(infoUrl);
 	}
 	$('#dg_info_in').datagrid({
 		title:'课程安排',
@@ -527,6 +522,7 @@ function saveCourse(close_dlg) {
 	$('#fm').form('submit', {
 		url : submitUrl,
 		onSubmit : function() {
+			$('#isInner').val('false');
 			$('#dg_info_in').datagrid('acceptChanges');
 			return $('#fm').form('validate');
 		},
@@ -564,7 +560,6 @@ function saveCourse(close_dlg) {
 							      dataType: 'json',
 							      data: infos,
 								  success: function(msg){
-								     alert('Yeha!!'+msg);
 								  }
 							 });
 						}
@@ -665,123 +660,7 @@ function addTeacher() {
 	$('#editTeacher').dialog('open');
 }
 
-
 function openInfoDlg(){
-	var data = CKEDITOR.instances.content.getData();
-	$('#fm').form('submit', {
-		url : '../struts/Course_saveCourse?objectName=courseAllInfo',
-		onSubmit : function() {
-			return $('#fm').form('validate');
-		},
-		success : function(data) {
-					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
-					if (data.success) {
-						$.messager.show({
-							title : 'Success',
-							msg : '数据已为您保存，请继续！',
-							timeout : 1000,
-							showType : 'fade'
-						});
-						//$('#p_codeName').combobox('reload');  
-						//$('#p_codeName').combobox('clear');  
-						$('#dg').datagrid('reload'); // reload the data grid  
-						$('#dg').datagrid('clearSelections');
-						//alert('data = '+data.dlg_courseId);
-						$('#dlg-courseId').val(data.dlg_courseId);
-						$('#selected_courseId').val(data.dlg_courseId);
-						$('#courseInfoId_in_fm').val(data.dlg_courseId);
-						
-						var cid = $('#dlg-courseId').val();
-						$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
-						$('#dg_info').datagrid({
-							url:'../struts/Course_queryCourseInfo?selected_courseId='+cid,  
-							idField:'courseInfoId',  
-							width: 350,
-							height:355,  
-							pagination:false,
-							toolbar:'#tb_info',
-							singleSelect:true,
-							fitColumns:true,  
-							loadMsg:'正在加载，请稍候!',
-							columns:[[  
-							{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
-							{field:'startDate',title:'开始时间',width:140},  
-							{field:'endDate',title:'结束时间',width:140},
-							{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
-							]]
-						});
-					} else {
-						$.messager.show({
-							title : 'Error',
-							msg : data.message,
-							timeout : 3000,
-							showType : 'fade'
-						});
-					}
-				}
-			});
-}
-
-function openInfoDlg1(openInside){
-	//alert('openInside = '+openInside);
-	if(openInside){
-		if($('#isInner').attr('checked')=='checked'){
-			$.messager.show({
-					title : '温馨提示',
-					msg : '内训课程无固定课程安排。',
-					timeout : 2000,
-					showType : 'slide'
-				});
-			return;
-		}
-		$.messager.confirm('Confirm','需要先保存课程记录，是否继续?',function(r) {
-			if (r) {
-				//alert('are we good?'); 
-				//var data = CKEDITOR.instances.content.getData();
-				$('#fm').form('submit', {
-					url : '../struts/Course_saveCourse?objectName=courseAllInfo',
-					onSubmit : function() {
-						return $('#fm').form('validate');
-					},success : function(data) {
-						var data = eval('(' + data + ')');
-						//alert('data = '+data);
-						//alert('data.success = ' + data.success);
-						//   	Console.log('what the fuck');
-						if (data.success) {
-							$('#dlg-courseId').val(data.dlg_courseId);
-							$('#selected_courseId').val(data.dlg_courseId);
-							//Console.log('what the fuck');
-							$('#dlg_info').dialog('open').dialog('setTitle', '课程安排');
-							$('#dg_info').datagrid({
-								url:'../struts/Course_queryCourseInfo?selected_courseId='+data.dlg_courseId,  
-								idField:'courseInfoId',  
-								width: 350,
-								height:355,  
-								pagination:false,  
-								toolbar:'#tb_info',
-								singleSelect:true,
-								fitColumns:true,  
-								loadMsg:'正在加载，请稍候!',
-								columns:[[  
-								{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
-								{field:'startDate',title:'开始时间',width:140},  
-								{field:'endDate',title:'结束时间',width:140},
-								{field:'city',title:'城市',width:100,formatter:function(value,row){return row.cityName;}}
-								]]
-							});
-						} else {
-							$.messager.show({
-								title : 'Error',
-								msg : data.message,
-								timeout : 3000,
-								showType : 'fade'
-							});
-						}
-					}
-				});
-			}
-		});
-	}else{
 		var row = $('#dg').datagrid('getSelected');
 		if(row&&!row.isInner){
 			var cid = row.courseId;
@@ -822,7 +701,6 @@ function openInfoDlg1(openInside){
 				showType : 'slide'
 			});
 		}
-	}
 }
 
 function newCourseInfo(){

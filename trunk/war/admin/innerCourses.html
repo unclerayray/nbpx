@@ -244,12 +244,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 								<div>
 									<label>是否经典:</label> <input name="classic" id="classic"
 									type="checkbox">
-								</div>
-							</td>
-							<td class="itemText">
-								<div>
-									<label>是否内训:</label> <input name="isInner" id="isInner" disabled="disabled"
-									type="checkbox">
+									<input name="isInner" id="isInner" value="true" type="hidden">
 								</div>
 							</td>
 						</tr>
@@ -324,8 +319,6 @@ function queryCourse() {
 			$('#fm').form('clear');
 			createCkeditor();
 			CKEDITOR.instances.content.setData('');
-			$('#state').attr('checked', 'checked');
-			$('#isInner').attr('checked', 'checked');
 		}
 		function editCourse(rowData) {
 			var row;
@@ -385,10 +378,6 @@ function queryCourse() {
 							$('#classic').attr('checked', 'checked');
 						else
 							$('#classic').attr('checked', false);
-						if (data.isInner)
-							$('#isInner').attr('checked', 'checked');
-						else
-							$('#isInner').attr('checked', false);
 						if (data.hasVideo)
 							$('#hasVideo').attr('checked', 'checked');
 						else
@@ -429,6 +418,8 @@ function saveCourse(close_dlg) {
 		url : '../struts/Course_saveCourse?objectName=courseAllInfo',
 		onSubmit : function() {			
 			alert('courseTarget we got = ' + $('#courseTarget').combobox('getValues'));
+			alert('product we got = ' + $('#courseProduct').val());
+			$('#isInner').val('true');
 			return $('#fm').form('validate');
 		},
 		success : function(data) {
@@ -447,10 +438,7 @@ function saveCourse(close_dlg) {
 					//$('#p_codeName').combobox('clear');  
 						$('#dg').datagrid('reload'); // reload the data grid  
 						$('#dg').datagrid('clearSelections');
-						//alert('data = '+data.dlg_courseId);
 						$('#dlg-courseId').val(data.dlg_courseId);
-						$('#selected_courseId').val(data.dlg_courseId);
-						$('#courseInfoId_in_fm').val(data.dlg_courseId);
 					} else {
 						$.messager.show({
 							title : 'Error',
