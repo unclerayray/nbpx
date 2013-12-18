@@ -1,5 +1,22 @@
 USE nbpx;
 
+-- MySQL dump 10.10
+--
+-- Host: localhost    Database: nbpx
+-- ------------------------------------------------------
+-- Server version	5.0.21-community-nt
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
 insert into `sys_dictionary`(`dicId`,`dicType`,`codeName`,`showName`,`orderNum`,`attribute1`,`attribute2`,`attribute3`,`flag`,`discription`) values (1,'001','001_01','企业',null,null,null,null,1,'用户类别字典');
 insert into `sys_dictionary`(`dicId`,`dicType`,`codeName`,`showName`,`orderNum`,`attribute1`,`attribute2`,`attribute3`,`flag`,`discription`) values (2,'001','001_02','教师',null,null,null,null,1,'用户类别字典');
 insert into `sys_dictionary`(`dicId`,`dicType`,`codeName`,`showName`,`orderNum`,`attribute1`,`attribute2`,`attribute3`,`flag`,`discription`) values (3,'001','001_03','机构',null,null,null,null,1,'用户类别字典');
@@ -11909,3 +11926,16 @@ insert into `sys_dictionary`(`dicId`,`dicType`,`codeName`,`showName`,`orderNum`,
 insert into `sys_dictionary`(`dicId`,`dicType`,`codeName`,`showName`,`orderNum`,`attribute1`,`attribute2`,`attribute3`,`flag`,`discription`) values (9369,'011','011_7','饰品',null,null,null,null,1,null);
 insert into `sys_dictionary`(`dicId`,`dicType`,`codeName`,`showName`,`orderNum`,`attribute1`,`attribute2`,`attribute3`,`flag`,`discription`) values (9370,'011','011_8','眼镜',null,null,null,null,1,null);
 insert into `sys_dictionary`(`dicId`,`dicType`,`codeName`,`showName`,`orderNum`,`attribute1`,`attribute2`,`attribute3`,`flag`,`discription`) values (9371,'011','011_9','手表',null,null,null,null,1,null);
+
+
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
