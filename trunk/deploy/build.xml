@@ -30,7 +30,7 @@
 		</fileset>
 	</path>
 
-	<!-- stop tomcat -->
+	<!-- stop tomcat
 	<target name="stop-tomcat">
 		<echo message="关闭tomcat服务器" />
         <exec executable="${tomcat.home}/bin/shutdown.bat" spawn="true" vmlauncher="false">   
@@ -41,7 +41,8 @@
             <available file="errors.log" />   
         </waitfor>   
 	</target>  
-
+	-->
+	
 	<!-- Compile to classes -->
 	<target name="compile-src" description="Compile to classes" depends="init">
 		<echo message="javac编译${project.name}项目工程" />
@@ -66,14 +67,12 @@
 		<delete file="${local.dir}/${war.name}" />
 
 		<replace file="${project.path}/war/WEB-INF/classes/jdbc.properties">
-			<replacefilter token="jdbc.driverClassName=com.mysql.jdbc.Driver" value="jdbc.driverClassName=${jdbc.driverClassName}"/>
-			<replacefilter token="jdbc.url=jdbc:mysql://localhost:3306/ncpsys_v2?useUnicode=true&amp;characterEncoding=UTF-8" value="jdbc.url=${jdbc.url}"/>
-			<replacefilter token="jdbc.username=root" value="jdbc.username=${jdbc.username}"/>
 			<replacefilter token="jdbc.password=1234" value="jdbc.password=${jdbc.password}"/>
-			<replacefilter token="policy.driverClassName=com.mysql.jdbc.Driver" value="policy.driverClassName=${policy.driverClassName}"/>
-			<replacefilter token="policy.url=jdbc:mysql://localhost:3306/sypolicy_v2?useUnicode=true&amp;characterEncoding=UTF-8" value="policy.url=${policy.url}"/>
-			<replacefilter token="policy.username=root" value="policy.username=${policy.username}"/>
-			<replacefilter token="policy.password=1234" value="policy.password=${policy.password}"/>
+		</replace>
+		
+		<replace file="${project.path}/war/WEB-INF/classes/solr.properties">
+			<replacefilter token="solr.dictionary.path=D://test" value="solr.dictionary.path=usr/roger/db"/>
+			<replacefilter token="solr.dictionary.file.path=D://test//word-my.dic" value="solr.dictionary.file.path=usr/roger/db/word-my.dic"/>
 		</replace>
 	</target>
 
@@ -82,66 +81,6 @@
 	<target name="war" depends="prepareWar">
 		<jar destfile="${local.dir}/${war.name}" basedir="${project.path}/war" duplicate="preserve" />
 	</target>
-	
-	<!-- backup database -->
-	<target name="backup.database">
-		<exec executable="cmd" failonerror="true">
-			<arg line="/c mysqldump -uroot -p${jdbc.password} ${project.ncpsys.db.name} > ${local.dir}/DBbackup/${project.ncpsys.db.name}${current.time}.sql" />
-		</exec>
-		<exec executable="cmd" failonerror="true">
-			<arg line="/c mysqldump -uroot -p${policy.password} ${project.policy.db.name} > ${local.dir}/DBbackup/${project.policy.db.name}${current.time}.sql" />
-		</exec>
-	</target>
-	
-	<!-- execute sql   在192.168.3.3中先注释掉，原因是可能造成数据库数据的丢失
-	<target name="executeSql" description="Delete old database and create new database" depends="backup.database">
 		
-		<sql driver="${jdbc.driverClassName}" 
-			password="${jdbc.password}" 
-			url="${db.url}" 
-			userid="${jdbc.username}"
-			encoding="utf-8"
-			>
-			<transaction>   
-				DROP DATABASE IF EXISTS ${project.ncpsys.db.name};
-				CREATE DATABASE ${project.ncpsys.db.name} DEFAULT CHARACTER SET utf8;
-				USE ${project.ncpsys.db.name};
-			</transaction>
-			<transaction src="${project.path}/sql/${project.ncpsys.db.name}.sql"/>
-			<classpath refid="project.lib.classpath" />
-		</sql>
-		
-		<sql driver="${policy.driverClassName}" 
-			password="${policy.password}" 
-			url="${db.url}" 
-			userid="${policy.username}"
-			encoding="utf-8"
-			>
-			<transaction>   
-				DROP DATABASE IF EXISTS ${project.policy.db.name};
-				CREATE DATABASE ${project.policy.db.name} DEFAULT CHARACTER SET utf8;
-				USE ${project.policy.db.name};
-			</transaction>
-			<transaction src="${project.path}/sql/${project.policy.db.name}.sql"/>
-			<classpath refid="project.lib.classpath" />
-		</sql>
-	</target>
-	-->
-	<!-- distrubute war to tomcat -->
-	<target name="deploy" depends="war">
-		<delete dir="${tomcat.project.temp}" />
-		<delete dir="${tomcat.distribute.dir}/${project.name}" />
-		<move file="${local.dir}/${war.name}" todir="${tomcat.distribute.dir}" overwrite="true"/>
-	</target>
-	
-	<!-- start tomcat-->
-	<target name="start-tomcat" description="tomcat starting" depends="deploy,backup.database">   
-		<echo message="开启tomcat服务器" />
-	    <exec executable="${tomcat.home}/bin/startup.bat" spawn="true" vmlauncher="false">   
-	       <env key="CATALINA_HOME" value="${tomcat.home}" />   
-	       <arg line="/c start ${tomcat.home}/bin/startup.bat" />   
-	  	</exec>    
-	</target>  
-	
-	<target name="all" depends="start-tomcat" />
+	<target name="all" depends="war" />
 </project>
