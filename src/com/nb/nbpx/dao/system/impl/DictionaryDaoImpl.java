@@ -279,7 +279,11 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 		if (list == null || list.isEmpty()) {
 			return type + "_" + "0000";
 		} else {
-			return type + "_" + list.get(0).toString();
+			if("998".equals(type)){
+				return list.get(0).toString();
+			}else{
+				return type + "_" + list.get(0).toString();
+			}
 		}
 	}
 
