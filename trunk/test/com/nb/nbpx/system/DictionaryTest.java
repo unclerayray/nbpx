@@ -13,7 +13,7 @@ public class DictionaryTest   extends BaseServiceTest {
 	private IDictionaryDao dictionaryDao;
 	@Test
 	public void test() {
-		String code = dictionaryDao.getLatestCode("002");
+		String code = dictionaryDao.getLatestCode("998");
 		System.out.println(code);
 		Assert.assertNotNull(code);
 	}

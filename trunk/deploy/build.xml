@@ -8,7 +8,7 @@
 	<!-- define varibles and path -->
 	<property file="build.properties" />
 	<property name="project.name" value="nbpx" />
-	<property name="project.path" value="${local.dir}" />
+	<property name="project.path" value="../${local.dir}" />
 	<property name="war.name" value="nbpx.war" />
 	<property name="tomcat.project.temp" value="${tomcat.home}/work/Catalina/localhost/${project.name}" />
 	<property name="tomcat.distribute.dir" value="${tomcat.home}/webapps" />
@@ -23,6 +23,9 @@
 	<path id="project.lib.classpath">
 		<pathelement location="${project.path}/war/WEB-INF/classes" />
 		<fileset dir="${project.path}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${tomcat.home}/lib">
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${project.path}/war/WEB-INF/lib">
@@ -42,6 +45,15 @@
         </waitfor>   
 	</target>  
 	-->
+	
+	<!-- clean the directory  -->
+	<target name="clean" description="delete the dirs for the task">
+		<delete dir="${project.path}/war/WEB-INF/classes" />
+	</target>
+	
+	<target name="init" description="make the dirs for the task" depends="clean">
+		<mkdir dir="${project.path}/war/WEB-INF/classes" />
+	</target>
 	
 	<!-- Compile to classes -->
 	<target name="compile-src" description="Compile to classes" depends="init">
@@ -65,6 +77,7 @@
 	<!-- prepare for making war -->
 	<target name="prepareWar" depends="compile-src">
 		<delete file="${local.dir}/${war.name}" />
+
 
 		<replace file="${project.path}/war/WEB-INF/classes/jdbc.properties">
 			<replacefilter token="jdbc.password=1234" value="jdbc.password=${jdbc.password}"/>
