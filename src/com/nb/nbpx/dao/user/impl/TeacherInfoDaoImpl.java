@@ -42,7 +42,7 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 	@Override
 	public Boolean saveTeacherInfor(final TeacherInfo teacherInfor) {
 		@SuppressWarnings("unchecked")
-		Boolean result = getHibernateTemplate().execute(new HibernateCallback(){
+		Boolean result = (Boolean)getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)
 			throws HibernateException, SQLException {
 				if(teacherInfor.getTeacherId() == null)

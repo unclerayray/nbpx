@@ -19,7 +19,7 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer>  implements 
 	@Override
 	public Boolean saveCompInfor(final CompInfo compInfor) {
 		@SuppressWarnings("unchecked")
-		Boolean result = getHibernateTemplate().execute(new HibernateCallback(){
+		Boolean result = (Boolean)getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)
 			throws HibernateException, SQLException {
 				session.saveOrUpdate(compInfor);

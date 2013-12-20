@@ -42,7 +42,7 @@ public class OrgInfoDaoImpl extends BaseDaoImpl<OrgInfo, Integer>  implements IO
 	@Override
 	public Boolean saveOrgInfo(final OrgInfo orgInfor) {
 		@SuppressWarnings("unchecked")
-		Boolean result = getHibernateTemplate().execute(new HibernateCallback(){
+		Boolean result = (Boolean)getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)
 			throws HibernateException, SQLException {
 				session.saveOrUpdate(orgInfor);
