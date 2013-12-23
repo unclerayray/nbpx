@@ -29,6 +29,8 @@
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
 			<th data-options="field:'title',sortable:true,width:320">标题</th>
 			<th data-options="field:'teacherName',sortable:true,width:80">讲师</th>
+			<th data-options="field:'createdBy',sortable:true,width:80">发布者</th>
+			<th data-options="field:'lastUpdatedBy',sortable:true,width:80">最近更新者</th>
 			<th
 			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
 			<th data-options="field:'hits',sortable:true,width:80">课程点击量</th>
@@ -49,7 +51,9 @@
 		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
 		onclick="destroyCourse()">删除</a><a
 		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-		iconCls="icon-dic" onclick="openInfoDlg()">课程安排</a>
+		iconCls="icon-dic" onclick="openInfoDlg()">课程安排</a> <a href="#"
+		class="easyui-linkbutton" iconCls="icon-search" plain="true"
+		onclick="auditCourse()">改变审核状态</a>
 	</div>
 	<div>
 		课程类型: <input class="easyui-combobox" name="category" id="category"
@@ -65,6 +69,20 @@
 		$('#courseIdFS').combobox('reload', url);  
 	}
 	">
+	内外部发布：<select id="p_outside" name="p_outside" class="easyui-combobox"
+			data-options=" panelHeight:'auto',
+						strict:true,
+						onSelect: function(rec){  
+						var p_category = $('#category').combobox('getValue');
+						var pp_outside = $('#p_outside').combobox('getValue');
+						var url = '../struts/Course_queryComboCourseCode?isInner=true&category='+p_category&'p_outside='+pp_outside;  
+						$('#courseIdFS').combobox('clear');  
+						$('#courseIdFS').combobox('reload', url);}" 
+			style="panelHeight: 30px;">
+			<option></option>
+			<option value="true">外部</option>
+			<option value="false">内部</option>
+		</select>
 	课程名： <input id="q_title" name="q_title" style="width: 180px;">
 	课程代码： <input class="easyui-combobox" name="courseId"
 	id="courseIdFS"
@@ -73,6 +91,7 @@
 	valueField:'courseId',  
 	textField:'courseId',  
 	panelHeight:'auto'  ,
+	panelHeight:'100',
 	strict:true
 	">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -356,6 +375,7 @@ function queryCourse() {
 			          data: {
 			          	category : $('#category').combobox('getValue'),  
 			          	courseId : $('#courseIdFS').combobox('getValue'),
+			          	p_outside : $('#p_outside').combobox('getValue'),
 			          	q_title : $('#q_title').val(),
 			          	} 
 		    	}).done(function( responseJson ) 
@@ -619,6 +639,56 @@ function destroyCourse() {
 	}
 }
 
+
+function auditCourse() {
+	var row = $('#dg').datagrid('getSelected');
+	var yes = '确认要审核通过？';
+	if(row.state){
+		yes = '确认要拒绝通过？';
+	}
+	if (row) {
+		$.messager
+		.confirm(
+			'Confirm',
+			yes,
+			function(r) {
+				if (r) {
+					$
+					.post(
+						'../struts/Course_AuditCourse?courseId='+row.courseId+'&state='+row.state,
+						row,
+						function(data) {
+							if (data.success) {
+								$('#dg')
+								.datagrid(
+																				'reload'); // reload the Dic data
+								$('#dg').datagrid('clearSelections');
+							} else {
+								$.messager
+								.show({
+									title : 'Error',
+									msg : data.message,
+									timeout : 3000,
+									showType : 'fade'
+								});
+								$('#dg')
+								.datagrid(
+									'reload');
+								$('#dg').datagrid('clearSelections');
+							}
+						}, 'json');
+				}
+			});
+	}else{
+		$.messager.show({
+			title : '温馨提示',
+			msg : '请先选择一行记录',
+			timeout : 2000,
+			showType : 'slide'
+		});
+	}
+}
+
 function createCkeditor() {
 
 	var config = {
@@ -827,6 +897,7 @@ function newCourseInfo(){
 		#fm {
 			margin: 0;
 			padding: 10px 40px;
+			font-size: 12px;
 		}
 
 		.ftitle {

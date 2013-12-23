@@ -13,6 +13,9 @@
 .icon-save{
 	background:url('icons/filesave.png') no-repeat center center;
 }
+.icon-gears{
+	background:url('icons/gears.png') no-repeat center center;
+}
 .icon-import{
 	background:url('icons/import.png') no-repeat center center;
 }

@@ -99,7 +99,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
         HttpServletResponse response = ServletActionContext.getResponse();
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        logger.debug("--------------------" + "执行了这一步");
         response.getWriter().write(content);
     }
     
@@ -121,6 +120,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
             userName = (String) session.getAttribute("userName");
         } else {
             logger.debug("---->:session missing");
+            userName = "admin";
         }
         logger.debug("---->:userName = " + userName);
         return userName;

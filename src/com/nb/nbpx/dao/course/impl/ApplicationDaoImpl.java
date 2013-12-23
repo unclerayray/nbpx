@@ -40,9 +40,9 @@ public class ApplicationDaoImpl extends BaseDaoImpl<Application, Integer>
 								+ " where 1 = 1 and a.applyCourseId = c.courseId ");
 				if (follow != null) {
 					if(follow){
-						hql.append(" and stateInfo is null ");
-					}else{
 						hql.append(" and stateInfo is not null ");
+					}else{
+						hql.append(" and stateInfo is null ");
 					}
 				}
 				

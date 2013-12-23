@@ -43,8 +43,8 @@ public class Course extends BaseEntity implements Serializable {
 	public Boolean state = false;
 	public Boolean hasVideo;
 	public Integer hits;
-	public Integer createdBy;
-	public Integer lastUpdatedBy;
+	public String createdBy;
+	public String lastUpdatedBy;
 	public Date creationDate;
 	public Date lastUpdateDate;
 	public String categoryName;
@@ -64,6 +64,8 @@ public class Course extends BaseEntity implements Serializable {
 	 * @param category
 	 * @param categoryName
 	 * @param lastUpdateDate
+	 * @param createdBy
+	 * @param lastUpdatedBy
 	 * @param state
 	 * @param hits
 	 * @param price
@@ -72,7 +74,7 @@ public class Course extends BaseEntity implements Serializable {
 	 */
 	public Course(Integer courseId, String title, Boolean isInner,
 			String teacherId, String teacherName, String category,
-			String categoryName, Date lastUpdateDate, Boolean state, Integer hits,
+			String categoryName, Date lastUpdateDate, String createdBy, String lastUpdatedBy, Boolean state, Integer hits,
 			Double price, Boolean recommanded, Boolean classic) {
 		super();
 		this.courseId = courseId;
@@ -84,6 +86,8 @@ public class Course extends BaseEntity implements Serializable {
 		this.categoryName = categoryName;
 //		this.shortName = shortName;
 		this.lastUpdateDate = lastUpdateDate;
+		this.createdBy = createdBy;
+		this.lastUpdatedBy = lastUpdatedBy;
 		this.state = state;
 		this.hits = hits;
 		this.price = price;
@@ -195,8 +199,8 @@ public class Course extends BaseEntity implements Serializable {
 	public Course(Integer courseId, String title, Double price,
 			String teacherId, String teacherName, String category, String links, 
 			String content, String blockedContent, Boolean isInner,
-			Boolean state, Boolean hasVideo, Integer hits, Integer createdBy,
-			Integer lastUpdatedBy, Date creationDate, Date lastUpdateDate,
+			Boolean state, Boolean hasVideo, Integer hits, String createdBy,
+			String lastUpdatedBy, Date creationDate, Date lastUpdateDate,
 			String categoryName, Boolean recommanded, Boolean classic) {
 		super();
 		this.courseId = courseId;
@@ -247,8 +251,8 @@ public class Course extends BaseEntity implements Serializable {
 	public Course(Integer courseId, String title, Double price,
 			String teacherId, String teacherName, String category,
 			String content, String blockedContent, Boolean isInner,
-			Boolean state, Boolean hasVideo, Integer hits, Integer createdBy,
-			Integer lastUpdatedBy, Date creationDate, Date lastUpdateDate,
+			Boolean state, Boolean hasVideo, Integer hits, String createdBy,
+			String lastUpdatedBy, Date creationDate, Date lastUpdateDate,
 			String categoryName, Boolean recommanded, Boolean classic) {
 		super();
 		this.courseId = courseId;
@@ -381,19 +385,19 @@ public class Course extends BaseEntity implements Serializable {
 		this.hits = hits;
 	}
 
-	public Integer getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Integer createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public Integer getLastUpdatedBy() {
+	public String getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
 
-	public void setLastUpdatedBy(Integer lastUpdatedBy) {
+	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 

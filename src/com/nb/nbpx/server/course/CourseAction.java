@@ -55,6 +55,7 @@ public class CourseAction extends BaseAction {
 	public String category;
 	public String courseCode;
 	public String q_title;
+	public Boolean p_outside;
 	public Integer courseId;
 	public Boolean state;
 	public Boolean sync;
@@ -119,7 +120,7 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String queryCourses() {
-		String json = courseService.queryCourses(category, courseId,	q_title, rows,
+		String json = courseService.queryCourses(category, courseId, q_title,p_outside, rows,
 				getStartPosi(), sort, order,isInner);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -138,7 +139,7 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String queryComboCourseCode() {
-		String json = courseService.queryComboCourseName(category,isInner);
+		String json = courseService.queryComboCourseName(category,isInner,p_outside);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -163,6 +164,9 @@ public class CourseAction extends BaseAction {
 			if (courseAllInfo.getCourseId() != null) {
 				deleteBeforeInsert = true;
 			}
+			String userName = getSessionUserName();
+			courseAllInfo.setCreatedBy(userName);
+			courseAllInfo.setLastUpdatedBy(userName);
 			cou = courseService.saveCourse(cou);
 			courseAllInfo.setCourseId(cou.getCourseId());
 			courseService
@@ -552,5 +556,13 @@ public class CourseAction extends BaseAction {
 
 	public void setInfos(List<CourseInfo> infos) {
 		this.infos = infos;
+	}
+
+	public Boolean getP_outside() {
+		return p_outside;
+	}
+
+	public void setP_outside(Boolean p_outside) {
+		this.p_outside = p_outside;
 	}
 }

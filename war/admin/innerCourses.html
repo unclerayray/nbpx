@@ -28,6 +28,8 @@
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
 			<th data-options="field:'title',sortable:true,width:320">标题</th>
 			<th data-options="field:'teacherName',sortable:true,width:80">讲师</th>
+			<th data-options="field:'createdBy',sortable:true,width:80">发布者</th>
+			<th data-options="field:'lastUpdatedBy',sortable:true,width:80">最近更新者</th>
 			<th
 			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
 			<th data-options="field:'hits',sortable:true,width:80">课程点击量</th>
@@ -64,6 +66,20 @@
 		$('#courseIdFS').combobox('reload', url);  
 	}
 	">
+	内外部发布：<select id="p_outside" name="p_outside" class="easyui-combobox"
+			data-options=" panelHeight:'auto',
+						strict:true,
+						onSelect: function(rec){  
+						var p_category = $('#category').combobox('getValue');
+						var pp_outside = $('#p_outside').combobox('getValue');
+						var url = '../struts/Course_queryComboCourseCode?isInner=true&category='+p_category&'p_outside='+pp_outside;  
+						$('#courseIdFS').combobox('clear');  
+						$('#courseIdFS').combobox('reload', url);}" 
+			style="panelHeight: 30px;">
+			<option></option>
+			<option value="true">外部</option>
+			<option value="false">内部</option>
+		</select>
 	课程名： <input id="q_title" name="q_title" style="width: 180px;">
 	课程代码： <input class="easyui-combobox" name="courseId"
 	id="courseIdFS"
@@ -72,6 +88,7 @@
 	valueField:'courseId',  
 	textField:'courseId',  
 	panelHeight:'auto'  ,
+	panelHeight:'100',
 	strict:true
 	">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -261,37 +278,11 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 			</div>
 
 			<div id="dlg-buttons">
-				<a
-				href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-dic" onclick="addTeacher()">增加讲师</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-ok" onclick="saveCourse(true)">保存</a> <a
 				href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
-			</div>
-
-			<div id="editTeacher" class="easyui-dialog" title="添加讲师信息" closed="true" modal="true" style="width:600px;height:380px;padding:10px;"
-			data-options="buttons: [{
-			text:'保存',
-			iconCls:'icon-ok',
-			handler:function(){
-			saveTeacher(); } },{
-			text:'取消',
-			iconCls:'icon-cancel',
-			handler:function(){
-			$('#editTeacher').dialog('close');
-		}
-	}]">
-	<form id="teacherFm" method="post" novalidate> 
-		<table cellspacing="0" cellpadding="0" class="formTable">
-			<tr><td class="itemText">真实姓名:</td><td><input id="realName"  validType="validateText"   name="realName" class="easyui-validatebox" required="true"></td><td class="itemText">出生日期:</td><td><input id="birthday" name="birthday" class="easyui-validatebox" required="true"></td></tr>
-			<tr><td class="itemText">主讲类别:</td><td><input id="majorCatgory" name="majorCatgory" class="easyui-validatebox" required="true"></td><td class="itemText">对外课酬:</td><td><input id="externalPayment" name="externalPayment" class="easyui-validatebox" required="true"></td></tr>
-			<tr><td class="itemText">协议课酬:</td><td><input id="internalPayment" name="internalPayment" class="easyui-validatebox" required="true"></td><td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td></tr>
-			<tr><td class="itemText">联系电话:</td><td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td><td class="itemText">移动电话:</td><td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td></tr>
-			<tr><td class="itemText">个人简介:</td><td colspan="3"><textarea id="introduction" style="width:420px;height:70px" name="introduction"></textarea></td></tr>
-			<tr><td class="itemText">擅长项目:</td><td colspan="3"><textarea id="expertIn" style="width:420px;height:70px" name="expertIn"></textarea></td></tr>	
-		</table>
-	</form>  
+			</div> 
 </div>   
 
 <script type="text/javascript">
@@ -307,6 +298,7 @@ function queryCourse() {
 			          	isInner : true,
 			          	category : $('#category').combobox('getValue'),  
 			          	courseId : $('#courseIdFS').combobox('getValue'),
+			          	p_outside : $('#p_outside').combobox('getValue'),
 			          	q_title : $('#q_title').val(),
 			          	} 
 		    	}).done(function( responseJson ) 
@@ -557,41 +549,6 @@ function createCkeditor() {
 	CKEDITOR.replace('content', config);
 }
 
-function addTeacher() {
-	$('#teacherFm').form('clear');		
-	$('#editTeacher').dialog('open');
-}
-
-function saveTeacher() {
-	$('#teacherFm').form('submit',{  
-		url: '../struts/TeacherInfo_saveTeacherInfor?objectName=teacherInfor',  
-		onSubmit: function(){  
-			return $(this).form('validate');  
-		},  
-		success: function(data){  
-				var data = eval('(' + data + ')');  // change the JSON string to javascript object  
-				if (data.success){
-					$.messager.show({  
-						title: '系统提示',  
-						msg: data.message  ,  
-						timeout:2000,  
-						showType:'fade'  
-					});
-		        	$('#editTeacher').dialog('close');      // close the dialog  
-		        	$('#teacherId').combobox('reload');
-		        	$('#teacherId').combobox('clear');
-		        	$('#teacherFm').form('clear');					
-		        } else {
-		        	$.messager.show({  
-		        		title: '系统提示',  
-		        		msg: data.message ,
-		        		timeout:2000,  
-		        		showType:'fade'  
-		        	});
-		        }
-		    }
-		});
-}
 		function cutupTitle(){
 			//var textToCut = encodeURIComponent($('#courseTitle').val());
 			var textToCut = $('#courseTitle').val();
