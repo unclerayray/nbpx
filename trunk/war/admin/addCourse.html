@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+	<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
+	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
+	<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/icon.css">
+	<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+	<script src="../js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js"></script> 
+	<script src="../ckeditor/ckeditor.js"></script>
+	<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
+	<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+	<title>发布公开课</title>
+	<script language="JavaScript">
+		window.onload = function() {
+			var config = {
+				uiColor : '#A0CFEC',
+				language : 'zh-cn'
+			};
+			var editor = CKEDITOR.instances['content'];
+			if (editor) {
+				editor.destroy(true);
+			}
+			$('#fm').form('clear');
+			$('#syncDiv').show();
+			CKEDITOR.replace('content', config);
+			createInfoGrid(null);	
+			CKEDITOR.instances.content.setData('');
+			$('#state').attr('checked', 'checked');
+		};
+	</script>
+</head>
+<body class="easyui-layout" style="overflow:auto">
+	
+<div id="dlg" 
+style="padding: 5px 5px; top: 5px;overflow:auto;" >
+<form id="fm" method="post">
+	<table cellspacing="0" cellpadding="0" class="formTable">
+		<tr>
+			<td class="itemText"  colspan="3" nowrap>
+				<div>
+					<label>课程标题:</label> <input class="easyui-validatebox" id="courseTitle"
+					name="title" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'" style="width: 512px;">
+				</div>
+			</td>
+			<td>
+				<a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-dic" onclick="cutupTitle()">拆分关键词</a></td>
+
+			</tr>
+			<tr>
+				<td class="itemText"  colspan="4" nowrap>
+					<div>
+						<label>课程关键字:</label> <input class="easyui-validatebox" id="courseKeywords" name = "keywords"
+						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程关键字是必填项'" style="width: 500px;">
+					</div>
+				</td>
+				<td class="itemText" nowrap>
+								<div id="syncDiv">
+									<label>同步到内训:</label> <input name="sync" id="sync"
+									type="checkbox">
+								</div>
+							</td>
+			</tr>
+			<tr>
+				<td class="itemText"  colspan="4" nowrap>
+					<div>
+						<label>课程超链接:</label> <input id="courseLinks" name = "links" style="width: 500px;">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="itemText"  colspan="4" nowrap>
+					<div>
+						<label>课程专题:</label> <input class="easyui-validatebox" id="courseSubject" name = "subject"
+						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'课程专题是必填项'" style="width: 512px;">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="itemText" nowrap>
+					<div>
+						<label>课程编码:</label> <input id="courseCodeInForm"  class="easyui-validatebox" readonly="readonly"  style="width: 100px;"
+						name="courseId">
+					</div></td>
+					<td class="itemText" nowrap>
+						<div id="courseTypeInForm">
+							<label>课程类型:</label> <input class="easyui-combobox"
+							style="width: 130px;" name="category" id="category"
+							data-options="  
+							url:'../struts/Course_queryComboCourseTypes',  
+							valueField:'codeName',  
+							textField:'showName',  
+							panelHeight:'auto'  ,
+							editable:false ,
+							required:true,
+							tipPositionY:'center',
+							tipPositionX:'right',
+							className:'tip-darkgray',
+							missingMessage:'必填项'
+							">
+						</input>
+					</div>
+				</td>
+				<td class="itemText" nowrap>
+					<div>
+						<label>课程讲师:</label>
+						<input type="hidden" style="width: 0px;" name="teacherName" id="teacherName"> <input class="easyui-combobox"
+						name="teacherId" id="teacherId"  style="width: 100px;" 
+						data-options="
+						url:'../struts/Course_queryComboTeacher',
+						valueField:'teacherId',  
+						textField:'realName',  
+						panelHeight:'100',
+						required:true,
+						tipPositionY:'center',
+						tipPositionX:'right',
+						className:'tip-darkgray',
+						missingMessage:'必填项'
+						">
+					</div></td>
+					<td class="itemText" nowrap>
+						<div>
+							<label>课程费用:</label> <input class="easyui-validatebox"
+							name="price"  data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',validType:'num'" style="width: 100px;">
+						</div></td>
+					</tr>
+					<tr>
+						<td  class="itemText"  colspan="5">
+							<label>课程对象:</label> <input name="targets" id="courseTarget"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=010',   
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'200',
+							multiple:true,
+							editable:true"  
+							style="width: 800px;">
+						</td>
+					</tr>
+					<tr>
+						<td  class="itemText"  colspan="5">
+							<label>课程专业:</label> <input name="major" id="courseMajor"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=009',   
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'200',
+							multiple:true,
+							editable:true"
+							style="width: 800px;">
+						</td>
+					</tr>
+					<tr>
+						<td  class="itemText"  colspan="5">
+							<label>课程行业:</label> <input name="industry" id="courseIndustry"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=008',   
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'200',
+							multiple:true,
+							editable:true "
+							style="width: 800px;">
+						</td>
+					</tr>
+					<tr>
+						<td  class="itemText"  colspan="5">
+							<label>课程产品:</label> <input name="product" id="courseProduct"  class="easyui-combobox" data-options="  
+							url:'../struts/Dictionary_queryComboDics?p_dicType=011',   
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'200',
+							multiple:true,
+							editable:true "
+							style="width: 800px;">
+						</td>
+					</tr>
+					<tr>
+							<td class="itemText" colspan="1">
+								<div>
+									<label>是否已审核:</label> <input name="state" id="state"
+									type="checkbox">
+								</div>
+							</td>
+							<td class="itemText" colspan="1">
+								<div>
+									<label>是否推荐:</label> <input name="recommanded" id="recommanded"
+									type="checkbox">
+								</div>
+							</td>
+							<td class="itemText" colspan="1">
+								<div>
+									<label>是否经典:</label> <input name="classic" id="classic"
+									type="checkbox">
+									<input name="isInner" id="isInner" value="false" type="hidden">
+								</div>
+							</td>
+							<td class="itemText" colspan="1" nowrap>
+								<div>
+									<label>是否有视频:</label> <input name="hasVideo" id="hasVideo"
+									type="checkbox">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3"  nowrap>
+								<div style="margin-bottom: 5px">
+									<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+									onclick="insertEmptyRow()">新增开课安排</a> <a href="#"
+									class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+									onclick="removeSelectedRow();">删除开课安排</a>
+								</div>
+							</td>
+						</tr>
+					<tr>
+						<td colspan="5" nowrap>
+						<table id="dg_info_in"> </table>
+					</td>
+					</tr>
+					<tr>
+						<td colspan="5">
+							<div id="contentDiv">
+								<textarea name="content" id="content"  style="width:900px"></textarea>
+							</div></td>
+						</tr>
+					</table>
+					<div id="dlg-buttons">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-ok" onclick="saveCourse(true)">保存</a> <a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+			</div>
+				</form>
+			</div>
+
+			
+
+<script type="text/javascript">
+
+function createInfoGrid(row){
+	var infoUrl = '../struts/Course_queryCourseInfo?selected_courseId=none';
+	if(row){
+		infoUrl = '../struts/Course_queryCourseInfo?selected_courseId='+row.courseId;
+	}
+	$('#dg_info_in').datagrid({
+		title:'课程安排',
+		url:infoUrl,  
+		cache:'false',
+		idField:'courseInfoId',  
+		width: 350,
+		height: 'auto',
+		onDblClickCell:function(index,field,value){
+			$(this).datagrid('beginEdit', index);
+			var ed = $(this).datagrid('getEditor', {index:index,field:field});
+			$(ed.target).focus();
+		},
+		pagination:false,
+		singleSelect:true,
+		fitColumns:true,  
+		loadMsg:'正在加载，请稍候!',
+		columns:[[  
+		{field:'courseInfoId',title:'主键ID',width:80,hidden:true},  
+		{field:'startDate',title:'开始时间',width:140,required:true,editor:{
+				type:'datebox',
+				options:{required:true}}},  
+		{field:'endDate',title:'结束时间',width:140,required:true,editor:{
+				type:'datebox',
+				options:{required:true}}},
+		{field:'city',title:'城市',width:100,
+			formatter:function(value,row){return row.cityName;},
+			editor:{
+				type:'combobox',
+				options:{
+					url:'../struts/Dictionary_queryComboDics?p_dicType=007',  
+					valueField:'codeName',  
+					textField:'showName',  
+					panelHeight:'auto',
+					editable:false,required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'
+				}
+			}
+		}
+		]]
+	});
+}
+function saveCourse(close_dlg) {
+	//var data = CKEDITOR.instances.content.getData();
+	$('#teacherName').val($('#teacherId').combobox('getText'));
+	var doSync = $('sync').val();
+	var submitUrl = '../struts/Course_saveCourse?objectName=courseAllInfo';
+	if ($('sync').val()) {
+		submitUrl = '../struts/Course_saveCourse?objectName=courseAllInfo'+'&sync=true';
+	};
+	$('#fm').form('submit', {
+		url : submitUrl,
+		onSubmit : function() {
+			$('#isInner').val('false');
+			$('#dg_info_in').datagrid('acceptChanges');
+			return $('#fm').form('validate');
+		},
+		success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					//alert('data = ' + data);
+					if (data.success) {
+						var rows = $('#dg_info_in').datagrid('getRows');
+						var infos = {};
+						for(var i=0;i<rows.length;i++){
+							 infos["infos[" + i + "].startDate"] = rows[i].startDate;
+							 infos["infos[" + i + "].endDate"] = rows[i].endDate;
+							 infos["infos[" + i + "].city"] = rows[i].city;
+							 infos["infos[" + i + "].courseId"] = data.dlg_courseId;
+						}
+						if(rows.length>0){
+							$.ajax('../struts/Course_deleteAndSaveCourseInfo', {
+							      type:'POST',
+							      dataType: 'json',
+							      data: infos,
+								  success: function(msg){
+								  	$.messager.show({
+										title : 'Success',
+										msg : '发布成功！',
+										timeout : 3000,
+										showType : 'fade'
+									});
+								  }
+							 });
+							$.messager.confirm(
+								'确认',
+								'离开页面并发布新的课程?',
+								function(r) {
+									if (r) {
+										$('#fm').form('clear');
+										$('#syncDiv').show();
+										$('#dg_info_in').datagrid('loadData', {'success':true,'message':'','total':0,'rows':[]});
+										CKEDITOR.instances.content.setData('');
+										$('#state').attr('checked', 'checked');
+									}else{
+										$('#courseCodeInForm').val(data.dlg_courseId);
+									}
+							});
+						}
+						
+
+					}else {
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+}
+
+function createCkeditor() {
+
+	var config = {
+		uiColor : '#A0CFEC',
+		language : 'zh-cn'
+	};
+	var editor = CKEDITOR.instances['content'];
+	if (editor) {
+		editor.destroy(true);
+	}
+	CKEDITOR.replace('content', config);
+}
+
+function insertEmptyRow(){
+			var index = 0;
+			$('#dg_info_in').datagrid('insertRow', {
+				index: index,
+				row:{
+				}
+			});
+			$('#dg_info_in').datagrid('selectRow',index);
+			$('#dg_info_in').datagrid('beginEdit',index);
+		}
+
+
+function getRowIndex(){
+	var tr = $('#dg_info_in').closest('tr.datagrid-row');
+	return parseInt(tr.attr('datagrid-row-index'));
+}
+
+function removeSelectedRow(){
+	var row = $('#dg_info_in').datagrid('getSelected');
+	var rowNum = $('#dg_info_in').datagrid('getRowIndex',row);
+	$('#dg_info_in').datagrid('deleteRow', rowNum);
+}
+
+
+		function cutupTitle(){
+			//var textToCut = encodeURIComponent($('#courseTitle').val());
+			var textToCut = $('#courseTitle').val();
+			//alert('courseTitle = ' + textToCut);
+			if($('#courseTitle').validatebox('isValid')){
+				//alert('textToCut to cut ' + $('#courseTitle').val());
+				$.ajax({
+					url:'../struts/Solr_cutText?textToCut='+textToCut,
+					success: function(data){
+						$('#courseKeywords').val(data);
+					}		
+				});
+			}
+			
+		}
+		</script>
+		<style type="text/css">
+		#fm {
+			margin: 0;
+			padding: 10px 40px;
+			font-size: 12px;
+		}
+
+		.ftitle {
+			font-size: 14px;
+			font-weight: bold;
+			padding: 5px 0;
+			margin-bottom: 10px;
+			border-bottom: 1px solid #ccc;
+		}
+
+		.fitem {
+			margin-bottom: 5px;
+		}
+
+		.fitem label {
+			display: inline-block;
+			width: 80px;
+		}
+
+		.itemText {
+			width: 300px;
+			text-align: left;
+			height: 30px;
+			padding-left: 10px;
+			vertical-align: top
+		}
+
+		.formTable td {
+			vertical-align: top
+		}
+		</style>
+	</body>
+	</html>

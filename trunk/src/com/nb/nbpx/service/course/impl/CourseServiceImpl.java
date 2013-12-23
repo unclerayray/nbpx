@@ -89,15 +89,15 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	// private ICourseKeywordDao courseKeywordDao;
 
 	@Override
-	public String queryCourses(String category, Integer courseId, String title,
+	public String queryCourses(String category, Integer courseId, String title,Boolean p_outside,
 			Integer rows, Integer start, String sort, String order, Boolean isInner) {
 		String json = "";
 		List<Course> list;
 		if (title != null && !title.isEmpty()) {
-			list = courseDao.queryCoursesWithTitle(category, title, rows,
+			list = courseDao.queryCoursesWithTitle(category, title,p_outside, rows,
 					start, sort, order, isInner);
 		} else {
-			list = courseDao.queryCourses(category, courseId, rows, start,
+			list = courseDao.queryCourses(category, courseId,p_outside, rows, start,
 					sort, order, isInner);
 		}
 
@@ -107,9 +107,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		} else {
 			int count = 0;
 			if (title != null && !title.isEmpty()) {
-				count = courseDao.queryCourseCount(category, title).intValue();
+				count = courseDao.queryCourseCount(category, title, p_outside).intValue();
 			} else {
-				count = courseDao.queryCourseCount(category, courseId)
+				count = courseDao.queryCourseCount(category, courseId, p_outside)
 						.intValue();
 			}
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
@@ -196,8 +196,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public String queryComboCourseName(String category,Boolean isInner) {
-		List<Course> list = courseDao.queryCourses(category, null, null, null,
+	public String queryComboCourseName(String category,Boolean isInner,Boolean p_outside) {
+		List<Course> list = courseDao.queryCourses(category, null,p_outside, null, null,
 				null, null,isInner);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
@@ -1265,7 +1265,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public void auditCourse(Boolean state, Integer courseId) {
-		String queryString = "update Course set state = ? where courseId = ";
+		String queryString = "update Course set state = ? where courseId = ? ";
 		Object[] values = {state, courseId};
 		courseDao.bulkUpdate(queryString, values);
 	}

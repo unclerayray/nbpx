@@ -16,12 +16,12 @@ import com.nb.nbpx.utils.NbpxException;
  * 
  */
 public interface ICourseService extends IBaseService {
-	public String queryCourses(String category, Integer courseId, String title,  Integer rows,
+	public String queryCourses(String category, Integer courseId, String title,Boolean p_outside, Integer rows,
 			Integer start, String sort, String order, Boolean isInner);
 
 	public String queryComboCourseType();
 
-	public String queryComboCourseName(String category,Boolean isInner);
+	public String queryComboCourseName(String category,Boolean isInner,Boolean p_outside);
 
 	public String queryComboTeacher();
 

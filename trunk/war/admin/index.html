@@ -20,10 +20,28 @@
 		}else {
 			tt.tabs('add',{
 				title: tabName,
-				content: "<iframe scrolling='yes' frameborder='0'  src='"+src+".html' style='width:100%;height:100%;'></iframe>",
+				content: "<iframe frameborder='0'  src='"+src+".html' style='width:100%;height:100%;'></iframe>",
 				closable: true
 			});
 		}
+	}
+	function open1(plugin){
+				if ($('#tabs').tabs('exists',plugin)){
+					$('#tabs').tabs('select', plugin);
+				} else {
+					$('#tabs').tabs('add',{
+						title:plugin,
+						href:plugin+'.html',
+						closable:true,
+						extractor:function(data){
+							data = $.fn.panel.defaults.extractor(data);
+							var tmp = $('<div></div>').html(data);
+							data = tmp.find('#content').html();
+							tmp.remove();
+							return data;
+						}
+					});
+				}
 	}
 	</script>
 	<style>
@@ -44,72 +62,102 @@
 		<div class="userInfor"><ul><li><span>当前用户:Admin</span></li><li><a href="#">修改个人信息</a></li><li><a href="#">退出登陆</a></li></ul></div>
 	</div>
 
-	<div region="west" split="true" style="width:220px;overflow:hidden" iconCls="icon-save" title="功能菜单">
-			<p/>
-			<div style="height: 2px; background-color: black; text-align: center">
-				<span style="background-color: white; position: relative; top: -0.5em;">
-				系统管理
-				</span>
-			</div>
-			<p/>
-				<dd><a href="#" onclick="javascript:addTab('系统日志')">系统日志</a></dd>
-				<dd><a href="#" onclick="javascript:addTab('广告设置')">广告设置</a></dd>
-			<p/>
-			<div style="height: 2px; background-color: black; text-align: center">
-				<span style="background-color: white; position: relative; top: -0.5em;">
-				课程管理
-				</span>
-			</div>
-			<p/>
-		        <dd><a href="javascript:addTab('公开课管理','courses')">公开课管理</a></dd>
-		        <dd><a href="javascript:addTab('内训课管理','innerCourses')">内训课管理</a></dd>
-				<dd><a href="javascript:addTab('需求管理','requirements')">需求管理</a></dd>
-				<dd><a href="javascript:addTab('报名管理','applications')">报名管理</a></dd>
-			<p/>
-			<div style="height: 2px; background-color: black; text-align: center">
-				<span style="background-color: white; position: relative; top: -0.5em;">
-				资讯管理
-				</span>
-			</div>
-		        <dd><a href="javascript:addTab('文章列表','articles')">文章列表</a></dd>
-				<dd><a href="javascript:addTab('现场管理','liveScene')">现场管理</a></dd>
-				<dd><a href="javascript:addTab('下载管理','downloads')">下载管理</a></dd>
-			<p/>
-			<div style="height: 2px; background-color: black; text-align: center">
-				<span style="background-color: white; position: relative; top: -0.5em;">
-				问答管理
-				</span>
-			</div>
-		        <dd><a href="javascript:addTab('问答管理','wendas')">问答管理</a></dd>
-			<p/>
-			<p/>
-		    <div style="height: 2px; background-color: black; text-align: center">
-				<span style="background-color: white; position: relative; top: -0.5em;">
-				系统用户
-				</span>
-			</div>
-		        <dd><a href="javascript:void(0)" onclick="javascript:addTab('用户列表','userList')">用户列表</a></dd>
-			<p/>
-			<p/>
-	        <div style="height: 2px; background-color: black; text-align: center">
-				<span style="background-color: white; position: relative; top: -0.5em;">
-				系统设置
-				</span>
-			</div>
-			<p/>
-		        <dd><a href="javascript:void(0)" onclick="javascript:addTab('字典管理','dictionary')">字典管理</a></dd>
-		         <dd><a href="javascript:void(0)" onclick="javascript:addTab('关键词管理','keywords')">关键词管理</a></dd>
-				 <dd><a href="javascript:void(0)" onclick="javascript:addTab('专题管理','subjects')">专题管理</a></dd>
-				<dd><a href="javascript:void(0)" onclick="javascript:addTab('全文搜索','solr')">全文搜索</a></dd>
+	<div region="west" split="true" style="width:220px;overflow:hidden" title="功能菜单">
+			<ul class="easyui-tree">
+				<li iconCls="icon-base"><span>系统管理</span>
+					<ul>
+						<li iconCls="icon-gears">
+							<a href="#" onclick="javascript:addTab('系统日志')">系统日志</a>
+						</li>
+						
+						<li iconCls="icon-gears">
+							<a href="#" onclick="javascript:addTab('广告设置')">广告设置</a>
+						</li>
+					</ul>
+				</li>
+				<li iconCls="icon-base"><span>课程管理</span>
+					<ul>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('发布公开课','addCourse')">发布公开课</a>
+						</li>
+						
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('公开课管理','courses')">公开课管理</a>
+						</li>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('内训课管理','innerCourses')">内训课管理</a>
+						</li>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('需求管理','requirements')">需求管理</a>
+						</li>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('报名管理','applications')">报名管理</a>
+						</li>
+					</ul>
+				</li>
+				
+				<li iconCls="icon-base"><span>资讯管理</span>
+					<ul>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('文章列表','articles')">文章列表</a>
+						</li>
+						
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('现场管理','liveScene')">现场管理</a>
+						</li>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('下载管理','downloads')">下载管理</a>
+						</li>
+					</ul>
+				</li>
+				
+				<li iconCls="icon-base"><span>问答管理</span>
+					<ul>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('问答管理','wendas')">问答管理</a>
+						</li>
+						
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('现场管理','liveScene')">现场管理</a>
+						</li>
+						<li iconCls="icon-gears">
+							<a href="javascript:addTab('下载管理','downloads')">下载管理</a>
+						</li>
+					</ul>
+				</li>
+				
+				<li iconCls="icon-base"><span>系统用户</span>
+					<ul>
+						<li iconCls="icon-gears">
+							<a href="javascript:void(0)" onclick="javascript:addTab('用户列表','userList')">用户列表</a>
+						</li>
+					</ul>
+				</li>
+				
+				<li iconCls="icon-base"><span>系统设置</span>
+					<ul>
+						<li iconCls="icon-gears">
+							<a href="javascript:void(0)" onclick="javascript:addTab('字典管理','dictionary')">字典管理</a>
+						</li>
+						
+						<li iconCls="icon-gears">
+							<a href="javascript:void(0)" onclick="javascript:addTab('关键词管理','keywords')">关键词管理</a>
+						</li>
+						
+						<li iconCls="icon-gears">
+							<a href="javascript:void(0)" onclick="javascript:addTab('专题管理','subjects')">专题管理</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
 	</div>
 
-	<div region="center">
-		<div id="tabs" class="easyui-tabs" fit="true" border="false">
-			<div title="首页">
-				<p style='padding:20px;padding-left:20px'>欢迎登陆南北培训网后台管理系统</p>
+	<div region="center" border="false">
+			<div id="tabs" class="easyui-tabs" fit="true" border="false" plain="true">
+				<div title="首页">
+					<p style='padding:20px;padding-left:20px'>欢迎登陆南北培训网后台管理系统</p>
+				</div>
 			</div>
-		</div>
-
 	</div>
 
 	<div id="menu" class="easyui-menu" style="width:150px;">
