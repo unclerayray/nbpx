@@ -13,6 +13,7 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
+import com.nb.nbpx.service.system.IDictionaryService;
 import com.nb.nbpx.utils.JsonUtil;
 
 /**
@@ -34,6 +35,9 @@ public class KeywordAction extends BaseAction {
 	public IKeywordService keywordService;
 	@Resource
 	public ISolrKeywordService solrKeywordService;
+	@Resource
+	public IDictionaryService dictionaryService;
+
 	/**
 	 * 
 	 */
@@ -138,7 +142,45 @@ public class KeywordAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
+	
+	//取推荐的前30个关键词显示在列表中
+	public String getKeyWordsByType(){
+		String json = "";
+		String type = "003_0"+category;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
+		System.out.println(type);
+		json = keywordService.getKeyWordsList(false, 2, type, 0, 30);
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String getLastedKeyWords(){
+		String json = "";
+		json = keywordService.getLastedKeyWords(0, 80);
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String getMoreKeyWordsByType(){
+		String json = "";
+		String type = "003_0"+category;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
 
+		json = keywordService.getKeyWordsListByType(type, this.getStartPosi(), rows);
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	//查询type名字
+	public String getTypeName(){
+		String json = "";
+		String type = "003_0"+category;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
+		json = dictionaryService.getDic(type, null);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 	public String saveKeyword() {
 		return SUCCESS;
 	}
@@ -214,5 +256,13 @@ public class KeywordAction extends BaseAction {
 	public void setSolrKeywordService(ISolrKeywordService solrKeywordService) {
 		this.solrKeywordService = solrKeywordService;
 	}
+	public IDictionaryService getDictionaryService() {
+		return dictionaryService;
+	}
+
+	public void setDictionaryService(IDictionaryService dictionaryService) {
+		this.dictionaryService = dictionaryService;
+	}
+
 
 }

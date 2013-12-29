@@ -68,7 +68,42 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 
 		return json;
 	}
+	
+	public String getKeyWordsListByType(String type,Integer start,Integer rows){
+		List<Keyword> list = keywordDao.getKeyWordsListByType(type, start, rows);
+		int rowsCount = keywordDao.countKeyWordsListByType(type);
+		int pages = rowsCount/rows+1;
+		List<Map<String, String>> results = new ArrayList<Map<String, String>>();
+		for (Keyword temp : list) {
+			Map<String, String> result = new HashMap<String, String>();
+			result.put("id", temp.getKeyId().toString());
+			result.put("name", temp.getKeyword());
+			
+			results.add(result);
+		}
+		Map<String,Object> resultWithPage = new HashMap<String,Object>();
+		resultWithPage.put("rows", rowsCount);
+		resultWithPage.put("pages", pages);
+		resultWithPage.put("lines", results);
+		
+		String json = JsonUtil.getJsonString(resultWithPage);
+		return json;
+	}
+	
+	//获取最新的关键词
+	public String getLastedKeyWords(Integer start,Integer rows){
+		List<Keyword> list = keywordDao.getLastedKeyWords(start, rows);
+		List<Map<String, String>> results = new ArrayList<Map<String, String>>();
+		for (Keyword temp : list) {
+			Map<String, String> result = new HashMap<String, String>();
+			result.put("id", temp.getKeyId().toString());
+			result.put("name", temp.getKeyword());
+			results.add(result);
+		}
+		String json = JsonUtil.getJsonString(results);
 
+		return json;
+	}
 	@Override
 	public String queryKeywords(String category, String keywordText,
 			Integer keywordId, Integer rows, Integer start, String sort,

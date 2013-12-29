@@ -214,8 +214,9 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 						"select k.*  from keywords k,coursekeywords a, courses b where a.courseId = b.courseId  and k.keyId=a.keywordId and k.flag=1 ");
 				if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的关键词也是培训的关键词，但是培训的关键词不一定是内训的关键词
 					sql.append(" and b.isInner = 1");
-				if(type != null && "".equals(type))//关键词类别
-					sql.append(" and k.category="+type);
+				
+				if(type != null && !"".equals(type))//关键词类别
+					sql.append(" and k.category='"+type+"'");
 					
 				if(flag == 1)
 					sql.append(" order by k.hits desc");
@@ -236,7 +237,82 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 		});
 		return list;
 	}
+	//关键词
+	public List<Keyword> getKeyWordsListByType(final String type,final Integer start,final Integer rows){
+		List<Keyword> list = new ArrayList<Keyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from keywords k,coursekeywords a, courses b where a.courseId = b.courseId  and k.keyId=a.keywordId and k.flag=1 ");
+				
+				if(type != null && !"".equals(type))//关键词类别
+					sql.append(" and k.category='"+type+"'");
+					
+				sql.append(" order by k.recommanded desc,keyId desc");
+				
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
 
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
+	public int countKeyWordsListByType(final String type){
+		List<Keyword> list = new ArrayList<Keyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from keywords k,coursekeywords a, courses b where a.courseId = b.courseId  and k.keyId=a.keywordId and k.flag=1 ");
+				
+				if(type != null && !"".equals(type))//关键词类别
+					sql.append(" and k.category='"+type+"'");
+					
+				sql.append(" order by k.recommanded desc,keyId desc");
+				
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
+
+
+				return query.list();
+			}
+		});
+		return list.size();
+	}
+	
+	//获取最新的关键词 
+	public List<Keyword> getLastedKeyWords(final Integer start,final Integer rows){
+		List<Keyword> list = new ArrayList<Keyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from keywords k ");
+
+				sql.append(" order by k.keyId desc");
+				
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
 	@Override
 	public List<Keyword> getNotIndexedKeyWordsList() {
 		List<Keyword> list = new ArrayList<Keyword>();

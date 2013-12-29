@@ -94,6 +94,12 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 		}
 		dicDao.delete(dictionary);
 	}
+	
+	@Override
+	public String getDic(String codeName,String showName){
+		Dictionary dic = dicDao.getDictionary(codeName, showName);
+		return JsonUtil.getJsonString(dic);
+	}
 
 	public IDictionaryDao getDicDao() {
 		return dicDao;

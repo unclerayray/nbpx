@@ -51,6 +51,8 @@
 				<li><a href="#">文库</a></li>
 				<li><a href="#">机构</a></li>
 				<li><a href="#">问答</a></li>
+				<li><a href="#">客户评价</a></li>
+				<li><a href="#">客户群</a></li>
 			</ul>
 		</div>
 	</div>
@@ -79,8 +81,6 @@
 		<div class="title"><a href="#">财务管理</a></div>
 		<div class="content">
 			<ul>
-				<li><a href="#">税收 非财</a></li>
-				<li>|</li>
 				<li><a href="#">企业所得税</a></li>
 				<li>|</li>
 				<li><a href="#">全面预算</a></li>
@@ -93,22 +93,6 @@
 				<li>|</li>
 				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
-				<li><a href="#">成本管理</a></li>
-				<li>|</li>
-				<li><a href="#">融资</a></li>
-				<li>|</li>
-				<li><a href="#">Excel PPT </a></li>
-				<li>|</li>
-				<li><a href="#">财务总监</a></li>
-				<li>|</li>
-				<li><a href="#">资本运营</a></li>
-				<li>|</li>
-				<li><a href="#">大客户</a></li>
-				<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
 				<li><a href="#">客户服务</a></li>
 				<li>|</li>
 				<li><a href="#">助理</a></li>
@@ -116,85 +100,6 @@
 				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
 				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
-			</ul>
-		</div>
-	</div>
-		<div class="item">
-		<div class="title"><a href="#">采购供应链仓储</a></div>
-		<div class="content">
-			<ul>
-				<li><a href="#">税收 非财</a></li>
-				<li>|</li>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">成本管理</a></li>
-				<li>|</li>
-				<li><a href="#">融资</a></li>
-				<li>|</li>
-				<li><a href="#">Excel PPT </a></li>
-				<li>|</li>
-				<li><a href="#">财务总监</a></li>
-				<li>|</li>
-				<li><a href="#">资本运营</a></li>
-				<li>|</li>
-				<li><a href="#">大客户</a></li>
-				<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-											<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
 				<li>|</li>
@@ -209,8 +114,6 @@
 		<div class="title"><a href="#">人力资源</a></div>
 		<div class="content">
 			<ul>
-				<li><a href="#">税收 非财</a></li>
-				<li>|</li>
 				<li><a href="#">企业所得税</a></li>
 				<li>|</li>
 				<li><a href="#">全面预算</a></li>
@@ -223,22 +126,6 @@
 				<li>|</li>
 				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
-				<li><a href="#">成本管理</a></li>
-				<li>|</li>
-				<li><a href="#">融资</a></li>
-				<li>|</li>
-				<li><a href="#">Excel PPT </a></li>
-				<li>|</li>
-				<li><a href="#">财务总监</a></li>
-				<li>|</li>
-				<li><a href="#">资本运营</a></li>
-				<li>|</li>
-				<li><a href="#">大客户</a></li>
-				<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
 				<li><a href="#">客户服务</a></li>
 				<li>|</li>
 				<li><a href="#">助理</a></li>
@@ -246,20 +133,6 @@
 				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
 				<li><a href="#">进出口</a></li>
-											<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
 				<li>|</li>
@@ -274,8 +147,6 @@
 		<div class="title"><a href="#">生产管理</a></div>
 		<div class="content">
 			<ul>
-				<li><a href="#">税收 非财</a></li>
-				<li>|</li>
 				<li><a href="#">企业所得税</a></li>
 				<li>|</li>
 				<li><a href="#">全面预算</a></li>
@@ -288,22 +159,6 @@
 				<li>|</li>
 				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
-				<li><a href="#">成本管理</a></li>
-				<li>|</li>
-				<li><a href="#">融资</a></li>
-				<li>|</li>
-				<li><a href="#">Excel PPT </a></li>
-				<li>|</li>
-				<li><a href="#">财务总监</a></li>
-				<li>|</li>
-				<li><a href="#">资本运营</a></li>
-				<li>|</li>
-				<li><a href="#">大客户</a></li>
-				<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
 				<li><a href="#">客户服务</a></li>
 				<li>|</li>
 				<li><a href="#">助理</a></li>
@@ -311,20 +166,6 @@
 				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
 				<li><a href="#">进出口</a></li>
-											<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
 				<li>|</li>
@@ -339,8 +180,6 @@
 		<div class="title"><a href="#">战略管理</a></div>
 		<div class="content">
 			<ul>
-				<li><a href="#">税收 非财</a></li>
-				<li>|</li>
 				<li><a href="#">企业所得税</a></li>
 				<li>|</li>
 				<li><a href="#">全面预算</a></li>
@@ -353,22 +192,6 @@
 				<li>|</li>
 				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
-				<li><a href="#">成本管理</a></li>
-				<li>|</li>
-				<li><a href="#">融资</a></li>
-				<li>|</li>
-				<li><a href="#">Excel PPT </a></li>
-				<li>|</li>
-				<li><a href="#">财务总监</a></li>
-				<li>|</li>
-				<li><a href="#">资本运营</a></li>
-				<li>|</li>
-				<li><a href="#">大客户</a></li>
-				<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
 				<li><a href="#">客户服务</a></li>
 				<li>|</li>
 				<li><a href="#">助理</a></li>
@@ -376,20 +199,6 @@
 				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
 				<li><a href="#">进出口</a></li>
-											<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
 				<li>|</li>
@@ -404,8 +213,6 @@
 		<div class="title"><a href="#">项目管理</a></div>
 		<div class="content">
 			<ul>
-				<li><a href="#">税收 非财</a></li>
-				<li>|</li>
 				<li><a href="#">企业所得税</a></li>
 				<li>|</li>
 				<li><a href="#">全面预算</a></li>
@@ -418,22 +225,6 @@
 				<li>|</li>
 				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
-				<li><a href="#">成本管理</a></li>
-				<li>|</li>
-				<li><a href="#">融资</a></li>
-				<li>|</li>
-				<li><a href="#">Excel PPT </a></li>
-				<li>|</li>
-				<li><a href="#">财务总监</a></li>
-				<li>|</li>
-				<li><a href="#">资本运营</a></li>
-				<li>|</li>
-				<li><a href="#">大客户</a></li>
-				<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
 				<li><a href="#">客户服务</a></li>
 				<li>|</li>
 				<li><a href="#">助理</a></li>
@@ -441,20 +232,6 @@
 				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
 				<li><a href="#">进出口</a></li>
-											<li>|</li>
-				<li><a href="#">商务谈判</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
 				<li>|</li>
@@ -469,8 +246,6 @@
 		<div class="title"><a href="#">职业技能</a></div>
 		<div class="content">
 			<ul>
-				<li><a href="#">税收 非财</a></li>
-				<li>|</li>
 				<li><a href="#">企业所得税</a></li>
 				<li>|</li>
 				<li><a href="#">全面预算</a></li>
@@ -483,21 +258,37 @@
 				<li>|</li>
 				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
-				<li><a href="#">成本管理</a></li>
+				<li><a href="#">客户服务</a></li>
 				<li>|</li>
-				<li><a href="#">融资</a></li>
+				<li><a href="#">助理</a></li>
 				<li>|</li>
-				<li><a href="#">Excel PPT </a></li>
+				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
-				<li><a href="#">财务总监</a></li>
-				<li>|</li>
-				<li><a href="#">资本运营</a></li>
-				<li>|</li>
-				<li><a href="#">大客户</a></li>
-				<li>|</li>
-				<li><a href="#">商务谈判</a></li>
+				<li><a href="#">进出口</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			</ul>
+		</div>
+		<div class="item">
+		<div class="title"><a href="#">研修班</a></div>
+		<div class="content">
+			<ul>
+				<li><a href="#">企业所得税</a></li>
+				<li>|</li>
+				<li><a href="#">全面预算</a></li>
+				<li>|</li>
+				<li><a href="#">应收账款</a></li>
+				<li>|</li>
+				<li><a href="#">企业内部</a></li>
+				<li>|</li>
+				<li><a href="#">新会计准则</a></li>
+				<li>|</li>
+				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
 				<li><a href="#">客户服务</a></li>
 				<li>|</li>
@@ -506,10 +297,31 @@
 				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
 				<li><a href="#">进出口</a></li>
-											<li>|</li>
-				<li><a href="#">商务谈判</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
+				<li>|</li>
+				<li><a href="#">客户服务</a></li>
+				<li>|</li>
+				<li><a href="#">助理</a></li>
+				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			</ul>
+		</div>
+	</div>
+		<div class="item">
+		<div class="title"><a href="#">采购供应链仓储</a></div>
+		<div class="content">
+			<ul>
+				<li><a href="#">企业所得税</a></li>
+				<li>|</li>
+				<li><a href="#">全面预算</a></li>
+				<li>|</li>
+				<li><a href="#">应收账款</a></li>
+				<li>|</li>
+				<li><a href="#">企业内部</a></li>
+				<li>|</li>
+				<li><a href="#">新会计准则</a></li>
+				<li>|</li>
+				<li><a href="#">纳税筹划 </a></li>
 				<li>|</li>
 				<li><a href="#">客户服务</a></li>
 				<li>|</li>
@@ -518,8 +330,6 @@
 				<li><a href="#">商务礼仪</a></li>
 				<li>|</li>
 				<li><a href="#">进出口</a></li>
-								<li>|</li>
-				<li><a href="#">商务谈判</a></li>
 				<li>|</li>
 				<li><a href="#">销售</a></li>
 				<li>|</li>
@@ -878,21 +688,11 @@
 		<div style="height:10px; display:block"></div>
 		<!--最新消息 start-->
 			<div class="fisrtHead news"  style="border:1px solid #ddeae0; border-bottom:0px;">
-				<div class="tabOn">最新开发课程</div>
-				<div class="tabOff">最新发布培训</div>
+				<div class="tabOn">题目字典</div>
 				<div class="clear"></div>
 			</div>
 			<div class="bg" style="height:177px;background:none;border-bottom:1px solid #ddeae0;">
-				<marquee  direction="up" scrollamount="2" behavior="scroll" class="lasted" height="133px" onmouseover="this.stop();" onMouseOut="this.start()">
-					<ul>
-						<li><a href="#">步步为赢销售谈判策略</a><span>一个小时前</span></li>
-						<li><a href="#">步步为赢销售谈判策略</a><span>一天前</span></li>
-						<li><a href="#">步步为赢销售谈判策略</a><span>一个小时前</span></li>
-						<li><a href="#">步步为赢销售谈判策略</a><span>一天前</span></li>
-						<li><a href="#">步步为赢销售谈判策略</a><span>一个小时前</span></li>
-						<li><a href="#">步步为赢销售谈判策略</a><span>一天前</span></li>
-					</ul>
-				</marquee>
+					
 			</div>
 		<!--最新消息 end-->
 		
@@ -1142,13 +942,6 @@
 	</div>
 </div>
 <!-- 专业、职位、等 end -->
-
-<!--flash start-->
-<div class="clear"></div>
-<div class="mainContent flash">
-	<img  src="images/flash2.jpg" width="960"/>
-</div>
-<!--flash end -->
 
 <!--主体部分二 start-->
 <div class="mainContent partTwo">

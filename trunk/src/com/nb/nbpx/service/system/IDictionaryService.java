@@ -38,4 +38,6 @@ public interface IDictionaryService extends IBaseService {
 	public void saveDic(Dictionary dictionary) throws NbpxException ;
 	
 	public void deleteDic(Dictionary dictionary) throws NbpxException ;
+	
+	public String getDic(String codeName,String showName);
 }
