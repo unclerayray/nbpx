@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<project name="nbpx" default="all">
+	<!-- define time stamp -->
+	<tstamp>
+	    <format property="current.time" pattern="yyyy_MM_dd_HH_mm_ss" />
+	</tstamp>
+	<!-- define varibles and path -->
+	<property file="build.properties" />
+	<property name="project.name" value="nbpx" />
+	<property name="project.path" value="../${local.dir}" />
+	<property name="war.name" value="nbpx.war" />
+	<property name="tomcat.project.temp" value="${tomcat.home}/work/Catalina/localhost/${project.name}" />
+	<property name="tomcat.distribute.dir" value="${tomcat.home}/webapps" />
+	<property name="project.nbpx.db.name" value="nbpx" />
+	
+	<path id="ant.classpath">
+		<fileset dir="${ant_home}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<path id="project.lib.classpath">
+		<pathelement location="${project.path}/war/WEB-INF/classes" />
+		<fileset dir="${project.path}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${tomcat.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${project.path}/war/WEB-INF/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- stop tomcat
+	<target name="stop-tomcat">
+		<echo message="关闭tomcat服务器" />
+        <exec executable="${tomcat.home}/bin/shutdown.bat" spawn="true" vmlauncher="false">   
+            <env key="CATALINA_HOME" value="${tomcat.home}" />   
+            <arg line="/c start ${tomcat.home}/bin/shutdowm.bat" />   
+        </exec>   
+        <waitfor maxwait="5" maxwaitunit="second">   
+            <available file="errors.log" />   
+        </waitfor>   
+	</target>  
+	-->
+	
+	<!-- clean the directory  -->
+	<target name="clean" description="delete the dirs for the task">
+		<delete dir="${project.path}/war/WEB-INF/classes" />
+	</target>
+	
+	<target name="init" description="make the dirs for the task" depends="clean">
+		<mkdir dir="${project.path}/war/WEB-INF/classes" />
+	</target>
+	
+	<!-- Compile to classes -->
+	<target name="compile-src" description="Compile to classes" depends="init">
+		<echo message="javac编译${project.name}项目工程" />
+		<javac srcdir="${project.path}/src" destdir="${project.path}/war/WEB-INF/classes" debug="false" encoding="UTF-8" includes="**" deprecation="false" failonerror="true"  includeantruntime="on">
+			<compilerarg value="-Xlint:deprecation" />
+			<classpath refid="project.lib.classpath" />
+		</javac>
+
+		<copy todir="${project.path}/war/WEB-INF/classes" overwrite="yes">
+			<fileset dir="${project.path}/src">
+				<include name="**/**" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="${project.path}/conf">
+				<include name="**" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- prepare for making war -->
+	<target name="prepareWar" depends="compile-src">
+		<delete file="${local.dir}/${war.name}" />
+	</target>
+
+	
+	<!-- make war -->
+	<target name="war" depends="prepareWar">
+		<jar destfile="${local.dir}/${war.name}" basedir="${project.path}/war" duplicate="preserve" />
+	</target>
+		
+	<target name="all" depends="war" />
+</project>
