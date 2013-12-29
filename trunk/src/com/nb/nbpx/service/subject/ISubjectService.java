@@ -2,6 +2,7 @@ package com.nb.nbpx.service.subject;
 
 import java.util.List;
 
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
@@ -18,6 +19,8 @@ public interface ISubjectService extends IBaseService{
 	public String queryComboSubjects(String category);
 	
 	public Boolean saveRecommands(String[] subjectIds);
+	
+	public List<Subject> saveSubjects(String category, String subjects);
 	
 	public Boolean importSubjects(String category, String[] subjectsArray);
 	

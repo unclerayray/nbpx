@@ -37,9 +37,6 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'
 		onclick="$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '导入关键词');">导入关键词</a> <a href="#"
 		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 		onclick="recommand()">推荐关键词</a>
-		<a
-		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-		iconCls="icon-dic" onclick="stat()">统计最新</a>
 	</div>
 	<div>
 		关键词类别: <input class="easyui-combobox" name="category" id="category"
@@ -119,21 +116,6 @@ $('#dlg').dialog('close');
 
 <script type="text/javascript">
 function queryKeyords() {
-	//alert('getValue = ' + $('#keywordStr').combobox('getValue'));
-	//alert('text = ' + $('#keywordStr').combobox('getText'));
-			//alert("ahhahhahahah  " + $('#p_dicType').combobox('getValue'));
-			$('#dg').datagrid({
-				onLoadSuccess: function(data){
-					if(!data.success){
-						$.messager.show({
-							title : 'Error',
-							msg : data.message,
-							timeout : 3000,
-							showType : 'fade'
-						});
-					}
-				}
-			});
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
 				keyCombValue : $('#keywordStr').combobox('getValue'),
@@ -141,6 +123,22 @@ function queryKeyords() {
 			});
 			$('#keywordStr').removeAttr("selected");
 			$('#category').removeAttr("selected");
+		}
+
+		function cutupTitle(){
+			//var textToCut = encodeURIComponent($('#courseTitle').val());
+			var textToCut = $('#courseTitle').val();
+			//alert('courseTitle = ' + textToCut);
+			if($('#courseTitle').validatebox('isValid')){
+				//alert('textToCut to cut ' + $('#courseTitle').val());
+				$.ajax({
+					url:'../struts/Solr_cutText?textToCut='+textToCut,
+					success: function(data){
+						$('#courseKeywords').val(data);
+					}		
+				});
+			}
+			
 		}
 
 		function recommand() {

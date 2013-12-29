@@ -37,12 +37,17 @@
 
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
-		状态: <select id="p_isClosed" name="p_isClosed" class="easyui-combobox"
-			style="panelHeight: 30px;">
-			<option></option>
-			<option value="true">打开</option>
-			<option value="false">关闭</option>
-		</select> ID： <input id="p_id" name="p_id" style="width: 60px;"> <a href="javascript:void(0)" class="easyui-linkbutton"
+		状态: <input  id="p_isClosed" name="p_isClosed" class="easyui-combobox" data-options="
+		valueField: 'value',
+		textField: 'label',
+		data: [{
+			label: '打开',
+			value: 'false'
+		},{
+			label: '关闭',
+			value: 'true'
+		}]" >
+		ID： <input id="p_id" name="p_id" style="width: 60px;"> <a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryQuestions()">搜索</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a> <a

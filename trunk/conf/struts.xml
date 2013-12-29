@@ -17,6 +17,9 @@
 		<action name="*_*" class="{1}Action" method="{2}">
 			<interceptor-ref name="encoding"></interceptor-ref>
 			<interceptor-ref name="jsonBuilder"></interceptor-ref>
+			<interceptor-ref name="fileUpload">  
+                <param name="maximumSize">300*1024</param>
+			</interceptor-ref>
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result name="success" type="stream"></result>
 			<result name="failure" type="stream"></result>

@@ -21,7 +21,7 @@
 	<div region="center" border="false" style='padding: 5px'></div>
 	<table id="dg" class="easyui-datagrid" pagination="true" pageSize=20 onClickRow:
 	onClickRow loadMsg="正在加载，请稍候!"
-	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses?isInner=true',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
+	data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Course_queryInnerCourses',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
 	<thead>
 		<tr>
 			<th data-options="field:'courseId',sortable:true,width:50">课程代码</th>
@@ -31,7 +31,7 @@
 			<th data-options="field:'createdBy',sortable:true,width:80">发布者</th>
 			<th data-options="field:'lastUpdatedBy',sortable:true,width:80">最近更新者</th>
 			<th
-			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
+			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">课程类别</th>
 			<th data-options="field:'hits',sortable:true,width:80">课程点击量</th>
 			<th data-options="field:'price',sortable:true,width:80">课程收费</th>
 			<th data-options="field:'lastUpdateDate',sortable:true,width:120">更新时间</th>
@@ -53,7 +53,7 @@
 		onclick="auditCourse()">改变审核状态</a>
 	</div>
 	<div>
-		课程类型: <input class="easyui-combobox" name="category" id="category"
+		课程类别: <input class="easyui-combobox" name="category" id="category"
 		data-options="  
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
@@ -150,7 +150,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 					</div></td>
 					<td class="itemText">
 						<div id="courseTypeInForm">
-							<label>课程类型:</label> <input class="easyui-combobox"
+							<label>课程类别:</label> <input class="easyui-combobox"
 							style="width: 130px;" name="category" id="category"
 							data-options="  
 							url:'../struts/Course_queryComboCourseTypes',  
@@ -290,21 +290,12 @@ function clearTollBar() {
 	$('#tb').form('clear');
 }
 function queryCourse() {
-			$.ajax({
-			      type: "POST",
-			      url: '../struts/Course_queryCourses',
-			      dataType: 'json',
-			          data: {
-			          	isInner : true,
-			          	category : $('#category').combobox('getValue'),  
-			          	courseId : $('#courseIdFS').combobox('getValue'),
-			          	p_outside : $('#p_outside').combobox('getValue'),
-			          	q_title : $('#q_title').val(),
-			          	} 
-		    	}).done(function( responseJson ) 
-      			{
-		          $('#dg').datagrid('loadData', responseJson );
-		          });
+			$('#dg').datagrid('load', {
+					category : $('#category').combobox('getValue'),  
+		          	courseId : $('#courseIdFS').combobox('getValue'),
+		          	p_outside : $('#p_outside').combobox('getValue'),
+		          	q_title : $('#q_title').val()
+			});
 		}
 		function newInnerCourse() {
 			$('#dlg').dialog('open').dialog('setTitle', '新建内训课程');

@@ -540,7 +540,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 			Map<String, Object> propsMap, String sort, String order) {
 		String hql = createHqlFromProtitiesMap(entityClass, propsMap);
 		if (sort != null && !sort.isEmpty()) {
-			hql += " order by c." + sort;
+			hql += " order by o." + sort;
 			if (order != null && !order.isEmpty()) {
 				hql += " " + order;
 			}

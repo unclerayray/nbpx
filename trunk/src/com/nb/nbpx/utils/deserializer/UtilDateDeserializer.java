@@ -1,4 +1,4 @@
-package com.nb.nbpx.utils;
+package com.nb.nbpx.utils.deserializer;
 /**
  * <p>Data类型转换(josn2bean)</p>
  * 创建时间：2011-11-14 下午05:12:07 

@@ -11,20 +11,50 @@
 	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
 	<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
 	<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+	<script language="JavaScript">
+		var cate = [
+				        {"categoryid":"003_01","categoryName":"Koi"},
+				        {"categoryid":"003_02","categoryName":"haha"}
+					];
+		var catedata = [];
+		//console.log('before load');
+		$.ajax('../struts/Course_queryComboCourseTypes', {
+							      type:'POST',
+							      dataType: 'json',
+								  success: function(data){
+									  	//console.log('ajax return data = ' + data);
+									  	//cate = eval('(' + data + ')');
+									  	catedata = data;
+								  }
+							 });
+	</script>
 	<title>下载管理</title>
 </head>
 <table id="dg" class="easyui-datagrid"  pagination="true"  pageSize=20  
 loadMsg="正在加载，请稍候!"
-data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'../struts/Download_queryDownloads',toolbar:'#tb'">
+data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Download_queryDownloads',toolbar:'#tb'">
 <thead>
 	<tr>
 		<th data-options="field:'downloadId',width:80">主键</th>
 		<th
-		data-options="field:'filetype',width:120">下载类别</th>
+		data-options="field:'filetype',width:120">下载类型</th>
+		<th data-options="field:'category',width:120,
+			formatter:function(value,row){
+				console.log('catedata='+catedata);
+				for(var i=0; i<catedata.length; i++){
+					//console.log('catedata['+i+'].codeName='+catedata[i].codeName);
+					//console.log('catedata['+i+'].showName='+catedata[i].showName);
+					//console.log('value='+value);
+                    if (catedata[i].codeName == value) return catedata[i].showName;
+                }
+				return value;
+			}"
+		>下载类别</th>
 		<th data-options="field:'title',width:120,align:'center'">标题</th>
 		<th data-options="field:'description',width:120,align:'center'">说明</th>
 		<th data-options="field:'author',width:120,align:'center'">作者</th>
 		<th data-options="field:'filepath',width:120,align:'center',hidden:true">存放路径</th>
+		<th data-options="field:'downloadKeywords',width:120,align:'center',hidden:true">keywords</th>
 		<th data-options="field:'downloadCnt',width:120,sortable:true,align:'center'">下载次数</th>
 		<th data-options="field:'hits',width:120,sortable:true,align:'center'">点击数</th>
 		<th data-options="field:'size',width:120,sortable:true,align:'center'">文件大小</th>
@@ -37,9 +67,11 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-		onclick="$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '新增下载');">导入下载</a> <a href="#"
-		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-		onclick="recommand()">推荐下载</a>
+		onclick="$('#fm').form('clear');$('#file').show();$('#dlg').dialog('open').dialog('setTitle', '新增下载');">新增下载文件</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+		onclick="editDownload();">修改下载信息</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+		onclick="destroyDownload();">删除下载</a>
 	</div>
 	<div>
 		下载类别: <select id="filetype" name="filetype" class="easyui-combobox" style="panelHeight:30px;">
@@ -60,7 +92,7 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'
 
 
 <div id="dlg" class="easyui-dialog"
-style="width: 500px; height: 400px; padding: 5px 5px" closed="true"  cache="false" 
+style="width: 800px; height: 400px; padding: 5px 5px" closed="true"  cache="false" 
 modal="true" data-options="buttons: [{
 text:'保存',
 iconCls:'icon-ok',
@@ -72,77 +104,129 @@ handler:function(){
 $('#dlg').dialog('close');
 }
 }]">
-<form id="fm" method="post">
+<form id="fm" method="post" enctype="multipart/form-data">
+	<table cellspacing="0" cellpadding="0" class="formTable">
 	<tr>
 	<td class="itemText" >
-	<div>
-	下载类别: <select id="fm_filetype" name="filetype" class="easyui-combobox" style="panelHeight:30px;">
+	下载类型: 
+	</td>
+	<td><select id="fm_filetype" name="filetype" class="easyui-combobox" style="panelHeight:30px;">
 					<option></option>
 		    		<option value="ppt">ppt</option>
 		    		<option value="doc">doc</option>
 		    		<option value="pdf">pdf</option>
 				</select>
-	</div>
+	</td>
+	</tr>
+	<tr>
+		<td class="itemText"><label>下载类别:</label></td>
+		<td>
+			<div id="courseTypeInForm">
+				<input class="easyui-combobox"
+				style="width: 130px;" name="category" id="category"
+				data-options="  
+					url:'../struts/Course_queryComboCourseTypes',  
+					valueField:'codeName',  
+					textField:'showName',  
+					panelHeight:'auto'  ,
+					editable:false ,
+					required:true,
+					tipPositionY:'center',
+					tipPositionX:'right',
+					className:'tip-darkgray',
+					missingMessage:'必填项'
+				">
+				</input>
+			</div>
+		</td>
+	</tr>
+	<tr>
+	<td class="itemText" >
+	标题: 
+	</td>
+	<td><input id="title" name="title" style="width: 512px;"  class="easyui-validatebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'" ><a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-dic" onclick="cutupTitle()">拆分关键词</a>
 	</td>
 	</tr>
 	<tr>
 	<td class="itemText" >
-	<div>
-	标题: <input id="title" name="title">
-	</div>
+	关键词: 
+	</td>
+	<td><input id="downloadKeywords" name="downloadKeywords" style="width: 512px;">
 	</td>
 	</tr>
 	<tr>
 	<td class="itemText" >
-	<div>
-	作者: <input id="author" name="author" >
+	专题: 
+	</td>
+	<td><input id="downloadSubjects" name="downloadSubjects" style="width: 512px;">
+	</td>
+	</tr>
+	<tr>
+	<td class="itemText" >
+	作者: 
+	</td>
+	<td><input id="author" name="author" >
 	<input id="downloadCnt" name="downloadCnt" type="hidden">
-	<input id="filepath" name="filepath" value='c://va/df.txt' type="hidden">
 	<input id="hits" name="hits" type="hidden">
 	<input id="uploadDate" name="uploadDate" type="hidden">
-	</div>
+	<input id="downloadId" name="downloadId" type="hidden">
 	</td>
 	</tr>
 	<tr>
 	<td class="itemText" >
-	<div>
-		<label>描述:</label>
-		<textarea class="easyui-textarea" id="description" name="description" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'描述不能为空'"
-		style="height: 60px; width: 130px;" type="textarea" required="true"></textarea>
-	</div>
+		文件: 
+	</td>
+	<td>
+		<input type="file" id='file' name="file">
 	</td>
 	</tr>
+	<tr>
+	<td class="itemText" >
+		<label >描述:</label>
+	</td>
+	<td>
+		<textarea class="easyui-textarea" id="description" name="description" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'描述不能为空'"
+		style="height: 60px; width: 500px;" type="textarea" required="true"></textarea>
+	</td>
+	</tr>
+	</table>
 </form>
 </div>
 
 <script type="text/javascript">
 function queryDownloads() {
-			$('#dg').datagrid({
-				onLoadSuccess: function(data){
-					if(!data.success){
-						$.messager.show({
-							title : 'Error',
-							msg : data.message,
-							timeout : 3000,
-							showType : 'fade'
-						});
-					}
-				}
-			});
 			$('#dg').datagrid('load', {
-				category : $('#category').combobox('getValue'),
-				keyCombValue : $('#downloadStr').combobox('getValue'),
-				keyCombText : $('#downloadStr').combobox('getText')
+				filetype : $('#filetype').combobox('getValue')
 			});
-			$('#downloadStr').removeAttr("selected");
-			$('#category').removeAttr("selected");
 		}
 
+
+	function cutupTitle(){
+		//var textToCut = encodeURIComponent($('#courseTitle').val());
+		var textToCut = $('#title').val();
+		//alert('courseTitle = ' + textToCut);
+		if($('#title').validatebox('isValid')){
+			//alert('textToCut to cut ' + $('#courseTitle').val());
+			$.ajax({
+				url:'../struts/Solr_cutText?textToCut='+textToCut,
+				success: function(data){
+					$('#downloadKeywords').val(data);
+				}		
+			});
+		}
+		
+	}
+
 	function editDownload() {
-		var row = $('#dg_downloads').datagrid('getSelected');
-		$('#dlg_addDownload').dialog('open').dialog('setTitle', '修改问题');
+		var row = $('#dg').datagrid('getSelected');
+		$('#dlg').dialog('open').dialog('setTitle', '修改问题');
 		if (row) {
 			$('#fm').form('load', row);
+			console.log(row.downloadKeywords);
+			$('#file').val('');
+			$("#file").hide();
 		} else {
 			$.messager.show({
 				title : '温馨提示',
@@ -156,11 +240,12 @@ function queryDownloads() {
 	function saveDownload(){
 		console.log('hello!');
 		$('#fm').form('submit', {
-			url : '../struts/Download_saveDownload?objectName=download',
+			url : '../struts/Download_saveDownload',
 			onSubmit : function() {
 				return $(this).form('validate');
 			},
 			success : function(data) {
+				console.log(data);
 				var data = eval('(' + data + ')'); // change the JSON string to javascript object  
 				if (data.success) {
 					$.messager.show({
@@ -184,7 +269,7 @@ function queryDownloads() {
 	}
 
 	function destroyDownload() {
-		var row = $('#dg_downloads').datagrid('getSelected');
+		var row = $('#dg').datagrid('getSelected');
 		if (row) {
 			$.messager
 					.confirm(
@@ -256,7 +341,7 @@ function queryDownloads() {
 		}
 
 		.itemText {
-			width: 300px;
+			width: 80px;
 			text-align: left;
 			height: 30px;
 			padding-left: 10px;
@@ -266,6 +351,7 @@ function queryDownloads() {
 		.formTable td {
 			vertical-align: top
 		}
+
 		</style>
 	</body>
 	</html>

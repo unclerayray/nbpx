@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.subject.ISubjectDao;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
@@ -135,6 +136,28 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 
 	public void setSubjectDao(ISubjectDao subjectDao) {
 		this.subjectDao = subjectDao;
+	}
+
+	@Override
+	public List<Subject> saveSubjects(String category, String subjects) {
+		List<Subject> list = new ArrayList<Subject>();
+		String[] subjectArr = null;
+		if (subjects != null) {
+			String subjectsStr = subjects.replaceAll("，", ",");
+			subjectArr = subjectsStr.split(",");
+			for (String word : subjectArr) {
+				Subject subject = new Subject();
+				subject.setCategory(category);
+				subject.setSubject(word);
+				subject.setSearchCnt(500);
+				subject.setHits(500);
+				subject.setIndexed(true);
+				subject = subjectDao.saveOrGetExistsSubject(subject);
+				list.add(subject);
+			}
+		}
+		solrSubjectService.addSubjects2Solr(list);
+		return list;
 	}
 
 }

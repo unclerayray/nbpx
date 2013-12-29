@@ -116,6 +116,26 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获取Download Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getDownloadPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			logger.debug("before");
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+			logger.debug("download.file.path = " + prop.getProperty("download.file.path"));
+		} catch (Exception e) {
+			logger.debug("exception");
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+			logger.debug("download.file.path = " + prop.getProperty("download.file.path"));
+		}
+		logger.debug("download.file.path = " + prop.getProperty("download.file.path"));
+		return prop.getProperty("download.file.path");
+	}
+	
+	/**
 	 * 过滤solr query 非法字符串的方法
 	 * @param s
 	 * @return

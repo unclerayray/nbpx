@@ -2,13 +2,20 @@ package com.nb.nbpx.pojo.zixun;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.nb.nbpx.pojo.BaseEntity;
 
@@ -31,12 +38,16 @@ public class Download extends BaseEntity implements Serializable {
 	public String filetype;
 	public String description;
 	public String author;
+	public String category;
 	public Date uploadDate;
 	public Integer downloadCnt;
 	public Integer hits;
 	public Double size;
-	
-	
+
+	public Set<DownloadKeyword> downloadKeywords = new HashSet<DownloadKeyword>(
+			0);
+	public Set<DownloadSubject> downloadSubjects = new HashSet<DownloadSubject>(
+			0);
 	
 	
 	public Download() {
@@ -57,7 +68,7 @@ public class Download extends BaseEntity implements Serializable {
 	 */
 	public Download(Integer downloadId, String title, String filepath,
 			String filetype, String description, String author,
-			Date uploadDate, Integer downloadCnt, Integer hits, Double size) {
+			Date uploadDate, Integer downloadCnt, Integer hits, Double size,String category) {
 		super();
 		this.downloadId = downloadId;
 		this.title = title;
@@ -69,6 +80,7 @@ public class Download extends BaseEntity implements Serializable {
 		this.downloadCnt = downloadCnt;
 		this.hits = hits;
 		this.size = size;
+		this.category = category;
 	}
 
 	@Id
@@ -163,6 +175,7 @@ public class Download extends BaseEntity implements Serializable {
 		this.hits = hits;
 	}
 
+	@Column(name = "size", precision = 2)
 	public Double getSize() {
 		return size;
 	}
@@ -170,7 +183,32 @@ public class Download extends BaseEntity implements Serializable {
 	public void setSize(Double size) {
 		this.size = size;
 	}
-	
-	
-	
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "download")
+	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+	public Set<DownloadKeyword> getDownloadKeywords() {
+		return downloadKeywords;
+	}
+
+	public void setDownloadKeywords(Set<DownloadKeyword> downloadKeywords) {
+		this.downloadKeywords = downloadKeywords;
+	}
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "download")
+	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+	public Set<DownloadSubject> getDownloadSubjects() {
+		return downloadSubjects;
+	}
+
+	public void setDownloadSubjects(Set<DownloadSubject> downloadSubjects) {
+		this.downloadSubjects = downloadSubjects;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

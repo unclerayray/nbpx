@@ -1,4 +1,4 @@
-package com.nb.nbpx.utils;
+package com.nb.nbpx.utils.serializer;
 /**
  * <p>Date类型转换(bean2json)/p>
  * 创建时间：2011-11-14 下午05:34:06 
