@@ -60,17 +60,23 @@
 			<li><a href="nxSeries.jsp">内训专题</a><span>|</span></li>
 			<li><a href="goldNX.jsp">金牌内训</a><span>|</span></li>
 			<li><a href="#">内训计划</a><span>|</span></li>
-			<li><a href="#">会员商城</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
 			<li><a href="#">企业文库</a><span>|</span></li>
-			<li><a href="#">培训机构</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=020">题目词典</a><span>|</span></li>
 			<li><a href="#">企业内训师</a></li>
 			
 			<li><a href="#">培训需求</a><span>|</span></li>
 			<li><a href="#">培训动态</a><span>|</span></li>
-			<li class="w75"><a href="#">内训关键词</a><span>|</span></li>
-			<li class="w75"><a href="#">培训关键词</a><span>|</span></li>
-			<li><a href="#">客户群</a><span>|</span></li>
-			<li><a href="#">研修班</a></li>
+			<li><a href="keyWord.jsp">关键词</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=005">客户群</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=016">研修班</a><span>|</span></li>
+			<li><a href="#">户外拓展</a><span>|</span></li>
+			<li><a href="#">客户评价</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=21">术语词典</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=22">品牌词典</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=004">机构词典</a><span>|</span></li>
+			<li><a href="#">热门搜索</a><span>|</span></li>
 		</ul>
 	</div>
 	<div class="clear"></div>

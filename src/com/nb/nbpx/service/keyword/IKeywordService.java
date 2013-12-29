@@ -58,6 +58,10 @@ public interface IKeywordService extends IBaseService {
 	
 	public String getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);
 	
+	public String getKeyWordsListByType(String type,Integer start,Integer rows);
+	
+	public String getLastedKeyWords(Integer start,Integer rows);
+	
 	public void saveKeyword2Dic(String keyword) throws IOException;
 	
 	public void saveKeywords2Dic(String[] keywords) throws IOException;

@@ -31,5 +31,10 @@ public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	public List<Keyword> getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);
 	
 	public  List<Keyword> getNotIndexedKeyWordsList();
-
+	//获取最新的关键词 
+	public List<Keyword> getLastedKeyWords(Integer start,Integer rows);
+	
+	public List<Keyword> getKeyWordsListByType(String type,Integer start,Integer rows);
+	
+	public int countKeyWordsListByType(String type);
 }

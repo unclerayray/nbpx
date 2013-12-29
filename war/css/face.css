@@ -118,22 +118,22 @@ ul{padding:0px;margin:0px}
 
 /*关键字start*/
 .keyWord{padding-top:10px;}
-.keyWord .item{}
+.keyWord .item{padding-bottom:5px}
 .keyWord .item ul{padding:0px;margin:0px}
 .keyWord .item ul li{ list-style:none;float:left;font-size:12px;padding-right:5px;padding-bottom:8px;}
 .keyWord .item a{color:#2D4545; text-decoration:none}
 .keyWord .item a:hover{text-decoration:underline;color:red}
-.keyWord .item .title{width:75px;float:left;font-weight:bold; text-align:left;font-size:14px}
-.keyWord .item .content{float:left;width:885px}
+.keyWord .item .title{width:85px;float:left;font-weight:bold; text-align:left;font-size:14px}
+.keyWord .item .content{float:left;width:860px}
 /*关键字 end*/
 
 /*主体 通用ul start*/
 .list1,.list2,.list3,.list5,.list6,.list7{ text-decoration:none;padding:0px;margin:0px;}
 .list4{ text-decoration:none;padding:0px;margin:0px;}
-.list1 li{ line-height:26px;height:26px; list-style:url(../images/li_icon.gif) ;padding:0px;text-align:left}
-.list1 li div{float: right;color: #333;font-size: 14px;}
+.list1 li{ line-height:26px;height:26px;padding:0px;text-align:left;width:270px;text-decoration:none;list-style:none}
+.list1 li div{float: right;color: #333;font-size: 14px;text-align:left}
 .list1 li .money{color:orange;}
-.list1 li a{color:#2D4545; text-decoration:none;font-size: 14px;}
+.list1 li a{float:left;color:#2D4545; text-decoration:none;background:url(../images/li_icon.gif) no-repeat 0px 5px;font-size: 14px;padding-left:5px;display:block;white-space:nowrap;width:165px;overflow:hidden;text-overflow:ellipsis}
 .list1 li a:hover{ text-decoration:underline;color:red}
 
 .list2{width:277px}
@@ -169,13 +169,15 @@ ul{padding:0px;margin:0px}
 .list7 li a{ text-decoration:none;font-size:14px; display:block;width:100%;overflow:hidden;display:inline;color:#2D4545;padding-left:5px}
 .list7 .text{font-size:14px;display:block;float:left;padding-left:5px;color:#2D4545}
 .list7 .count{font-size:14px;display:block;float:right;color:#2D4545;}
-.list7 .red{ background:url(../images/split.png) no-repeat -205px -95px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px;text-align:center;}
-.list7 .blue{ background:url(../images/split.png) no-repeat -205px -121px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px;text-align:center;}
+.list7 .red{ background:url(../images/split.png) no-repeat -205px -97px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px;text-align:center;}
+.list7 .blue{ background:url(../images/split.png) no-repeat -205px -123px;height:30px;width:15px; display:block;color:white;float:left; font-weight:bold;font-size:14px;padding-left:3px;text-align:center;}
 
 .list8{padding-top:10px;}
 .list8 li{list-style:none;margin:0px;padding:0px 5px;line-height:28px;height:28px;float:left}
 .list8 li a{ text-decoration:none;font-size:14px; display:block;width:100%;overflow:hidden;display:inline;color:#2D4545;}
 .list8 li a:hover{color:red; text-decoration:underline}
+.keyMore{}
+.keyMore li a{line-height:18px;text-align:left;display:block;width:120px;background:url(../images/li_icon.gif) no-repeat 0px 1px;padding-left:10px;white-space:nowrap;text-overflow:ellipsis;}
 
 .list9{padding-top:10px;}
 .list9 li{list-style:none;margin:0px;padding:0px 5px;line-height:28px;height:28px;float:left}
@@ -184,12 +186,12 @@ ul{padding:0px;margin:0px}
 
 .list10{padding-left:10px;}
 .list10 li{list-style:none;margin:0px;padding:0px 5px;line-height:28px;height:28px;float:left;width:80px; text-align:left;margin-left:10px}
-.list10 li a{ text-decoration:none;font-size:14px; display:block;overflow:hidden;display:inline;color:#2D4545;background:url(../images/li_icon.gif) no-repeat 0px 1px;padding-left:10px;width:70px;}
+.list10 li a{ line-height:18px;text-decoration:none;font-size:14px; display:block;overflow:hidden;color:#2D4545;background:url(../images/li_icon.gif) no-repeat 0px 1px;padding-left:10px;width:90px;white-space:nowrap;text-overflow:ellipsis;}
 .list10 li a:hover{color:red; text-decoration:underline}
 
 .list11{padding-left:10px;}
 .list11 li{list-style:none;margin:0px;padding:0px 5px;line-height:28px;height:28px;float:left;width:100%; text-align:left;margin-left:10px}
-.list11 li a{ text-decoration:none;font-size:14px; display:block;overflow:hidden;display:inline;color:#2D4545;background:url(../images/li_icon.gif) no-repeat 0px 1px;padding-left:10px;width:100%px;}
+.list11 li a{ text-decoration:none;font-size:14px; display:block;noverflow:hidden;display:inline;color:#2D4545;background:url(../images/li_icon.gif) no-repeat 0px 1px;padding-left:10px;width:100%px;}
 .list11 li a:hover{color:red; text-decoration:underline}
 .list11 li span{float:right;color:#666666;padding-right:20px}
 /*主体 通用ul end*/
@@ -484,7 +486,7 @@ ul{padding:0px;margin:0px}
 /*关键词 start*/
 .lastedKeys{width:720px}
 .lastedKeys li{padding:3px 5px}
-.lastedKeys h2{color:#2D4545;font-size:14px;line-height:30px; padding:0px; margin:0px; text-align:left; background:url(../images/second_bg.png) no-repeat -30px -147px;height:30px;padding-left:10px;}
+.lastedKeys h2{color:#2D4545;font-size:14px;line-height:30px; padding:0px; margin:0px; text-align:left; background:url(../images/second_bg.png) no-repeat -30px -147px;height:30px;padding-left:0px;}
 .color1{color:red}
 .color2{color:#7b6093}
 .color3{color:#b9b82c}
@@ -575,3 +577,6 @@ ul{padding:0px;margin:0px}
 .tooLong{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .w150{width:150px}
 .w160{width:160px;}
+
+.keyWrap{}
+.keyWrap a{padding:0px 5px}
