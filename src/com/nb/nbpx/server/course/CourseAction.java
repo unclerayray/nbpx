@@ -121,7 +121,14 @@ public class CourseAction extends BaseAction {
 
 	public String queryCourses() {
 		String json = courseService.queryCourses(category, courseId, q_title,p_outside, rows,
-				getStartPosi(), sort, order,isInner);
+				getStartPosi(), sort, order,false);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String queryInnerCourses() {
+		String json = courseService.queryCourses(category, courseId, q_title,p_outside, rows,
+				getStartPosi(), sort, order,true);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}

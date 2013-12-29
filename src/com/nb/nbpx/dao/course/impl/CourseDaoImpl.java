@@ -113,7 +113,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		return list;
 	}
 	@Override
-	public Long queryCourseCount(final String category, final Integer courseId, final Boolean p_outside) {
+	public Long queryCourseCount(final String category, final Integer courseId, final Boolean p_outside, final Boolean isInner) {
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -131,7 +131,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 					hql.append(" and c.courseId = ? ");
 				}
 				
-
+				if (isInner != null) {
+					hql.append(" and isInner = ? ");
+				}
 				if(p_outside!=null){
 					if(p_outside){
 						hql.append(" and c.createdBy != 'admin' ");
@@ -148,6 +150,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 
 				if (courseId != null) {
 					query.setInteger(i++, courseId);
+				}
+
+				if (isInner != null) {
+					query.setBoolean(i++, isInner);
 				}
 
 				return query.list();
@@ -1051,7 +1057,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	}
 
 	@Override
-	public Long queryCourseCount(final String category, final String courseTitle, final Boolean p_outside) {
+	public Long queryCourseCount(final String category, final String courseTitle, final Boolean p_outside, final Boolean isInner) {
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -1067,6 +1073,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 
 				if (courseTitle != null) {
 					hql.append(" and title like ? ");
+				}
+
+				if (isInner != null) {
+					hql.append(" and isInner = ? ");
 				}
 				
 				if(p_outside!=null){
@@ -1085,6 +1095,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 
 				if (courseTitle != null) {
 					query.setString(i++, "%"+courseTitle+"%");
+				}
+
+				if (isInner != null) {
+					query.setBoolean(i++, isInner);
 				}
 
 				return query.list();

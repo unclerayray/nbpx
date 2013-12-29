@@ -282,4 +282,26 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 		return content;
 	}
 
+	@Override
+	public List<Keyword> saveKeywords(String category, String keywords) {
+		List<Keyword> list = new ArrayList<Keyword>();
+		String[] keywordArr = null;
+		if (keywords != null) {
+			String keywordsStr = keywords.replaceAll("，", ",");
+			keywordArr = keywordsStr.split(",");
+			for (String word : keywordArr) {
+				Keyword keyword = new Keyword();
+				keyword.setCategory(category);
+				keyword.setKeyword(word);
+				keyword.setSearchCnt(500);
+				keyword.setHits(500);
+				keyword.setIndexed(true);
+				keyword = keywordDao.saveOrGetExistsKeyword(keyword);
+				list.add(keyword);
+			}
+		}
+		solrKeywordService.addKeywords2Solr(list);
+		return list;
+	}
+
 }

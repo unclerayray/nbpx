@@ -21,9 +21,9 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	public List<Course> queryCoursesWithTitle(String category, String courseTitle,Boolean p_outside,
 			Integer rows, Integer start , String sort, String order, Boolean isInner);
 
-	public Long queryCourseCount(String category, String courseTitle,Boolean p_outside);
+	public Long queryCourseCount(String category, String courseTitle,Boolean p_outside,Boolean isInner);
 	
-	public Long queryCourseCount(String category, Integer courseId,Boolean p_outside);
+	public Long queryCourseCount(String category, Integer courseId,Boolean p_outside,Boolean isInner);
 
 	public List<Dictionary> queryCourseType();
 

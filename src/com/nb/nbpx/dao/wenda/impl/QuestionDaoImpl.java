@@ -35,9 +35,9 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 								+ " where 1 = 1 ");
 				if (closed != null) {
 					if (closed) {
-						hql.append(" and closed = true ");
+						hql.append(" and isClosed = true ");
 					} else {
-						hql.append(" and closed = false ");
+						hql.append(" and isClosed = false ");
 					}
 				}
 				

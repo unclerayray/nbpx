@@ -12,5 +12,7 @@ public interface IDownloadService {
 			Integer start, String sort, String order);
 	
 	public Download saveDownload(Download download) throws Exception ;
+	
+	public Download getById(Integer Id);
 	public void deleteDownload(Download download);
 }

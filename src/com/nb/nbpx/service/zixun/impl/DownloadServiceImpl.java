@@ -1,6 +1,7 @@
 package com.nb.nbpx.service.zixun.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +39,11 @@ public class DownloadServiceImpl extends BaseServiceImpl implements IDownloadSer
 	public String queryDownloads(String type, Integer rows, Integer start,
 			String sort, String order) {
 		String json = "";
-		Map<String, Object> propsMap = this.createPropMap(new Equality(
-				"filetype", type));
+		Map<String, Object> propsMap = new HashMap<String, Object>();
+		if(!"".equals(type)){
+			propsMap = this.createPropMap(new Equality(
+					"filetype", type));
+		}
 		List<Download>  list = downloadDao.queryEntityListByProperties(Download.class, rows, start, sort, order, propsMap);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
@@ -77,6 +81,11 @@ public class DownloadServiceImpl extends BaseServiceImpl implements IDownloadSer
 	public void deleteDownload(Download download) {
 		downloadDao.delete(download);
 		//TODO 删除硬盘下的文件
+	}
+
+	@Override
+	public Download getById(Integer Id) {
+		return downloadDao.get(Id);
 	}
 
 }

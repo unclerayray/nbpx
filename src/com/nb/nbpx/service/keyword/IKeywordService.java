@@ -39,6 +39,8 @@ public interface IKeywordService extends IBaseService {
 	 */
 	public List<Keyword> saveKeywords(ArticleDetail articleDetail);
 	
+	public List<Keyword> saveKeywords(String category, String keywords);
+	
 	/**
 	 * 在内容中添加关键词的超链接
 	 * @param content

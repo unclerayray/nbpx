@@ -107,9 +107,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		} else {
 			int count = 0;
 			if (title != null && !title.isEmpty()) {
-				count = courseDao.queryCourseCount(category, title, p_outside).intValue();
+				count = courseDao.queryCourseCount(category, title, p_outside, isInner).intValue();
 			} else {
-				count = courseDao.queryCourseCount(category, courseId, p_outside)
+				count = courseDao.queryCourseCount(category, courseId, p_outside, isInner)
 						.intValue();
 			}
 			json = JsonUtil.formatToJsonWithTimeStamp(count,

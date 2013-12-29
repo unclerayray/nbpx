@@ -2,8 +2,6 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
-	<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
 	<link rel="stylesheet" type="text/css"
 	href="../js/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
@@ -22,7 +20,7 @@
 	<div region="center" border="false" style='padding: 5px'></div>
 	<table id="dg" class="easyui-datagrid" pagination="true" pageSize=20 onClickRow:
 	onClickRow loadMsg="正在加载，请稍候!"
-	data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/Course_queryCourses?isInner=false',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
+	data-options="fit:true,rownumbers:true, singleSelect:true,url:'../struts/Course_queryCourses',toolbar:'#tb',onDblClickRow:function(rowIndex, rowData){editCourse(rowData);}">
 	<thead>
 		<tr>
 			<th data-options="field:'courseId',sortable:true,width:50">课程代码</th>
@@ -32,7 +30,7 @@
 			<th data-options="field:'createdBy',sortable:true,width:80">发布者</th>
 			<th data-options="field:'lastUpdatedBy',sortable:true,width:80">最近更新者</th>
 			<th
-			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">课程类型</th>
+			data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">课程类别</th>
 			<th data-options="field:'hits',sortable:true,width:80">课程点击量</th>
 			<th data-options="field:'price',sortable:true,width:80">课程收费</th>
 			<th data-options="field:'lastUpdateDate',sortable:true,width:120">更新时间</th>
@@ -56,7 +54,7 @@
 		onclick="auditCourse()">改变审核状态</a>
 	</div>
 	<div>
-		课程类型: <input class="easyui-combobox" name="category" id="category"
+		课程类别: <input class="easyui-combobox" name="category" id="category"
 		data-options="  
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
@@ -69,20 +67,25 @@
 		$('#courseIdFS').combobox('reload', url);  
 	}
 	">
-	内外部发布：<select id="p_outside" name="p_outside" class="easyui-combobox"
+	内外部发布：<input id="p_outside" name="p_outside" class="easyui-combobox"
 			data-options=" panelHeight:'auto',
 						strict:true,
+						valueField: 'value',
+						textField: 'label',
+						data: [{
+							label: '外部',
+							value: 'true'
+						},{
+							label: '内部',
+							value: 'false'
+						}],
 						onSelect: function(rec){  
 						var p_category = $('#category').combobox('getValue');
 						var pp_outside = $('#p_outside').combobox('getValue');
-						var url = '../struts/Course_queryComboCourseCode?isInner=true&category='+p_category&'p_outside='+pp_outside;  
+						var url = '../struts/Course_queryComboCourseCode?isInner=false&category='+p_category&'p_outside='+pp_outside;  
 						$('#courseIdFS').combobox('clear');  
 						$('#courseIdFS').combobox('reload', url);}" 
 			style="panelHeight: 30px;">
-			<option></option>
-			<option value="true">外部</option>
-			<option value="false">内部</option>
-		</select>
 	课程名： <input id="q_title" name="q_title" style="width: 180px;">
 	课程代码： <input class="easyui-combobox" name="courseId"
 	id="courseIdFS"
@@ -159,7 +162,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 					</div></td>
 					<td class="itemText" nowrap>
 						<div id="courseTypeInForm">
-							<label>课程类型:</label> <input class="easyui-combobox"
+							<label>课程类别:</label> <input class="easyui-combobox"
 							style="width: 130px;" name="category" id="category"
 							data-options="  
 							url:'../struts/Course_queryComboCourseTypes',  
@@ -368,20 +371,12 @@ function clearTollBar() {
 	$('#tb').form('clear');
 }
 function queryCourse() {
-			$.ajax({
-			      type: "POST",
-			      url: '../struts/Course_queryCourses',
-			      dataType: 'json',
-			          data: {
-			          	category : $('#category').combobox('getValue'),  
-			          	courseId : $('#courseIdFS').combobox('getValue'),
-			          	p_outside : $('#p_outside').combobox('getValue'),
-			          	q_title : $('#q_title').val(),
-			          	} 
-		    	}).done(function( responseJson ) 
-      			{
-		          $('#dg').datagrid('loadData', responseJson );
-		          });
+		    $('#dg').datagrid('load', {
+					category : $('#category').combobox('getValue'),  
+		          	courseId : $('#courseIdFS').combobox('getValue'),
+		          	p_outside : $('#p_outside').combobox('getValue'),
+		          	q_title : $('#q_title').val()
+			});
 		}
 		function newCourse() {
 			$('#dlg').dialog('open').dialog('setTitle', '新建公开课');
@@ -897,7 +892,6 @@ function newCourseInfo(){
 		#fm {
 			margin: 0;
 			padding: 10px 40px;
-			font-size: 12px;
 		}
 
 		.ftitle {
