@@ -58,7 +58,7 @@
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
 		textField:'showName',   
-		panelHeight:'auto',
+		panelHeight:'200',
 		strict:true,
 		onSelect: function(rec){  
 		var url = '../struts/Course_queryComboCourseCode?isInner=true&category='+rec.codeName;  
@@ -67,7 +67,7 @@
 	}
 	">
 	内外部发布：<select id="p_outside" name="p_outside" class="easyui-combobox"
-			data-options=" panelHeight:'auto',
+			data-options=" panelHeight:'200',
 						strict:true,
 						onSelect: function(rec){  
 						var p_category = $('#category').combobox('getValue');
@@ -87,7 +87,7 @@
 	url:'../struts/Course_queryComboCourseCode?isInner=true',
 	valueField:'courseId',  
 	textField:'courseId',  
-	panelHeight:'auto'  ,
+	panelHeight:'200'  ,
 	panelHeight:'100',
 	strict:true
 	">
@@ -156,7 +156,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							url:'../struts/Course_queryComboCourseTypes',  
 							valueField:'codeName',  
 							textField:'showName',  
-							panelHeight:'auto'  ,
+							panelHeight:'200'  ,
 							editable:false ,
 							required:true,
 							tipPositionY:'center',
@@ -176,7 +176,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 						url:'../struts/Course_queryComboTeacher',
 						valueField:'teacherId',  
 						textField:'realName',  
-						panelHeight:'auto',
+						panelHeight:'200',
 						required:true,
 						tipPositionY:'center',
 						tipPositionX:'right',
@@ -196,7 +196,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							url:'../struts/Dictionary_queryComboDics?p_dicType=010',   
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true"  
 							style="width: 800px;">
@@ -208,7 +208,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							url:'../struts/Dictionary_queryComboDics?p_dicType=009',   
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true"
 							style="width: 800px;">
@@ -220,7 +220,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							url:'../struts/Dictionary_queryComboDics?p_dicType=008',   
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true "
 							style="width: 800px;">
@@ -232,7 +232,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							url:'../struts/Dictionary_queryComboDics?p_dicType=011',   
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true "
 							style="width: 800px;">
@@ -317,7 +317,7 @@ function queryCourse() {
 							url:'../struts/Dictionary_queryComboDics?p_dicType=010',  
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true
 						}); 
@@ -325,7 +325,7 @@ function queryCourse() {
 							url:'../struts/Dictionary_queryComboDics?p_dicType=009',  
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true
 						}); 
@@ -333,7 +333,7 @@ function queryCourse() {
 							url:'../struts/Dictionary_queryComboDics?p_dicType=008',  
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true
 						}); 
@@ -341,7 +341,7 @@ function queryCourse() {
 							url:'../struts/Dictionary_queryComboDics?p_dicType=011',  
 							valueField:'codeName',  
 							textField:'showName',
-							panelHeight:'auto',
+							panelHeight:'200',
 							multiple:true,
 							editable:true
 						}); 

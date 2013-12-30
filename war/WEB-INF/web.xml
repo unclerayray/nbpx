@@ -85,6 +85,13 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
+	
+	<!-- tempDir指定的目录中可能会随着时间推移出现很多后缀为"tmp"的垃圾文件，commons-fileupload提供了一个不错的解决方法，就是把下面的代码加入到web.xml中即可。-->
+	<listener>
+        <listener-class>
+          org.apache.commons.fileupload.servlet.FileCleanerCleanup
+        </listener-class>
+	</listener>
 
 
 	<!-- session超时定义,单位为分钟 -->

@@ -267,11 +267,11 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public String getLatestCode(String type) {
-		String sql = "select SUBSTRING(codeName,5)+1 from  Dictionary d where d.dicType =  "
+		String sql = "select substring_index(codeName,'_',-1)+1 from  Dictionary d where d.dicType =  "
 				+ "'"
 				+ type
 				+ "'"
-				+ " order by CAST(substring(codeName,5),integer) desc limit 1;";
+				+ " order by substring_index(codeName,'_',-1) desc limit 1;";
 		if("998".equals(type)){
 			sql = "select codeName+1 from Dictionary d where d.dicType = '998' order by codeName desc limit 1;";
 		}
