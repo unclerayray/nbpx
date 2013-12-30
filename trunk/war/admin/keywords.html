@@ -44,7 +44,7 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
 		textField:'showName',   
-		panelHeight:'auto'  ,
+		panelHeight:'200'  ,
 		strict:true,
 		onSelect: function(rec){  
 		var url = '../struts/Keyword_queryComboKeywords?category='+rec.codeName;  
@@ -56,7 +56,7 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'
 	url:'../struts/Keyword_queryComboKeywords',  
 	valueField:'keyId',  
 	textField:'keyword',   
-	panelHeight:'auto'  ,
+	panelHeight:'200'  ,
 	strict:false">
 
 	<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -89,7 +89,7 @@ $('#dlg').dialog('close');
 	url:'../struts/Course_queryComboCourseTypes',  
 	valueField:'codeName',  
 	textField:'showName',   
-	panelHeight:'auto'  ,
+	panelHeight:'200'  ,
 	strict:true,
 	required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'关键词类别是必填项'">
 	</div>
@@ -125,21 +125,6 @@ function queryKeyords() {
 			$('#category').removeAttr("selected");
 		}
 
-		function cutupTitle(){
-			//var textToCut = encodeURIComponent($('#courseTitle').val());
-			var textToCut = $('#courseTitle').val();
-			//alert('courseTitle = ' + textToCut);
-			if($('#courseTitle').validatebox('isValid')){
-				//alert('textToCut to cut ' + $('#courseTitle').val());
-				$.ajax({
-					url:'../struts/Solr_cutText?textToCut='+textToCut,
-					success: function(data){
-						$('#courseKeywords').val(data);
-					}		
-				});
-			}
-			
-		}
 
 		function recommand() {
 			var selectedRows = $('#dg').datagrid('getSelections');

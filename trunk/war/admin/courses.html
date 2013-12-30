@@ -58,8 +58,8 @@
 		data-options="  
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
-		textField:'showName',   
-		panelHeight:'auto',
+		textField:'showName',  
+		panelHeight:'200',
 		strict:true,
 		onSelect: function(rec){  
 		var url = '../struts/Course_queryComboCourseCode?isInner=false&category='+rec.codeName;  
@@ -68,7 +68,7 @@
 	}
 	">
 	内外部发布：<input id="p_outside" name="p_outside" class="easyui-combobox"
-			data-options=" panelHeight:'auto',
+			data-options="panelHeight:'200',
 						strict:true,
 						valueField: 'value',
 						textField: 'label',
@@ -93,8 +93,7 @@
 	url:'../struts/Course_queryComboCourseCode?isInner=false',
 	valueField:'courseId',  
 	textField:'courseId',  
-	panelHeight:'auto'  ,
-	panelHeight:'100',
+	panelHeight:'200',
 	strict:true
 	">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -167,8 +166,8 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							data-options="  
 							url:'../struts/Course_queryComboCourseTypes',  
 							valueField:'codeName',  
-							textField:'showName',  
-							panelHeight:'auto'  ,
+							textField:'showName',
+							panelHeight:'200',
 							editable:false ,
 							required:true,
 							tipPositionY:'center',
@@ -353,7 +352,7 @@ modal="true" buttons="#dlg_addInfo-buttons">
 		url:'../struts/Dictionary_queryComboDics?p_dicType=007',  
 		valueField:'codeName',  
 		textField:'showName',  
-		panelHeight:'auto'  ,
+		panelHeight:'200',
 		editable:false,required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'
 		">
 	</select>
@@ -518,7 +517,7 @@ function createInfoGrid(row){
 					url:'../struts/Dictionary_queryComboDics?p_dicType=007',  
 					valueField:'codeName',  
 					textField:'showName',  
-					panelHeight:'auto',
+					panelHeight:'200',
 					editable:false,required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'
 				}
 			}
