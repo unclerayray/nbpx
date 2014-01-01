@@ -271,9 +271,9 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 				+ "'"
 				+ type
 				+ "'"
-				+ " order by substring_index(codeName,'_',-1) desc limit 1;";
+				+ " order by substring_index(codeName,'_',-1)+1 desc limit 1;";
 		if("998".equals(type)){
-			sql = "select codeName+1 from Dictionary d where d.dicType = '998' order by codeName desc limit 1;";
+			sql = "select codeName+1 from Dictionary d where d.dicType = '998' order by codeName+1 desc limit 1;";
 		}
 		List list = find(sql);
 		if (list == null || list.isEmpty()) {

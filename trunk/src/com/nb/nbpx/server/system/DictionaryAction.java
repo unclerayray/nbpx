@@ -34,6 +34,7 @@ public class DictionaryAction extends BaseAction {
 	public String queryDictionary() {
 		String json = dictionaryService.queryDic(p_dicType, p_codeName, rows,
 				getStartPosi(), sort, order);
+		//TODO 字典查询 codeName Or showName
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}

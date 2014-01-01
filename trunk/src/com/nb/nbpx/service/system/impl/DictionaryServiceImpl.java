@@ -30,7 +30,7 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 	
 	@Override
 	public String queryComboDics(String dicType) {
-		List list = dicDao.queryDictionary(dicType, null, 100, null, null, null);
+		List list = dicDao.queryDictionary(dicType, null, 100, 0 , null, null);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
 	}

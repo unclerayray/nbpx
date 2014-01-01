@@ -91,7 +91,7 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'.
 </div>
 
 
-<div id="dlg" class="easyui-dialog"
+<div id="dlg" class="easyui-dialog"  data-options="onClose : function() {$('.validatebox-tip').remove();}"  
 style="width: 800px; height: 400px; padding: 5px 5px" closed="true"  cache="false" 
 modal="true" data-options="buttons: [{
 text:'保存',
