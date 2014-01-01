@@ -80,7 +80,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String queryComboArticleCode(String category) {
-		List<Article> list = articleDao.getArticles(category, null, null, null,
+		List<Article> list = articleDao.getArticles(category, 10, null, null,
 				null);
 		String json = JsonUtil.formatListToJson(list);
 		return json;

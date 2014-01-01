@@ -197,7 +197,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String queryComboCourseName(String category,Boolean isInner,Boolean p_outside) {
-		List<Course> list = courseDao.queryCourses(category, null,p_outside, null, null,
+		List<Course> list = courseDao.queryCourses(category, null,p_outside, 10, null,
 				null, null,isInner);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
