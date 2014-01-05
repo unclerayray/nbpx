@@ -691,8 +691,17 @@
 				<div class="tabOn">题目字典</div>
 				<div class="clear"></div>
 			</div>
-			<div class="bg" style="height:177px;background:none;border-bottom:1px solid #ddeae0;">
-					
+			<div class="bg" style="height:177px;background:none;border-bottom:1px solid #ddeae0;padding-left:30px">
+					<ul class="list4">
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+						<li><a href="#">优秀员工心态与高效执行</a></li>
+					</ul>
 			</div>
 		<!--最新消息 end-->
 		
@@ -1169,24 +1178,22 @@
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >培训类别</div>
-					<div class="tabOff three">内训类别</div>
-					<div class="tabOff three">排行</div>
+					<div class="tabOn three" >客户评价</div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 0px 0px 25px;">
 					<ul class="list5" style="padding-top:10px;width:230px;">
-						<li><a class="left">战略管理</a><span>&nbsp;</span><a class="left">人力资源管理</a></li>
-						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
-						<li><a class="left">财务管理</a><span>&nbsp;</span><a class="left">客户服务</a></li>
-						<li><a class="left">采购物流</a><span>&nbsp;</span><a class="left">职业技能</a></li>
-						<li><a class="left">质量管理</a><span>&nbsp;</span><a class="left">项目管理</a></li>
-						<li><a class="left">团队建设</a><span>&nbsp;</span><a class="left">MBA总裁研修班</a></li>
-						<li><a class="left">行政管理</a><span>&nbsp;</span><a class="left">领导力</a></li>
-						<li><a class="left">战略管理</a><span>&nbsp;</span><a class="left">人力资源管理</a></li>
-						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
-						<li><a class="left">财务管理</a><span>&nbsp;</span><a class="left">客户服务</a></li>
-						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">培训很有效果，不错</a></li>
+						<li><a class="left">老师都很专业，价格实惠</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
+						<li><a class="left">课程安排合理，内容丰富</a></li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -2322,69 +2329,23 @@ padding-bottom: 2px;
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >文库分类</div>
-					<div class="tabOff three">文库排行</div>
-					<div class="tabOff three">本月排行</div>
+					<div class="tabOn three"  style="width:110px">培训机构字典</div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 15px;">
-					<div class="docType">
-						<h5>财务管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-						</ul>
-					</div>
-					<div class="clear"></div>
-					<div class="docType">
-						<h5>生产管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-						</ul>
-					</div>
-					<div class="clear"></div>
-					<div class="docType">
-						<h5>企业管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-						</ul>
-					</div>
-					<div class="clear"></div>					
-					<div class="docType">
-						<h5>企业管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-						</ul>
-					</div>
+					<ul class="list5" style="padding-top:10px;width:230px;">
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+					</ul>
 					<div class="clear"></div>
 
 				</div>
