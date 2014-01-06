@@ -279,7 +279,7 @@ function createInfoGrid(row){
 					url:'../struts/Dictionary_queryComboDics?p_dicType=007',  
 					valueField:'codeName',  
 					textField:'showName',  
-					panelHeight:'auto',
+					panelHeight:'200',
 					editable:false,required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'
 				}
 			}
@@ -361,7 +361,8 @@ function createCkeditor() {
 
 	var config = {
 		uiColor : '#A0CFEC',
-		language : 'zh-cn'
+		language : 'zh-cn',
+		width : '800px'
 	};
 	var editor = CKEDITOR.instances['content'];
 	if (editor) {

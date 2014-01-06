@@ -204,7 +204,9 @@
 					handler:function(){
 						$('#editComp').dialog('close');
 					}
-				}]">
+				}],
+				onClose : function() {$('.validatebox-tip').remove();}
+				">
 				<form id="compFm" method="post" novalidate> 
 					<table cellspacing="0" cellpadding="0" class="formTable">
 						<tr style="display:none"><td class="itemText">compInfoId:</td><td><input id="compInfoId" name="compInfoId" class="easyui-validatebox" required="true"></td></tr>
@@ -230,7 +232,8 @@
 					handler:function(){
 						$('#editOrg').dialog('close');
 					}
-				}]">
+				}],
+				onClose : function() {$('.validatebox-tip').remove();}">
 				<form id="orgFm" method="post" novalidate> 
 					<table cellspacing="0" cellpadding="0" class="formTable">
 						<tr  style="display:none"><td class="itemText">orgInfoId:</td><td><input id="orgId" name="orgId" class="easyui-validatebox" required="true"></td></tr>
@@ -257,7 +260,8 @@
 					handler:function(){
 						$('#editTeacher').dialog('close');
 					}
-				}]">
+				}],
+				onClose : function() {$('.validatebox-tip').remove();}">
 				<form id="teacherFm" method="post" novalidate> 
 					<table cellspacing="0" cellpadding="0" class="formTable">
 						<tr  style="display:none"><td class="itemText">teacherId:</td><td><input id="teacherId" name="teacherId" class="easyui-validatebox" required="true"></td></tr>

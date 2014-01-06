@@ -9,6 +9,7 @@ import com.nb.nbpx.utils.deserializer.UtilDateDeserializer;
 import com.nb.nbpx.utils.serializer.UtilDateSerializer;
 import com.nb.nbpx.utils.serializer.UtilDkSerializer;
 import com.nb.nbpx.utils.serializer.UtilDsSerializer;
+import com.nb.nbpx.utils.serializer.UtilLISerializer;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ public class SerializerMethod {
 				format);
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadKeyword.class, new UtilDkSerializer());
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadSubject.class, new UtilDsSerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.LiveImage.class, new UtilLISerializer());
 		Gson gson = gb.create();
 		return gson.toJson(bean);
 	}

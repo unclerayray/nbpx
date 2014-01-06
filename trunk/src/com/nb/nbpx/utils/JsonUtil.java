@@ -247,6 +247,37 @@ public class JsonUtil {
 			return "{\"success\":true,\"message\":\"\",\"total\":0,\"rows\":[]}";
 		}
 	}
+	/**
+	 * 将List和参数封装成JSON对象(如果有Date\TimeStamp类型的，默认带上时分秒)
+	 * 
+	 * @param total
+	 *            记录总数
+	 * @param state
+	 *            状态
+	 * @param message
+	 *            提示信息
+	 * @param tempList
+	 *            list对象
+	 * @return
+	 */
+	public static String formatToJsonWithNoTimeStamp(Integer total,
+			boolean success, String message, List tempList) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("success", success);
+		jsonObject.put("message", message);
+		if (tempList != null && tempList.size() > 0) {
+			java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<List>() {
+			}.getType();
+
+			String json = SerializerMethod.bean2json(tempList, type,
+					"yyyy-MM-dd");
+			jsonObject.put("rows", json);
+			jsonObject.put("total", total);
+			return jsonObject.toString();
+		} else {
+			return "{\"success\":true,\"message\":\"\",\"total\":0,\"rows\":[]}";
+		}
+	}
 
 	/**
 	 * 将一个对象，写成json格式字符串 含日期但日期也需要有时间的
