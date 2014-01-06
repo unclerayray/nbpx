@@ -33,7 +33,7 @@ pageEncoding="utf-8"%>
 		//			jsonp: "json.wrf",
 		//url: "http://localhost:8080/solr/core_keyword/select",
 		$( "#searchWord" ).autocomplete({
-			minLength: 2,
+			minLength: 1,
 			source: function(request, response) {
 				$.ajax({
 					url: "struts/Search_queryKeywordsByKeyword",

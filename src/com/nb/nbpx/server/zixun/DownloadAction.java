@@ -72,7 +72,7 @@ public class DownloadAction extends BaseAction {
 				downloadSubjects = downloadSubjects.replace(" ", "");
 				downloadSubjects = downloadSubjects.replaceAll(regEx1, ",");
 			}
-			List<Subject> subs = subjectService.saveSubjects(regEx1, downloadSubjects);
+			List<Subject> subs = subjectService.saveSubjects(category, downloadSubjects);
 			if (file != null) {
 				String realpath = SolrUtil.getDownloadPath();
 

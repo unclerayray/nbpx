@@ -48,4 +48,11 @@ public interface IDictionaryDao extends IBaseDao<Dictionary, Integer> {
 	 * @return
 	 */
 	public String getLatestCode(String type);
+	
+	/**
+	 * 专门用于根据字典类别获取下拉菜单
+	 * @param type
+	 * @return
+	 */
+	public List<Dictionary> getDicForCombo(String type);
 }

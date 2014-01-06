@@ -35,6 +35,13 @@ public interface IDictionaryService extends IBaseService {
 	 */
 	public String queryComboDics(String dicType);
 	
+	/**
+	 * 用于获取ComboBox的，最新
+	 * @param dicType
+	 * @return
+	 */
+	public String queryComboByType(String dicType);
+	
 	public void saveDic(Dictionary dictionary) throws NbpxException ;
 	
 	public void deleteDic(Dictionary dictionary) throws NbpxException ;

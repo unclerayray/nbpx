@@ -69,6 +69,7 @@ public class DictionaryAction extends BaseAction {
 		dics = dics.replaceAll(" ", "");
 		dics = dics.replaceAll(regEx1, ",");
 		String[] dicsArr = dics.split(",");
+		int init_length = dicsArr.length;
 		Set<String> uniqueWords = new HashSet<String>(Arrays.asList(dicsArr));
 		dicsArr = uniqueWords.toArray(new String[0]);
 		String msg = "";
@@ -76,16 +77,18 @@ public class DictionaryAction extends BaseAction {
 		for (String dic : dicsArr) {
 			Dictionary di = new Dictionary();
 			di.setDicType(p_dicType);
+			dic = dic.trim();
 			di.setShowName(dic);
+			System.out.println("dic ="+dic);
 			di.setFlag(true);
 			try {
 				dictionaryService.saveDic(di);
-			} catch (NbpxException e) {
 				cnt++;
+			} catch (NbpxException e) {
 			}
 		}
-		if(cnt>0){
-			msg = cnt+"项重复，已忽略！";
+		if(init_length - cnt>0){
+			msg = init_length - cnt+"项重复，已忽略！";
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS+msg));
@@ -114,6 +117,16 @@ public class DictionaryAction extends BaseAction {
 
 	public String queryComboDics() {
 		String json = dictionaryService.queryComboDics(p_dicType);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 用这个函数获取字典相关的下拉菜单
+	 * @return
+	 */
+	public String getComboDicByType(){
+		String json = dictionaryService.queryComboByType(p_dicType);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}

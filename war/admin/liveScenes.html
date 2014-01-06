@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../css/demo.css">
+<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/icon.css">
+<script src="../js/easyui/jquery-1.8.0.min.js"></script>
+<script src="../js/easyui/jquery.easyui.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="../js/poshytip-1.2/src/tip-skyblue/tip-skyblue.css">
+<link rel="stylesheet" type="text/css"
+	href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
+<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
+<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
+<script language="JavaScript">
+	var cate = [ {
+		"categoryid" : "003_01",
+		"categoryName" : "Koi"
+	}, {
+		"categoryid" : "003_02",
+		"categoryName" : "haha"
+	} ];
+	var catedata = [];
+	//console.log('before load');
+	$.ajax('../struts/Dictionary_getComboDicByType?p_dicType=24', {
+		type : 'POST',
+		dataType : 'json',
+		success : function(data) {
+			catedata = data;
+		}
+	});
+</script>
+<title>现场管理</title>
+</head>
+<table id="dg" class="easyui-datagrid" pagination="true" pageSize=20
+	loadMsg="正在加载，请稍候!"
+	data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/LiveScene_queryLiveScene',toolbar:'#tb'">
+	<thead>
+		<tr>
+			<th data-options="field:'liveSceneId',width:80">主键</th>
+			<th
+				data-options="field:'category',width:120,
+			formatter:function(value,row){
+				for(var i=0; i<catedata.length; i++){
+                    if (catedata[i].codeName == value) return catedata[i].showName;
+                }
+				return value;
+			}">现场类别</th>
+			<th data-options="field:'title',width:240,align:'center'">标题</th>
+			<th data-options="field:'site',width:80,align:'center'">地点</th>
+			<th data-options="field:'teacher',width:120,align:'center'">讲师</th>
+			<th
+				data-options="field:'images',width:120,align:'center',hidden:true">images</th>
+			<th
+				data-options="field:'liveDate',width:120,align:'center',sortable:true">日期</th>
+		</tr>
+	</thead>
+</table>
+
+
+<div id="tb" style="padding: 5px; height: auto">
+	<div style="margin-bottom: 5px">
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+			onclick="$('#fm').form('clear');$('#file').show();$('#dlg').dialog('open').dialog('setTitle', '新增现场信息');">新增现场信息</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+			onclick="editLiveScene();">修改现场信息</a> <a href="#"
+			class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+			onclick="destroyLiveScene();">删除现场信息</a>
+	</div>
+	<div>
+		现场标题: <input id="p_title" name="p_title"> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-search" onclick="queryLiveScenes()">搜索</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a>
+	</div>
+</div>
+
+
+<div id="dlg" class="easyui-dialog"
+	style="width: 800px; height: 400px; padding: 5px 5px" closed="true"
+	cache="false" modal="true"
+	data-options="onClose : function() {$('.validatebox-tip').remove();},buttons: [{
+text:'保存',
+iconCls:'icon-ok',
+handler:function(){
+saveLiveScene(); } },{
+text:'取消',
+iconCls:'icon-cancel',
+handler:function(){
+$('#dlg').dialog('close');
+}
+}]">
+	<form id="fm" method="post" enctype="multipart/form-data">
+		<table cellspacing="0" cellpadding="0" class="formTable">
+			<tr>
+				<td class="itemText">标题:</td>
+				<td colspan="3" ><input id=title name="title" style="width: 480px;">
+				</td>
+				<td class="itemText">讲师:</td>
+				<td><input id=teacher name="teacher"></td>
+			</tr>
+
+			<tr>
+				<td class="itemText">日期:</td>
+				<td><input style="width: 130px;" id="liveDate" name="liveDate"
+					type="text" class="easyui-datebox"
+					data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}"></input>
+				</td>
+				<td class="itemText">类别:</td>
+				<td><input class="easyui-combobox" style="width: 130px;"
+					name="category" id="category"
+					data-options="  
+							url:'../struts/Dictionary_getComboDicByType?p_dicType=24',  
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'200',
+							editable:false ,
+							required:true,
+							tipPositionY:'center',
+							tipPositionX:'right',
+							className:'tip-darkgray',
+							missingMessage:'必填项'
+							">
+					</input></td>
+				<td class="itemText">地点:</td>
+				<td><input id="site" name="site"></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<script type="text/javascript">
+	function queryLiveScenes() {
+		$('#dg').datagrid('load', {
+			filetype : $('#filetype').combobox('getValue')
+		});
+	}
+
+	function editLiveScene() {
+		var row = $('#dg').datagrid('getSelected');
+		$('#dlg').dialog('open').dialog('setTitle', '修改');
+		if (row) {
+			$('#fm').form('load', row);
+			$('#file').val('');
+			$("#file").hide();
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+
+	function saveLiveScene() {
+		$('#fm').form('submit', {
+			url : '../struts/LiveScene_saveLiveScene',
+			onSubmit : function() {
+				return $(this).form('validate');
+			},
+			success : function(data) {
+				var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+				if (data.success) {
+					$.messager.show({
+						title : 'Success',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+					$('#dlg').dialog('close'); // close the dialog  
+					$('#dg').datagrid('reload'); // reload
+				} else {
+					$.messager.show({
+						title : 'Error',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+				}
+			}
+		});
+	}
+
+	function destroyLiveScene() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row) {
+			$.messager
+					.confirm(
+							'Confirm',
+							'确认要删除此行记录吗?',
+							function(r) {
+								if (r) {
+									$
+											.post(
+													'../struts/LiveScene_deleteLiveScene?objectName=liveScene',
+													row,
+													function(data) {
+														if (data.success) {
+															$('#dg').datagrid(
+																	'reload'); // reload the Dic data
+															$('#dg')
+																	.datagrid(
+																			'clearSelections');
+														} else {
+															$.messager
+																	.show({
+																		title : 'Error',
+																		msg : data.message,
+																		timeout : 3000,
+																		showType : 'fade'
+																	});
+															$('#dg').datagrid(
+																	'reload');
+															$('#dg')
+																	.datagrid(
+																			'clearSelections');
+														}
+													}, 'json');
+								}
+							});
+		} else {
+			$.messager.show({
+				title : '温馨提示',
+				msg : '请先选择一行记录',
+				timeout : 2000,
+				showType : 'slide'
+			});
+		}
+	}
+</script>
+<style type="text/css">
+#fm {
+	margin: 0;
+	padding: 10px 40px;
+}
+
+.ftitle {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.fitem {
+	margin-bottom: 5px;
+}
+
+.fitem label {
+	display: inline-block;
+	width: 80px;
+}
+
+.itemText {
+	width: 80px;
+	text-align: left;
+	height: 30px;
+	padding-left: 10px;
+	vertical-align: top
+}
+
+.formTable td {
+	vertical-align: top
+}
+</style>
+</body>
+</html>

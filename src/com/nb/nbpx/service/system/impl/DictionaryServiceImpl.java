@@ -110,6 +110,13 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 		this.dicDao = dicDao;
 	}
 
+	@Override
+	public String queryComboByType(String dicType) {
+		List list = dicDao.getDicForCombo(dicType);
+		String json = JsonUtil.formatListToJson(list);
+		return json;
+	}
+
 	
 
 }
