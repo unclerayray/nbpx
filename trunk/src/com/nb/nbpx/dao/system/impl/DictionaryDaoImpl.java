@@ -24,7 +24,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 
 	@Override
 	public List<Dictionary> queryDictionary(final String dicType,
-			final String codeName, final Integer rows, final Integer start,
+			final String like_showName, final Integer rows, final Integer start,
 			final String sort, final String order) {
 		List<Dictionary> list = new ArrayList<Dictionary>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
@@ -43,8 +43,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 					hql.append(" and d.dicType = ? ");
 				}
 
-				if (codeName != null && !codeName.isEmpty()) {
-					hql.append(" and d.codeName = ? ");
+				if (like_showName != null && !like_showName.isEmpty()) {
+					hql.append(" and d.showName like ? ");
 				}
 
 				hql.append(" and d.dicType = fd.codeName ");
@@ -63,8 +63,8 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 					query.setString(i++, dicType);
 				}
 
-				if (codeName != null && !codeName.isEmpty()) {
-					query.setString(i++, codeName);
+				if (like_showName != null && !like_showName.isEmpty()) {
+					query.setString(i++, "%"+like_showName+"%");
 				}
 
 				if (start != null && rows != null) {
