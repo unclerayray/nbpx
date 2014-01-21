@@ -127,7 +127,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 				}
 
 				if (showName != null && !showName.isEmpty()) {
-					hql.append(" and d.showName = ? ");
+					hql.append(" and d.showName like ? ");
 				}
 				Query query = session.createQuery(hql.toString());
 
@@ -136,7 +136,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 				}
 
 				if (showName != null && !showName.isEmpty()) {
-					query.setString(i++, showName);
+					query.setString(i++, "%"+showName+"%");
 				}
 
 				return query.list();

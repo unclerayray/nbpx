@@ -535,6 +535,33 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 		String hql = hqlBuilder.toString();
 		return hql;
 	}
+	
+
+	// 构造hql查询语句
+	public String createNormalHql(Class entityClass,
+			Map<String, Object> propsMap) {
+		StringBuilder hqlBuilder = new StringBuilder("");
+		Set<String> propsKeies = propsMap.keySet();
+		Object[] propsArray = propsKeies.toArray();
+		if (!propsMap.isEmpty()) {
+			for (int i = 0; i < propsArray.length; i++) {
+				hqlBuilder.append(" and");
+				String props = propsArray[i].toString();
+				String realProps = null;
+				if (props.contains(".")) {
+					String fun = props.substring(0, props.indexOf('.'));
+					realProps = " " + fun + "("
+							+ props.substring(props.indexOf('.') + 1) + ")";
+				} else {
+					realProps = " " + props;
+				}
+				hqlBuilder.append(realProps);
+				hqlBuilder.append("='"+propsMap.get(props)+"'");
+			}
+		}
+		String hql = hqlBuilder.toString();
+		return hql;
+	}
 
 	private String createHqlFromProtitiesMapWithOrder(Class entityClass,
 			Map<String, Object> propsMap, String sort, String order) {

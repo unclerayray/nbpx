@@ -24,43 +24,16 @@
 	href="../js/poshytip-1.2/src/tip-darkgray/tip-darkgray.css">
 <script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
 <script src="../js/easyui/plugins/jquery.validatebox.js"></script>
-<script language="JavaScript">
-	var cate = [ {
-		"categoryid" : "003_01",
-		"categoryName" : "Koi"
-	}, {
-		"categoryid" : "003_02",
-		"categoryName" : "haha"
-	} ];
-	var catedata = [];
-	//console.log('before load');
-	$.ajax('../struts/Dictionary_getComboDicByType?p_dicType=24', {
-		type : 'POST',
-		dataType : 'json',
-		success : function(data) {
-			catedata = data;
-		}
-	});
-</script>
-<title>现场管理</title>
+<title>拓展管理</title>
 </head>
 <table id="dg" class="easyui-datagrid" pagination="true" pageSize=20
 	loadMsg="正在加载，请稍候!"
-	data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/LiveScene_queryLiveScene',toolbar:'#tb'">
+	data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/LiveScene_queryTuozhan',toolbar:'#tb'">
 	<thead>
 		<tr>
 			<th data-options="field:'liveSceneId',width:80">主键</th>
-			<th
-				data-options="field:'category',width:120,
-			formatter:function(value,row){
-				for(var i=0; i<catedata.length; i++){
-                    if (catedata[i].codeName == value) return catedata[i].showName;
-                }
-				return value;
-			}">现场类别</th>
-			<th data-options="field:'title',width:240,align:'center'">标题</th>
+			<th data-options="field:'title',width:240,align:'center'">主题</th>
 			<th data-options="field:'site',width:80,align:'center'">地点</th>
-			<th data-options="field:'teacher',width:120,align:'center'">讲师</th>
 			<th
 				data-options="field:'images',width:120,align:'center',hidden:true">images</th>
 			<th
@@ -73,24 +46,14 @@
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-			onclick="$('#fm').form('clear');$('#file').show();$('#dlg').dialog('open').dialog('setTitle', '新增现场信息');">新增现场信息</a>
+			onclick="$('#fm').form('clear');$('#file').show();$('#dlg').dialog('open').dialog('setTitle', '新增拓展信息');">新增拓展信息</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-			onclick="editLiveScene();">修改现场信息</a> <a href="#"
+			onclick="editLiveScene();">修改拓展信息</a> <a href="#"
 			class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-			onclick="destroyLiveScene();">删除现场信息</a>
+			onclick="destroyLiveScene();">删除拓展信息</a>
 	</div>
 	<div>
-		类别：<input class="easyui-combobox" style="width: 130px;"
-					name="category" id="p_category"
-					data-options="  
-							url:'../struts/Dictionary_getComboDicByType?p_dicType=24',  
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							editable:false
-							">
-					</input>
-		现场标题: <input id="p_title" name="p_title" style="width: 480px;"> <a
+		拓展主题: <input id="p_title" name="p_title" style="width: 480px;"> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryLiveScenes()">搜索</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
@@ -117,11 +80,9 @@ $('#dlg').dialog('close');
 				<input id="liveSceneId_in_fm" name="liveSceneId" type="hidden">
 		<table cellspacing="0" cellpadding="0" class="formTable">
 			<tr>
-				<td class="itemText">标题:</td>
+				<td class="itemText">主题:</td>
 				<td colspan="3" ><input id=title name="title" style="width: 480px;">
 				</td>
-				<td class="itemText">讲师:</td>
-				<td><input id=teacher name="teacher"></td>
 			</tr>
 
 			<tr>
@@ -130,22 +91,6 @@ $('#dlg').dialog('close');
 					type="text" class="easyui-datebox"
 					data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}"></input>
 				</td>
-				<td class="itemText">类别:</td>
-				<td><input class="easyui-combobox" style="width: 130px;"
-					name="category" id="category"
-					data-options="  
-							url:'../struts/Dictionary_getComboDicByType?p_dicType=24',  
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							editable:false ,
-							required:true,
-							tipPositionY:'center',
-							tipPositionX:'right',
-							className:'tip-darkgray',
-							missingMessage:'必填项'
-							">
-					</input></td>
 				<td class="itemText">地点:</td>
 				<td><input id="site" name="site"></td>
 			</tr>
@@ -157,7 +102,7 @@ $('#dlg').dialog('close');
 					<input type="file" id='cover' name="cover">
 				</td>
 				<td class="itemText" >
-					现场1: 
+					拓展1: 
 				</td>
 				<td>
 					<input type="file" id='photo1' name="photo1">
@@ -165,13 +110,13 @@ $('#dlg').dialog('close');
 			</tr>
 			<tr>
 				<td class="itemText" >
-					现场2: 
+					拓展2: 
 				</td>
 				<td>
 					<input type="file" id='photo2' name="photo2">
 				</td>
 				<td class="itemText" >
-					现场3: 
+					拓展3: 
 				</td>
 				<td>
 					<input type="file" id='photo3' name="photo3">
@@ -186,7 +131,6 @@ $('#dlg').dialog('close');
 <script type="text/javascript">
 	function queryLiveScenes() {
 		$('#dg').datagrid('load', {
-			category : $('#p_category').combobox('getValue'),
 			title : $('#p_title').val()
 		});
 	}

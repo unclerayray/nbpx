@@ -352,4 +352,8 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	 */
 	public T queryEntityByProperties(Class<T> entityClass,
 			Map<String, Object> propsMap);
+	
+	
+	public String createNormalHql(Class entityClass,
+			Map<String, Object> propsMap);
 }

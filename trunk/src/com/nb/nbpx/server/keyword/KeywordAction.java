@@ -90,12 +90,14 @@ public class KeywordAction extends BaseAction {
 		String regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
 		String regEx1 = "[\\pP‘’“”]";
 		keywords = keywords.replaceAll(regEx1, ",");
+		keywords = keywords.replaceAll(" ", "");
 		String[] keywordsArr = keywords.split(",");
 		List<String> list = new ArrayList<String>();
 		
 		//Remove Null Value from String array
 	    for(String s : keywordsArr) {
 	       if(s != null && s.length() > 0) {
+	    	  s = s.trim();
 	          list.add(s);
 	       }
 	    }

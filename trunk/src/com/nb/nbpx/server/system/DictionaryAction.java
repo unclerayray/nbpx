@@ -28,6 +28,7 @@ public class DictionaryAction extends BaseAction {
 	public Dictionary dictionary;
 	public IDictionaryService dictionaryService;
 	public String p_dicType;
+	//show name for like
 	public String p_codeName;
 	public String dics;
 
