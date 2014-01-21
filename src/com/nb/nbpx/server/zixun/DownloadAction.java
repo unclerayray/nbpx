@@ -82,7 +82,7 @@ public class DownloadAction extends BaseAction {
 				if (!savefile.getParentFile().exists())
 					savefile.getParentFile().mkdirs();
 				long lll = file.length();
-				System.out.println("lll" + lll);
+				//System.out.println("lll" + lll);
 				double size = (double) (Math.round((file.length() / 1000000.00) *100.00)/100.00);//Mb
 				download = new Download(downloadId, title, savefile.getAbsolutePath(), filetype,
 						description, author, new Date(), 200, 200,
