@@ -11,14 +11,14 @@ public interface IUserDao extends IBaseDao<User, Integer> {
 	 * @param userType
 	 * @return
 	 */
-	public List<User> queryUserByType(String userType,Integer rows, Integer start);
+	public List<User> queryUserByType(String userName,String userType,Integer rows, Integer start, String sort, String order);
 	
 	/**
 	 * find count of users by type
 	 * @param userType
 	 * @return
 	 */
-	public Long queryUserCountByType(String userType);
+	public Long queryUserCountByType(String userName,String userType);
 	
 	public boolean checkDuplicateProp(String username,String email);
 	
