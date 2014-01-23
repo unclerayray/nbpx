@@ -32,21 +32,21 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	private IUserDao userDao;
 
 	@Override
-	public String queryUserByType(String userType, Integer rows, Integer start) {
+	public String queryUserByType(String userName,String userType, Integer rows, Integer start, String sort, String order) {
 		Map<String, Object> propsMap = new LinkedHashMap<String, Object>();
 		if(userType != null){
 			propsMap.put("userType", userType);
 		}
 		String json = "";
 		//List<User> userList = userDao.queryEntityListByProperties(User.class, rows, start, propsMap);
-		List<User> userList = userDao.queryUserByType(userType, rows, start);
+		List<User> userList = userDao.queryUserByType(userName,userType, rows, start, sort, order);
 		if (userList.isEmpty()) {
-			json = JsonUtil.formatToJsonWithTimeStamp(0,
+			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
 					ResponseStatus.FAIL, "", userList);
 		} else {
-			int count = userDao.queryUserCountByType(userType).intValue();
+			int count = userDao.queryUserCountByType(userName,userType).intValue();
 			//json = JsonUtil.formatToJsonWithTotalCount(count, userList);
-			json = JsonUtil.formatToJsonWithTimeStamp(count,
+			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
 					ResponseStatus.SUCCESS, "", userList);
 		}
 		return json;

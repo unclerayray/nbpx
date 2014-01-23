@@ -248,7 +248,7 @@ public class JsonUtil {
 		}
 	}
 	/**
-	 * 将List和参数封装成JSON对象(如果有Date\TimeStamp类型的，默认带上时分秒)
+	 * 将List和参数封装成JSON对象(如果有Date\TimeStamp类型的，默认不带上时分秒)
 	 * 
 	 * @param total
 	 *            记录总数

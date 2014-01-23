@@ -27,6 +27,7 @@ public class UserAction extends BaseAction {
 	public String username;
 	public String password;
 	public int userType;
+	public String p_userType;
 	public User user;
 	public CompInfoDto compInfoDto;
 	
@@ -40,8 +41,8 @@ public class UserAction extends BaseAction {
 		try {
 			// json = UserService.queryUserByType(userType,limit,start);
 			//System.out.println(" hh " + rows + page);
-			json = UserService.queryUserByType(null, rows,
-					getStartPosi());
+			json = UserService.queryUserByType(username,p_userType, rows,
+					getStartPosi(),sort,order);
 			System.out.println("json = " + json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,6 +148,12 @@ public class UserAction extends BaseAction {
 	@Resource
 	public void setUserService(IUserService userService) {
 		UserService = userService;
+	}
+	public String getP_userType() {
+		return p_userType;
+	}
+	public void setP_userType(String p_userType) {
+		this.p_userType = p_userType;
 	}
 
 }

@@ -21,7 +21,7 @@ public interface IUserService extends IBaseService {
 	 * @param start
 	 * @return
 	 */
-	public String queryUserByType(String userType,Integer rows, Integer start); 
+	public String queryUserByType(String userName,String userType,Integer rows, Integer start, String sort, String order); 
 	
 	/**
 	 * 

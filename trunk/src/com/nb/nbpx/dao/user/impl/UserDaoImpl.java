@@ -47,8 +47,8 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> queryUserByType(final String userType,
-			final Integer rows, final Integer start) {
+	public List<User> queryUserByType(final String userName,final String userType,
+			final Integer rows, final Integer start, final String sort, final String order) {
 		@SuppressWarnings("rawtypes")
 		List<User> list = getHibernateTemplate().executeFind(
 				new HibernateCallback() {
@@ -63,10 +63,26 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 						if (userType != null) {
 							hql.append(" and u.userType = ?");
 						}
+						
+						if (userName != null&&!userName.isEmpty()) {
+							hql.append(" and u.userName like ?");
+						}
+
+						if (sort != null && !sort.isEmpty()) {
+							hql.append(" order by u." + sort);
+							if (order != null && !order.isEmpty()) {
+								hql.append(" " + order);
+							}
+						} else {
+							hql.append(" order by u.userId desc ");
+						}
 						org.hibernate.Query query = session.createQuery(hql
 								.toString());
 						if (userType != null) {
 							query.setString(i++, userType);
+						}
+						if (userName != null&&!userName.isEmpty()) {
+							query.setString(i++, "%"+userName+"%");
 						}
 						if (start != null && rows != null) {
 							query.setFirstResult(start);
@@ -81,7 +97,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 	}
 
 	@Override
-	public Long queryUserCountByType(final String userType) {
+	public Long queryUserCountByType(final String userName,final String userType) {
 		@SuppressWarnings({ "rawtypes" })
 		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			public Object doInHibernate(Session session)
@@ -92,9 +108,17 @@ public class UserDaoImpl extends BaseDaoImpl<User, Integer> implements IUserDao 
 				if (userType != null) {
 					hql += " and userType = ?";
 				}
+				
+				if (userName != null&&!userName.isEmpty()) {
+					hql +=" and u.userName like ?";
+				}
+
 				org.hibernate.Query query = session.createQuery(hql);
 				if (userType != null) {
 					query.setString(i++, userType);
+				}
+				if (userName != null&&!userName.isEmpty()) {
+					query.setString(i++, "%"+userName+"%");
 				}
 				list = query.list();
 				return list;

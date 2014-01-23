@@ -25,7 +25,7 @@ public class UserServiceTest extends BaseServiceTest{
 	@Test
 	@Transactional(readOnly = true)
 	public void testqueryUserByType(){
-		String json = userService.queryUserByType("1", 10, 2);
+		String json = userService.queryUserByType(null,"1", 10, 2,null,null);
 		System.out.println("json = " + json);
 		Assert.assertNotNull(json);
 	}
