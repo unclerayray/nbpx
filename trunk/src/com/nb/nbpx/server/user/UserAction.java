@@ -41,6 +41,9 @@ public class UserAction extends BaseAction {
 		try {
 			// json = UserService.queryUserByType(userType,limit,start);
 			//System.out.println(" hh " + rows + page);
+			if("typeName".equals(sort)){
+				sort = "userType";
+			}
 			json = UserService.queryUserByType(username,p_userType, rows,
 					getStartPosi(),sort,order);
 			System.out.println("json = " + json);

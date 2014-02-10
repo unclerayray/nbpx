@@ -1,16 +1,17 @@
 package com.nb.nbpx.service.user.impl;
 
-import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.dao.user.ICompInfoDao;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
-import com.nb.nbpx.service.user.ICompInfoService;
-import com.nb.nbpx.utils.JsonUtil;
-import com.nb.nbpx.pojo.user.CompInfo;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
+
+import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.dao.user.ICompInfoDao;
+import com.nb.nbpx.pojo.user.CompInfo;
+import com.nb.nbpx.service.impl.BaseServiceImpl;
+import com.nb.nbpx.service.user.ICompInfoService;
+import com.nb.nbpx.utils.JsonUtil;
 
 @Component("CompInfoService")
 public class CompInfoServiceImpl extends BaseServiceImpl implements ICompInfoService{
@@ -47,6 +48,21 @@ public class CompInfoServiceImpl extends BaseServiceImpl implements ICompInfoSer
 	@Resource
 	public void setCompInfoDao(ICompInfoDao compInfoDao) {
 		this.compInfoDao = compInfoDao;
+	}
+	@Override
+	public String queryCompInfo(String userName, String company, Integer rows,
+			Integer start, String sort, String order) {
+		String json = "";
+		List<CompInfo>  list = compInfoDao.queryCompInfo(userName, company, rows, start, sort, order);
+		if (list.isEmpty()) {
+			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+					ResponseStatus.SUCCESS, "", list);
+		} else {
+			int count = compInfoDao.queryCompInfoCount(userName, company).intValue();
+			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+					ResponseStatus.SUCCESS, "", list);
+		}
+		return json;
 	}
 	
 }

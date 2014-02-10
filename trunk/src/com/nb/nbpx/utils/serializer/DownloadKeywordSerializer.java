@@ -6,14 +6,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.nb.nbpx.pojo.zixun.LiveImage;
+import com.nb.nbpx.pojo.zixun.DownloadKeyword;
 
-public class UtilLISerializer  implements JsonSerializer<com.nb.nbpx.pojo.zixun.LiveImage> {
+public class DownloadKeywordSerializer  implements JsonSerializer<com.nb.nbpx.pojo.zixun.DownloadKeyword> {
 
 	@Override
-	public JsonElement serialize(LiveImage src, Type typeOfSrc,   
+	public JsonElement serialize(DownloadKeyword src, Type typeOfSrc,   
             JsonSerializationContext context) {
-		return new JsonPrimitive(src.getUrl());   
+		return new JsonPrimitive(src.getKeyword());   
 	}
 
 }

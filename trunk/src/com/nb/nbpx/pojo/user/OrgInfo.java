@@ -1,20 +1,28 @@
 package com.nb.nbpx.pojo.user;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "orginfo", catalog = "nbpx")
 public class OrgInfo implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer orgId;
-	private Integer userId;
+	private User user;
 	private String orgName;
 	private String address;
 	private Integer postCode;
@@ -25,6 +33,9 @@ public class OrgInfo implements Serializable{
 	private String website;
 	private String category;
 	private String introduction;
+	private Boolean state;
+	private Date createDate;
+	private String createBy;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,11 +46,13 @@ public class OrgInfo implements Serializable{
 	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
 	}
-	public Integer getUserId() {
-		return userId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userId", nullable = false)
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getOrgName() {
 		return orgName;
@@ -102,15 +115,32 @@ public class OrgInfo implements Serializable{
 		this.introduction = introduction;
 	}
 	
+	public Boolean getState() {
+		return state;
+	}
+	public void setState(Boolean state) {
+		this.state = state;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public String getCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
 	public OrgInfo(){}
-	
 	public OrgInfo(Integer orgId, Integer userId, String orgName,
 			String address, Integer postCode, String contact, String cellphone,
 			String telephone, String fax, String website, String category,
 			String introduction) {
 		super();
 		this.orgId = orgId;
-		this.userId = userId;
+		this.user.setUserId(userId);
 		this.orgName = orgName;
 		this.address = address;
 		this.postCode = postCode;
@@ -122,7 +152,69 @@ public class OrgInfo implements Serializable{
 		this.category = category;
 		this.introduction = introduction;
 	}
-
 	
+	public OrgInfo(Integer orgId, User user, String orgName, String address,
+			Integer postCode, String contact, String cellphone,
+			String telephone, String fax, String website, String category,
+			String introduction) {
+		super();
+		this.orgId = orgId;
+		this.user = user;
+		this.orgName = orgName;
+		this.address = address;
+		this.postCode = postCode;
+		this.contact = contact;
+		this.cellphone = cellphone;
+		this.telephone = telephone;
+		this.fax = fax;
+		this.website = website;
+		this.category = category;
+		this.introduction = introduction;
+	}
+	public OrgInfo(Integer orgId, User user, String orgName, String address,
+			Integer postCode, String contact, String cellphone,
+			String telephone, String fax, String website, String category,
+			String introduction, Boolean state, Date createDate, String createBy) {
+		super();
+		this.orgId = orgId;
+		this.user = user;
+		this.orgName = orgName;
+		this.address = address;
+		this.postCode = postCode;
+		this.contact = contact;
+		this.cellphone = cellphone;
+		this.telephone = telephone;
+		this.fax = fax;
+		this.website = website;
+		this.category = category;
+		this.introduction = introduction;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
+	}
+
+
+	public OrgInfo(Integer orgId, Integer userId, String orgName, String address,
+			Integer postCode, String contact, String cellphone,
+			String telephone, String fax, String website, String category,
+			String introduction, Boolean state, Date createDate, String createBy) {
+		super();
+		this.orgId = orgId;
+		this.user.setUserId(userId);
+		this.orgName = orgName;
+		this.address = address;
+		this.postCode = postCode;
+		this.contact = contact;
+		this.cellphone = cellphone;
+		this.telephone = telephone;
+		this.fax = fax;
+		this.website = website;
+		this.category = category;
+		this.introduction = introduction;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
+	}
+
 	
 }

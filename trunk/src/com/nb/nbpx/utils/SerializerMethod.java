@@ -6,10 +6,11 @@ import java.text.DateFormat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nb.nbpx.utils.deserializer.UtilDateDeserializer;
-import com.nb.nbpx.utils.serializer.UtilDateSerializer;
-import com.nb.nbpx.utils.serializer.UtilDkSerializer;
-import com.nb.nbpx.utils.serializer.UtilDsSerializer;
-import com.nb.nbpx.utils.serializer.UtilLISerializer;
+import com.nb.nbpx.utils.serializer.DateSerializer;
+import com.nb.nbpx.utils.serializer.DownloadKeywordSerializer;
+import com.nb.nbpx.utils.serializer.DownloadSubjectSerializer;
+import com.nb.nbpx.utils.serializer.LiveImageSerializer;
+import com.nb.nbpx.utils.serializer.UserSerializer;
 
 /**
  * <p>
@@ -28,11 +29,26 @@ public class SerializerMethod {
 	public static String bean2json(Object bean, Type type, String format) {
 
 		GsonBuilder gb = new GsonBuilder().registerTypeAdapter(
-				java.util.Date.class, new UtilDateSerializer()).setDateFormat(
+				java.util.Date.class, new DateSerializer()).setDateFormat(
 				format);
-		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadKeyword.class, new UtilDkSerializer());
-		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadSubject.class, new UtilDsSerializer());
-		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.LiveImage.class, new UtilLISerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadKeyword.class, new DownloadKeywordSerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadSubject.class, new DownloadSubjectSerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.LiveImage.class, new LiveImageSerializer());
+		//gb.registerTypeAdapter(com.nb.nbpx.pojo.user.CompInfo.class, new CompInfoSerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.user.User.class, new UserSerializer());
+		gb.enableComplexMapKeySerialization();
+		Gson gson = gb.create();
+		return gson.toJson(bean);
+	}
+	
+	/**
+	 * 序列化方法，用于给有
+	 */
+	public static String bean2json4User(Object bean, Type type, String format) {
+
+		GsonBuilder gb = new GsonBuilder().registerTypeAdapter(
+				java.util.Date.class, new DateSerializer()).setDateFormat(
+				format);
 		Gson gson = gb.create();
 		return gson.toJson(bean);
 	}

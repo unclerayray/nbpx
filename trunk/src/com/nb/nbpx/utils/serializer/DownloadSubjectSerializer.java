@@ -8,7 +8,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.nb.nbpx.pojo.zixun.DownloadSubject;
 
-public class UtilDsSerializer  implements JsonSerializer<com.nb.nbpx.pojo.zixun.DownloadSubject> {
+public class DownloadSubjectSerializer  implements JsonSerializer<com.nb.nbpx.pojo.zixun.DownloadSubject> {
 
 	@Override
 	public JsonElement serialize(DownloadSubject src, Type typeOfSrc,   

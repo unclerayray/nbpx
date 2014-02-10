@@ -42,4 +42,7 @@ public interface IUserService extends IBaseService {
 	 * @return
 	 */
 	public String checkLogin(String username,String password);
+	
+	
+	public User queryById(Integer id);
 }

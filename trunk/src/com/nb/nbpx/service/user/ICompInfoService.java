@@ -7,4 +7,7 @@ public interface ICompInfoService extends IBaseService{
 
 	public String getCompInfoByUserId(Integer userID);
 	public String saveCompInfor(CompInfo compInfor);
+	
+	public String queryCompInfo(String userName,String company,Integer rows,
+			Integer start, String sort, String order);
 }

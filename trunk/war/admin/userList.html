@@ -11,6 +11,17 @@
 	.itemText{width:100px;text-align:right;;height:30px;padding-right:10px; vertical-align:top}
 	.formTable td{vertical-align:top}
 </style>
+<script language="JavaScript">
+	var cityDics = [];
+	//console.log('before load');
+	$.ajax('../struts/Dictionary_getComboDicByType?p_dicType=007', {
+		type : 'POST',
+		dataType : 'json',
+		success : function(data) {
+			cityDics = data;
+		}
+	});
+</script>
 <title>用户列表</title>
 	<script type="text/javascript">
 		var toolbar = [
@@ -34,7 +45,7 @@
 					url:'../struts/User_saveUser?objectName=user',
 					data:currUser,
 					success:function(){
-						$('#grid').datagrid('refreshRow',index);
+						$('#grid').datagrid('reload');
 					}
 				})
 			}
@@ -49,7 +60,7 @@
 					url:'../struts/User_saveUser?objectName=user',
 					data:currUser,
 					success:function(){
-						$('#grid').datagrid('refreshRow',index);
+						$('#grid').datagrid('reload');
 					}
 				})
 			}
@@ -64,6 +75,7 @@
 					url:'../struts/User_saveUser?objectName=user',
 					data:currUser,
 					success:function(){
+						$('#grid').datagrid('reload');
 						alert("已成功将密码重置为123456!");//$('#grid').datagrid('refreshRow',index);
 					}
 				})
@@ -84,7 +96,12 @@
 					<th data-options="field:'userId',width:80,hidden:true">主键</th> 
 					<th data-options="field:'userName',sortable:true,width:120">用户名</th>
 					<th data-options="field:'typeName',sortable:true,width:120">用户类型</th>
-					<th data-options="field:'city',sortable:true,width:120">所在城市</th>
+					<th data-options="field:'city',sortable:true,width:120,formatter:function(value,row){
+							for(var i=0; i<cityDics.length; i++){
+			                    if (cityDics[i].codeName == value) return cityDics[i].showName;
+			                }
+							return value;
+						}">所在城市</th>
 					<th data-options="field:'email',sortable:true,width:200">邮箱</th>
 					<th data-options="field:'registerDate',sortable:true,width:200">注册时间</th>
 					<th data-options="field:'state',width:100,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
