@@ -284,7 +284,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			user.setState(false);
 			userDao.save(user);
 			TeacherInfo teacher = new TeacherInfo();
-			teacher.setUserId(user.getUserId());
+			teacher.setUser(user);
 			teacher.setRealName(course.getTeacherId());
 			teacherDao.save(teacher);
 		}

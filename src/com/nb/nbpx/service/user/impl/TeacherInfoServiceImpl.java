@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
@@ -44,6 +45,35 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 	@Resource
 	public void setTeacherInfoDao(ITeacherInfoDao teacherInfoDao) {
 		this.teacherInfoDao = teacherInfoDao;
+	}
+
+	@Override
+	public String queryTeacherInfo(String userName, String teacherName,
+			Boolean inner, Integer rows, Integer start, String sort,
+			String order) {
+		String json = "";
+		if(inner){
+			List<TeacherInfo>  list = teacherInfoDao.queryInnerTeacherInfo(teacherName, rows, start, sort, order);
+			if (list.isEmpty()) {
+				json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+						ResponseStatus.SUCCESS, "", list);
+			} else {
+				int count = teacherInfoDao.queryInnerTeacherInfoCount(teacherName).intValue();
+				json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+						ResponseStatus.SUCCESS, "", list);
+			}
+		}else{
+			List<TeacherInfo>  list = teacherInfoDao.queryOutTeacherInfo(userName, teacherName,  rows, start, sort, order);
+			if (list.isEmpty()) {
+				json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+						ResponseStatus.SUCCESS, "", list);
+			} else {
+				int count = teacherInfoDao.queryOutTeacherInfoCount(userName, teacherName ).intValue();
+				json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+						ResponseStatus.SUCCESS, "", list);
+			}
+		}
+		return json;
 	}
 
 }

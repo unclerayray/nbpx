@@ -15,4 +15,6 @@ import com.nb.nbpx.utils.daotool.Equality;
  */
 public interface IBaseService {
 	Map<String, Object> createPropMap(Equality... equs);
+	
+	//public Object getEntityByPK(Integer Id, Class s);
 }

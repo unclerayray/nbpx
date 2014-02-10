@@ -5,28 +5,36 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "teacher_info", catalog = "nbpx")
 public class TeacherInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer teacherId;
-	private Integer userId;
+	private User user;
 	private String realName;
 	private Date birthday;
 	private String majorCatgory;
-	private float externalPayment;
-	private float internalPayment;
+	private Double externalPayment;
+	private Double internalPayment;
 	private String fax;
 	private String telephone;
 	private String cellphone;
 	private String introduction;
 	private String expertIn;
-	
-	
+	private Boolean state;
+	private Date createDate;
+	private String createBy;
 	
 	public TeacherInfo(Integer teacherId, String realName) {
 		super();
@@ -42,11 +50,14 @@ public class TeacherInfo implements Serializable{
 	public void setTeacherId(Integer teacherId) {
 		this.teacherId = teacherId;
 	}
-	public Integer getUserId() {
-		return userId;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userId", nullable = false)
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getRealName() {
 		return realName;
@@ -66,16 +77,16 @@ public class TeacherInfo implements Serializable{
 	public void setMajorCatgory(String majorCatgory) {
 		this.majorCatgory = majorCatgory;
 	}
-	public float getExternalPayment() {
+	public Double getExternalPayment() {
 		return externalPayment;
 	}
-	public void setExternalPayment(float externalPayment) {
+	public void setExternalPayment(Double externalPayment) {
 		this.externalPayment = externalPayment;
 	}
-	public float getInternalPayment() {
+	public Double getInternalPayment() {
 		return internalPayment;
 	}
-	public void setInternalPayment(float internalPayment) {
+	public void setInternalPayment(Double internalPayment) {
 		this.internalPayment = internalPayment;
 	}
 	public String getFax() {
@@ -108,14 +119,32 @@ public class TeacherInfo implements Serializable{
 	public void setExpertIn(String expertIn) {
 		this.expertIn = expertIn;
 	}
+	public Boolean getState() {
+		return state;
+	}
+	public void setState(Boolean state) {
+		this.state = state;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public String getCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
 	public TeacherInfo(){}
 	public TeacherInfo(Integer teacherId, Integer userId, String realName,
-			Date birthday, String majorCatgory, float externalPayment,
-			float internalPayment, String fax, String telephone,
+			Date birthday, String majorCatgory, Double externalPayment,
+			Double internalPayment, String fax, String telephone,
 			String cellphone, String introduction, String expertIn) {
 		super();
 		this.teacherId = teacherId;
-		this.userId = userId;
+		this.user.setUserId(userId);
 		this.realName = realName;
 		this.birthday = birthday;
 		this.majorCatgory = majorCatgory;
@@ -126,6 +155,70 @@ public class TeacherInfo implements Serializable{
 		this.cellphone = cellphone;
 		this.introduction = introduction;
 		this.expertIn = expertIn;
+	}
+	public TeacherInfo(Integer teacherId, User user, String realName,
+			Date birthday, String majorCatgory, Double externalPayment,
+			Double internalPayment, String fax, String telephone,
+			String cellphone, String introduction, String expertIn) {
+		super();
+		this.teacherId = teacherId;
+		this.user = user;
+		this.realName = realName;
+		this.birthday = birthday;
+		this.majorCatgory = majorCatgory;
+		this.externalPayment = externalPayment;
+		this.internalPayment = internalPayment;
+		this.fax = fax;
+		this.telephone = telephone;
+		this.cellphone = cellphone;
+		this.introduction = introduction;
+		this.expertIn = expertIn;
+	}
+	public TeacherInfo(Integer teacherId, User user, String realName,
+			Date birthday, String majorCatgory, Double externalPayment,
+			Double internalPayment, String fax, String telephone,
+			String cellphone, String introduction, String expertIn,
+			Boolean state, Date createDate, String createBy) {
+		super();
+		this.teacherId = teacherId;
+		this.user = user;
+		this.realName = realName;
+		this.birthday = birthday;
+		this.majorCatgory = majorCatgory;
+		this.externalPayment = externalPayment;
+		this.internalPayment = internalPayment;
+		this.fax = fax;
+		this.telephone = telephone;
+		this.cellphone = cellphone;
+		this.introduction = introduction;
+		this.expertIn = expertIn;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
+	}
+	
+
+	public TeacherInfo(Integer teacherId, Integer userId, String realName,
+			Date birthday, String majorCatgory, Double externalPayment,
+			Double internalPayment, String fax, String telephone,
+			String cellphone, String introduction, String expertIn,
+			Boolean state, Date createDate, String createBy) {
+		super();
+		this.teacherId = teacherId;
+		this.user.setUserId(userId);
+		this.realName = realName;
+		this.birthday = birthday;
+		this.majorCatgory = majorCatgory;
+		this.externalPayment = externalPayment;
+		this.internalPayment = internalPayment;
+		this.fax = fax;
+		this.telephone = telephone;
+		this.cellphone = cellphone;
+		this.introduction = introduction;
+		this.expertIn = expertIn;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
 	}
 	
 	

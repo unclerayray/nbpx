@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../js/easyui/themes/gray/easyui.css">
+<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css"/>
+<script type="text/javascript" src="../js/easyui/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
+<style>
+	.itemText{width:100px;text-align:right;;height:30px;padding-right:10px; vertical-align:top}
+	.formTable td{vertical-align:top}
+</style>
+<title>用户列表</title>
+</head>
+<body class="easyui-layout">
+	
+	<div id="toolbar" style="padding: 5px; height: auto">
+		<div>
+			用户名： <input id="q_userName" name="q_userName" style="width: 180px;">
+			机构名： <input id="q_orgName" name="q_orgName" style="width: 180px;">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-search" onclick="queryOrgInfo()">搜索</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-undo" onclick="$('#toolbar').form('clear');">重置</a><a href="#"
+			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+			onclick="editOrgInfo()">修改</a> 
+			<a href="#"
+				class="easyui-linkbutton" iconCls="icon-search" plain="true"
+				onclick="auditOrgInfo()">激活/锁定</a>
+		</div>
+	</div>
+	
+	<div region="center" border="false" style='padding:5px'>  
+		<table class="easyui-datagrid" id="dg" 
+		data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/OrgInfo_queryOrgInfo',toolbar:'#toolbar',
+		singleSelect:true,
+		autoRowHeight:false,
+		pagination:true,
+		pageSize:20">
+		<thead>
+			<tr>
+				<th data-options="field:'orgId',width:80,hidden:true">主键</th> 
+				<th data-options="field:'username',sortable:true,width:80,formatter:function(value,row){return row.user.username;}">系统用户名</th>
+				<th data-options="field:'orgName',sortable:true,width:200">机构名称</th>
+				<th data-options="field:'contact',sortable:true,width:60">联系人</th>
+				<th data-options="field:'telephone',sortable:true,width:80">固话</th>
+				<th data-options="field:'cellphone',sortable:true,width:80">手机</th>
+				<th data-options="field:'fax',sortable:true,width:80">传真</th>
+				<th data-options="field:'postCode',sortable:true,width:80">邮编</th>
+				<th data-options="field:'address',sortable:true,width:80">地址</th>
+				<th data-options="field:'website',sortable:true,width:80">网址</th>
+				<th data-options="field:'category',hidden:true,sortable:true,width:80">类别</th>
+				<th data-options="field:'introduction',hidden:true,sortable:true,width:80">网址</th>
+				<th data-options="field:'email',sortable:true,width:100,formatter:function(value,row){return row.user.email;}">邮箱</th>
+				<th data-options="field:'createDate',sortable:true,width:70">新建时间</th>
+				<th data-options="field:'state',width:100,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<div id="dlg" class="easyui-dialog" closed="true" modal="true" cache="false" title="修改机构信息"  style="width:600px;height:350px;padding:10px;"
+data-options="buttons: [{
+text:'保存',
+iconCls:'icon-ok',
+handler:function(){
+saveOrgInfo();
+}
+},{
+text:'取消',
+handler:function(){
+$('#dlg').dialog('close');
+}
+}],
+onClose : function() {$('.validatebox-tip').remove();}
+">
+<form id="fm" method="post" novalidate> 
+					<table cellspacing="0" cellpadding="0" class="formTable">
+						<tr  style="display:none"><td class="itemText">orgId:</td><td><input id="orgId" name="orgId" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">机构名称:</td><td><input id="orgName" name="orgName" class="easyui-validatebox" required="true"></td><td class="itemText">地址:</td><td><input id="address" name="address" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">邮编:</td><td><input id="postCode" name="postCode" class="easyui-validatebox" required="true"></td><td class="itemText">联系人:</td><td><input id="contact" name="contact" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">移动电话:</td><td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td><td class="itemText">联系电话:</td><td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td><td class="itemText">网址:</td><td><input id="website" name="website" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">培训类别:</td><td colspan="3"><input id="category" name="category" class="easyui-validatebox" required="true"></td></tr>
+						<tr><td class="itemText">简介:</td><td colspan="3"><textarea id="introduction" style="width:400px;height:70px" name="introduction"></textarea></td></tr>
+			
+					</table>
+				</form>  
+</div>
+
+<script type="text/javascript">
+function queryOrgInfo() {
+	//alert($('#q_userName').val());
+	$('#dg').datagrid('load', {
+		q_userName : $('#q_userName').val(),
+		q_orgName : $('#q_orgName').val()
+	});
+}
+
+function editOrgInfo() {
+	var row = $('#dg').datagrid('getSelected');
+	//console.log(row);
+	$('#dlg').dialog('open').dialog('setTitle', '修改');
+	if (row) {
+		$('#fm').form('load', row);
+	} else {
+		$.messager.show({
+			title : '温馨提示',
+			msg : '请先选择一行记录',
+			timeout : 2000,
+			showType : 'slide'
+		});
+	}
+}
+
+function auditOrgInfo() {
+	var row = $('#dg').datagrid('getSelected');
+	var yes = '确认要激活资料？';
+	if(row.state){
+		yes = '确认要锁定通过？';
+	}
+	if (row) {
+		$.messager
+		.confirm(
+			'Confirm',
+			yes,
+			function(r) {
+				if (r) {
+					$
+					.post(
+						'../struts/OrgInfo_auditOrgInfo?orgId='+row.orgId,
+						row,
+						function(data) {
+							if (data.success) {
+								$('#dg')
+								.datagrid(
+																				'reload'); // reload the Dic data
+								$('#dg').datagrid('clearSelections');
+							} else {
+								$.messager
+								.show({
+									title : 'Error',
+									msg : data.message,
+									timeout : 3000,
+									showType : 'fade'
+								});
+								$('#dg')
+								.datagrid(
+									'reload');
+								$('#dg').datagrid('clearSelections');
+							}
+						}, 'json');
+				}
+			});
+	}else{
+		$.messager.show({
+			title : '温馨提示',
+			msg : '请先选择一行记录',
+			timeout : 2000,
+			showType : 'slide'
+		});
+	}
+}
+
+function saveOrgInfo() {
+			$('#fm').form('submit', {
+				url : '../struts/OrgInfo_saveOrgInfor?objectName=orgInfor',
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					if (data.success) {
+						$.messager.show({
+							title : 'Success',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+						$('#dlg').dialog('close'); // close the dialog  
+						$('#dg').datagrid('reload'); // reload the Dic data    
+					} else {
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+}
+</script>
+</body>
+</html>

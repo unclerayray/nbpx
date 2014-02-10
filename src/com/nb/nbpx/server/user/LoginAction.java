@@ -103,7 +103,7 @@ public class LoginAction  extends BaseAction {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		TeacherInfo teacher = new TeacherInfo(null,user.getUserId(),realName,teacherBirthday,majorCatgory,Float.parseFloat(externalPayment),Float.parseFloat(internalPayment),fax,telephone, cellphone, introduction,expertIn);
+		TeacherInfo teacher = new TeacherInfo(null,user.getUserId(),realName,teacherBirthday,majorCatgory,Double.parseDouble(externalPayment),Double.parseDouble(internalPayment),fax,telephone, cellphone, introduction,expertIn);
 		json = TeacherService.saveTeacherInfor(teacher);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -131,7 +131,9 @@ public class LoginAction  extends BaseAction {
 		}
 		System.out.println("id:"+user.getUserId());
 		//再添加公司信息
-		CompInfo compInfo = new CompInfo(null,user.getUserId(),contact,company,telephone, cellphone,fax,department);
+		User use = UserService.queryById(user.getUserId());
+		//CompInfo compInfo = new CompInfo(null,user.getUserId(),contact,company,telephone, cellphone,fax,department);
+		CompInfo compInfo = new CompInfo(null, use, contact,company,telephone, cellphone,fax,department,false,new Date(),username);
 		json = CompService.saveCompInfor(compInfo);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;

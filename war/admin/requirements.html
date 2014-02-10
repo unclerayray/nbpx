@@ -33,7 +33,7 @@
 			<th data-options="field:'description',width:120">需求描述</th>
 			<th data-options="field:'reply',width:120">回复</th>
 			<th data-options="field:'email',width:80">邮件</th>
-			<th data-options="field:'hasReplied',width:50,align:'center',formatter:function(value,row){if(row.hasReplied) {return '已回复';}else{return '未回复';}}">是否已回复</th>
+			<th data-options="field:'hasReplied',width:50,align:'center',formatter:function(value,row){if(row.hasReplied) {return '已回复';}else{return '<font color=red>未回复</font>';}}">是否已回复</th>
 			<th data-options="field:'createDate',width:70,align:'center',sortable:true">创建时间</th>
 		</tr>
 	</thead>

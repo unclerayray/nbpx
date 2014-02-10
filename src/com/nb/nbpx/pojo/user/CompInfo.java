@@ -1,12 +1,16 @@
 package com.nb.nbpx.pojo.user;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.nb.nbpx.pojo.BaseEntity;
@@ -17,13 +21,16 @@ public class CompInfo extends BaseEntity  implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private Integer compInfoId;
-	private Integer userId;
+	private User user;
 	private String contact;
 	private String company;
 	private String telephone;
 	private String cellphone;
 	private String fax;
 	private String department;
+	private Boolean state;
+	private Date createDate;
+	private String createBy;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,11 +41,14 @@ public class CompInfo extends BaseEntity  implements Serializable{
 	public void setCompInfoId(Integer compInfoId) {
 		this.compInfoId = compInfoId;
 	}
-	public Integer getUserId() {
-		return userId;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userId", nullable = false)
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getContact() {
 		return contact;
@@ -76,19 +86,75 @@ public class CompInfo extends BaseEntity  implements Serializable{
 	public void setDepartment(String department) {
 		this.department = department;
 	}
+	
+	
+	public Boolean getState() {
+		return state;
+	}
+	public void setState(Boolean state) {
+		this.state = state;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public String getCreateBy() {
+		return createBy;
+	}
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
 	public CompInfo(){}
-	public CompInfo(Integer compInfoId, Integer userId, String contact,
+	
+	/**
+	 * full constructor
+	 * @param compInfoId
+	 * @param userId
+	 * @param contact
+	 * @param company
+	 * @param telephone
+	 * @param cellphone
+	 * @param fax
+	 * @param department
+	 * @param state
+	 * @param createDate
+	 * @param createBy
+	 */
+	public CompInfo(Integer compInfoId, User user, String contact,
 			String company, String telephone, String cellphone, String fax,
-			String department) {
+			String department, Boolean state, Date createDate, String createBy) {
 		super();
 		this.compInfoId = compInfoId;
-		this.userId = userId;
+		this.user = user;
 		this.contact = contact;
 		this.company = company;
 		this.telephone = telephone;
 		this.cellphone = cellphone;
 		this.fax = fax;
 		this.department = department;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
+	}
+
+	public CompInfo(Integer compInfoId, Integer userId, String contact,
+			String company, String telephone, String cellphone, String fax,
+			String department, Boolean state, Date createDate, String createBy) {
+		super();
+		this.compInfoId = compInfoId;
+		this.user.setUserId(userId);
+		this.contact = contact;
+		this.company = company;
+		this.telephone = telephone;
+		this.cellphone = cellphone;
+		this.fax = fax;
+		this.department = department;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
 	}
 	
 }

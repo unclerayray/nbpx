@@ -22,12 +22,13 @@
 		}
 	});
 </script>
-<title>内部发布的讲师列表</title>
+<title>外部注册的讲师列表</title>
 </head>
 <body class="easyui-layout">
 	
 	<div id="toolbar" style="padding: 5px; height: auto">
 		<div>
+			用户名： <input id="q_userName" name="q_userName" style="width: 180px;">
 			讲师名： <input id="q_teacherName" name="q_teacherName" style="width: 180px;">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryTeacherInfo()">搜索</a> <a
@@ -35,16 +36,15 @@
 			iconCls="icon-undo" onclick="$('#toolbar').form('clear');">重置</a><a href="#"
 			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 			onclick="editTeacherInfo()">修改</a> 
-			<!-- 暂时所有的企业资料都无需审核 <a href="#"
+			<a href="#"
 				class="easyui-linkbutton" iconCls="icon-search" plain="true"
 				onclick="auditTeacherInfo()">激活/锁定</a>
-			-->
 		</div>
 	</div>
 	
-	<div region="center" border="false" style='padding:5px'>
+	<div region="center" border="false" style='padding:5px'>  
 		<table class="easyui-datagrid" id="dg" 
-		data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/TeacherInfo_queryInnerTeacherInfo',toolbar:'#toolbar',
+		data-options="fit:true,rownumbers:true,singleSelect:true,url:'../struts/TeacherInfo_queryTeacherInfo',toolbar:'#toolbar',
 		singleSelect:true,
 		autoRowHeight:false,
 		pagination:true,
@@ -52,6 +52,7 @@
 		<thead>
 			<tr>
 				<th data-options="field:'teacherId',width:80,hidden:true">主键</th> 
+				<th data-options="field:'username',sortable:true,width:80,formatter:function(value,row){return row.user.username;}">系统用户名</th>
 				<th data-options="field:'realName',sortable:true,width:80">名字</th>
 				<th data-options="field:'birthday',sortable:true,width:80">生日</th>
 				<th data-options="field:'majorCatgory',sortable:true,width:80,formatter:function(value,row){
@@ -63,13 +64,14 @@
 				<th data-options="field:'externalPayment',sortable:true,width:60">内部课酬</th>
 				<th data-options="field:'internalPayment',sortable:true,width:60">外部课酬</th>
 				<th data-options="field:'fax',sortable:true,width:80">传真</th>
-				<th data-options="field:'cellphone',sortable:true,width:80">手机</th>
-				<th data-options="field:'expertIn',sortable:true,width:80">擅长领域</th>
-				<th data-options="field:'category',hidden:true,sortable:true,width:80">类别</th><!-- 内训师，培训师 -->
+				<th data-options="field:'cellphone',sortable:true,width:80">地址</th>
+				<th data-options="field:'expertIn',sortable:true,width:80">擅长项目</th>
+				<th data-options="field:'category',hidden:true,sortable:true,width:80">类别</th>
 				<th data-options="field:'introduction',hidden:true,sortable:true,width:80">介绍</th>
+				<th data-options="field:'email',sortable:true,width:100,formatter:function(value,row){return row.user.email;}">邮箱</th>
 				<th data-options="field:'createDate',sortable:true,width:70">新建时间</th>
-				<th data-options="field:'createBy',sortable:true,width:70">发布者</th>
-				<th data-options="field:'state',width:100,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
+				<th data-options="field:'createBy',sortable:true,width:40">发布者</th>
+				<th data-options="field:'state',width:60,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
 			</tr>
 		</thead>
 	</table>
@@ -93,7 +95,8 @@
 					<table cellspacing="0" cellpadding="0" class="formTable">
 						<tr  style="display:none"><td class="itemText">teacherId:</td><td><input id="teacherId" name="teacherId" class="easyui-validatebox" required="true"></td></tr>
 						<tr><td class="itemText">真实姓名:</td><td><input id="realName" name="realName" class="easyui-validatebox" required="true"></td><td class="itemText">出生日期:</td><td><input id="birthday" name="birthday"  class="easyui-datebox"  required="true"></td></tr>
-						<tr><td class="itemText">主讲类别:</td><td>
+						<tr><td class="itemText">主讲类别:</td>
+							<td>
 								<input class="easyui-combobox"
 							style="width: 130px;" name="majorCatgory" id="majorCatgory"
 							data-options="  

@@ -6,9 +6,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.nb.nbpx.pojo.user.CompInfo;
-import com.nb.nbpx.pojo.user.OrgInfo;
+import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.user.IOrgInfoDao;
+import com.nb.nbpx.pojo.user.OrgInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.user.IOrgInfoService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -44,6 +44,22 @@ public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoServi
 	@Resource
 	public void setOrgInfoDao(IOrgInfoDao orgInfoDao) {
 		this.orgInfoDao = orgInfoDao;
+	}
+
+	@Override
+	public String queryOrgInfo(String userName, String orgName, Integer rows,
+			Integer start, String sort, String order) {
+		String json = "";
+		List<OrgInfo>  list = orgInfoDao.queryOrgInfo(userName, orgName, rows, start, sort, order);
+		if (list.isEmpty()) {
+			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+					ResponseStatus.SUCCESS, "", list);
+		} else {
+			int count = orgInfoDao.queryOrgInfoCount(userName, orgName).intValue();
+			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+					ResponseStatus.SUCCESS, "", list);
+		}
+		return json;
 	}
 
 }

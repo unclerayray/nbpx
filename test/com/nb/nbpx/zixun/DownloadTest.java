@@ -15,7 +15,7 @@ public class DownloadTest  extends BaseServiceTest {
 	@Resource
 	private IDownloadService downloadService;
 	
-	//@Test
+	@Test
 	public void testSave(){
 		Download download = downloadService.getById(20);
 		DownloadKeyword dk = new DownloadKeyword();
@@ -31,7 +31,7 @@ public class DownloadTest  extends BaseServiceTest {
 		download.getDownloadKeywords().add(dk1);
 		//System.out.println(download.getDownloadKeywords().size());
 		try {
-			downloadService.saveDownload(download);
+			//downloadService.saveDownload(download);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

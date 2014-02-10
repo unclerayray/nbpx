@@ -65,7 +65,9 @@
 <div id="dlg" class="easyui-dialog"
 	style="width: 840px; height: 400px; padding: 5px 5px" closed="true"
 	cache="false" modal="true"
-	data-options="onClose : function() {$('.validatebox-tip').remove();},buttons: [{
+	data-options="onClose : function() {
+	alert('sdfsdf');
+	$('.validatebox-tip').remove();},buttons: [{
 text:'保存',
 iconCls:'icon-ok',
 handler:function(){

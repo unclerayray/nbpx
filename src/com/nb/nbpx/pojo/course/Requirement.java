@@ -30,6 +30,7 @@ public class Requirement  implements Serializable {
 	private String reply;
 	private Integer hasReplied;
 	private String email;
+	private Date createDate;
 
 	public Requirement(){}
 	
@@ -37,7 +38,7 @@ public class Requirement  implements Serializable {
 			String requiredCourse, Integer headCount, Integer validDays,
 			Date startTime, Date endTime, String city, String contact,
 			String telephone, String cellphone, String comp_name,
-			String description, String reply, Integer hasReplied,String email) {
+			String description, String reply, Integer hasReplied,String email,Date createDate) {
 		super();
 		this.requirementId = requirementId;
 		this.userId = userId;
@@ -55,6 +56,7 @@ public class Requirement  implements Serializable {
 		this.reply = reply;
 		this.hasReplied = hasReplied;
 		this.email = email;
+		this.createDate = createDate;
 	}
 	
 	@Id
@@ -186,5 +188,13 @@ public class Requirement  implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 }

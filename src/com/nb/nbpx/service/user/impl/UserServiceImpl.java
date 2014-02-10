@@ -41,12 +41,12 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 		//List<User> userList = userDao.queryEntityListByProperties(User.class, rows, start, propsMap);
 		List<User> userList = userDao.queryUserByType(userName,userType, rows, start, sort, order);
 		if (userList.isEmpty()) {
-			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+			json = JsonUtil.formatToJsonWithNoTimeStamp4User(0,
 					ResponseStatus.FAIL, "", userList);
 		} else {
 			int count = userDao.queryUserCountByType(userName,userType).intValue();
 			//json = JsonUtil.formatToJsonWithTotalCount(count, userList);
-			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+			json = JsonUtil.formatToJsonWithNoTimeStamp4User(count,
 					ResponseStatus.SUCCESS, "", userList);
 		}
 		return json;
@@ -101,5 +101,10 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 
 	public IUserDao getUserDao() {
 		return userDao;
+	}
+
+	@Override
+	public User queryById(Integer id) {
+		return userDao.get(id);
 	}
 }
