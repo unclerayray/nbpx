@@ -15,4 +15,8 @@ public interface IDownloadService {
 	
 	public Download getById(Integer Id);
 	public void deleteDownload(Download download);
+	
+	//获取所有下载
+	public String getDownloads(String type,Integer rows,
+			Integer start, String sort, String order);
 }

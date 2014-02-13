@@ -107,7 +107,7 @@
 <div class="mainContent path">
 	<ul>
 		<li>当前位置:&nbsp;</li>
-		<li><a href="main.jsp" target="_self">首页</a></li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
 		<li>关键词</li>
 	</ul>

@@ -118,13 +118,13 @@ ul{padding:0px;margin:0px}
 
 /*关键字start*/
 .keyWord{padding-top:10px;}
-.keyWord .item{padding-bottom:5px}
+.keyWord .item{padding-bottom:2px;height:20px}
 .keyWord .item ul{padding:0px;margin:0px}
 .keyWord .item ul li{ list-style:none;float:left;font-size:12px;padding-right:5px;padding-bottom:8px;}
 .keyWord .item a{color:#2D4545; text-decoration:none}
 .keyWord .item a:hover{text-decoration:underline;color:red}
-.keyWord .item .title{width:85px;float:left;font-weight:bold; text-align:left;font-size:14px}
-.keyWord .item .content{float:left;width:860px}
+.keyWord .item .title{width:80px;float:left;font-weight:bold; text-align:left;font-size:14px;height:20px}
+.keyWord .item .content{float:left;width:870px;text-align:left}
 /*关键字 end*/
 
 /*主体 通用ul start*/
@@ -194,6 +194,7 @@ ul{padding:0px;margin:0px}
 .list11 li a{ text-decoration:none;font-size:14px; display:block;noverflow:hidden;display:inline;color:#2D4545;background:url(../images/li_icon.gif) no-repeat 0px 1px;padding-left:10px;width:100%px;}
 .list11 li a:hover{color:red; text-decoration:underline}
 .list11 li span{float:right;color:#666666;padding-right:20px}
+.list11 li span a{background:none;color:red}
 /*主体 通用ul end*/
 
 /*主体部分一 start*/
@@ -577,6 +578,7 @@ ul{padding:0px;margin:0px}
 .tooLong{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .w150{width:150px}
 .w160{width:160px;}
+.w230{width:230px}
 
 .keyWrap{}
 .keyWrap a{padding:0px 5px}

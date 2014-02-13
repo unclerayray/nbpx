@@ -77,269 +77,71 @@
 </div>
 <!--关键字 start-->
 <div class="mainContent keyWord">
-	<div class="item">
-		<div class="title"><a href="#">财务管理</a></div>
+	<div class="item" id="topkey1">
+		<div class="title"><a href="keyWordMore.jsp?type=1">财务管理</a></div>
 		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			<ul id="topkey_c1">
+			</ul>
+		</div>	
+	</div>
+	<div class="clear"></div>
+	<div class="item" id="topkey2">
+		<div class="title"><a href="keyWordMore.jsp?type=2">人力资源</a></div>
+		<div class="content">
+			<ul id="topkey_c2">
+			</ul>
+		</div>
+		
+	</div>
+	<div class="clear"></div>
+	<div class="item" id="topkey3">
+	<div class="title"><a href="keyWordMore.jsp?type=3">生产管理</a></div>
+		<div class="content">
+			<ul id="topkey_c3">
+			</ul>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="item" id="topkey4">
+		<div class="title"><a href="keyWordMore.jsp?type=4">战略管理</a></div>
+		<div class="content">
+			<ul id="topkey_c4">
 			</ul>
 		</div>
 	</div>
-		<div class="item">
-		<div class="title"><a href="#">人力资源</a></div>
+	<div class="clear"></div>
+	<div class="item" id="topkey5">
+		<div class="title"><a href="keyWordMore.jsp?type=5">项目管理</a></div>
 		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			<ul id="topkey_c5">
 			</ul>
 		</div>
 	</div>
-		<div class="item">
-		<div class="title"><a href="#">生产管理</a></div>
+	<div class="clear"></div>
+	<div class="item" id="topkey6">
+		<div class="title"><a href="keyWordMore.jsp?type=6">职业技能</a></div>
 		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			<ul id="topkey_c6">
+			</ul>
+	</div>
+	<div class="clear"></div>
+	<div class="item" id="topkey7">
+		<div class="title"><a href="keyWordMore.jsp?type=7">研修班人&nbsp;&nbsp;</a></div>
+		<div class="content">
+			<ul id="topkey_c7">
 			</ul>
 		</div>
 	</div>
-	<div class="item">
-		<div class="title"><a href="#">战略管理</a></div>
+	<div class="clear"></div>
+	<div class="item" id="topkey8">
+		<div class="title"><a href="keyWordMore.jsp?type=8">采购仓储</a></div>
 		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
+			<ul id="topkey_c8">
 			</ul>
+			
 		</div>
 	</div>
-	<div class="item">
-		<div class="title"><a href="#">项目管理</a></div>
-		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
-			</ul>
-		</div>
-	</div>
-	<div class="item">
-		<div class="title"><a href="#">职业技能</a></div>
-		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
-			</ul>
-		</div>
-		<div class="item">
-		<div class="title"><a href="#">研修班</a></div>
-		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
-			</ul>
-		</div>
-	</div>
-		<div class="item">
-		<div class="title"><a href="#">采购供应链仓储</a></div>
-		<div class="content">
-			<ul>
-				<li><a href="#">企业所得税</a></li>
-				<li>|</li>
-				<li><a href="#">全面预算</a></li>
-				<li>|</li>
-				<li><a href="#">应收账款</a></li>
-				<li>|</li>
-				<li><a href="#">企业内部</a></li>
-				<li>|</li>
-				<li><a href="#">新会计准则</a></li>
-				<li>|</li>
-				<li><a href="#">纳税筹划 </a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li>|</li>
-				<li><a href="#">商务礼仪</a></li>
-				<li>|</li>
-				<li><a href="#">进出口</a></li>
-				<li>|</li>
-				<li><a href="#">销售</a></li>
-				<li>|</li>
-				<li><a href="#">客户服务</a></li>
-				<li>|</li>
-				<li><a href="#">助理</a></li>
-				<li><a href="#"><img  src="images/more.gif"/></a></li>
-			</ul>
-		</div>
-	</div>
+	<div class="clear"></div>
 </div>
 <div class="clear"></div>
 <!--关键字 end-->
@@ -364,8 +166,88 @@
 		//加载文章
 		for(var i=1;i<=4;i++)
 			seePartTab('c',1,i);
-	})
+		
+		//008 009 010 011 加载关键词
+		seePartTab('dic',1,1);
+		
+		//加载顶部关键词
+		for(var i=1;i<=8;i++)
+			loadTopKey(i);
+		//加载题目字典
+		loadDics('020',8,'timu_dic');
+		//加载培训机构字典
+		loadDics('004',11,'jigou_dic');
+		
+	})	
+	function loadDics(type,rows,id){
+		$.ajax({
+			url: 'struts/ViewDic_getMoreDicItems?codeName='+type+'&rows='+rows+'&page=1',
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject.rows,function(n,value){
+					if(id == 'timu_dic')
+						valueStr += "<li><a href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></li>";
+					if(id == 'jigou_dic')
+						valueStr += "<li><a class='left tooLong w230' href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></li>";	
+				});
 	
+				if(valueStr == "")
+					valueStr ="<div class='notice'>暂时没有字典信息</div>";
+				
+				$('#'+id).html(valueStr);
+			}
+			
+		});
+	}
+	function loadFourDic(flag){
+		
+	}
+	
+	function loadTopKey(type){
+		var urlStr = 'struts/Main_getTopKeyWord?category='+type;
+		$.ajax({
+			url:encodeURI(urlStr),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					valueStr += "<li><a href=\"seeKey.jsp?key="+value.name+"\">"+value.name+"</a></li>";
+					if(n<jsonObject.length-1)
+						valueStr += "<li>|</li>";	
+				});
+				if(valueStr == ''){
+					valueStr = "<div class='notice'>暂时没有推荐的关键词</div>";
+					//$('#topkey'+type).css('display','none');
+				}else
+					valueStr += "<li><a href='keyWordMore.jsp?type="+type+"'><img src='images/more.gif'/></a></li>";
+	
+				$('#topkey_c'+type).html(valueStr);
+			}		
+		})
+	}
+	function loadTopKey(type){
+		var urlStr = 'struts/Main_getTopKeyWord?category='+type;
+		$.ajax({
+			url:encodeURI(urlStr),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					valueStr += "<li><a href=\"seeKey.jsp?key="+value.name+"\">"+value.name+"</a></li>";
+					if(n<jsonObject.length-1)
+						valueStr += "<li>|</li>";	
+				});
+				if(valueStr == ''){
+					valueStr = '暂时没有推荐的关键词';
+					//$('#topkey'+type).css('display','none');
+				}else
+					valueStr += "<li><a href='keyWordMore.jsp?type="+type+"'><img src='images/more.gif'/></a></li>";
+	
+				$('#topkey_c'+type).html(valueStr);
+			}		
+		})
+	}
 	function changeCity(flag){
 		for(var i=1;i<=5;i++){
 			if(i == flag){
@@ -417,6 +299,8 @@
 			count = 4;
 		if(pre == 'c')
 			count = 2;
+		if(pre == 'dic')//产品字典等
+			count = 4;
 		if(pre == 'k'){//flag为1代表是培训关键词，2代表内训关键词，3代表文章关键词
 			if(part  == 1){
 				count = 2;
@@ -587,14 +471,39 @@
 						if(n>2)
 							color = "blue";
 						if(sortType != '2' )//不是推荐的 会有访问次数
-							valueStr += "<li class='line'><a><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
+							valueStr += "<li class='line'><a href='seeKey.jsp?key="+value.name+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
 						else
-							valueStr += "<li class='line'><a><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
+							valueStr += "<li class='line'><a href='seeKey.jsp?key="+value.name+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
 					});
 			
 					$('#'+pre+part).html(valueStr);
 				}		
 			})
+		}
+		if(pre == 'dic'){
+			var type = "008";
+			if(flag == 2)
+				type="009";
+			if(flag == 3)
+				type = "010";
+			if(flag == 4)
+				type = "011";
+			$.ajax({
+				url: 'struts/ViewDic_getMoreDicItems?codeName='+type+'&rows=90&page=1',
+				success:function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<li><a href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></li>";
+					});
+		
+					if(valueStr == "")
+						valueStr ="<div class='notice'>暂时没有字典信息</div>";
+					
+					$('#'+pre+part).html(valueStr);
+				}
+				
+			});
 		}
 	}
 	function loadCityCourse(flag){
@@ -692,53 +601,11 @@
 				<div class="clear"></div>
 			</div>
 			<div class="bg" style="height:177px;background:none;border-bottom:1px solid #ddeae0;padding-left:30px">
-					<ul class="list4">
-						<li><a href="#">优秀员工心态与高效执行</a></li>
-						<li><a href="#">优秀员工心态与高效执行</a></li>
-						<li><a href="#">优秀员工心态与高效执行</a></li>
-						<li><a href="#">优秀员工心态与高效执行</a></li>
-						<li><a href="#">优秀员工心态与高效执行</a></li>
-						<li><a href="#">优秀员工心态与高效执行</a></li>
-						<li><a href="#">优秀员工心态与高效执行</a></li>
-						<li><a href="#">优秀员工心态与高效执行</a></li>
+					<ul class="list4" id="timu_dic">
 					</ul>
 			</div>
 		<!--最新消息 end-->
 		
-		<!--广告start-->
-		<!--  <div style="padding:10px 0px 0px 0px">
-			<div class="typeMenu">
-			<div class="leftType">
-				<ul>
-					<li class="on"><a href="#">行业培训</a></li>
-					<li><a href="#">专业培训</a></li>
-					<li><a href="#">职位培训</a></li>
-					<li><a href="#">产品培训</a></li>
-				</ul>
-			</div>
-			<div class="rightType">
-				<ul>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-				</ul>
-			</div>
-			</div>
-		</div>-->
-		<!--广告end-->
 	</div>
 	<div class="right">
 		<div class="head">
@@ -779,174 +646,15 @@
 </style>
 <div class="mainContent partTwo" style='padding-top:10px;'>
 				<div class="head" style='width:100%;background:url(images/longBg.png) -2px -1px no-repeat;'>
-				<div class="tabOn"><a href='javascript:void(0)'">行业培训</a></div>
-				<div class="tabOff" ><a href='javascript:void(0)' onclick="javascript:seePartTab('a',2,1)">专业培训</a></div>
-				<div class="tabOff"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,1)">职位培训</a></div>
-				<div class="tabOff"><a href='javascript:void(0)' onclick="javascript:seePartTab('a',3,1)">产品培训</a></div>
+				<div class="tabOn" id="dic11"><a href='javascript:void(0)' onclick="javascript:seePartTab('dic',1,1)">行业培训</a></div>
+				<div class="tabOff" id="dic12"><a href='javascript:void(0)' onclick="javascript:seePartTab('dic',2,1)">专业培训</a></div>
+				<div class="tabOff" id="dic13"><a href='javascript:void(0)' onclick="javascript:seePartTab('dic',3,1)">职位培训</a></div>
+				<div class="tabOff" id="dic14"><a href='javascript:void(0)' onclick="javascript:seePartTab('dic',4,1)">产品培训</a></div>
 				<div class="clear"></div>
 				</div>
 	<div style="height:285px;padding:10px;border:1px solid #D0E2D4;border-top:none">
-		<ul class="keyUl">
+		<ul class="keyUl" id="dic1">
 					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-										<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-										<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-										<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-															<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
-					<li><a href="#">软件工程师</a></li>
-					<li><a href="#">培训师</a></li>
-					<li><a href="#">老师</a></li>
-					<li><a href="#">公务员</a></li>
 			</ul>
 	</div>
 </div>
@@ -2333,8 +2041,8 @@ padding-bottom: 2px;
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 15px;">
-					<ul class="list5" style="padding-top:10px;width:230px;">
-						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+					<ul class="list5" style="padding-top:10px;width:230px;" id="jigou_dic">
+						<li><a class="left tooLong w230">深圳市鑫阳企业管理咨询有限公司鑫阳企业管理咨询有限公司</a></li>
 						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
 						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
 						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>

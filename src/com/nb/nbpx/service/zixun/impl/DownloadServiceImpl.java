@@ -87,5 +87,17 @@ public class DownloadServiceImpl extends BaseServiceImpl implements IDownloadSer
 	public Download getById(Integer Id) {
 		return downloadDao.get(Id);
 	}
+	
+	//获取所有下载
+	public String getDownloads(String type,Integer rows,
+			Integer start, String sort, String order){
+		
+		List<Download> downloads = downloadDao.getDownLoads(type, rows, start, sort, order);
+		Integer totalRows = downloadDao.getDownLoadsCount(type, rows, start, sort, order);
+		String json = JsonUtil.formatToJsonWithTimeStamp(totalRows,
+				ResponseStatus.SUCCESS, "", downloads);
+		
+		return json;
+	}
 
 }

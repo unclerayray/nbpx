@@ -154,6 +154,12 @@ public class DownloadAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	public String getDownloads(){
+		String json = downloadService.getDownloads(category, rows, this.getStartPosi(), sort, order);
+	
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;	
+	}
 	public IDownloadService getDownloadService() {
 		return downloadService;
 	}
