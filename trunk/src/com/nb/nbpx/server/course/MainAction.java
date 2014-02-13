@@ -23,8 +23,8 @@ public class MainAction extends BaseAction{
 	public String flag;//标记top Course的三种属性(1-推荐，2-精品，3-排行)||关键词(1-点击，2-推荐，3-热搜)
 	public String isInner;//标记是内训还是培训
 	public String type;//课程类别/文章类别
+	public String category;//顶部关键词的类别
 	
-
 	public String getCourseByCity(){
 		String city = "";
 		if("1".equals(flag))
@@ -90,6 +90,15 @@ public class MainAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	public String getTopKeyWord(){
+
+		String type = "003_0"+category;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
+		System.out.println(type);
+		String result= keywordService.getKeyWordsList(false, 2, type, 0, 14);
+		
+		this.inputStream = castToInputStream(result);
+		return SUCCESS;
+	}
 	//获取培训专题或者内训专题排行
 	public String getSubjects(){
 		int start = 0;
@@ -111,9 +120,11 @@ public class MainAction extends BaseAction{
 	//获取本周最热或者本月最热的培训课程
 	public String getTimeTopCourse(){
 		int start = 0;
-		int rows = 10;
-		System.out.println(flag);
-		String result = courseService.selectTimeTopCourse(flag,null,start,rows);
+		int rowsCount = 0;
+		if(rows == null)
+			rowsCount = 10;
+		
+		String result = courseService.selectTimeTopCourse(flag,null,start,rowsCount);
 		
 		this.inputStream = castToInputStream(result);
 		return SUCCESS;
@@ -123,8 +134,9 @@ public class MainAction extends BaseAction{
 	public String getArticle(){
 		int start = 0;
 		int rows = 10;
-		int currIndex = Integer.parseInt(flag)+(Integer.parseInt(type)-1)*2;
-		String typeCode = "004_0"+currIndex;//(01-人力资源新闻,02-人力资源文章,03-职业生涯规划,04-市场营销管理,05-案例管理文章,06-经理人文章,07-生产管理文章,08-财务管理文章)
+		String typeCode = "003_0"+type;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
+		//int type = Integer.parseInt(flag)+(Integer.parseInt(type)-1)*2;
+		//String typeCode = "004_0"+currIndex;//(01-人力资源新闻,02-人力资源文章,03-职业生涯规划,04-市场营销管理,05-案例管理文章,06-经理人文章,07-生产管理文章,08-财务管理文章)
 		
 		String result = articleService.getArticleList(typeCode, rows, start);
 		
@@ -184,5 +196,14 @@ public class MainAction extends BaseAction{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	
 }

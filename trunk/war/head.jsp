@@ -42,18 +42,18 @@
 			<li><a href="training.jsp">企业培训</a><span>|</span></li>
 			<li><a href="trainPlan.jsp">培训计划</a><span>|</span></li>
 			<li><a href="pxSeries.jsp">培训专题</a><span>|</span></li>
-			<li><a href="#">培训下载</a><span>|</span></li>
+			<li><a href="seeDownLoads.jsp">培训下载</a><span>|</span></li>
 			<li><a href="hotPX.jsp">热门培训</a><span>|</span></li>
 			<li><a href="#">培训现场</a><span>|</span></li>
 			<li><a href="#">内训现场</a><span>|</span></li>
 			<li><a href="#">积分问答</a><span>|</span></li>
-			<li><a href="#" class="red">专业培训</a><span>|</span></li>
-			<li><a href="#" class="red">行业培训</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=009" class="red">专业培训</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=008" class="red">行业培训</a><span>|</span></li>
 			<li><a href="#">企业培训师</a></li>
 			
 			
 			
-			<li><a href="#">产品培训</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=011">产品培训</a><span>|</span></li>
 			<li><a href="innerTraining.jsp">企业内训</a><span>|</span></li>
 			<li><a href="classiscNX.jsp" class="red">经典内训</a><span>|</span></li>
 			<li><a href="#">内训视频</a><span>|</span></li>
@@ -75,8 +75,7 @@
 			<li><a href="viewDic.jsp?type=21">术语词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=22">品牌词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
-			<li><a href="viewDic.jsp?type=004">机构词典</a><span>|</span></li>
-			<li><a href="#">热门搜索</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=004">机构词典</a></li>
 		</ul>
 	</div>
 	<div class="clear"></div>
