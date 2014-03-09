@@ -52,11 +52,7 @@ public class SeeKeywordAction extends BaseAction {
 		try {
 			String result = solrKeywordService.queryRelatedKeywords(key, 0, 12);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
@@ -67,11 +63,7 @@ public class SeeKeywordAction extends BaseAction {
 		try {
 			String result = solrSubjectService.queryRelatedSubject(key, 0, 12);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

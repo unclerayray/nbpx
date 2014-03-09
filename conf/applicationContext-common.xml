@@ -48,6 +48,15 @@
 				<prop key="hbm2ddl.auto">create</prop>
 				<prop key="current_session_context_class">thread</prop>
 				<prop key="javax.persistence.validation.mode">none</prop>
+				
+				<prop key="connection.autoReconnect">true</prop>
+				<prop key="connection.autoReconnectForPools">true</prop>
+				<prop key="connection.is-connection-validation-required">true</prop>
+				<!-- 
+				<property name="connection.autoReconnect">true</property>
+		        <property name="connection.autoReconnectForPools">true</property>
+		        <property name="connection.is-connection-validation-required">true</property>
+		         -->
 			</props>
 		</property>
 	</bean>

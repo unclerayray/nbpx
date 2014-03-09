@@ -43,7 +43,7 @@ public class SolrTest extends BaseServiceTest {
 	private ISolrCourseService solrCourseService;
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void testQuery() {
 		try {
 			String response = solrService.fullTextQueryForHl("我去", 0, 10);

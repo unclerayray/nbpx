@@ -113,11 +113,7 @@ public class TrainingAction extends BaseAction{
 		try {
 			String result = solrKeywordService.queryRelatedKeywords("企业培训", 0, 20);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
@@ -127,11 +123,7 @@ public class TrainingAction extends BaseAction{
 		try {
 			String result = solrKeywordService.queryRelatedKeywords("企业内训", 0, 20);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
@@ -141,11 +133,7 @@ public class TrainingAction extends BaseAction{
 		try {
 			String result = solrSubjectService.queryRelatedSubject("企业培训", 0, 20);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
@@ -155,11 +143,7 @@ public class TrainingAction extends BaseAction{
 		try {
 			String result = solrSubjectService.queryRelatedSubject("企业内训", 0, 20);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;

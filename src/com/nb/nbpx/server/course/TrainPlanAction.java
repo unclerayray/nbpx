@@ -34,11 +34,7 @@ public class TrainPlanAction extends BaseAction{
 		try {
 			String result = solrKeywordService.queryRelatedKeywords("培训计划", 0, 30);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
@@ -49,11 +45,7 @@ public class TrainPlanAction extends BaseAction{
 		try {
 			String result = solrSubjectService.queryRelatedSubject("企业计划", 0, 30);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;

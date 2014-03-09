@@ -35,7 +35,7 @@ public interface ISolrService extends IBaseService{
 	public String cutText(String text) throws IOException;
 	
 	/**
-	 * 通过变量全文查找，用于显示列表。高亮显示
+	 * 【公开课】通过变量全文查找，用于显示列表。高亮显示,返回json字符串
 	 * @param q 查找参数
 	 * @return
 	 */
@@ -52,9 +52,25 @@ public interface ISolrService extends IBaseService{
 	 */
 	public String queryKeywordsByKeyword(String q, Integer start, Integer rows) throws SolrServerException, IOException;
 	/**
-	 * 通过变量全文查找，用于显示列表。高亮显示
+	 * 【公开课】通过变量全文查找，用于显示列表。高亮显示，返回一个List
 	 * @param q 查找参数
 	 * @return
 	 */
 	public List<CourseSearchResult> fullTextQueryForHlReturnList(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	
+	
+	/**
+	 * 【内训课】通过变量全文查找，用于显示列表。高亮显示,返回json字符串
+	 * @param q 查找参数
+	 * @return
+	 */
+	public String fullTextQueryForHlInnerCourse(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	
+	/**
+	 * 【内训课】通过变量全文查找，用于显示列表。高亮显示，返回一个List
+	 * @param q 查找参数
+	 * @return
+	 */
+	public List<CourseSearchResult> fullTextQueryForHlReturnInnerCourseList(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	
 }

@@ -26,10 +26,31 @@ public class SearchAction  extends BaseAction {
 	private String key;
 	private String q;
 
+	/**
+	 * 【公开课】用solr全文搜索
+	 * @return
+	 */
 	public String queryBySolr(){
 		String json;
 		try {
 			json = solrService.fullTextQueryForHl(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 【内训课】用solr全文搜索
+	 * @return
+	 */
+	public String queryInnerCourseBySolr(){
+		String json;
+		try {
+			json = solrService.fullTextQueryForHlInnerCourse(key, getStartPosi(), rows);
 			this.inputStream = castToInputStream(json);
 		} catch (SolrServerException e) {
 			e.printStackTrace();

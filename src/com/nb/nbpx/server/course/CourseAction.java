@@ -166,6 +166,7 @@ public class CourseAction extends BaseAction {
 		Course cou = new Course(courseAllInfo);
 		cou.setContent(keywordService.setHyperLink(links,
 				cou.getContent()));// 生成超链接
+		String return_course_id = "";
 		try {
 			Boolean deleteBeforeInsert = false;
 			if (courseAllInfo.getCourseId() != null) {
@@ -175,13 +176,14 @@ public class CourseAction extends BaseAction {
 			courseAllInfo.setCreatedBy(userName);
 			courseAllInfo.setLastUpdatedBy(userName);
 			cou = courseService.saveCourse(cou);
+			return_course_id = cou.toString();
 			courseAllInfo.setCourseId(cou.getCourseId());
 			courseService
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 			solrCourseService.addCourse2Solr(courseAllInfo);
 			solrCourseService.updateCourseInfo2Solr(cou.getCourseId());
 			if(sync!=null&&sync&&!deleteBeforeInsert){
-				//同步到内训
+				//-------------同步到内训
 				Course innerCou = cou;
 				innerCou.setCourseId(null);
 				innerCou.setIsInner(true);
@@ -199,7 +201,7 @@ public class CourseAction extends BaseAction {
 			return "failure";
 		}
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("dlg_courseId", cou.getCourseId().toString());
+		map.put("dlg_courseId", return_course_id);
 		this.inputStream = castToInputStream(JsonUtil
 				.formatToOpResJsonWithParam(ResponseStatus.SUCCESS,
 						ResponseStatus.SAVE_SUCCESS, map));

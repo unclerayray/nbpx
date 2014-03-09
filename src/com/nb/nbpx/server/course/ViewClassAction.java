@@ -1,11 +1,9 @@
 package com.nb.nbpx.server.course;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 
-import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -46,14 +44,11 @@ public class ViewClassAction extends BaseAction{
 	public String getRelatedKeyWords(){
 		try {
 			String result = solrKeywordService.queryRelatedKeywords(condition, 0, 10);
+			//TODO 貌似这个地方有个编码问题导致查询不到
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 
 		return SUCCESS;
 	}
@@ -62,11 +57,7 @@ public class ViewClassAction extends BaseAction{
 		try {
 			String result = solrSubjectService.queryRelatedSubject(condition, 0, 10);
 			this.inputStream = castToInputStream(result);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

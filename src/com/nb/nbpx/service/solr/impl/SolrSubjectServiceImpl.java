@@ -24,6 +24,7 @@ import com.nb.nbpx.server.course.CourseAction;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrSubjectService")
 public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubjectService{
@@ -83,7 +84,10 @@ public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubj
 
 	@Override
 	public String queryRelatedSubject(String q, Integer start, Integer rows)
-			throws SolrServerException, IOException {
+			throws SolrServerException, IOException, NbpxException {
+		if(q==null){
+			throw new NbpxException("查询专题不能为空。");
+		}
 		String json = "";
 		String serverURL = SolrUtil.getSubjectServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
