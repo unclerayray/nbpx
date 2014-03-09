@@ -21,7 +21,7 @@
 		<!-- 必须是javac1.5，即便项目中用了JDK1.6，否则GWT中的JSP不用使用泛型,另外需将本地的JAVA_HOME/lib/tools加入到项目的buildPath当中 -->
 		<init-param>
 			<param-name>compiler</param-name>
-			<param-value>javac1.5</param-value>
+			<param-value>javac1.6</param-value>
 		</init-param>
 	</servlet>
 	
@@ -78,6 +78,8 @@
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
 		<url-pattern>/struts/*</url-pattern>
+    	<url-pattern>*.jsp</url-pattern>
+    	<url-pattern>*.action</url-pattern>
 	</filter-mapping>
 
 

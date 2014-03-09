@@ -10,15 +10,19 @@
 	<constant name="struts.multipart.maxSize" value="1024000000" />
 
 	<package name="MyRestDataSource" namespace="/struts" extends="json-default">
-		<interceptors> 
-		    <interceptor name="encoding" class="com.nb.nbpx.interceptor.EncodingInterceptor"></interceptor>  
-            <interceptor name ="jsonBuilder" class ="com.nb.nbpx.interceptor.JsonBuilderInterceptor"/> 
-    	</interceptors>
+		<interceptors>
+			<interceptor name="encoding"
+				class="com.nb.nbpx.interceptor.EncodingInterceptor"></interceptor>
+			<interceptor name="jsonBuilder"
+				class="com.nb.nbpx.interceptor.JsonBuilderInterceptor" />
+		</interceptors>
+
 		<action name="*_*" class="{1}Action" method="{2}">
 			<interceptor-ref name="encoding"></interceptor-ref>
 			<interceptor-ref name="jsonBuilder"></interceptor-ref>
-			<interceptor-ref name="fileUpload">  
-                <param name="maximumSize">300*1024</param>
+			<!-- <interceptor-ref name="jcaptchaValidation"></interceptor-ref> -->
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">300*1024</param>
 			</interceptor-ref>
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result name="success" type="stream"></result>
@@ -35,4 +39,17 @@
 		</action>
 	</package>
 
+<!-- 
+	<package name="mypackage" extends="jcaptcha4struts2-default">
+		<action name="myformaction" class="com.nb.nbpx.server.user.AdminLoginAction"
+			method="login">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="jcaptchaDefaultStack" />
+
+			<result name="input">/login.jsp</result>
+			<result>/done.jsp</result>
+		</action>
+	</package> -->
+	
+	
 </struts>

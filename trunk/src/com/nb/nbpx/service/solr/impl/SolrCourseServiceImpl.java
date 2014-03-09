@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.charfilter.HTMLStripCharFilter;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -29,6 +31,7 @@ import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrCourseService")
 public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCourseService{
+    public static Logger logger = LogManager.getLogger(SolrCourseServiceImpl.class);
 	@Resource
 	private ICourseService courseService;
 	@Override
@@ -42,6 +45,7 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			sid.addField("title", cai.getTitle());
 			sid.addField("price", cai.getPrice());
 			sid.addField("teacherName", cai.getTeacherName());
+			sid.addField("isInner", cai.isInner);
 			String contents = cai.getContent();
 			contents = stripHTMLX(contents);
 			sid.addField("content", contents);
@@ -67,7 +71,7 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			logger.error("未能取得课程的SolrServer URL。"+e.getMessage());;
 			e.printStackTrace();
 		} catch (SolrServerException e) {
-			logger.error("commit为成功。"+e.getMessage());;
+			logger.error("commit未成功。"+e.getMessage());;
 			e.printStackTrace();
 		}
 	}
@@ -125,7 +129,9 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
             e.printStackTrace(); 
             return null; 
             //  "Failed stripping HTML for column: " + column, e); 
-        } 
+        } finally{
+        	strReader.close();
+        }
         return out.toString(); 
     } 
 	

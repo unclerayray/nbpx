@@ -86,6 +86,52 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获取讲师模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getTeacherServerUrl() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		logger.debug("solr.core_teacher.url = " + prop.getProperty("solr.core_teacher.url"));
+		return prop.getProperty("solr.core_teacher.url");
+	}
+	/**
+	 * 获取问题模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getQuestionServerUrl() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		logger.debug("solr.core_question.url = " + prop.getProperty("solr.core_question.url"));
+		return prop.getProperty("solr.core_question.url");
+	}
+	/**
+	 * 获取机构模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getOraganisationServerUrl() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		logger.debug("solr.core_organization.url = " + prop.getProperty("solr.core_organization.url"));
+		return prop.getProperty("solr.core_teacher.url");
+	}
+	
+	/**
 	 * 获得自定义词典路径
 	 * @return
 	 */

@@ -26,9 +26,10 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 					throws HibernateException, SQLException {
 				List list = new ArrayList<User>();
 				int i = 0;
-				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
+//				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.user.userId as userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
+				String hql = " from TeacherInfo u where 1 = 1";
 				if (userId != null) {
-					hql += " and userId = ?";
+					hql += " and u.user.userId = ?";
 				}
 				org.hibernate.Query query = session.createQuery(hql);
 				if (userId != null) {
@@ -62,7 +63,8 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				int i = 0;
-				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
+				//String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.user.userId as userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
+				String hql = " from TeacherInfo u where 1 = 1";
 				if (teacherId != null) {
 					hql += " and teacherId = ?";
 				}

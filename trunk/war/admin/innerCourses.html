@@ -400,8 +400,8 @@ function saveCourse(close_dlg) {
 	$('#fm').form('submit', {
 		url : '../struts/Course_saveCourse?objectName=courseAllInfo',
 		onSubmit : function() {			
-			alert('courseTarget we got = ' + $('#courseTarget').combobox('getValues'));
-			alert('product we got = ' + $('#courseProduct').val());
+			//alert('courseTarget we got = ' + $('#courseTarget').combobox('getValues'));
+			//alert('product we got = ' + $('#courseProduct').val());
 			$('#isInner').val('true');
 			return $('#fm').form('validate');
 		},

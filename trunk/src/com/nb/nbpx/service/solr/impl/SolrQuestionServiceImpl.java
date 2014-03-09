@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.nb.nbpx.service.solr.impl;
 
 import java.io.IOException;
@@ -14,40 +17,38 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
-import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
+import com.nb.nbpx.pojo.wenda.Question;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
-import com.nb.nbpx.service.solr.ISolrKeywordService;
+import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
-import com.nb.nbpx.utils.PinYinUtil;
 import com.nb.nbpx.utils.SolrUtil;
-@Component("SolrKeywordService")
-public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeywordService{
+
+/**
+ * @author Roger
+ * @date 2014年3月9日
+ */
+public class SolrQuestionServiceImpl extends BaseServiceImpl implements
+		ISolrQuestionService {
 
 	@Override
-	public void addKeyword2Solr(Keyword keyword) {
+	public void addQuestion2Solr(Question question) {
 		String serverURL;
 		try {
-			serverURL = SolrUtil.getKeywordServerUrl();
+			serverURL = SolrUtil.getQuestionServerUrl();
 			SolrServer solrServer = new HttpSolrServer(serverURL);
 			SolrInputDocument sid = new SolrInputDocument();
-			sid.addField("keyId", keyword.getKeyId());
-			sid.addField("keyword", keyword.getKeyword());
-			if(keyword.getKeyword()!=null){
-				List<String> pinyinList = PinYinUtil.getPinYinList(keyword.getKeyword());
-				for(String str:pinyinList){
-					sid.addField("pinyin", str);
-				}
-				sid.addField("kwfreq", 23);
-			}
+			sid.addField("questionId", question.getQuestionId());
+			sid.addField("title", question.getTitle());
+			sid.addField("content", question.getContent());
 			solrServer.add(sid);
             solrServer.commit();
-            logger.debug("已成功为插入的关键词创建索引");
+            logger.debug("已成功为插入的提问创建索引");
 		} catch (IOException e) {
-			logger.error("未能取得关键词的SolrServer URL。"+e.getMessage());;
+			logger.error("未能取得提问的SolrServer URL。"+e.getMessage());;
 			e.printStackTrace();
 		} catch (SolrServerException e) {
 			logger.error("commit为成功。"+e.getMessage());;
@@ -56,39 +57,13 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 	}
 
 	@Override
-	public void addKeywords2Solr(List<Keyword> keywordList) {
-		List<SolrInputDocument> documents = new ArrayList<SolrInputDocument>();
-		String serverURL;
-		try {
-			serverURL = SolrUtil.getKeywordServerUrl();
-			SolrServer solrServer = new HttpSolrServer(serverURL);
-			for(Keyword keyword:keywordList){
-				SolrInputDocument sid = new SolrInputDocument();
-				sid.addField("keyId", keyword.getKeyId());
-				sid.addField("keyword", keyword.getKeyword());
-				if(keyword.getKeyword()!=null){
-					String pinyin = PinYinUtil.getPinYin(keyword.getKeyword());
-					sid.addField("pinyin", pinyin);
-					sid.addField("kwfreq", 23);
-				}
-				
-				documents.add(sid);
-			}
-			solrServer.add(documents);
-	        solrServer.commit();
-	        logger.debug("已成功为插入的关键词创建索引");
-		} catch (IOException e) {
-			logger.error("未能取得关键词的SolrServer URL。"+e.getMessage());;
-			e.printStackTrace();
-		} catch (SolrServerException e) {
-			logger.error("commit未成功。"+e.getMessage());;
-			e.printStackTrace();
-		}
+	public void addQuestions2Solr(List<Question> questionList) {
+
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public String queryRelatedKeywords(String q, Integer start, Integer rows)
+	public String queryRelatedQuestion(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException, NbpxException {
 		if(q==null){
 			throw new NbpxException("查询关键词不能为空。");
@@ -99,8 +74,6 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		q = SolrUtil.escapeQueryChars(q);
 		ModifiableSolrParams params = new ModifiableSolrParams();
 		SolrQuery query = new SolrQuery();
-		// params.set("qt", "/select");
-		// params.set("q", "content:"+q);
 		q = SolrUtil.escapeQueryChars(q);
 		q = "keyword:"+q;
 		params.set("q", q);
