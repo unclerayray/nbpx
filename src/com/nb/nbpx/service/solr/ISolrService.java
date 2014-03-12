@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 
 import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.service.IBaseService;
+import com.nb.nbpx.utils.NbpxException;
 
 /**
  * 用于SOLR导入索引
@@ -50,7 +51,7 @@ public interface ISolrService extends IBaseService{
 	 * @throws SolrServerException
 	 * @throws IOException
 	 */
-	public String queryKeywordsByKeyword(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	public String queryKeywordsByKeyword(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
 	/**
 	 * 【公开课】通过变量全文查找，用于显示列表。高亮显示，返回一个List
 	 * @param q 查找参数

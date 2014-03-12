@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.nb.nbpx.service.solr.impl;
 
 import java.io.IOException;
@@ -21,30 +18,27 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
-import com.nb.nbpx.pojo.wenda.Question;
+import com.nb.nbpx.pojo.user.OrgInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
-import com.nb.nbpx.service.solr.ISolrQuestionService;
+import com.nb.nbpx.service.solr.ISolrOrganizationService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
-/**
- * @author Roger
- * @date 2014年3月9日
- */
-@Component("SolrQuestionService")
-public class SolrQuestionServiceImpl extends BaseServiceImpl implements
-		ISolrQuestionService {
+
+@Component("SolrOrganization")
+public class SolrOrganizationServiceImpl extends BaseServiceImpl implements
+		ISolrOrganizationService {
 
 	@Override
-	public void addQuestion2Solr(Question question) {
+	public void addOrganization2Solr(OrgInfo orgInfo) {
 		String serverURL;
 		try {
-			serverURL = SolrUtil.getQuestionServerUrl();
+			serverURL = SolrUtil.getOraganisationServerUrl();
 			SolrServer solrServer = new HttpSolrServer(serverURL);
 			SolrInputDocument sid = new SolrInputDocument();
-			sid.addField("questionId", question.getQuestionId());
-			sid.addField("title", question.getTitle());
-			sid.addField("content", question.getContent());
+			sid.addField("orgId", orgInfo.getOrgId());
+			sid.addField("orgName", orgInfo.getOrgName());
+			sid.addField("introduction", orgInfo.getIntroduction());
 			solrServer.add(sid);
             solrServer.commit();
             logger.debug("已成功为插入的提问创建索引");
@@ -54,29 +48,27 @@ public class SolrQuestionServiceImpl extends BaseServiceImpl implements
 		} catch (SolrServerException e) {
 			logger.error("commit为成功。"+e.getMessage());;
 			e.printStackTrace();
-		}
+		}		
 	}
 
 	@Override
-	public void addQuestions2Solr(List<Question> questionList) {
-
+	public void addOrganizations2Solr(List<OrgInfo> orgInfoList) {
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public String queryRelatedQuestion(String q, Integer start, Integer rows)
+	public String queryRelatedOrganization(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException, NbpxException {
 		if(q==null){
 			throw new NbpxException("查询关键词不能为空。");
 		}
 		String json = "";
-		String serverURL = SolrUtil.getQuestionServerUrl();
+		String serverURL = SolrUtil.getOraganisationServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		q = SolrUtil.escapeQueryChars(q);
 		ModifiableSolrParams params = new ModifiableSolrParams();
 		SolrQuery query = new SolrQuery();
 		q = SolrUtil.escapeQueryChars(q);
-		q = "title_content:"+q;
+		q = "suggest:"+q;
 		params.set("q", q);
 		if(start!=null){
 			params.set("start", start);
@@ -90,18 +82,20 @@ public class SolrQuestionServiceImpl extends BaseServiceImpl implements
 		int numFound = (int) response.getResults().getNumFound();
 		int count = response.getResults().size();
 		SolrDocumentList list = response.getResults();
-		List<Keyword> resultList = new ArrayList<Keyword>();
+		List<OrgInfo> resultList = new ArrayList<OrgInfo>();
 		for (int i = 0; i < count; i++) {
 			SolrDocument sd = list.get(i);
-			Object keyIdobj = sd.getFieldValue("keyId");
-			Object keywordobj = sd.getFieldValue("keyword");
-			if(keywordobj==null){
+			Object orgIdobj = sd.getFieldValue("orgId");
+			Object orgNameobj = sd.getFieldValue("orgName");
+			Object introobj = sd.getFieldValue("introduction");
+			if(orgNameobj==null){
 				continue;
 			}
-			Keyword keyword = new Keyword();
-			keyword.setKeyId((Integer) keyIdobj);
-			keyword.setKeyword(keywordobj.toString());
-			resultList.add(keyword);
+			OrgInfo orgInfo = new OrgInfo();
+			orgInfo.setOrgId((Integer) orgIdobj);
+			orgInfo.setOrgName(orgNameobj.toString());
+			orgInfo.setIntroduction(introobj.toString());
+			resultList.add(orgInfo);
 		}
 		/**
 		 * 以下为去重的代码

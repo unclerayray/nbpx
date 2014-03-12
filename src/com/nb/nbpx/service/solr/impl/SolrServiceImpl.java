@@ -301,9 +301,12 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 	@Override
 	public String queryKeywordsByKeyword(String q, Integer start, Integer rows)
-			throws SolrServerException, IOException {
+			throws SolrServerException, IOException, NbpxException {
 		// TODO 统计搜索次数 put that into Action, not here
 		// TODO ping查看连接，连不上的话就throw相应的Exception
+		if(q==null){
+			throw new NbpxException("查询关键词不能为空。");
+		}
 		String serverURL = SolrUtil.getKeywordServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();
