@@ -35,9 +35,7 @@ public class SearchAction  extends BaseAction {
 		try {
 			json = solrService.fullTextQueryForHl(key, getStartPosi(), rows);
 			this.inputStream = castToInputStream(json);
-		} catch (SolrServerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;
@@ -66,9 +64,7 @@ public class SearchAction  extends BaseAction {
 		try {
 			json = solrService.queryKeywordsByKeyword(q, 0, 10);
 			this.inputStream = castToInputStream(json);
-		} catch (SolrServerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SUCCESS;

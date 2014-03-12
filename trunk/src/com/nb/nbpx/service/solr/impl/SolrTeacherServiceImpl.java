@@ -3,8 +3,6 @@ package com.nb.nbpx.service.solr.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -13,12 +11,13 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.common.SolrInputDocument;
+import org.springframework.stereotype.Component;
 
-import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.solr.ISolrTeacherService;
 import com.nb.nbpx.utils.SolrUtil;
 
+@Component("SolrTeacherService")
 public class SolrTeacherServiceImpl implements ISolrTeacherService {
     public static Logger logger = LogManager.getLogger(SolrTeacherServiceImpl.class);
 	@Override

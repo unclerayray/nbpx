@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+String keyw = (String)request.getParameter("key");
+%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,13 +24,68 @@ pageEncoding="utf-8"%>
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
 	<title>搜索结果</title>
 	<style>
-	.ui-autocomplete-loading {
-		background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
-	}
-	#searchWord { width: 25em; }
+		.ui-autocomplete-loading {
+			background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
+		}
+		#searchWord { width: 25em; }
 	</style>
+
+	<script language="JavaScript">
+		window.onload = function(){
+			if("<%= keyw%>"!="null"){
+				$('#searchWord').val("<%= keyw%>");
+			}
+		};
+	</script>
 	<script>
-	$(function() {
+		$(function() {
+			if("<%= keyw%>"!="null"){
+				$.ajax({
+					url:"struts/Search_queryBySolr?page=1&rows=10&key="+"<%=keyw%>",
+					success:function(data){
+						var jsonObject = eval('('+data+')');
+						var valueStr = "";
+						var pages = jsonObject.pages;
+						var rows = jsonObject.rows;
+						//alert("rows = " + rows);
+						$.each(rows,function(n,value){
+							var outClass= "classDesc last";
+							if(n<rows.length-1)
+								outClass="classDesc";
+							var schedules = '';//课程安排
+							var courseInfo = value.courseInfo;
+							//alert("courseInfo = "+courseInfo);
+							if(courseInfo!=null){
+								schedules += "<div class='left' style='width:60px;'><span>课程安排：</span></div><div style='float:right;width:630px;'><table id='scheduleTable'><tr>";
+								$.each(courseInfo,function(n,info){
+									if(n!=0&&n%3==0){
+										schedules += "</tr><tr><td>"+info+"</td>";
+									}else{
+										schedules += "<td>"+info+"</td>";
+									}
+								});
+								schedules += "</tr></table></div>";
+							}
+							//alert("schedules="+schedules);
+							valueStr += "<div  class='"+outClass+"'><h3><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></h3>"+
+							"<div class='classInfor'>编号："+value.courseId+"&nbsp;&nbsp;培训费用：￥"+value.price+"&nbsp;&nbsp;讲师："+value.teacherName+"</div>"
+							+ schedules +
+							"<div class='classDetail'>"+
+							"<div class='left' style='width:60px;'><span>培训内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a href='viewClass.jsp?id="+value.courseId+"'>详细内容</a>]</div></div></div>"+
+							"<div class='clear'></div>";
+						});
+						//alert("valueStr " + valueStr);
+						if(valueStr == ""){
+							valueStr = "<div class='notice'>未搜索到相关课程信息</div>";
+						}else
+						$('#pageDiv').css('display','block');
+						$('#classes').html(valueStr);
+						$('#pages').html(pages);
+						$('#currPage').html(parseInt(page));
+					}
+				});
+		}
+
 		var cache = {};
 		//
 		//			jsonp: "json.wrf",
@@ -60,7 +118,7 @@ pageEncoding="utf-8"%>
 			}
 		});
 	});
-	</script>
+</script>
 
 </head>
 

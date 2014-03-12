@@ -26,6 +26,7 @@ import com.nb.nbpx.BaseServiceTest;
 import com.nb.nbpx.common.SystemConstants;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.service.solr.ISolrCourseService;
+import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.service.solr.impl.SolrServiceImpl;
 import com.nb.nbpx.utils.SolrUtil;
@@ -41,18 +42,42 @@ public class SolrTest extends BaseServiceTest {
 	
 	@Resource
 	private ISolrCourseService solrCourseService;
-	
+
+	@Resource
+	private ISolrQuestionService solrQuestionService;
 	@Test
 	//@Ignore
 	public void testQuery() {
 		try {
 			String response = solrService.fullTextQueryForHl("我去", 0, 10);
-			System.out.println(response);
 			Assert.assertNotNull(response);
-		} catch (SolrServerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
-		} catch (IOException e) {
+		}
+	}
+	
+	@Test
+	//@Ignore
+	public void testQueryKeywords() {
+		try {
+			String response = solrService.queryKeywordsByKeyword("企业", 0, 10);
+			System.out.println("keywords = "+response);
+			Assert.assertNotNull(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	//@Ignore
+	public void testQueryQuestions() {
+		try {
+			String response = solrQuestionService.queryRelatedQuestion("天气", 0, 10);
+			System.out.println("questions = "+response);
+			Assert.assertNotNull(response);
+		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}

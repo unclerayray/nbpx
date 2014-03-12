@@ -1013,6 +1013,11 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				if (courseTitle != null) {
 					hql.append(" and c.title like ? ");
 				}
+				
+				if (isInner != null) {
+					hql.append(" and isInner = ? ");
+				}
+				
 				if(p_outside!=null){
 					if(p_outside){
 						hql.append(" and c.createdBy != 'admin' ");
@@ -1043,6 +1048,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 
 				if (courseTitle != null) {
 					query.setString(i++, "%"+courseTitle+"%");
+				}
+				
+				if (isInner != null) {
+					query.setBoolean(i++, isInner);
 				}
 
 				if (start != null && rows != null) {
