@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
+<script src="js/myjs/index.js"></script>
 </head>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
@@ -57,7 +58,7 @@
 		</div>
 	</div>
 	<div class="clear"></div>
-	<div class="searchInput"><input value="请输入关键字,如: 员工 管理"/><button class="searchButton" >搜&nbsp;索</button></div>
+	<div class="searchInput"><input id="key" value="请输入关键字,如: 员工 管理"/><button class="searchButton" onclick="fullTextSearch()">搜&nbsp;索</button></div>
 </div>
 <!--搜索end-->
 

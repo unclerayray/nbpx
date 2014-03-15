@@ -22,7 +22,7 @@ String keyw = (String)request.getParameter("key");
 
 	<link type="text/css" href="css/search.css" rel="stylesheet" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
-	<title>搜索结果</title>
+	<title>培训课搜索结果</title>
 	<style>
 		.ui-autocomplete-loading {
 			background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
@@ -205,7 +205,7 @@ var pager = {
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li>搜索结果</li>
+		<li>培训课搜索结果</li>
 	</ul>
 	<div class="clear"></div>
 </div>
