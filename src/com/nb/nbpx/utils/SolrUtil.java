@@ -128,7 +128,7 @@ public class SolrUtil {
 			prop.load(new FileInputStream(classpath+"solr.properties"));
 		}
 		logger.debug("solr.core_organization.url = " + prop.getProperty("solr.core_organization.url"));
-		return prop.getProperty("solr.core_teacher.url");
+		return prop.getProperty("solr.core_organization.url");
 	}
 	
 	/**

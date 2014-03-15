@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.service.solr.ISolrService;
 
@@ -25,6 +26,7 @@ public class SearchAction  extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private ISolrService solrService;
 	private ISolrQuestionService solrQuestionService;
+	private ISolrOrganisationService solrOrganisationService;
 	private String key;
 	private String q;
 
@@ -68,6 +70,21 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrQuestionService.queryRelatedQuestion(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 【机构】用solr全文搜索
+	 * @return
+	 */
+	public String queryOrganisationBySolr(){
+		String json;
+		try {
+			json = solrOrganisationService.queryRelatedOrganisation(key, getStartPosi(), rows);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,5 +138,15 @@ public class SearchAction  extends BaseAction {
 	@Resource
 	public void setSolrQuestionService(ISolrQuestionService solrQuestionService) {
 		this.solrQuestionService = solrQuestionService;
+	}
+
+	public ISolrOrganisationService getSolrOrganisationService() {
+		return solrOrganisationService;
+	}
+
+	@Resource
+	public void setSolrOrganisationService(
+			ISolrOrganisationService solrOrganisationService) {
+		this.solrOrganisationService = solrOrganisationService;
 	}
 }

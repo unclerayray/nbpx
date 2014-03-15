@@ -81,5 +81,11 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
         	strReader.close();
         }
         return out.toString(); 
-    } 
+    }
+
+	@Override
+	public String queryRelateTeacher(String q, Integer start, Integer rows) {
+		// TODO Auto-generated method stub
+		return null;
+	} 
 }

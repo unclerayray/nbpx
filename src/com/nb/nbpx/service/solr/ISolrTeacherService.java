@@ -9,4 +9,5 @@ import com.nb.nbpx.pojo.user.TeacherInfo;
 public interface ISolrTeacherService {
 	public void addTeacher2Solr(TeacherInfo teacher);
 	public void removeTeacherInfoFromSolr(Integer teacherId) throws SolrServerException, IOException;
+	public String queryRelateTeacher(String q, Integer start, Integer rows);
 }
