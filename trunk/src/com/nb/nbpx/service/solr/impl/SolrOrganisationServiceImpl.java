@@ -20,17 +20,17 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.user.OrgInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
-import com.nb.nbpx.service.solr.ISolrOrganizationService;
+import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 
-@Component("SolrOrganization")
-public class SolrOrganizationServiceImpl extends BaseServiceImpl implements
-		ISolrOrganizationService {
+@Component("SolrOrganisation")
+public class SolrOrganisationServiceImpl extends BaseServiceImpl implements
+		ISolrOrganisationService {
 
 	@Override
-	public void addOrganization2Solr(OrgInfo orgInfo) {
+	public void addOrganisation2Solr(OrgInfo orgInfo) {
 		String serverURL;
 		try {
 			serverURL = SolrUtil.getOraganisationServerUrl();
@@ -52,11 +52,11 @@ public class SolrOrganizationServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void addOrganizations2Solr(List<OrgInfo> orgInfoList) {
+	public void addOrganisations2Solr(List<OrgInfo> orgInfoList) {
 	}
 
 	@Override
-	public String queryRelatedOrganization(String q, Integer start, Integer rows)
+	public String queryRelatedOrganisation(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException, NbpxException {
 		if(q==null){
 			throw new NbpxException("查询关键词不能为空。");
@@ -68,7 +68,8 @@ public class SolrOrganizationServiceImpl extends BaseServiceImpl implements
 		ModifiableSolrParams params = new ModifiableSolrParams();
 		SolrQuery query = new SolrQuery();
 		q = SolrUtil.escapeQueryChars(q);
-		q = "suggest:"+q;
+		//TODO keyword key title->> something else
+		q = "orgName:"+q;
 		params.set("q", q);
 		if(start!=null){
 			params.set("start", start);

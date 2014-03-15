@@ -14,9 +14,9 @@ import com.nb.nbpx.utils.NbpxException;
  * @author Roger
  * @date 2014年3月10日
  */
-public interface ISolrOrganizationService  extends IBaseService {
-	public void addOrganization2Solr(OrgInfo orgInfo);
-	public void addOrganizations2Solr(List<OrgInfo> orgInfoList);
-	public String queryRelatedOrganization(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+public interface ISolrOrganisationService  extends IBaseService {
+	public void addOrganisation2Solr(OrgInfo orgInfo);
+	public void addOrganisations2Solr(List<OrgInfo> orgInfoList);
+	public String queryRelatedOrganisation(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
 
 }
