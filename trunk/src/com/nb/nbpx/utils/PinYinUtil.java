@@ -51,6 +51,7 @@ public static List<String> getPinYinList(String inputString) {
 		StringBuffer outputInit = new StringBuffer("");
 		StringBuffer output1stInit = new StringBuffer("");
 		StringBuffer output2ndInit = new StringBuffer("");
+		StringBuffer firstLetter = new StringBuffer("");
 		try {
 			for (int i = 0; i < input.length; i++) {
 				if (Character.toString(input[i]).matches("[\u4E00-\u9FA5]+")) {
@@ -73,10 +74,14 @@ public static List<String> getPinYinList(String inputString) {
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
 			e.printStackTrace();
 		}
+		if(outputInit.length()>0){
+			firstLetter.append(outputInit.substring(0, 1));
+		}
 		list.add(output.toString());
 		list.add(outputInit.toString());
 		list.add(output1stInit.toString());
 		list.add(output2ndInit.toString());
+		list.add(firstLetter.toString());
 		return list;
 	}
 	
@@ -86,7 +91,7 @@ public static List<String> getPinYinList(String inputString) {
 		System.out.println(getPinYin(chs));
 		List<String> list = getPinYinList(chs);
 		for(String str:list){
-			System.out.println(str);
+			System.out.println("str:"+str);
 		}
 	}
 	

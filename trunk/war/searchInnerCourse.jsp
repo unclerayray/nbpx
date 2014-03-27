@@ -22,7 +22,7 @@ String keyw = (String)request.getParameter("key");
 
 	<link type="text/css" href="css/search.css" rel="stylesheet" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
-	<title>培训课搜索结果</title>
+	<title>内训课搜索结果</title>
 	<style>
 		.ui-autocomplete-loading {
 			background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
@@ -68,7 +68,7 @@ String keyw = (String)request.getParameter("key");
 							}
 							//alert("schedules="+schedules);
 							valueStr += "<div  class='"+outClass+"'><h3><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></h3>"+
-							"<div class='classInfor'>编号："+value.courseId+"&nbsp;&nbsp;培训费用：￥"+value.price+"&nbsp;&nbsp;讲师："+value.teacherName+"</div>"
+							"<div class='classInfor'>编号："+value.courseId+"&nbsp;&nbsp;内训费用：￥"+value.price+"&nbsp;&nbsp;讲师："+value.teacherName+"</div>"
 							+ schedules +
 							"<div class='classDetail'>"+
 							"<div class='left' style='width:60px;'><span>培训内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a href='viewClass.jsp?id="+value.courseId+"'>详细内容</a>]</div></div></div>"+
@@ -76,7 +76,7 @@ String keyw = (String)request.getParameter("key");
 						});
 						//alert("valueStr " + valueStr);
 						if(valueStr == ""){
-							valueStr = "<div class='notice'>未搜索到相关课程信息</div>";
+							valueStr = "<div class='notice'>未搜索到相关内训信息</div>";
 						}else
 						$('#pageDiv').css('display','block');
 						$('#classes').html(valueStr);
