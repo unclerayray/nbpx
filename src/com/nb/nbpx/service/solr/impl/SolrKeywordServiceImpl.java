@@ -67,8 +67,10 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 				sid.addField("keyId", keyword.getKeyId());
 				sid.addField("keyword", keyword.getKeyword());
 				if(keyword.getKeyword()!=null){
-					String pinyin = PinYinUtil.getPinYin(keyword.getKeyword());
-					sid.addField("pinyin", pinyin);
+					List<String> pinyinList = PinYinUtil.getPinYinList(keyword.getKeyword());
+					for(String str:pinyinList){
+						sid.addField("pinyin", str);
+					}
 					sid.addField("kwfreq", 23);
 				}
 				
