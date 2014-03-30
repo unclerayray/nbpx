@@ -131,7 +131,6 @@ public class SolrDownloadServiceImpl extends BaseServiceImpl implements
 		List<Download> resultList = new ArrayList<Download>();
 		for (int i = 0; i < count; i++) {
 			SolrDocument sd = list.get(i);
-			Map<String, Object> valueMap = sd.getFieldValueMap();
 			Object idobj = sd.getFieldValue("downloadId");
 			Double size = Double.valueOf(sd.getFieldValue("size").toString());
 			Map<String, List<String>> lst = hlMap.get(idobj.toString());
@@ -178,6 +177,64 @@ public class SolrDownloadServiceImpl extends BaseServiceImpl implements
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		solrServer.deleteById(downloadId+"");
 		solrServer.commit();
+	}
+
+	@Override
+	public String queryDownloadsBySubject(String subject, Integer start,
+			Integer rows) throws SolrServerException, IOException,
+			NbpxException {
+		if(subject==null){
+			throw new NbpxException("查询的专题不能为空。");
+		}
+		String json = "";
+		String serverURL = SolrUtil.getSubjectServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		subject = SolrUtil.escapeQueryChars(subject);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		subject = SolrUtil.escapeQueryChars(subject);
+		subject = "subject:"+subject;
+		params.set("q", subject);
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<Download> resultList = new ArrayList<Download>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Object idobj = sd.getFieldValue("downloadId");
+			Double size = Double.valueOf(sd.getFieldValue("size").toString());
+			Object descObj = sd.getFieldValue("description");
+			Object titleObj = sd.getFieldValue("title");
+			Object filetypeObj = sd.getFieldValue("filetype");
+			Object authorObj = sd.getFieldValue("author");
+			Object categoryObj = sd.getFieldValue("category");
+			Object uploadDate = sd.getFieldValue("uploadDate");
+			Download download = new Download((Integer)idobj, titleObj.toString(), null,
+					filetypeObj.toString(), descObj.toString(), authorObj.toString(),
+					(Date) uploadDate, 100, 100, size,categoryObj.toString());
+			resultList.add(download);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
+				ResponseStatus.SUCCESS, "", list);
+		return json;
 	}
 
 }

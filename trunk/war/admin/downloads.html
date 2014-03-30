@@ -74,7 +74,7 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'.
 		onclick="destroyDownload();">删除下载</a>
 	</div>
 	<div>
-		下载类别: <select id="filetype" name="filetype" class="easyui-combobox" style="panelHeight:30px;">
+		下载类别: <select id="filetype" name="filetype" class="easyui-combobox" style="panelHeight:15px;">
 					<option></option>
 		    		<option value="ppt">ppt</option>
 		    		<option value="doc">doc</option>
@@ -111,7 +111,7 @@ $('#dlg').dialog('close');
 	<td class="itemText" >
 	下载类型: 
 	</td>
-	<td><select id="fm_filetype" name="filetype" class="easyui-combobox" style="panelHeight:30px;">
+	<td><select id="fm_filetype" name="filetype" class="easyui-combobox" style="panelHeight:15px;">
 					<option></option>
 		    		<option value="ppt">ppt</option>
 		    		<option value="doc">doc</option>
@@ -222,7 +222,7 @@ function queryDownloads() {
 
 	function editDownload() {
 		var row = $('#dg').datagrid('getSelected');
-		$('#dlg').dialog('open').dialog('setTitle', '修改问题');
+		$('#dlg').dialog('open').dialog('setTitle', '修改下载信息');
 		if (row) {
 			$('#fm').form('load', row);
 			console.log(row.downloadKeywords);

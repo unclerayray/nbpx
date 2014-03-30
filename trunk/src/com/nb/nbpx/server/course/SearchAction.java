@@ -63,6 +63,40 @@ public class SearchAction  extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	
+	/**
+	 * 【培训】以【专题】用solr全文搜索
+	 * @return
+	 */
+	public String queryBySolrWithSubject(){
+		String json;
+		try {
+			json = solrService.queryCoursesBySubject(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 【内训课】以【专题】用solr全文搜索
+	 * @return
+	 */
+	public String queryInnerCourseBySolrWithSubject(){
+		String json;
+		try {
+			json = solrService.queryInnerCoursesBySubject(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
 
 	/**
 	 * 【提问】用solr全文搜索

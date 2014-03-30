@@ -144,6 +144,7 @@ public class DownloadAction extends BaseAction {
 		File tobedelete = new File(download.getFilepath());
 		try {
 			tobedelete.delete();
+			solrDownloadService.removeDownloadFromSolr(download.getDownloadId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(

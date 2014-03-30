@@ -30,8 +30,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer(
-						"select new com.nb.nbpx.pojo.wenda.Question"
-								+ " (q.questionId, q.title, q.content, q.isClosed, q.askDate, q.askedBy ) from Question q"
+						" from Question q"
 								+ " where 1 = 1 ");
 				if (closed != null) {
 					if (closed) {

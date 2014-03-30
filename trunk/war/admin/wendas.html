@@ -123,31 +123,74 @@
 <!-- 回答 -->
 
 <div id="dlg_addQuestion" class="easyui-dialog"
-	style="width: 700px; height: 500px; padding: 5px 5px" closed="true"
+	style="width: 800px; height: 400px; padding: 5px 5px" closed="true"
 	modal="true" buttons="#dlg_addQuestion-buttons">
 	<form id="question-fm" method="post">
-		<div class="fitem">
-			<input id="questionId_in_qfm" name="questionId" type="hidden">
-		</div>
-		<div class="fitem">
-			<input id="askDate" name="askDate" type="hidden"></input> <input
-				id="isClosed" name="isClosed" type="hidden"></input>
-		</div>
-		<div class="fitem">
-			<label>标题:</label> <input id="title" name="title" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'标题不能为空'"  class="easyui-validatebox" type="text">
-			</input>
-		</div>
-		<div class="fitem">
-			<label>提问人:</label> <input id="askedBy" class="easyui-validatebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'提问人不能为空'" name="askedBy" type="text">
-			</input>
-		</div>
-		<div class="fitem">
-			<label>问题:</label>
-			<textarea  class="easyui-validatebox" id="content" name="content"
-				data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'问题描述不能为空'"
-				style="width: 260px; height: 180px;" maxlength="200" type="textarea"
-				required="true"></textarea>
-		</div>
+		<table cellspacing="0" cellpadding="0" class="formTable">
+				<input id="questionId_in_qfm" name="questionId" type="hidden">
+			<div class="fitem">
+				<input id="askDate" name="askDate" type="hidden"></input> <input
+					id="isClosed" name="isClosed" type="hidden"></input>
+			<tr>
+				<td class="itemText"><label>类别:</label></td>
+				<td>
+					<div id="courseTypeInForm">
+						<input class="easyui-combobox"
+						style="width: 130px;" name="category" id="category"
+						data-options="  
+							url:'../struts/Course_queryComboCourseTypes',  
+							valueField:'codeName',  
+							textField:'showName',  
+							panelHeight:'200'  ,
+							editable:false ,
+							required:true,
+							tipPositionY:'center',
+							tipPositionX:'right',
+							className:'tip-darkgray',
+							missingMessage:'必填项'
+						">
+						</input>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="itemText"><label>标题:</label></td>
+				<td>
+					<input id="title" name="title" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'标题不能为空'"  class="easyui-validatebox" type="text"/><a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-dic" onclick="cutupTitle()">拆分关键词</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="itemText" >关键词:</td>
+				<td>
+					<input id="questionKeywords" name="questionKeywords" style="width: 512px;">
+				</td>
+			</tr>
+
+			<tr>
+				<td class="itemText" >
+				专题: 
+				</td>
+				<td><input id="questionSubjects" name="questionSubjects" style="width: 512px;">
+				</td>
+			</tr>
+			<tr>
+				<td class="itemText"><label>提问人:</label></td>
+				<td>
+					<input id="askedBy" class="easyui-validatebox" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'提问人不能为空'" name="askedBy" type="text"/>
+				</td>
+			</tr>
+			<tr>
+				<td class="itemText"><label>问题:</label></td>
+				<td>
+					<textarea  class="easyui-validatebox" id="content" name="content"
+						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'问题描述不能为空'"
+						style="width: 600px; height: 100px;" maxlength="200" type="textarea"
+						required="true"></textarea>
+				</td>
+			</tr>
+		</table>
 	</form>
 </div>
 
@@ -162,6 +205,24 @@
 <!-- 问题 -->
 <script type="text/javascript">
 //------问题
+	
+
+	function cutupTitle(){
+		//var textToCut = encodeURIComponent($('#courseTitle').val());
+		var textToCut = $('#title').val();
+		//alert('courseTitle = ' + textToCut);
+		if($('#title').validatebox('isValid')){
+			//alert('textToCut to cut ' + $('#courseTitle').val());
+			$.ajax({
+				url:'../struts/Solr_cutText?textToCut='+textToCut,
+				success: function(data){
+					$('#questionKeywords').val(data);
+				}		
+			});
+		}
+		
+	}
+
 	function queryQuestions() {
 		var isClosed = $('#p_isClosed').combobox('getValue');
 		var id = $('#p_id').val();
@@ -194,7 +255,7 @@
 
 	function saveQuestion(){
 		$('#question-fm').form('submit', {
-			url : '../struts/Wenda_saveQuestion?objectName=question',
+			url : '../struts/Wenda_saveQuestion',
 			onSubmit : function() {
 				console.log($('#question-fm').form('validate'));
 				return $('#question-fm').form('validate');

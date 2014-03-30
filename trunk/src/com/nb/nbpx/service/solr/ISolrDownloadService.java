@@ -15,5 +15,6 @@ import com.nb.nbpx.utils.NbpxException;
 public interface ISolrDownloadService extends IBaseService {
 	public void addDownload2Solr(Download download);
 	public String queryRelatedDownloads(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	public String queryDownloadsBySubject(String subject, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
 	public void removeDownloadFromSolr(Integer downloadId) throws SolrServerException, IOException;
 }

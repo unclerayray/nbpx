@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,10 +31,12 @@ import com.chenlb.mmseg4j.MMSeg;
 import com.chenlb.mmseg4j.Seg;
 import com.chenlb.mmseg4j.SimpleSeg;
 import com.chenlb.mmseg4j.Word;
+import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.ICourseKeywordDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.pojo.keyword.Keyword;
+import com.nb.nbpx.pojo.zixun.Download;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -111,7 +114,6 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	@Override
 	public String fullTextQueryForHl(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException {
-		// TODO 统计搜索次数 put that into Action, not here
 		// TODO ping查看连接，连不上的话就throw相应的Exception
 		String serverURL = SolrUtil.getCourseServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
@@ -166,11 +168,9 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
 		for (int i = 0; i < count; i++) {
 			SolrDocument sd = list.get(i);
-			Map<String, Object> valueMap = sd.getFieldValueMap();
 			// String[] courseInfo = null;
 			List<String> courseInfo = (List<String>) sd
 					.getFieldValue("courseInfo");
-			Object obj = sd.getFieldValue("courseInfo");
 			Object idobj = sd.getFieldValue("courseId");
 			Double price = Double.valueOf(sd.getFieldValue("price").toString());
 			Map<String, List<String>> lst = hlMap.get(idobj.toString());
@@ -210,7 +210,6 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	public List<CourseSearchResult> fullTextQueryForHlReturnList(String q,
 			Integer start, Integer rows) throws SolrServerException,
 			IOException {
-		// TODO 统计搜索次数 put that into Action, not here
 		// TODO ping查看连接，连不上的话就throw相应的Exception
 		String serverURL = SolrUtil.getCourseServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
@@ -259,16 +258,13 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		Map<String, Map<String, List<String>>> hlMap = response
 				.getHighlighting();
 		// numFound
-		int numFound = (int) response.getResults().getNumFound();
 		int count = response.getResults().size();
 		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
 		for (int i = 0; i < count; i++) {
 			SolrDocument sd = list.get(i);
-			Map<String, Object> valueMap = sd.getFieldValueMap();
 			// String[] courseInfo = null;
 			List<String> courseInfo = (List<String>) sd
 					.getFieldValue("courseInfo");
-			Object obj = sd.getFieldValue("courseInfo");
 			Object idobj = sd.getFieldValue("courseId");
 			Double price = Double.valueOf(sd.getFieldValue("price").toString());
 			Map<String, List<String>> lst = hlMap.get(idobj.toString());
@@ -414,11 +410,9 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 				List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
 				for (int i = 0; i < count; i++) {
 					SolrDocument sd = list.get(i);
-					Map<String, Object> valueMap = sd.getFieldValueMap();
 					// String[] courseInfo = null;
 					List<String> courseInfo = (List<String>) sd
 							.getFieldValue("courseInfo");
-					Object obj = sd.getFieldValue("courseInfo");
 					Object idobj = sd.getFieldValue("courseId");
 					Double price = Double.valueOf(sd.getFieldValue("price").toString());
 					Map<String, List<String>> lst = hlMap.get(idobj.toString());
@@ -508,16 +502,13 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 				Map<String, Map<String, List<String>>> hlMap = response
 						.getHighlighting();
 				// numFound
-				int numFound = (int) response.getResults().getNumFound();
 				int count = response.getResults().size();
 				List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
 				for (int i = 0; i < count; i++) {
 					SolrDocument sd = list.get(i);
-					Map<String, Object> valueMap = sd.getFieldValueMap();
 					// String[] courseInfo = null;
 					List<String> courseInfo = (List<String>) sd
 							.getFieldValue("courseInfo");
-					Object obj = sd.getFieldValue("courseInfo");
 					Object idobj = sd.getFieldValue("courseId");
 					Double price = Double.valueOf(sd.getFieldValue("price").toString());
 					Map<String, List<String>> lst = hlMap.get(idobj.toString());
@@ -546,6 +537,238 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 
 				// return JsonUtil.formatListToJson(resultList);
 				return resultList;
+	}
+
+	@Override
+	public String queryCoursesBySubject(String subject, Integer start,
+			Integer rows) throws SolrServerException, IOException,
+			NbpxException {
+		if(subject==null){
+			throw new NbpxException("查询的专题不能为空。");
+		}
+		String json = "";
+		String serverURL = SolrUtil.getCourseServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		subject = SolrUtil.escapeQueryChars(subject);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		subject = SolrUtil.escapeQueryChars(subject);
+		subject = "subject:"+subject;
+		params.set("q", subject);
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		params.set("fq", "isInner:false");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			List<String> courseInfo = (List<String>) sd
+					.getFieldValue("courseInfo");
+			Object idobj = sd.getFieldValue("courseId");
+			Double price = Double.valueOf(sd.getFieldValue("price").toString());
+			Object contentObj = sd.getFieldValue("content");
+			Object titleObj = sd.getFieldValue("title");
+			String content = contentObj.toString();
+			if (content.length() > 50)
+				content = content.substring(0, 50);
+			CourseSearchResult csr = new CourseSearchResult((Integer) idobj,
+					titleObj.toString(), price, sd.getFieldValue("teacherName").toString(),
+					content, courseInfo);
+			resultList.add(csr);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
+				ResponseStatus.SUCCESS, "", list);
+		return json;
+	}
+
+	@Override
+	public String queryInnerCoursesBySubject(String subject, Integer start,
+			Integer rows) throws SolrServerException, IOException,
+			NbpxException {
+		if(subject==null){
+			throw new NbpxException("查询的专题不能为空。");
+		}
+		String json = "";
+		String serverURL = SolrUtil.getCourseServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		subject = SolrUtil.escapeQueryChars(subject);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		subject = SolrUtil.escapeQueryChars(subject);
+		subject = "subject:"+subject;
+		params.set("q", subject);
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		params.set("fq", "isInner:true");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			List<String> courseInfo = (List<String>) sd
+					.getFieldValue("courseInfo");
+			Object idobj = sd.getFieldValue("courseId");
+			Double price = Double.valueOf(sd.getFieldValue("price").toString());
+			Object contentObj = sd.getFieldValue("content");
+			Object titleObj = sd.getFieldValue("title");
+			String content = contentObj.toString();
+			if (content.length() > 50)
+				content = content.substring(0, 50);
+			CourseSearchResult csr = new CourseSearchResult((Integer) idobj,
+					titleObj.toString(), price, sd.getFieldValue("teacherName").toString(),
+					content, courseInfo);
+			resultList.add(csr);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
+				ResponseStatus.SUCCESS, "", list);
+		return json;
+	}
+
+	@Override
+	public List<CourseSearchResult> queryCourseListBySubject(String subject,
+			Integer start, Integer rows) throws SolrServerException,
+			IOException, NbpxException {
+		if(subject==null){
+			throw new NbpxException("查询的专题不能为空。");
+		}
+		String serverURL = SolrUtil.getCourseServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		subject = SolrUtil.escapeQueryChars(subject);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		subject = SolrUtil.escapeQueryChars(subject);
+		subject = "subject:"+subject;
+		params.set("q", subject);
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		params.set("fq", "isInner:false");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			List<String> courseInfo = (List<String>) sd
+					.getFieldValue("courseInfo");
+			Object idobj = sd.getFieldValue("courseId");
+			Double price = Double.valueOf(sd.getFieldValue("price").toString());
+			Object contentObj = sd.getFieldValue("content");
+			Object titleObj = sd.getFieldValue("title");
+			String content = contentObj.toString();
+			if (content.length() > 50)
+				content = content.substring(0, 50);
+			CourseSearchResult csr = new CourseSearchResult((Integer) idobj,
+					titleObj.toString(), price, sd.getFieldValue("teacherName").toString(),
+					content, courseInfo);
+			resultList.add(csr);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		return resultList;
+	}
+
+	@Override
+	public List<CourseSearchResult> queryInnerCourseListBySubject(
+			String subject, Integer start, Integer rows)
+			throws SolrServerException, IOException, NbpxException {
+		if(subject==null){
+			throw new NbpxException("查询的专题不能为空。");
+		}
+		String serverURL = SolrUtil.getCourseServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		subject = SolrUtil.escapeQueryChars(subject);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		subject = SolrUtil.escapeQueryChars(subject);
+		subject = "subject:"+subject;
+		params.set("q", subject);
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		params.set("fq", "isInner:true");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			List<String> courseInfo = (List<String>) sd
+					.getFieldValue("courseInfo");
+			Object idobj = sd.getFieldValue("courseId");
+			Double price = Double.valueOf(sd.getFieldValue("price").toString());
+			Object contentObj = sd.getFieldValue("content");
+			Object titleObj = sd.getFieldValue("title");
+			String content = contentObj.toString();
+			if (content.length() > 50)
+				content = content.substring(0, 50);
+			CourseSearchResult csr = new CourseSearchResult((Integer) idobj,
+					titleObj.toString(), price, sd.getFieldValue("teacherName").toString(),
+					content, courseInfo);
+			resultList.add(csr);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		return resultList;
 	}
 
 }

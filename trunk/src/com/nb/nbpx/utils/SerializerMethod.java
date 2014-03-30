@@ -10,6 +10,8 @@ import com.nb.nbpx.utils.serializer.DateSerializer;
 import com.nb.nbpx.utils.serializer.DownloadKeywordSerializer;
 import com.nb.nbpx.utils.serializer.DownloadSubjectSerializer;
 import com.nb.nbpx.utils.serializer.LiveImageSerializer;
+import com.nb.nbpx.utils.serializer.QuestionKeywordSerializer;
+import com.nb.nbpx.utils.serializer.QuestionSubjectSerializer;
 import com.nb.nbpx.utils.serializer.UserSerializer;
 
 /**
@@ -33,6 +35,8 @@ public class SerializerMethod {
 				format);
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadKeyword.class, new DownloadKeywordSerializer());
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.DownloadSubject.class, new DownloadSubjectSerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.wenda.QuestionKeyword.class, new QuestionKeywordSerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.wenda.QuestionSubject.class, new QuestionSubjectSerializer());
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.LiveImage.class, new LiveImageSerializer());
 		//gb.registerTypeAdapter(com.nb.nbpx.pojo.user.CompInfo.class, new CompInfoSerializer());
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.user.User.class, new UserSerializer());
