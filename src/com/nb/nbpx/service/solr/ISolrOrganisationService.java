@@ -18,5 +18,6 @@ public interface ISolrOrganisationService  extends IBaseService {
 	public void addOrganisation2Solr(OrgInfo orgInfo);
 	public void addOrganisations2Solr(List<OrgInfo> orgInfoList);
 	public String queryRelatedOrganisation(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	public void removeOrganisationFromSolr(Integer orgId) throws SolrServerException, IOException;
 
 }

@@ -110,4 +110,13 @@ public class SolrOrganisationServiceImpl extends BaseServiceImpl implements
 		return json;
 	}
 
+	@Override
+	public void removeOrganisationFromSolr(Integer orgId)
+			throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getOraganisationServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(orgId+"");
+		solrServer.commit();		
+	}
+
 }

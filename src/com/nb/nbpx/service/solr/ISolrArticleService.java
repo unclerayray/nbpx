@@ -10,4 +10,5 @@ import com.nb.nbpx.service.IBaseService;
 public interface ISolrArticleService extends IBaseService  {
 	public void addArticle2Solr(ArticleDetail artiDetail);
 	public void updateArticleInfo2Solr(Integer articleId) throws IOException, SolrServerException ;
+	public void removeArticleFromSolr(Integer articleId) throws SolrServerException, IOException;
 }

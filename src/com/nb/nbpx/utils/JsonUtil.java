@@ -329,6 +329,26 @@ public class JsonUtil {
 		}
 		return sw.toString();
 	}
+	
+	/**
+	 * 将一个对象，写成json格式字符串 含日期但日期
+	 * 
+	 * @param o
+	 * @return[{ "id":1, "text":"Java" } ]
+	 */
+	public static String getJsonStringDate(Object o) {
+		ObjectMapper om = new ObjectMapper();
+		StringWriter sw = new StringWriter();
+		DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		om.setDateFormat(myDateFormat);
+		try {
+			JsonGenerator jg = new JsonFactory().createJsonGenerator(sw);
+			om.writeValue(jg, o);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sw.toString();
+	}
 
 	/**
 	 * 将一个对象，写成json格式字符串 含日期但日期不包括时间的

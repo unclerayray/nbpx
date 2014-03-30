@@ -18,4 +18,5 @@ public interface ISolrKeywordService extends IBaseService {
 	public void addKeyword2Solr(Keyword keyword);
 	public void addKeywords2Solr(List<Keyword> keywordList);
 	public String queryRelatedKeywords(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	public void removeKeywordFromSolr(Integer keywordId) throws SolrServerException, IOException;
 }

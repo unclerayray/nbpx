@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.solr.ISolrDownloadService;
 import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.service.solr.ISolrService;
@@ -27,6 +28,7 @@ public class SearchAction  extends BaseAction {
 	private ISolrService solrService;
 	private ISolrQuestionService solrQuestionService;
 	private ISolrOrganisationService solrOrganisationService;
+	private ISolrDownloadService solrDownloadService;
 	private String key;
 	private String q;
 
@@ -70,6 +72,21 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrQuestionService.queryRelatedQuestion(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 【机构】用solr全文搜索
+	 * @return
+	 */
+	public String queryDownloadBySolr(){
+		String json;
+		try {
+			json = solrDownloadService.queryRelatedDownloads(key, getStartPosi(), rows);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,5 +165,14 @@ public class SearchAction  extends BaseAction {
 	public void setSolrOrganisationService(
 			ISolrOrganisationService solrOrganisationService) {
 		this.solrOrganisationService = solrOrganisationService;
+	}
+
+	public ISolrDownloadService getSolrDownloadService() {
+		return solrDownloadService;
+	}
+
+	@Resource
+	public void setSolrDownloadService(ISolrDownloadService solrDownloadService) {
+		this.solrDownloadService = solrDownloadService;
 	}
 }

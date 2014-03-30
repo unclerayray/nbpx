@@ -21,6 +21,7 @@ import com.nb.nbpx.pojo.zixun.DownloadKeyword;
 import com.nb.nbpx.pojo.zixun.DownloadSubject;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.keyword.IKeywordService;
+import com.nb.nbpx.service.solr.ISolrDownloadService;
 import com.nb.nbpx.service.subject.ISubjectService;
 import com.nb.nbpx.service.zixun.IDownloadService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -40,6 +41,7 @@ public class DownloadAction extends BaseAction {
 	public IDownloadService downloadService;
 	public IKeywordService keywordService;
 	public ISubjectService subjectService;
+	private ISolrDownloadService solrDownloadService;
 	public String filetype;
 	public Download download;
 	public File file;
@@ -102,7 +104,7 @@ public class DownloadAction extends BaseAction {
 				download = saveSubjects2Download(download,subs);
 				downloadService.saveDownload(download);
 			}
-			//TODO save download info to Solr
+			solrDownloadService.addDownload2Solr(download);
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -167,6 +169,15 @@ public class DownloadAction extends BaseAction {
 	@Resource
 	public void setDownloadService(IDownloadService downloadService) {
 		this.downloadService = downloadService;
+	}
+
+	public ISolrDownloadService getSolrDownloadService() {
+		return solrDownloadService;
+	}
+
+	@Resource
+	public void setSolrDownloadService(ISolrDownloadService solrDownloadService) {
+		this.solrDownloadService = solrDownloadService;
 	}
 
 	public String getFiletype() {
