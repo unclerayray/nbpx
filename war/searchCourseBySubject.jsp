@@ -2,7 +2,7 @@
 pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-String keyw = (String)request.getParameter("key");
+String keyw = (String)request.getParameter("subject");
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -22,7 +22,7 @@ String keyw = (String)request.getParameter("key");
 
 	<link type="text/css" href="css/search.css" rel="stylesheet" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
-	<title>培训课搜索结果</title>
+	<title>培训课专题搜索结果</title>
 	<style>
 		.ui-autocomplete-loading {
 			background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
@@ -41,7 +41,7 @@ String keyw = (String)request.getParameter("key");
 		$(function() {
 			if("<%= keyw%>"!="null"){
 				$.ajax({
-					url:"struts/Search_queryBySolr?page=1&rows=10&key="+"<%=keyw%>",
+					url:"struts/Search_queryBySolrWithSubject?page=1&rows=10&key="+"<%=keyw%>",
 					success:function(data){
 						var jsonObject = eval('('+data+')');
 						var valueStr = "";
@@ -126,7 +126,7 @@ String keyw = (String)request.getParameter("key");
 function search(page){
 	var key = $('#searchWord').val();
 	$.ajax({
-		url:"struts/Search_queryBySolr?page="+page+"&rows=10&key="+key,
+		url:"struts/Search_queryBySolrWithSubject?page="+page+"&rows=10&key="+key,
 		success:function(data){
 			var jsonObject = eval('('+data+')');
 			var valueStr = "";

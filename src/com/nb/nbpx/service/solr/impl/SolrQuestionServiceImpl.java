@@ -22,6 +22,8 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.wenda.Question;
+import com.nb.nbpx.pojo.wenda.QuestionKeyword;
+import com.nb.nbpx.pojo.wenda.QuestionSubject;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -45,6 +47,12 @@ public class SolrQuestionServiceImpl extends BaseServiceImpl implements
 			sid.addField("questionId", question.getQuestionId());
 			sid.addField("title", question.getTitle());
 			sid.addField("content", question.getContent());
+			for (QuestionKeyword dk : question.getQuestionKeywords()) {
+				sid.addField("keyword", dk.getKeyword());
+			}
+			for (QuestionSubject dk : question.getQuestionSubjects()) {
+				sid.addField("subject", dk.getSubject());
+			}
 			solrServer.add(sid);
             solrServer.commit();
             logger.debug("已成功为插入的提问创建索引");

@@ -74,4 +74,52 @@ public interface ISolrService extends IBaseService{
 	 */
 	public List<CourseSearchResult> fullTextQueryForHlReturnInnerCourseList(String q, Integer start, Integer rows) throws SolrServerException, IOException;
 	
+	/**
+	 * 【公开课】通过变量全文查找，用于显示列表。高亮显示,返回json字符串
+	 * @param subject
+	 * @param start
+	 * @param rows
+	 * @return
+	 * @throws SolrServerException
+	 * @throws IOException
+	 * @throws NbpxException
+	 */
+	public String queryCoursesBySubject(String subject, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	
+	/**
+	 * 【内训课】通过变量全文查找，用于显示列表。高亮显示,返回json字符串
+	 * @param subject
+	 * @param start
+	 * @param rows
+	 * @return
+	 * @throws SolrServerException
+	 * @throws IOException
+	 * @throws NbpxException
+	 */
+	public String queryInnerCoursesBySubject(String subject, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	
+
+	/**
+	 * 【公开课】通过变量全文查找，用于显示列表。高亮显示,返回List<CourseSearchResult>
+	 * @param subject
+	 * @param start
+	 * @param rows
+	 * @return
+	 * @throws SolrServerException
+	 * @throws IOException
+	 * @throws NbpxException
+	 */
+	public List<CourseSearchResult> queryCourseListBySubject(String subject, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	
+	/**
+	 * 【内训课】通过变量全文查找，用于显示列表。高亮显示,返回List<CourseSearchResult>
+	 * @param subject
+	 * @param start
+	 * @param rows
+	 * @return
+	 * @throws SolrServerException
+	 * @throws IOException
+	 * @throws NbpxException
+	 */
+	public List<CourseSearchResult> queryInnerCourseListBySubject(String subject, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
 }
