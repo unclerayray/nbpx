@@ -18,4 +18,5 @@ public interface ISolrQuestionService  extends IBaseService {
 	public void addQuestion2Solr(Question question);
 	public void addQuestions2Solr(List<Question> questionList);
 	public String queryRelatedQuestion(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	public void removeQuestionFromSolr(Integer questionId) throws SolrServerException, IOException;
 }

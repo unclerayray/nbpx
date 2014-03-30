@@ -137,5 +137,14 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
             //  "Failed stripping HTML for column: " + column, e); 
         } 
         return out.toString(); 
-    } 
+    }
+
+	@Override
+	public void removeArticleFromSolr(Integer articleId)
+			throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getArticleServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(articleId+"");
+		solrServer.commit();
+	} 
 }

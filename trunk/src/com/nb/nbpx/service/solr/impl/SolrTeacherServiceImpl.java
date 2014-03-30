@@ -87,5 +87,14 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 	public String queryRelateTeacher(String q, Integer start, Integer rows) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void removeTeacherFromSolr(Integer teacherId)
+			throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getTeacherServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(teacherId+"");
+		solrServer.commit();
 	} 
 }

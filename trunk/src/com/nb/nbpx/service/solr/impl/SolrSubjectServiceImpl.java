@@ -129,4 +129,13 @@ public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubj
 		return json;
 	}
 
+	@Override
+	public void removeSubjectFromSolr(Integer subjectId)
+			throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getSubjectServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(subjectId+"");
+		solrServer.commit();
+	}
+
 }

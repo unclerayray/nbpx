@@ -18,4 +18,5 @@ public interface ISolrSubjectService extends IBaseService {
 	public void addSubject2Solr(Subject subject);
 	public void addSubjects2Solr(List<Subject> subjectList);
 	public String queryRelatedSubject(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
+	public void removeSubjectFromSolr(Integer subjectId) throws SolrServerException, IOException;
 }

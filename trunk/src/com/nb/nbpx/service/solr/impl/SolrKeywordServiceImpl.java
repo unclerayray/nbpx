@@ -143,4 +143,13 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		return json;
 	}
 
+	@Override
+	public void removeKeywordFromSolr(Integer keywordId)
+			throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getKeywordServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(keywordId+"");
+		solrServer.commit();
+	}
+
 }

@@ -115,4 +115,13 @@ public class SolrQuestionServiceImpl extends BaseServiceImpl implements
 		return json;
 	}
 
+	@Override
+	public void removeQuestionFromSolr(Integer questionId)
+			throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getQuestionServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(questionId+"");
+		solrServer.commit();		
+	}
+
 }

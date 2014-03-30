@@ -132,6 +132,22 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获取下载模块的Server URL
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getDownloadServerUrl() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		logger.debug("solr.core_download.url = " + prop.getProperty("solr.core_download.url"));
+		return prop.getProperty("solr.core_download.url");
+	}
+	
+	/**
 	 * 获得自定义词典路径
 	 * @return
 	 */
