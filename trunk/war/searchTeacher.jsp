@@ -36,7 +36,7 @@ pageEncoding="utf-8"%>
 			minLength: 1,
 			source: function(request, response) {
 				$.ajax({
-					url: "struts/Search_queryKeywordsByKeyword",
+					url: "struts/Search_queryTeacherTip",
 					delay: 500,
 					dataType:'json',
 					timeout: 5000,
@@ -45,7 +45,7 @@ pageEncoding="utf-8"%>
 						style: "full",
 						maxRows: 12,
 						wt:"json",
-						q:"suggest:" + $("#searchWord").val(),
+						q:$("#searchWord").val(),
 						name_startsWith: request.term
 					},
 					success: function(data) {
@@ -68,7 +68,7 @@ pageEncoding="utf-8"%>
 function search(page){
 	var key = $('#searchWord').val();
 	$.ajax({
-		url:"struts/Search_queryBySolr?page="+page+"&rows=10&key="+key,
+		url:"struts/Search_queryTeacherBySolr?page="+page+"&rows=10&key="+key,
 		success:function(data){
 			var jsonObject = eval('('+data+')');
 			var valueStr = "";
@@ -79,31 +79,16 @@ function search(page){
 					var outClass= "classDesc last";
 					if(n<rows.length-1)
 						outClass="classDesc";
-					var schedules = '';//课程安排
-					var courseInfo = value.courseInfo;
-					//alert("courseInfo = "+courseInfo);
-					if(courseInfo!=null){
-						schedules += "<div class='left' style='width:60px;'><span>课程安排：</span></div><div style='float:right;width:630px;'><table id='scheduleTable'><tr>";
-						$.each(courseInfo,function(n,info){
-							if(n!=0&&n%3==0){
-								schedules += "</tr><tr><td>"+info+"</td>";
-							}else{
-								schedules += "<td>"+info+"</td>";
-							}
-						});
-						schedules += "</tr></table></div>";
-					}
 					//alert("schedules="+schedules);
-					valueStr += "<div  class='"+outClass+"'><h3><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></h3>"+
-					"<div class='classInfor'>编号："+value.courseId+"&nbsp;&nbsp;培训费用：￥"+value.price+"&nbsp;&nbsp;讲师："+value.teacherName+"</div>"
-					+ schedules +
+					valueStr += "<div  class='"+outClass+"'><h3><a href='viewTeacher.jsp?id="+value.teacherId+"'>"+value.realName+"</a></h3>"+
+					"<div class='classInfor'>编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+"&nbsp;&nbsp;擅长："+value.expertIn+"</div>"+
 					"<div class='classDetail'>"+
-					"<div class='left' style='width:60px;'><span>培训内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a href='viewClass.jsp?id="+value.courseId+"'>详细内容</a>]</div></div></div>"+
+					"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
 					"<div class='clear'></div>";
 				});
 				//alert("valueStr " + valueStr);
 				if(valueStr == ""){
-					valueStr = "<div class='notice'>未搜索到相关课程信息</div>";
+					valueStr = "<div class='notice'>未搜索到相关讲师信息</div>";
 				}else
 				$('#pageDiv').css('display','block');
 				$('#classes').html(valueStr);

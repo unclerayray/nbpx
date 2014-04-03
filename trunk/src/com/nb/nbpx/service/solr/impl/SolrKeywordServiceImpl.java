@@ -104,8 +104,83 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		// params.set("qt", "/select");
 		// params.set("q", "content:"+q);
 		q = SolrUtil.escapeQueryChars(q);
-		q = "keyword:"+q;
+
 		params.set("q", q);
+		query.set("echoParams", "explicit");
+		query.set("df", "keyword,pinyin");
+		query.set("mlt.qf", "pinyin^10.0 keyword^10.0");
+		query.set("defType", "edismax");
+		query.set("pf", "keyword pinyin");
+		query.set("qf", "keyword^10.0 pinyin^1.0");
+		//q = "keyword:"+q;
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<Keyword> resultList = new ArrayList<Keyword>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Object keywordobj = sd.getFieldValue("keyword");
+			if(keywordobj==null){
+				continue;
+			}
+			Keyword keyword = new Keyword();
+			keyword.setKeyword(keywordobj.toString());
+			resultList.add(keyword);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		json = JsonUtil.formatListToJson(resultList);
+		return json;
+	}
+
+	@Override
+	public void removeKeywordFromSolr(Integer keywordId)
+			throws SolrServerException, IOException {
+		String serverURL = SolrUtil.getKeywordServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		solrServer.deleteById(keywordId+"");
+		solrServer.commit();
+	}
+
+	@Override
+	public List<Keyword> queryRelatedKeywordsList(String q, Integer start,
+			Integer rows) throws SolrServerException, IOException,
+			NbpxException {
+		if(q==null){
+			throw new NbpxException("查询关键词不能为空。");
+		}
+		String json = "";
+		String serverURL = SolrUtil.getKeywordServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		q = SolrUtil.escapeQueryChars(q);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
+
+		params.set("q", q);
+		query.set("echoParams", "explicit");
+		query.set("df", "keyword,pinyin");
+		query.set("mlt.qf", "pinyin^10.0 keyword^10.0");
+		query.set("defType", "edismax");
+		query.set("pf", "keyword pinyin");
+		query.set("qf", "keyword^10.0 pinyin^1.0");
+		//q = "keyword:"+q;
 		if(start!=null){
 			params.set("start", start);
 		}
@@ -138,18 +213,63 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		hs.addAll(resultList);
 		resultList.clear();
 		resultList.addAll(hs);
-		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
-				ResponseStatus.SUCCESS, "", list);
-		return json;
+		return resultList;
 	}
 
 	@Override
-	public void removeKeywordFromSolr(Integer keywordId)
-			throws SolrServerException, IOException {
+	public List<Keyword> queryTipKeywords(String q, Integer start, Integer rows)
+			throws SolrServerException, IOException, NbpxException {
+		if(q==null){
+			throw new NbpxException("查询关键词不能为空。");
+		}
 		String serverURL = SolrUtil.getKeywordServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
-		solrServer.deleteById(keywordId+"");
-		solrServer.commit();
+		q = SolrUtil.escapeQueryChars(q);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
+
+		params.set("q", q);
+		query.set("echoParams", "explicit");
+		query.set("df", "keyword,pinyin");
+		query.set("mlt.qf", "pinyin^10.0 keyword^10.0");
+		query.set("defType", "edismax");
+		query.set("pf", "keyword pinyin");
+		query.set("qf", "keyword^10.0 pinyin^1.0");
+		//q = "keyword:"+q;
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<Keyword> resultList = new ArrayList<Keyword>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Object keywordobj = sd.getFieldValue("keyword");
+			if(keywordobj==null){
+				continue;
+			}
+			Keyword keyword = new Keyword();
+			keyword.setKeyword(keywordobj.toString());
+			resultList.add(keyword);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		return resultList;
 	}
 
 }
