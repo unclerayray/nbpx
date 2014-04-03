@@ -1,6 +1,7 @@
 package com.nb.nbpx.server.course;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -8,11 +9,15 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.solr.ISolrDownloadService;
+import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.service.solr.ISolrService;
+import com.nb.nbpx.service.solr.ISolrTeacherService;
+import com.nb.nbpx.utils.JsonUtil;
 
 /**
  * @author Roger
@@ -29,6 +34,8 @@ public class SearchAction  extends BaseAction {
 	private ISolrQuestionService solrQuestionService;
 	private ISolrOrganisationService solrOrganisationService;
 	private ISolrDownloadService solrDownloadService;
+	private ISolrTeacherService solrTeacherService;
+	private ISolrKeywordService solrKeywordService;
 	private String key;
 	private String q;
 
@@ -147,7 +154,33 @@ public class SearchAction  extends BaseAction {
 	public String queryKeywordsByKeyword(){
 		String json;
 		try {
-			json = solrService.queryKeywordsByKeyword(q, 0, 10);
+			json = solrKeywordService.queryRelatedKeywords(q, 0, 10);
+			this.inputStream = castToInputStream(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+	public String queryTeacherTip(){
+		String json;
+		try {
+			List<Keyword> teachers = solrTeacherService.queryTipTeacher(q, 0, 10);
+			List<Keyword> keywords = solrKeywordService.queryTipKeywords(q, 0, 10);
+			teachers.addAll(keywords);
+			json = JsonUtil.formatListToJson(teachers);
+			this.inputStream = castToInputStream(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
+
+	public String queryTeacherBySolr(){
+		String json;
+		try {
+			json = solrTeacherService.queryTeacherBySolr(key, getStartPosi(), rows);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -208,5 +241,23 @@ public class SearchAction  extends BaseAction {
 	@Resource
 	public void setSolrDownloadService(ISolrDownloadService solrDownloadService) {
 		this.solrDownloadService = solrDownloadService;
+	}
+
+	public ISolrTeacherService getSolrTeacherService() {
+		return solrTeacherService;
+	}
+
+	@Resource
+	public void setSolrTeacherService(ISolrTeacherService solrTeacherService) {
+		this.solrTeacherService = solrTeacherService;
+	}
+
+	public ISolrKeywordService getSolrKeywordService() {
+		return solrKeywordService;
+	}
+
+	@Resource
+	public void setSolrKeywordService(ISolrKeywordService solrKeywordService) {
+		this.solrKeywordService = solrKeywordService;
 	}
 }
