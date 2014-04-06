@@ -93,6 +93,20 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 		return json;
 	}
 
+	@Override
+	public boolean verifyLogin(String username, String password) throws NbpxException {
+		List<User> userList = userDao.queryUserByUserName(username);
+		//TODO add new admin control
+		if(!"admin".equals(username)||userList==null||userList.isEmpty()){
+			throw new NbpxException("不存在此管理员");
+		}
+		
+		if(password.equals(userList.get(0).getPassWord())){
+			return true;
+		}
+		return false;
+	}
+
 
 	@Resource
 	public void setUserDao(IUserDao userDao) {
@@ -107,4 +121,15 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	public User queryById(Integer id) {
 		return userDao.get(id);
 	}
+
+	@Override
+	public User queryByUserName(String userName) {
+		Map<String, Object> propsMap = new LinkedHashMap<String, Object>();
+		if(userName != null){
+			propsMap.put("userName", userName);
+		}
+		User user = userDao.queryEntityByProperties(User.class, propsMap);
+		return user;
+	}
+
 }

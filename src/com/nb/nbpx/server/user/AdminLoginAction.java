@@ -11,7 +11,6 @@ public class AdminLoginAction   extends JCaptchaBaseAction  {
 
 	@Override
 	public void validateInput() {
-		// TODO Auto-generated method stub
 		super.validateInput();
 	}
 

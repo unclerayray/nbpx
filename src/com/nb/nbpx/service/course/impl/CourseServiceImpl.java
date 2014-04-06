@@ -586,10 +586,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 						return JsonUtil.formatListToJson(result);
 					}
 				} catch (SolrServerException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -1280,7 +1278,6 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	@Override
 	public String queryCourseByType(Boolean ifInner, String courseType,
 			Integer rows, Integer start) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

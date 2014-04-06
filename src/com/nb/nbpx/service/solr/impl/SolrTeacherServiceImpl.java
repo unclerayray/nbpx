@@ -30,6 +30,7 @@ import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.PinYinUtil;
 import com.nb.nbpx.utils.SolrUtil;
+import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 
 @Component("SolrTeacherService")
 public class SolrTeacherServiceImpl implements ISolrTeacherService {
@@ -44,17 +45,16 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 			sid.addField("teacherId", teacher.getTeacherId());
 			sid.addField("realName", teacher.getRealName());
 			sid.addField("expertIn", teacher.getExpertIn());
-			sid.addField("majorCatgory", teacher.getMajorCatgory());
+			sid.addField("majorCatgory", NbpxDicMap.courseTypeMap.get(teacher.getMajorCatgory()));
 			String introduction = teacher.getIntroduction();
 			introduction = stripHTMLX(introduction);
-			sid.addField("content", introduction);
 			sid.addField("introduction", introduction);
 			if(teacher.getRealName()!=null){
 				List<String> pinyinList = PinYinUtil.getPinYinList(teacher.getRealName());
 				for(String str:pinyinList){
 					sid.addField("pinyin", str);
 				}
-				sid.addField("kwfreq", 23);
+				//sid.addField("kwfreq", 23);
 			}
 			
 			solrServer.add(sid);

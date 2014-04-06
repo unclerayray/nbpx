@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.utils.SolrUtil;
+import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 @Component("SolrCourseService")
 public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCourseService{
     public static Logger logger = LogManager.getLogger(SolrCourseServiceImpl.class);
@@ -46,9 +48,11 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			sid.addField("price", cai.getPrice());
 			sid.addField("teacherName", cai.getTeacherName());
 			sid.addField("isInner", cai.isInner);
+			sid.addField("lastUpdateDate", new Date());
 			String contents = cai.getContent();
 			contents = stripHTMLX(contents);
 			sid.addField("content", contents);
+			sid.addField("category", NbpxDicMap.courseTypeMap.get(cai.category));
 			String[] courseKeywords = cai.getKeywords().split(",");
 			String[] courseSubjects = cai.getSubject().split(",");
 			for(String keyword:courseKeywords){
@@ -101,7 +105,9 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			String endDate = format.format(info.getEndDate());
 			sid.addField("courseInfo", startDate+"至"+endDate+"在"+info.getCityName());
 		}
-		
+
+		sid.removeField("lastUpdateDate");
+		sid.addField("lastUpdateDate", new Date());
 		solrServer.add(sid);
         solrServer.commit();
 	}

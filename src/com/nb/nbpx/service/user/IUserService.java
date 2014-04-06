@@ -43,6 +43,15 @@ public interface IUserService extends IBaseService {
 	 */
 	public String checkLogin(String username,String password);
 	
+	/**
+	 * 管理员登录
+	 * @param username
+	 * @return
+	 */
+	public boolean verifyLogin(String username,String password) throws NbpxException;
+	
 	
 	public User queryById(Integer id);
+	
+	public User queryByUserName(String userName);
 }

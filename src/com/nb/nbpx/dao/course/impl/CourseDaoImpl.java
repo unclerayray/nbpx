@@ -619,13 +619,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	public Course updateCourse(Course course) {
 		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
 				+ "blockedContent = ?  ,hasVideo = ? ,lastUpdateDate = ?  ,"
-				+ "recommanded = ? ,state = ? ,classic = ?, links = ? WHERE courseId = ?";
+				+ "recommanded = ? ,state = ? ,classic = ?, links = ?, createdBy = ?, creationDate = ?"
+				+ ", lastUpdatedBy = ?, lastUpdateDate = ? WHERE courseId = ?";
 		Object[] values = { course.getTitle(), course.getTeacherId(),
 				course.getCategory(), course.getIsInner(), course.getPrice(),
 				course.getContent(), course.getBlockedContent(),
 				course.getHasVideo(), course.getLastUpdateDate(),
 				course.getRecommanded(), course.getState(),
-				course.getClassic(), course.getLinks() , course.getCourseId() };
+				course.getClassic(), course.getLinks() , 
+				course.getCreatedBy(), course.getCreationDate(),
+				course.getLastUpdatedBy(), course.getLastUpdateDate(),
+				course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
 	}

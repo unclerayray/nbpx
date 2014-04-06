@@ -25,7 +25,6 @@ import com.nb.nbpx.utils.daotool.Equality;
  */
 @Component("BaseService")
 public class BaseServiceImpl implements IBaseService {
-    public static Logger logger = LogManager.getLogger(BaseServiceImpl.class);
     
 	@Override
     public Map<String, Object> createPropMap(Equality... equs){

@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -35,6 +37,7 @@ import com.nb.nbpx.utils.SolrUtil;
 public class SolrDownloadServiceImpl extends BaseServiceImpl implements
 		ISolrDownloadService {
 
+    public static Logger logger = LogManager.getLogger(SolrDownloadServiceImpl.class);
 	@Override
 	public void addDownload2Solr(Download download) {
 		String serverURL;
@@ -59,9 +62,9 @@ public class SolrDownloadServiceImpl extends BaseServiceImpl implements
 
 			solrServer.add(sid);
 			solrServer.commit();
-			logger.debug("已成功为插入的关键词创建索引");
+			logger.debug("已成功为插入的下载创建索引");
 		} catch (IOException e) {
-			logger.error("未能取得关键词的SolrServer URL。" + e.getMessage());
+			logger.error("未能取得下载的SolrServer URL。" + e.getMessage());
 			;
 			e.printStackTrace();
 		} catch (SolrServerException e) {
