@@ -1,8 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+String username = (String)session.getAttribute( "userName" );
+if(username==null||username==""){
+	response.sendRedirect("login.jsp");
+}
+%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Documentation - jQuery EasyUI</title>
+	<title>南北培训网后台</title>
 	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/gray/easyui.css">
 	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css"/>
 	<script type="text/javascript" src="../js/easyui/jquery-1.8.0.min.js"></script>
@@ -12,6 +20,18 @@
 		
 	});
 	function addTab(menuID,src){ 
+		if("<%=username%>"==""){
+			$.messager.confirm(
+				'Confirm',
+				'session过期，请重新登录。',
+				function(r) {
+					if (r) {
+						response.sendRedirect("login.jsp");
+					}else{
+						return;
+					}
+			});
+		}
 		var tt = $('#tabs');
 		var tabName = menuID;
 		if(tt.tabs('exists', tabName)){//如果tab已经存在,则选中并刷新该tab    	
@@ -26,22 +46,89 @@
 		}
 	}
 	function open1(plugin){
-				if ($('#tabs').tabs('exists',plugin)){
-					$('#tabs').tabs('select', plugin);
-				} else {
-					$('#tabs').tabs('add',{
-						title:plugin,
-						href:plugin+'.html',
-						closable:true,
-						extractor:function(data){
-							data = $.fn.panel.defaults.extractor(data);
-							var tmp = $('<div></div>').html(data);
-							data = tmp.find('#content').html();
-							tmp.remove();
-							return data;
-						}
-					});
+		if ($('#tabs').tabs('exists',plugin)){
+			$('#tabs').tabs('select', plugin);
+		} else {
+			$('#tabs').tabs('add',{
+				title:plugin,
+				href:plugin+'.html',
+				closable:true,
+				extractor:function(data){
+					data = $.fn.panel.defaults.extractor(data);
+					var tmp = $('<div></div>').html(data);
+					data = tmp.find('#content').html();
+					tmp.remove();
+					return data;
 				}
+			});
+		}
+	}
+	function changeProfile(){
+		$('#pwd-dlg').dialog('open').dialog('setTitle', '修改密码');
+	}
+	function closeDlg(){
+		alert('sdfsdf');
+		$('pwd-dlg').dialog('close');
+	}
+	
+	function changePwd(){
+		var message = '';
+		if($('#pwd').val()==null||$('#pwd').val()==''||$('#cfpwd').val()==null||$('#cfpwd').val()==''||$('#newPwd').val()==null||$('#newPwd').val()==''){
+			message += '请填写所有密码';
+		}else{
+			if($('#newPwd').val()==$('#cfpwd').val()){
+				if($('#newPwd').val().length<6){
+					message += '密码不能少于6位';
+				}
+			}else{
+				message += '密码与确认密码不符';
+			}
+		}
+		
+		if(message!=''){
+			$.messager.show({
+				title : '温馨提示',
+				msg : message,
+				timeout : 3000,
+				showType : 'fade'
+			});
+		}else{
+			$.ajax({
+				url:'../struts/Admin_changePwd?pwd='+$('#pwd').val()+'&newPwd='+$('#newPwd').val(),
+				success: function(data){
+					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					if(data.success){
+						alert("成功修改密码，请重新登录");
+						window.location.href = "login.jsp";
+					}else{
+						$.messager.show({
+							title : '温馨提示',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+		}
+	}
+	
+	function logout(){
+		$.messager.confirm(
+				'Confirm',
+				'注销登录？',
+				function(r) {
+					if (r) {
+						$.ajax({
+							url:'../struts/Admin_logout',
+							success: function(data){
+								window.location.href = "login.jsp";
+							}
+						});
+					}else{
+						return;
+					}
+			});
 	}
 	</script>
 	<style>
@@ -59,7 +146,7 @@
 <body class="easyui-layout" style="min-width:1000px;overflow:auto">
 	<div region="north" style="height:60px;line-height:60px;border:none;overflow:hidden;font-weight:normal;font-size:16px;background:url(../images/adminLogoBg.jpg) repeat-x">
 		<img src="../images/adminLogo.jpg" style='float:left'></img>
-		<div class="userInfor"><ul><li><span>当前用户:Admin</span></li><li><a href="#">修改个人信息</a></li><li><a href="#">退出登陆</a></li></ul></div>
+		<div class="userInfor"><ul><li><span>当前用户:<%=username%></span></li><li><a href="javascript:changeProfile()">修改密码</a></li><li><a href="javascript:logout()">退出登录</a></li></ul></div>
 	</div>
 
 	<div region="west" split="true" style="width:220px;overflow:hidden" title="功能菜单">
@@ -165,7 +252,7 @@
 	<div region="center" border="false">
 			<div id="tabs" class="easyui-tabs" fit="true" border="false" plain="true">
 				<div title="首页">
-					<p style='padding:20px;padding-left:20px'>欢迎登陆南北培训网后台管理系统</p>
+					<p style='padding:20px;padding-left:20px'><%=username%>,欢迎登录南北培训网后台管理系统</p>
 				</div>
 			</div>
 	</div>
@@ -178,6 +265,43 @@
 		<div class="menu-sep"></div>
 		<div id="m-close">关闭</div>
 	</div>
+	
+	<div id="pwd-dlg" class="easyui-dialog"
+	style="width: 240px; height: 150px; padding: 5px 5px" closed="true"
+	modal="true"  data-options="buttons: [{
+											text:'确定',
+											iconCls:'icon-ok',
+											handler:function(){
+											changePwd(); } },{
+											text:'取消',
+											iconCls:'icon-cancel',
+											handler:function(){
+											closeDlg();  }
+										}]">
+		<form id="pwd-fm" method="post">
+			<table cellspacing="0" cellpadding="0" class="formTable">
+				<tr>
+					<td class="itemText"><label>旧密码:</label></td>
+					<td>
+						<input id="pwd" name="pwd" data-options="required:true,missingMessage:'不能为空'"  class="easyui-validatebox" type="password"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="itemText"><label>新密码:</label></td>
+					<td>
+						<input id="newPwd" name="newPwd" data-options="required:true,missingMessage:'不能为空'"  class="easyui-validatebox" type="password"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="itemText"><label>确认密码:</label></td>
+					<td>
+						<input id="cfpwd" name="cfpwd" data-options="required:true,missingMessage:'不能为空'"  class="easyui-validatebox" type="password"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
 </body>
 </html>
 

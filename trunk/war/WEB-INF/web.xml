@@ -3,6 +3,9 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="nbpx" version="2.5">
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 	<display-name>nbpx</display-name>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -18,7 +21,6 @@
 	<servlet>
 		<servlet-name>jsp</servlet-name>
 		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
-		<!-- 必须是javac1.5，即便项目中用了JDK1.6，否则GWT中的JSP不用使用泛型,另外需将本地的JAVA_HOME/lib/tools加入到项目的buildPath当中 -->
 		<init-param>
 			<param-name>compiler</param-name>
 			<param-value>javac1.6</param-value>
@@ -57,11 +59,13 @@
 		<filter-class>com.nb.nbpx.filter.SessionFilter</filter-class>
 		<init-param>
 			<param-name>loginPage</param-name>
-			<param-value>/nbpx/login.jsp</param-value>
+			<param-value>/nbpx/admin/login.jsp</param-value>
 		</init-param>
 	</filter>
-	<!-- <filter-mapping> <filter-name>SessionCheckFilter</filter-name> <url-pattern>/*</url-pattern> 
-		</filter-mapping> -->
+	<!-- <filter-mapping>
+		<filter-name>SessionCheckFilter</filter-name> 
+		<url-pattern>/*</url-pattern> 
+	</filter-mapping> -->
 
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>

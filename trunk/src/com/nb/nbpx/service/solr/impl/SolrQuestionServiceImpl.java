@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -36,6 +38,7 @@ import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrQuestionService")
 public class SolrQuestionServiceImpl extends BaseServiceImpl implements
 		ISolrQuestionService {
+    public static Logger logger = LogManager.getLogger(SolrQuestionServiceImpl.class);
 
 	@Override
 	public void addQuestion2Solr(Question question) {

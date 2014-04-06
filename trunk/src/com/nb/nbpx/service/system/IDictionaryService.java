@@ -1,5 +1,7 @@
 package com.nb.nbpx.service.system;
 
+import java.util.List;
+
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
@@ -47,4 +49,6 @@ public interface IDictionaryService extends IBaseService {
 	public void deleteDic(Dictionary dictionary) throws NbpxException ;
 	
 	public String getDic(String codeName,String showName);
+	
+	public List<Dictionary> getDicListByType(String typeCode);
 }

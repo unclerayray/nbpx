@@ -84,7 +84,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	 */
 	@Override
 	public void deltaImport() throws Exception {
-		// TODO
+		// TODO may not need it
 	}
 
 	@Override

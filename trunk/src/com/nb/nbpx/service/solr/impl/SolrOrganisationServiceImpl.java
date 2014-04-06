@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -29,6 +31,7 @@ import com.nb.nbpx.utils.SolrUtil;
 public class SolrOrganisationServiceImpl extends BaseServiceImpl implements
 		ISolrOrganisationService {
 
+    public static Logger logger = LogManager.getLogger(SolrOrganisationServiceImpl.class);
 	@Override
 	public void addOrganisation2Solr(OrgInfo orgInfo) {
 		String serverURL;

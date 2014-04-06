@@ -31,11 +31,34 @@
 			<result name="input">/{1}/input.jsp</result>
 			<result name="error">/{1}/error.jsp</result>
 			<result name="none">/{1}/none.jsp</result>
-			<result name="login">/login/index.jsp</result>
+			<result name="relogin">/admin/login.jsp</result>
+			<result name="index" type="redirect">/admin/index.html</result>
 			<result name="{2}">/{1}/{2}.jsp</result>
 			<result name="forwardJsp">/{1}/${forwardJsp}</result>
 			<result name="json" type="json"></result>
 			<result name="report">/report/{2}.jsp</result>
+		</action>
+	</package>
+	
+	
+	<package name="MyAdminRestDataSource" namespace="/admin" extends="json-default">
+		<interceptors>
+			<interceptor name="encoding"
+				class="com.nb.nbpx.interceptor.EncodingInterceptor"></interceptor>
+			<interceptor name="jsonBuilder"
+				class="com.nb.nbpx.interceptor.JsonBuilderInterceptor" />
+		</interceptors>
+
+		<action name="*_*" class="{1}Action" method="{2}">
+			<interceptor-ref name="encoding"></interceptor-ref>
+			<interceptor-ref name="jsonBuilder"></interceptor-ref>
+			<!-- <interceptor-ref name="jcaptchaValidation"></interceptor-ref> -->
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">300*1024</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="relogin">/admin/login.jsp</result>
+			<result name="index" type="redirect">/admin/index.jsp</result>
 		</action>
 	</package>
 

@@ -6,16 +6,13 @@ package com.nb.nbpx.server.course;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -65,6 +62,9 @@ public class CourseAction extends BaseAction {
 	public CourseInfo courseInfo;
 	public String jsonArray;
 	public List<CourseInfo> infos;
+	/**
+	 * 课程的其他信息，关键词专题等
+	 */
 	public CourseAllInfoDto courseAllInfo;
 	public static Logger log = LogManager.getLogger(CourseAction.class);
 
@@ -159,7 +159,6 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String saveCourse() {
-		//TODO save with created by
 		validateCourseInfo();
 		String[] links = courseAllInfo.getLinks().split(",");
 		// List<Keyword> keywords = keywordService.saveKeywords(courseAllInfo);
@@ -167,22 +166,30 @@ public class CourseAction extends BaseAction {
 		Course cou = new Course(courseAllInfo);
 		cou.setContent(keywordService.setHyperLink(links,
 				cou.getContent()));// 生成超链接
+		//设置发布和修改者
+		cou.setLastUpdatedBy(super.getSessionUserName());
+		if(cou.getCreatedBy()==null||cou.getCreatedBy().isEmpty()){
+			cou.setCreatedBy(super.getSessionUserName());
+		}
+		
+		cou.setLastUpdateDate(new Date());
+		if(cou.getCreationDate()==null){
+			cou.setCreationDate(new Date());
+		}
+		
 		String return_course_id = "";
 		try {
 			Boolean deleteBeforeInsert = false;
 			if (courseAllInfo.getCourseId() != null) {
 				deleteBeforeInsert = true;
 			}
-			String userName = getSessionUserName();
-			courseAllInfo.setCreatedBy(userName);
-			courseAllInfo.setLastUpdatedBy(userName);
 			cou = courseService.saveCourse(cou);
-			return_course_id = cou.toString();
+			return_course_id = cou.getCourseId()+"";
 			courseAllInfo.setCourseId(cou.getCourseId());
 			courseService
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 			solrCourseService.addCourse2Solr(courseAllInfo);
-			solrCourseService.updateCourseInfo2Solr(cou.getCourseId());
+			//solrCourseService.updateCourseInfo2Solr(cou.getCourseId());
 			if(sync!=null&&sync&&!deleteBeforeInsert){
 				//-------------同步到内训
 				Course innerCou = cou;
@@ -193,7 +200,7 @@ public class CourseAction extends BaseAction {
 				courseService
 						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 				solrCourseService.addCourse2Solr(courseAllInfo);
-				solrCourseService.updateCourseInfo2Solr(innerCou.getCourseId());
+				//solrCourseService.updateCourseInfo2Solr(innerCou.getCourseId());
 			}
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -310,7 +317,6 @@ public class CourseAction extends BaseAction {
 		try {
 			courseService.saveCourseInfo(courseInfo);
 			solrCourseService.updateCourseInfo2Solr(courseInfo.getCourseId());
-			// TODO SOLR update
 
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(

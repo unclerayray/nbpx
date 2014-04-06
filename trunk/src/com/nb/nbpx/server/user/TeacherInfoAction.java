@@ -9,6 +9,7 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.solr.ISolrTeacherService;
 import com.nb.nbpx.service.user.ITeacherInfoService;
 import com.nb.nbpx.utils.JsonUtil;
 
@@ -25,6 +26,7 @@ public class TeacherInfoAction extends BaseAction{
 	
 	private ITeacherInfoService teacherInfoService;
 	private ITeacherInfoDao teacherInfoDao;
+	private ISolrTeacherService solrTeacherService;
 	
 	public String getTeacherInforByUserId(){
 		String json = "";
@@ -54,7 +56,10 @@ public class TeacherInfoAction extends BaseAction{
 			info.setIntroduction(teacherInfor.getIntroduction());
 			info.setMajorCatgory(teacherInfor.getMajorCatgory());
 			json = teacherInfoService.saveTeacherInfor(info);
-			System.out.println("json = " + json);
+			// TODO 把category的字典换成字典值
+			solrTeacherService.addTeacher2Solr(info);
+			
+			//System.out.println("json = " + json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -172,6 +177,15 @@ public class TeacherInfoAction extends BaseAction{
 	@Resource
 	public void setTeacherInfoService(ITeacherInfoService teacherInfoService) {
 		this.teacherInfoService = teacherInfoService;
+	}
+
+	public ISolrTeacherService getSolrTeacherService() {
+		return solrTeacherService;
+	}
+
+	@Resource
+	public void setSolrTeacherService(ISolrTeacherService solrTeacherService) {
+		this.solrTeacherService = solrTeacherService;
 	}
 
 

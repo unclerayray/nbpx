@@ -120,10 +120,26 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
             userName = (String) session.getAttribute("userName");
         } else {
             logger.debug("---->:session missing");
+            //FIXME there maybe an admin problem coming up 
             userName = "admin";
         }
         logger.debug("---->:userName = " + userName);
         return userName;
+    }
+    
+    /**
+     * @return
+     */
+    public String getMeCode() {
+        String code = new String();
+        if (session != null) {
+        	code = (String) session.getAttribute("code");
+        } else {
+            logger.debug("---->:session missing");
+            code = "missing";
+        }
+        logger.debug("---->:code = " + code);
+        return code;
     }
     
     public Integer getStartPosi(){

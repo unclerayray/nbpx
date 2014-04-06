@@ -117,6 +117,11 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 		return json;
 	}
 
+	@Override
+	public List<Dictionary> getDicListByType(String typeCode) {
+		return dicDao.getDicForCombo(typeCode);
+	}
+
 	
 
 }

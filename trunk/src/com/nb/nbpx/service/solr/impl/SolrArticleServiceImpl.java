@@ -28,7 +28,7 @@ import com.nb.nbpx.utils.SolrUtil;
 public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		ISolrArticleService {
 
-	public static Logger log = LogManager.getLogger(SolrArticleServiceImpl.class);
+    public static Logger logger = LogManager.getLogger(SolrArticleServiceImpl.class);
 	
 	@Override
 	public void addArticle2Solr(ArticleDetail artiDetail) {
@@ -54,9 +54,9 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 			}
 			solrServer.add(sid);
             solrServer.commit();
-            logger.debug("已成功为插入的课程创建索引");
+            logger.debug("已成功为插入的文章创建索引");
 		} catch (IOException e) {
-			logger.error("未能取得课程的SolrServer URL。"+e.getMessage());;
+			logger.error("未能取得文章的SolrServer URL。"+e.getMessage());;
 			e.printStackTrace();
 		} catch (SolrServerException e) {
 			logger.error("commit为成功。"+e.getMessage());;
@@ -104,14 +104,14 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		    }
 		    html.close();
 		  } catch (IOException e) {
-		    log.error("error");
+			  logger.error("error");
 		  }
 		  return out.toString();
 	}
 	
 	
 	/**
-	 * 清除课程内容中的HTML标签，并存入SOLR中
+	 * 清除文章内容中的HTML标签，并存入SOLR中
 	 * @param value
 	 * @return
 	 */
