@@ -1,0 +1,27 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/nbpx" 
+              user="root" 
+              password="1234"/>
+  <document>
+    <entity name="download" query="select c.downloadId,c.title,c.filetype,c.description,d.showName as category,c.author,c.uploadDate,c.size from downloads c, sys_dictionary d where c.category = d.codeName ">
+            
+      <entity name="downloadKeyword"  
+                    query="SELECT ck.downloadId,kw.keyword FROM  downloadKeywords ck, keywords kw where ck.downloadId='${download.downloadId}'
+           AND  kw.keyId = ck.keywordId"
+                    deltaQuery="SELECT sd.showName FROM downloads cs, downloadKeywords ck, sys_dictionary sd where ck.downloadId='${download.downloadId}'
+           AND  sd.codeName = ck.keywordId and lastUpdateDate > '${dataimporter.last_index_time}'"
+                    parentDeltaQuery="select downloadId from downloads where downloadId=${downloadKeyword.downloadId}">
+                <field name="keyword" column="keyword" />
+            </entity>
+      
+      
+      <entity name="downloadSubject"  
+                    query="SELECT cs.downloadId,sb.subject FROM  downloadSubjects cs, subjects sb where cs.downloadId='${download.downloadId}'
+           AND cs.SubjectId = sb.subjectId">
+                <field name="subject" column="subject" />
+            </entity>
+    </entity>
+  </document>
+</dataConfig>

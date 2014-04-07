@@ -1,0 +1,44 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/nbpx?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8" 
+              user="root" 
+              password="1234"/>
+  <document>
+    <entity name="course"  transformer="HTMLStripTransformer"  
+            query="select c.courseId,c.title,c.price,t.realName as teacherName,c.isInner,c.content from courses c, teacher_info t where c.teacherId = t.teacherId ">
+			
+			<field name="content" column="content"  stripHTML="true" />
+			
+			<entity name="courseInfo"  pk="courseid"
+                    query="select ci.courseId, CONCAT(CONVERT(ci.startDate,char),'至',CONVERT(ci.endDate,char),'在',CONVERT(showName,char)) as courseInfo from courseinfo ci, sys_dictionary sd where ci.city = sd.codeName
+					 and ci.courseId = '${course.courseId}'"
+                    deltaQuery="SELECT cp.startDate, cp.endDate, sd.showName FROM courses cs, courseInfo cp, sys_dictionary sd where 
+					cp.courseId='${course.courseId}' AND  sd.codeName = cp.city and cs.lastUpdateDate > '${dataimporter.last_index_time}'"
+                    parentDeltaQuery="select courseId from courses where courseId=${courseInfo.courseId}">
+					<!--
+				<field name="startDate" column="cp.startDate" />
+				<field name="endDate" column="cp.endDate" />
+				<field name="city" column="showName" />
+				-->
+				<field name="courseInfo" column="courseInfo" />
+            </entity>
+			
+			<entity name="courseKeyword"  
+                    query="SELECT ck.courseid,kw.keyword FROM  courseKeywords ck, keywords kw where ck.courseId='${course.courseId}'
+					 AND  kw.keyId = ck.keywordId"
+                    deltaQuery="SELECT sd.showName FROM courses cs, courseKeywords ck, sys_dictionary sd where ck.courseId='${course.courseId}'
+					 AND  sd.codeName = ck.keywordId and lastUpdateDate > '${dataimporter.last_index_time}'"
+                    parentDeltaQuery="select courseId from courses where courseId=${courseKeyword.courseId}">
+                <field name="keyword" column="keyword" />
+            </entity>
+			
+			
+			<entity name="courseSubject"  
+                    query="SELECT cs.courseid,sb.subject FROM  courseSubjects cs, subjects sb where cs.courseId='${course.courseId}'
+					 AND cs.SubjectId = sb.subjectId">
+                <field name="subject" column="subject" />
+            </entity>
+    </entity>
+  </document>
+</dataConfig>

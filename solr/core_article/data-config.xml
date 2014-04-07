@@ -1,0 +1,30 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/nbpx" 
+              user="root" 
+              password="1234"/>
+  <document>
+    <entity name="article"  transformer="HTMLStripTransformer"  
+            query="select articleId,articleTitle,content,author from articles">
+			<field name="content" column="content"  stripHTML="true" />
+			
+			
+			<entity name="articleKeyword"  
+                    query="SELECT ck.articleid,kw.keyword FROM  articleKeywords ck, keywords kw where ck.articleId='${article.articleId}'
+					 AND  kw.keyId = ck.keywordId"
+                    deltaQuery="SELECT sd.showName FROM articles cs, articleKeywords ck, sys_dictionary sd where ck.articleId='${article.articleId}'
+					 AND  sd.codeName = ck.keywordId and lastUpdateDate > '${dataimporter.last_index_time}'"
+                    parentDeltaQuery="select articleId from articles where articleId=${articleKeyword.articleId}">
+                <field name="keyword" column="keyword" />
+            </entity>
+			
+			
+			<entity name="articleSubject"  
+                    query="SELECT cs.articleid,sb.subject FROM  articleSubjects cs, subjects sb where cs.articleId='${article.articleId}'
+					 AND cs.SubjectId = sb.subjectId">
+                <field name="subject" column="subject" />
+            </entity>
+    </entity>
+  </document>
+</dataConfig>

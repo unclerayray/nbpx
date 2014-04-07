@@ -1,0 +1,15 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/nbpx" 
+              user="root" 
+              password="1234"/>
+  <document>
+    <entity name="organization"  transformer="HTMLStripTransformer"  
+            query="SELECT t.orgId ,d.showName as category,t.orgName,t.introduction FROM orginfo t ,sys_dictionary d WHERE  t.userId IS NOT NULL 
+            and d.codeName = t.category;">
+			<field name="introduction" column="introduction"  stripHTML="true" />
+			
+    </entity>
+  </document>
+</dataConfig>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.solr.ISolrArticleService;
 import com.nb.nbpx.service.solr.ISolrDownloadService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.service.solr.ISolrOrganisationService;
@@ -36,6 +37,7 @@ public class SearchAction  extends BaseAction {
 	private ISolrDownloadService solrDownloadService;
 	private ISolrTeacherService solrTeacherService;
 	private ISolrKeywordService solrKeywordService;
+	private ISolrArticleService solrArticleService;
 	private String key;
 	private String q;
 
@@ -188,6 +190,17 @@ public class SearchAction  extends BaseAction {
 		return SUCCESS;
 	}
 	
+	public String queryArticleBySolr(){
+		String json;
+		try {
+			json = solrArticleService.queryRelatedArticles(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
 	public ISolrService getSolrService() {
 		return solrService;
 	}
@@ -259,5 +272,14 @@ public class SearchAction  extends BaseAction {
 	@Resource
 	public void setSolrKeywordService(ISolrKeywordService solrKeywordService) {
 		this.solrKeywordService = solrKeywordService;
+	}
+
+	public ISolrArticleService getSolrArticleService() {
+		return solrArticleService;
+	}
+
+	@Resource
+	public void setSolrArticleService(ISolrArticleService solrArticleService) {
+		this.solrArticleService = solrArticleService;
 	}
 }

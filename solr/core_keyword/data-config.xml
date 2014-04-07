@@ -1,0 +1,12 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/nbpx" 
+              user="root" 
+              password="1234"/>
+  <document>
+    <entity name="keyword" 
+            query="select keyId,keyword from keywords">
+    </entity>
+  </document>
+</dataConfig>
