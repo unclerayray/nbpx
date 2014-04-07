@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<solr persistent="true" sharedLib="lib">
+  <cores defaultCoreName="core_course" adminPath="/admin/cores" zkClientTimeout="${zkClientTimeout:15000}" hostPort="8983" hostContext="solr">
+    <core loadOnStartup="true" instanceDir="course_collection/" transient="false" name="core_course"/>
+    <core loadOnStartup="true" instanceDir="keyword_collection/" transient="false" name="core_keyword"/>
+	<core loadOnStartup="true" instanceDir="subject_collection/" transient="false" name="core_subject"/>
+	<core loadOnStartup="true" instanceDir="article_collection/" transient="false" name="core_article"/>
+	<core loadOnStartup="true" instanceDir="teacher_collection/" transient="false" name="core_teacher"/>
+	<core loadOnStartup="true" instanceDir="organization_collection/" transient="false" name="core_organization"/>
+	<core loadOnStartup="true" instanceDir="question_collection/" transient="false" name="core_question"/>
+	<core loadOnStartup="true" instanceDir="download_collection/" transient="false" name="core_download"/>
+  </cores>
+</solr>

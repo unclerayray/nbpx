@@ -1,0 +1,15 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/nbpx" 
+              user="root" 
+              password="1234"/>
+  <document>
+    <entity name="teacher"  transformer="HTMLStripTransformer"  
+            query="SELECT t.teacherId ,d.showName as majorCatgory,t.realName,t.expertIn,t.introduction FROM teacher_info t ,sys_dictionary d WHERE  t.userId IS NOT NULL 
+  and d.codeName = t.majorCatgory;">
+			<field name="introduction" column="introduction"  stripHTML="true" />
+			
+    </entity>
+  </document>
+</dataConfig>

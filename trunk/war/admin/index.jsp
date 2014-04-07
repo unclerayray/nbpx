@@ -272,11 +272,7 @@ if(username==null||username==""){
 											text:'确定',
 											iconCls:'icon-ok',
 											handler:function(){
-											changePwd(); } },{
-											text:'取消',
-											iconCls:'icon-cancel',
-											handler:function(){
-											closeDlg();  }
+											changePwd(); } 
 										}]">
 		<form id="pwd-fm" method="post">
 			<table cellspacing="0" cellpadding="0" class="formTable">
