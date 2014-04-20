@@ -153,7 +153,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 	public void deleteArticleDetail(Integer articleId) {
 		String sql1 = "delete from articlekeywords where articleId ="
 				+ articleId;
-		String sql2 = "delete from articlekubjects where articleId ="
+		String sql2 = "delete from articlesubjects where articleId ="
 				+ articleId;
 
 		String[] sqlArr = { sql1, sql2 };
@@ -258,7 +258,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-			String sql = "select a.* from articlesubjects a,subjects b where a.subjectId = b.subjectId and b.flag=1 and a.articleId='"+articleID+"'";
+			String sql = "select a.* from articleSubjects a,subjects b where a.subjectId = b.subjectId and b.flag=1 and a.articleId='"+articleID+"'";
 			Query query = session.createSQLQuery(sql).addEntity(ArticleSubject.class);
 			
 			return query.list();
