@@ -128,7 +128,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 			Integer wordId = (Integer) (entry.getKey());
 			String value = entry.getValue().toString();
 			StringBuffer sql = new StringBuffer(
-					"insert into articleKeywords (articleId,keyword,keywordId) values ");
+					"insert into articlekeywords (articleId,keyword,keywordId) values ");
 			sql.append("(").append(articleId).append(",'").append(value)
 					.append("','").append(wordId).append("');");
 			list.add(sql.toString());
@@ -153,7 +153,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 	public void deleteArticleDetail(Integer articleId) {
 		String sql1 = "delete from articlekeywords where articleId ="
 				+ articleId;
-		String sql2 = "delete from articlesubjects where articleId ="
+		String sql2 = "delete from articlekubjects where articleId ="
 				+ articleId;
 
 		String[] sqlArr = { sql1, sql2 };

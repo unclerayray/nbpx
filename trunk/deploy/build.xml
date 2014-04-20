@@ -84,9 +84,9 @@
 		</replace>
 		
 		<replace file="${project.path}/war/WEB-INF/classes/solr.properties">
-			<replacefilter token="solr.dictionary.path=D://test" value="solr.dictionary.path=usr/roger/db"/>
-			<replacefilter token="solr.dictionary.file.path=D://test//word-my.dic" value="solr.dictionary.file.path=usr/roger/db/word-my.dic"/>
-			<replacefilter token="download.file.path=D://test//files" value="download.file.path=usr/roger/files"/>
+			<replacefilter token="solr.dictionary.path=D://test" value="solr.dictionary.path=/alidata/roger/db"/>
+			<replacefilter token="solr.dictionary.file.path=D://test//word-my.dic" value="solr.dictionary.file.path=/alidata/roger/db/word-my.dic"/>
+			<replacefilter token="download.file.path=D://test//files" value="download.file.path=/alidata/roger/files"/>
 		</replace>
 	</target>
 
