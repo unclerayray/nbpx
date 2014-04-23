@@ -18,33 +18,53 @@
 <jsp:include page="head.jsp" flush="true"/>
 <script>
 	$(function(){
-		
-		$.ajax({
-			url:"struts/ViewArticle_getArticleList?&rows=10&page=0&id="+<%=category%>,
-			success:function(data){
-				var jsonObject = eval('('+data+')');				
-				//路径
-				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li>";
-				path += "<li>"+jsonObject.categoryName+"</li>";
-				$('#path').html(path);				
-								
-				//添加行数
-				var rows = jsonObject.rows;
-				var valueStr = "";
-	
-				for(var i=0;i<rows.length;i++){
-					var curr = rows[i];
-					valueStr += "<div class='tdDiv'><a href='viewArticle.jsp?id="+curr.articleId+"' class='title'>"+curr.articleTitle+"</a><span class='articleTime'>"+curr.lastUpdateDate+"</span></div>";
-				}
-				$('#articles').html(valueStr);				
-			}
-		});
+		getMoreArticles(1);
 		//加载热门文章
 		loadHotArticle();
 		//加载推荐文章
 		loadRecommandArticle();
 	});
-
+	
+	function getMoreArticles(page){
+		var type  = $('#typeValue').val();
+		var urlStr = 'struts/Article_queryArticles?category='+type+"&rows=30&page="+page;
+		//路径
+		getTypeName();
+		
+		$.ajax({
+			url:encodeURI(urlStr),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var lines = jsonObject.rows;
+				var total = jsonObject.total;
+				var valueStr = "";
+				$.each(lines,function(n,value){
+					valueStr += "<div class='tdDiv'><a href='viewArticle.jsp?id="+value.articleId+"' class='title'>"+value.articleTitle+"</a><span class='articleTime'>"+value.lastUpdateDate+"</span></div>";
+					typeName = value.categoryName;
+				});
+				if(valueStr == '')
+					valueStr = "<div class='notice'>该类别暂时还没有文章</div>";
+				$('#articles').html(valueStr);
+				$('#coursePagesDiv').css('display','block');
+				$('#coursePages').html(parseInt(parseInt(total)/30)+1);
+				$('#courseCurrPage').html(parseInt(page));
+			}		
+		})
+	}
+	
+	function getTypeName(){
+		var type  = $('#typeValue').val();
+		var urlStr = 'struts/Keyword_getTypeName?category='+type.substr(type.length-1,type.length);
+		$.ajax({
+			url:encodeURI(urlStr),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li><li><a href='allArticles.jsp'>企业文库</a></li><li class='bread'>&gt;&gt;</li>";
+				path += "<li>"+jsonObject.showName+"文章</li>";
+				$('#path').html(path);	
+			}		
+		})
+	}
 	function loadHotArticle(){
 		$.ajax({
 			url:encodeURI("struts/ViewArticle_getHotArticle"),
@@ -78,7 +98,48 @@
 			}
 		})
 	}
+	var pager = {
+			'test':function(){
+				alert('1');
+			},
+			'seeNext':function(){
+				var currPage = parseInt($('#courseCurrPage').html());
+				var pages = parseInt($('#coursePages').html());
+				if(currPage +1 >= pages)
+					getMoreKeywords(pages);
+				else
+					getMoreKeywords(currPage);
+			},
+			'seePre':function(){
+				var currPage = parseInt($('#courseCurrPage').html());
+				if(currPage-1 > 0)
+					getMoreKeywords(currPage-1);
+				else
+					getMoreKeywords(1);
+			},
+			'seeFirst':function(){
+				getMoreKeywords(1);
+			},
+			'seeLast':function(){
+				var pages = $('#coursePages').html();
+				getMoreKeywords(pages);
+			},
+			'jump':function(){
+				if($('#jump').val() == ''){
+					alert('请输入页码！');
+					return false;
+				}
+				var jumpTo = parseInt($('#jump').val());
+				var allPages = parseInt($('#coursePages').html());
+				if(jumpTo <=0 || jumpTo> allPages){
+					alert('页码范围不正确！');
+					return false;
+				}
+				getMoreKeywords(jumpTo);
+			}
+		};
 </script>
+<input type="hidden"  id="typeValue" value="<%=category%>"/>
 <!--当前路径 start-->
 <div class="mainContent path" id="path">
 	<div class="clear"></div>
@@ -90,22 +151,23 @@
 	<!--左边部分课程信息 start-->
 	<div class="leftInPart">
 	<style>
-		.tdDiv{border-bottom:1px dashed #c7c7c7;height:24px;padding-top:7px;padding-left:10px;padding-right:10px}
+		.tdDiv{border-bottom:1px dashed #c7c7c7;height:24px;padding-top:7px;padding-left:10px;padding-right:10px;font-size:12px}
 		.tdDiv .title:hover{color:red;text-decoration:none}
 		.tdDiv .title{float:left;color:#234a35}	
 		.tdDiv .articleTime{float:right;};
 	</style>
+	
 	<div id="articles" style="padding-right:10px">
 		<div class="tdDiv"><a href='#' class="title">我是一个经理人</a><span class="articleTime">2013-11-1</span></div>
 		<div class="tdDiv"><span class="title">我是一个经理人</span><span class="articleTime">2013-11-1</span></div>
 	</div>
 	<!--课程介绍 end-->
-	<div class="resultFoot" id="pageDiv" style='display:none'>
-					<a href="javascript:void(0)" onclick="javascript:page.seeFirst();">第一页</a>			
-					<a href="javascript:void(0)" onclick="javascript:page.seePre();">上一页</a>				
-					<a href="javascript:void(0)" onclick="javascript:page.seeNext();">下一页</a>
-					<a href="javascript:void(0)" onclick="javascript:page.seeLast();">最后一页</a>
-					&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:page.jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
+					<div class="resultFoot" id="coursePagesDiv" style='display:none'>
+						<a href="javascript:void(0)" onclick="javascript:pager.seeFirst();">第一页</a>			
+						<a href="javascript:void(0)" onclick="javascript:pager.seePre();">上一页</a>				
+						<a href="javascript:void(0)" onclick="javascript:pager.seeNext();">下一页</a>
+						<a href="javascript:void(0)" onclick="javascript:pager.seeLast();">最后一页</a>
+						&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:pager.jump();">跳转</button>,当前是第<span id="courseCurrPage"></span>页,共<span id="coursePages">60</span>页
 					</div>
 	<div class="clear"></div>
 	</div>

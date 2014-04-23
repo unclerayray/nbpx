@@ -23,6 +23,7 @@
 		$.ajax({
 			url:"struts/ViewArticle_viewArticle?id="+<%=id%>,
 			success:function(data){
+				//alert(data);
 				var jsonObject = eval('('+data+')');
 				$('#title').html("<h1>"+jsonObject.title+"</h1>");
 				$('#courseId').html("阅读次数:"+jsonObject.hot+"&nbsp;&nbsp;"+jsonObject.createdate);
@@ -30,7 +31,9 @@
 				
 				//路径
 				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li>";
-				path += "<li><a href='#?id="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li>";
+				path += "<li><a href='allArticles.jsp'>企业文库</a></li>";
+				path += "<li class='bread'>&gt;&gt;</li>";
+				path += "<li><a href='viewArticleType.jsp?id="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li>";
 				path += "<li class='bread'>&gt;&gt;</li>";
 				path += "<li>"+jsonObject.title+"</li></ul><div class='clear'></div>";
 				$('#path').html(path);				
@@ -40,7 +43,7 @@
 				var keyWords = jsonObject.keyWords;
 				var keyWordsStr = "<span>关键词：</span>";
 				for(var i=0;i<keyWords.length;i++){
-					keyWordsStr += "<a href='xx.jsp?id="+keyWords[i].id+"'>"+keyWords[i].name+"</a>";
+					keyWordsStr += "<a href='seeKey.jsp?key="+keyWords[i].name+"'>"+keyWords[i].name+"</a>";
 					queryKeyWords += keyWords[i].name;
 					if(i<keyWords.length-1)
 						keyWordsStr += "、";
@@ -65,6 +68,7 @@
 		//加载推荐文章
 		loadRecommandArticle();
 	});
+	
 
 	function loadHotArticle(){
 		$.ajax({

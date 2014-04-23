@@ -1,13 +1,19 @@
 package com.nb.nbpx.server.zixun;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
 import org.springframework.context.annotation.Scope;
@@ -55,6 +61,39 @@ public class DownloadAction extends BaseAction {
 	public String fileFileName;
 	public String category;
 
+	public void downLoadFile(){	
+		HttpServletResponse response = ServletActionContext.getResponse();
+		try {
+			OutputStream out = response.getOutputStream();
+			Download temp = downloadService.getById(downloadId);
+			if(temp == null){
+				response.sendError(404, "File not found!");
+				return;
+			}       
+			File f = new File(temp.getFilepath());
+	        if (!f.exists()) {
+	            response.sendError(404, "File not found!");
+	            return;
+	        }
+			BufferedInputStream br = new BufferedInputStream(new FileInputStream(f));
+	        byte[] buf = new byte[1024];
+	        int len = 0;
+
+	        response.reset(); // 非常重要
+	        response.setContentType("application/x-msdownload");
+	        response.setHeader("Content-Disposition", "attachment; filename=" + f.getName());
+
+	        while ((len = br.read(buf)) > 0)
+	            out.write(buf, 0, len);
+	        br.close();
+	        out.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public String queryDownloads() {
 		String json = downloadService.queryDownloads(filetype, rows,
 				getStartPosi(), sort, order);

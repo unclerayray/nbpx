@@ -16,21 +16,25 @@
 		//getHotDownLoads();
 		//加载相关课程
 		getDownLoads(1);
+		getHotDownLoads();
 	})
 	//加载热门下载
 	function getHotDownLoads(){
 		$.ajax({
-			url:encodeURI("struts/SeeKeyword_getRelatedKeys?key="+condition),
+			url:encodeURI("struts/Main_getDownLoads?flag="+2),
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
 				$.each(jsonObject.rows,function(n,value){
-					valueStr +="<li><a href=\"seeKey.jsp?key="+value.keyword+"\">"+value.keyword+"</a></li>";
+					if(n<3)
+						valueStr +="<li class='line'><a><span class='red'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+" </span><span class='count'>"+value.downloadCnt+"</span></a><div class='clear'></div></li>";
+					else
+						valueStr +="<li class='line'><a><span class='blue'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+"</span><span class='count'>"+value.downloadCnt+"</span></a><div class='clear'></div></li>";
 				});
 				if(valueStr == ""){
-					valueStr = "<div class='notice'>没有相关的关键字</div>";
+					valueStr = "<div class='notice'>没有下载记录</div>";
 				}
-				$('#relatedKeywords').html(valueStr);
+				$('#hotDownload').html(valueStr);
 			}
 		})
 	}
@@ -38,25 +42,26 @@
 	function getDownLoads(page){
 
 		$.ajax({
-			url:"struts/Download_queryDownloads?page="+page+"&rows=20" ,
+			url:"struts/Download_queryDownloads?page="+page+"&rows=30" ,
 			success:function(data){
-				alert(data);
+		
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
-				var pages = jsonObject.pages;
+				var total = jsonObject.total;
 				var rows = jsonObject.rows;
-				//alert("rows = " + rows);
+	
 				$.each(rows,function(n,value){
-					
+					valueStr += "<li style='border-bottom:1px dashed #ccc;width:95%'>"+value.title+"<span><a href='#'>下载</a></span></li>";
 				});
-					//alert("valueStr " + valueStr);
+
 				if(valueStr == ""){
-					valueStr = "<div class='notice'>未搜索到相关课程信息</div>";
+					valueStr = "<div class='notice'>未搜索到相关下载信息</div>";
 				}
-				//$('#coursePagesDiv').css('display','block');
-				//$('#classes').html(valueStr);
-				//$('#coursePages').html(pages);
-				//$('#courseCurrPage').html(parseInt(page));
+
+				$('#dContents').html(valueStr);
+				$('#coursePagesDiv').css('display','block');
+				$('#coursePages').html(parseInt(total/30)+1);
+				$('#courseCurrPage').html(parseInt(page));
 			}
 		});
 	}
@@ -126,16 +131,13 @@
 			<h2>最新培训资料下载</h2>
 			<div class="resultContent">
 					<div id="downloads">
-					<ul class="list11">
-						<li><a>财务人员必须掌握的28个Excel</a><span><a href="#">下载</a></span></li>
-						<li><a>财务人员必须掌握的28个Excel</a><span><a href="#">下载</a></span></li>
-						
+					<ul class="list11" id="dContents" style="font-size:12px">	
 					</ul>
 					
-					
 					</div>
+				
 					<!--课程介绍 end-->
-					<div class="resultFoot" id="coursePagesDiv" style='display:none'>
+					<div class="resultFoot" id="coursePagesDiv" style='display:none;padding-top:20px'>
 						<a href="javascript:void(0)" onclick="javascript:pager.seeFirst();">第一页</a>			
 						<a href="javascript:void(0)" onclick="javascript:pager.seePre();">上一页</a>				
 						<a href="javascript:void(0)" onclick="javascript:pager.seeNext();">下一页</a>
@@ -153,35 +155,9 @@
 		<!--培训关键词 start-->	
 		<div class="rightTeacher">
 				<h5  class="first">热门下载</h5>
-				<div class="bg" style="padding:0px 0px 4px 0px;border:none;height:280px"/>
-					<div class="clear" style="height:0px"></div>
-					<dl class="bestCustomer leftPart left" style="width:110px;">
-						<dd><a href="#">消费者培训</a></dd>
-						<dd><a href="#">消费者市场</a></dd>
-						<dd><a href="#">消费者行为</a></dd>
-						<dd><a href="#">大众消费</a></dd>
-						<dd><a href="#">消费市场</a></dd>
-						<dd><a href="#">投诉处理流程</a></dd>
-						<dd><a href="#">团队培训</a></dd>
-						<dd><a href="#">客户服务</a></dd>
-						<dd><a href="#">投诉处理流程</a></dd>
-						<dd><a href="#">客户服务</a></dd>
-						<dd><a href="#">投诉处理流程</a></dd>
-					</dl>
-					<dl class="bestCustomer rightPart right" style="width:130px;">
-						<dd><a href="#">绩效考核</a></dd>
-						<dd><a href="#">新社会保险法</a></dd>
-						<dd><a href="#">员工关系管理</a></dd>
-						<dd><a href="#">风险管理</a></dd>
-						<dd><a href="#">目标管理</a></dd>
-						<dd><a href="#">商务考察</a></dd>
-						<dd><a href="#">经理人培训</a></dd>
-						<dd><a href="#">绩效考核</a></dd>
-						<dd><a href="#">新社会保险法</a></dd>
-						<dd><a href="#">绩效考核</a></dd>
-						<dd><a href="#">新社会保险法</a></dd>
-					</dl>
-				</div>
+				<ul class="list7" style="padding-top:10px;padding-left:20px" id="hotDownload">
+				</ul>
+				<div class="clear" style="height:20px"></div>
 			</div>
 		<!--内训关键词 end-->	
     </div>

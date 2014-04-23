@@ -61,7 +61,7 @@
 			<li><a href="goldNX.jsp">金牌内训</a><span>|</span></li>
 			<li><a href="#">内训计划</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
-			<li><a href="#">企业文库</a><span>|</span></li>
+			<li><a href="allArticles.jsp">企业文库</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=020">题目词典</a><span>|</span></li>
 			<li><a href="#">企业内训师</a></li>
 			
@@ -74,8 +74,16 @@
 			<li><a href="#">客户评价</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=21">术语词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=22">品牌词典</a><span>|</span></li>
-			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
+			<li><a href="#">城市词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=004">机构词典</a></li>
+
+			<li><a href="#">培训机构</a><span>|</span></li>
+			
+			<li><a href="#">职位词典</a><span>|</span></li>
+			<li><a href="#">培训类别</a><span>|</span></li>
+			<li><a href="#">内训类别</a><span>|</span></li>
+			<li><a href="#">文库类别</a><span>|</span></li>
+			<li><a href="#">研修班培训</a></li>
 		</ul>
 	</div>
 	<div class="clear"></div>
