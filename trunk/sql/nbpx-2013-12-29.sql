@@ -1,4 +1,4 @@
-/*
+﻿/*
 MySQL Data Transfer
 Source Host: localhost
 Source Database: nbpx
@@ -413,27 +413,6 @@ CREATE TABLE `subjects` (
   PRIMARY KEY  (`subjectId`),
   UNIQUE KEY `UniqueKeywordName` (`category`,`subject`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for sys_dictionary
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dictionary`;
-CREATE TABLE `sys_dictionary` (
-  `dicId` int(11) NOT NULL auto_increment COMMENT '字典项ID',
-  `dicType` char(3) default NULL COMMENT '类型',
-  `codeName` varchar(20) default NULL COMMENT '代码名称',
-  `showName` varchar(100) default NULL COMMENT '显示名称',
-  `orderNum` int(11) default NULL COMMENT '排列顺序',
-  `attribute1` varchar(20) default NULL COMMENT '备用1',
-  `attribute2` varchar(20) default NULL COMMENT '备用2',
-  `attribute3` varchar(20) default NULL COMMENT '备用3',
-  `flag` tinyint(1) default '1' COMMENT '有效标识',
-  `discription` varchar(100) default NULL COMMENT '字典描述',
-  PRIMARY KEY  (`dicId`),
-  UNIQUE KEY `dumpPropConst` (`dicType`,`codeName`,`showName`),
-  KEY `dicType_index` (`dicType`),
-  KEY `code_index` (`codeName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
 
 -- ----------------------------
 -- Table structure for sys_dictionary_relation
@@ -1687,90 +1666,7 @@ INSERT INTO `subjects` VALUES ('85', '治疗', null, null, '[\\pP‘’“”_]'
 INSERT INTO `subjects` VALUES ('86', '隔热个', null, null, '[\\pP‘’“”_]', '500', '500', null, null, '1');
 INSERT INTO `subjects` VALUES ('87', '资料合集', null, null, '[\\pP‘’“”_]', '500', '500', null, null, '1');
 INSERT INTO `subjects` VALUES ('88', '测试合集', null, null, '[\\pP‘’“”_]', '500', '500', null, null, '1');
-INSERT INTO `sys_dictionary` VALUES ('1', '001', '001_01', '企业', null, null, null, null, '1', '用户类别字典');
-INSERT INTO `sys_dictionary` VALUES ('2', '001', '001_02', '教师', null, null, null, null, '1', '用户类别字典');
-INSERT INTO `sys_dictionary` VALUES ('3', '001', '001_03', '机构', null, null, null, null, '1', '用户类别字典');
-INSERT INTO `sys_dictionary` VALUES ('4', '998', '001', '用户种类', null, null, null, null, '1', '顶级节点');
-INSERT INTO `sys_dictionary` VALUES ('6', '002', '002_001', '人力', null, null, null, null, '1', '测试字典功能');
-INSERT INTO `sys_dictionary` VALUES ('7', '002', '002_002', '资源', null, null, null, null, '1', '再次测试');
-INSERT INTO `sys_dictionary` VALUES ('8', '002', '002_003', '薪资', null, null, null, null, '1', 'sdgergwerg');
-INSERT INTO `sys_dictionary` VALUES ('9', '002', '002_004', '报酬', null, null, null, null, '1', 'asdf');
-INSERT INTO `sys_dictionary` VALUES ('10', '002', '002_005', '资讯', null, null, null, null, '1', '34545');
-INSERT INTO `sys_dictionary` VALUES ('11', '002', '002_006', '计算机', null, null, null, null, '1', 'dfsgsdf');
-INSERT INTO `sys_dictionary` VALUES ('12', '002', '002_007', '科学', null, null, null, null, '1', 'ewr');
-INSERT INTO `sys_dictionary` VALUES ('13', '002', '002_008', '救灾', null, null, null, null, '1', 'aag');
-INSERT INTO `sys_dictionary` VALUES ('14', '001', '001_04', '地震', null, null, null, null, '1', '测试字典功能');
-INSERT INTO `sys_dictionary` VALUES ('15', '001', '001_05', '科普', null, null, null, null, '1', '测试字典功能');
-INSERT INTO `sys_dictionary` VALUES ('24', '998', '002', '文章分类', null, null, null, null, '1', '顶级节点 实得分');
-INSERT INTO `sys_dictionary` VALUES ('30', '998', '006', '专题分类', null, null, null, null, '1', '给我个');
-INSERT INTO `sys_dictionary` VALUES ('31', '006', '006_01', '人力资源', null, null, null, null, '1', '二哥');
-INSERT INTO `sys_dictionary` VALUES ('32', '998', '003', '课程分类', null, null, null, null, '1', '课程分类顶级节点');
-INSERT INTO `sys_dictionary` VALUES ('33', '003', '003_01', '财务管理', null, null, null, null, '1', '财务管理相关课程');
-INSERT INTO `sys_dictionary` VALUES ('35', '998', '004', '测试分类', null, null, null, null, '1', '个人股');
-INSERT INTO `sys_dictionary` VALUES ('36', '003', '003_02', '采购供应链仓储', null, null, null, null, '1', '采购供应链仓储相关的课程');
-INSERT INTO `sys_dictionary` VALUES ('41', '998', '005', 'bak', null, null, null, null, '1', 'asdfsadgfgrwe');
-INSERT INTO `sys_dictionary` VALUES ('42', '998', '007', '城市', null, null, null, null, '1', '开课城市之类的');
-INSERT INTO `sys_dictionary` VALUES ('45', '007', '007_01', '广州', null, null, null, null, '1', '');
-INSERT INTO `sys_dictionary` VALUES ('46', '007', '007_02', '深圳', null, null, null, null, '1', '');
-INSERT INTO `sys_dictionary` VALUES ('47', '007', '007_03', '北京', null, null, null, null, '1', '');
-INSERT INTO `sys_dictionary` VALUES ('48', '998', '008', '行业', null, null, null, null, '1', '行业字典类');
-INSERT INTO `sys_dictionary` VALUES ('49', '998', '009', '专业', null, null, null, null, '1', '专业字典类');
-INSERT INTO `sys_dictionary` VALUES ('50', '008', '008_01', '发电行业', null, null, null, null, '1', '发电行业');
-INSERT INTO `sys_dictionary` VALUES ('51', '008', '008_02', '通信行业', null, null, null, null, '1', '通信行业');
-INSERT INTO `sys_dictionary` VALUES ('52', '009', '009_01', '电子工程', null, null, null, null, '1', '电子工程');
-INSERT INTO `sys_dictionary` VALUES ('53', '009', '009_02', '软件工程', null, null, null, null, '1', '软件工程');
-INSERT INTO `sys_dictionary` VALUES ('54', '998', '010', '培训对象', null, null, null, null, '1', '哈哈哈');
-INSERT INTO `sys_dictionary` VALUES ('55', '010', '010_01', '企业老总', null, null, null, null, '1', '企业老总');
-INSERT INTO `sys_dictionary` VALUES ('56', '010', '010_02', '财务从业人员', null, null, null, null, '1', '财务从业人员');
-INSERT INTO `sys_dictionary` VALUES ('57', '010', '010_03', '秘书', null, null, null, null, '1', '');
-INSERT INTO `sys_dictionary` VALUES ('58', '007', '007_04', '苏州', null, null, null, null, '1', '苏州');
-INSERT INTO `sys_dictionary` VALUES ('59', '998', '011', '产品', null, null, null, null, '1', '产品类别');
-INSERT INTO `sys_dictionary` VALUES ('60', '011', '011_01', '软件产品', null, null, null, null, '1', '软件产品');
-INSERT INTO `sys_dictionary` VALUES ('61', '011', '011_02', '日用品', null, null, null, null, '1', '日用品');
-INSERT INTO `sys_dictionary` VALUES ('62', '007', '007_05', '上海', null, null, null, null, '1', '上海');
-INSERT INTO `sys_dictionary` VALUES ('63', '007', '007_06', '长沙', null, null, null, null, '1', '长沙');
-INSERT INTO `sys_dictionary` VALUES ('64', '003', '003_03', '人力资源管理', null, null, null, null, '1', '人力资源管理');
-INSERT INTO `sys_dictionary` VALUES ('65', '003', '003_04', '生产管理', null, null, null, null, '1', '生产管理');
-INSERT INTO `sys_dictionary` VALUES ('66', '003', '003_05', '市场营销', null, null, null, null, '1', '市场营销');
-INSERT INTO `sys_dictionary` VALUES ('67', '003', '003_06', '战略管理', null, null, null, null, '1', '战略管理');
-INSERT INTO `sys_dictionary` VALUES ('68', '003', '003_07', '项目管理', null, null, null, null, '1', '项目管理');
-INSERT INTO `sys_dictionary` VALUES ('69', '003', '003_08', '职业技能', null, null, null, null, '1', '职业技能');
-INSERT INTO `sys_dictionary` VALUES ('70', '011', '011_122', '产品1', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('71', '011', '011_222', '产品2', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('72', '002', '002_009', '文章分类测试分类', '1', null, null, null, '1', '没什么');
-INSERT INTO `sys_dictionary` VALUES ('74', '002', '002_10', '文章分类测试分类3', '3', null, null, null, '1', '撒旦法');
-INSERT INTO `sys_dictionary` VALUES ('77', '002', '002_11', '文章分类测试分类4', '1', null, null, null, '1', '');
-INSERT INTO `sys_dictionary` VALUES ('78', '002', '002_12', '地方', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('79', '002', '002_13', '个', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('84', '002', '002_14', '在重复', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('85', '002', '002_15', '再重复', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('86', '002', '002_16', '重复', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('87', '002', '002_17', '哈哈', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('88', '002', '002_18', 'greg', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('91', '011', '011_223', '产品1缓存', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('92', '011', '011_224', '没是的麻烦', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('93', '008', '008_3', '信息系统', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('94', '008', '008_4', '普通', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('95', '010', '010_4', '干嘛啊', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('96', '010', '010_5', '抽风的', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('97', '005', '005_0000', 'value3', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('98', '005', '005_1', 'value1', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('99', '005', '005_2', 'value2', null, null, null, null, '1', null);
-INSERT INTO `sys_dictionary` VALUES ('100', '010', '010_6', '就是这个', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('101', '010', '010_7', '怎么回事啊', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('102', '010', '010_8', '我的课程', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('103', '010', '010_9', '测试测试', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('104', '010', '010_10', '测试测试一下想', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('105', '010', '010_11', '好吧就这样吧', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('106', '009', '009_3', '我的课程专业', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('107', '008', '008_5', '我的', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('108', '009', '009_4', '还有个什么呢', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('109', '011', '011_225', '高级课程产品', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('110', '011', '011_226', '对应高级课程的高级', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('111', '011', '011_227', '123456', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('112', '011', '011_228', '我的产品听我的', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('113', '011', '011_229', '1234546787', null, null, null, null, null, null);
-INSERT INTO `sys_dictionary` VALUES ('114', '002', '002_19', '测试扯淡-df', null, null, null, null, '1', '');
+
 INSERT INTO `teacher_info` VALUES ('1', '3', '邓卫华', '2013-06-20', '人力资源', '1000', '800', '8960', '13640713241', '13640713241', '我是一个很牛逼的讲师，我一个堂课收费10w，还是很多人听课吗，你说牛逼不', '人力资源，内部培训等');
 INSERT INTO `teacher_info` VALUES ('2', '13', '雷理超', '1988-12-06', '', '1000', '1000', '', '020-89608900', '', '123445', '123456');
 INSERT INTO `teacher_info` VALUES ('3', null, '路人甲', '2013-06-20', '人力资源', '1231', '234234', '1234123', '13450461343', '13454335433', '税费改革', '个人');

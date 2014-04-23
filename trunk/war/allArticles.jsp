@@ -28,7 +28,7 @@ $(function(){
 //加载文章
 function loadArticle(type){
 	$.ajax({
-		url:encodeURI('struts/Main_getArticle?&type='+type),
+		url:encodeURI('struts/Main_getArticle?&type='+type+"&flag=1"),
 		success: function(data){
 			var jsonObject = eval('('+data+')');
 			var valueStr = "";
@@ -99,25 +99,25 @@ function loadRecommandArticle(){
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn" >财务管理</div>
-					<div class="more"><a href="viewArticleType.jsp?id=1">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_01">更多</a></div>
 				<div class="clear"></div>
 			</div>
 				<div class="bg h315" style="padding-left:30px;">
 					<ul class="list4" style="padding-top:5px" id="part1">
-						<li><a href="#">EMBA</a></li>
+						<li></li>
 					</ul>
 				</div>
 			</div>
 		</li>
-				<li class="noneStyle" style="padding-top:0px">
+		<li class="noneStyle" style="padding-top:0px">
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn">采购供应链仓储</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_02">更多</a></div>
 				<div class="clear"></div>
 			</div>
-				<div class="bg h315" style="padding-left:10px;">
-					<ul class="list4" style="padding-top:15px" id="part2">
+				<div class="bg h315" style="padding-left:30px;">
+					<ul class="list4" style="padding-top:5px" id="part2">
 					</ul>
 				</div>
 			</div>
@@ -126,7 +126,7 @@ function loadRecommandArticle(){
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn">人力资源管理</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_03">更多</a></div>
 				<div class="clear"></div>
 			</div>
 				<div class="bg h315" style="padding-left:10px;">
@@ -139,7 +139,7 @@ function loadRecommandArticle(){
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn" >生产管理</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_04">更多</a></div>
 				<div class="clear"></div>
 			</div>
 				<div class="bg h315" style="padding-left:10px;">
@@ -152,7 +152,7 @@ function loadRecommandArticle(){
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn">市场营销</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_05">更多</a></div>
 				<div class="clear"></div>
 			</div>
 			<div class="bg h315" style="padding-left:10px;">
@@ -165,7 +165,7 @@ function loadRecommandArticle(){
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn">战略管理</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_06">更多</a></div>
 				<div class="clear"></div>
 			</div>
 			<div class="bg h315" style="padding-left:10px;">
@@ -178,7 +178,7 @@ function loadRecommandArticle(){
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn">项目管理</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_07">更多</a></div>
 				<div class="clear"></div>
 			</div>
 			<div class="bg h315" style="padding-left:10px;">
@@ -191,7 +191,7 @@ function loadRecommandArticle(){
 			<div class="part left" >
 				<div class="head">
 					<div class="tabOn">职业技能</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="viewArticleType.jsp?id=003_08">更多</a></div>
 				<div class="clear"></div>
 			</div>
 			<div class="bg h315" style="padding-left:10px;">

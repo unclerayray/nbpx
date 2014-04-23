@@ -16,7 +16,7 @@
 <jsp:include page="head.jsp" flush="true"/>
 
 <!--醒目地区start-->
-<div class="mainContent area">
+<!-- <div class="mainContent area">
 	<ul>
 		<li><a href="#">北京培训</a></li>
 		<li><a href="#">上海培训</a></li>
@@ -30,10 +30,10 @@
 	</ul>
 	<div class="clear"></div>
 </div>
-
+ -->
 <!--flash start-->
-<div class="mainContent flash" style="padding-top:5px">
-	<img  src="images/adv1.gif" width="960"/>
+<div class="mainContent flash" style="padding-top:5px;">
+	<img  src="images/adv1.gif" width="960" height="60px"/>
 </div>
 <!--flash end -->
 
@@ -165,8 +165,17 @@
 		for(var i=1;i<=2;i++)
 			seePartTab('s',1,i);
 		//加载文章
-		for(var i=1;i<=4;i++)
-			seePartTab('c',1,i);
+		var tabCount = 4;
+		for(var i=1;i<=8;i++){
+			if(i == 2)
+				tabCount =3;
+			loadPartDateForArticle(tabCount,1,i,"");
+		}
+			//seePartTab('c',1,i);
+		//加载培训下载
+		seePartTab('d',1,1);
+		//加载企业培训机构
+		seePartTab("org",1,1);
 		
 		//008 009 010 011 加载关键词
 		seePartTab('dic',1,1);
@@ -178,8 +187,9 @@
 		loadDics('020',8,'timu_dic');
 		//加载培训机构字典
 		loadDics('004',11,'jigou_dic');
-		
-	})	
+		//加载客户评价
+		loadDics("25",10,"customSay")
+	});	
 	function loadDics(type,rows,id){
 		$.ajax({
 			url: 'struts/ViewDic_getMoreDicItems?codeName='+type+'&rows='+rows+'&page=1',
@@ -191,6 +201,8 @@
 						valueStr += "<li><a href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></li>";
 					if(id == 'jigou_dic')
 						valueStr += "<li><a class='left tooLong w230' href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></li>";	
+					if(id == 'customSay')
+						valueStr += "<li><a class='left tooLong w200'>"+value.showName+"</a></li>";
 				});
 	
 				if(valueStr == "")
@@ -200,9 +212,6 @@
 			}
 			
 		});
-	}
-	function loadFourDic(flag){
-		
 	}
 	
 	function loadTopKey(type){
@@ -218,7 +227,7 @@
 						valueStr += "<li>|</li>";	
 				});
 				if(valueStr == ''){
-					valueStr = "<div class='notice'>暂时没有推荐的关键词</div>";
+					valueStr = "<div class='notice' style='font-size:12px'>暂时没有推荐的关键词</div>";
 					//$('#topkey'+type).css('display','none');
 				}else
 					valueStr += "<li><a href='keyWordMore.jsp?type="+type+"'><img src='images/more.gif'/></a></li>";
@@ -319,6 +328,9 @@
 			cssOn = "tabOn three";
 			cssOff = "tabOff three";
 		}
+		if(pre == 'd' || pre == 'org')//培训下载和企业机构
+			count = 3;
+			
 		for(var i=1;i<=count;i++){
 			if(i == flag){
 				$('#'+pre+part+i).attr('class',cssOn);
@@ -328,17 +340,45 @@
 		}	
 	}
 	
+	//专门为文章部分显示用的函数
+	function loadPartDateForArticle(count,flag,part,key){
+		var cssOn = "tabOn";
+		var cssOff = "tabOff";
+		for(var i=1;i<=count;i++){
+			if(i == flag){
+				$('#c'+part+i).attr('class',cssOn);
+				//加载文章信息
+				$.ajax({
+					url:encodeURI('struts/Main_getArticle?flag='+flag+'&type='+part+"&key="+key),
+					success: function(data){
+						var jsonObject = eval('('+data+')');
+						var valueStr = "";
+						$.each(jsonObject,function(n,value){
+							valueStr += "<li><a href='viewArticle.jsp?id="+value.articleId+"'>"+value.articleTitle+"</a></li>";
+						});
+						if(valueStr == "")
+							valueStr = "<div class='notice'>没有最新的文章</div>";
+						$("#cn"+part).html(valueStr);
+					}		
+				});
+			}else
+				$('#c'+part+i).attr('class',cssOff);
+		}	
+	}
+	
+	//加载tab页
 	function loadPartDate(pre,flag,part){
 		if(pre == 'a'){//获取培训的内容
 			$.ajax({
 				url:encodeURI('struts/Main_getPeiXun?flag='+flag+'&type='+part),
 				success: function(data){
+					//alert(data);
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject,function(n,value){
 						valueStr += "<li><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></li>";
 					});
-					if(valueStr == "")
+					if(valueStr == "" || valueStr == "暂无课程信息")
 						valueStr = "<div class='notice'>没有最新的培训</div>";
 					$('#'+pre+part).html(valueStr);
 				}		
@@ -428,9 +468,9 @@
 						if(n>2)
 							color = "blue";
 						if(sortType == '2')//推荐的 没有次数
-							valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
+							valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text tooLong w150'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
 						else
-							valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
+							valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text tooLong w150'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
 					});
 					$('#'+pre+part).html(valueStr);
 				}
@@ -504,6 +544,20 @@
 					$('#'+pre+part).html(valueStr);
 				}
 				
+			});
+		}
+		if(pre == 'd'){
+			$.ajax({
+				url:"struts/Main_getDownLoads?flag="+flag,
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<li><a href='struts/Download_downLoadFile?id="+value.id+"'>"+value.title+"</a></li>";
+					});
+					$('#'+pre+part).html(valueStr);
+				}
 			});
 		}
 	}
@@ -891,18 +945,7 @@
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 0px 0px 25px;">
-					<ul class="list5" style="padding-top:10px;width:230px;">
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">培训很有效果，不错</a></li>
-						<li><a class="left">老师都很专业，价格实惠</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
-						<li><a class="left">课程安排合理，内容丰富</a></li>
+					<ul class="list5" style="padding-top:10px;width:230px;" id="customSay">
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -1500,16 +1543,16 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b1P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b1P"></div>
 						<div class="left content">
-							<div class="title" id="b1T">战略性人力资源管理规划</div>
-							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b1T"></div>
+							<div class="desc" id="b7C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b1">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1527,16 +1570,16 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b2P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b2P"></div>
 						<div class="left content">
-							<div class="title" id="b7T">战略性人力资源管理规划</div>
-							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b7T"></div>
+							<div class="desc" id="b7C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b2">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1570,16 +1613,16 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b3P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b3P"></div>
 						<div class="left content">
-							<div class="title" id="b3T">战略性人力资源管理规划</div>
-							<div class="desc" id="b3C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b3T"></div>
+							<div class="desc" id="b3C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b3">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1597,16 +1640,16 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b4P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b4P"></div>
 						<div class="left content">
-							<div class="title" id="b4T">战略性人力资源管理规划</div>
-							<div class="desc" id="b4C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b4T"></div>
+							<div class="desc" id="b4C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b4">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1642,16 +1685,16 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b5P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b5P"></div>
 						<div class="left content">
-							<div class="title" id="b5T">战略性人力资源管理规划</div>
-							<div class="desc" id="b5C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b5T"></div>
+							<div class="desc" id="b5C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b5">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1669,16 +1712,16 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b6P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b6P"></div>
 						<div class="left content">
-							<div class="title" id="b6T">战略性人力资源管理规划</div>
-							<div class="desc" id="b6C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b6T"></div>
+							<div class="desc" id="b6C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b6">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1725,16 +1768,16 @@ padding-bottom: 2px;
 			</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b7P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b7P"></div>
 						<div class="left content">
-							<div class="title" id="b7T">战略性人力资源管理规划</div>
-							<div class="desc" id="b7C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b7T"></div>
+							<div class="desc" id="b7C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b7">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1752,16 +1795,16 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg">
 					<div>
-						<div class="left pic" id="b8P"><img  src="images/824.jpg"/></div>
+						<div class="left pic" id="b8P"></div>
 						<div class="left content">
-							<div class="title" id="b8T">战略性人力资源管理规划</div>
-							<div class="desc" id="b8C">战略性人力资源管理规划高级研修班—建立“红绿灯“体系，实...<span>[详细]</span></div>
+							<div class="title" id="b8T"></div>
+							<div class="desc" id="b8C"></div>
 						</div>
 					</div>
 					<div class="clear"></div>
 					<div style="padding-left:25px">
 						<ul class="list4 blue" id="b8">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1820,17 +1863,17 @@ padding-bottom: 2px;
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn" id="c11"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,1)">财务管理</a></div>
-				<div class="tabOff" id="c12"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,1)">内务控制</a></div>
-				<div class="tabOff" id="c13"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,1)">融资</a></div>
-				<div class="tabOff" id="c14"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,1)">税收</a></div>
+				<div class="tabOn" id="c11"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,1,'');">财务管理</a></div>
+				<div class="tabOff" id="c12"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,2,1,'内务控制')">内务控制</a></div>
+				<div class="tabOff" id="c13"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,3,1,'融资')">融资</a></div>
+				<div class="tabOff" id="c14"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,4,1,'税收')">税收</a></div>
 				<div class="more"><a href="#">更多</a></div>
 				<div class="clear"></div>
 			</div>
 			<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4 gray" id="cn1">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1840,16 +1883,16 @@ padding-bottom: 2px;
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c21"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,2)">采购供应链仓储</a></div>
-					<div class="tabOff" id="c22"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,2)">供应商</a></div>
-					<div class="tabOff" id="c23"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,2)">采购谈判</a></div>
+					<div class="tabOn" id="c21"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(3,1,2,'')">采购供应链仓储</a></div>
+					<div class="tabOff" id="c22"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(3,2,2,'供应商')">供应商</a></div>
+					<div class="tabOff" id="c23"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(3,3,2,'采购谈判')">采购谈判</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4 gray" id="cn2">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 					</div>
@@ -1886,17 +1929,17 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c31"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,3)">人力资源管理</a></div>
-					<div class="tabOff" id="c32"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,3)">绩效考核</a></div>
-					<div class="tabOff" id="c33"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,3)">薪酬设计</a></div>
-					<div class="tabOff" id="c34"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,3)">招聘</a></div>
+					<div class="tabOn" id="c31"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,3,'')">人力资源</a></div>
+					<div class="tabOff" id="c32"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,2,3,'绩效考核')">绩效考核</a></div>
+					<div class="tabOff" id="c33"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,3,3,'薪酬设计')">薪酬设计</a></div>
+					<div class="tabOff" id="c34"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,4,3,'招聘')">招聘</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4 gray" id="cn3">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1906,17 +1949,17 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c41"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,4)">生产管理</a></div>
-					<div class="tabOff" id="c42"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,4)">PMC</a></div>
-					<div class="tabOff" id="c43"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,4)">班组长</a></div>
-					<div class="tabOff" id="c44"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,4)">TPM</a></div>
+					<div class="tabOn" id="c41"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,4,'')">生产管理</a></div>
+					<div class="tabOff" id="c42"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,2,4,'PMC')">PMC</a></div>
+					<div class="tabOff" id="c43"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,3,4,'班组长')">班组长</a></div>
+					<div class="tabOff" id="c44"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,4,4,'TPM')">TPM</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4 gray" id="cn4">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -1998,17 +2041,17 @@ padding-bottom: 2px;
 		<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c51"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,5)">市场营销</a></div>
-					<div class="tabOff" id="c52"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,5)">销售</a></div>
-					<div class="tabOff" id="c53"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,5)">团队</a></div>
-					<div class="tabOff" id="c54"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,5)">市场调研</a></div>
+					<div class="tabOn" id="c51"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,5,'')">市场营销</a></div>
+					<div class="tabOff" id="c52"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,2,5,'销售')">销售</a></div>
+					<div class="tabOff" id="c53"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,3,5,'团队')">团队</a></div>
+					<div class="tabOff" id="c54"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,4,5,'市场调研')">市场调研</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4 gray" id="cn5">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -2018,17 +2061,17 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c61"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,6)">战略管理</a></div>
-					<div class="tabOff" id="c62"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,6)">领导力</a></div>
-					<div class="tabOff" id="c63"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,6)">执行力</a></div>
-					<div class="tabOff" id="c64"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,6)">运营</a></div>
+					<div class="tabOn" id="c61"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,6,'')">战略管理</a></div>
+					<div class="tabOff" id="c62"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,2,6,'领导力')">领导力</a></div>
+					<div class="tabOff" id="c63"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,3,6,'执行力')">执行力</a></div>
+					<div class="tabOff" id="c64"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,4,6,'运营')">运营</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4 gray" id="cn6">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -2064,17 +2107,17 @@ padding-bottom: 2px;
 			<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c71"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,7)">项目管理</a></div>
-					<div class="tabOff" id="c72"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,7)">研发</a></div>
-					<div class="tabOff" id="c73"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,7)">品牌</a></div>
-					<div class="tabOff" id="c74"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,7)">时间</a></div>
+					<div class="tabOn" id="c71"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,7,'')">项目管理</a></div>
+					<div class="tabOff" id="c72"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,2,7,'研发')">研发</a></div>
+					<div class="tabOff" id="c73"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,3,7,'品牌')">品牌</a></div>
+					<div class="tabOff" id="c74"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,4,7,'时间')">时间</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray" id="cn5">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="cn7">
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -2084,21 +2127,22 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="c61"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',1,6)">职业技能</a></div>
-					<div class="tabOff" id="c62"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',2,6)">秘书</a></div>
-					<div class="tabOff" id="c63"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',3,6)">认证</a></div>
-					<div class="tabOff" id="c64"><a href='javascript:void(0)' onclick="javascript:seePartTab('c',4,6)">英语</a></div>
+					<div class="tabOn" id="c81"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,8,'')">职业技能</a></div>
+					<div class="tabOff" id="c82"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,2,8,'秘书')">秘书</a></div>
+					<div class="tabOff" id="c83"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,3,8,'认证')">认证</a></div>
+					<div class="tabOff" id="c84"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,4,8,'英语')">英语</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray" id="cn6">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="cn8">
+							<li></li>
 						</ul>
 					</div>
 				</div>
 				<img  src="images/class5.jpg"/>
+
 			</div>
 		</li>
 		<li class="last noneStyle">
@@ -2176,25 +2220,16 @@ padding-bottom: 2px;
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">企业培训PPT下载</div>
-					<div class="tabOff">热门下载</div>
-					<div class="tabOff">热门搜索</div>
+					<div class="tabOn" id="d11"><a href='javascript:void(0)' onclick="javascript:seePartTab('d',1,1)">企业培训下载</a></div>
+					<div class="tabOff" id="d12"><a href='javascript:void(0)' onclick="javascript:seePartTab('d',2,1)">热门下载</a></div>
+					<div class="tabOff" id="d13"><a href='javascript:void(0)' onclick="javascript:seePartTab('d',3,1)">热门搜索</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="d1">
+							<li></li>
 						</ul>
 					</div>
 				</div>
@@ -2204,24 +2239,15 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">企业培训机构</div>
-					<div class="tabOff">培训机构排名</div>
-					<div class="tabOff">热门搜索</div>
+					<div class="tabOn" id="org11"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',1,1)">企业培训机构</a></div>
+					<div class="tabOff" id="org12"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',2,1)">培训机构排名</a></div>
+					<div class="tabOff" id="org13"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',3,1)">热门搜索</a></div>
 					<div class="more"><a href="#">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
-						<ul class="list4 gray">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
-							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
-							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
-							<li><a href="#">企业资本运作与投融资顾问班</a></li>
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+						<ul class="list4 gray" id="org1">
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>

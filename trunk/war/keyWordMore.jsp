@@ -22,7 +22,7 @@
 	})
 	function getTypeName(){
 		var type  = $('#typeValue').val();
-		var urlStr = 'struts/Keyword_getTypeName?category='+type;
+		var urlStr = 'struts/Keyword_getTypeName?category='+1;
 		$.ajax({
 			url:encodeURI(urlStr),
 			success: function(data){
