@@ -214,5 +214,33 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 		});
 		return (Long) list.get(0);
 	}
+	
+	@Override
+	public TeacherInfo queryTeacherInfoByName(final String teacherName){
+		if (teacherName != null && !teacherName.isEmpty()) {
+			return null;
+		}
+		List<TeacherInfo> list = new ArrayList<TeacherInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						" from TeacherInfo t" + " where 1 = 1 ");
+				hql.append(" and t.realName = ? ");
+
+				Query query = session.createQuery(hql.toString());
+				
+				query.setString(0, teacherName);
+				
+				return query.list();
+			}
+		});
+		if(list==null||list.size()==0){
+			return null;
+		}else{
+			return list.get(0);
+		}
+	}
 }

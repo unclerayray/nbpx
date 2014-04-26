@@ -276,17 +276,38 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		 * course.setTeacherName(course.getTeacherId());
 		 * course.setTeacherId(null); } } }
 		 */
-		// 如果讲师不存在与数据库中，则添加讲师
+		// 如果讲师不存在数据库中，则添加讲师
+		// 当teacherId不是数字或者为空的时候，肯定是新增的
 		if (!StringUtil.isNumeric(course.getTeacherId())) {
-			User user = new User();
-			user.setRegisterDate(new Date());
-			user.setUserType(SystemConstants.USER_TYPE_TEACHER);
-			user.setState(false);
-			userDao.save(user);
-			TeacherInfo teacher = new TeacherInfo();
-			teacher.setUser(user);
-			teacher.setRealName(course.getTeacherId());
-			teacherDao.save(teacher);
+			TeacherInfo teacher = teacherDao.queryTeacherInfoByName(course.getTeacherId());
+			if(teacher == null){
+//				User user = new User();
+//				user.setRegisterDate(new Date());
+//				user.setUserType(SystemConstants.USER_TYPE_TEACHER);
+//				user.setState(false);
+//				userDao.save(user);
+				teacher = new TeacherInfo();
+				//teacher.setUser(user);
+				teacher.setCreateBy(course.getCreatedBy());
+				teacher.setCreateDate(new Date());
+				teacher.setRealName(course.getTeacherId());
+				teacher.setState(false);
+				teacherDao.save(teacher);
+			}
+			course.setTeacherId(teacher.getTeacherId().toString());
+		}else{
+			//由于浏览器抽风，有时候Id和teacherName不对应，所以需要验证一下
+			//已teacherName从数据库里拿出来的teacherId永远错不了
+			TeacherInfo teacher = teacherDao.queryTeacherInfoByName(course.getTeacherName());
+			if(teacher == null){
+				teacher = new TeacherInfo();
+				teacher.setCreateBy(course.getCreatedBy());
+				teacher.setCreateDate(new Date());
+				teacher.setRealName(course.getTeacherName());
+				teacher.setState(false);
+				teacherDao.save(teacher);//考虑是否在save teacherInfo的时候加入SOLR
+			}
+			course.setTeacherId(teacher.getTeacherId().toString());
 		}
 		if (course.getCourseId() == null) {
 			if (courseDao.checkDuplicateProp(course)) {

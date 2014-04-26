@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -24,10 +26,12 @@ import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
+import com.nb.nbpx.service.solr.impl.SolrCourseServiceImpl;
 
 @Component("courseDao")
 @SuppressWarnings({ "unchecked", "rawtypes", "unused" })
 public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICourseDao {
+    public static Logger logger = LogManager.getLogger(CourseDaoImpl.class);
 	private JdbcTemplate jdbcTemplate;
 
 	public JdbcTemplate getJdbcTemplate() {
@@ -612,7 +616,8 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		}
 
 		String[] sqlArr = list.toArray(new String[list.size()]);
-		jdbcTemplate.batchUpdate(sqlArr);
+		int[] ja = jdbcTemplate.batchUpdate(sqlArr);
+		logger.info("what! "+ja);
 	}
 
 	@Override

@@ -44,4 +44,11 @@ public interface ITeacherInfoDao extends IBaseDao<TeacherInfo, Integer>{
 	 * @return
 	 */
 	public Long queryInnerTeacherInfoCount(String teacherName);
+	
+	/**
+	 * 以teacherName搜索TeacherInfo
+	 * @param teacherName
+	 * @return
+	 */
+	public TeacherInfo queryTeacherInfoByName(String teacherName);
 }

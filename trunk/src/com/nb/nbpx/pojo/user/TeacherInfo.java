@@ -32,6 +32,9 @@ public class TeacherInfo implements Serializable{
 	private String cellphone;
 	private String introduction;
 	private String expertIn;
+	/**
+	 * 表示是否已注册
+	 */
 	private Boolean state;
 	private Date createDate;
 	private String createBy;

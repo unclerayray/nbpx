@@ -52,9 +52,9 @@ String keyw = (String)request.getParameter("key");
 							var outClass= "classDesc last";
 							if(n<rows.length-1)
 								outClass="classDesc";
-							valueStr += "<div  class='"+outClass+"'><h3><a href='viewClass.jsp?id="+value.questionId+"'>"+value.title+"</a></h3>"+
+							valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewClass.jsp?id="+value.questionId+"'>"+value.title+"</a></h3>"+
 							"<div class='classDetail'>"+
-							"<div class='left' style='width:60px;'><span>提问内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a href='viewQuestion.jsp?id="+value.questionId+"'>详细内容</a>]</div></div></div>"+
+							"<div class='left' style='width:60px;'><span>提问内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a  target='_blank' href='viewQuestion.jsp?id="+value.questionId+"'>详细内容</a>]</div></div></div>"+
 							"<div class='clear'></div>";
 						});
 						//alert("valueStr " + valueStr);
@@ -120,9 +120,9 @@ function search(page){
 					var outClass= "classDesc last";
 					if(n<rows.length-1)
 						outClass="classDesc";
-					valueStr += "<div  class='"+outClass+"'><h3><a href='viewClass.jsp?id="+value.questionId+"'>"+value.title+"</a></h3>"+
+					valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewClass.jsp?id="+value.questionId+"'>"+value.title+"</a></h3>"+
 					"<div class='classDetail'>"+
-					"<div class='left' style='width:60px;'><span>提问内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a href='viewQuestion.jsp?id="+value.questionId+"'>详细内容</a>]</div></div></div>"+
+					"<div class='left' style='width:60px;'><span>提问内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a  target='_blank' href='viewQuestion.jsp?id="+value.questionId+"'>详细内容</a>]</div></div></div>"+
 					"<div class='clear'></div>";
 				});
 				//alert("valueStr " + valueStr);

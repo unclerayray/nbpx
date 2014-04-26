@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+String keyw = (String)request.getParameter("key");
+%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -80,10 +83,10 @@ function search(page){
 					if(n<rows.length-1)
 						outClass="classDesc";
 					//alert("schedules="+schedules);
-					valueStr += "<div  class='"+outClass+"'><h3><a href='viewTeacher.jsp?id="+value.teacherId+"'>"+value.realName+"</a></h3>"+
+					valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewTeacher.jsp?id="+value.teacherId+"'>"+value.realName+"</a></h3>"+
 					"<div class='classInfor'>编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+"&nbsp;&nbsp;擅长："+value.expertIn+"</div>"+
 					"<div class='classDetail'>"+
-					"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
+					"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
 					"<div class='clear'></div>";
 				});
 				//alert("valueStr " + valueStr);

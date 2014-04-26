@@ -108,8 +108,6 @@
 			}
 
 			function answer(){
-				alert($('#requireId').val());
-				alert($('#replys').val());
 				$('#fm').form('submit', {
 					url : '../struts/Requirement_replyRequirement?reply='+$('#replys').val()+'&requirementId='+$('#requireId').val(),
 					onSubmit : function() {

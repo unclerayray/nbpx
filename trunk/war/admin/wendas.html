@@ -257,7 +257,6 @@
 		$('#question-fm').form('submit', {
 			url : '../struts/Wenda_saveQuestion',
 			onSubmit : function() {
-				console.log($('#question-fm').form('validate'));
 				return $('#question-fm').form('validate');
 			},
 			success : function(data) {

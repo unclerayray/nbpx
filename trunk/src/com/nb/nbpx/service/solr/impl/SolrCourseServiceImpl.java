@@ -52,7 +52,7 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			String contents = cai.getContent();
 			contents = stripHTMLX(contents);
 			sid.addField("content", contents);
-			sid.addField("category", NbpxDicMap.courseTypeMap.get(cai.category));
+			sid.addField("category", NbpxDicMap.getCourseTypeMap().get(cai.category));
 			String[] courseKeywords = cai.getKeywords().split(",");
 			String[] courseSubjects = cai.getSubject().split(",");
 			for(String keyword:courseKeywords){
