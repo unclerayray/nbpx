@@ -45,7 +45,7 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 			sid.addField("teacherId", teacher.getTeacherId());
 			sid.addField("realName", teacher.getRealName());
 			sid.addField("expertIn", teacher.getExpertIn());
-			sid.addField("majorCatgory", NbpxDicMap.courseTypeMap.get(teacher.getMajorCatgory()));
+			sid.addField("majorCatgory", NbpxDicMap.getCourseTypeMap().get(teacher.getMajorCatgory()));
 			String introduction = teacher.getIntroduction();
 			introduction = stripHTMLX(introduction);
 			sid.addField("introduction", introduction);

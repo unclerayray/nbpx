@@ -52,10 +52,10 @@ String keyw = (String)request.getParameter("key");
 							var outClass= "classDesc last";
 							if(n<rows.length-1)
 								outClass="classDesc";
-							valueStr += "<div  class='"+outClass+"'><h3><a href='viewDownload.jsp?id="+value.downloadId+"'>"+value.title+"</a></h3>"+
+							valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewDownload.jsp?id="+value.downloadId+"'>"+value.title+"</a></h3>"+
 							"<div class='classInfor'>编号："+value.downloadId+"&nbsp;&nbsp;类别："+value.category+"&nbsp;&nbsp;大小："+value.size+"M&nbsp;&nbsp;作者："+value.author+"&nbsp;&nbsp;更新时间："+value.uploadDate+"</div>"+
 							"<div class='classDetail'>"+
-							"<div class='left' style='width:60px;'><span>下载内容：</span></div><div style='float:right;width:630px;'>"+value.description+"...[<a href='viewDownload.jsp?id="+value.downloadId+"'>详细内容</a>]</div></div></div>"+
+							"<div class='left' style='width:60px;'><span>下载内容：</span></div><div style='float:right;width:630px;'>"+value.description+"...[<a  target='_blank' href='viewDownload.jsp?id="+value.downloadId+"'>详细内容</a>]</div></div></div>"+
 							"<div class='clear'></div>";
 						});
 						//alert("valueStr " + valueStr);

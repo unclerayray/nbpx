@@ -52,10 +52,10 @@ String keyw = (String)request.getParameter("key");
 							var outClass= "classDesc last";
 							if(n<rows.length-1)
 								outClass="classDesc";
-							valueStr += "<div  class='"+outClass+"'><h3><a href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"+
+							valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"+
 							"<div class='classDetail'>"+
 							"<div class='classInfor'>编号："+value.orgId+"&nbsp;&nbsp;机构类别：￥"+value.category+"</div>"+
-							"<div class='left' style='width:60px;'><span>机构详情：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]</div></div></div>"+
+							"<div class='left' style='width:60px;'><span>机构详情：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]</div></div></div>"+
 							"<div class='clear'></div>";
 						});
 						//alert("valueStr " + valueStr);
@@ -121,10 +121,10 @@ function search(page){
 							var outClass= "classDesc last";
 							if(n<rows.length-1)
 								outClass="classDesc";
-							valueStr += "<div  class='"+outClass+"'><h3><a href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"+
+							valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"+
 							"<div class='classDetail'>"+
 							"<div class='classInfor'>编号："+value.orgId+"&nbsp;&nbsp;机构类别：￥"+value.category+"</div>"+
-							"<div class='left' style='width:60px;'><span>机构详情：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]</div></div></div>"+
+							"<div class='left' style='width:60px;'><span>机构详情：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]</div></div></div>"+
 							"<div class='clear'></div>";
 						});
 						//alert("valueStr " + valueStr);

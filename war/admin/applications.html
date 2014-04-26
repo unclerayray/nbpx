@@ -56,9 +56,7 @@
 					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 					onclick="openDlg()">跟进申请</a> <a href="#"
 					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-					onclick="confirm()">确认报名</a> <a href="#"
-					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-					onclick="test()">test</a>
+					onclick="confirm()">确认报名</a>
 			</div>
 
 
@@ -94,10 +92,6 @@
 						var fol = $('#follow').combobox('getValue');
 						// alert(con + ' '+fol);
 						$('#dg').datagrid('load', {confirmed : con, follow : fol});
-					}
-
-					function test(){
-						$('#dg').datagrid('loadData', {'success':true,'message':'','total':0,'rows':[]});
 					}
 
 					function openDlg(){

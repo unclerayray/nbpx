@@ -50,7 +50,7 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 			sid.addField("articleId", artiDetail.getArticleId());
 			sid.addField("title", artiDetail.getArticleTitle());
 			sid.addField("author", artiDetail.getAuthor());
-			sid.addField("category", NbpxDicMap.courseTypeMap.get(artiDetail.category));
+			sid.addField("category", NbpxDicMap.getCourseTypeMap().get(artiDetail.category));
 			sid.addField("lastUpdateDate", artiDetail.getLastUpdateDate());
 			String contents = artiDetail.getContent();
 			contents = stripHTMLX(contents);
