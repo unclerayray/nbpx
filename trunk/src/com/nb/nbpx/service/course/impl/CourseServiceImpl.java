@@ -51,7 +51,6 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
-import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
@@ -223,22 +222,22 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		List subjectsList = courseDao.find(subjectsHql);
 		subjects = StringUtils.join(subjectsList, "，");
 
-		String targetsHql = "select targetCode from com.nb.nbpx.pojo.course.CourseTarget where courseId = "
+		String targetsHql = "select target from com.nb.nbpx.pojo.course.CourseTarget where courseId = "
 				+ courseId;
 		List targetsList = courseDao.find(targetsHql);
 		targets = StringUtils.join(targetsList, ",");
 
-		String industriesHql = "select industryCode from com.nb.nbpx.pojo.course.CourseIndustry where courseId = "
+		String industriesHql = "select industry from com.nb.nbpx.pojo.course.CourseIndustry where courseId = "
 				+ courseId;
 		List industriesList = courseDao.find(industriesHql);
 		industries = StringUtils.join(industriesList, ",");
 
-		String productsHql = "select productCode from com.nb.nbpx.pojo.course.CourseProduct where courseId = "
+		String productsHql = "select product from com.nb.nbpx.pojo.course.CourseProduct where courseId = "
 				+ courseId;
 		List productsList = courseDao.find(productsHql);
 		products = StringUtils.join(productsList, ",");
 
-		String majorsHql = "select majorCode from com.nb.nbpx.pojo.course.CourseMajor where courseId = "
+		String majorsHql = "select major from com.nb.nbpx.pojo.course.CourseMajor where courseId = "
 				+ courseId;
 		List majorsList = courseDao.find(majorsHql);
 		majors = StringUtils.join(majorsList, ",");

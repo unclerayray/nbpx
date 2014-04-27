@@ -61,15 +61,9 @@
 		valueField:'codeName',  
 		textField:'showName',  
 		panelHeight:'200',
-		strict:true,
-		onSelect: function(rec){  
-		var url = '../struts/Course_queryComboCourseCode?isInner=false&category='+rec.codeName;  
-		$('#courseIdFS').combobox('clear');  
-		$('#courseIdFS').combobox('reload', url);  
-	}
-	">
+		strict:true">
 	内外部发布：<input id="p_outside" name="p_outside" class="easyui-combobox"
-			data-options="panelHeight:'200',
+			data-options="panelHeight:'50',
 						strict:true,
 						valueField: 'value',
 						textField: 'label',
@@ -79,24 +73,11 @@
 						},{
 							label: '内部',
 							value: 'false'
-						}],
-						onSelect: function(rec){  
-						var p_category = $('#category').combobox('getValue');
-						var pp_outside = $('#p_outside').combobox('getValue');
-						var url = '../struts/Course_queryComboCourseCode?isInner=false&category='+p_category&'p_outside='+pp_outside;  
-						$('#courseIdFS').combobox('clear');  
-						$('#courseIdFS').combobox('reload', url);}" 
-			style="panelHeight: 30px;">
+						}]" 
+			style="panelHeight: 50px;">
 	课程名： <input id="q_title" name="q_title" style="width: 180px;">
-	课程代码： <input class="easyui-combobox" name="courseId"
-	id="courseIdFS"
-	data-options="   
-	url:'../struts/Course_queryComboCourseCode?isInner=false',
-	valueField:'courseId',  
-	textField:'courseId',  
-	panelHeight:'200',
-	strict:true
-	">
+	课程代码： <input name="courseId"
+	id="courseIdFS" >
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-search" onclick="queryCourse()">搜索</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
@@ -108,7 +89,7 @@
 style="width: 1000px; height: 500px; padding: 5px 5px; top: 5px;"
 closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 <form id="fm" method="post">
-	<table cellspacing="0" cellpadding="0" class="formTable">
+	<table cellspacing="0" cellpadding="0" class="formTableC" width="900px">
 		<div>
 			<input id="dlg-courseId" name="courseId" type="hidden">
 			<input id="dlg-createdBy" name="createdBy" type="hidden">
@@ -298,9 +279,8 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 					</tr>
 					<tr>
 						<td colspan="5">
-							<div id="contentDiv">
-								<textarea name="content" id="content"  style="width:900px"></textarea>
-							</div></td>
+							<textarea name="content" id="content"  style="width:900px"></textarea>
+							</td>
 						</tr>
 					</table>
 				</form>
@@ -377,7 +357,7 @@ function clearTollBar() {
 function queryCourse() {
 		    $('#dg').datagrid('load', {
 					category : $('#category').combobox('getValue'),  
-		          	courseId : $('#courseIdFS').combobox('getValue'),
+		          	courseId : $('#courseIdFS').val(),
 		          	p_outside : $('#p_outside').combobox('getValue'),
 		          	q_title : $('#q_title').val()
 			});
@@ -456,7 +436,7 @@ function queryCourse() {
 						else
 							$('#hasVideo').attr('checked', false);
 
-						//$('#courseKeywords').combobox('setValues',data.keywords.split(','));
+						$('#teacherId').combobox('reload');
 						if(data.targets!=''){
 							$('#courseTarget').combobox('setValues',data.targets.split(','));
 						}
@@ -693,7 +673,8 @@ function createCkeditor() {
 	var config = {
 		uiColor : '#A0CFEC',
 		language : 'zh-cn',
-		width : '800px'
+		width : '900px',
+		margin: '5px'
 	};
 	var editor = CKEDITOR.instances['content'];
 	if (editor) {
@@ -917,14 +898,16 @@ function newCourseInfo(){
 		}
 
 		.itemText {
-			width: 300px;
 			text-align: left;
 			height: 30px;
 			padding-left: 10px;
 			vertical-align: top
 		}
-
-		.formTable td {
+		.formTableC tr {
+			vertical-align: top;
+			width: 900px;
+		}
+		.formTableC td {
 			vertical-align: top
 		}
 		</style>

@@ -38,7 +38,7 @@ public interface IDictionaryService extends IBaseService {
 	public String queryComboDics(String dicType);
 	
 	/**
-	 * 用于获取ComboBox的，最新
+	 * 用于获取ComboBox的，最新  前500个
 	 * @param dicType
 	 * @return
 	 */
