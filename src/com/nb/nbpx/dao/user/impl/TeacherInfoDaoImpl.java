@@ -217,7 +217,7 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 	
 	@Override
 	public TeacherInfo queryTeacherInfoByName(final String teacherName){
-		if (teacherName != null && !teacherName.isEmpty()) {
+		if (teacherName == null || teacherName.isEmpty()) {
 			return null;
 		}
 		List<TeacherInfo> list = new ArrayList<TeacherInfo>();

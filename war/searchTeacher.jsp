@@ -29,8 +29,47 @@ String keyw = (String)request.getParameter("key");
 	}
 	#searchWord { width: 25em; }
 	</style>
+	<script language="JavaScript">
+		window.onload = function(){
+			if("<%= keyw%>"!="null"){
+				$('#searchWord').val("<%= keyw%>");
+			}
+		};
+	</script>
 	<script>
 	$(function() {
+		if("<%= keyw%>"!="null"){
+			$.ajax({
+				url:"struts/Search_queryTeacherBySolr?page=1&rows=10&key="+"<%=keyw%>",
+				success:function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					var pages = jsonObject.pages;
+					var rows = jsonObject.rows;
+					//alert("rows = " + rows);
+					$.each(rows,function(n,value){
+						var outClass= "classDesc last";
+						if(n<rows.length-1)
+							outClass="classDesc";
+						//alert("schedules="+schedules);
+						valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewTeacher.jsp?id="+value.teacherId+"'>"+value.realName+"</a></h3>"+
+						"<div class='classInfor'>编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+"&nbsp;&nbsp;擅长："+value.expertIn+"</div>"+
+						"<div class='classDetail'>"+
+						"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
+						"<div class='clear'></div>";
+					});
+					//alert("valueStr " + valueStr);
+					if(valueStr == ""){
+						valueStr = "<div class='notice'>未搜索到相关讲师信息</div>";
+					}else
+					$('#pageDiv').css('display','block');
+					$('#classes').html(valueStr);
+					$('#pages').html(pages);
+					$('#currPage').html(parseInt(page));
+					}
+			});
+		}
+
 		var cache = {};
 		//
 		//			jsonp: "json.wrf",

@@ -287,7 +287,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 	}
 
 	@Override
-	public List<Dictionary> getDicForCombo(final String type) {
+	public List<Dictionary> getDicForCombo(final String type, final Integer rows, final Integer start) {
 		List<Dictionary> list = new ArrayList<Dictionary>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -298,6 +298,10 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 						"select new Dictionary(d.codeName,d.showName) from Dictionary d where dicType = '"
 							+ type + "'");
 				Query query = session.createQuery(hql.toString());
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
 				return query.list();
 			}
 

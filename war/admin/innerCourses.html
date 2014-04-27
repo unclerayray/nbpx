@@ -60,38 +60,19 @@
 		valueField:'codeName',  
 		textField:'showName',   
 		panelHeight:'200',
-		strict:true,
-		onSelect: function(rec){  
-		var url = '../struts/Course_queryComboCourseCode?isInner=true&category='+rec.codeName;  
-		$('#courseIdFS').combobox('clear');  
-		$('#courseIdFS').combobox('reload', url);  
-	}
-	">
+		strict:true
+		">
 	内外部发布：<select id="p_outside" name="p_outside" class="easyui-combobox"
-			data-options=" panelHeight:'200',
-						strict:true,
-						onSelect: function(rec){  
-						var p_category = $('#category').combobox('getValue');
-						var pp_outside = $('#p_outside').combobox('getValue');
-						var url = '../struts/Course_queryComboCourseCode?isInner=true&category='+p_category&'p_outside='+pp_outside;  
-						$('#courseIdFS').combobox('clear');  
-						$('#courseIdFS').combobox('reload', url);}" 
-			style="panelHeight: 30px;">
+			data-options=" panelHeight:'50',
+						strict:true" 
+			style="panelHeight: 50px;">
 			<option></option>
 			<option value="true">外部</option>
 			<option value="false">内部</option>
 		</select>
 	课程名： <input id="q_title" name="q_title" style="width: 180px;">
-	课程代码： <input class="easyui-combobox" name="courseId"
-	id="courseIdFS"
-	data-options="   
-	url:'../struts/Course_queryComboCourseCode?isInner=true',
-	valueField:'courseId',  
-	textField:'courseId',  
-	panelHeight:'200'  ,
-	panelHeight:'100',
-	strict:true
-	">
+	课程代码： <input  name="courseId"
+	id="courseIdFS">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-search" onclick="queryCourse()">搜索</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
@@ -245,9 +226,7 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 					</tr>
 					<tr>
 						<td colspan="5">
-							<div id="contentDiv">
-								<textarea name="content" id="content"  style="width:900px"></textarea>
-							</div></td>
+							<textarea name="content" id="content"  style="width:900px"></textarea>
 						</tr>
 						<tr>
 							<td class="itemText">
@@ -295,109 +274,109 @@ function clearTollBar() {
 	$('#tb').form('clear');
 }
 function queryCourse() {
-			$('#dg').datagrid('load', {
-					category : $('#category').combobox('getValue'),  
-		          	courseId : $('#courseIdFS').combobox('getValue'),
-		          	p_outside : $('#p_outside').combobox('getValue'),
-		          	q_title : $('#q_title').val()
-			});
+		$('#dg').datagrid('load', {
+				category : $('#category').combobox('getValue'),  
+	          	courseId : $('#courseIdFS').val(),
+	          	p_outside : $('#p_outside').combobox('getValue'),
+	          	q_title : $('#q_title').val()
+		});
+	}
+	function newInnerCourse() {
+		$('#dlg').dialog('open').dialog('setTitle', '新建内训课程');
+		$('#fm').form('clear');
+		createCkeditor();
+		CKEDITOR.instances.content.setData('');
+	}
+	function editCourse(rowData) {
+		var row;
+		if(rowData){
+			row = rowData;
+		}else{
+			row = $('#dg').datagrid('getSelected');
 		}
-		function newInnerCourse() {
-			$('#dlg').dialog('open').dialog('setTitle', '新建内训课程');
-			$('#fm').form('clear');
-			createCkeditor();
-			CKEDITOR.instances.content.setData('');
-		}
-		function editCourse(rowData) {
-			var row;
-			if(rowData){
-				row = rowData;
-			}else{
-				row = $('#dg').datagrid('getSelected');
-			}
-			if (row) {
-				$('#fm').form({
-					onBeforeLoad : function(param) {
-						$('#courseTarget').combobox({
-							url:'../struts/Dictionary_queryComboDics?p_dicType=010',  
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true
-						}); 
-						$('#courseMajor').combobox({
-							url:'../struts/Dictionary_queryComboDics?p_dicType=009',  
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true
-						}); 
-						$('#courseIndustry').combobox({
-							url:'../struts/Dictionary_queryComboDics?p_dicType=008',  
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true
-						}); 
-						$('#courseProduct').combobox({
-							url:'../struts/Dictionary_queryComboDics?p_dicType=011',  
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true
-						}); 
-					},
-					onLoadSuccess : function(data) {
-						createCkeditor();
-						//alert(data.state);
-						if (data.state)
-							$('#state').attr('checked', 'checked');
-						else
-							$('#state').attr('checked', false);
-						if (data.recommanded)
-							$('#recommanded').attr('checked', 'checked');
-						else
-							$('#recommanded').attr('checked', false);
-						if (data.classic)
-							$('#classic').attr('checked', 'checked');
-						else
-							$('#classic').attr('checked', false);
-						if (data.hasVideo)
-							$('#hasVideo').attr('checked', 'checked');
-						else
-							$('#hasVideo').attr('checked', false);
+		if (row) {
+			$('#fm').form({
+				onBeforeLoad : function(param) {
+					$('#courseTarget').combobox({
+						url:'../struts/Dictionary_queryComboDics?p_dicType=010',  
+						valueField:'codeName',  
+						textField:'showName',
+						panelHeight:'200',
+						multiple:true,
+						editable:true
+					}); 
+					$('#courseMajor').combobox({
+						url:'../struts/Dictionary_queryComboDics?p_dicType=009',  
+						valueField:'codeName',  
+						textField:'showName',
+						panelHeight:'200',
+						multiple:true,
+						editable:true
+					}); 
+					$('#courseIndustry').combobox({
+						url:'../struts/Dictionary_queryComboDics?p_dicType=008',  
+						valueField:'codeName',  
+						textField:'showName',
+						panelHeight:'200',
+						multiple:true,
+						editable:true
+					}); 
+					$('#courseProduct').combobox({
+						url:'../struts/Dictionary_queryComboDics?p_dicType=011',  
+						valueField:'codeName',  
+						textField:'showName',
+						panelHeight:'200',
+						multiple:true,
+						editable:true
+					}); 
+				},
+				onLoadSuccess : function(data) {
+					createCkeditor();
+					//alert(data.state);
+					if (data.state)
+						$('#state').attr('checked', 'checked');
+					else
+						$('#state').attr('checked', false);
+					if (data.recommanded)
+						$('#recommanded').attr('checked', 'checked');
+					else
+						$('#recommanded').attr('checked', false);
+					if (data.classic)
+						$('#classic').attr('checked', 'checked');
+					else
+						$('#classic').attr('checked', false);
+					if (data.hasVideo)
+						$('#hasVideo').attr('checked', 'checked');
+					else
+						$('#hasVideo').attr('checked', false);
 
-						//$('#courseKeywords').combobox('setValues',data.keywords.split(','));
-						if(data.targets!=''){
-							$('#courseTarget').combobox('setValues',data.targets.split(','));
-						}
-						if(data.major!=''){
-							$('#courseMajor').combobox('setValues',data.major.split(','));
-						}
-						if(data.industry!=''){
-							$('#courseIndustry').combobox('setValues',data.industry.split(',')); 
-						}
-						//alert('data.product = ' + data.product);
-						if(data.product!=''){
-							$('#courseProduct').combobox('setValues',data.product.split(',')); 
-						}
-
-						$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
+					$('#teacherId').combobox('reload');
+					if(data.targets!=''){
+						$('#courseTarget').combobox('setValues',data.targets.split(','));
 					}
+					if(data.major!=''){
+						$('#courseMajor').combobox('setValues',data.major.split(','));
+					}
+					if(data.industry!=''){
+						$('#courseIndustry').combobox('setValues',data.industry.split(',')); 
+					}
+					//alert('data.product = ' + data.product);
+					if(data.product!=''){
+						$('#courseProduct').combobox('setValues',data.product.split(',')); 
+					}
+
+					$('#dlg').dialog('open').dialog('setTitle', '编辑课程');
+				}
+			});
+			$('#fm').form('load','../struts/Course_queryCourseById?courseId='+ row.courseId);
+			} else {
+				$.messager.show({
+					title : '温馨提示',
+					msg : '请先选择一行记录',
+					timeout : 2000,
+					showType : 'slide'
 				});
-$('#fm').form('load','../struts/Course_queryCourseById?courseId='+ row.courseId);
-} else {
-	$.messager.show({
-		title : '温馨提示',
-		msg : '请先选择一行记录',
-		timeout : 2000,
-		showType : 'slide'
-	});
-}
+			}
 }
 function saveCourse(close_dlg) {
 	//var data = CKEDITOR.instances.content.getData();
@@ -585,7 +564,6 @@ function createCkeditor() {
 		}
 
 		.itemText {
-			width: 300px;
 			text-align: left;
 			height: 30px;
 			padding-left: 10px;

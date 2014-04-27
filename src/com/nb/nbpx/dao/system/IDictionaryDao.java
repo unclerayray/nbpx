@@ -54,5 +54,5 @@ public interface IDictionaryDao extends IBaseDao<Dictionary, Integer> {
 	 * @param type
 	 * @return
 	 */
-	public List<Dictionary> getDicForCombo(String type);
+	public List<Dictionary> getDicForCombo(String type, Integer rows, Integer start);
 }

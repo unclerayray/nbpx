@@ -77,6 +77,9 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 		} catch (SolrServerException e) {
 			logger.error("commit未成功。"+e.getMessage());;
 			e.printStackTrace();
+		} catch (Exception e){
+			logger.error("commit未成功。"+e.getMessage());;
+			e.printStackTrace();
 		}
 	}
 	
