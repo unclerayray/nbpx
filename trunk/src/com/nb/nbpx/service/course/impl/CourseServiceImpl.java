@@ -287,7 +287,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 //				userDao.save(user);
 				teacher = new TeacherInfo();
 				//teacher.setUser(user);
-				teacher.setCreateBy(course.getCreatedBy());
+				teacher.setCreateBy(course.getLastUpdatedBy());
 				teacher.setCreateDate(new Date());
 				teacher.setRealName(course.getTeacherId());
 				teacher.setState(false);
@@ -300,7 +300,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			TeacherInfo teacher = teacherDao.queryTeacherInfoByName(course.getTeacherName());
 			if(teacher == null){
 				teacher = new TeacherInfo();
-				teacher.setCreateBy(course.getCreatedBy());
+				teacher.setCreateBy(course.getLastUpdatedBy());
 				teacher.setCreateDate(new Date());
 				teacher.setRealName(course.getTeacherName());
 				teacher.setState(false);

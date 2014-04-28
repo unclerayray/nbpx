@@ -81,7 +81,7 @@ String keyw = (String)request.getParameter("subject");
 						$('#pageDiv').css('display','block');
 						$('#classes').html(valueStr);
 						$('#pages').html(pages);
-						$('#currPage').html(parseInt(page));
+						$('#currPage').html(1);
 					}
 				});
 		}
@@ -103,7 +103,7 @@ String keyw = (String)request.getParameter("subject");
 						style: "full",
 						maxRows: 12,
 						wt:"json",
-						q:"suggest:" + $("#searchWord").val(),
+						q:$("#searchWord").val(),
 						name_startsWith: request.term
 					},
 					success: function(data) {
@@ -157,44 +157,44 @@ function search(page){
 }
 
 var pager = {
-'test':function(){
-	alert('1');
-},
-'seeNext':function(){
-	var currPage = parseInt($('#currPage').html());
-	var pages = parseInt($('#pages').html());
-	if(currPage +1 >= pages)
-		search(pages);
-	else
-		search(currPage);
-},
-'seePre':function(){
-	var currPage = parseInt($('#currPage').html());
-	if(currPage-1 > 0)
-		search(currPage-1);
-	else
+	'test':function(){
+		alert('1');
+	},
+	'seeNext':function(){
+		var currPage = parseInt($('#currPage').html());
+		var pages = parseInt($('#pages').html());
+		if(currPage +1 >= pages)
+			search(pages);
+		else
+			alert('已经是最后一页');
+	},
+	'seePre':function(){
+		var currPage = parseInt($('#currPage').html());
+		if(currPage-1 > 0)
+			search(currPage-1);
+		else
+			alert('已经是第一页');
+	},
+	'seeFirst':function(){
 		search(1);
-},
-'seeFirst':function(){
-	search(1);
-},
-'seeLast':function(){
-	var pages = $('#pages').html();
-	search(pages);
-},
-'jump':function(){
-	if($('#jump').val() == ''){
-		alert('请输入页码！');
-		return false;
+	},
+	'seeLast':function(){
+		var pages = $('#pages').html();
+		search(pages);
+	},
+	'jump':function(){
+		if($('#jump').val() == ''){
+			alert('请输入页码！');
+			return false;
+		}
+		var jumpTo = parseInt($('#jump').val());
+		var allPages = parseInt($('#pages').html());
+		if(jumpTo <=0 || jumpTo> allPages){
+			alert('页码范围不正确！');
+			return false;
+		}
+		search(jumpTo);
 	}
-	var jumpTo = parseInt($('#jump').val());
-	var allPages = parseInt($('#pages').html());
-	if(jumpTo <=0 || jumpTo> allPages){
-		alert('页码范围不正确！');
-		return false;
-	}
-	search(jumpTo);
-}
 };
 </script>
 <body>

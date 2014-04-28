@@ -115,6 +115,10 @@ ul{padding:0px;margin:0px}
 .search .searchInput{height:36px;background:#a89136;padding-top:4px;padding-left:5px; line-height:36px}
 .search .searchInput input{height:30px;width:830px;border:none;float:left;padding-left:5px;color:#666;}
 .search .searchInput .searchButton{ background:url(../images/search_bt_submit.png);color:white;border:none;width:100px;height:30px;font-size:18px;font-weight:bold;padding-left:25px; line-height:30px;}
+
+.ui-autocomplete-loading {
+	background: white url('../images/ui-anim_basic_16x16.gif') right center no-repeat;
+}
 /*搜索end*/
 
 /*关键字start*/

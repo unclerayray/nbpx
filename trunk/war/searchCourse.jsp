@@ -81,7 +81,7 @@ String keyw = (String)request.getParameter("key");
 						$('#pageDiv').css('display','block');
 						$('#classes').html(valueStr);
 						$('#pages').html(pages);
-						$('#currPage').html(parseInt(page));
+						$('#currPage').html(1);
 					}
 				});
 		}
@@ -103,7 +103,7 @@ String keyw = (String)request.getParameter("key");
 						style: "full",
 						maxRows: 12,
 						wt:"json",
-						q:"suggest:" + $("#searchWord").val(),
+						q:$("#searchWord").val(),
 						name_startsWith: request.term
 					},
 					success: function(data) {
@@ -181,14 +181,14 @@ var pager = {
 		if(currPage +1 >= pages)
 			search(pages);
 		else
-			search(currPage);
+			alert('已经是最后一页');
 	},
 	'seePre':function(){
 		var currPage = parseInt($('#currPage').html());
 		if(currPage-1 > 0)
 			search(currPage-1);
 		else
-			search(1);
+			alert('已经是第一页');
 	},
 	'seeFirst':function(){
 		search(1);

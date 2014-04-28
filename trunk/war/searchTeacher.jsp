@@ -65,7 +65,7 @@ String keyw = (String)request.getParameter("key");
 					$('#pageDiv').css('display','block');
 					$('#classes').html(valueStr);
 					$('#pages').html(pages);
-					$('#currPage').html(parseInt(page));
+					$('#currPage').html(1);
 					}
 			});
 		}
