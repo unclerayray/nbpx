@@ -7,14 +7,14 @@ form {
 	margin: 10px auto;
 	border: solid 1px #E0DEDE;
 	background: #FFFFFF;
-	font-family: "Î¢ÈíÑÅºÚ";
+	font-family: "å®‹ä½“";
 	padding: 30px;
 	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1) inset;
 }
 
 .input_txt {
 	width: 500px;
-	font-family: "Î¢ÈíÑÅºÚ";
+	font-family: "å®‹ä½“";
 	border-left: 2px;
 	border-top: 2px;
 	border: solid 1px #ccc;
@@ -27,7 +27,7 @@ form {
 
 .input_txt:focus {
 	box-shadow: 0 0 6px rgba(0, 0, 255, 0.4);
-	font-family: "Î¢ÈíÑÅºÚ";
+	font-family: "å®‹ä½“";
 	border-left: 2px;
 	border-top: 2px;
 	border: solid 1px #C1CDC1;
@@ -42,7 +42,7 @@ form {
 }
 
 .h2 {
-	font-family: "Î¢ÈíÑÅºÚ";
+	font-family: "å®‹ä½“";
 	color: #000000;
 	font-weight: 400;
 	font-size: 24px;
@@ -54,7 +54,7 @@ form {
 	width: 398px;
 	border: solid 1px #ccc;
 	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1) inset;
-	font-family: "Î¢ÈíÑÅºÚ";
+	font-family: "å®‹ä½“";
 	text-indent: 10px;
 	border-radius: 5px;
 	line-height:34px;
@@ -70,7 +70,7 @@ form {
 
 .mytextarea:focus {
 	box-shadow: 0 0 4px rgba(0, 0, 255, 0.4);
-	font-family: "Î¢ÈíÑÅºÚ";
+	font-family: "å®‹ä½“";
 	border: solid 1px #C1CDC1;
 	text-indent: 10px;
 	line-height:25px;
@@ -96,7 +96,7 @@ form {
 	height: 150px;
 }
 
-/*±íµ¥°´Å¥ÑùÊ½*/
+/*æœç´¢æŒ‰é’®*/
 .formBtn {
 	width: auto;
 	height: 30px;
@@ -107,3 +107,4 @@ form {
 	cursor: pointer;
 	font-family: Arial, Verdana, sans-serif;
 }
+#key { width: 25em; }

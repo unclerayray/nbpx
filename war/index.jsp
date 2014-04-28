@@ -5,12 +5,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>南北培训网</title>
+<link type="text/css" href="css/search.css" rel="stylesheet" />
 <link type="text/css" href="css/face.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
 <script src="js/myjs/index.js"></script>
+<script src="ui/jquery.ui.core.js"></script>
+<script src="ui/jquery.ui.widget.js"></script>
+<script src="ui/jquery.ui.position.js"></script>
+<script src="ui/jquery.ui.menu.js"></script>
+<script src="ui/jquery.ui.autocomplete.js"></script>
 </head>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
@@ -151,6 +157,8 @@
 <!--关键字 end-->
 <script>
 	$(function(){
+		//加载提示
+		loadTip();
 		//加载地区
 		loadCityCourse(1);
 		//加载企业培训
@@ -193,6 +201,54 @@
 		//加载客户评价
 		loadDics("25",10,"customSay")
 	});	
+	
+
+	function loadTip(){
+		var search_type = document.getElementById('search_type').value;
+		var searchUrl = '';
+		if(search_type=='qypx'){
+			searchUrl = 'struts/Search_queryKeywordsByKeyword';
+		}else if(search_type=='pxs'){
+			searchUrl = 'struts/Search_queryTeacherTip';
+		}else if(search_type=='khpj'){
+			//how to tip?
+		}else if(search_type=='khq'){
+			//how to tip?
+		}else if(search_type=='jg'){
+			//how to tip?
+		}else if(search_type=='nxs'){
+			//shouldn't have those
+		}else{
+			searchUrl = 'struts/Search_queryKeywordsByKeyword';
+		}
+		$( "#key" ).autocomplete({
+			minLength: 1,
+			source: function(request, response) {
+				$.ajax({
+					url: searchUrl,
+					delay: 500,
+					dataType:'json',
+					timeout: 5000,
+					data: {
+						featureClass: "P",
+						style: "full",
+						maxRows: 12,
+						wt:"json",
+						q:$("#key").val(),
+						name_startsWith: request.term
+					},
+					success: function(data) {
+						response($.map(data, function(item) {
+							return {
+								label: item.keyword,
+								value: item.keyword
+							}
+						}));
+					}
+				});
+			}
+		});
+	}
 	function loadDics(type,rows,id){
 		$.ajax({
 			url: 'struts/ViewDic_getMoreDicItems?codeName='+type+'&rows='+rows+'&page=1',

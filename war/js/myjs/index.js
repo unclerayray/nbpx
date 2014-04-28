@@ -13,7 +13,6 @@ function searchTabs(tabObj, obj)
 	var tabList = document.getElementById(tabObj).getElementsByTagName("li");
 	for (i = 0; i < tabList.length; i++) 
 	{
-		console.log(tabObj + "_Title" + i);
 		if (tabList[i].id == obj.id) 
 			{
 				document.getElementById(tabObj + "_Title" + i).className = "on";
