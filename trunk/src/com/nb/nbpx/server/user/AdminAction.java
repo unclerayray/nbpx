@@ -15,9 +15,10 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.system.Dictionary;
-import com.nb.nbpx.pojo.user.User;
+import com.nb.nbpx.pojo.user.Admin;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.system.IDictionaryService;
+import com.nb.nbpx.service.user.IAdminService;
 import com.nb.nbpx.service.user.IUserService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
@@ -37,6 +38,16 @@ public class AdminAction  extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	public IUserService userService;
 	public IDictionaryService dictionaryService;
+	public IAdminService adminService;
+	public IAdminService getAdminService() {
+		return adminService;
+	}
+
+	@Resource
+	public void setAdminService(IAdminService adminService) {
+		this.adminService = adminService;
+	}
+
 	public IDictionaryService getDictionaryService() {
 		return dictionaryService;
 	}
@@ -101,12 +112,46 @@ public class AdminAction  extends BaseAction {
 		this.code = code;
 	}
 
+	
+	private Admin admin;
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+	
+	public String queryAdmins(){
+		String json = adminService.queryAdmins(username, rows, getStartPosi(), sort, order);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String saveAdmin(){
+		try {
+			if(admin.getUserName().equals("leo")||admin.getUserName().equals("leo")){
+				throw new NbpxException("超级管理员不能被修改！");
+			}
+			adminService.saveAdmin(admin);
+		} catch (NbpxException e) {
+			addActionError(e.getMessage());
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"操作失败! " + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+	}
+
 	public String login(){
 		logger.info("user [" + username + "] tring to log in.");
 		try {
 			if(!validateUser(username,pwd)){
 				logger.info("user [" + username + "] tring to log in failed.");
-				throw new NbpxException("密码不正确");
+				throw new NbpxException("密码不正确或此用户已被锁定。");
 			}else{
 				logger.info("user [" + username + "] logged in successfully at ["+new Date()+"]");
 				session.setAttribute("userName", username);
@@ -129,11 +174,13 @@ public class AdminAction  extends BaseAction {
 				throw new NbpxException("session已失效，请重新登录");
 			}
 			
-			User user = userService.queryByUserName(userName);
-			if(user != null) {
-				if(user.getPassWord().equals(pwd)){
-					user.setPassWord(newPwd);
-					userService.saveUser(user);
+			//User user = userService.queryByUserName(userName);
+			Admin admin = adminService.searchAdmin(userName);
+			if(admin != null) {
+				if(admin.getPassWord().equals(pwd)){
+					admin.setPassWord(newPwd);
+					//userService.saveUser(user);
+					adminService.saveAdmin(admin);
 					logger.info("user [" + userName + "] has changed his password.");
 				}else{
 					throw new NbpxException("旧密码不正确！");
@@ -171,6 +218,24 @@ public class AdminAction  extends BaseAction {
 		return SUCCESS;
 	}
 	
+	public String removeAdmin(){
+		try {
+			if(admin.getUserName().equals("leo")||admin.getUserName().equals("leo")){
+				throw new Exception("超级管理员不能被删除！");
+			}else{
+				adminService.deleteAdmin(admin);
+			}
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"删除失败" + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "登出成功"));
+		return SUCCESS;
+	}
+	
 	private boolean validateUser(String username,String password) throws NbpxException{
 		if(getMeCode()==null||txtVerifyCode==null||txtVerifyCode.isEmpty()){
 			throw new NbpxException("验证码不能为空");
@@ -186,7 +251,8 @@ public class AdminAction  extends BaseAction {
 			throw new NbpxException("密码不能为空");
 		}
 		
-		return userService.verifyLogin(username, password);
+		//return userService.verifyLogin(username, password);
+		return adminService.checkLogin(username, password);
 	}
 	
 	private void initDicMap(){

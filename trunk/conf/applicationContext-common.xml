@@ -29,6 +29,7 @@
 		<property name="maxActive" value="25" />
 		<property name="maxIdle" value="10" />
 		<property name="testOnBorrow" value="true" />
+		<property name="validationQuery" value="SELECT 1" />
 	</bean>
 
 	<bean id="sessionFactory"
@@ -52,6 +53,7 @@
 				<prop key="connection.autoReconnect">true</prop>
 				<prop key="connection.autoReconnectForPools">true</prop>
 				<prop key="connection.is-connection-validation-required">true</prop>
+				
 				<!-- 
 				<property name="connection.autoReconnect">true</property>
 		        <property name="connection.autoReconnectForPools">true</property>
