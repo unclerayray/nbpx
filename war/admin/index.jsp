@@ -244,6 +244,10 @@ if(username==null||username==""){
 						<li iconCls="icon-gears">
 							<a href="javascript:void(0)" onclick="javascript:addTab('系统用户','userList')">系统用户</a>
 						</li>
+						
+						<li iconCls="icon-gears">
+							<a href="javascript:void(0)" onclick="javascript:addTab('后台用户管理','adminList')">后台用户管理</a>
+						</li>
 					</ul>
 				</li>
 			</ul>

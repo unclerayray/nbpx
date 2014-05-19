@@ -55,11 +55,33 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			sid.addField("category", NbpxDicMap.getCourseTypeMap().get(cai.category));
 			String[] courseKeywords = cai.getKeywords().split(",");
 			String[] courseSubjects = cai.getSubject().split(",");
+			
+
+			String[] courseMajor = cai.getMajor().split(",");
+			String[] courseProduct = cai.getProduct().split(",");
+			
+			String[] courseTarget = cai.getTargets().split(",");
+			String[] courseIndustry = cai.getIndustry().split(",");
+			
 			for(String keyword:courseKeywords){
 				sid.addField("keyword", keyword);
 			}
 			for(String subject:courseSubjects){
 				sid.addField("subject", subject);
+			}
+			
+			for(String major:courseMajor){
+				sid.addField("major", major);
+			}
+			for(String product:courseProduct){
+				sid.addField("product", product);
+			}
+			
+			for(String target:courseTarget){
+				sid.addField("target", target);
+			}
+			for(String industry:courseIndustry){
+				sid.addField("industry", industry);
 			}
 			List<CourseInfo> list = courseService.queryCourseInfoList(cai.getCourseId());
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
