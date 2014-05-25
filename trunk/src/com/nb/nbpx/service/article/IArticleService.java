@@ -12,7 +12,7 @@ import com.nb.nbpx.service.IBaseService;
  * @date 2013-5-11
  */
 public interface IArticleService extends IBaseService {
-	public String queryArticles(String category, Integer rows, Integer start, String sort, String order);
+	public String queryArticles(String category, String articleTitle, Integer articleId, Integer rows, Integer start, String sort, String order);
 	public String queryComboArticleCode(String category);
 	public Article saveArticle(Article article) throws Exception ;
 	public void deleteArticle(Article article);
@@ -37,4 +37,6 @@ public interface IArticleService extends IBaseService {
 	public void addReadTime(String articleID);
 	//根据文章分类获取文章内容列表
 	public String viewArticleType(String category,Integer rows, Integer start);
+	
+	public void auditArticle(Boolean state, Integer articleId);
 }

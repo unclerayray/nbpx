@@ -42,7 +42,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 	}
 
 	@Override
-	public List<Article> getArticles(final String category, final Integer rows,
+	public List<Article> getArticles(final String category, final String articleTitle, final Integer articleId, final Integer rows,
 			final Integer start, final String sort, final String order) {
 		List<Article> list = new ArrayList<Article>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
@@ -55,10 +55,16 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 						"select new com.nb.nbpx.pojo.article.Article"
 								+ " (c.articleId, c.articleTitle, c.author, "
 								+ " c.category, c.state, c.hits, c.lastUpdateDate, "
-								+ " fd.showName, c.recommanded) from Article c, Dictionary fd"
+								+ " fd.showName, c.recommanded, c.links) from Article c, Dictionary fd"
 								+ " where 1 = 1 ");
+				if (articleId != null) {
+					hql.append(" and c.articleId = ? ");
+				}
 				if (category != null && !category.isEmpty()) {
 					hql.append(" and category = ? ");
+				}
+				if (articleTitle != null && !articleTitle.isEmpty()) {
+					hql.append(" and c.articleTitle like ? ");
 				}
 
 				hql.append(" and c.category = fd.codeName ");
@@ -73,9 +79,16 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 				}
 				Query query = session.createQuery(hql.toString());
 
+				if (articleId != null) {
+					query.setInteger(i++, articleId);
+				}
 				if (category != null && !category.isEmpty()) {
 					query.setString(i++, category);
 				}
+				if (articleTitle != null && !articleTitle.isEmpty()) {
+					query.setString(i++, "%"+articleTitle+"%");
+				}
+
 
 				if (start != null && rows != null) {
 					query.setFirstResult(start);
@@ -163,10 +176,10 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 	@Override
 	public Course updateArticle(Article article) {
 		String sql = "update Article SET articleTitle = ?,author = ?  ,category = ? ,content = ? "
-				+ ",lastUpdateDate = ? , recommanded = ? ,state = ?  WHERE articleId = ?";
+				+ ",lastUpdateDate = ? , recommanded = ? ,state = ? ,links = ?  WHERE articleId = ?";
 		Object[] values = { article.getArticleTitle(), article.getAuthor(),
 				article.getCategory(), article.getContent(), article.getLastUpdateDate(),
-				article.getRecommanded(), article.getState(), article.getArticleId() };
+				article.getRecommanded(), article.getState(), article.getLinks() , article.getArticleId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
 	}
