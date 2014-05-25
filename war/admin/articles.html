@@ -26,6 +26,7 @@
 			<tr>
 				<th data-options="field:'articleId',sortable:true,width:50">文章代码</th>
 				<th data-options="field:'author',width:120">作者</th>
+				<th data-options="field:'links',width:120,hidden:true">超链</th>
 				<th data-options="field:'articleTitle',sortable:true,width:320">标题</th>
 				<th
 					data-options="field:'category',sortable:true,width:90,formatter:function(value,row){return row.categoryName;}">文章类型</th>
@@ -43,31 +44,22 @@
 				class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 				onclick="editArticle(null)">修改文章</a> <a href="#"
 				class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-				onclick="destroyArticle()">删除文章</a>
+				onclick="destroyArticle()">删除文章</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+				onclick="AuditArticle()">锁定\解锁</a>
 		</div>
 		<div>
-			文章类型: <input class="easyui-combobox" name="category" id="category"
+			类型: <input class="easyui-combobox" name="category" id="category"
 				data-options="  
 		url:'../struts/Course_queryComboCourseTypes',  
 		valueField:'codeName',  
 		textField:'showName',   
 		panelHeight:'auto'  ,
-		strict:true,
-		onSelect: function(rec){  
-		var url = '../struts/Course_queryComboCourseCode?category='+rec.codeName;  
-		$('#articleIdFS').combobox('clear');  
-		$('#articleIdFS').combobox('reload', url);  
-	}
-	">
-			文章代码： <input class="easyui-combobox" name="articleId"
-				id="articleIdFS"
-				data-options="   
-	url:'../struts/Article_queryComboArticleCode',
-	valueField:'articleId',  
-	textField:'articleId',  
-	panelHeight:'auto'  ,
-	strict:true
-	">
+		strict:true">
+			代码： <input name="articleId"
+				id="articleIdFS" style="width:50px">
+			标题： <input name="articleTitle"
+				id="articleTitleFS" style="width:300px">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 				iconCls="icon-search" onclick="queryArticle()">搜索</a> <a
 				href="javascript:void(0)" class="easyui-linkbutton"
@@ -102,6 +94,15 @@
 							<label>文章关键字:</label> <input class="easyui-validatebox"
 								id="articleKeywords" name="keywords"
 								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'文章关键字是必填项'"
+								style="width: 400px;">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="itemText" colspan="3">
+						<div>
+							<label>文章超链接:</label> <input class="easyui-validatebox"
+								id="articleLinks" name="links"
 								style="width: 400px;">
 						</div>
 					</td>
@@ -196,7 +197,8 @@
 			//TODO 模糊查询
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
-				articleCode : $('#articleIdFS').combobox('getValue')
+				articleId : $('#articleIdFS').val(),
+				articleTitle : $('#articleTitleFS').val()
 			});
 		}
 		function newArticle() {
@@ -317,6 +319,55 @@
 									}
 								});
 			} else {
+				$.messager.show({
+					title : '温馨提示',
+					msg : '请先选择一行记录',
+					timeout : 2000,
+					showType : 'slide'
+				});
+			}
+		}
+		
+		function AuditArticle() {
+			var row = $('#dg').datagrid('getSelected');
+			var yes = '确认要解锁？';
+			if(row.state){
+				yes = '确认要锁定？';
+			}
+			if (row) {
+				$.messager
+				.confirm(
+					'Confirm',
+					yes,
+					function(r) {
+						if (r) {
+							$
+							.post(
+								'../struts/Article_AuditArticle?selected_articleId='+row.articleId+'&state='+row.state,
+								row,
+								function(data) {
+									if (data.success) {
+										$('#dg')
+										.datagrid(
+																						'reload'); // reload the Dic data
+										$('#dg').datagrid('clearSelections');
+									} else {
+										$.messager
+										.show({
+											title : 'Error',
+											msg : data.message,
+											timeout : 3000,
+											showType : 'fade'
+										});
+										$('#dg')
+										.datagrid(
+											'reload');
+										$('#dg').datagrid('clearSelections');
+									}
+								}, 'json');
+						}
+					});
+			}else{
 				$.messager.show({
 					title : '温馨提示',
 					msg : '请先选择一行记录',

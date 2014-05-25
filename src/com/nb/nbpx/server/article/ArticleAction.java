@@ -1,7 +1,5 @@
 package com.nb.nbpx.server.article;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dto.article.ArticleDetail;
 import com.nb.nbpx.pojo.article.Article;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.article.IArticleService;
 import com.nb.nbpx.service.keyword.IKeywordService;
@@ -31,16 +28,19 @@ public class ArticleAction extends BaseAction{
 	@Resource
 	private IArticleService articleService;
 	private String category;
+	private String articleTitle;
+	private Integer articleId;
 	private ArticleDetail articleDetail;
 	@Resource
 	private ISolrArticleService solrArticleService;
 	@Resource
 	private IKeywordService keywordService;
 	private Integer selected_articleId;
+	public Boolean state;
 	private Article article;
 
 	public String queryArticles(){
-		String json = articleService.queryArticles(category, rows, getStartPosi(), sort, order);
+		String json = articleService.queryArticles(category, articleTitle, articleId, rows, getStartPosi(), sort, order);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -64,17 +64,39 @@ public class ArticleAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	public String AuditArticle(){
+		try {
+			articleService.auditArticle(!state, selected_articleId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					state?"锁定文章失败!":"解锁文章失败" + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, state?"锁定文章成功!":"解锁文章成功"));
+		return SUCCESS;
+	}
+	
 	public String saveArticle(){
 		String regEx1 = "[\\pP‘’“”]";
 		if(articleDetail.getKeywords()!=null){
+			articleDetail.setKeywords(articleDetail.getKeywords().replace(" ", ""));
 			articleDetail.setKeywords(articleDetail.getKeywords().replaceAll(regEx1, ","));
 		}
 		if(articleDetail.getSubjects()!=null){
+			articleDetail.setSubjects(articleDetail.getSubjects().replace(" ", ""));
 			articleDetail.setSubjects(articleDetail.getSubjects().replaceAll(regEx1, ","));
 		}
-		List<Keyword> keywords = keywordService.saveKeywords(articleDetail);
+		if(articleDetail.getLinks()!=null){
+			articleDetail.setLinks(articleDetail.getLinks().replace(" ", ""));
+			articleDetail.setLinks(articleDetail.getLinks().replaceAll(regEx1, ","));
+		}
+		String[] links = articleDetail.getLinks().split(",");
 		Article art = new Article(articleDetail);
-		art.setContent(keywordService.setKeywordHyperLink(keywords, art.getContent()));//生成超链接
+		art.setContent(keywordService.setHyperLink(links,
+				art.getContent()));// 生成超链接
+		//art.setContent(keywordService.setKeywordHyperLink(keywords, art.getContent()));//生成超链接
 		try {
 			Boolean deleteBeforeInsert=false;
 			if(articleDetail.getArticleId()!=null){
@@ -84,7 +106,6 @@ public class ArticleAction extends BaseAction{
 			articleDetail.setArticleId(art.getArticleId());
 			articleService.saveArticleDetail(articleDetail, deleteBeforeInsert);
 			solrArticleService.addArticle2Solr(articleDetail);
-			//TODO add article records to solr
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -148,6 +169,30 @@ public class ArticleAction extends BaseAction{
 
 	public void setSelected_articleId(Integer selected_articleId) {
 		this.selected_articleId = selected_articleId;
+	}
+
+	public Boolean getState() {
+		return state;
+	}
+
+	public void setState(Boolean state) {
+		this.state = state;
+	}
+
+	public String getArticleTitle() {
+		return articleTitle;
+	}
+
+	public void setArticleTitle(String articleTitle) {
+		this.articleTitle = articleTitle;
+	}
+
+	public Integer getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
 	}
 
 }

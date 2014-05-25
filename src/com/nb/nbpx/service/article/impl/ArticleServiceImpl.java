@@ -50,12 +50,15 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 	private ISolrSubjectService solrSubjectService;
 
 	@Override
-	public String queryArticles(String category, Integer rows, Integer start,
+	public String queryArticles(String category, String articleTitle, Integer articleId, Integer rows, Integer start,
 			String sort, String order) {
 		String json = "";
-		Map<String, Object> propsMap = this.createPropMap(new Equality(
-				"category", category));
-		List<Article> list = articleDao.getArticles(category, rows, start,
+		Map<String, Object> propsMap = this.createPropMap(
+				new Equality("category", category),
+				new Equality("articleTitle", articleTitle),
+				new Equality("articleId", articleId)
+				);
+		List<Article> list = articleDao.getArticles(category , articleTitle , articleId, rows, start,
 				sort, order);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
@@ -63,6 +66,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 		} else {
 			int count = articleDao.queryTotalCount(Article.class, propsMap)
 					.intValue();
+			//TODO 计数函数也需加上参数
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
 		}
@@ -80,7 +84,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String queryComboArticleCode(String category) {
-		List<Article> list = articleDao.getArticles(category, 10, null, null,
+		List<Article> list = articleDao.getArticles(category,null,null, 10, null, null,
 				null);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
@@ -334,6 +338,13 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 
 	public void setDictionaryDao(IDictionaryDao dictionaryDao) {
 		this.dictionaryDao = dictionaryDao;
+	}
+
+	@Override
+	public void auditArticle(Boolean state, Integer articleId) {
+		String queryString = "update Article set state = ? where articleId = ? ";
+		Object[] values = {state, articleId};
+		subjectDao.bulkUpdate(queryString, values);
 	}
 
 
