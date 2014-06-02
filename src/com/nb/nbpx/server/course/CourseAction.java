@@ -222,7 +222,7 @@ public class CourseAction extends BaseAction {
 	private void validateCourseInfo(){
 		// String
 		// regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
-		String regEx1 = "[\\pP‘’“”_]";
+		String regEx1 = "[\\pP‘’“”]";
 		if (courseAllInfo.getLinks() != null) {
 			courseAllInfo.setLinks(courseAllInfo.getLinks().replace(" ", ""));
 			courseAllInfo.setLinks(courseAllInfo.getLinks().replaceAll(
@@ -232,51 +232,6 @@ public class CourseAction extends BaseAction {
 			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replace(" ", ""));
 			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(
 					regEx1, ","));
-		}
-		if (courseAllInfo.getSubject() != null) {
-			courseAllInfo.setSubject(courseAllInfo.getSubject().replace(" ", ""));
-			courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(
-					regEx1, ","));
-		}
-		if (courseAllInfo.getTargets() != null) {
-			courseAllInfo.setTargets(courseAllInfo.getTargets().replace(" ", ""));
-			if(StringUtil.isNumeric(courseAllInfo.getTargets().replaceAll(regEx1, ""))){
-				courseAllInfo.setTargets(courseAllInfo.getTargets().replaceAll(
-						"，", ","));
-			}else{
-				courseAllInfo.setTargets(courseAllInfo.getTargets().replaceAll(
-						regEx1, ","));
-			}
-		}
-		if (courseAllInfo.getMajor() != null) {
-			courseAllInfo.setMajor(courseAllInfo.getMajor().replace(" ", ""));
-			if(StringUtil.isNumeric(courseAllInfo.getMajor().replaceAll(regEx1, ""))){
-				courseAllInfo.setMajor(courseAllInfo.getMajor().replaceAll(
-						"，", ","));
-			}else{
-				courseAllInfo.setMajor(courseAllInfo.getMajor().replaceAll(
-						regEx1, ","));
-			}
-		}
-		if (courseAllInfo.getProduct() != null) {
-			courseAllInfo.setProduct(courseAllInfo.getProduct().replace(" ", ""));
-			if(StringUtil.isNumeric(courseAllInfo.getProduct().replaceAll(regEx1, ""))){
-				courseAllInfo.setProduct(courseAllInfo.getProduct().replaceAll(
-						"，", ","));
-			}else{
-				courseAllInfo.setProduct(courseAllInfo.getProduct().replaceAll(
-						regEx1, ","));
-			}
-		}
-		if (courseAllInfo.getIndustry() != null) {
-			courseAllInfo.setIndustry(courseAllInfo.getIndustry().replace(" ", ""));
-			if(StringUtil.isNumeric(courseAllInfo.getIndustry().replaceAll(regEx1, ""))){
-				courseAllInfo.setIndustry(courseAllInfo.getIndustry().replaceAll(
-						"，", ","));
-			}else{
-				courseAllInfo.setIndustry(courseAllInfo.getIndustry().replaceAll(
-						regEx1, ","));
-			}
 		}
 	}
 

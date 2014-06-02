@@ -390,6 +390,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			solrSubjectService.addSubject2Solr(subject);
 		}
 
+		String regEx1 = "[\\pP‘’“”]";
 		for (int i = 0; courseMajors != null && i < courseMajors.length; i++) {
 			String majorCode = StringUtils.trim(courseMajors[i]);
 			// numbic
@@ -402,6 +403,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 						SystemConstants.COURSE_MAJOR_TYPE_CODE);
 				majorMap.put(dic.getCodeName(), dic.getShowName());
 			} else {
+				majorCode = majorCode.replace(" ", "").replace(regEx1, "");
 				// it's text
 				Dictionary dic = dictionaryDao.getDictionary(null, majorCode,
 						SystemConstants.COURSE_MAJOR_TYPE_CODE);
@@ -430,6 +432,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				tagetMap.put(dic.getCodeName(), dic.getShowName());
 			} else {
 				// it's text
+				targetCode = targetCode.replace(" ", "").replace(regEx1, "");
 				Dictionary dic = dictionaryDao.getDictionary(null, targetCode,
 						SystemConstants.COURSE_TARGET_TYPE_CODE);
 				if (dic == null) {
@@ -456,6 +459,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				industryMap.put(dic.getCodeName(), dic.getShowName());
 			} else {
 				// it's text
+				industryCode = industryCode.replace(" ", "").replace(regEx1, "");
 				Dictionary dic = dictionaryDao
 						.getDictionary(null, industryCode,
 								SystemConstants.COURSE_INDUSTRY_TYPE_CODE);
@@ -473,6 +477,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 		for (int i = 0; courseProduct != null && i < courseProduct.length; i++) {
 			String productCode = StringUtils.trim(courseProduct[i]);// numbic
+			String rplcCode = productCode;
+			//TODO replace got something wrong
 			if (productCode.isEmpty()) {
 				continue;
 			}
@@ -483,6 +489,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				productMap.put(dic.getCodeName(), dic.getShowName());
 			} else {
 				// it's text
+				productCode = productCode.replace(" ", "").replace(regEx1, "");
 				Dictionary dic = dictionaryDao.getDictionary(null, productCode,
 						SystemConstants.COURSE_PRODUCT_TYPE_CODE);
 				if (dic == null) {
