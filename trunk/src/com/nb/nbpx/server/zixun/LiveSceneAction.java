@@ -42,7 +42,34 @@ public class LiveSceneAction extends BaseAction {
 	public String site;
 	public LiveScene liveScene;
 	public ILiveSceneService liveSceneService;
-
+	public String flag;
+	
+	public String viewLiveScene(){
+		String json = liveSceneService.viewLiveScene(liveSceneId);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	public String queryLiveSceneTopList(){
+		Map<String, Object> propsMap = new HashMap<String, Object>();
+		if("1".equals(flag))
+			propsMap.put("category", "24_2");
+		else if("2".equals(flag))
+			propsMap.put("category", "24_3");
+		String json = liveSceneService.getLiveScene(propsMap, 11, 0, true);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String queryTuoZhanTopList(){
+		Map<String, Object> propsMap = new HashMap<String, Object>();
+		if("1".equals(flag))
+			propsMap.put("category", "24_0");
+		else if("2".equals(flag))
+			propsMap.put("category", "24_1");
+		String json = liveSceneService.getLiveScene(propsMap, 11, 0, false);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
 	public String queryLiveScene() {
 		Map<String, Object> propsMap = new HashMap<String, Object>();
 		if (category != null&&!category.isEmpty()) {

@@ -1,0 +1,202 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link type="text/css" href="css/face.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+<script src="js/easyui/jquery-1.8.0.min.js"></script>
+<script src="js/easyui/jquery.easyui.min.js"></script>
+<script src="js/project.js"></script>
+<title>南北培训网</title>
+</head>
+<script>
+	$(function(){
+		loadCourses(0);
+		//加载热门关键词
+		loadHotKeyWord();
+		//加载热门专题
+		loadHotSubjects()
+	});
+	function loadCourses(page){;
+		$.ajax({
+			url:"struts/HotCourse_getVedioNXCourse?page="+page+"&rows=10",
+			success:function(data){
+				//alert(data);
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				var pages = jsonObject.total;
+				var rows = jsonObject.rows;
+				$.each(rows,function(n,value){
+					var outClass= "classDesc last";
+					if(n<rows.length-1)
+						outClass="classDesc";
+					valueStr += "<div  class='"+outClass+"'><h3><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></h3>"+
+							"<div class='classDetail'>"+
+							"<div class='left' style='width:60px;'><span>培训内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a href='viewClass.jsp?id="+value.id+"'>详细内容</a>]</div></div>"+
+							"<div class='clear'></div>"+
+							"<div class='classDownload'><span>课纲下载：</span><a href='#'>"+value.title+".doc</a></div></div>";
+				});
+				if(valueStr == ""){
+					valueStr = "<div class='notice'>暂时没有任何课程信息</div>";
+				}else
+					$('#pageDiv').css('display','block');
+				$('#classes').html(valueStr);
+				$('#pages').html(pages);
+				$('#currPage').html(parseInt(page)+1);
+			}
+		});
+	}
+	function loadHotKeyWord(){
+		var urlStr;var sortType;
+		sortType = '1';//点击率排行
+		urlStr = 'struts/Main_getKeywords?isInner=1';
+		$.ajax({
+			url:encodeURI(urlStr+"&flag="+sortType),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					var color = "red";
+					if(n>2)
+						color = "blue";
+					if(sortType != '2' )//不是推荐的 会有访问次数
+						valueStr += "<li class='line'><a><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
+					else
+						valueStr += "<li class='line'><a><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
+				});
+		
+				$('#hotKeywords').html(valueStr);
+			}		
+		})
+	}
+	function loadHotSubjects(){
+		var urlStr;var sortType;
+		urlStr = "struts/Main_getSubjects?isInner=1";
+		sortType = "1";
+		$.ajax({
+			url:encodeURI(urlStr+"&flag="+sortType),
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					var color = "red";
+					if(n>2)
+						color = "blue";
+					if(sortType == '2')//推荐的 没有次数
+						valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
+					else
+						valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
+				});
+				$('#hotSubjects').html(valueStr);
+			}
+		});
+	}
+</script>
+<body>
+<jsp:include page="head.jsp" flush="true"/>
+<!--当前路径 start-->
+<div class="mainContent path">
+	<ul>
+		<li>当前位置:&nbsp;</li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
+		<li class="bread">&gt;&gt;</li>
+		<li>内训视频</li>
+	</ul>
+	<div class="clear"></div>
+</div>
+<!--当前路径 end-->
+
+<!--主体部分二 start-->
+<div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
+	<div class="leftInPart" id="leftPart">
+		<div id="classes">
+		<!--课程介绍 start-->
+			<!-- <div  class="classDesc">
+				<h3>企业培训体系设计</h3>
+				<div class="classInfor">培训时间：2013-0-20&nbsp;&nbsp;培训天数：2天&nbsp;&nbsp;培训地点：深圳&nbsp;&nbsp;培训费用：￥3500&nbsp;&nbsp;编号：1234</div>
+				<div class="classDetail">
+					<div class="left" style="width:60px;"><span>培训内容：</span></div><div style="float:right;width:630px;">使参训人员了解企业架构与IT战略规划全套流程与方法，通过案例学习相关架构工具Togaf9.0，认识到架构方法在信息化规划中的重要性，了解企业架构中的核心理念与实践方法，掌握业务架构、应用架构、技术架构...<a href="#">[详细内容]</a></div></div>
+					<div class="clear"></div>
+				<div class="classDownload"><span>课纲下载：</span><a href="#">企业培训体系设计.doc</a></div>
+			</div> -->
+		<!--课程介绍 end-->
+		</div>
+		<div class="resultFoot" id="pageDiv" style='display:none'>
+					<a href="javascript:void(0)" onclick="javascript:page.seeFirst();">第一页</a>			
+					<a href="javascript:void(0)" onclick="javascript:page.seePre();">上一页</a>				
+					<a href="javascript:void(0)" onclick="javascript:page.seeNext();">下一页</a>
+					<a href="javascript:void(0)" onclick="javascript:page.seeLast();">最后一页</a>
+					&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:page.jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
+					</div>
+		<div class="clear"></div>
+	</div>
+	<!--右边部分 start-->
+	<div class="rightInPart">
+		
+		<!--企业培训师 start-->
+		<div style="height:10px; display:block"></div>
+		<div class="rightTeacher" >
+			<h5 class=" first">金牌内训师</h5>
+			<div style="padding-left:15px;padding-bottom:10px">
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<img  src="images/824.jpg" style="height:50px;width:40px" class="left"/>
+			<dl class="left">
+			<dt>王麻子</dt>
+			<dd>擅长人力资源以及薪酬制度等</dd>
+			</dl>
+			<div class="clear"></div>
+			<h4>名字热搜</h4>
+			<ul class="teacher">
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+				<li><a href="#">刘强</a></li>
+				<li><a href="#">张三</a></li>
+			</ul>
+			<div class="clear"></div>
+			</div>
+		<!--内训关键词 end-->	
+		<h5>推荐培训机构</h5>
+			<ul class="list7" style="padding-top:10px;padding-left:15px;">
+				<li class="line"><a><span class="red">1</span><span class="text">三人行教育培训机构</span></a></li>
+				<li class="line"><a><span class="red">2</span><span class="text">众行机构</span></a></li>
+				<li class="line"><a><span class="blue">3</span><span class="text">三人行教育培训机构</span></a></li>
+				<li class="line"><a><span class="blue">4</span><span class="text">众行机构</span></a></li>
+				<li class="line"><a><span class="blue">5</span><span class="text">众行机构</span></a></li>
+			</ul>
+		<div class="clear" style="height:10px"></div>
+    </div>
+	<!--右边部分 end-->
+
+	
+	
+	</div>
+</div>
+<!--主体部分二 end-->
+<jsp:include page="foot.jsp" flush="true"/>
+</body>
+</html>

@@ -27,6 +27,16 @@ public class MainAction extends BaseAction{
 	public String type;//课程类别/文章类别
 	public String category;//顶部关键词的类别
 	
+	//获取视频推荐flag=1-视频推荐，flag=2-视频排行,flag=3 -视频热搜(关键词)
+	public String getVedioNX(){
+		String json = "";
+		if("1".equals(flag))
+			json = courseService.queryVedioCourse(true, null, null,null, 12, 0);
+		else if("2".equals(flag))
+			json = courseService.queryVedioCourse(true, null, true,null, 12, 0);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
 	//获取下载
 	public String getDownLoads(){
 		String result = "";

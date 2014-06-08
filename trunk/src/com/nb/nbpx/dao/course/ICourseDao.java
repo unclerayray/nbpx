@@ -54,7 +54,12 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	 * @return
 	 */
 	public boolean checkDuplicateProp(Course course);
-
+	//获取内训视频
+	public List<Course> getVedioCourse(final Boolean ifInner,final Boolean ifRecommend,final Boolean byHit, final String type,
+			final Integer rows, final Integer start);
+	
+	public Long queryCourseCount(final Boolean ifInner,final Boolean ifRecommend, final String type,final Boolean hasVedio);
+		
 	// 获取热门的课程
 	public List<Course> getHotCourse(final Boolean ifInner, final String type,
 			final Integer rows, final Integer start);
