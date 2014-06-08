@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.nb.nbpx.dao.IBaseDao;
+import com.nb.nbpx.pojo.zixun.LiveImage;
 import com.nb.nbpx.pojo.zixun.LiveScene;
 
 /**
@@ -11,7 +12,8 @@ import com.nb.nbpx.pojo.zixun.LiveScene;
  * @date 2014年1月4日
  */
 public interface ILiveSceneDao  extends IBaseDao<LiveScene, Integer> {
-
+	public List<LiveImage> getImages(String liveID);
+	
 	public List<LiveScene> queryLiveScence(Map<String, Object> propsMap,String title, Integer rows, Integer start,
 			String sort, String order);
 	

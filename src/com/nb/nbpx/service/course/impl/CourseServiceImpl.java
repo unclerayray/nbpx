@@ -86,6 +86,39 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	// private ICourseKeywordDao courseKeywordDao;
 	// private ICourseKeywordDao courseKeywordDao;
+	//获取内训视频
+	public String queryVedioCourse(Boolean ifInner,Boolean isRecommend,Boolean byHit,String courseType,Integer rows,Integer start){
+		String json = "";
+		List<Course> list;
+		list = courseDao.getVedioCourse(ifInner, isRecommend,byHit, courseType, rows, start);
+		
+		if (list.isEmpty()) {
+			json = JsonUtil.formatToJsonWithTimeStamp(0,
+					ResponseStatus.SUCCESS, "", list);
+		} else {
+			int count = 0;
+			
+			count = courseDao.queryCourseCount(ifInner,isRecommend,courseType,true)
+						.intValue();
+			List<Course> editList= new ArrayList();
+			for(int i=0;i<list.size();i++){
+				Course temp = list.get(i);
+				if(temp.getContent() != null){
+					String content = temp.getContent().replaceAll("</?[^<>]*>", "");
+					if(content.length() > 200)
+						content = content.substring(0, 200);
+					temp.setContent(content);
+				}
+				editList.add(temp);
+			}
+			int pages = count/rows+1;
+			
+			json = JsonUtil.formatToJsonWithTimeStamp(pages,
+					ResponseStatus.SUCCESS, "", editList);
+		}
+
+		return json;
+	}
 
 	@Override
 	public String queryCourses(String category, Integer courseId, String title,Boolean p_outside,

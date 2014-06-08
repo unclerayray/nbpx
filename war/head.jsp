@@ -44,8 +44,8 @@
 			<li><a href="pxSeries.jsp">培训专题</a><span>|</span></li>
 			<li><a href="seeDownLoads.jsp">培训下载</a><span>|</span></li>
 			<li><a href="hotPX.jsp">热门培训</a><span>|</span></li>
-			<li><a href="#">培训现场</a><span>|</span></li>
-			<li><a href="#">内训现场</a><span>|</span></li>
+			<li><a href="seeLiveScene.jsp">培训现场</a><span>|</span></li>
+			<li><a href="seeLiveScene.jsp">内训现场</a><span>|</span></li>
 			<li><a href="#">积分问答</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=009" class="red">专业培训</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=008" class="red">行业培训</a><span>|</span></li>
@@ -56,7 +56,7 @@
 			<li><a href="viewDic.jsp?type=011">产品培训</a><span>|</span></li>
 			<li><a href="innerTraining.jsp">企业内训</a><span>|</span></li>
 			<li><a href="classiscNX.jsp" class="red">经典内训</a><span>|</span></li>
-			<li><a href="#">内训视频</a><span>|</span></li>
+			<li><a href="vedioNX.jsp">内训视频</a><span>|</span></li>
 			<li><a href="nxSeries.jsp">内训专题</a><span>|</span></li>
 			<li><a href="goldNX.jsp">金牌内训</a><span>|</span></li>
 			<li><a href="#">内训计划</a><span>|</span></li>
@@ -70,7 +70,7 @@
 			<li><a href="keyWord.jsp">关键词</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=005">客户群</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=016">研修班</a><span>|</span></li>
-			<li><a href="#">户外拓展</a><span>|</span></li>
+			<li><a href="seeTuoZhan.jsp">户外拓展</a><span>|</span></li>
 			<li><a href="#">客户评价</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=21">术语词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=22">品牌词典</a><span>|</span></li>

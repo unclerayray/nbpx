@@ -42,7 +42,58 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+	
+	//获取视频内训
+	public List<Course> getVedioCourse(final Boolean ifInner,final Boolean ifRecommend,final Boolean byHit, final String type,
+			final Integer rows, final Integer start){
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"
+								+ "c.teacherId,'',"
+								+ "c.category,c.content,c.blockedContent,"
+								+ "c.isInner,c.state, c.hasVideo,c.hits,"
+								+ "c.createdBy,c.lastUpdatedBy,c.creationDate,"
+								+ "c.lastUpdateDate,'',c.recommanded,"
+								+ "c.classic) from Course c where c.hasVideo = 1 and c.state=1 and 1=1 ");
+				if (type != null && !"".equals(type))
+					hql.append(" and c.category = '" + type + "'");
+				if (ifInner != null) {// 区分内训和培训
+					if (ifInner) 
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+
+				// 取向后的有效的日期
+				//hql.append("and TO_DAYS(NOW())-TO_DAYS(b.startDate)<0 order by c.hits desc");
+				if(ifRecommend!=null){//选推荐的
+					if(ifRecommend)
+						hql.append(" order by c.recommanded desc,c.creationDate desc");
+				}
+				if(byHit != null){
+					if(byHit)
+						hql.append(" order by c.hits desc");
+				}
+				if(ifRecommend == null && byHit == null)
+					hql.append(" order by c.creationDate desc");
+				
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
 	@Override
 	public List<Course> queryCourses(final String category,
 			final Integer courseId,final Boolean p_outside, final Integer rows, final Integer start, final String sort, final String order, final Boolean isInner) {
@@ -1125,6 +1176,57 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		return (Long) list.get(0);
 	}
 
-	
+	@Override
+	public Long queryCourseCount(final Boolean ifInner,final Boolean ifRecommend, final String type,final Boolean hasVedio) {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select count(c) from Course c where 1 = 1");
+				if (type != null && !type.isEmpty()) {
+					hql.append(" and category = ? ");
+				}
+
+
+				if (ifInner != null) {
+					hql.append(" and isInner = ? ");
+				}
+				
+				if(ifRecommend!=null){
+					hql.append(" and recommanded = ? ");
+				}
+				
+				if(hasVedio!=null){
+					hql.append(" and hasVideo = ? ");
+				}
+				
+				Query query = session.createQuery(hql.toString());
+
+				if (type != null && !type.isEmpty()) {
+					query.setString(i++, type);
+				}
+
+				if (ifInner != null) {
+					query.setBoolean(i++, ifInner);
+				}
+				
+				if (ifRecommend != null) {
+					query.setBoolean(i++, ifRecommend);
+				}
+				
+				if(hasVedio!=null){
+					query.setBoolean(i++, hasVedio);
+				}
+				
+				return query.list();
+			}
+		});
+		return (Long) list.get(0);
+	}
+
 
 }

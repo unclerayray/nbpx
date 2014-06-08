@@ -13,13 +13,35 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.dao.zixun.ILiveSceneDao;
+import com.nb.nbpx.pojo.zixun.LiveImage;
 import com.nb.nbpx.pojo.zixun.LiveScene;
 
 @Component("LiveSceneDao")
 @SuppressWarnings({"unchecked","rawtypes"})
 public class LiveSceneDaoImpl  extends BaseDaoImpl<LiveScene, Integer> implements
 ILiveSceneDao {
+	
+	@Override
+	public List<LiveImage> getImages(String liveID){
+		List<LiveImage> list = new ArrayList<LiveImage>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.zixun.LiveImage"
+								+ " (l.imageId, l.url, l.liveScene,l.imageName) from LiveImage l"
+								+ " where 1 = 1 ");
+			    hql.append(" order by l.imageId desc ");
+				Query query = session.createQuery(hql.toString());
+				
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
 	@Override
 	public List<LiveScene> queryLiveScence(final Map<String, Object> propsMap, final String title,
 			 final Integer rows,  final Integer start, final String sort,  final String order) {

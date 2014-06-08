@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.zixun.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.zixun.ILiveSceneDao;
+import com.nb.nbpx.pojo.zixun.LiveImage;
 import com.nb.nbpx.pojo.zixun.LiveScene;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.zixun.ILiveSceneService;
@@ -33,7 +35,59 @@ public class LiveSceneServiceImpl  extends BaseServiceImpl implements ILiveScene
 	public void setLiveSceneDao(ILiveSceneDao liveSceneDao) {
 		this.liveSceneDao = liveSceneDao;
 	}
-
+	
+	public String getLiveScene(Map<String, Object> propsMap,Integer rows, Integer start,Boolean isLiveScene){
+		String json = "[";
+		List<LiveScene> list = new ArrayList<LiveScene>();
+		if(isLiveScene){
+			  list = liveSceneDao.queryLiveScence(propsMap,null, rows, start, null, null);
+		}else{
+			list = liveSceneDao.queryTuozhan(propsMap,null, rows, start, null, null);
+		}
+		if(list != null && list.size() != 0){
+			for(int i=0;i<list.size();i++){
+				LiveScene temp = list.get(i);
+				json += "{\"name\":\""+temp.getTitle()+"\",\"images\":[";
+				List<LiveImage> images = liveSceneDao.getImages(temp.getLiveSceneId().toString());
+				if(images != null){
+					for(int j=0;j<images.size();j++){
+						LiveImage image = images.get(j);
+						if(image != null)
+							json +="{\"url\":\""+image.getUrl()+"\"}";
+						if(j!= images.size()-1)
+							json += ",";
+					}
+					json += "]}";
+				}
+				
+				if(i != list.size() -1)
+					json += ",";
+				
+			}
+		}else
+			json += "]";
+		return json;
+	}
+	public String viewLiveScene(String liveID){
+		String result = "{";
+		LiveScene temp = liveSceneDao.get(Integer.parseInt(liveID));
+		if(temp != null){
+			result += "\"name\":\""+temp.getTitle()+"\",\"images\":[";
+			List<LiveImage> images = liveSceneDao.getImages(liveID);
+			if(images != null){
+				for(int i=0;i<images.size();i++){
+					LiveImage image = images.get(i);
+					if(image != null)
+						result +="{\"url\":\""+image.getUrl()+"\"}";
+					if(i!= images.size()-1)
+						result += ",";
+				}
+			}
+			result += "]}";
+		}
+		return result;
+	}
+	
 	@Override
 	public String queryLiveScene(Map<String, Object> propsMap,String title, Integer rows, Integer start,
 			String sort, String order, Boolean isLiveScene) {

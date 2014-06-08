@@ -35,6 +35,13 @@ public class HotCourseAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	public String getVedioNXCourse(){
+		String json = courseService.queryVedioCourse(true, null, null,null, rows, this.getStartPosi());
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 	public ICourseService getCourseService() {
 		return courseService;
 	}

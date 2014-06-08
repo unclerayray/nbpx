@@ -190,7 +190,12 @@
 		
 		//008 009 010 011 加载关键词
 		seePartTab('dic',1,1);
-		
+		//加载内训视频
+		seePartTab('vd',1,2);
+		//加载户外拓展
+		seePartTab('tz',1,1);
+		//加载培训现场
+		seePartTab('xc',1,1);
 		//加载顶部关键词
 		for(var i=1;i<=8;i++)
 			loadTopKey(i);
@@ -366,7 +371,7 @@
 			count = 4;
 		if(pre == 'b')
 			count = 4;
-		if(pre == 'c')
+		if(pre == 'c' || pre =='tz' || pre=='xc')
 			count = 2;
 		if(pre == 'dic')//产品字典等
 			count = 4;
@@ -382,7 +387,7 @@
 			}
 		}
 
-		if(pre == 's' || pre == 't'){//专题
+		if(pre == 's' || pre == 't' || pre == 'vd'){//专题、视频
 			count = 3;
 			cssOn = "tabOn three";
 			cssOff = "tabOff three";
@@ -613,8 +618,63 @@
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject.rows,function(n,value){
-						valueStr += "<li><a href='struts/Download_downLoadFile?id="+value.id+"'>"+value.title+"</a></li>";
+						valueStr += "<li><a href='struts/Download_downLoadFile?id="+value.downloadId+"'>"+value.title+"</a></li>";
 					});
+					$('#'+pre+part).html(valueStr);
+				}
+			});
+		}
+		if(pre == 'vd'){
+			$.ajax({
+				url:"struts/Main_getVedioNX?flag="+flag,
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<li><span class='video'>&nbsp;</span><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></li>";
+					});
+					$('#'+pre+part).html(valueStr);
+				}
+			});
+		}
+		if(pre == 'tz'){
+			$.ajax({
+				url:"struts/LiveScene_queryTuoZhanTopList?flag="+flag,
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						valueStr += "<li><span class='video'>&nbsp;</span><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></li>";
+					});
+					$('#'+pre+part).html(valueStr);
+				}
+			});
+		}
+		if(pre == 'xc'){
+			$.ajax({
+				url:"struts/LiveScene_queryLiveSceneTopList?flag="+flag,
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					var count = 0;
+					valueStr +="<div style='padding:10px 5px 0px 5px'>";
+					$.each(jsonObject,function(n,value){
+						if(count < 2)
+							valueStr +="<div class='tableImg'><img  src='images/activity.jpg'/></div>";
+						count ++;
+					});	
+					valueStr +="</div><div class='clear'></div><div style='padding-left:25px'><ul class='list4 gray'>";
+					count = 0;
+					$.each(jsonObject,function(n,value){
+						if(count >= 2)
+							valueStr +="<li><a href='#'>"+value.name+"</a></li>";
+						count ++;
+					});	
+					valueStr +="</ul></div>";
+				
 					$('#'+pre+part).html(valueStr);
 				}
 			});
@@ -1790,13 +1850,13 @@ padding-bottom: 2px;
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >视频推荐</div>
-					<div class="tabOff three">热门视频</div>
-					<div class="tabOff three">视频热搜</div>
+					<div class="tabOn three" id="vd21"><a href='javascript:void(0)' onclick="javascript:seePartTab('vd',1,2)">视频推荐</a></div>
+					<div class="tabOff three" id="vd22"><a href='javascript:void(0)' onclick="javascript:seePartTab('vd',2,2)">热门视频</a></div>
+					<div class="tabOff three" id="vd23"><a href='javascript:void(0)' onclick="javascript:seePartTab('vd',3,2)">视频热搜</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg" style="padding:0px 0px 0px 15px;">
-					<ul class="list5 videoList">
+					<ul class="list5 videoList" id="vd2">
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
@@ -2337,12 +2397,12 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn">户外拓展</div>
-					<div class="tabOff">企业培训拓展</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="tabOn" id="tz11"><a href='javascript:void(0)' onclick="javascript:seePartTab('tz',1,1)">户外拓展</a></div>
+					<div class="tabOff" id="tz12"><a href='javascript:void(0)' onclick="javascript:seePartTab('tz',2,1)">企业培训拓展</a></div>
+					<div class="more"><a href="seeTuoZhan.jsp">更多</a></div>
 					<div class="clear"></div>
 				</div>
-				<div class="bg">
+				<div class="bg" id="tz1">
 					<div style="padding:10px 5px 0px 5px">
 						<div class="tableImg"><img  src="images/activity.jpg"/></div>
 						<div class="tableImg"><img  src="images/activity.jpg"/></div>
@@ -2367,12 +2427,12 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
-					<div class="tabOn">企业培训现场</div>
-					<div class="tabOff">企业内训现场</div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="tabOn" id="xc11"><a href='javascript:void(0)' onclick="javascript:seePartTab('xc',1,1)">企业培训现场</a></div>
+					<div class="tabOff" id="xc12"><a href='javascript:void(0)' onclick="javascript:seePartTab('xc',2,1)">企业内训现场</a></div>
+					<div class="more"><a href="seeLiveScene.jsp">更多</a></div>
 					<div class="clear"></div>
 				</div>
-				<div class="bg">
+				<div class="bg" id="xc1">
 						<div style="padding:10px 5px 0px 5px">
 							<div class="tableImg"><img  src="images/activity.jpg"/></div>
 							<div class="tableImg"><img  src="images/activity.jpg"/></div>
