@@ -97,8 +97,10 @@ public class TeacherInfoAction extends BaseAction{
 		String msg = "已激活！";
 		try {
 			TeacherInfo teacherInfo = teacherInfoDao.get(teacherInfoId);
-			teacherInfo.setState(!teacherInfo.getState());
+			Boolean state = teacherInfo.getState();
+			teacherInfo.setState(!state);
 			teacherInfoService.saveTeacherInfor(teacherInfo);
+			solrTeacherService.audit(teacherInfoId,!state);
 			if(teacherInfo.getState()){
 				msg = "已锁定！";
 			}

@@ -3,6 +3,7 @@
  */
 package com.nb.nbpx.server.course;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,11 +15,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.struts2.ServletActionContext;
-import org.jsoup.helper.StringUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +34,7 @@ import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.SolrUtil;
 
 /**
  * @author Roger
@@ -52,6 +55,7 @@ public class CourseAction extends BaseAction {
 	public String category;
 	public String courseCode;
 	public String q_title;
+	public String q_teacher;
 	public Boolean p_outside;
 	public Integer courseId;
 	public Boolean state;
@@ -62,6 +66,8 @@ public class CourseAction extends BaseAction {
 	public CourseInfo courseInfo;
 	public String jsonArray;
 	public List<CourseInfo> infos;
+	public File goldenPic;
+	public String goldenPicFileName;
 	/**
 	 * 课程的其他信息，关键词专题等
 	 */
@@ -92,6 +98,7 @@ public class CourseAction extends BaseAction {
 	public String AuditCourse() {
 		try {
 			courseService.auditCourse(!state, courseId);
+			solrCourseService.audit(courseId,!state);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -100,6 +107,32 @@ public class CourseAction extends BaseAction {
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, "更改审核状态失败!"));
+		return SUCCESS;
+	}
+	
+	public String saveCourseGoldenPic(){
+		try {
+			String realpath = SolrUtil.getGoldenPicPath();
+			realpath = realpath + File.separator
+					+ selected_courseId;
+
+			String ext = FilenameUtils.getExtension(goldenPicFileName);
+
+			File savefile = new File(new File(realpath), "goldPic" + "."
+					+ ext);
+			if (!savefile.getParentFile().exists())
+				savefile.getParentFile().mkdirs();
+			FileUtils.copyFile(goldenPic, savefile);
+			
+			courseService.updateGoldenPicPath(savefile.getAbsolutePath(), Integer.valueOf(selected_courseId));
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"上传金牌图片失败!" + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "上传金牌图片成功!"));
 		return SUCCESS;
 	}
 	
@@ -121,14 +154,14 @@ public class CourseAction extends BaseAction {
 	}
 
 	public String queryCourses() {
-		String json = courseService.queryCourses(category, courseId, q_title,p_outside, rows,
+		String json = courseService.queryCourses(category, courseId, q_title,q_teacher,p_outside, rows,
 				getStartPosi(), sort, order,false);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
 	
 	public String queryInnerCourses() {
-		String json = courseService.queryCourses(category, courseId, q_title,p_outside, rows,
+		String json = courseService.queryCourses(category, courseId, q_title,q_teacher,p_outside, rows,
 				getStartPosi(), sort, order,true);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -178,6 +211,7 @@ public class CourseAction extends BaseAction {
 		}
 		
 		String return_course_id = "";
+		String return_innerCourse_id = "";
 		try {
 			Boolean deleteBeforeInsert = false;
 			if (courseAllInfo.getCourseId() != null) {
@@ -196,6 +230,7 @@ public class CourseAction extends BaseAction {
 				innerCou.setCourseId(null);
 				innerCou.setIsInner(true);
 				innerCou = courseService.saveCourse(innerCou);
+				return_innerCourse_id = innerCou.getCourseId()+"";
 				courseAllInfo.setCourseId(innerCou.getCourseId());
 				courseService
 						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
@@ -210,6 +245,7 @@ public class CourseAction extends BaseAction {
 		}
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("dlg_courseId", return_course_id);
+		map.put("dlg_inner_courseId", return_innerCourse_id);
 		this.inputStream = castToInputStream(JsonUtil
 				.formatToOpResJsonWithParam(ResponseStatus.SUCCESS,
 						ResponseStatus.SAVE_SUCCESS, map));
@@ -535,5 +571,29 @@ public class CourseAction extends BaseAction {
 
 	public void setP_outside(Boolean p_outside) {
 		this.p_outside = p_outside;
+	}
+
+	public File getGoldenPic() {
+		return goldenPic;
+	}
+
+	public void setGoldenPic(File goldenPic) {
+		this.goldenPic = goldenPic;
+	}
+
+	public String getQ_teacher() {
+		return q_teacher;
+	}
+
+	public void setQ_teacher(String q_teacher) {
+		this.q_teacher = q_teacher;
+	}
+
+	public String getGoldenPicFileName() {
+		return goldenPicFileName;
+	}
+
+	public void setGoldenPicFileName(String goldenPicFileName) {
+		this.goldenPicFileName = goldenPicFileName;
 	}
 }

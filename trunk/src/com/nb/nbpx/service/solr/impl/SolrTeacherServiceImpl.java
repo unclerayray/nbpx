@@ -16,6 +16,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
@@ -33,7 +34,7 @@ import com.nb.nbpx.utils.SolrUtil;
 import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 
 @Component("SolrTeacherService")
-public class SolrTeacherServiceImpl implements ISolrTeacherService {
+public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolrTeacherService {
     public static Logger logger = LogManager.getLogger(SolrTeacherServiceImpl.class);
 	@Override
 	public void addTeacher2Solr(TeacherInfo teacher) {
@@ -45,6 +46,7 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 			sid.addField("teacherId", teacher.getTeacherId());
 			sid.addField("realName", teacher.getRealName());
 			sid.addField("expertIn", teacher.getExpertIn());
+			sid.addField("state", teacher.getState());
 			sid.addField("majorCatgory", NbpxDicMap.getCourseTypeMap().get(teacher.getMajorCatgory()));
 			String introduction = teacher.getIntroduction();
 			introduction = stripHTMLX(introduction);
@@ -209,6 +211,7 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 		params.set("hl.simple.pre", "<em>");
 		params.set("hl.simple.post", "</em>");
 		query.set("qt", "select");
+		params.set("fq", "state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int numFound = (int) response.getResults().getNumFound();
@@ -282,6 +285,7 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 		query.set("defType", "edismax");
 		query.set("pf", "realName pinyin");
 		query.set("qf", "realName^10.0 pinyin^1.0");
+		params.set("fq", "state:true");
 		//q = "keyword:"+q;
 		if(start!=null){
 			params.set("start", start);
@@ -340,6 +344,7 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 		query.set("defType", "edismax");
 		query.set("pf", "realName pinyin");
 		query.set("qf", "realName^10.0 pinyin^1.0");
+		params.set("fq", "state:true");
 		//q = "keyword:"+q;
 		if(start!=null){
 			params.set("start", start);
@@ -373,4 +378,31 @@ public class SolrTeacherServiceImpl implements ISolrTeacherService {
 		resultList.addAll(hs);
 		return resultList;
 	} 
+	
+
+	@Override
+	public void audit(Integer id, Boolean state) throws Exception {
+		serverURL = setItsServerURL();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		String q = "orgId:"+id;
+		params.set("q", q);
+		SolrQuery query = new SolrQuery();
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		SolrDocumentList list = response.getResults();
+		SolrDocument doc = list.get(0);
+		SolrInputDocument sid = ClientUtils.toSolrInputDocument(doc);
+		sid.removeField("state");
+		sid.addField("state", state);
+		solrServer.add(sid);
+        solrServer.commit();
+	} 
+	
+	@Override
+	public String setItsServerURL() throws Exception {
+		serverURL = SolrUtil.getOraganisationServerUrl();
+		return SolrUtil.getOraganisationServerUrl();
+	}
 }

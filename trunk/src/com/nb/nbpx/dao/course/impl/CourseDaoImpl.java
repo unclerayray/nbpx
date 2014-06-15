@@ -96,7 +96,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	}
 	@Override
 	public List<Course> queryCourses(final String category,
-			final Integer courseId,final Boolean p_outside, final Integer rows, final Integer start, final String sort, final String order, final Boolean isInner) {
+			final Integer courseId,final String teachName,final Boolean p_outside, final Integer rows, final Integer start, final String sort, final String order, final Boolean isInner) {
 		List<Course> list = new ArrayList<Course>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -108,7 +108,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 						"select new com.nb.nbpx.pojo.course.Course"
 								+ " (c.courseId, c.title,c.isInner, c.teacherId, "
 								+ "ti.realName, c.category, fd.showName, c.lastUpdateDate, c.createdBy, c.lastUpdatedBy,  "
-								+ " c.state, c.hits , c.price, c.recommanded, c.classic) from Course c, Dictionary fd, TeacherInfo ti"
+								+ " c.state, c.hits , c.price, c.recommanded, c.classic, c.goldenPic, c.planflag) from Course c, Dictionary fd, TeacherInfo ti"
 								+ " where 1 = 1 ");
 				if (category != null && !category.isEmpty()) {
 					hql.append(" and category = ? ");
@@ -126,11 +126,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				
 				if(p_outside!=null){
 					if(p_outside){
-						hql.append(" and c.createdBy != 'admin' ");
+						hql.append(" and c.createdBy not in (select userName from Admin) ");
 					}else{
-						hql.append(" and c.createdBy = 'admin' ");
+						hql.append(" and c.createdBy in (select userName from Admin) ");
 					}
 				}
+				
+
+				if(teachName!=null && !teachName.isEmpty()){
+					hql.append(" and ti.realName = ?");
+				}
+				
 				if (sort != null && !sort.isEmpty()) {
 					if("teacherName".equals(sort)){
 						hql.append(" order by c.teacherId");
@@ -157,6 +163,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 					query.setBoolean(i++, isInner);
 				}
 
+				if(teachName!=null && !teachName.isEmpty()){
+					query.setString(i++, teachName);
+				}
+				
 				if (start != null && rows != null) {
 					query.setFirstResult(start);
 					query.setMaxResults(rows);
@@ -168,7 +178,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		return list;
 	}
 	@Override
-	public Long queryCourseCount(final String category, final Integer courseId, final Boolean p_outside, final Boolean isInner) {
+	public Long queryCourseCount(final String category, final Integer courseId, final String teachName, final Boolean p_outside, final Boolean isInner) {
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -177,7 +187,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select count(c) from Course c where 1 = 1");
+						"select count(c) from Course c, TeacherInfo ti where c.teacherId = ti.teacherId");
 				if (category != null && !category.isEmpty()) {
 					hql.append(" and c.category = ? ");
 				}
@@ -191,10 +201,14 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				}
 				if(p_outside!=null){
 					if(p_outside){
-						hql.append(" and c.createdBy != 'admin' ");
+						hql.append(" and c.createdBy not in (select userName from Admin) ");
 					}else{
-						hql.append(" and c.createdBy = 'admin' ");
+						hql.append(" and c.createdBy in (select userName from Admin) ");
 					}
+				}
+
+				if(teachName!=null && !teachName.isEmpty()){
+					hql.append(" and ti.realName = ?");
 				}
 				
 				Query query = session.createQuery(hql.toString());
@@ -210,7 +224,11 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				if (isInner != null) {
 					query.setBoolean(i++, isInner);
 				}
-
+				
+				if(teachName!=null && !teachName.isEmpty()){
+					query.setString(i++, teachName);
+				}
+				
 				return query.list();
 			}
 		});
@@ -367,6 +385,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	public Integer CountCourseByCity(final String cityName,final String year,final String month,final String flag,final Integer rows,final Integer start){
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
@@ -995,6 +1014,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		List<String> list = new ArrayList<String>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
@@ -1051,7 +1071,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	}
 
 	@Override
-	public List<Course> queryCoursesWithTitle(final String category, final String courseTitle,final Boolean p_outside,
+	public List<Course> queryCoursesWithTitle(final String category, final String courseTitle,final String teachName,final Boolean p_outside,
 			final Integer rows, final Integer start, final String sort, final String order, final Boolean isInner) {
 		List<Course> list = new ArrayList<Course>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
@@ -1080,13 +1100,17 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				
 				if(p_outside!=null){
 					if(p_outside){
-						hql.append(" and c.createdBy != 'admin' ");
+						hql.append(" and c.createdBy not in (select userName from Admin) ");
 					}else{
-						hql.append(" and c.category = 'admin' ");
+						hql.append(" and c.category in (select userName from Admin) ");
 					}
 				}
 				hql.append(" and c.category = fd.codeName ");
 				hql.append(" and ti.teacherId = c.teacherId");
+				
+				if(teachName!=null && !teachName.isEmpty()){
+					hql.append(" and ti.realName = ?");
+				}
 
 				if (sort != null && !sort.isEmpty()) {
 					if("teacherName".equals(sort)){
@@ -1113,6 +1137,11 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				if (isInner != null) {
 					query.setBoolean(i++, isInner);
 				}
+				
+				if(teachName!=null && !teachName.isEmpty()){
+					query.setString(i++, teachName);
+				}
+
 
 				if (start != null && rows != null) {
 					query.setFirstResult(start);
@@ -1126,7 +1155,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	}
 
 	@Override
-	public Long queryCourseCount(final String category, final String courseTitle, final Boolean p_outside, final Boolean isInner) {
+	public Long queryCourseCount(final String category, final String courseTitle, final String teachName, final Boolean p_outside, final Boolean isInner) {
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -1135,7 +1164,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select count(c) from Course c where 1 = 1");
+						"select count(c) from Course c, TeacherInfo ti where c.teacherId = ti.teacherId ");
 				if (category != null && !category.isEmpty()) {
 					hql.append(" and category = ? ");
 				}
@@ -1150,12 +1179,16 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				
 				if(p_outside!=null){
 					if(p_outside){
-						hql.append(" and c.createdBy != 'admin' ");
+						hql.append(" and c.createdBy not in (select userName from Admin) ");
 					}else{
-						hql.append(" and c.category = 'admin' ");
+						hql.append(" and c.createdBy in (select userName from Admin) ");
 					}
 				}
-				
+
+				if(teachName!=null && !teachName.isEmpty()){
+					hql.append(" and ti.realName = ?");
+				}
+
 				Query query = session.createQuery(hql.toString());
 
 				if (category != null && !category.isEmpty()) {
@@ -1169,6 +1202,12 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				if (isInner != null) {
 					query.setBoolean(i++, isInner);
 				}
+				
+
+				if(teachName!=null && !teachName.isEmpty()){
+					query.setString(i++, teachName);
+				}
+
 
 				return query.list();
 			}

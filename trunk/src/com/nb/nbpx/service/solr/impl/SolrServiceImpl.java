@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,8 +35,6 @@ import com.nb.nbpx.dao.course.ICourseKeywordDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.pojo.keyword.Keyword;
-import com.nb.nbpx.pojo.zixun.Download;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
@@ -49,7 +46,7 @@ import com.nb.nbpx.utils.SolrUtil;
  */
 @Component("SolrService")
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
+public class SolrServiceImpl implements ISolrService {
 
 	private ICourseKeywordDao courseKeywordDao;
 	private IKeywordDao keywordDao;
@@ -114,20 +111,13 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 	@Override
 	public String fullTextQueryForHl(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException {
-		// TODO ping查看连接，连不上的话就throw相应的Exception
 		String serverURL = SolrUtil.getCourseServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();
-		// params.set("qt", "/select");
-		// params.set("q", "content:"+q);
 		q = SolrUtil.escapeQueryChars(q);
 		params.set("q", q);
 		params.set("start", start);
 		params.set("rows", rows);
-		// params.set("df","text_general");
-		// params.set("wt", "foo");
-		// params.set("indent", true);
-		// params.set("rows", rows);
 		params.set("hl", true);
 		params.set("hl.fl", "title,content");
 		params.set("hl.snippets", 3);
@@ -143,6 +133,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		query.set("pf", "title keyword content");
 		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
 		params.set("fq", "isInner:false");
+		params.set("fq", "state:true");
 		// query.set("q","*.*");
 		query.add(params);
 
@@ -239,6 +230,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		query.set("pf", "title keyword content");
 		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
 		params.set("fq", "isInner:false");
+		params.set("fq", "state:true");
 		// query.set("q","*.*");
 		query.add(params);
 
@@ -385,6 +377,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 				query.set("pf", "title keyword content");
 				query.set("qf", "title^10.0 keyword^10.0 content^1.0");
 				params.set("fq", "isInner:true");
+				params.set("fq", "state:true");
 				// query.set("q","*.*");
 				query.add(params);
 
@@ -483,6 +476,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 				query.set("pf", "title keyword content");
 				query.set("qf", "title^10.0 keyword^10.0 content^1.0");
 				params.set("fq", "isInner:true");
+				params.set("fq", "state:true");
 				// query.set("q","*.*");
 				query.add(params);
 
@@ -565,6 +559,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		}
 		query.set("qt", "select");
 		params.set("fq", "isInner:false");
+		params.set("fq", "state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int numFound = (int) response.getResults().getNumFound();
@@ -625,6 +620,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		}
 		query.set("qt", "select");
 		params.set("fq", "isInner:true");
+		params.set("fq", "state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int numFound = (int) response.getResults().getNumFound();
@@ -684,6 +680,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		}
 		query.set("qt", "select");
 		params.set("fq", "isInner:false");
+		params.set("fq", "state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int count = response.getResults().size();
@@ -740,6 +737,7 @@ public class SolrServiceImpl extends BaseServiceImpl implements ISolrService {
 		}
 		query.set("qt", "select");
 		params.set("fq", "isInner:true");
+		params.set("fq", "state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int count = response.getResults().size();

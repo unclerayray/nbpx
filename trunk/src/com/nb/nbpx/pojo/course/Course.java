@@ -50,6 +50,8 @@ public class Course extends BaseEntity implements Serializable {
 	public String categoryName;
 	public Boolean recommanded = false;
 	public Boolean classic = false;
+	public String goldenPic;
+	public Boolean planflag = false;
 
 	public Course() {
 	}
@@ -75,7 +77,7 @@ public class Course extends BaseEntity implements Serializable {
 	public Course(Integer courseId, String title, Boolean isInner,
 			String teacherId, String teacherName, String category,
 			String categoryName, Date lastUpdateDate, String createdBy, String lastUpdatedBy, Boolean state, Integer hits,
-			Double price, Boolean recommanded, Boolean classic) {
+			Double price, Boolean recommanded, Boolean classic, String goldenPic, Boolean planflag) {
 		super();
 		this.courseId = courseId;
 		this.title = title;
@@ -93,6 +95,8 @@ public class Course extends BaseEntity implements Serializable {
 		this.price = price;
 		this.recommanded = recommanded;
 		this.classic = classic;
+		this.planflag = planflag;
+		this.goldenPic = goldenPic;
 	}
 
 	public Course(Integer courseId, String title, Double price,
@@ -153,6 +157,8 @@ public class Course extends BaseEntity implements Serializable {
 		this.categoryName = courseDto.categoryName;
 		this.recommanded = courseDto.recommanded;
 		this.classic = courseDto.classic;
+		this.goldenPic = courseDto.goldenPic;
+		this.planflag = courseDto.planflag;
 	}
 
 	public Course(Integer courseId, String title, String teacherId,
@@ -201,7 +207,7 @@ public class Course extends BaseEntity implements Serializable {
 			String content, String blockedContent, Boolean isInner,
 			Boolean state, Boolean hasVideo, Integer hits, String createdBy,
 			String lastUpdatedBy, Date creationDate, Date lastUpdateDate,
-			String categoryName, Boolean recommanded, Boolean classic) {
+			String categoryName, Boolean recommanded, Boolean classic, Boolean planflag, String goldenPic) {
 		super();
 		this.courseId = courseId;
 		this.title = title;
@@ -223,6 +229,8 @@ public class Course extends BaseEntity implements Serializable {
 		this.categoryName = categoryName;
 		this.recommanded = recommanded;
 		this.classic = classic;
+		this.planflag = planflag;
+		this.goldenPic = goldenPic;
 	}
 	
 	
@@ -253,7 +261,7 @@ public class Course extends BaseEntity implements Serializable {
 			String content, String blockedContent, Boolean isInner,
 			Boolean state, Boolean hasVideo, Integer hits, String createdBy,
 			String lastUpdatedBy, Date creationDate, Date lastUpdateDate,
-			String categoryName, Boolean recommanded, Boolean classic) {
+			String categoryName, Boolean recommanded, Boolean classic, Boolean planflag) {
 		super();
 		this.courseId = courseId;
 		this.title = title;
@@ -274,6 +282,7 @@ public class Course extends BaseEntity implements Serializable {
 		this.categoryName = categoryName;
 		this.recommanded = recommanded;
 		this.classic = classic;
+		this.planflag = planflag;
 	}
 
 	@Id
@@ -440,6 +449,22 @@ public class Course extends BaseEntity implements Serializable {
 
 	public void setClassic(Boolean classic) {
 		this.classic = classic;
+	}
+
+	public String getGoldenPic() {
+		return goldenPic;
+	}
+
+	public void setGoldenPic(String goldenPic) {
+		this.goldenPic = goldenPic;
+	}
+
+	public Boolean getPlanflag() {
+		return planflag;
+	}
+
+	public void setPlanflag(Boolean planflag) {
+		this.planflag = planflag;
 	}
 
 //	public String getShortName() {

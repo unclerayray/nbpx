@@ -9,7 +9,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
-import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.IDataImportService;
 import com.nb.nbpx.utils.NbpxException;
 
@@ -18,7 +17,7 @@ import com.nb.nbpx.utils.NbpxException;
  * @date 2013-6-15
  */
 @Component("DataImportService")
-public class DataImportServiceImpl extends BaseServiceImpl implements IDataImportService{
+public class DataImportServiceImpl implements IDataImportService{
 
 	/* (non-Javadoc)
 	 * @see com.nb.nbpx.service.solr.IDataImportService#fullImport()
@@ -52,5 +51,5 @@ public class DataImportServiceImpl extends BaseServiceImpl implements IDataImpor
 	public void deltaImport() throws Exception{
 		
 	}
-	
+
 }

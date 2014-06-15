@@ -26,6 +26,7 @@
 		<tr>
 			<th data-options="field:'courseId',sortable:true,width:50">课程代码</th>
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
+			<th data-options="field:'goldenPic',width:120,hidden:true">金牌</th>
 			<th data-options="field:'title',sortable:true,width:320">标题</th>
 			<th data-options="field:'teacherName',sortable:true,width:80">讲师</th>
 			<th data-options="field:'createdBy',sortable:true,width:80">发布者</th>
@@ -60,8 +61,8 @@
 		valueField:'codeName',  
 		textField:'showName',   
 		panelHeight:'200',
-		strict:true
-		">
+		strict:true"
+		style="width:100px">
 	内外部发布：<select id="p_outside" name="p_outside" class="easyui-combobox"
 			data-options=" panelHeight:'50',
 						strict:true" 
@@ -72,7 +73,9 @@
 		</select>
 	课程名： <input id="q_title" name="q_title" style="width: 180px;">
 	课程代码： <input  name="courseId"
-	id="courseIdFS">
+	id="courseIdFS"  style="width:50px">
+	讲师： <input  name="q_teacher"
+	id="q_teacher"  style="width:50px">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-search" onclick="queryCourse()">搜索</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
@@ -83,7 +86,7 @@
 <div id="dlg" class="easyui-dialog"
 style="width: 1000px; height: 500px; padding: 5px 5px; top: 5px;"
 closed="true" modal="true" cache="false" buttons="#dlg-buttons">
-<form id="fm" method="post">
+<form id="fm" method="post" enctype="multipart/form-data">
 	<table cellspacing="0" cellpadding="0" class="formTable">
 		<div>
 			<input id="dlg-courseId" name="courseId" type="hidden">
@@ -175,6 +178,10 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							<label>课程费用:</label> <input class="easyui-validatebox"
 							name="price"  data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',validType:'num'" style="width: 130px;">
 						</div></td>
+					</tr>
+
+					<tr>
+						<td  class="itemText"  colspan="5"><label>金牌图:</label><input name="goldenPic"  type="file"></td>
 					</tr>
 					<tr>
 						<td  class="itemText"  colspan="5">
@@ -278,7 +285,8 @@ function queryCourse() {
 				category : $('#category').combobox('getValue'),  
 	          	courseId : $('#courseIdFS').val(),
 	          	p_outside : $('#p_outside').combobox('getValue'),
-	          	q_title : $('#q_title').val()
+	          	q_title : $('#q_title').val(),
+	          	q_teacher : $('#q_teacher').val()
 		});
 	}
 	function newInnerCourse() {
@@ -393,6 +401,7 @@ function saveCourse(close_dlg) {
 					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
 					//alert('data = ' + data);
 					if (data.success) {
+						uploadGlodenPic(data.dlg_courseId);
 						$.messager.show({
 							title : 'Success',
 							msg : data.message,
@@ -417,6 +426,32 @@ function saveCourse(close_dlg) {
 				}
 			});
 }
+function uploadGlodenPic(dlg_inner_courseId){
+			if($('#goldenPic').val()){
+				$('#fm').form('submit', {
+					url : '../struts/Course_saveCourseGoldenPic?selected_courseId='+dlg_inner_courseId,
+					success : function(data) {
+						console.log(data);
+						var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+						if (data.success) {
+							$.messager.show({
+								title : 'Success',
+								msg : data.message,
+								timeout : 3000,
+								showType : 'fade'
+							});
+						} else {
+							$.messager.show({
+								title : 'Error',
+								msg : data.message,
+								timeout : 3000,
+								showType : 'fade'
+							});
+						}
+					}
+				});
+			}
+		}
 function destroyCourse() {
 	var row = $('#dg').datagrid('getSelected');
 	if (row) {

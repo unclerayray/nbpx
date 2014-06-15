@@ -205,16 +205,34 @@ public class SolrUtil {
 	public static String getLiveScenePhotoPath() throws IOException{
 		Properties prop = new Properties();
 		try {
-			logger.debug("before");
 			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
-			logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
+			//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
 		} catch (Exception e) {
 			logger.debug("exception");
 			prop.load(new FileInputStream(classpath+"solr.properties"));
 			logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
 		}
-		logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
+		//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
 		return prop.getProperty("image.livescene.path");
+	}
+	
+	/**
+	 * 获取金牌内训图片 Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getGoldenPicPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+			//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
+		} catch (Exception e) {
+			logger.debug("exception");
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+			logger.debug("course.goldenPic.path = " + prop.getProperty("course.goldenPic.path"));
+		}
+		//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
+		return prop.getProperty("course.goldenPic.path");
 	}
 	
 	/**

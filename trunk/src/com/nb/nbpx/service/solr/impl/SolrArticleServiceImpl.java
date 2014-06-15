@@ -3,7 +3,6 @@ package com.nb.nbpx.service.solr.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,22 +26,19 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dto.article.ArticleDetail;
 import com.nb.nbpx.pojo.article.Article;
-import com.nb.nbpx.pojo.zixun.Download;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrArticleService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 @Component("SolrArticleService")
-public class SolrArticleServiceImpl extends BaseServiceImpl implements
+public class SolrArticleServiceImpl extends BaseSolrServiceImpl implements
 		ISolrArticleService {
 
     public static Logger logger = LogManager.getLogger(SolrArticleServiceImpl.class);
 	
 	@Override
 	public void addArticle2Solr(ArticleDetail artiDetail) {
-		String serverURL;
 		try {
 			serverURL = SolrUtil.getArticleServerUrl();
 			SolrServer solrServer = new HttpSolrServer(serverURL);
@@ -52,17 +48,23 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 			sid.addField("author", artiDetail.getAuthor());
 			sid.addField("category", NbpxDicMap.getCourseTypeMap().get(artiDetail.category));
 			sid.addField("lastUpdateDate", artiDetail.getLastUpdateDate());
+			sid.addField("state", artiDetail.state);
 			String contents = artiDetail.getContent();
 			contents = stripHTMLX(contents);
 			
 			sid.addField("content", contents);
-			String[] courseKeywords = artiDetail.getKeywords().split(",");
-			String[] courseSubjects = artiDetail.getSubjects().split(",");
-			for(String keyword:courseKeywords){
-				sid.addField("keyword", keyword);
+			if(artiDetail.getKeywords()!=null){
+				String[] courseKeywords = artiDetail.getKeywords().split(",");
+				for(String keyword:courseKeywords){
+					sid.addField("keyword", keyword);
+				}
 			}
-			for(String subject:courseSubjects){
-				sid.addField("subject", subject);
+			
+			if(artiDetail.getSubjects()!=null){
+				String[] courseSubjects = artiDetail.getSubjects().split(",");
+				for(String subject:courseSubjects){
+					sid.addField("subject", subject);
+				}
 			}
 			solrServer.add(sid);
             solrServer.commit();
@@ -71,7 +73,7 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 			logger.error("未能取得文章的SolrServer URL。"+e.getMessage());;
 			e.printStackTrace();
 		} catch (SolrServerException e) {
-			logger.error("commit为成功。"+e.getMessage());;
+			logger.error("commit未成功。"+e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -79,7 +81,7 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void updateArticleInfo2Solr(Integer articleId) throws IOException,
 			SolrServerException {
-		String serverURL = SolrUtil.getCourseServerUrl();
+		serverURL = SolrUtil.getCourseServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();
 		String q = "articleId:"+articleId;
@@ -87,39 +89,17 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "select");
 		query.add(params);
-		solrServer.ping();
-		//TODO 判断连接 throw exception
 		QueryResponse response = solrServer.query(query);
 		System.out.println(response.getResponseHeader().get("pf"));
 		SolrDocumentList list = response.getResults();
 		SolrDocument doc = list.get(0);
 		SolrInputDocument sid = ClientUtils.toSolrInputDocument(doc);
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				
 		solrServer.add(sid);
         solrServer.commit();
 	}
 
 	
-	private String stripHTML(String value){
-		StringBuilder out = new StringBuilder();
-		  StringReader strReader = new StringReader(value);
-		  try {
-		    HTMLStripCharFilter html = new HTMLStripCharFilter(new BufferedReader(strReader.markSupported() ? strReader : new BufferedReader(strReader)));
-		    char[] cbuf = new char[1024 * 10];
-		    while (true) {
-		      int count = html.read(cbuf);
-		      if (count == -1)
-		        break; // end of stream mark is -1
-		      if (count > 0)
-		        out.append(cbuf, 0, count);
-		    }
-		    html.close();
-		  } catch (IOException e) {
-			  logger.error("error");
-		  }
-		  return out.toString();
-	}
 	
 	
 	/**
@@ -154,12 +134,13 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 	@Override
 	public void removeArticleFromSolr(Integer articleId)
 			throws SolrServerException, IOException {
-		String serverURL = SolrUtil.getArticleServerUrl();
+		serverURL = SolrUtil.getArticleServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		solrServer.deleteById(articleId+"");
 		solrServer.commit();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String queryRelatedArticles(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException, NbpxException {
@@ -169,7 +150,7 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		}
 		// TODO 统计搜索次数 put that into Action, not here
 		// TODO ping查看连接，连不上的话就throw相应的Exception
-		String serverURL = SolrUtil.getArticleServerUrl();
+		serverURL = SolrUtil.getArticleServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();
 		// params.set("qt", "/select");
@@ -196,6 +177,7 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		query.set("defType", "edismax");
 		query.set("pf", "title keyword content");
 		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
+		params.set("fq", "state:true");
 		// query.set("q","*.*");
 		query.add(params);
 
@@ -205,7 +187,6 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		QueryResponse response = solrServer.query(query);
 		SolrDocumentList list = response.getResults();
 
-		// QueryResponse response = solrServer.query(params);
 		Map<String, Map<String, List<String>>> hlMap = response
 				.getHighlighting();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -250,5 +231,29 @@ public class SolrArticleServiceImpl extends BaseServiceImpl implements
 		resultMap.put("pages", allPages);
 		// return JsonUtil.formatListToJson(resultList);
 		return JsonUtil.getJsonStringDate(resultMap);
+	}
+
+	public void audit(Integer id, Boolean state) throws Exception {
+		serverURL = SolrUtil.getArticleServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		String q = "articleId:"+id;
+		params.set("q", q);
+		SolrQuery query = new SolrQuery();
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		SolrDocumentList list = response.getResults();
+		SolrDocument doc = list.get(0);
+		SolrInputDocument sid = ClientUtils.toSolrInputDocument(doc);
+		sid.removeField("state");
+		sid.addField("state", state);
+		solrServer.add(sid);
+        solrServer.commit();
 	} 
+	
+	public String setItsServerURL() throws Exception {
+		serverURL = SolrUtil.getArticleServerUrl();
+		return SolrUtil.getArticleServerUrl();
+	}
 }

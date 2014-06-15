@@ -12,6 +12,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
@@ -19,16 +20,15 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.user.OrgInfo;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
+import com.nb.nbpx.service.solr.IBaseSolrService;
 import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 
 @Component("SolrOrganisation")
-public class SolrOrganisationServiceImpl extends BaseServiceImpl implements
+public class SolrOrganisationServiceImpl extends BaseSolrServiceImpl implements
 		ISolrOrganisationService {
 
     public static Logger logger = LogManager.getLogger(SolrOrganisationServiceImpl.class);
@@ -41,6 +41,7 @@ public class SolrOrganisationServiceImpl extends BaseServiceImpl implements
 			SolrInputDocument sid = new SolrInputDocument();
 			sid.addField("orgId", orgInfo.getOrgId());
 			sid.addField("orgName", orgInfo.getOrgName());
+			sid.addField("state", orgInfo.getState());
 			sid.addField("introduction", orgInfo.getIntroduction());
 			solrServer.add(sid);
             solrServer.commit();
@@ -120,6 +121,32 @@ public class SolrOrganisationServiceImpl extends BaseServiceImpl implements
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		solrServer.deleteById(orgId+"");
 		solrServer.commit();		
+	}
+
+	@Override
+	public void audit(Integer id, Boolean state) throws Exception {
+		serverURL = setItsServerURL();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		String q = "orgId:"+id;
+		params.set("q", q);
+		SolrQuery query = new SolrQuery();
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		SolrDocumentList list = response.getResults();
+		SolrDocument doc = list.get(0);
+		SolrInputDocument sid = ClientUtils.toSolrInputDocument(doc);
+		sid.removeField("state");
+		sid.addField("state", state);
+		solrServer.add(sid);
+        solrServer.commit();
+	} 
+	
+	@Override
+	public String setItsServerURL() throws Exception {
+		serverURL = SolrUtil.getOraganisationServerUrl();
+		return SolrUtil.getOraganisationServerUrl();
 	}
 
 }

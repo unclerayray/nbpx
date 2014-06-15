@@ -79,6 +79,8 @@
 	课程名： <input id="q_title" name="q_title" style="width: 180px;">
 	课程代码： <input name="courseId"
 	id="courseIdFS"  style="width:50px">
+	讲师： <input  name="q_teacher"
+	id="q_teacher"  style="width:50px">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-search" onclick="queryCourse()">搜索</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
@@ -264,12 +266,13 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3"  nowrap>
+							<td colspan="5" nowrap>
 								<div style="margin-bottom: 5px">
-									<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-									onclick="insertEmptyRow()">新增开课安排</a> <a href="#"
-									class="easyui-linkbutton" iconCls="icon-remove" plain="true"
-									onclick="removeSelectedRow();">删除开课安排</a>
+									<a href="#" class="easyui-linkbutton" iconCls="icon-add"
+										plain="true" onclick="insertEmptyRow()">新增开课安排</a> <a href="#"
+										class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+										onclick="removeSelectedRow();">删除开课安排</a><label>加入培训计划:</label> <input name="planflag" id="planflag"
+										type="checkbox">
 								</div>
 							</td>
 						</tr>
@@ -360,7 +363,8 @@ function queryCourse() {
 					category : $('#category').combobox('getValue'),  
 		          	courseId : $('#courseIdFS').val(),
 		          	p_outside : $('#p_outside').combobox('getValue'),
-		          	q_title : $('#q_title').val()
+		          	q_title : $('#q_title').val(),
+		          	q_teacher : $('#q_teacher').val()
 			});
 		}
 		function newCourse() {
@@ -685,15 +689,16 @@ function createCkeditor() {
 }
 
 function insertEmptyRow(){
-			var index = 0;
-			$('#dg_info_in').datagrid('insertRow', {
-				index: index,
-				row:{
-				}
-			});
-			$('#dg_info_in').datagrid('selectRow',index);
-			$('#dg_info_in').datagrid('beginEdit',index);
+	$('#dg_info_in').datagrid('acceptChanges');
+	var index = 0;
+	$('#dg_info_in').datagrid('insertRow', {
+		index: index,
+		row:{
 		}
+	});
+	$('#dg_info_in').datagrid('selectRow',index);
+	$('#dg_info_in').datagrid('beginEdit',index);
+}
 
 
 function getRowIndex(){
@@ -703,8 +708,14 @@ function getRowIndex(){
 
 function removeSelectedRow(){
 	var row = $('#dg_info_in').datagrid('getSelected');
-	var rowNum = $('#dg_info_in').datagrid('getRowIndex',row);
-	$('#dg_info_in').datagrid('deleteRow', rowNum);
+	if(row){
+		var rowNum = $('#dg_info_in').datagrid('getRowIndex', row);
+		$('#dg_info_in').datagrid('deleteRow', rowNum);
+	}else{
+		if($('#dg_info_in').datagrid('getRows').length>0){
+			$('#dg_info_in').datagrid('deleteRow', 0);
+		}
+	}
 }
 
 function addTeacher() {
