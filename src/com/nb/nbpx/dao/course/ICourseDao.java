@@ -15,15 +15,15 @@ import com.nb.nbpx.pojo.user.TeacherInfo;
  * @date 2013-4-29
  */
 public interface ICourseDao extends IBaseDao<Course, Integer> {
-	public List<Course> queryCourses(String category, Integer courseId,Boolean p_outside,
+	public List<Course> queryCourses(String category, Integer courseId, String teachName,Boolean p_outside,
 			Integer rows, Integer start , String sort, String order, Boolean isInner);
 	
-	public List<Course> queryCoursesWithTitle(String category, String courseTitle,Boolean p_outside,
+	public List<Course> queryCoursesWithTitle(String category, String courseTitle, String teachName,Boolean p_outside,
 			Integer rows, Integer start , String sort, String order, Boolean isInner);
 
-	public Long queryCourseCount(String category, String courseTitle,Boolean p_outside,Boolean isInner);
+	public Long queryCourseCount(String category, String courseTitle, String teachName,Boolean p_outside,Boolean isInner);
 	
-	public Long queryCourseCount(String category, Integer courseId,Boolean p_outside,Boolean isInner);
+	public Long queryCourseCount(String category, Integer courseId, String teachName,Boolean p_outside,Boolean isInner);
 
 	public List<Dictionary> queryCourseType();
 

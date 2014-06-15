@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import com.nb.nbpx.pojo.keyword.Keyword;
-import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
 
 /**
@@ -14,7 +13,7 @@ import com.nb.nbpx.utils.NbpxException;
  * @author Roger
  * @date 2013年8月17日
  */
-public interface ISolrKeywordService extends IBaseService {
+public interface ISolrKeywordService{
 	public void addKeyword2Solr(Keyword keyword);
 	public void addKeywords2Solr(List<Keyword> keywordList);
 	/**

@@ -21,6 +21,8 @@ public class RequirementAction extends BaseAction{
 	private IRequirementService requirementService;
 	public Integer requirementId;
 	public String reply;
+	public String q_company;
+	public String q_contact;
 	
 	//添加培训需求
 	public String addRequirement(){
@@ -35,7 +37,7 @@ public class RequirementAction extends BaseAction{
 	}
 	
 	public String queryRequirements(){
-		String json = requirementService.queryRequirements(hasReplied, rows, getStartPosi(), sort, order);
+		String json = requirementService.queryRequirements(hasReplied, q_company, q_contact, rows, getStartPosi(), sort, order);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -91,5 +93,25 @@ public class RequirementAction extends BaseAction{
 
 	public void setReply(String reply) {
 		this.reply = reply;
+	}
+
+	public String getQ_company() {
+		return q_company;
+	}
+
+	public void setQ_company(String q_company) {
+		this.q_company = q_company;
+	}
+
+	public String getQ_contact() {
+		return q_contact;
+	}
+
+	public void setQ_contact(String q_contact) {
+		this.q_contact = q_contact;
+	}
+
+	public void setRequirement(Requirement requirement) {
+		this.requirement = requirement;
 	}	
 }

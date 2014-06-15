@@ -3,6 +3,7 @@ package com.nb.nbpx.service.solr.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,12 +28,11 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.service.course.ICourseService;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.utils.SolrUtil;
 import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 @Component("SolrCourseService")
-public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCourseService{
+public class SolrCourseServiceImpl extends BaseSolrServiceImpl implements ISolrCourseService{
     public static Logger logger = LogManager.getLogger(SolrCourseServiceImpl.class);
 	@Resource
 	private ICourseService courseService;
@@ -48,48 +48,67 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 			sid.addField("price", cai.getPrice());
 			sid.addField("teacherName", cai.getTeacherName());
 			sid.addField("isInner", cai.isInner);
+			sid.addField("state", cai.state);
 			sid.addField("lastUpdateDate", new Date());
 			String contents = cai.getContent();
 			contents = stripHTMLX(contents);
 			sid.addField("content", contents);
 			sid.addField("category", NbpxDicMap.getCourseTypeMap().get(cai.category));
-			String[] courseKeywords = cai.getKeywords().split(",");
-			String[] courseSubjects = cai.getSubject().split(",");
-			
-
-			String[] courseMajor = cai.getMajor().split(",");
-			String[] courseProduct = cai.getProduct().split(",");
-			
-			String[] courseTarget = cai.getTargets().split(",");
-			String[] courseIndustry = cai.getIndustry().split(",");
-			
-			for(String keyword:courseKeywords){
-				sid.addField("keyword", keyword);
-			}
-			for(String subject:courseSubjects){
-				sid.addField("subject", subject);
+			if(cai.getKeywords()!=null){
+				String[] courseKeywords = cai.getKeywords().split(",");
+				for(String keyword:courseKeywords){
+					sid.addField("keyword", keyword);
+				}
 			}
 			
-			for(String major:courseMajor){
-				sid.addField("major", major);
-			}
-			for(String product:courseProduct){
-				sid.addField("product", product);
+			if(cai.getSubject()!=null){
+				String[] courseSubjects = cai.getSubject().split(",");
+				for(String subject:courseSubjects){
+					sid.addField("subject", subject);
+				}
 			}
 			
-			for(String target:courseTarget){
-				sid.addField("target", target);
+			if(cai.getMajor()!=null){
+				String[] courseMajor = cai.getMajor().split(",");
+				for(String major:courseMajor){
+					sid.addField("major", major);
+				}
 			}
-			for(String industry:courseIndustry){
-				sid.addField("industry", industry);
+			if(cai.getProduct()!=null){
+				String[] courseProduct = cai.getProduct().split(",");
+				for(String product:courseProduct){
+					sid.addField("product", product);
+				}
 			}
+			if(cai.getTargets()!=null){
+				String[] courseTarget = cai.getTargets().split(",");
+				for(String target:courseTarget){
+					sid.addField("target", target);
+				}
+			}
+			if(cai.getIndustry()!=null){
+				String[] courseIndustry = cai.getIndustry().split(",");
+				for(String industry:courseIndustry){
+					sid.addField("industry", industry);
+				}
+			}
+			
 			List<CourseInfo> list = courseService.queryCourseInfoList(cai.getCourseId());
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date latestStartDate = null;
+			try {
+				latestStartDate = format.parse("1900-01-01");
+			} catch (ParseException e) {
+			}
 			for(CourseInfo info:list){
+				if (info.getStartDate().after(latestStartDate)) {
+					latestStartDate = info.getStartDate();
+				}
 				String startDate = format.format(info.getStartDate());
 				String endDate = format.format(info.getEndDate());
 				sid.addField("courseInfo", startDate+"至"+endDate+"在"+info.getCityName());
 			}
+			sid.addField("latestStartDate", latestStartDate);
 			solrServer.add(sid);
             solrServer.commit();
             logger.debug("已成功为插入的课程创建索引");
@@ -125,12 +144,22 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		List<CourseInfo> infolist = courseService.queryCourseInfoList(courseId);
 		sid.removeField("courseInfo");
+		Date latestStartDate = null;
+		try {
+			latestStartDate = format.parse("1900-01-01");
+		} catch (ParseException e) {
+		}
 		for(CourseInfo info:infolist){
+			if (info.getStartDate().after(latestStartDate)) {
+				latestStartDate = info.getStartDate();
+			}
 			String startDate = format.format(info.getStartDate());
 			String endDate = format.format(info.getEndDate());
 			sid.addField("courseInfo", startDate+"至"+endDate+"在"+info.getCityName());
 		}
 
+		sid.removeField("latestStartDate");
+		sid.addField("latestStartDate", latestStartDate);
 		sid.removeField("lastUpdateDate");
 		sid.addField("lastUpdateDate", new Date());
 		solrServer.add(sid);
@@ -170,6 +199,10 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 	public static void main(String[] args) {
 		//String content = "<p>hahahah</p>";
 		//System.out.println(stripHTMLX(content));
+		String strs[] = {};
+		for(String sr:strs){
+			System.out.println(sr);
+		}
 	}
 
 	@Override
@@ -180,4 +213,30 @@ public class SolrCourseServiceImpl extends BaseServiceImpl implements ISolrCours
 		solrServer.commit();
 	}
 
+	@Override
+	public void audit(Integer id, Boolean state) throws Exception {
+		serverURL = setItsServerURL();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		String q = "courseId:"+id;
+		params.set("q", q);
+		SolrQuery query = new SolrQuery();
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		SolrDocumentList list = response.getResults();
+		SolrDocument doc = list.get(0);
+		SolrInputDocument sid = ClientUtils.toSolrInputDocument(doc);
+		sid.removeField("state");
+		sid.addField("state", state);
+		solrServer.add(sid);
+        solrServer.commit();
+	} 
+	
+	@Override
+	public String setItsServerURL() throws Exception {
+		serverURL = SolrUtil.getCourseServerUrl();
+		return SolrUtil.getCourseServerUrl();
+	}
+	
 }

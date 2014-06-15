@@ -9,7 +9,7 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.utils.NbpxException;
 
-public interface ISolrTeacherService {
+public interface ISolrTeacherService  extends IBaseSolrService{
 	public void addTeacher2Solr(TeacherInfo teacher);
 	public void removeTeacherInfoFromSolr(Integer teacherId) throws SolrServerException, IOException;
 	/**

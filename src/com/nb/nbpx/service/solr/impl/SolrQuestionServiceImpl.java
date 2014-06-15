@@ -3,6 +3,7 @@
  */
 package com.nb.nbpx.service.solr.impl;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,7 +27,6 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.wenda.Question;
 import com.nb.nbpx.pojo.wenda.QuestionKeyword;
 import com.nb.nbpx.pojo.wenda.QuestionSubject;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
@@ -36,7 +36,7 @@ import com.nb.nbpx.utils.SolrUtil;
  * @date 2014年3月9日
  */
 @Component("SolrQuestionService")
-public class SolrQuestionServiceImpl extends BaseServiceImpl implements
+public class SolrQuestionServiceImpl implements
 		ISolrQuestionService {
     public static Logger logger = LogManager.getLogger(SolrQuestionServiceImpl.class);
 

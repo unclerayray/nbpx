@@ -10,7 +10,7 @@ import com.nb.nbpx.service.IBaseService;
  * @author Roger
  * @date 2013-6-15
  */
-public interface IDataImportService extends IBaseService{
+public interface IDataImportService {
 	/**
 	 * 全量导入
 	 * @throws Exception

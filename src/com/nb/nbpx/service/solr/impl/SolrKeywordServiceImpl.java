@@ -18,16 +18,15 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
-import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
+import com.nb.nbpx.service.solr.IBaseSolrService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.PinYinUtil;
 import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrKeywordService")
-public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeywordService{
+public class SolrKeywordServiceImpl implements ISolrKeywordService{
     public static Logger logger = LogManager.getLogger(SolrKeywordServiceImpl.class);
 
 	@Override
@@ -125,7 +124,6 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		query.set("qt", "select");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
-		int numFound = (int) response.getResults().getNumFound();
 		int count = response.getResults().size();
 		SolrDocumentList list = response.getResults();
 		List<Keyword> resultList = new ArrayList<Keyword>();
@@ -159,6 +157,7 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		solrServer.commit();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Keyword> queryRelatedKeywordsList(String q, Integer start,
 			Integer rows) throws SolrServerException, IOException,
@@ -166,7 +165,6 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		if(q==null){
 			throw new NbpxException("查询关键词不能为空。");
 		}
-		String json = "";
 		String serverURL = SolrUtil.getKeywordServerUrl();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		q = SolrUtil.escapeQueryChars(q);
@@ -193,7 +191,6 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		query.set("qt", "select");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
-		int numFound = (int) response.getResults().getNumFound();
 		int count = response.getResults().size();
 		SolrDocumentList list = response.getResults();
 		List<Keyword> resultList = new ArrayList<Keyword>();
@@ -212,6 +209,7 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		/**
 		 * 以下为去重的代码
 		 */
+		@SuppressWarnings("rawtypes")
 		HashSet hs = new HashSet();
 		hs.addAll(resultList);
 		resultList.clear();
@@ -219,6 +217,7 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		return resultList;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Keyword> queryTipKeywords(String q, Integer start, Integer rows)
 			throws SolrServerException, IOException, NbpxException {
@@ -251,7 +250,6 @@ public class SolrKeywordServiceImpl extends BaseServiceImpl implements ISolrKeyw
 		query.set("qt", "select");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
-		int numFound = (int) response.getResults().getNumFound();
 		int count = response.getResults().size();
 		SolrDocumentList list = response.getResults();
 		List<Keyword> resultList = new ArrayList<Keyword>();

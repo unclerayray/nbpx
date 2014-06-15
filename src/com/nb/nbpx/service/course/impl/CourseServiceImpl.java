@@ -121,15 +121,15 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public String queryCourses(String category, Integer courseId, String title,Boolean p_outside,
+	public String queryCourses(String category, Integer courseId, String title, String teachName,Boolean p_outside,
 			Integer rows, Integer start, String sort, String order, Boolean isInner) {
 		String json = "";
 		List<Course> list;
 		if (title != null && !title.isEmpty()) {
-			list = courseDao.queryCoursesWithTitle(category, title,p_outside, rows,
+			list = courseDao.queryCoursesWithTitle(category, title,teachName,p_outside, rows,
 					start, sort, order, isInner);
 		} else {
-			list = courseDao.queryCourses(category, courseId,p_outside, rows, start,
+			list = courseDao.queryCourses(category, courseId,teachName,p_outside, rows, start,
 					sort, order, isInner);
 		}
 
@@ -139,9 +139,9 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		} else {
 			int count = 0;
 			if (title != null && !title.isEmpty()) {
-				count = courseDao.queryCourseCount(category, title, p_outside, isInner).intValue();
+				count = courseDao.queryCourseCount(category, title,teachName, p_outside, isInner).intValue();
 			} else {
-				count = courseDao.queryCourseCount(category, courseId, p_outside, isInner)
+				count = courseDao.queryCourseCount(category, courseId,teachName, p_outside, isInner)
 						.intValue();
 			}
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
@@ -229,7 +229,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String queryComboCourseName(String category,Boolean isInner,Boolean p_outside) {
-		List<Course> list = courseDao.queryCourses(category, null,p_outside, 10, null,
+		List<Course> list = courseDao.queryCourses(category, null,null,p_outside, 10, null,
 				null, null,isInner);
 		String json = JsonUtil.formatListToJson(list);
 		return json;
@@ -510,8 +510,6 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 		for (int i = 0; courseProduct != null && i < courseProduct.length; i++) {
 			String productCode = StringUtils.trim(courseProduct[i]);// numbic
-			String rplcCode = productCode;
-			//TODO replace got something wrong
 			if (productCode.isEmpty()) {
 				continue;
 			}
@@ -1347,6 +1345,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		for(CourseInfo info:list){
 			courseInfoDao.delete(info);
 		}
+	}
+
+	@Override
+	public void updateGoldenPicPath(String path, Integer courseId) {
+		String queryString = "update Course set goldenPic = ? where courseId = ? ";
+		Object[] values = {path, courseId};
+		courseDao.bulkUpdate(queryString, values);
 	}
 
 }

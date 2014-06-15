@@ -15,6 +15,7 @@ import com.nb.nbpx.service.course.IRequirementService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.daotool.Equality;
+import com.nb.nbpx.utils.daotool.NotEmptyEquality;
 
 @Component("RequirementService")
 public class RequirementServiceImpl extends BaseServiceImpl implements IRequirementService{
@@ -49,11 +50,13 @@ public class RequirementServiceImpl extends BaseServiceImpl implements IRequirem
 	}
 
 	@Override
-	public String queryRequirements(Integer hasReplied, Integer rows, Integer start,
+	public String queryRequirements(Integer hasReplied, String q_company, String q_contact, Integer rows, Integer start,
 			String sort, String order) {
 		String json = "";
 		Map<String, Object> propsMap = this.createPropMap(new Equality(
-				"hasReplied", hasReplied));
+				"hasReplied", hasReplied),new NotEmptyEquality(
+						"comp_name", q_company),new NotEmptyEquality(
+								"contact", q_contact));
 		List<Requirement> list= requirementDao.queryEntityListByProperties(Requirement.class, rows, start, sort, order, propsMap);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,

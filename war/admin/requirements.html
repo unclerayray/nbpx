@@ -31,9 +31,9 @@
 			<th data-options="field:'cellphone',width:60">手机</th>
 			<th data-options="field:'comp_name',width:60">公司名</th>
 			<th data-options="field:'description',width:120">需求描述</th>
-			<th data-options="field:'reply',width:120">回复</th>
+			<th data-options="field:'reply',width:120">跟进</th>
 			<th data-options="field:'email',width:80">邮件</th>
-			<th data-options="field:'hasReplied',width:50,align:'center',formatter:function(value,row){if(row.hasReplied) {return '已回复';}else{return '<font color=red>未回复</font>';}}">是否已回复</th>
+			<th data-options="field:'hasReplied',width:50,align:'center',formatter:function(value,row){if(row.hasReplied) {return '已跟进';}else{return '<font color=red>未跟进</font>';}}">是否已跟进</th>
 			<th data-options="field:'createDate',width:70,align:'center',sortable:true">创建时间</th>
 		</tr>
 	</thead>
@@ -41,15 +41,26 @@
 
 
 	<div id="tb" style="padding: 5px; height: auto">
-		<div style="margin-bottom: 5px"><a href="#"
+		<div style="margin-bottom: 5px">
+		跟进情况：<select id="p_replay" name="p_replay" class="easyui-combobox"
+			data-options=" panelHeight:'50',
+						strict:true" 
+			style="panelHeight: 50px;">
+			<option></option>
+			<option value="ed">已跟进</option>
+			<option value="un">未跟进</option>
+		</select>
+		公司名称： <input  name="q_company"
+	id="q_company"  style="width:50px">
+	联系人： <input  name="q_contact"
+	id="q_contact"  style="width:50px">
+	<a href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-search" onclick="queryRequirements()">搜索</a> <a
+	href="javascript:void(0)" class="easyui-linkbutton"
+	iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a>
+	<a href="#"
 			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-			onclick="openDlg()">回复需求</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton"
-		iconCls="icon-search" onclick="queryRequirements('un')"  plain="true">查看未回复</a> <a
-		href="javascript:void(0)" class="easyui-linkbutton"
-		iconCls="icon-undo"  onclick="queryRequirements('ed');"  plain="true">查看已回复</a> <a
-		href="javascript:void(0)" class="easyui-linkbutton"
-		iconCls="icon-undo" onclick="queryRequirements('all');"  plain="true">查看所有</a>
+			onclick="openDlg()">跟进需求</a>
 		</div>
 	</div>
 
@@ -72,7 +83,7 @@
 		<td class="itemText" >
 		<div>
 			<input id="requireId" name="requireId" type="hidden">
-			<textarea class="easyui-textarea" id="replys" name="replys" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'需求回复的不能为空'"
+			<textarea class="easyui-textarea" id="replys" name="replys" data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'需求跟进的不能为空'"
 			style="width: 260px; height: 180px;" maxlength="200" type="textarea" required="true"></textarea>
 		</div>
 		</td>
@@ -81,20 +92,22 @@
 	</div>
 
 	<script type="text/javascript">
-	function queryRequirements(hasReplied) {
-				if (hasReplied == 'ed') {
-					$('#dg').datagrid('load', {hasReplied : 1});
-				}else if(hasReplied == 'un'){
-					$('#dg').datagrid('load', {hasReplied : 0});
+	function queryRequirements() {
+		var comp = $('#q_company').val();
+		var cont = $('#q_contact').val();
+				if ($('#p_replay').combobox('getValue') == 'ed') {
+					$('#dg').datagrid('load', {hasReplied : 1, q_company: comp , q_contact:cont });
+				}else if($('#p_replay').combobox('getValue') == 'un'){
+					$('#dg').datagrid('load', {hasReplied : 0, q_company: comp , q_contact:cont });
 				}else{
-					$('#dg').datagrid('load',{reply : 98});
+					$('#dg').datagrid('load',{reply : 98, q_company: comp , q_contact:cont });
 				}
 			}
 
 			function openDlg(){
 				var row= $('#dg').datagrid('getSelected');
 				if (row) {
-					$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '回复');
+					$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '跟进');
 					$('#requireId').val(row.requirementId);
 					$('#replys').val(row.reply);
 				}else{

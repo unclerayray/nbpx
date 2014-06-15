@@ -16,7 +16,7 @@ import com.nb.nbpx.utils.NbpxException;
  * 
  */
 public interface ICourseService extends IBaseService {
-	public String queryCourses(String category, Integer courseId, String title,Boolean p_outside, Integer rows,
+	public String queryCourses(String category, Integer courseId, String title, String teachName,Boolean p_outside, Integer rows,
 			Integer start, String sort, String order, Boolean isInner);
 
 	public String queryComboCourseType();
@@ -30,6 +30,8 @@ public interface ICourseService extends IBaseService {
 	public Course saveCourse(Course course) throws Exception;
 	
 	public void auditCourse(Boolean state, Integer courseId);
+	
+	public void updateGoldenPicPath(String path, Integer courseId);
 	
 	/**
 	 * @param list

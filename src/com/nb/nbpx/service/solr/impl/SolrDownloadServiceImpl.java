@@ -15,6 +15,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
@@ -22,19 +23,17 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.pojo.course.CourseSearchResult;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.zixun.Download;
 import com.nb.nbpx.pojo.zixun.DownloadKeyword;
 import com.nb.nbpx.pojo.zixun.DownloadSubject;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
+import com.nb.nbpx.service.solr.IBaseSolrService;
 import com.nb.nbpx.service.solr.ISolrDownloadService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 
 @Component("SolrDownloadService")
-public class SolrDownloadServiceImpl extends BaseServiceImpl implements
+public class SolrDownloadServiceImpl implements
 		ISolrDownloadService {
 
     public static Logger logger = LogManager.getLogger(SolrDownloadServiceImpl.class);

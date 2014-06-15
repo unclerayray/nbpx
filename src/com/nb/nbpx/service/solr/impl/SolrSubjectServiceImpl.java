@@ -18,16 +18,14 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
-import com.nb.nbpx.server.course.CourseAction;
-import com.nb.nbpx.service.impl.BaseServiceImpl;
+import com.nb.nbpx.service.solr.IBaseSolrService;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 @Component("SolrSubjectService")
-public class SolrSubjectServiceImpl extends BaseServiceImpl implements ISolrSubjectService{
+public class SolrSubjectServiceImpl implements ISolrSubjectService{
 
 
 	public static Logger log = LogManager.getLogger(SolrSubjectServiceImpl.class);

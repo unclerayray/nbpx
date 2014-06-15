@@ -9,7 +9,6 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import com.nb.nbpx.pojo.course.CourseSearchResult;
-import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
 
 /**
@@ -17,7 +16,7 @@ import com.nb.nbpx.utils.NbpxException;
  * @author Roger
  * @date 2013-6-15
  */
-public interface ISolrService extends IBaseService{
+public interface ISolrService {
 	/**
 	 * 全量导入
 	 * @throws Exception

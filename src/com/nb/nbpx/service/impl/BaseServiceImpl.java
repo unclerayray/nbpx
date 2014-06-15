@@ -3,16 +3,11 @@ package com.nb.nbpx.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.nb.nbpx.dao.IBaseDao;
-import com.nb.nbpx.dao.user.impl.CompInfoDaoImpl;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.daotool.Equality;
+import com.nb.nbpx.utils.daotool.NotEmptyEquality;
 
 /**
  * <p>
@@ -24,16 +19,23 @@ import com.nb.nbpx.utils.daotool.Equality;
  * @version V1.0
  */
 @Component("BaseService")
-public class BaseServiceImpl implements IBaseService {
+public abstract class BaseServiceImpl implements IBaseService {
     
 	@Override
     public Map<String, Object> createPropMap(Equality... equs){
     	Map<String, Object> map = new HashMap<String, Object>();
     	for(Equality equ:equs){
 			if(equ.propValue!=null){
-				map.put(equ.getPropName(), equ.getPropValue());
+				if(!(equ instanceof NotEmptyEquality)){
+					map.put(equ.getPropName(), equ.getPropValue());
+				}else{
+					if(!equ.propValue.toString().isEmpty()){
+						map.put(equ.getPropName(), equ.getPropValue());
+					}
+				}
 			}
 		}
     	return map;
     }
+	
 }

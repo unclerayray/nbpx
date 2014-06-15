@@ -1,7 +1,10 @@
 package com.nb.nbpx.server.article;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -67,6 +70,7 @@ public class ArticleAction extends BaseAction{
 	public String AuditArticle(){
 		try {
 			articleService.auditArticle(!state, selected_articleId);
+			solrArticleService.audit(selected_articleId,!state);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -120,6 +124,13 @@ public class ArticleAction extends BaseAction{
 	
 	public String deleteArticle(){
 		articleService.deleteArticle(article);
+		try {
+			solrArticleService.removeArticleFromSolr(article.articleId);
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;

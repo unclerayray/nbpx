@@ -9,6 +9,7 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.user.IOrgInfoDao;
 import com.nb.nbpx.pojo.user.OrgInfo;
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.service.user.IOrgInfoService;
 import com.nb.nbpx.utils.JsonUtil;
 
@@ -24,11 +25,11 @@ public class OrgInfoAction extends BaseAction{
 	
 	private IOrgInfoService orgInfoService;
 	private IOrgInfoDao orgInfoDao;
+	private ISolrOrganisationService orgSolrService;
 	
 	public String getOrgInforByUserId(){
 		String json = "";
 		try {
-
 			json = orgInfoService.getOrgInfoByUserId(userId);
 			System.out.println("json = " + json);
 		} catch (Exception e) {
@@ -53,6 +54,7 @@ public class OrgInfoAction extends BaseAction{
 			oi.setTelephone(orgInfor.getTelephone());
 			oi.setWebsite(orgInfor.getWebsite());
 			json = orgInfoService.saveOrgInfor(oi);
+			orgSolrService.addOrganisation2Solr(oi);
 			System.out.println("json = " + json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,8 +79,10 @@ public class OrgInfoAction extends BaseAction{
 		String msg = "已激活！";
 		try {
 			OrgInfo orgInfo = orgInfoDao.get(orgId);
-			orgInfo.setState(!orgInfo.getState());
+			Boolean state = orgInfo.getState();
+			orgInfo.setState(!state);
 			orgInfoService.saveOrgInfor(orgInfo);
+			orgSolrService.audit(orgId,!state);
 			if(orgInfo.getState()){
 				msg = "已锁定！";
 			}
@@ -150,6 +154,15 @@ public class OrgInfoAction extends BaseAction{
 	@Resource
 	public void setOrgInfoDao(IOrgInfoDao orgInfoDao) {
 		this.orgInfoDao = orgInfoDao;
+	}
+
+	public ISolrOrganisationService getOrgSolrService() {
+		return orgSolrService;
+	}
+
+	@Resource
+	public void setOrgSolrService(ISolrOrganisationService orgSolrService) {
+		this.orgSolrService = orgSolrService;
 	}
 
 	

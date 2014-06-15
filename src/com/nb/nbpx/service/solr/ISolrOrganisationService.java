@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import com.nb.nbpx.pojo.user.OrgInfo;
-import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
 
 /**
@@ -14,7 +13,7 @@ import com.nb.nbpx.utils.NbpxException;
  * @author Roger
  * @date 2014年3月10日
  */
-public interface ISolrOrganisationService  extends IBaseService {
+public interface ISolrOrganisationService  extends IBaseSolrService {
 	public void addOrganisation2Solr(OrgInfo orgInfo);
 	public void addOrganisations2Solr(List<OrgInfo> orgInfoList);
 	public String queryRelatedOrganisation(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
