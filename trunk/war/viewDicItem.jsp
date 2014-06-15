@@ -171,7 +171,7 @@
 <div class="mainContent path">
 	<ul>
 		<li>当前位置:&nbsp;</li>
-		<li><a href="main.html" target="_self">首页</a></li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
 		<li><a href="viewDic.jsp?type=<%=type%>"><span id="showName"></span></a></li>
 		<li class="bread">&gt;&gt;</li>

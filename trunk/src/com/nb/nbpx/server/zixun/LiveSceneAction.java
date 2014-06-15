@@ -71,7 +71,12 @@ public class LiveSceneAction extends BaseAction {
 		return SUCCESS;
 	}
 	public String queryLiveScene() {
+
 		Map<String, Object> propsMap = new HashMap<String, Object>();
+		if("1".equals(flag))
+			propsMap.put("category", "24_2");
+		else if("2".equals(flag))
+			propsMap.put("category", "24_3");
 		if (category != null&&!category.isEmpty()) {
 			propsMap.put("category", category);
 		}

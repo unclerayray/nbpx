@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<div class="clear"></div>
-	<div class="searchInput"><input id="key" value="请输入关键字,如: 员工 管理" onfocus="if (this.value=='请输入关键字,如: 员工 管理'){this.value='';}" 
+	<div class="searchInput"><input style='width:830px;' id="key" value="请输入关键字,如: 员工 管理" onfocus="if (this.value=='请输入关键字,如: 员工 管理'){this.value='';}" 
 	onblur="if (this.value==''){this.value='请输入关键字,如: 员工 管理';}" onkeydown="fnt_top_search2(event);" />
 	<button class="searchButton"  onclick="fnt_top_search(document.getElementById('search_type').value);">搜&nbsp;索</button></div>
 </div>
@@ -469,9 +469,11 @@
 			})
 		}
 		if(pre == 'c'){//加载文章内容
+			alert(1);
 			$.ajax({
 				url:encodeURI('struts/Main_getArticle?flag='+flag+'&type='+part),
 				success: function(data){
+					alert(data);
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject,function(n,value){
@@ -642,12 +644,31 @@
 			$.ajax({
 				url:"struts/LiveScene_queryTuoZhanTopList?flag="+flag,
 				success:function(data){
-					//alert(data);
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
+					var count = 0;
+					valueStr +="<div style='padding:10px 5px 0px 5px'>";
 					$.each(jsonObject,function(n,value){
-						valueStr += "<li><span class='video'>&nbsp;</span><a href='viewClass.jsp?id="+value.courseId+"'>"+value.title+"</a></li>";
-					});
+						var images = value.images;
+						var url = "images/default404.jpg";
+						if(images.length>0)
+							url=images[0].url;
+						if(count < 2)
+							valueStr +="<div class='tableImg'><a href='viewTuoZhan.jsp?id="+value.id+"'><img  src='"+url+"'/></a></div>";
+						count ++;
+					});	
+					valueStr +="</div><div class='clear'></div><div style='padding-left:25px'><ul class='list4 gray'>";
+					count = 0;
+					$.each(jsonObject,function(n,value){
+						if(count >= 2)
+							valueStr +="<li><a href='viewTuoZhan.jsp?id="+value.id+"'>"+value.name+"</a></li>";
+						count ++;
+					});	
+					valueStr +="</ul></div>";
+					if(data == "[]"){
+						valueStr = "<div class='notice'>没有最新的拓展信息</div>";
+					}
+					//alert(valueStr);
 					$('#'+pre+part).html(valueStr);
 				}
 			});
@@ -662,19 +683,26 @@
 					var count = 0;
 					valueStr +="<div style='padding:10px 5px 0px 5px'>";
 					$.each(jsonObject,function(n,value){
+						var images = value.images;
+						var url = "images/default404.jpg";
+						if(images.length>0)
+							url=images[0].url;
 						if(count < 2)
-							valueStr +="<div class='tableImg'><img  src='images/activity.jpg'/></div>";
+							valueStr +="<div class='tableImg'><a href='viewLiveScene.jsp?id="+value.id+"&flag="+flag+"'><img  src='"+url+"'/></a></div>";
 						count ++;
 					});	
 					valueStr +="</div><div class='clear'></div><div style='padding-left:25px'><ul class='list4 gray'>";
 					count = 0;
 					$.each(jsonObject,function(n,value){
 						if(count >= 2)
-							valueStr +="<li><a href='#'>"+value.name+"</a></li>";
+							valueStr +="<li><a href='viewLiveScene.jsp?id="+value.id+"&flag="+flag+"'>"+value.name+"</a></li>";
 						count ++;
 					});	
 					valueStr +="</ul></div>";
-				
+					if(data == "[]"){
+						valueStr = "<div class='notice'>没有最新的现场信息</div>";
+					}
+					//alert(valueStr);
 					$('#'+pre+part).html(valueStr);
 				}
 			});
@@ -2403,7 +2431,7 @@ padding-bottom: 2px;
 					<div class="clear"></div>
 				</div>
 				<div class="bg" id="tz1">
-					<div style="padding:10px 5px 0px 5px">
+					<!-- <div style="padding:10px 5px 0px 5px">
 						<div class="tableImg"><img  src="images/activity.jpg"/></div>
 						<div class="tableImg"><img  src="images/activity.jpg"/></div>
 					</div>
@@ -2420,7 +2448,7 @@ padding-bottom: 2px;
 							<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 							<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
 						</ul>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</li>
@@ -2433,7 +2461,7 @@ padding-bottom: 2px;
 					<div class="clear"></div>
 				</div>
 				<div class="bg" id="xc1">
-						<div style="padding:10px 5px 0px 5px">
+						<!-- <div style="padding:10px 5px 0px 5px">
 							<div class="tableImg"><img  src="images/activity.jpg"/></div>
 							<div class="tableImg"><img  src="images/activity.jpg"/></div>
 						</div>
@@ -2450,7 +2478,7 @@ padding-bottom: 2px;
 								<li><a href="#">企业经营活动中的海关事务风险及其解决路...</a></li>
 								<li><a href="#">应收账款控制与催收及信用管理实务</a></li>
 							</ul>
-						</div>
+						</div> -->
 					</div>
 	</div>
 	</li>
