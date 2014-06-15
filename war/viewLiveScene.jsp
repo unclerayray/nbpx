@@ -11,6 +11,12 @@
 </head>
 <%
 	String id = request.getParameter("id");
+	String flag = request.getParameter("flag");
+	String typeName = "";
+	if("1".equals(flag))
+		  typeName = "培训现场";
+	else 
+		  typeName = "内训现场";
 %>
 <script>
 	$(function(){
@@ -77,9 +83,9 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li><a href="seeLiveScene.jsp" target="_self">培训现场</a></li>
+		<li><a href="seeLiveScene.jsp?flag=<%=flag %>" target="_self"><%=typeName %></a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li><span id="name">xxx</span></li>
+		<li><span id="name"></span></li>
 	</ul>
 	<div class="clear"></div>
 </div>

@@ -22,7 +22,7 @@ public class LiveSceneDaoImpl  extends BaseDaoImpl<LiveScene, Integer> implement
 ILiveSceneDao {
 	
 	@Override
-	public List<LiveImage> getImages(String liveID){
+	public List<LiveImage> getImages(final String liveID){
 		List<LiveImage> list = new ArrayList<LiveImage>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -32,7 +32,7 @@ ILiveSceneDao {
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.zixun.LiveImage"
 								+ " (l.imageId, l.url, l.liveScene,l.imageName) from LiveImage l"
-								+ " where 1 = 1 ");
+								+ " where 1 = 1 and l.liveScene='"+liveID+"'");
 			    hql.append(" order by l.imageId desc ");
 				Query query = session.createQuery(hql.toString());
 				

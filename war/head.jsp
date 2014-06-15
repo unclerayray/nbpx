@@ -44,8 +44,8 @@
 			<li><a href="pxSeries.jsp">培训专题</a><span>|</span></li>
 			<li><a href="seeDownLoads.jsp">培训下载</a><span>|</span></li>
 			<li><a href="hotPX.jsp">热门培训</a><span>|</span></li>
-			<li><a href="seeLiveScene.jsp">培训现场</a><span>|</span></li>
-			<li><a href="seeLiveScene.jsp">内训现场</a><span>|</span></li>
+			<li><a href="seeLiveScene.jsp?flag=1">培训现场</a><span>|</span></li>
+			<li><a href="seeLiveScene.jsp?flag=2">内训现场</a><span>|</span></li>
 			<li><a href="#">积分问答</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=009" class="red">专业培训</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=008" class="red">行业培训</a><span>|</span></li>
@@ -71,7 +71,7 @@
 			<li><a href="viewDic.jsp?type=005">客户群</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=016">研修班</a><span>|</span></li>
 			<li><a href="seeTuoZhan.jsp">户外拓展</a><span>|</span></li>
-			<li><a href="#">客户评价</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=25">客户评价</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=21">术语词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=22">品牌词典</a><span>|</span></li>
 			<li><a href="#">城市词典</a><span>|</span></li>
@@ -80,9 +80,9 @@
 			<li><a href="#">培训机构</a><span>|</span></li>
 			
 			<li><a href="#">职位词典</a><span>|</span></li>
-			<li><a href="#">培训类别</a><span>|</span></li>
-			<li><a href="#">内训类别</a><span>|</span></li>
-			<li><a href="#">文库类别</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=26">培训类别</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=27">内训类别</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=28">文库类别</a><span>|</span></li>
 			<li><a href="#">研修班培训</a></li>
 		</ul>
 	</div>

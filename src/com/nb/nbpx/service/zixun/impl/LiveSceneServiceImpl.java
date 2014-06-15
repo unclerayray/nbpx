@@ -47,7 +47,7 @@ public class LiveSceneServiceImpl  extends BaseServiceImpl implements ILiveScene
 		if(list != null && list.size() != 0){
 			for(int i=0;i<list.size();i++){
 				LiveScene temp = list.get(i);
-				json += "{\"name\":\""+temp.getTitle()+"\",\"images\":[";
+				json += "{\"name\":\""+temp.getTitle()+"\",\"id\":\""+temp.getLiveSceneId()+"\",\"images\":[";
 				List<LiveImage> images = liveSceneDao.getImages(temp.getLiveSceneId().toString());
 				if(images != null){
 					for(int j=0;j<images.size();j++){
@@ -64,8 +64,8 @@ public class LiveSceneServiceImpl  extends BaseServiceImpl implements ILiveScene
 					json += ",";
 				
 			}
-		}else
-			json += "]";
+		}
+		json += "]";
 		return json;
 	}
 	public String viewLiveScene(String liveID){

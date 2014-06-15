@@ -9,7 +9,14 @@
 <script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
 <title>南北培训网</title>
 </head>
-
+<%
+  String flag = request.getParameter("flag");
+  String typeName = "";
+  if("1".equals(flag))
+	  typeName = "培训现场";
+  else 
+	  typeName = "内训现场";
+%>
 <script>
 	$(function(){
 		//加载热门下载
@@ -42,7 +49,7 @@
 	function getDownLoads(page){
 
 		$.ajax({
-			url:"struts/LiveScene_queryLiveScene?page="+page+"&rows=30" ,
+			url:"struts/LiveScene_queryLiveScene?page="+page+"&rows=30&flag=<%=flag%>" ,
 			success:function(data){
 				//alert(data);
 				var jsonObject = eval('('+data+')');
@@ -51,11 +58,11 @@
 				var rows = jsonObject.rows;
 	
 				$.each(rows,function(n,value){
-					valueStr += "<li style='border-bottom:1px dashed #ccc;width:95%'>"+value.title+"<span><a href='viewLiveScene.jsp?id="+value.liveSceneId+"'>查看</a></span></li>";
+					valueStr += "<li style='border-bottom:1px dashed #ccc;width:95%'>"+value.title+"<span><a href='viewLiveScene.jsp?flag="+<%=flag %>+"&id="+value.liveSceneId+"'>查看</a></span></li>";
 				});
 
 				if(valueStr == ""){
-					valueStr = "<div class='notice'>没有最新的户外拓展信息</div>";
+					valueStr = "<div class='notice'>没有最新的现场信息</div>";
 				}
 
 				$('#dContents').html(valueStr);
@@ -117,7 +124,7 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li>户外拓展</li>
+		<li><%=typeName %></li>
 	</ul>
 	<div class="clear"></div>
 </div>
@@ -128,7 +135,7 @@
 	<div class="leftInPart">
 		<!--最新的下载 start-->
 		<div class="resultPart">
-			<h2>最新的户外拓展</h2>
+			<h2>最新的<%=typeName %></h2>
 			<div class="resultContent">
 					<div id="downloads">
 					<ul class="list11" id="dContents" style="font-size:12px">	
