@@ -7,10 +7,12 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
+import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.mapTool.MapTool;
 
 /**
@@ -45,6 +47,7 @@ public class ViewClassAction extends BaseAction{
 		try {
 			String result = solrKeywordService.queryRelatedKeywords(condition, 0, 10);
 			//TODO 貌似这个地方有个编码问题导致查询不到
+			//这是因为传进来的值是编码有问题
 			this.inputStream = castToInputStream(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,14 +56,30 @@ public class ViewClassAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+
+	//这种地方你要注意一下，如果拿不到result在异常里面返回失败就行了
 	public String getRelatedSubjects(){
+//		try {
+//			String result = solrSubjectService.queryRelatedSubject(condition, 0, 10);
+//			this.inputStream = castToInputStream(result);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return SUCCESS;
+		
+		String result = null;
 		try {
-			String result = solrSubjectService.queryRelatedSubject(condition, 0, 10);
-			this.inputStream = castToInputStream(result);
+			result = solrSubjectService.queryRelatedSubject(condition, 0, 10);
 		} catch (Exception e) {
 			e.printStackTrace();
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.QUERY_FAILED + e.getMessage()));
+			return "failure";
 		}
 
+		this.inputStream = castToInputStream(result);
 		return SUCCESS;
 	}
 	

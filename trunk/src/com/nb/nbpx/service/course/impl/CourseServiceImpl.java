@@ -764,7 +764,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	public String viewCourse(String courseId) {
 		if (courseId == null || "".equals(courseId))
 			return "课程不存在";
-		Course currCourse = courseDao.getCourseById(Integer.parseInt(courseId));
+		Course currCourse = courseDao.get(Integer.parseInt(courseId));
 		if (currCourse == null)
 			return "课程不存在";
 

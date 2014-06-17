@@ -54,13 +54,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
-						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,c.price,"
-								+ "c.teacherId,'',"
-								+ "c.category,c.content,c.blockedContent,"
-								+ "c.isInner,c.state, c.hasVideo,c.hits,"
-								+ "c.createdBy,c.lastUpdatedBy,c.creationDate,"
-								+ "c.lastUpdateDate,'',c.recommanded,"
-								+ "c.classic) from Course c where c.hasVideo = 1 and c.state=1 and 1=1 ");
+						" from Course c where c.hasVideo = 1 and c.state=1 and 1=1 ");
 				if (type != null && !"".equals(type))
 					hql.append(" and c.category = '" + type + "'");
 				if (ifInner != null) {// 区分内训和培训
