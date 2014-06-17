@@ -98,6 +98,47 @@ public class Course extends BaseEntity implements Serializable {
 		this.planflag = planflag;
 		this.goldenPic = goldenPic;
 	}
+	
+	/**
+	 * 前台显示view class 的 Constructor
+	 * @param courseId
+	 * @param title
+	 * @param isInner
+	 * @param teacherId
+	 * @param teacherName
+	 * @param category
+	 * @param categoryName
+	 * @param lastUpdateDate
+	 * @param createdBy
+	 * @param lastUpdatedBy
+	 * @param state
+	 * @param hits
+	 * @param price
+	 * @param recommanded
+	 * @param classic
+	 */
+	public Course(Integer courseId, String title, Boolean isInner,
+			String teacherId, String teacherName, String category,
+			String categoryName, Date lastUpdateDate, String createdBy, String lastUpdatedBy, Boolean state, Integer hits,
+			Double price, Boolean recommanded, Boolean classic) {
+		super();
+		this.courseId = courseId;
+		this.title = title;
+		this.teacherId = teacherId;
+		this.isInner = isInner;
+		this.teacherName = teacherName;
+		this.category = category;
+		this.categoryName = categoryName;
+//		this.shortName = shortName;
+		this.lastUpdateDate = lastUpdateDate;
+		this.createdBy = createdBy;
+		this.lastUpdatedBy = lastUpdatedBy;
+		this.state = state;
+		this.hits = hits;
+		this.price = price;
+		this.recommanded = recommanded;
+		this.classic = classic;
+	}
 
 	public Course(Integer courseId, String title, Double price,
 			String teacherId, String teacherName, String category,
