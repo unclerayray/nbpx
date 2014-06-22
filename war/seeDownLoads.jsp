@@ -27,9 +27,9 @@
 				var valueStr = "";
 				$.each(jsonObject.rows,function(n,value){
 					if(n<3)
-						valueStr +="<li class='line'><a><span class='red'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+" </span><span class='count'>"+value.downloadCnt+"</span></a><div class='clear'></div></li>";
+						valueStr +="<li class='line'><a href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'><span class='red'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+" </span><span class='count'>"+value.downloadCnt+"</span></a><div class='clear'></div></li>";
 					else
-						valueStr +="<li class='line'><a><span class='blue'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+"</span><span class='count'>"+value.downloadCnt+"</span></a><div class='clear'></div></li>";
+						valueStr +="<li class='line'><a href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'><span class='blue'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+"</span><span class='count'>"+value.downloadCnt+"</span></a><div class='clear'></div></li>";
 				});
 				if(valueStr == ""){
 					valueStr = "<div class='notice'>没有下载记录</div>";
@@ -51,7 +51,7 @@
 				var rows = jsonObject.rows;
 	
 				$.each(rows,function(n,value){
-					valueStr += "<li style='border-bottom:1px dashed #ccc;width:95%'>"+value.title+"<span><a href='#'>下载</a></span></li>";
+					valueStr += "<li style='border-bottom:1px dashed #ccc;width:95%'>"+value.title+"<span><a href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'>下载</a></span></li>";
 				});
 
 				if(valueStr == ""){

@@ -49,7 +49,7 @@
 			<li><a href="#">积分问答</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=009" class="red">专业培训</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=008" class="red">行业培训</a><span>|</span></li>
-			<li><a href="#">企业培训师</a></li>
+			<li><a href="teacherPX.jsp">企业培训师</a></li>
 			
 			
 			
@@ -63,7 +63,7 @@
 			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
 			<li><a href="allArticles.jsp">企业文库</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=020">题目词典</a><span>|</span></li>
-			<li><a href="#">企业内训师</a></li>
+			<li><a href="teacherNX.jsp">企业内训师</a></li>
 			
 			<li><a href="#">培训需求</a><span>|</span></li>
 			<li><a href="#">培训动态</a><span>|</span></li>

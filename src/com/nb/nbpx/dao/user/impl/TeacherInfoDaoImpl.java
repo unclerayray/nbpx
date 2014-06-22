@@ -2,6 +2,7 @@ package com.nb.nbpx.dao.user.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -18,7 +19,66 @@ import com.nb.nbpx.pojo.user.User;
 @Component("TeacherInfoDao")
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  implements ITeacherInfoDao{
+	
+	public Long getTeacherListRows(final Boolean isInner,final String state,final Integer rows,final Integer start){
+		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				List list = new ArrayList<User>();
+				int i = 0;
+//				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.user.userId as userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
+				String hql = "select  count(u) from TeacherInfo u where 1 = 1";
+				if (isInner != null) {
+					if(isInner)
+						hql += " and u.isInner ='1' ";
+					else
+						hql += " and u.isInner ='0' ";
+				}
+				if(state != null)
+					hql +=" and u.state = '"+state+"'";
+				
+				hql += "order by u.createDate desc";
+				org.hibernate.Query query = session.createQuery(hql);
 
+				list = query.list();
+				return list;
+			}
+		});
+		return (Long) list.get(0);
+	}
+	
+	//获取培训或者内训讲师
+	public List<TeacherInfo> getTeacherList(final Boolean isInner,final String state,final Integer rows,final Integer start){
+		List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				List list = new ArrayList<User>();
+				int i = 0;
+//				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.user.userId as userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
+				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId, u.realName,u.birthday, u.majorCatgory, u.externalPayment,u.internalPayment,u.fax, u.telephone,u.cellphone, u.introduction, u.expertIn, u.state, u.createDate, u.createBy,u.isInner,u.photo) from TeacherInfo u where 1 = 1";
+				if (isInner != null) {
+					if(isInner)
+						hql += " and u.isInner ='1' ";
+					else
+						hql += " and u.isInner ='0' ";
+				}
+				if(state != null)
+					hql +=" and u.state = '"+state+"'";
+				
+				hql += "order by u.createDate desc";
+				org.hibernate.Query query = session.createQuery(hql);
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				list = query.list();
+				return list;
+			}
+		});
+		return list;
+		
+	}
+	
 	@Override
 	public List<TeacherInfo> getTeacherInforByUserId(final Integer userId) {
 		List list = getHibernateTemplate().executeFind(new HibernateCallback() {

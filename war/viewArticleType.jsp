@@ -58,6 +58,7 @@
 		$.ajax({
 			url:encodeURI(urlStr),
 			success: function(data){
+				//alert(data);
 				var jsonObject = eval('('+data+')');
 				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li><li><a href='allArticles.jsp'>企业文库</a></li><li class='bread'>&gt;&gt;</li>";
 				path += "<li>"+jsonObject.showName+"文章</li>";

@@ -128,4 +128,8 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	 */
 	public List<CourseReport> queryCoursePlan(String category, int year, int month, Boolean isInner, String city);
 
+	//获取讲师的培训或者内训课程，按照创建日期排序
+	public List<Course> getCourseByTeacher(Boolean isInner,String teacherID,Integer start,Integer rows);
+	public Long getCourseByTeacherRowsCount(Boolean isInner,String teacherID,Integer start,Integer rows);
+	public String getNoHtmlStr(String htmlStr);
 }

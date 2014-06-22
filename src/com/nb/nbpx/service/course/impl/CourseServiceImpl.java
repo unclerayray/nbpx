@@ -174,7 +174,27 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 		return JsonUtil.getJsonString(result);
 	}
+	//根据讲师ID获取讲师的课程
+	public String queryCourseByTeacher(Boolean isInner,String teacherId,Integer rows,Integer start){
+		List<Course> courses = courseDao.getCourseByTeacher(isInner, teacherId, start, rows);
+		Map<String,Object> returnValue = new HashMap<String,Object>();
+		if(!courses.isEmpty()){
+			List<Map<String, Object>> result = getCourseDetailList(courses);
+			Long rowsCount = courseDao.getCourseByTeacherRowsCount(isInner, teacherId, start, rows);
 
+			int allPages = 0;
+			if (rowsCount % rows == 0)
+				allPages = (int) (rowsCount / rows);
+			else
+				allPages = (int) (rowsCount / rows) + 1;
+			returnValue.put("pages", allPages);
+			returnValue.put("rows", result);
+
+			return JsonUtil.getJsonString(returnValue);
+		}else
+			return "";
+	}
+	
 	// 分页获取地点下的课程（可以按照月份）
 	public String queryCourseByCity(String cityName, String year, String month,
 			String orderFlag, Integer rows, Integer start) {
@@ -1133,10 +1153,10 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 					.getCourseId());
 			if (currCourseWithCount.getContent() != null) {
 				if (currCourseWithCount.getContent().length() <= 200)
-					row.put("content", currCourseWithCount.getContent());
+					row.put("content", courseDao.getNoHtmlStr(currCourseWithCount.getContent()));
 				else
-					row.put("content", currCourseWithCount.getContent()
-							.substring(0, 100));
+					row.put("content", courseDao.getNoHtmlStr(currCourseWithCount.getContent()
+							.substring(0, 100)));
 			} else
 				row.put("content", "暂无课程内容介绍");
 
@@ -1167,8 +1187,8 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			}
 
 			SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
-			row.put("startDate", dateFormate.format(startDate));
-			row.put("endDate", dateFormate.format(endDate));
+			row.put("startDate", startDate == null ?"未知时间":dateFormate.format(startDate));
+			row.put("endDate", endDate == null ? "未知时间":dateFormate.format(endDate));
 			if (cityCount >= 3)
 				cityStr = "全国";
 			row.put("city", cityStr);

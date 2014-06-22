@@ -16,6 +16,9 @@ import com.nb.nbpx.utils.NbpxException;
  * 
  */
 public interface ICourseService extends IBaseService {
+	//根据讲师ID获取讲师的培训或者内训的课程
+	public String queryCourseByTeacher(Boolean isInner,String teacherId,Integer rows,Integer start);
+	
 	public String queryCourses(String category, Integer courseId, String title, String teachName,Boolean p_outside, Integer rows,
 			Integer start, String sort, String order, Boolean isInner);
 
