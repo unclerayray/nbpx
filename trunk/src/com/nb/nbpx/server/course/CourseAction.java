@@ -366,50 +366,6 @@ public class CourseAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	/**
-	 * 根据条件报表<br />
-	 * 使用Jxls导出，模板放于XLSTemplate文件夹下
-	 */
-	public String exportAttendance() {
-		int year = 2013;
-		int month = 12;
-		String cate = "财务管理";
-		OutputStream output = null; // 响应报文输出流
-		FileInputStream input = null; // 文件输入流
-		try {
-			StringBuilder src = new StringBuilder();
-			HttpServletResponse response = null; // 响应报文
-			String templateSrc = null; // 模板路径
-
-			templateSrc = ServletActionContext.getServletContext().getRealPath(
-					"/XLSTemplate");
-			src.append(templateSrc);
-			src.append("/template-attendance.xls");
-			response = setResponseInfo("application/x-download;charset=utf-8",
-					+year + "年" + month + "月份" + cate + "培训计划.xls");
-			output = response.getOutputStream();
-			input = new FileInputStream(src.toString());
-			courseService.exportExcel(cate, year, month, input, output);
-			output.flush();
-		} catch (Exception e) {
-			log.info("系统发生异常：", e);
-			e.printStackTrace();
-		} finally {
-			try {
-				if (null != input) {
-					input.close();
-				}
-
-				if (null != output) {
-					output.close();
-				}
-			} catch (IOException e) {
-				log.error("导出工资excel报表IOException:", e);
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * @param dataImportor

@@ -99,7 +99,7 @@
 				var keyWordsStr = "<span>关键词：</span>";
 				for(var i=0;i<keyWords.length;i++){
 					keyWordsStr += "<a href='xx.jsp?id="+keyWords[i].id+"'>"+keyWords[i].name+"</a>";
-					queryKeyWords += keyWords[i].name;
+					queryKeyWords += keyWords[i].name+'';
 					if(i<keyWords.length-1)
 						keyWordsStr += ",";
 				}
@@ -112,12 +112,12 @@
 				var seriesStr = "<span>专题：</span>";
 				for(var i=0;i<series.length;i++){
 					seriesStr += "<a href='xx.jsp?id="+series[i].id+"'>"+series[i].name+"</a>";
-					querySubjects += series[i].name;
+					querySubjects += series[i].name+'';
 					if(i<series.length-1)
 						seriesStr += ",";
 				}
-				loadRelatedSubjects(querySubjects+"<br>");
-				$('#series').html(seriesStr);
+				loadRelatedSubjects(querySubjects);
+				$('#series').html(seriesStr+"<br>");
 
 				
 			}
@@ -126,7 +126,7 @@
 	
 	function loadRelatedKeyWords(condition){
 		$.ajax({
-			url:encodeURI("struts/ViewClass_getRelatedKeyWords?condition="+condition),
+			url:encodeURI('struts/ViewClass_getRelatedKeyWords?condition='+condition),
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -140,7 +140,7 @@
 	
 	function loadRelatedSubjects(condition){
 		$.ajax({
-			url:encodeURI("struts/ViewClass_getRelatedSubjects?condition="+condition),
+			url:encodeURI('struts/ViewClass_getRelatedSubjects?condition='+condition),
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";

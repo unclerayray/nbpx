@@ -17,6 +17,8 @@ import javax.annotation.Resource;
 import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.common.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.jsoup.helper.StringUtil;
@@ -58,6 +60,8 @@ import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
+import com.nb.nbpx.utils.SolrUtil;
+import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 
 @Component("CourseService")
 @SuppressWarnings("rawtypes")
@@ -1174,12 +1178,13 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Override
-	public void exportExcel(String category, int year, int month,
+	public void exportExcel(String category, int year, int month, String city, boolean isInner,
 			InputStream input, OutputStream output) throws Exception {
 		List<String> sheetNames = new ArrayList<String>();
-		sheetNames.add(category);
+		sheetNames.add(NbpxDicMap.getCourseTypeMap().get(category).toString());
 		List<ReportDTO> records = new ArrayList<ReportDTO>();
 		List<CourseReport> reports = new ArrayList<CourseReport>();
+		/*
 		CourseReport report = new CourseReport(11111, "测试的课程1", 12000.0, "雷理超",
 				new Date(), new Date(), "广州");
 		CourseReport report1 = new CourseReport(11111, "测试的课程1", 12000.0,
@@ -1203,13 +1208,28 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		reports.add(report4);
 		reports.add(report5);
 		reports.add(report6);
-		reports.add(report7);
-		ReportDTO dto = new ReportDTO(year, month, category, reports);
+		reports.add(report7);*/
+
+		String prefix = SolrUtil.getHypeLinkPrefix();
+		reports = courseDao.queryCoursePlan(category,year,month,isInner,city);
+		ReportDTO dto = new ReportDTO(year, month, NbpxDicMap.getCourseTypeMap().get(category).toString(), reports,prefix);
 		records.add(dto);
+		
+
 		XLSTransformer transformer = new XLSTransformer();
 		Workbook resultWorkbook = transformer.transformMultipleSheetsList(
 				input, records, sheetNames, "records",
 				new HashMap<String, Object>(), 0);
+		Sheet firstSheet = resultWorkbook.getSheetAt(0);
+		org.apache.poi.ss.usermodel.CreationHelper createHelper = resultWorkbook.getCreationHelper();  
+		for(int i=0;i<reports.size();i++){
+			org.apache.poi.ss.usermodel.Row row = firstSheet.getRow(i+2);
+			org.apache.poi.ss.usermodel.Cell cell = row.getCell(2);//课程标题永远在第二行
+			org.apache.poi.ss.usermodel.Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_URL);
+			link.setLabel(reports.get(i).getTitle());
+			link.setAddress(prefix+reports.get(i).getCourseId());
+			cell.setHyperlink(link);
+		}
 		resultWorkbook.write(output);
 	}
 
