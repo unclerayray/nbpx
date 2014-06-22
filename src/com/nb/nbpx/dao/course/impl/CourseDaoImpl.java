@@ -1,5 +1,6 @@
 package com.nb.nbpx.dao.course.impl;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,11 +23,13 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.dao.course.ICourseDao;
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
+import com.nb.nbpx.dto.course.CourseReport;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.solr.impl.SolrCourseServiceImpl;
+import com.nb.nbpx.utils.SolrUtil;
 
 @Component("courseDao")
 @SuppressWarnings({ "unchecked", "rawtypes", "unused" })
@@ -700,6 +703,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				course.getLastUpdatedBy(), course.getLastUpdateDate(),
 				course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
+		//TODO 新加的几个attribute需要更新
 		return null;
 	}
 	
@@ -1259,6 +1263,65 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 			}
 		});
 		return (Long) list.get(0);
+	}
+
+	@Override
+	public List<CourseReport> queryCoursePlan(final String category,final  int year,
+			final int month, final Boolean isInner, final String city) {
+		List<CourseReport> list = new ArrayList<CourseReport>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.dto.course.CourseReport"
+								+ " (info.courseId"
+								+ " ,cou.title"
+								+ " ,cou.price"
+								+ " ,teacher.realName"
+								+ " ,DATE_FORMAT(info.startDate, '%Y-%m-%d')"
+								+ " ,DATE_FORMAT(info.endDate, '%Y-%m-%d'),"
+								+ "	 dic.showName) "
+								+ "  from CourseInfo info,"
+								+ "  Course cou,"
+								+ "  Dictionary dic,"
+								+ "  TeacherInfo teacher"
+								+ "  where 1 = 1 "
+								+ "  and info.courseId = cou.courseId"
+								+ "  and cou.planflag = true"
+								+ "  and cou.teacherId = teacher.teacherId"
+								+ "  and info.city = dic.codeName");
+				if (category != null && !category.isEmpty()) {
+					hql.append(" and cou.category = ? ");
+				}
+				
+				hql.append(" and cou.isInner = ? ");
+				if (city != null && !city.isEmpty()) {
+					hql.append(" and info.city = ? ");
+				}
+				
+				hql.append(" and year(info.startDate) = ? ");
+				hql.append(" and month(info.startDate) = ? ");
+
+				Query query = session.createQuery(hql.toString());
+
+				if (category != null && !category.isEmpty()) {
+					query.setString(i++, category);
+				}
+				query.setBoolean(i++, isInner);
+				if (city != null && !city.isEmpty()) {
+					query.setString(i++, city);
+				}
+				query.setInteger(i++, year);
+				query.setInteger(i++, month);
+
+
+				return query.list();
+			}
+		});
+		return list;
 	}
 
 

@@ -45,7 +45,7 @@ public interface ICourseService extends IBaseService {
 	 * 
 	 * @return
 	 */
-	public void exportExcel(String category, int year, int month,
+	public void exportExcel(String category, int year, int month, String city, boolean isInner,
 			InputStream input, OutputStream output) throws Exception;
 
 	/**

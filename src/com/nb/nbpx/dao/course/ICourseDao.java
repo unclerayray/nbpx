@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
+import com.nb.nbpx.dto.course.CourseReport;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
 import com.nb.nbpx.pojo.system.Dictionary;
@@ -115,5 +116,16 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 			final Integer rows,final Integer price);
 	//根据课程类别获取课程列表，按照开课日期倒叙
 	public List<Course> getCourseType(Boolean isInner,String type,Integer start,Integer rows);
+	
+	/**
+	 * 查找培训或内训计划
+	 * @param category 类型字典代码
+	 * @param year
+	 * @param month
+	 * @param isInner
+	 * @param city 城市字典代码
+	 * @return
+	 */
+	public List<CourseReport> queryCoursePlan(String category, int year, int month, Boolean isInner, String city);
 
 }

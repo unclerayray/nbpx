@@ -236,6 +236,22 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获取课程链接的前缀
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getHypeLinkPrefix() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			logger.debug("exception");
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		return prop.getProperty("course.hypeLink.prefix");
+	}
+	
+	/**
 	 * 过滤solr query 非法字符串的方法
 	 * @param s
 	 * @return

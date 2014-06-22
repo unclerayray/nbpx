@@ -1,7 +1,6 @@
 package com.nb.nbpx.dto.course;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 课程报表导出dto，
@@ -17,8 +16,8 @@ public class CourseReport  implements Serializable {
 	public String title;
 	public Double price;
 	public String teacher;
-	public Date startDate;
-	public Date endDate;
+	public String startDate;
+	public String endDate;
 	public String city;
 	public Integer getCourseId() {
 		return courseId;
@@ -44,16 +43,16 @@ public class CourseReport  implements Serializable {
 	public void setTeacher(String teacher) {
 		this.teacher = teacher;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	public String getCity() {
@@ -64,7 +63,7 @@ public class CourseReport  implements Serializable {
 	}
 	
 	public CourseReport(Integer courseId, String title, Double price,
-			String teacher, Date startDate, Date endDate, String city) {
+			String teacher, String startDate, String endDate, String city) {
 		super();
 		this.courseId = courseId;
 		this.title = title;

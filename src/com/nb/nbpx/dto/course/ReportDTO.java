@@ -11,17 +11,19 @@ public class ReportDTO {
 	public Integer year;
 	public Integer month;
 	public String category;
+	public String prefix;
 	public List<CourseReport> courseList;
 	
 	
 	
 	public ReportDTO(Integer year, Integer month, String category,
-			List<CourseReport> courseList) {
+			List<CourseReport> courseList,String prefix) {
 		super();
 		this.year = year;
 		this.month = month;
 		this.category = category;
 		this.courseList = courseList;
+		this.prefix = prefix;
 	}
 	
 	
@@ -48,6 +50,16 @@ public class ReportDTO {
 	}
 	public void setCourseList(List<CourseReport> courseList) {
 		this.courseList = courseList;
+	}
+
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 	
 }

@@ -48,7 +48,7 @@
 										+"<td>"+row.city+"</td>"
 										+"<td>"+row.teacherName+"</td>"
 										+"<td>"+row.price+"</td>"
-										+"<td><a href='javascript:void(0);' onclick='javascript:alert(1);'>课纲下载</a></td>"
+										+"<td><a href='struts/TrainPlan_exportKegang'>课纲下载</a></td>"
 									    +"</tr>";
 					});
 					valueStr += monthValueStr +"</table><div class='clear' style='height:10px;'></div></div></div>";
@@ -93,6 +93,14 @@
 				$('#relatedSubjects2').html(valueStr2);
 			}
 		})
+	}
+	
+	function exportExcel(){
+		$.ajax({
+			url:"struts/TrainPlan_exportCoursePlan?isInner=false&month=6&year=2014&cate=003_01",
+			success:function(data){
+			}
+		});
 	}
 </script>
 <body>
@@ -152,6 +160,8 @@
 					</div>
 				</div>
 			</div>
+			<!-- 测试函数 -->
+			<a href='struts/TrainPlan_exportCoursePlan?isInner=false&month=6&year=2014&cate=003_01'>导出培训计划</a>
 			<div class="clear"></div>
 		</div>
 		<div class="clear" style="height:10px"></div>
