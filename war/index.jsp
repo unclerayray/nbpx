@@ -620,7 +620,7 @@
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject.rows,function(n,value){
-						valueStr += "<li><a href='struts/Download_downLoadFile?id="+value.downloadId+"'>"+value.title+"</a></li>";
+						valueStr += "<li><a href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'>"+value.title+"</a></li>";
 					});
 					$('#'+pre+part).html(valueStr);
 				}
