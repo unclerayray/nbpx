@@ -80,8 +80,9 @@ public class DownloadAction extends BaseAction {
 	        int len = 0;
 
 	        response.reset(); // 非常重要
-	        response.setContentType("application/x-msdownload");
-	        response.setHeader("Content-Disposition", "attachment; filename=" + f.getName());
+//	        response.setContentType("application/x-msdownload");
+//	        response.setHeader("Content-Disposition", "attachment; filename=" + f.getName());
+	        response = setResponseInfo("application/x-download;charset=utf-8",f.getName());
 
 	        while ((len = br.read(buf)) > 0)
 	            out.write(buf, 0, len);
