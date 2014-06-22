@@ -6,6 +6,7 @@ String username = (String)session.getAttribute( "userName" );
 if(username==null||username==""){
 	response.sendRedirect("login.jsp");
 }
+String xxx = (String)session.getAttribute( "xxx" );
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -16,9 +17,61 @@ if(username==null||username==""){
 	<script type="text/javascript" src="../js/easyui/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript">
-	$(function(){
-		
-	});
+	var firstLogin = true;
+	var poped = false;
+	var myVar=setInterval(function(){popUpRelogin();}, 1000*60*45);
+	var xx ="<%=xxx%>";
+	//setVisible();
+	function popUpRelogin(){
+		//console.log(xx);
+		if(!firstLogin&&!poped){
+			$('#relogin-dlg').dialog('open').dialog('setTitle', 'session过期，请重新登录。');
+			//$("#relogin-dlg").dialog("widget").find(".panel-tool-close").hide();
+			//$('.panel window.panel-header.panel-tool.panel-tool-close').css( "display", "none" );
+			$('#relogin-dlg').parent().find('.panel-tool-close').hide();
+		}
+		firstLogin = false;
+	}
+	function setVisible(){
+		if(firstLogin&&xx=="xxx"){
+			$('.not-visible-to-normal-admin').hide();
+			//var node = $('#menue-tree').find('.not-visible-to-normal-admin');
+			//$('#menue-tree').tree('hide',node.target);
+			var cls = $('#menue-tree').parent().find('.not-visible-to-normal-admin');
+			console.log($('#menue-tree').parent().find('.not-visible-to-normal-admin'))
+		}else{
+			$('#menue-tree').parent().find('.not-visible-to-normal-admin').show();
+		}
+	}
+	function relogin(){
+		$('#relogin-fm').form('submit', {
+			url : '../struts/Admin_relogin',
+			onSubmit : function() {
+				return $('#relogin-fm').form('validate');
+			},
+			success : function(data) {
+				var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+				if (data.success) {
+					$.messager.show({
+						title : 'Success',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+					$('#relogin-fm').form('clear');
+					$('#relogin-dlg').dialog('close');
+					setVisible();
+				}else {
+					$.messager.show({
+						title : 'Error',
+						msg : data.message,
+						timeout : 3000,
+						showType : 'fade'
+					});
+				}
+			}
+		});
+	}
 	function addTab(menuID,src){ 
 		if("<%=username%>"==""){
 			$.messager.confirm(
@@ -67,7 +120,7 @@ if(username==null||username==""){
 		$('#pwd-dlg').dialog('open').dialog('setTitle', '修改密码');
 	}
 	function closeDlg(){
-		alert('sdfsdf');
+		//alert('sdfsdf');
 		$('pwd-dlg').dialog('close');
 	}
 	
@@ -143,14 +196,14 @@ if(username==null||username==""){
 	</style>
 </head>
 
-<body class="easyui-layout" style="min-width:1000px;overflow:auto">
+<body class="easyui-layout" style="min-width:1000px;overflow:auto"  onload="setVisible()">>
 	<div region="north" style="height:60px;line-height:60px;border:none;overflow:hidden;font-weight:normal;font-size:16px;background:url(../images/adminLogoBg.jpg) repeat-x">
 		<img src="../images/adminLogo.jpg" style='float:left'></img>
 		<div class="userInfor"><ul><li><span>当前用户:<%=username%></span></li><li><a href="javascript:changeProfile()">修改密码</a></li><li><a href="javascript:logout()">退出登录</a></li></ul></div>
 	</div>
 
 	<div region="west" split="true" style="width:220px;overflow:hidden" title="功能菜单">
-			<ul class="easyui-tree">
+			<ul id="menue-tree" class="easyui-tree">
 				<li iconCls="icon-base"><span>系统管理</span>
 					<ul>
 						<li iconCls="icon-gears">
@@ -210,7 +263,7 @@ if(username==null||username==""){
 					</ul>
 				</li>
 				
-				<li iconCls="icon-base"><span>资料管理</span>
+				<li iconCls="icon-base" class="not-visible-to-normal-admin"><span>资料管理</span>
 					<ul>
 						<li iconCls="icon-gears">
 							<a href="javascript:void(0)" onclick="javascript:addTab('外部注册讲师资料管理','outTeacherList')">外部注册讲师资料管理</a>
@@ -226,7 +279,6 @@ if(username==null||username==""){
 						</li>
 					</ul>
 				</li>
-				
 				<li iconCls="icon-base"><span>系统设置</span>
 					<ul>
 						<li iconCls="icon-gears">
@@ -297,6 +349,43 @@ if(username==null||username==""){
 					<td>
 						<input id="cfpwd" name="cfpwd" data-options="required:true,missingMessage:'不能为空'"  class="easyui-validatebox" type="password"/>
 					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+	<div id="relogin-dlg" class="easyui-dialog"
+	style="width: 250px; height: 150px; padding: 5px 5px" closed="true"
+	modal="true"  data-options="buttons: [{
+											text:'重新登录',
+											iconCls:'icon-ok',
+											handler:function(){
+											relogin(); } 
+										}],
+								closeOnEscape: false,
+								open: function(event, ui) { 
+									$('.ui-dialog-titlebar-close', ui.dialog || ui).hide();
+									alert('hahahahahdifdif');
+									}
+								">
+		<form id="relogin-fm" method="post">
+			<table cellspacing="0" cellpadding="0" class="formTable">
+				<tr>
+					<td class="itemText"><label>用户名:</label></td>
+					<td colspan="2">
+						<input id="username" name="username" data-options="required:true,missingMessage:'必填'"  class="easyui-validatebox" type="text"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="itemText"><label>密码:</label></td>
+					<td colspan="2">
+						<input id="relogin-pwd" name="pwd" data-options="required:true,missingMessage:'必填'"  class="easyui-validatebox" type="password"/>
+					</td>
+				</tr>
+				<tr>
+					<td>验证码:</td>
+					<td><input name="txtVerifyCode"  class="easyui-validatebox"  data-options="required:true,missingMessage:'必填'" id="txtVerifyCode"  style="width: 83px;" ></td>
+					<td><img id="image" border="0"  onclick="refresh()" src="image.jsp" title="点击更换图片"></td>
 				</tr>
 			</table>
 		</form>
