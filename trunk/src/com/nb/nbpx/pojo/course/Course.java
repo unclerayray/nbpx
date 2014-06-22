@@ -325,7 +325,35 @@ public class Course extends BaseEntity implements Serializable {
 		this.classic = classic;
 		this.planflag = planflag;
 	}
-
+ 
+	public Course(Integer courseId, String title, Double price,
+			String teacherId, String teacherName, String category,
+			String content, String blockedContent, Boolean isInner,
+			Boolean state, Boolean hasVideo, Integer hits, String createdBy,
+			String lastUpdatedBy, Date creationDate, Date lastUpdateDate,
+			String categoryName, Boolean recommanded, Boolean classic){
+		super();
+		this.courseId = courseId;
+		this.title = title;
+		this.price = price;
+		this.teacherId = teacherId;
+		this.teacherName = teacherName;
+		this.category = category;
+		this.content = content;
+		this.blockedContent = blockedContent;
+		this.isInner = isInner;
+		this.state = state;
+		this.hasVideo = hasVideo;
+		this.hits = hits;
+		this.createdBy = createdBy;
+		this.lastUpdatedBy = lastUpdatedBy;
+		this.creationDate = creationDate;
+		this.lastUpdateDate = lastUpdateDate;
+		this.categoryName = categoryName;
+		this.recommanded = recommanded;
+		this.classic = classic;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "courseId", unique = true, nullable = false)

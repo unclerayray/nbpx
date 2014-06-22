@@ -10,4 +10,7 @@ public interface ITeacherInfoService extends IBaseService{
 
 	public String queryTeacherInfo(String userName,String teacherName,Boolean inner,Integer rows,
 			Integer start, String sort, String order);
+	
+	public String getTeacherInfo(Boolean isInner,String state,Integer rows,Integer start);
+	
 }

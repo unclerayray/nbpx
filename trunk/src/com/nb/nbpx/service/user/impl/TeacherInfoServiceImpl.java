@@ -19,6 +19,21 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 	private ITeacherInfoDao teacherInfoDao;
 
 	@Override
+	public String getTeacherInfo(Boolean isInner,String state,Integer rows,Integer start){
+		List<TeacherInfo> teacherInfoList = teacherInfoDao.getTeacherList(isInner, state, rows, start);
+		String json = "";
+		if (teacherInfoList.isEmpty()) {
+			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+					ResponseStatus.SUCCESS, "", teacherInfoList);
+		} else {
+			int count = teacherInfoDao.getTeacherListRows(isInner, state, rows, start).intValue();
+			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+					ResponseStatus.SUCCESS, "", teacherInfoList);
+		}
+		return json;
+	}
+	
+	@Override
 	public String getTeacherInfoByUserId(Integer userID) {
 		List<TeacherInfo> teacherInfoList = teacherInfoDao.getTeacherInforByUserId(userID);
 		String json = "";

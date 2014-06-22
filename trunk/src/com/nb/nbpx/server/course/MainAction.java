@@ -10,6 +10,7 @@ import com.nb.nbpx.service.article.IArticleService;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.subject.ISubjectService;
+import com.nb.nbpx.service.user.ITeacherInfoService;
 import com.nb.nbpx.service.zixun.IDownloadService;
 
 @Component("MainAction")
@@ -21,6 +22,9 @@ public class MainAction extends BaseAction{
 	private ISubjectService subjectService;
 	private IArticleService articleService;
 	private IDownloadService downloadService;
+	private ITeacherInfoService teacherService;
+
+
 
 	public String flag;//标记top Course的三种属性(1-推荐，2-精品，3-排行)||关键词(1-点击，2-推荐，3-热搜)
 	public String isInner;//标记是内训还是培训
@@ -117,6 +121,16 @@ public class MainAction extends BaseAction{
 		String result = keywordService.getKeyWordsList(ifInner, Integer.parseInt(flag),null, start, rows);
 		
 		this.inputStream = castToInputStream(result);
+		return SUCCESS;
+	}
+	//
+	public String getTeachers(){
+		String json = "";
+		if("1".equals(flag))
+			json = teacherService.getTeacherInfo(false, "1", 7, this.getStartPosi());
+		else
+			json = teacherService.getTeacherInfo(true, "1", 7, this.getStartPosi());
+		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
 	
@@ -216,6 +230,13 @@ public class MainAction extends BaseAction{
 	@Resource
 	public void setCourseService(ICourseService courseService) {
 		this.courseService = courseService;
+	}
+	public ITeacherInfoService getTeacherService() {
+		return teacherService;
+	}
+	@Resource
+	public void setTeacherService(ITeacherInfoService teacherService) {
+		this.teacherService = teacherService;
 	}
 	public String getType() {
 		return type;

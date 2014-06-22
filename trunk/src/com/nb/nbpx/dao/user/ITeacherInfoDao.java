@@ -6,6 +6,9 @@ import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 
 public interface ITeacherInfoDao extends IBaseDao<TeacherInfo, Integer>{
+	public Long getTeacherListRows(Boolean isInner,String state,Integer rows,Integer start);
+	//获取培训或者内训讲师
+	public List<TeacherInfo> getTeacherList(Boolean isInner,String state,Integer rows,Integer start);
 	public List<TeacherInfo> getTeacherInforByUserId(Integer userId);
 	public Boolean saveTeacherInfor(TeacherInfo teacherInfor);
 	public TeacherInfo getTeacherInfoById(Integer teacherId);

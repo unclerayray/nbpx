@@ -32,6 +32,9 @@ public class TeacherInfo implements Serializable{
 	private String cellphone;
 	private String introduction;
 	private String expertIn;
+	private String isInner;
+	private String photo;
+	
 	/**
 	 * 表示是否已注册
 	 */
@@ -68,6 +71,19 @@ public class TeacherInfo implements Serializable{
 	public void setRealName(String realName) {
 		this.realName = realName;
 	}
+	public String getIsInner() {
+		return isInner;
+	}
+	public void setIsInner(String isInner) {
+		this.isInner = isInner;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 	public Date getBirthday() {
 		return birthday;
 	}
@@ -224,7 +240,29 @@ public class TeacherInfo implements Serializable{
 		this.createBy = createBy;
 	}
 	
-	
+	public TeacherInfo(Integer teacherId, String realName,
+			Date birthday, String majorCatgory, Double externalPayment,
+			Double internalPayment, String fax, String telephone,
+			String cellphone, String introduction, String expertIn,
+			Boolean state, Date createDate, String createBy,String isInner,String photo) {
+		super();
+		this.teacherId = teacherId;
+		this.realName = realName;
+		this.birthday = birthday;
+		this.majorCatgory = majorCatgory;
+		this.externalPayment = externalPayment;
+		this.internalPayment = internalPayment;
+		this.fax = fax;
+		this.telephone = telephone;
+		this.cellphone = cellphone;
+		this.introduction = introduction;
+		this.expertIn = expertIn;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
+		this.isInner = isInner;
+		this.photo = photo;
+	}
 	
 	
 }

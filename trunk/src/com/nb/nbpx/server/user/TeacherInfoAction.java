@@ -9,6 +9,7 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.user.ITeacherInfoDao;
 import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrTeacherService;
 import com.nb.nbpx.service.user.ITeacherInfoService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -23,10 +24,44 @@ public class TeacherInfoAction extends BaseAction{
 	public String q_teacherName;
 	public Integer teacherInfoId;
 	public Boolean q_inner;
+	public String teacherID;
+	public String type;
 	
 	private ITeacherInfoService teacherInfoService;
 	private ITeacherInfoDao teacherInfoDao;
 	private ISolrTeacherService solrTeacherService;
+	private ICourseService courseService;
+	
+
+
+	//获取培训讲师列表
+	public String getPXTeacherList(){
+		String json = "";
+		json = teacherInfoService.getTeacherInfo(false, "1", rows, getStartPosi());
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	//获取内训讲师列表
+	public String getNXTeacherList(){
+		String json = "";
+		json = teacherInfoService.getTeacherInfo(true, "1", rows, getStartPosi());
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	public String getCourseByTeacher(){
+		Boolean isInner = false;
+		if("2".equals(type))
+			isInner = true;
+		String json = courseService.queryCourseByTeacher(isInner, teacherID, rows, getStartPosi());
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 	
 	public String getTeacherInforByUserId(){
 		String json = "";
@@ -115,10 +150,24 @@ public class TeacherInfoAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	public TeacherInfo getTeacherInfor() {
 		return teacherInfor;
 	}
+	public String getTeacherID() {
+		return teacherID;
+	}
 
+	public void setTeacherID(String teacherID) {
+		this.teacherID = teacherID;
+	}
 	public void setTeacherInfor(TeacherInfo teacherInfor) {
 		this.teacherInfor = teacherInfor;
 	}
@@ -190,7 +239,13 @@ public class TeacherInfoAction extends BaseAction{
 		this.solrTeacherService = solrTeacherService;
 	}
 
-
+	public ICourseService getCourseService() {
+		return courseService;
+	}
+	@Resource
+	public void setCourseService(ICourseService courseService) {
+		this.courseService = courseService;
+	}
 	
 	
 

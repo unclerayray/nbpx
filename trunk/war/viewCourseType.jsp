@@ -22,15 +22,16 @@
 		
 		loadCourses(0);
 		//加载热门文章
-		//loadHotArticle();
+		loadHotArticle();
 		//加载推荐文章
-		//loadRecommandArticle();
+		loadRecommandArticle();
 	});
 	
 	function loadCourses(page){
 		$.ajax({
 			url:"struts/Course_queryCourseType?category="+<%=category%>+"&isInner="+<%=isInner%>+"&page="+page+"&rows=10",
 			success:function(data){
+				alert(data);
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
 				var pages = jsonObject.pages;

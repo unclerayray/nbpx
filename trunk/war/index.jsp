@@ -196,6 +196,8 @@
 		seePartTab('tz',1,1);
 		//加载培训现场
 		seePartTab('xc',1,1);
+		//加载讲师
+		seePartTab('tc',1,1);
 		//加载顶部关键词
 		for(var i=1;i<=8;i++)
 			loadTopKey(i);
@@ -373,6 +375,11 @@
 			count = 4;
 		if(pre == 'c' || pre =='tz' || pre=='xc')
 			count = 2;
+		if(pre == 'tc'){
+			count = 2;
+			cssOn = "tabOn half";
+			cssOff = "tabOff half";
+		}
 		if(pre == 'dic')//产品字典等
 			count = 4;
 		if(pre == 'k'){//flag为1代表是培训关键词，2代表内训关键词，3代表文章关键词
@@ -538,6 +545,8 @@
 						else
 							valueStr += "<li class='line'><a href='#'><span class=\""+color+"\">"+(n+1)+"</span><span class='text tooLong w150'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
 					});
+					if(valueStr == "")
+						valueStr = "<div class='notice'>暂时没有专题信息</div>";
 					$('#'+pre+part).html(valueStr);
 				}
 			});
@@ -622,6 +631,25 @@
 					$.each(jsonObject.rows,function(n,value){
 						valueStr += "<li><a href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'>"+value.title+"</a></li>";
 					});
+					$('#'+pre+part).html(valueStr);
+				}
+			});
+		}
+		if(pre == 'tc'){
+			$.ajax({
+				url:"struts/Main_getTeachers?page=1&rows=5&flag="+flag,
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<div class='teacherListP'>"+
+									"<h5><a href='teacherClass.jsp?type="+flag+"&id="+value.teacherId+"'>"+value.realName+"</a></h5>"+
+									"<div class='listDesc'><span>擅长领域:</span><span class='tooLong' style='display:block;width:170px;float:right;'>"+(value.expertIn == undefined?"暂无介绍":value.expertIn)+"</span></div>"+
+									"</div>";
+					});
+					if(valueStr == "")
+						valueStr ="<div class='notice'>暂时没有讲师信息</div>";
 					$('#'+pre+part).html(valueStr);
 				}
 			});
@@ -1960,34 +1988,36 @@ padding-bottom: 2px;
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >企业培训师</div>
-					<div class="tabOff three">企业内训师</div>
-					<div class="tabOff three">名字热搜</div>
+					<!--  <div class="tabOn three" id="vd21"><a href='javascript:void(0)' onclick="javascript:seePartTab('vd',1,2)">视频推荐</a></div>
+					<div class="tabOff three" id="vd22"><a href='javascript:void(0)' onclick="javascript:seePartTab('vd',2,2)">热门视频</a></div>
+					<div class="tabOff three" id="vd23"><a href='javascript:void(0)' onclick="javascript:seePartTab('vd',3,2)">视频热搜</a></div>
+				-->
+					<div class="tabOn half" id="tc11" ><a href='javascript:void(0)' onclick="javascript:seePartTab('tc',1,1)">企业培训师</a></div>
+					<div class="tabOff half" id="tc12"><a href='javascript:void(0)' onclick="javascript:seePartTab('tc',2,1)">企业内训师</a></div>
 					<div class="clear"></div>
 				</div>
-				<div class="bg" style="padding:0px 0px 0px 15px;">
-					<div style="height:10px"></div>
-					<div class="teacherList">
+				<div class="bg" style="padding:10px 0px 0px 15px;" id="tc1">
+					<!--<div class="teacherListP">
 						<h5>余世维</h5>
 						<div class="listDesc"><span>擅长领域:</span>团队管理陈中老师 ——连锁、店面实战派...</div>
 					</div>
-										<div class="teacherList">
+										<div class="teacherListP">
 						<h5>余世维</h5>
 						<div class="listDesc"><span>擅长领域:</span>团队管理陈中老师 ——连锁、店面实战派...</div>
 					</div>
-										<div class="teacherList">
+										<div class="teacherListP">
 						<h5>余世维</h5>
 						<div class="listDesc"><span>擅长领域:</span>团队管理陈中老师 ——连锁、店面实战派...</div>
 					</div>
-										<div class="teacherList">
+										<div class="teacherListP">
 						<h5>余世维</h5>
 						<div class="listDesc"><span>擅长领域:</span>团队管理陈中老师 ——连锁、店面实战派...</div>
 					</div>
-										<div class="teacherList">
+										<div class="teacherListP">
 						<h5>余世维</h5>
 						<div class="listDesc"><span>擅长领域:</span>团队管理陈中老师 ——连锁、店面实战派...</div>
 					</div>
-					<div class="clear"></div>
+					<div class="clear"></div>  -->
 				</div>
 			</div>
 		
@@ -2233,7 +2263,7 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg h315" style="padding:0px 15px;">
 					<ul class="list5" style="padding-top:10px;width:230px;" id="jigou_dic">
-						<li><a class="left tooLong w230">深圳市鑫阳企业管理咨询有限公司鑫阳企业管理咨询有限公司</a></li>
+						<!--<li><a class="left tooLong w230">深圳市鑫阳企业管理咨询有限公司鑫阳企业管理咨询有限公司</a></li>
 						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
 						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
 						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
@@ -2243,7 +2273,7 @@ padding-bottom: 2px;
 						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
 						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
 						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
-						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>  -->
 					</ul>
 					<div class="clear"></div>
 
