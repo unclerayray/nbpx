@@ -110,15 +110,15 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 								+ " c.state, c.hits , c.price, c.recommanded, c.classic, c.goldenPic, c.planflag) from Course c, Dictionary fd, TeacherInfo ti"
 								+ " where 1 = 1 ");
 				if (category != null && !category.isEmpty()) {
-					hql.append(" and category = ? ");
+					hql.append(" and c.category = ? ");
 				}
 
 				if (courseId != null) {
-					hql.append(" and courseId = ? ");
+					hql.append(" and c.courseId = ? ");
 				}
 				
 				if (isInner != null) {
-					hql.append(" and isInner = ? ");
+					hql.append(" and c.isInner = ? ");
 				}
 				hql.append(" and c.category = fd.codeName ");
 				hql.append(" and ti.teacherId = c.teacherId");
@@ -196,7 +196,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				}
 				
 				if (isInner != null) {
-					hql.append(" and isInner = ? ");
+					hql.append(" and c.isInner = ? ");
 				}
 				if(p_outside!=null){
 					if(p_outside){
@@ -1095,7 +1095,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				}
 				
 				if (isInner != null) {
-					hql.append(" and isInner = ? ");
+					hql.append(" and c.isInner = ? ");
 				}
 				
 				if(p_outside!=null){
@@ -1174,7 +1174,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				}
 
 				if (isInner != null) {
-					hql.append(" and isInner = ? ");
+					hql.append(" and c.isInner = ? ");
 				}
 				
 				if(p_outside!=null){
