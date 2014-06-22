@@ -155,6 +155,12 @@ public class AdminAction  extends BaseAction {
 			}else{
 				logger.info("user [" + username + "] logged in successfully at ["+new Date()+"]");
 				session.setAttribute("userName", username);
+				if(username.equals("leo")||username.equals("amanda")||username.equals("admin")){
+					//session.setAttribute("super", true);
+					//xxx means normal admin
+				}else{
+					session.setAttribute("xxx", "xxx");
+				}
 				initDicMap();
 			}
 		} catch (Exception e) {
@@ -162,6 +168,33 @@ public class AdminAction  extends BaseAction {
 			return "relogin";
 		}
 		return "index";
+	}
+	
+
+	public String relogin(){
+		logger.info("user [" + username + "] tring to re-log in.");
+		try {
+			if(!validateUser(username,pwd)){
+				logger.info("user [" + username + "] tring to log in failed.");
+				throw new NbpxException("密码不正确或此用户已被锁定。");
+			}else{
+				logger.info("user [" + username + "] logged in successfully at ["+new Date()+"]");
+				session.setAttribute("userName", username);
+				if(username.equals("leo")||username.equals("amanda")||username.equals("admin")){
+					//session.setAttribute("super", true);
+					//xxx means normal admin
+				}else{
+					session.setAttribute("xxx", "xxx");
+				}
+				initDicMap();
+			}
+		} catch (Exception e) {
+			addActionError(e.getMessage());
+			return "relogin";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "重新登录成功!"));
+		return SUCCESS;
 	}
 	
 
@@ -220,7 +253,7 @@ public class AdminAction  extends BaseAction {
 	
 	public String removeAdmin(){
 		try {
-			if(admin.getUserName().equals("leo")||admin.getUserName().equals("leo")){
+			if(admin.getUserName().equals("leo")||admin.getUserName().equals("amanda")||admin.getUserName().equals("admin")){
 				throw new Exception("超级管理员不能被删除！");
 			}else{
 				adminService.deleteAdmin(admin);

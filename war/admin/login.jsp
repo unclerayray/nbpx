@@ -9,6 +9,10 @@
 <script src="../js/easyui/jquery-1.8.0.min.js"></script>
 <script src="../js/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript">  
+	window.onload = function() {
+		if (window != top) 
+			top.location.href = location.href; 
+	};
     function refresh() {  
         //IE存在缓存,需要new Date()实现更换路径的作用  
         document.getElementById("image").src="image.jsp?"+new Date();  

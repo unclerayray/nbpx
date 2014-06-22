@@ -62,10 +62,10 @@
 			<param-value>/nbpx/admin/login.jsp</param-value>
 		</init-param>
 	</filter>
-	<!-- <filter-mapping>
+	<filter-mapping>
 		<filter-name>SessionCheckFilter</filter-name> 
-		<url-pattern>/*</url-pattern> 
-	</filter-mapping> -->
+		<url-pattern>/admin/*</url-pattern> 
+	</filter-mapping>
 
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
@@ -102,7 +102,7 @@
 
 	<!-- session超时定义,单位为分钟 -->
 	<session-config>
-		<session-timeout>30</session-timeout>
+		<session-timeout>60</session-timeout>
 	</session-config>
 
 </web-app>
