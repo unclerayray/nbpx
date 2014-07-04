@@ -12,10 +12,6 @@
 	<script src="../js/poshytip-1.2/src/jquery.poshytip.min.js"></script>
 	<script src="../js/easyui/plugins/jquery.validatebox.js"></script>
 	<script language="JavaScript">
-		var cate = [
-				        {"categoryid":"003_01","categoryName":"Koi"},
-				        {"categoryid":"003_02","categoryName":"haha"}
-					];
 		var catedata = [];
 		//console.log('before load');
 		$.ajax('../struts/Course_queryComboCourseTypes', {
@@ -30,6 +26,7 @@
 	</script>
 	<title>下载管理</title>
 </head>
+<body>
 <table id="dg" class="easyui-datagrid"  pagination="true"  pageSize=20  
 loadMsg="正在加载，请稍候!"
 data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Download_queryDownloads',toolbar:'#tb'">
@@ -74,7 +71,7 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'.
 		onclick="destroyDownload();">删除下载</a>
 	</div>
 	<div>
-		下载类别: <select id="filetype" name="filetype" class="easyui-combobox" style="panelHeight:15px;">
+		文件类别: <select id="filetype" name="filetype" class="easyui-combobox" style="panelHeight:15px;">
 					<option></option>
 		    		<option value="ppt">ppt</option>
 		    		<option value="doc">doc</option>
@@ -82,7 +79,15 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'.
 		    		<option value="rar">rar</option>
 		    		<option value="zip">zip</option>
 				</select>
-
+		下载类别: <input class="easyui-combobox" name="q_category" id="q_category"
+				data-options="  
+				url:'../struts/Course_queryComboCourseTypes',  
+				valueField:'codeName',  
+				textField:'showName',  
+				panelHeight:'200',
+				strict:true"
+				style="width:100px">下载名称： <input  name="q_company"
+	id="q_download"  style="width:150px">
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-search" onclick="queryDownloads()">搜索</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
@@ -116,6 +121,8 @@ $('#dlg').dialog('close');
 		    		<option value="ppt">ppt</option>
 		    		<option value="doc">doc</option>
 		    		<option value="pdf">pdf</option>
+		    		<option value="rar">rar</option>
+		    		<option value="zip">zip</option>
 				</select>
 	</td>
 	</tr>
@@ -199,7 +206,9 @@ $('#dlg').dialog('close');
 <script type="text/javascript">
 function queryDownloads() {
 			$('#dg').datagrid('load', {
-				filetype : $('#filetype').combobox('getValue')
+				filetype : $('#filetype').combobox('getValue'),
+				category : $('#q_category').combobox('getValue'),
+				title : $('#q_download').val()
 			});
 		}
 
@@ -239,7 +248,7 @@ function queryDownloads() {
 	}
 
 	function saveDownload(){
-		console.log('hello!');
+		//console.log('hello!');
 		$('#fm').form('submit', {
 			url : '../struts/Download_saveDownload',
 			onSubmit : function() {

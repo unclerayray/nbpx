@@ -1,6 +1,8 @@
 package com.nb.nbpx.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -60,6 +62,18 @@ public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoServi
 					ResponseStatus.SUCCESS, "", list);
 		}
 		return json;
+	}
+
+	@Override
+	public void deleteOrgInfo(Integer orgId) {
+		orgInfoDao.deleteByKey(orgId);
+	}
+
+	@Override
+	public void auditOrgInfo(Integer orgId, boolean state)  throws Exception {
+		Map<String,Object> propertyMap = new HashMap<String,Object>();
+		propertyMap.put("state", state);
+		orgInfoDao.updateWithPK(OrgInfo.class, orgId, propertyMap);
 	}
 
 }

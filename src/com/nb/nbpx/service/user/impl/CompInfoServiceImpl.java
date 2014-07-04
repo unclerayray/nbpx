@@ -1,6 +1,8 @@
 package com.nb.nbpx.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -50,19 +52,30 @@ public class CompInfoServiceImpl extends BaseServiceImpl implements ICompInfoSer
 		this.compInfoDao = compInfoDao;
 	}
 	@Override
-	public String queryCompInfo(String userName, String company, Integer rows,
+	public String queryCompInfo(String userName, String company, String contact,
+			 String department, Integer rows,
 			Integer start, String sort, String order) {
 		String json = "";
-		List<CompInfo>  list = compInfoDao.queryCompInfo(userName, company, rows, start, sort, order);
+		List<CompInfo>  list = compInfoDao.queryCompInfo(userName, company,contact,department, rows, start, sort, order);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
 		} else {
-			int count = compInfoDao.queryCompInfoCount(userName, company).intValue();
+			int count = compInfoDao.queryCompInfoCount(userName, company,contact,department).intValue();
 			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
 		}
 		return json;
+	}
+	@Override
+	public void deleteCompInfo(Integer compInforId) {
+		compInfoDao.deleteByKey(compInforId);
+	}
+	@Override
+	public void auditCompInfo(Integer compId, boolean state) throws Exception {
+		Map<String,Object> propertyMap = new HashMap<String,Object>();
+		propertyMap.put("state", state);
+		compInfoDao.updateWithPK(CompInfo.class, compId, propertyMap);
 	}
 	
 }

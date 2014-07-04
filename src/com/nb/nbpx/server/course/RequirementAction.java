@@ -44,7 +44,7 @@ public class RequirementAction extends BaseAction{
 	
 	public String replyRequirement(){
 		try {
-			requirementService.replyRequirement(requirementId, reply);
+			requirementService.replyRequirement(requirementId, reply,super.getSessionUserName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(

@@ -24,7 +24,7 @@ public class ApplicationDaoImpl extends BaseDaoImpl<Application, Integer>
 	@Override
 	public List<Application> queryApplications(final Integer rows,
 			final Integer start, final String sort, final String order,
-			final Boolean confirmed, final Boolean follow) {
+			final Boolean confirmed, final Boolean follow, final String company, final String contact) {
 		List<Application> list = new ArrayList<Application>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -36,13 +36,13 @@ public class ApplicationDaoImpl extends BaseDaoImpl<Application, Integer>
 						"select new com.nb.nbpx.pojo.course.Application"
 								+ " (a.applyId, a.email, a.applyCourseId, c.title, a.applicantCompany, a.headCount, a.contact,"
 								+ "a.telephone, a.cellphone, a.fax, a.department,"
-								+ "a.remarks, a.stateInfo, a.confirmed, a.createDate) from Application a, Course c"
+								+ "a.remarks, a.confirmed, a.followed, a.createDate) from Application a, Course c"
 								+ " where 1 = 1 and a.applyCourseId = c.courseId ");
 				if (follow != null) {
 					if(follow){
-						hql.append(" and stateInfo is not null ");
+						hql.append(" and followed = true ");
 					}else{
-						hql.append(" and stateInfo is null ");
+						hql.append(" and followed = false ");
 					}
 				}
 				
@@ -52,6 +52,14 @@ public class ApplicationDaoImpl extends BaseDaoImpl<Application, Integer>
 					}else{
 						hql.append(" and confirmed = false ");
 					}
+				}
+				
+				if (company != null && !company.isEmpty()) {
+					hql.append(" and applicantCompany like ? ");
+				}
+				
+				if (contact != null && !contact.isEmpty()) {
+					hql.append(" and contact = ? ");
 				}
 
 				if (sort != null && !sort.isEmpty()) {
@@ -63,6 +71,15 @@ public class ApplicationDaoImpl extends BaseDaoImpl<Application, Integer>
 					hql.append(" order by a.applyId desc ");
 				}
 				Query query = session.createQuery(hql.toString());
+				
+
+				if(company!=null && !company.isEmpty()){
+					query.setString(i++, "%"+company+"%");
+				}
+				
+				if(contact!=null && !contact.isEmpty()){
+					query.setString(i++, contact);
+				}
 
 				if (start != null && rows != null) {
 					query.setFirstResult(start);

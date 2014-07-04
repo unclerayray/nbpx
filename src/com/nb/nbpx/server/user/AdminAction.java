@@ -158,6 +158,7 @@ public class AdminAction  extends BaseAction {
 				if(username.equals("leo")||username.equals("amanda")||username.equals("admin")){
 					//session.setAttribute("super", true);
 					//xxx means normal admin
+					session.setAttribute("xxx", "ooo");
 				}else{
 					session.setAttribute("xxx", "xxx");
 				}
@@ -174,7 +175,7 @@ public class AdminAction  extends BaseAction {
 	public String relogin(){
 		logger.info("user [" + username + "] tring to re-log in.");
 		try {
-			if(!validateUser(username,pwd)){
+			if(!validateUserWithoutCode(username,pwd)){
 				logger.info("user [" + username + "] tring to log in failed.");
 				throw new NbpxException("密码不正确或此用户已被锁定。");
 			}else{
@@ -183,6 +184,7 @@ public class AdminAction  extends BaseAction {
 				if(username.equals("leo")||username.equals("amanda")||username.equals("admin")){
 					//session.setAttribute("super", true);
 					//xxx means normal admin
+					session.setAttribute("xxx", "ooo");
 				}else{
 					session.setAttribute("xxx", "xxx");
 				}
@@ -277,6 +279,18 @@ public class AdminAction  extends BaseAction {
 				throw new NbpxException("验证码不正确");
 			}
 		}
+		if(username==null||username.isEmpty()){
+			throw new NbpxException("用户名不能为空");
+		}
+		if(password==null||password.isEmpty()){
+			throw new NbpxException("密码不能为空");
+		}
+		
+		//return userService.verifyLogin(username, password);
+		return adminService.checkLogin(username, password);
+	}
+	
+	private boolean validateUserWithoutCode(String username,String password) throws NbpxException{
 		if(username==null||username.isEmpty()){
 			throw new NbpxException("用户名不能为空");
 		}

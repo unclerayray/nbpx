@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.course.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.IApplicationDao;
+import com.nb.nbpx.dao.course.IFollowUpDao;
 import com.nb.nbpx.pojo.course.Application;
+import com.nb.nbpx.pojo.course.FollowUp;
 import com.nb.nbpx.service.course.IApplicationService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.utils.JsonUtil;
@@ -20,6 +23,7 @@ import com.nb.nbpx.utils.JsonUtil;
 public class ApplicationServiceImpl  extends BaseServiceImpl implements IApplicationService{
 	private IApplicationDao applicationDao;
 	private JdbcTemplate jdbcTemplate;
+	private IFollowUpDao followUpDao;
 	@Resource
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -40,9 +44,9 @@ public class ApplicationServiceImpl  extends BaseServiceImpl implements IApplica
 
 	@Override
 	public String queryApplications(Integer rows,
-			Integer start, String sort, String order, Boolean confirmed, Boolean follow) {
+			Integer start, String sort, String order, Boolean confirmed, Boolean follow, String company, String contact) {
 		String json = "";
-		List<Application> list= applicationDao.queryApplications(rows, start, sort, order, confirmed, follow);
+		List<Application> list= applicationDao.queryApplications(rows, start, sort, order, confirmed, follow, company, contact);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
@@ -64,12 +68,37 @@ public class ApplicationServiceImpl  extends BaseServiceImpl implements IApplica
 	}
 
 	@Override
-	public void followApplication(Integer id, String stateInfo)  throws Exception{
+	public void followApplication(Integer id, String stateInfo, String username)  throws Exception{
 
+		FollowUp followup = new FollowUp();
+		followup.setFollowup(stateInfo);
+		followup.setAdminUserName(username);
+		followup.setFollowDate(new Date());
+		followup.setApplyId(id);
+		followUpDao.save(followup);
+		
+		
 		Map<String, Object> propsMap = new HashMap<String, Object>();
 		if (stateInfo != null) {
-			propsMap.put("stateInfo", stateInfo);
+			propsMap.put("followed", true);
 		}
 		applicationDao.updateWithPK(Application.class, id, propsMap);
+	}
+	
+	public IFollowUpDao getFollowUpDao() {
+		return followUpDao;
+	}
+	@Resource
+	public void setFollowUpDao(IFollowUpDao followUpDao) {
+		this.followUpDao = followUpDao;
+	}
+
+	@Override
+	public String queryFollowups(Integer applyId) {
+		Map<String, Object> propsMap = new HashMap<String, Object>();
+		propsMap.put("applyId", applyId);
+		List<FollowUp> list = followUpDao.queryEntityListByProperties(FollowUp.class, null, null, null, null, propsMap);
+		String json = JsonUtil.formatListToJson(list);
+		return json;
 	}
 }

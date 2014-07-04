@@ -20,6 +20,7 @@ import com.nb.nbpx.pojo.BaseEntity;
 public class CompInfo extends BaseEntity  implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	@Id
 	private Integer compInfoId;
 	private User user;
 	private String contact;

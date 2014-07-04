@@ -19,10 +19,10 @@
 	<thead>
 		<tr>
 			<th data-options="field:'requirementId',width:80,hidden:true">主键</th>
-			<th data-options="field:'userId',width:40",align:'center'>用户ID</th>
+			<th data-options="field:'username',width:40",align:'center'>用户名</th>
 			<th data-options="field:'requiredCourse',width:120">课程名</th>
 			<th data-options="field:'headCount',width:30,sortable:true,align:'center'">人数</th>
-			<th data-options="field:'validDays',width:50">有效天数</th>
+			<th data-options="field:'validDays',width:30">有效天数</th>
 			<th data-options="field:'startTime',width:70">开始时间</th>
 			<th data-options="field:'endTime',width:70">结束时间</th>
 			<th data-options="field:'city',width:40">城市</th>
@@ -33,7 +33,7 @@
 			<th data-options="field:'description',width:120">需求描述</th>
 			<th data-options="field:'reply',width:120">跟进</th>
 			<th data-options="field:'email',width:80">邮件</th>
-			<th data-options="field:'hasReplied',width:50,align:'center',formatter:function(value,row){if(row.hasReplied) {return '已跟进';}else{return '<font color=red>未跟进</font>';}}">是否已跟进</th>
+			<th data-options="field:'hasReplied',width:50,align:'center',formatter:function(value,row){if(row.hasReplied) {return '已跟进';}else{return '<font color=red>未跟进</font>';}}">跟进</th>
 			<th data-options="field:'createDate',width:70,align:'center',sortable:true">创建时间</th>
 		</tr>
 	</thead>
@@ -57,10 +57,9 @@
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-search" onclick="queryRequirements()">搜索</a> <a
 	href="javascript:void(0)" class="easyui-linkbutton"
-	iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a>
-	<a href="#"
-			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-			onclick="openDlg()">跟进需求</a>
+	iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a><a href="#"
+			class="easyui-linkbutton" iconCls="icon-add" plain="true"
+			onclick="openDlg()">跟进</a>
 		</div>
 	</div>
 
@@ -71,7 +70,7 @@
 	text:'保存',
 	iconCls:'icon-ok',
 	handler:function(){
-	answer(); } },{
+	replyRequire(); } },{
 	text:'取消',
 	iconCls:'icon-cancel',
 	handler:function(){
@@ -92,67 +91,66 @@
 	</div>
 
 	<script type="text/javascript">
-	function queryRequirements() {
-		var comp = $('#q_company').val();
-		var cont = $('#q_contact').val();
-				if ($('#p_replay').combobox('getValue') == 'ed') {
-					$('#dg').datagrid('load', {hasReplied : 1, q_company: comp , q_contact:cont });
-				}else if($('#p_replay').combobox('getValue') == 'un'){
-					$('#dg').datagrid('load', {hasReplied : 0, q_company: comp , q_contact:cont });
-				}else{
-					$('#dg').datagrid('load',{reply : 98, q_company: comp , q_contact:cont });
-				}
+		function queryRequirements() {
+			var comp = $('#q_company').val();
+			var cont = $('#q_contact').val();
+			if ($('#p_replay').combobox('getValue') == 'ed') {
+				$('#dg').datagrid('load', {hasReplied : 1, q_company: comp , q_contact:cont });
+			}else if($('#p_replay').combobox('getValue') == 'un'){
+				$('#dg').datagrid('load', {hasReplied : 0, q_company: comp , q_contact:cont });
+			}else{
+				$('#dg').datagrid('load',{reply : 98, q_company: comp , q_contact:cont });
 			}
+		}
 
-			function openDlg(){
-				var row= $('#dg').datagrid('getSelected');
-				if (row) {
-					$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '跟进');
-					$('#requireId').val(row.requirementId);
-					$('#replys').val(row.reply);
-				}else{
-					$.messager.show({
-						title : '温馨提示',
-						msg : '请先选择一行记录',
-						timeout : 2000,
-						showType : 'slide'
-					});
-				}
-			}
-
-			function answer(){
-				$('#fm').form('submit', {
-					url : '../struts/Requirement_replyRequirement?reply='+$('#replys').val()+'&requirementId='+$('#requireId').val(),
-					onSubmit : function() {
-						return $(this).form('validate');
-					},
-					success : function(data) {
-						var data = eval('(' + data + ')'); // change the JSON string to javascript object  
-						if (data.success) {
-							$.messager.show({
-								title : 'Success',
-								msg : data.message,
-								timeout : 3000,
-								showType : 'fade'
-							});
-							$('#dlg').dialog('close'); // close the dialog  
-							$('#dg').datagrid('reload'); // reload
-						} else {
-							$.messager.show({
-								title : 'Error',
-								msg : data.message,
-								timeout : 3000,
-								showType : 'fade'
-							});
-						}
-					}
+		function openDlg(){
+			var row= $('#dg').datagrid('getSelected');
+			if (row) {
+				$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '跟进');
+				$('#requireId').val(row.requirementId);
+				$('#replys').val(row.reply);
+			}else{
+				$.messager.show({
+					title : '温馨提示',
+					msg : '请先选择一行记录',
+					timeout : 2000,
+					showType : 'slide'
 				});
 			}
+		}
 
-			function stat(){
-				alert('待实现的功能。');
-			}
-			</script>
+		function replyRequire(){
+			$('#fm').form('submit', {
+				url : '../struts/Requirement_replyRequirement?reply='+$('#replys').val()+'&requirementId='+$('#requireId').val(),
+				onSubmit : function() {
+					return $(this).form('validate');
+				},
+				success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON string to javascript object  
+					if (data.success) {
+						$.messager.show({
+							title : 'Success',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+						$('#dlg').dialog('close'); // close the dialog  
+						$('#dg').datagrid('reload'); // reload
+						$('#dg_followups').datagrid('reload'); // reload
+					} else {
+						$.messager.show({
+							title : 'Error',
+							msg : data.message,
+							timeout : 3000,
+							showType : 'fade'
+						});
+					}
+				}
+			});
+		}
+
+		
+	</script>	
 			<style type="text/css">
 			#fm {
 				margin: 0;

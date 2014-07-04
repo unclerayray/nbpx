@@ -32,13 +32,17 @@
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryTeacherInfo()">搜索</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
-			iconCls="icon-undo" onclick="$('#toolbar').form('clear');">重置</a><a href="#"
+			iconCls="icon-undo" onclick="$('#toolbar').form('clear');">重置</a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '新增讲师');">新增讲师</a>
+		<a href="#"
 			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 			onclick="editTeacherInfo()">修改</a> 
-			<!-- 暂时所有的企业资料都无需审核 <a href="#"
+			<a href="#"
 				class="easyui-linkbutton" iconCls="icon-search" plain="true"
-				onclick="auditTeacherInfo()">激活/锁定</a>
-			-->
+				onclick="auditTeacherInfo()">激活/锁定</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+				onclick="deleteTeacherInfo()">删除</a>
 		</div>
 	</div>
 	
@@ -89,10 +93,24 @@
 					}
 				}],
 				onClose : function() {$('.validatebox-tip').remove();}">
-				<form id="fm" method="post" novalidate> 
+				<form id="fm" method="post" enctype="multipart/form-data" novalidate> 
 					<table cellspacing="0" cellpadding="0" class="formTable">
-						<tr  style="display:none"><td class="itemText">teacherId:</td><td><input id="teacherId" name="teacherId" class="easyui-validatebox" required="true"></td></tr>
-						<tr><td class="itemText">真实姓名:</td><td><input id="realName" name="realName" class="easyui-validatebox" required="true"></td><td class="itemText">出生日期:</td><td><input id="birthday" name="birthday"  class="easyui-datebox"  required="true"></td></tr>
+						<tr>
+							<td class="itemText">真实姓名:</td>
+							<td><input id="realName" name="realName" class="easyui-validatebox" required="true"></td>
+							<td class="itemText">出生日期:</td>
+							<td>
+								<input id="birthday" name="birthday"  class="easyui-datebox"  required="true">
+								<input id="teacherId" name="teacherId" type="hidden">
+								<input id="createBy" name="createBy" type="hidden">
+								<input id="createDate" name="createDate" type="hidden">
+								<input id="state" name="state" type="hidden">
+							</td>
+						</tr>
+						<tr>
+							<td class="itemText">照片:</td>
+							<td><input type="file" id='file' name="file"></td>
+						</tr>
 						<tr><td class="itemText">主讲类别:</td><td>
 								<input class="easyui-combobox"
 							style="width: 130px;" name="majorCatgory" id="majorCatgory"
@@ -131,6 +149,7 @@ function editTeacherInfo() {
 	//console.log(row);
 	$('#dlg').dialog('open').dialog('setTitle', '修改');
 	if (row) {
+		$('#fm').form('clear');
 		$('#fm').form('load', row);
 	} else {
 		$.messager.show({
@@ -157,7 +176,7 @@ function auditTeacherInfo() {
 				if (r) {
 					$
 					.post(
-						'../struts/TeacherInfo_auditTeacherInfo?teacherInfoId='+row.teacherId,
+						'../struts/TeacherInfo_auditTeacherInfo?teacherInfoId='+row.teacherId + '&state=' + row.state,
 						row,
 						function(data) {
 							if (data.success) {
@@ -193,7 +212,7 @@ function auditTeacherInfo() {
 
 function saveTeacherInfo() {
 			$('#fm').form('submit', {
-				url : '../struts/TeacherInfo_saveTeacherInfor?objectName=teacherInfor',
+				url : '../struts/TeacherInfo_saveTeacherInfor?objectName=teacherInfor&excluded_fields=file',
 				onSubmit : function() {
 					return $(this).form('validate');
 				},
@@ -219,6 +238,58 @@ function saveTeacherInfo() {
 				}
 			});
 }
+
+
+
+function deleteTeacherInfo() {
+	var row = $('#dg').datagrid('getSelected');
+	if (row) {
+		$.messager
+				.confirm(
+						'Confirm',
+						'确认要删除此行记录吗?',
+						function(r) {
+							if (r) {
+								$
+										.post(
+												'../struts/TeacherInfo_deleteTeacherInfo?teacherInfoId='+row.teacherId,
+												row,
+												function(data) {
+													if (data.success) {
+														$('#dg')
+																.datagrid(
+																		'reload'); // reload the Dic data
+														$('#dg')
+																.datagrid(
+																		'clearSelections');
+													} else {
+														$.messager
+																.show({
+																	title : 'Error',
+																	msg : data.message,
+																	timeout : 3000,
+																	showType : 'fade'
+																});
+														$('#dg')
+																.datagrid(
+																		'reload');
+														$('#dg')
+																.datagrid(
+																		'clearSelections');
+													}
+												}, 'json');
+							}
+						});
+	} else {
+		$.messager.show({
+			title : '温馨提示',
+			msg : '请先选择一行记录',
+			timeout : 2000,
+			showType : 'slide'
+		});
+	}
+}
+
 </script>
 </body>
 </html>

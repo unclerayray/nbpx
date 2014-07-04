@@ -22,7 +22,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 	@Override
 	public List<Question> queryQuestions(final Integer rows,
 			final Integer start, final String sort, final String order,
-			final Boolean closed) {
+			final Boolean closed, final String title, final String askedBy) {
 		List<Question> list = new ArrayList<Question>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -34,13 +34,21 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 								+ " where 1 = 1 ");
 				if (closed != null) {
 					if (closed) {
-						hql.append(" and isClosed = true ");
+						hql.append(" and q.isClosed = true ");
 					} else {
-						hql.append(" and isClosed = false ");
+						hql.append(" and q.isClosed = false ");
 					}
 				}
 				
-				hql.append(" group by q.questionId ");
+				if(askedBy!=null && !askedBy.isEmpty()){
+					hql.append(" and q.askedBy = ? ");
+				}
+				
+				if(title!=null && !title.isEmpty()){
+					hql.append(" and q.title like ? ");
+				}
+				
+				//hql.append(" group by q.questionId ");
 
 				if (sort != null && !sort.isEmpty()) {
 					if("answerNum".equals(sort)){
@@ -55,6 +63,14 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 					hql.append(" order by q.questionId desc ");
 				}
 				Query query = session.createQuery(hql.toString());
+				int i = 0;
+				if (askedBy!=null && !askedBy.isEmpty()) {
+					query.setString(i++, askedBy);
+				}
+				String xx = "%"+title+"%";
+				if (title!=null && !title.isEmpty()) {
+					query.setString(i++, "%"+title.trim()+"%");
+				}
 
 				if (start != null && rows != null) {
 					query.setFirstResult(start);

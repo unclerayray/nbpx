@@ -299,6 +299,33 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 			return false;
 		}
 	}
+	
+
+	@Override
+	public Course checkDuplicateCourse(final Course course) {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						"select count(d) from Course d where 1 = 1 ");
+				hql.append(" and title = '" + course.getTitle()
+						+ "' and teacherId = '" + course.getTeacherId() + "'");
+				if(course.getIsInner()!=null&&course.getIsInner()){
+					hql.append(" and isInner = '1'");
+				}else{
+					hql.append(" and isInner = '0'");
+				}
+				
+				Query query = session.createQuery(hql.toString());
+				return query.list();
+			}
+		});
+		Course countL = (Course) list.get(0);
+		return countL;
+	}
 
 	// 按照点击率来选取
 	public List<Course> getHotCourse(final Boolean ifInner, final String type,

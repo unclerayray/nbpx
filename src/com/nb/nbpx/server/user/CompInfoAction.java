@@ -21,8 +21,10 @@ public class CompInfoAction extends BaseAction {
 	public Integer userId;
 	public String q_userName;
 	public String q_company;
+	public String q_department;
+	public String q_contact;
 	public Integer compInfoId;
-	public String state;
+	public boolean state;
 
 	private ICompInfoService compInfoService;
 	private ICompInfoDao compInfoDao;
@@ -30,7 +32,6 @@ public class CompInfoAction extends BaseAction {
 	public String getCompInforByUserId() {
 		String json = "";
 		try {
-
 			json = compInfoService.getCompInfoByUserId(userId);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,6 +39,7 @@ public class CompInfoAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
+	
 
 	public String saveCompInfor() {
 		try {
@@ -60,10 +62,30 @@ public class CompInfoAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	public String saveCompInforBak() {
+		try {
+			if(compInfo.getCompInfoId()==null){
+				compInfo.setCreateBy(getSessionUserName());
+			}
+			if(compInfo.getState()==null){
+				compInfo.setState(false);
+			}
+			compInfoService.saveCompInfor(compInfo);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+	}
+
 	public String queryCompInfo() {
 		String json = "";
 		try {
-			json = compInfoService.queryCompInfo(q_userName, q_company,
+			json = compInfoService.queryCompInfo(q_userName, q_company,q_contact,q_department,
 					rows, getStartPosi(), sort, order);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,10 +97,8 @@ public class CompInfoAction extends BaseAction {
 	public String auditCompInfo(){
 		String msg = "已激活！";
 		try {
-			CompInfo compinfo = compInfoDao.get(compInfoId);
-			compinfo.setState(!compinfo.getState());
-			compInfoService.saveCompInfor(compinfo);
-			if(compinfo.getState()){
+			compInfoService.auditCompInfo(compInfoId,!state);
+			if(state){
 				msg = "已锁定！";
 			}
 		} catch (Exception e) {
@@ -91,6 +111,23 @@ public class CompInfoAction extends BaseAction {
 				ResponseStatus.SUCCESS, msg));
 		return SUCCESS;
 	}
+	
+
+
+	public String deleteCompInfo(){
+		try {
+			compInfoService.deleteCompInfo(compInfoId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.DELETE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
+		return SUCCESS;
+	}
+
 
 	public CompInfo getCompInfo() {
 		return compInfo;
@@ -149,11 +186,27 @@ public class CompInfoAction extends BaseAction {
 		this.compInfoId = compInfoId;
 	}
 
-	public String getState() {
+	public boolean getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(boolean state) {
 		this.state = state;
+	}
+
+	public String getQ_department() {
+		return q_department;
+	}
+
+	public void setQ_department(String q_department) {
+		this.q_department = q_department;
+	}
+
+	public String getQ_contact() {
+		return q_contact;
+	}
+
+	public void setQ_contact(String q_contact) {
+		this.q_contact = q_contact;
 	}
 }

@@ -1,6 +1,7 @@
 package com.nb.nbpx.pojo.course;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,14 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Entity
 @Table(name = "requirements", catalog = "nbpx")
 public class Requirement  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer requirementId;
-	private Integer userId;
+	private String username;
 	private String requiredCourse;
 	private Integer headCount;
 	private Integer validDays;
@@ -32,16 +32,19 @@ public class Requirement  implements Serializable {
 	private String email;
 	private Date createDate;
 
-	public Requirement(){}
+	public Requirement(){
+		super();
+	}
 	
-	public Requirement(Integer requirementId, Integer userId,
+	public Requirement(Integer requirementId, String username,
 			String requiredCourse, Integer headCount, Integer validDays,
 			Date startTime, Date endTime, String city, String contact,
 			String telephone, String cellphone, String comp_name,
-			String description, String reply, Integer hasReplied,String email,Date createDate) {
+			String description, String reply, Integer hasReplied,
+			String email,Date createDate) {
 		super();
 		this.requirementId = requirementId;
-		this.userId = userId;
+		this.username = username;
 		this.requiredCourse = requiredCourse;
 		this.headCount = headCount;
 		this.validDays = validDays;
@@ -70,12 +73,12 @@ public class Requirement  implements Serializable {
 		this.requirementId = requirementId;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getRequiredCourse() {
@@ -166,14 +169,6 @@ public class Requirement  implements Serializable {
 		this.description = description;
 	}
 
-	public String getReply() {
-		return reply;
-	}
-
-	public void setReply(String reply) {
-		this.reply = reply;
-	}
-
 	public Integer getHasReplied() {
 		return hasReplied;
 	}
@@ -196,5 +191,13 @@ public class Requirement  implements Serializable {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getReply() {
+		return reply;
+	}
+
+	public void setReply(String reply) {
+		this.reply = reply;
 	}
 }

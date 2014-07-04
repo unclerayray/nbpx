@@ -22,6 +22,7 @@ public class OrgInfoAction extends BaseAction{
 	public String q_userName;
 	public String q_orgName;
 	public Integer orgId;
+	public boolean state;
 	
 	private IOrgInfoService orgInfoService;
 	private IOrgInfoDao orgInfoDao;
@@ -39,7 +40,30 @@ public class OrgInfoAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+
 	public String saveOrgInfor(){
+		try {
+			if(orgInfor.getOrgId()==null){
+				orgInfor.setCreateBy(getSessionUserName());
+			}
+			if(orgInfor.getState()==null){
+				orgInfor.setState(false);
+			}
+			orgInfoService.saveOrgInfor(orgInfor);
+			orgSolrService.addOrganisation2Solr(orgInfor);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+	}
+	
+	
+	public String saveOrgInfor_bak(){
 		String json = "";
 		try {
 			OrgInfo oi = orgInfoDao.get(orgInfor.getOrgId());
@@ -78,12 +102,9 @@ public class OrgInfoAction extends BaseAction{
 	public String auditOrgInfo(){
 		String msg = "已激活！";
 		try {
-			OrgInfo orgInfo = orgInfoDao.get(orgId);
-			Boolean state = orgInfo.getState();
-			orgInfo.setState(!state);
-			orgInfoService.saveOrgInfor(orgInfo);
+			orgInfoService.auditOrgInfo(orgId, state);;
 			orgSolrService.audit(orgId,!state);
-			if(orgInfo.getState()){
+			if(state){
 				msg = "已锁定！";
 			}
 		} catch (Exception e) {
@@ -94,6 +115,22 @@ public class OrgInfoAction extends BaseAction{
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, msg));
+		return SUCCESS;
+	}
+	
+
+	public String deleteOrgInfor(){
+		try {
+			orgInfoService.deleteOrgInfo(orgId);
+			orgSolrService.removeOrganisationFromSolr(orgId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.DELETE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
 		return SUCCESS;
 	}
 
@@ -163,6 +200,16 @@ public class OrgInfoAction extends BaseAction{
 	@Resource
 	public void setOrgSolrService(ISolrOrganisationService orgSolrService) {
 		this.orgSolrService = orgSolrService;
+	}
+
+
+	public boolean isState() {
+		return state;
+	}
+
+
+	public void setState(boolean state) {
+		this.state = state;
 	}
 
 	

@@ -7,6 +7,10 @@ public interface IRequirementService extends IBaseService {
 	public String queryRequirements(Integer hasReplied,String q_company,String q_contact, Integer rows,
 			Integer start, String sort, String order);
 
-	public void replyRequirement(Integer requirementId,String reply);
+	public void replyRequirement(Integer requirementId,String reply,String adminUserName);
 	public void saveRequirement(Requirement requirement);
+	public void removeFollowup(Integer followupId);
+	
+	//public String deleteFollowUps(FollowUp followup);
+	//public String saveFollowUps(FollowUp followup);
 }

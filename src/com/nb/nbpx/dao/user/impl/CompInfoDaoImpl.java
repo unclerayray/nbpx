@@ -58,7 +58,8 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer> implements
 
 	@Override
 	public List<CompInfo> queryCompInfo(final String userName,
-			final String company, final Integer rows, final Integer start,
+			final String company, final String contact,
+			final String department, final Integer rows, final Integer start,
 			final String sort, final String order) {
 		List<CompInfo> list = new ArrayList<CompInfo>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
@@ -75,6 +76,14 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer> implements
 				if (userName != null && !userName.isEmpty()) {
 					hql.append(" and c.user.userName like '%");
 					hql.append(userName + "%' ");
+				}
+				if (contact != null && !contact.isEmpty()) {
+					hql.append(" and c.contact = '");
+					hql.append(contact + "' ");
+				}
+				if (department != null && !department.isEmpty()) {
+					hql.append(" and c.department = '");
+					hql.append(department + "' ");
 				}
 
 				if (sort != null && !sort.isEmpty()) {
@@ -99,7 +108,8 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer> implements
 	}
 
 	@Override
-	public Long queryCompInfoCount(final String userName, final String company) {
+	public Long queryCompInfoCount(final String userName, final String company,  final String contact,
+			final String department) {
 		List list = new ArrayList();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -117,6 +127,14 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer> implements
 					hql.append(userName + "%' ");
 				}
 
+				if (contact != null && !contact.isEmpty()) {
+					hql.append(" and c.contact = '");
+					hql.append(contact + "' ");
+				}
+				if (department != null && !department.isEmpty()) {
+					hql.append(" and c.department = '");
+					hql.append(department + "' ");
+				}
 				Query query = session.createQuery(hql.toString());
 
 				return query.list();

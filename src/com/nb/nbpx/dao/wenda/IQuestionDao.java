@@ -11,5 +11,5 @@ import com.nb.nbpx.pojo.wenda.Question;
  */
 public interface IQuestionDao extends IBaseDao<Question,Integer>{
 	public List<Question>  queryQuestions(Integer rows, Integer start, String sort,
-			String order, Boolean closed);
+			String order, Boolean closed, String title, String askedBy);
 }

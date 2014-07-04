@@ -1,7 +1,12 @@
 package com.nb.nbpx.server.user;
 
+import java.io.File;
+import java.util.UUID;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +18,7 @@ import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrTeacherService;
 import com.nb.nbpx.service.user.ITeacherInfoService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.SolrUtil;
 
 @Component("TeacherInfoAction")
 @Scope("prototype")
@@ -24,8 +30,10 @@ public class TeacherInfoAction extends BaseAction{
 	public String q_teacherName;
 	public Integer teacherInfoId;
 	public Boolean q_inner;
-	public String teacherID;
-	public String type;
+	public boolean state;
+	public String fileContentType;
+	public String fileFileName;
+	public File file;
 	
 	private ITeacherInfoService teacherInfoService;
 	private ITeacherInfoDao teacherInfoDao;
@@ -68,7 +76,6 @@ public class TeacherInfoAction extends BaseAction{
 		try {
 
 			json = teacherInfoService.getTeacherInfoByUserId(userId);
-			System.out.println("json = " + json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,6 +84,41 @@ public class TeacherInfoAction extends BaseAction{
 	}
 	
 	public String saveTeacherInfor(){
+		try {
+			String randomStr = "images/824.jpg";
+			teacherInfor.setPhoto(randomStr);
+			if (file != null) {
+				String realpath = SolrUtil.getTeacherPhotoPath();
+				String ext = FilenameUtils.getExtension(fileFileName);
+				Long uuid = UUID.randomUUID().getMostSignificantBits();
+				randomStr = uuid.toString();
+				File savefile = new File(new File(realpath), randomStr+"."+ext);
+				if (!savefile.getParentFile().exists())
+					savefile.getParentFile().mkdirs();
+				FileUtils.copyFile(file, savefile);
+				teacherInfor.setPhoto(savefile.getPath());
+			}
+			if(teacherInfor.getTeacherId()==null){
+				teacherInfor.setCreateBy(getSessionUserName());
+			}
+			if(teacherInfor.getState()==null){
+				teacherInfor.setState(false);
+			}
+			teacherInfor = teacherInfoService.saveTeacher(teacherInfor);
+			//TODO check if this function works
+			solrTeacherService.addTeacher2Solr(teacherInfor);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+	}
+	
+	public String saveTeacherInforBak(){
 		String json = "";
 		try {
 			TeacherInfo info = teacherInfoDao.get(teacherInfor.getTeacherId());
@@ -131,12 +173,9 @@ public class TeacherInfoAction extends BaseAction{
 	public String auditTeacherInfo(){
 		String msg = "已激活！";
 		try {
-			TeacherInfo teacherInfo = teacherInfoDao.get(teacherInfoId);
-			Boolean state = teacherInfo.getState();
-			teacherInfo.setState(!state);
-			teacherInfoService.saveTeacherInfor(teacherInfo);
+			teacherInfoService.auditTeacherInfo(teacherInfoId, !state);
 			solrTeacherService.audit(teacherInfoId,!state);
-			if(teacherInfo.getState()){
+			if(state){
 				msg = "已锁定！";
 			}
 		} catch (Exception e) {
@@ -150,12 +189,20 @@ public class TeacherInfoAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	public String getType() {
-		return type;
-	}
 
-	public void setType(String type) {
-		this.type = type;
+	public String deleteTeacherInfo(){
+		try {
+			teacherInfoService.deleteTeacherInfo(teacherInfoId);
+			solrTeacherService.removeTeacherInfoFromSolr(teacherInfoId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.DELETE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.DELETE_SUCCESS));
+		return SUCCESS;
 	}
 	
 	public TeacherInfo getTeacherInfor() {
@@ -239,14 +286,37 @@ public class TeacherInfoAction extends BaseAction{
 		this.solrTeacherService = solrTeacherService;
 	}
 
-	public ICourseService getCourseService() {
-		return courseService;
+	public String getFileContentType() {
+		return fileContentType;
 	}
-	@Resource
-	public void setCourseService(ICourseService courseService) {
-		this.courseService = courseService;
+
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
 	}
-	
-	
+
+	public String getFileFileName() {
+		return fileFileName;
+	}
+
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
+	public boolean isState() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
+
 
 }

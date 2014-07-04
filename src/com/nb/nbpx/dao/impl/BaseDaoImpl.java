@@ -364,6 +364,34 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 				});
 		return list;
 	}
+	
+
+	// 根据搜索条件查询实体List
+	public List queryEntityListByConditionsAndLike(final String hql,
+			final Integer rows, final Integer start, final Object[] likeConditions,
+			final Object... conditions) {
+		List list = this.getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						Query query = session.createQuery(hql);
+						int i = 0;
+						for (; i < conditions.length; i++) {
+							query.setParameter(i, conditions[i]);
+						}
+						for (; i < likeConditions.length+conditions.length; i++) {
+							query.setString(i, "%"+likeConditions[i-conditions.length].toString().trim()+"%");
+						}
+						if (start != null && rows != null) {
+							query.setFirstResult(start);
+							query.setMaxResults(rows);
+						}
+						return query.list();
+					}
+				});
+		return list;
+	}
 
 	// 根据id值删除指定实体
 	public void deleteEntityById(final String entityName, final int id) {
@@ -444,6 +472,35 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 		String hql = hqlBuilder.toString();
 		Object[] conditions = propsMap.values().toArray();
 		List<Long> totalCounterList = this.find(hql, conditions);
+		return (Long) totalCounterList.get(0);
+	}
+	
+	// 根据属性Map查询实体总数
+	public Long queryLikeTotalCount(Class<T> entityClass,
+			Map<String, Object> propertyMap,
+			Map<String, Object> likeMap) {
+		Map<String, Object> propsMap = MapUtil.removeNullValue(propertyMap);
+		StringBuilder hqlBuilder = new StringBuilder("select count(o) ");
+		hqlBuilder.append(createHqlFromProtsAndLikeMap(entityClass, propsMap,likeMap));
+		final String hql = hqlBuilder.toString();
+		final Object[] conditions = propsMap.values().toArray();
+		final Object[] likeConditions = likeMap.values().toArray();
+		List<Long> totalCounterList = this.getHibernateTemplate().executeFind(
+				new HibernateCallback() {
+					@Override
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						Query query = session.createQuery(hql);
+						int i = 0;
+						for (; i < conditions.length; i++) {
+							query.setParameter(i, conditions[i]);
+						}
+						for (; i < likeConditions.length+conditions.length; i++) {
+							query.setString(i, "%"+likeConditions[i-conditions.length]+"%");
+						}
+						return query.list();
+					}
+				});
 		return (Long) totalCounterList.get(0);
 	}
 
@@ -538,6 +595,55 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 	
 
 	// 构造hql查询语句
+	private String createHqlFromProtsAndLikeMap(Class entityClass,
+			Map<String, Object> propsMap,Map<String, Object> likeMap) {
+		StringBuilder hqlBuilder = new StringBuilder("from ");
+		String entityName = entityClass.getSimpleName();
+		hqlBuilder.append(entityName);
+		hqlBuilder.append(" as o where 1=1 ");
+		Set<String> propsKeies = propsMap.keySet();
+		Object[] propsArray = propsKeies.toArray();
+		if (!propsMap.isEmpty()) {
+			for (int i = 0; i < propsArray.length; i++) {
+				hqlBuilder.append(" and");
+				String props = propsArray[i].toString();
+				String realProps = null;
+				if (props.contains(".")) {
+					String fun = props.substring(0, props.indexOf('.'));
+					realProps = " " + fun + "(o."
+							+ props.substring(props.indexOf('.') + 1) + ")";
+				} else {
+					realProps = " o." + props;
+				}
+				hqlBuilder.append(realProps);
+				hqlBuilder.append("=?");
+			}
+		}
+		
+		Set<String> likeKeies = likeMap.keySet();
+		Object[] likeArray = likeKeies.toArray();
+		if (!propsMap.isEmpty()) {
+			for (int i = 0; i < likeArray.length; i++) {
+				hqlBuilder.append(" and");
+				String props = likeArray[i].toString();
+				String realProps = null;
+				if (props.contains(".")) {
+					String fun = props.substring(0, props.indexOf('.'));
+					realProps = " " + fun + "(o."
+							+ props.substring(props.indexOf('.') + 1) + ")";
+				} else {
+					realProps = " o." + props;
+				}
+				hqlBuilder.append(realProps);
+				hqlBuilder.append(" like ?");
+			}
+		}
+		String hql = hqlBuilder.toString();
+		return hql;
+	}
+	
+
+	// 构造hql查询语句
 	public String createNormalHql(Class entityClass,
 			Map<String, Object> propsMap) {
 		StringBuilder hqlBuilder = new StringBuilder("");
@@ -573,5 +679,32 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 			}
 		}
 		return hql;
+	}
+	
+
+	private String createHqlFromProtitiesMapWithOrderAndLike(Class entityClass,
+			Map<String, Object> propsMap, String sort, String order, Map<String, Object> likeMap) {
+		String hql = createHqlFromProtsAndLikeMap(entityClass, propsMap, likeMap);
+		if (sort != null && !sort.isEmpty()) {
+			hql += " order by o." + sort;
+			if (order != null && !order.isEmpty()) {
+				hql += " " + order;
+			}
+		}
+		return hql;
+	}
+
+	@Override
+	public List<T> queryListByPropAndLike(Class<T> entityClass, Integer rows,
+			Integer start, String sort, String order,
+			Map<String, Object> propMap, Map<String, Object> likeMap) {
+		Map<String, Object> propsMap = MapUtil.removeNullValue(propMap);
+		String hql = createHqlFromProtitiesMapWithOrderAndLike(entityClass, propsMap,
+				sort, order, likeMap);
+		Object[] conditions = propsMap.values().toArray();
+		Object[] likeArray = likeMap.values().toArray();
+		List<T> entityList = queryEntityListByConditionsAndLike(hql, rows, start,likeArray,
+				conditions);
+		return entityList;
 	}
 }

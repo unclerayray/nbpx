@@ -23,11 +23,20 @@ public class ApplicationAction extends BaseAction {
 	public Boolean follow;
 	public Integer applicationId;
 	public String stateInfo;
+	public String q_company;
+	public String q_contact;
 
 	public String queryApplications() {
 		String json = applicationService.queryApplications(rows,
-				getStartPosi(), sort, order, confirmed, follow);
+				getStartPosi(), sort, order, confirmed, follow,q_company,q_contact);
 		//json = "{'total':'0','rows':[]}";
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+
+	public String queryFollowups() {
+		String json = applicationService.queryFollowups(applicationId);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -49,7 +58,7 @@ public class ApplicationAction extends BaseAction {
 	
 	public String followApplication() {
 		try {
-			applicationService.followApplication(applicationId, stateInfo);
+			applicationService.followApplication(applicationId, stateInfo,super.getSessionUserName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -101,6 +110,26 @@ public class ApplicationAction extends BaseAction {
 
 	public void setStateInfo(String stateInfo) {
 		this.stateInfo = stateInfo;
+	}
+
+
+	public String getQ_company() {
+		return q_company;
+	}
+
+
+	public void setQ_company(String q_company) {
+		this.q_company = q_company;
+	}
+
+
+	public String getQ_contact() {
+		return q_contact;
+	}
+
+
+	public void setQ_contact(String q_contact) {
+		this.q_contact = q_contact;
 	}
 
 }

@@ -385,7 +385,7 @@ public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolr
 		serverURL = setItsServerURL();
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		ModifiableSolrParams params = new ModifiableSolrParams();
-		String q = "orgId:"+id;
+		String q = "teacherId:"+id;
 		params.set("q", q);
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "select");
@@ -402,7 +402,7 @@ public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolr
 	
 	@Override
 	public String setItsServerURL() throws Exception {
-		serverURL = SolrUtil.getOraganisationServerUrl();
-		return SolrUtil.getOraganisationServerUrl();
+		serverURL = SolrUtil.getTeacherServerUrl();
+		return SolrUtil.getTeacherServerUrl();
 	}
 }

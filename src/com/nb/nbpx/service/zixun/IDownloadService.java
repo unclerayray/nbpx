@@ -9,7 +9,7 @@ import com.nb.nbpx.pojo.zixun.Download;
 public interface IDownloadService {
 
 	public String queryDownloads(String type,Integer rows,
-			Integer start, String sort, String order);
+			Integer start, String sort, String order, String title, String category);
 	
 	public Download saveDownload(Download download) throws Exception ;
 	
