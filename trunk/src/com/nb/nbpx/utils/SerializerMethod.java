@@ -9,6 +9,7 @@ import com.nb.nbpx.utils.deserializer.UtilDateDeserializer;
 import com.nb.nbpx.utils.serializer.DateSerializer;
 import com.nb.nbpx.utils.serializer.DownloadKeywordSerializer;
 import com.nb.nbpx.utils.serializer.DownloadSubjectSerializer;
+import com.nb.nbpx.utils.serializer.FollowUpSerializer;
 import com.nb.nbpx.utils.serializer.LiveImageSerializer;
 import com.nb.nbpx.utils.serializer.QuestionKeywordSerializer;
 import com.nb.nbpx.utils.serializer.QuestionSubjectSerializer;
@@ -40,6 +41,7 @@ public class SerializerMethod {
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.zixun.LiveImage.class, new LiveImageSerializer());
 		//gb.registerTypeAdapter(com.nb.nbpx.pojo.user.CompInfo.class, new CompInfoSerializer());
 		gb.registerTypeAdapter(com.nb.nbpx.pojo.user.User.class, new UserSerializer());
+		gb.registerTypeAdapter(com.nb.nbpx.pojo.course.FollowUp.class, new FollowUpSerializer());
 		gb.enableComplexMapKeySerialization();
 		Gson gson = gb.create();
 		return gson.toJson(bean);

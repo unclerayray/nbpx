@@ -17,18 +17,19 @@
 
 	<div id="toolbar" style="padding: 5px; height: auto">
 		<div>
-			用户名： <input id="q_userName" name="q_userName" style="width: 180px;">
-			公司名： <input id="q_company" name="q_company" style="width: 180px;">
+			用户名： <input id="q_userName" name="q_userName" style="width: 90px;">
+			公司名： <input id="q_company" name="q_company" style="width: 130px;">
+			联系人： <input id="q_contact" name="q_contact" style="width: 90px;">
+			部门： <input id="q_department" name="q_department" style="width: 90px;">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryCompInfo()">搜索</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-undo" onclick="$('#toolbar').form('clear');">重置</a><a href="#"
 			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 			onclick="editCompInfo()">修改</a> 
-			<!-- 暂时所有的企业资料都无需审核 <a href="#"
+			<a href="#"
 				class="easyui-linkbutton" iconCls="icon-search" plain="true"
 				onclick="auditCompInfo()">激活/锁定</a>
-			-->
 		</div>
 	</div>
 	
@@ -51,7 +52,7 @@
 				<th data-options="field:'fax',sortable:true,width:80">传真</th>
 				<th data-options="field:'email',sortable:true,width:100,formatter:function(value,row){return row.user.email;}">邮箱</th>
 				<th data-options="field:'createDate',sortable:true,width:80">新建时间</th>
-				<th data-options="field:'state',hidden:true,width:100,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
+				<th data-options="field:'state',width:100,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
 			</tr>
 		</thead>
 	</table>
@@ -90,7 +91,9 @@ function queryCompInfo() {
 	//alert($('#q_userName').val());
 	$('#dg').datagrid('load', {
 		q_userName : $('#q_userName').val(),
-		q_company : $('#q_company').val()
+		q_company : $('#q_company').val(),
+		q_contact : $('#q_contact').val(),
+		q_department : $('#q_department').val()
 	});
 }
 
@@ -125,8 +128,7 @@ function auditCompInfo() {
 				if (r) {
 					$
 					.post(
-						'../struts/OrgInfo_auditCompInfo?compInfoId='+row.compInfoId,
-						row,
+						'../struts/CompInfo_auditCompInfo?compInfoId='+row.compInfoId + '&state=' + row.state,
 						function(data) {
 							if (data.success) {
 								$('#dg')

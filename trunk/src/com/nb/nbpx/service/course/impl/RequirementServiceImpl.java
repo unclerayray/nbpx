@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.dao.course.IFollowUpDao;
 import com.nb.nbpx.dao.course.IRequirementDao;
+import com.nb.nbpx.pojo.course.FollowUp;
 import com.nb.nbpx.pojo.course.Requirement;
 import com.nb.nbpx.service.course.IRequirementService;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
@@ -22,6 +24,7 @@ public class RequirementServiceImpl extends BaseServiceImpl implements IRequirem
 	
 	private IRequirementDao requirementDao;
 	private JdbcTemplate jdbcTemplate;
+	private IFollowUpDao followUpDao;
 	@Resource
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -72,7 +75,22 @@ public class RequirementServiceImpl extends BaseServiceImpl implements IRequirem
 	}
 
 	@Override
-	public void replyRequirement(Integer requirementId, String reply) {
-		jdbcTemplate.update("UPDATE requirements SET reply = ? , hasReplied = ? WHERE requirementId = ?", new Object[] {reply, true, requirementId}); 
+	public void replyRequirement(Integer requirementId, String reply,String adminUserName) {
+		jdbcTemplate.update("UPDATE requirements SET reply = ?, hasReplied = ? WHERE requirementId = ?", new Object[] {reply, true, requirementId}); 
+	}
+
+	public IFollowUpDao getFollowUpDao() {
+		return followUpDao;
+	}
+	@Resource
+	public void setFollowUpDao(IFollowUpDao followUpDao) {
+		this.followUpDao = followUpDao;
+	}
+
+	@Override
+	public void removeFollowup(Integer followupId) {
+		FollowUp entity = new FollowUp();
+		entity.setFollowUpId(followupId);
+		followUpDao.delete(entity);
 	}
 }

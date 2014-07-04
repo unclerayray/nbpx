@@ -21,6 +21,7 @@ public class OrgInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
 	private Integer orgId;
 	private User user;
 	private String orgName;

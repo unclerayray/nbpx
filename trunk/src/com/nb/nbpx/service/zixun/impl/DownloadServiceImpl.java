@@ -37,19 +37,26 @@ public class DownloadServiceImpl extends BaseServiceImpl implements IDownloadSer
 
 	@Override
 	public String queryDownloads(String type, Integer rows, Integer start,
-			String sort, String order) {
+			String sort, String order, String title, String category) {
 		String json = "";
 		Map<String, Object> propsMap = new HashMap<String, Object>();
 		if(!"".equals(type)){
 			propsMap = this.createPropMap(new Equality(
 					"filetype", type));
 		}
-		List<Download>  list = downloadDao.queryEntityListByProperties(Download.class, rows, start, sort, order, propsMap);
+		if(category != null && !"".equals(category)){
+			propsMap.put("category", category);
+		}
+		Map<String, Object> likeMap = new HashMap<String, Object>();
+		if(title != null && !"".equals(title)){
+			likeMap.put("title", title);
+		}
+		List<Download>  list = downloadDao.queryListByPropAndLike(Download.class, rows, start, sort, order, propsMap, likeMap);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
 		} else {
-			int count = downloadDao.queryTotalCount(Download.class, propsMap).intValue();
+			int count = downloadDao.queryLikeTotalCount(Download.class, propsMap, likeMap).intValue();
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
 		}

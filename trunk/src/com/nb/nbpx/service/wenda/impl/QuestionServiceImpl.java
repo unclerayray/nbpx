@@ -1,6 +1,7 @@
 package com.nb.nbpx.service.wenda.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,16 +37,21 @@ public class QuestionServiceImpl extends BaseServiceImpl implements IQuestionSer
 
 	@Override
 	public String queryQuestions(Integer rows, Integer start, String sort,
-			String order, Boolean closed) {
+			String order, Boolean closed, String title, String askedBy) {
 		String json = "";
 		Map<String, Object> propsMap = this.createPropMap(new Equality(
-				"isClosed", closed));
-		List<Question>  list = questionDao.queryQuestions(rows, start, sort, order, closed);
+				"isClosed", closed),new Equality(
+						"askedBy", askedBy));
+		Map<String, Object> likeMap = new HashMap<String, Object>();
+		if(title != null && !"".equals(title)){
+			likeMap.put("title", title);
+		}
+		List<Question>  list = questionDao.queryQuestions(rows, start, sort, order, closed, title, askedBy);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
 		} else {
-			int count = questionDao.queryTotalCount(Question.class, propsMap).intValue();
+			int count = questionDao.queryLikeTotalCount(Question.class, propsMap, likeMap).intValue();
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
 		}

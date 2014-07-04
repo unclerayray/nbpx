@@ -355,7 +355,7 @@
 			var submitUrl = '../struts/Course_saveCourse?objectName=courseAllInfo';
 			if ($('#sync').val()) {
 				submitUrl = '../struts/Course_saveCourse?objectName=courseAllInfo'
-						+ '&sync=true';
+						+ '&sync=true&excluded_fields=sync';
 			}
 			$('#fm')
 					.form(

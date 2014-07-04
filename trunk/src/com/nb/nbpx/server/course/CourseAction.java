@@ -4,23 +4,18 @@
 package com.nb.nbpx.server.course;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -59,7 +54,7 @@ public class CourseAction extends BaseAction {
 	public Boolean p_outside;
 	public Integer courseId;
 	public Boolean state;
-	public Boolean sync;
+	public Boolean sync_excluded;
 	public Course course;
 	public Boolean isInner;
 	public String selected_courseId;
@@ -224,7 +219,7 @@ public class CourseAction extends BaseAction {
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 			solrCourseService.addCourse2Solr(courseAllInfo);
 			//solrCourseService.updateCourseInfo2Solr(cou.getCourseId());
-			if(sync!=null&&sync&&!deleteBeforeInsert){
+			if(sync_excluded!=null&&sync_excluded&&!deleteBeforeInsert){
 				//-------------同步到内训
 				Course innerCou = cou;
 				innerCou.setCourseId(null);
@@ -497,14 +492,6 @@ public class CourseAction extends BaseAction {
 		this.state = state;
 	}
 
-	public Boolean getSync() {
-		return sync;
-	}
-
-	public void setSync(Boolean sync) {
-		this.sync = sync;
-	}
-
 	public String getJsonArray() {
 		return jsonArray;
 	}
@@ -535,6 +522,14 @@ public class CourseAction extends BaseAction {
 
 	public void setGoldenPic(File goldenPic) {
 		this.goldenPic = goldenPic;
+	}
+
+	public Boolean getSync_excluded() {
+		return sync_excluded;
+	}
+
+	public void setSync_excluded(Boolean sync_excluded) {
+		this.sync_excluded = sync_excluded;
 	}
 
 	public String getQ_teacher() {

@@ -9,7 +9,7 @@ import com.nb.nbpx.service.IBaseService;
  */
 public interface IQuestionService  extends IBaseService  {
 	public String queryQuestions(Integer rows,
-			Integer start, String sort, String order, Boolean closed);
+			Integer start, String sort, String order, Boolean closed, String title, String askedBy);
 	public String queryQuestions(Integer rows,
 			Integer start, String sort, String order,Integer questionId);
 	public Question saveQuestion(Question question) throws Exception ;

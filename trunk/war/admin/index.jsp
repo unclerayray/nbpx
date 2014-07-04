@@ -6,7 +6,7 @@ String username = (String)session.getAttribute( "userName" );
 if(username==null||username==""){
 	response.sendRedirect("login.jsp");
 }
-String xxx = (String)session.getAttribute( "xxx" );
+String visible = (String)session.getAttribute( "xxx" );
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -20,7 +20,7 @@ String xxx = (String)session.getAttribute( "xxx" );
 	var firstLogin = true;
 	var poped = false;
 	var myVar=setInterval(function(){popUpRelogin();}, 1000*60*45);
-	var xx ="<%=xxx%>";
+	var xx ="<%=visible%>"+"";
 	//setVisible();
 	function popUpRelogin(){
 		//console.log(xx);
@@ -33,12 +33,20 @@ String xxx = (String)session.getAttribute( "xxx" );
 		firstLogin = false;
 	}
 	function setVisible(){
+		//$('#xtgl').hide();
+		//console.log('fuck this shit!');
+		var node = $('#menue-tree').tree('find', 'xtgl');
+		$('#menue-tree').tree('remove', node.target);
 		if(firstLogin&&xx=="xxx"){
 			$('.not-visible-to-normal-admin').hide();
 			//var node = $('#menue-tree').find('.not-visible-to-normal-admin');
 			//$('#menue-tree').tree('hide',node.target);
 			var cls = $('#menue-tree').parent().find('.not-visible-to-normal-admin');
-			console.log($('#menue-tree').parent().find('.not-visible-to-normal-admin'))
+			console.log($('#menue-tree').parent().find('.not-visible-to-normal-admin'));
+			var xtsznode = $('#menue-tree').tree('find', 'xtsz');
+			$('#menue-tree').tree('remove', xtsznode.target);
+			var zlglnode = $('#menue-tree').tree('find', 'zlgl');
+			$('#menue-tree').tree('remove', zlglnode.target);
 		}else{
 			$('#menue-tree').parent().find('.not-visible-to-normal-admin').show();
 		}
@@ -196,7 +204,7 @@ String xxx = (String)session.getAttribute( "xxx" );
 	</style>
 </head>
 
-<body class="easyui-layout" style="min-width:1000px;overflow:auto"  onload="setVisible()">>
+<body class="easyui-layout" style="min-width:1000px;overflow:auto"  onLoad="setVisible()">>
 	<div region="north" style="height:60px;line-height:60px;border:none;overflow:hidden;font-weight:normal;font-size:16px;background:url(../images/adminLogoBg.jpg) repeat-x">
 		<img src="../images/adminLogo.jpg" style='float:left'></img>
 		<div class="userInfor"><ul><li><span>当前用户:<%=username%></span></li><li><a href="javascript:changeProfile()">修改密码</a></li><li><a href="javascript:logout()">退出登录</a></li></ul></div>
@@ -204,7 +212,7 @@ String xxx = (String)session.getAttribute( "xxx" );
 
 	<div region="west" split="true" style="width:220px;overflow:hidden" title="功能菜单">
 			<ul id="menue-tree" class="easyui-tree">
-				<li iconCls="icon-base"><span>系统管理</span>
+				<li id="xtgl" iconCls="icon-base"><span>系统管理</span>
 					<ul>
 						<li iconCls="icon-gears">
 							<a href="#" onclick="javascript:addTab('系统日志')">系统日志</a>
@@ -263,7 +271,7 @@ String xxx = (String)session.getAttribute( "xxx" );
 					</ul>
 				</li>
 				
-				<li iconCls="icon-base" class="not-visible-to-normal-admin"><span>资料管理</span>
+				<li iconCls="icon-base"  id="zlgl" class="not-visible-to-normal-admin"><span>资料管理</span>
 					<ul>
 						<li iconCls="icon-gears">
 							<a href="javascript:void(0)" onclick="javascript:addTab('外部注册讲师资料管理','outTeacherList')">外部注册讲师资料管理</a>
@@ -279,7 +287,7 @@ String xxx = (String)session.getAttribute( "xxx" );
 						</li>
 					</ul>
 				</li>
-				<li iconCls="icon-base"><span>系统设置</span>
+				<li iconCls="icon-base" id="xtsz"><span>系统设置</span>
 					<ul>
 						<li iconCls="icon-gears">
 							<a href="javascript:void(0)" onclick="javascript:addTab('字典管理','dictionary')">字典管理</a>
@@ -381,11 +389,6 @@ String xxx = (String)session.getAttribute( "xxx" );
 					<td colspan="2">
 						<input id="relogin-pwd" name="pwd" data-options="required:true,missingMessage:'必填'"  class="easyui-validatebox" type="password"/>
 					</td>
-				</tr>
-				<tr>
-					<td>验证码:</td>
-					<td><input name="txtVerifyCode"  class="easyui-validatebox"  data-options="required:true,missingMessage:'必填'" id="txtVerifyCode"  style="width: 83px;" ></td>
-					<td><img id="image" border="0"  onclick="refresh()" src="image.jsp" title="点击更换图片"></td>
 				</tr>
 			</table>
 		</form>

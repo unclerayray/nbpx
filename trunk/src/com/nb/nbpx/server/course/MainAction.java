@@ -46,11 +46,11 @@ public class MainAction extends BaseAction{
 		String result = "";
 		
 		if("1".equals(flag))//加载最新的前10个下载
-			result = downloadService.queryDownloads("", 10, 0, null, null);
+			result = downloadService.queryDownloads("", 10, 0, null, null,null,null);
 		else if("2".equals(flag))//加载热门的下载
-			result = downloadService.queryDownloads("", 10, 0, "downloadCnt", "desc");
+			result = downloadService.queryDownloads("", 10, 0, "downloadCnt", "desc",null,null);
 		else if("3".equals(flag))//热门搜索
-			result = downloadService.queryDownloads("", 10, 0, "hits", "desc");
+			result = downloadService.queryDownloads("", 10, 0, "hits", "desc",null,null);
 		else{
 			result = "";
 		}

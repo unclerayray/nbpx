@@ -32,6 +32,7 @@ import com.nb.nbpx.service.subject.ISubjectService;
 import com.nb.nbpx.service.zixun.IDownloadService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.SolrUtil;
+import com.nb.nbpx.utils.mapTool.MapTool;
 
 @InterceptorRefs({
 	@InterceptorRef("auctionStack")
@@ -88,7 +89,7 @@ public class DownloadAction extends BaseAction {
 	            out.write(buf, 0, len);
 	        br.close();
 	        out.close();
-			
+	        MapTool.addDownloadCnt(downloadId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,7 +98,7 @@ public class DownloadAction extends BaseAction {
 	
 	public String queryDownloads() {
 		String json = downloadService.queryDownloads(filetype, rows,
-				getStartPosi(), sort, order);
+				getStartPosi(), sort, order, title, category);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}

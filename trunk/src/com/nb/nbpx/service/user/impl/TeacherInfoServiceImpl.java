@@ -1,6 +1,9 @@
 package com.nb.nbpx.service.user.impl;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,6 +15,7 @@ import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.user.ITeacherInfoService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 
 @Component("TeacherInfoService")
 public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherInfoService{
@@ -89,6 +93,44 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 			}
 		}
 		return json;
+	}
+
+	@Override
+	public void deleteTeacherInfo(Integer teacherInfoId) {
+		teacherInfoDao.deleteByKey(teacherInfoId);
+	}
+
+	@Override
+	public TeacherInfo saveTeacher(TeacherInfo teacherInfor) throws NbpxException{
+		TeacherInfo existingTeacher = teacherInfoDao.queryTeacherInfoByName(teacherInfor.getRealName());
+		if(teacherInfor.getTeacherId()==null){
+			if(existingTeacher!=null){
+				throw new NbpxException("同名的讲师已存在！");
+			}
+			teacherInfor.setCreateDate(new Date());
+			if(teacherInfor.getPhoto()==null || teacherInfor.getPhoto().isEmpty()){
+				TeacherInfo info = teacherInfoDao.getById(TeacherInfo.class, teacherInfor.getTeacherId());
+				teacherInfor.setPhoto(info.getPhoto());
+			}
+			teacherInfoDao.save(teacherInfor);
+		}else{
+			TeacherInfo info = teacherInfoDao.getById(TeacherInfo.class, teacherInfor.getTeacherId());
+			if(existingTeacher!=null && info !=null && info.getTeacherId() != existingTeacher.getTeacherId()){
+				throw new NbpxException("同名的讲师已存在！");
+			}
+			if(teacherInfor.getPhoto()==null || teacherInfor.getPhoto().isEmpty()){
+				teacherInfor.setPhoto(info.getPhoto());
+			}
+			teacherInfoDao.saveOrUpdate(teacherInfor);
+		}
+		return teacherInfor;
+	}
+
+	@Override
+	public void auditTeacherInfo(Integer teacherInfoId, boolean state) throws Exception {
+		Map<String,Object> propertyMap = new HashMap<String,Object>();
+		propertyMap.put("state", state);
+		teacherInfoDao.updateWithPK(TeacherInfo.class, teacherInfoId, propertyMap);
 	}
 
 }

@@ -25,7 +25,6 @@
 					<th data-options="field:'applicantCompany',width:70">公司名</th>
 					<th data-options="field:'contact',width:50">联系人</th>
 					<th data-options="field:'remarks',width:120">备注</th>
-					<th data-options="field:'stateInfo',width:120">跟进情况</th>
 					<th data-options="field:'confirmed',width:50,align:'center',formatter:function(value,row){if(row.confirmed) {return '确认报名';}else{return '未确认';}}">报名状态</th>
 					<th data-options="field:'email',width:80">邮件</th>
 					<th data-options="field:'telephone',width:60">电话</th>
@@ -39,24 +38,33 @@
 
 			<div id="tb" style="padding: 5px; height: auto">
 				<div style="margin-bottom: 5px">
-				报名状态: <select id="confirm" name="confirm" class="easyui-combobox" style="panelHeight:30px;">
+				报名状态: <select id="confirm" name="confirm" class="easyui-combobox" data-options=" panelHeight:'50',
+						strict:true" style="panelHeight:30px;">
 					<option></option>
 		    		<option value="true">已确认报名</option>
 		    		<option value="false">考虑中</option>
 				</select>
-			是否已跟进： <select id="follow" name="follow" class="easyui-combobox" style="panelHeight:30px;">
+			是否已跟进： <select id="follow" name="follow" class="easyui-combobox" data-options=" panelHeight:'50',
+						strict:true" >
 						<option></option>
 					    <option value="true">已跟进</option>
 					    <option value="false">未跟进</option>
-				</select>
+				</select>公司名称： <input  name="q_company"
+	id="q_company"  style="width:50px">
+	联系人： <input  name="q_contact"
+	id="q_contact"  style="width:50px">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryApplications()">搜索</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
-			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a><a href="#"
-					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-					onclick="openDlg()">跟进申请</a> <a href="#"
-					class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a>
+	<a href="#"
+			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+			onclick="openFollowUps()">查看跟进情况</a><a href="#"
+			class="easyui-linkbutton" iconCls="icon-add" plain="true"
+			onclick="openDlg()">跟进</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-add" plain="true"
 					onclick="confirm()">确认报名</a>
+			</div>
 			</div>
 
 
@@ -86,12 +94,22 @@
 			</form>
 			</div>
 
+			<div id="dlg_followups" class="easyui-dialog"
+			style="width: 670px; height: 475px; padding: 5px 10px" closed="true"
+			cache="false" modal="true">
+				<table id="dg_followup">
+				</table>
+			</div>
+			
 			<script type="text/javascript">
 			function queryApplications() {
 						var con = $('#confirm').combobox('getValue');
 						var fol = $('#follow').combobox('getValue');
+						var comp = $('#q_company').val();
+						var cont = $('#q_contact').val();
 						// alert(con + ' '+fol);
-						$('#dg').datagrid('load', {confirmed : con, follow : fol});
+						//$('#dg').datagrid('load', {confirmed : con, follow : fol});
+						$('#dg').datagrid('load', {confirmed : con, follow : fol, q_company: comp , q_contact:cont });
 					}
 
 					function openDlg(){
@@ -165,7 +183,50 @@
 							});
 						}
 					}
-					</script>
+
+					function openFollowUps() {
+						var row = $('#dg').datagrid('getSelected');
+						if (row) {
+							$('#dlg_followups').dialog('open').dialog('setTitle', '跟进情况');
+							$('#dg_followup').datagrid(
+									{
+										url : '../struts/Application_queryFollowups?applicationId='+row.applyId,
+										idField : 'followUpId',
+										width : 640,
+										height : 420,
+										pagination : false,
+										toolbar : '#tb_followups',
+										singleSelect : true,
+										fitColumns : true,
+										loadMsg : '正在加载，请稍候!',
+										columns : [ [ {
+											field : 'followUpId',
+											title : 'ID',
+											width : 20
+										}, {
+											field : 'adminUserName',
+											title : '跟进人',
+											width : 80
+										}, {
+											field : 'followup',
+											title : '跟进信息',
+											width : 120
+										}, {
+											field : 'followDate',
+											title : '操作时间',
+											width : 80
+										} ] ]
+									});
+						} else {
+							$.messager.show({
+								title : '温馨提示',
+								msg : '请先选择一行记录',
+								timeout : 2000,
+								showType : 'slide'
+							});
+						}
+					}
+		</script>
 					<style type="text/css">
 					#fm {
 						margin: 0;

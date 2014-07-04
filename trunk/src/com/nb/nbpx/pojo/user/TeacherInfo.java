@@ -20,6 +20,7 @@ public class TeacherInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
 	private Integer teacherId;
 	private User user;
 	private String realName;
@@ -35,6 +36,10 @@ public class TeacherInfo implements Serializable{
 	private String isInner;
 	private String photo;
 	
+	/**
+	 * 
+	 */
+	private String photo;
 	/**
 	 * 表示是否已注册
 	 */
@@ -154,6 +159,57 @@ public class TeacherInfo implements Serializable{
 		return createBy;
 	}
 	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
+	
+	
+	/**
+	 * Full constructor
+	 * @param teacherId
+	 * @param user
+	 * @param realName
+	 * @param birthday
+	 * @param majorCatgory
+	 * @param externalPayment
+	 * @param internalPayment
+	 * @param fax
+	 * @param telephone
+	 * @param cellphone
+	 * @param introduction
+	 * @param expertIn
+	 * @param photo
+	 * @param state
+	 * @param createDate
+	 * @param createBy
+	 */
+	public TeacherInfo(Integer teacherId, User user, String realName,
+			Date birthday, String majorCatgory, Double externalPayment,
+			Double internalPayment, String fax, String telephone,
+			String cellphone, String introduction, String expertIn,
+			String photo, Boolean state, Date createDate, String createBy) {
+		super();
+		this.teacherId = teacherId;
+		this.user = user;
+		this.realName = realName;
+		this.birthday = birthday;
+		this.majorCatgory = majorCatgory;
+		this.externalPayment = externalPayment;
+		this.internalPayment = internalPayment;
+		this.fax = fax;
+		this.telephone = telephone;
+		this.cellphone = cellphone;
+		this.introduction = introduction;
+		this.expertIn = expertIn;
+		this.photo = photo;
+		this.state = state;
+		this.createDate = createDate;
 		this.createBy = createBy;
 	}
 	public TeacherInfo(){}

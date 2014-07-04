@@ -7,6 +7,6 @@ import com.nb.nbpx.pojo.course.Application;
 
 public interface IApplicationDao extends IBaseDao<Application,Integer>{
 	public List<Application> queryApplications(Integer limit,
-			Integer start, String sort, String order,Boolean confirmed,Boolean follow);
+			Integer start, String sort, String order,Boolean confirmed,Boolean follow, String company, String contact);
 	public Long queryApplicationCount(Boolean confirmed,Boolean follow);
 }

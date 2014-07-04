@@ -34,6 +34,9 @@ public class UserSerializer  implements JsonSerializer<com.nb.nbpx.pojo.user.Use
         object.addProperty("username", name);
         String email = src.getEmail();
         object.addProperty("email", email);
+        if(src.getUserId()!=null){
+            object.addProperty("userId", src.getUserId().toString());
+        }
         // we create the json object for the dog and send it back to the
         // Gson serializer
         return object;

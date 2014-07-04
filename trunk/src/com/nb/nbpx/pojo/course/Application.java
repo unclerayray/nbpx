@@ -36,8 +36,8 @@ public class Application extends BaseEntity  implements Serializable {
 	private String fax;
 	private String department;
 	private String remarks;
-	private String stateInfo;
 	private Boolean confirmed;
+	private Boolean followed;
 	private Date createDate;
 
 	public Application() {
@@ -59,14 +59,13 @@ public class Application extends BaseEntity  implements Serializable {
 	 * @param fax
 	 * @param department
 	 * @param remarks
-	 * @param stateInfo
 	 * @param confirmed
 	 * @param createDate
 	 */
 	public Application(Integer applyId, String email, String applyCourseId, String applyCourse,
 			String applicantCompany, Integer headCount, String contact,
 			String telephone, String cellphone, String fax, String department,
-			String remarks, String stateInfo, Boolean confirmed, Date createDate) {
+			String remarks, Boolean confirmed,Boolean followed, Date createDate) {
 		super();
 		this.applyId = applyId;
 		this.email = email;
@@ -80,8 +79,8 @@ public class Application extends BaseEntity  implements Serializable {
 		this.fax = fax;
 		this.department = department;
 		this.remarks = remarks;
-		this.stateInfo = stateInfo;
 		this.confirmed = confirmed;
+		this.followed = followed;
 		this.createDate = createDate;
 	}
 
@@ -113,7 +112,7 @@ public class Application extends BaseEntity  implements Serializable {
 			String applyCourseId, String applyCourse,
 			String applicantCompany, Integer headCount, String contact,
 			String telephone, String cellphone, String fax, String department,
-			String remarks, String stateInfo, Boolean confirmed, Date createDate) {
+			String remarks, Boolean confirmed, Date createDate) {
 		super();
 		this.applyId = applyId;
 		this.email = email;
@@ -128,7 +127,6 @@ public class Application extends BaseEntity  implements Serializable {
 		this.fax = fax;
 		this.department = department;
 		this.remarks = remarks;
-		this.stateInfo = stateInfo;
 		this.confirmed = confirmed;
 		this.createDate = createDate;
 	}
@@ -240,14 +238,6 @@ public class Application extends BaseEntity  implements Serializable {
 		this.remarks = remarks;
 	}
 
-	public String getStateInfo() {
-		return stateInfo;
-	}
-
-	public void setStateInfo(String stateInfo) {
-		this.stateInfo = stateInfo;
-	}
-
 	public Boolean getConfirmed() {
 		return confirmed;
 	}
@@ -255,6 +245,20 @@ public class Application extends BaseEntity  implements Serializable {
 	public void setConfirmed(Boolean confirmed) {
 		this.confirmed = confirmed;
 	}
+
+	public Boolean getFollowed() {
+		return followed;
+	}
+
+
+
+
+	public void setFollowed(Boolean followed) {
+		this.followed = followed;
+	}
+
+
+
 
 	public Date getCreateDate() {
 		return createDate;

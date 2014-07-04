@@ -61,6 +61,8 @@ public class QuestionKeyword extends BaseEntity implements Serializable {
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
+	
+	@Column(name = "keywordId", unique = true, nullable = false)
 	public Integer getKeywordId() {
 		return keywordId;
 	}

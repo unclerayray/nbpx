@@ -314,6 +314,27 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	 */
 	public List<T> queryEntityListByProperties(Class<T> entityClass, Integer rows,
 			Integer start, String sort, String order, Map<String, Object> propsMap);
+	
+	/**
+	 * 根据实体类及其属性查询实体对象列表
+	 * 
+	 * @param entityClass
+	 *            实体对象
+	 * @param rows
+	 *            页面最大显示长度
+	 * @param start
+	 *            查询其实位置
+	 * @param propsMap
+	 *            实体属性Map
+	 *            <p>
+	 *            eg：MaterialApply实体<br />
+	 *            propsMap则可以用其属性<b>baseNumber</b>作为Key值<br />
+	 *            propsMap.put("baseNumber","64001");
+	 *            </p>
+	 * @return
+	 */
+	public List<T> queryListByPropAndLike(Class<T> entityClass, Integer rows,
+			Integer start, String sort, String order, Map<String, Object> propsMap, Map<String, Object> likeMap);
 
 	/**
 	 * 根据实体对象及其属性查询实体总数
@@ -330,6 +351,10 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	 * @return
 	 */
 	public Long queryTotalCount(Class<T> entityClass, Map<String, Object> propertyMap);
+	
+	public Long queryLikeTotalCount(Class<T> entityClass,
+			Map<String, Object> propertyMap,
+			Map<String, Object> likeMap);
 	
 	
 	/**

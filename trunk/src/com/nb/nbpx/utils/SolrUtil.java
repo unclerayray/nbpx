@@ -198,6 +198,22 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获取Teacher Photo Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getTeacherPhotoPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		logger.debug("teacher.photo.path = " + prop.getProperty("teacher.photo.path"));
+		return prop.getProperty("teacher.photo.path");
+	}
+	
+	/**
 	 * 获取LiveScenePhoto Path
 	 * @return
 	 * @throws IOException

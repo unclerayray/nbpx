@@ -23,7 +23,7 @@
 			url : '../struts/Admin_login',
 			success : function(data) {
 				var data = eval('(' + data + ')'); // change the JSON string to javascript object 
-				alert("what the fuck " + data.success) ;
+				//alert("what the fuck " + data.success) ;
 				if (data.success) {
 					window.location.href = "/nbpx/admin/index.html";
 				} else {

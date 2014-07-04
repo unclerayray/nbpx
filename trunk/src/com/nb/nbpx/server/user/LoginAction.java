@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.user.*;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.user.*;
@@ -104,8 +105,23 @@ public class LoginAction  extends BaseAction {
 			e.printStackTrace();
 		}
 		TeacherInfo teacher = new TeacherInfo(null,user.getUserId(),realName,teacherBirthday,majorCatgory,Double.parseDouble(externalPayment),Double.parseDouble(internalPayment),fax,telephone, cellphone, introduction,expertIn);
-		json = TeacherService.saveTeacherInfor(teacher);
-		this.inputStream = castToInputStream(json);
+
+		if(teacher.getTeacherId()==null){
+			teacher.setCreateBy(getSessionUserName());
+		}
+		if(teacher.getState()==null){
+			teacher.setState(false);
+		}
+		try {
+			TeacherService.saveTeacher(teacher);
+		} catch (NbpxException e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
 		return SUCCESS;
 	}
 	

@@ -78,12 +78,7 @@ public class WendaAction  extends BaseAction {
 	
 	public String queryQuestions(){
 		String json = "";
-		if(questionId!=null){
-			json = qestionService.queryQuestions(answerId, getStartPosi(), sort, order, questionId);
-		}else{
-			json = qestionService.queryQuestions(rows,
-					getStartPosi(), sort, order, closed);
-		}
+		json = qestionService.queryQuestions(answerId, getStartPosi(), sort, order, closed, title, askedBy);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
