@@ -6,6 +6,7 @@ import com.nb.nbpx.utils.NbpxException;
 
 public interface ITeacherInfoService extends IBaseService{
 
+	public String getTeacherInfo(Boolean isInner,String state,Integer rows,Integer start);
 	public String getTeacherInfoByUserId(Integer userID);
 	
 	public void deleteTeacherInfo(Integer teacherInfoId);

@@ -34,6 +34,8 @@ public class TeacherInfoAction extends BaseAction{
 	public String fileContentType;
 	public String fileFileName;
 	public File file;
+	public String teacherID;
+	public String type;
 	
 	private ITeacherInfoService teacherInfoService;
 	private ITeacherInfoDao teacherInfoDao;
@@ -316,6 +318,14 @@ public class TeacherInfoAction extends BaseAction{
 
 	public void setState(boolean state) {
 		this.state = state;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 
