@@ -37,10 +37,6 @@ public class TeacherInfo implements Serializable{
 	private String photo;
 	
 	/**
-	 * 
-	 */
-	private String photo;
-	/**
 	 * 表示是否已注册
 	 */
 	private Boolean state;
@@ -161,13 +157,6 @@ public class TeacherInfo implements Serializable{
 	public void setCreateBy(String createBy) {
 		this.createBy = createBy;
 	}
-	public String getPhoto() {
-		return photo;
-	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-	
 	
 	
 	/**
