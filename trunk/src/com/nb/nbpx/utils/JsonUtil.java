@@ -63,6 +63,15 @@ public class JsonUtil {
 		}
 		return jsonObject.toString();
 	}
+	
+	public static String formatToJson(Object o, String dateFormat){
+		java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<List>() {
+		}.getType();
+
+		String json = SerializerMethod.bean2json(o, type,
+				dateFormat);
+		return json;
+	}
 
 	/**
 	 * 返回带状态和消息的JSON

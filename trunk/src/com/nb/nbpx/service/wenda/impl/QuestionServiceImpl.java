@@ -100,4 +100,10 @@ public class QuestionServiceImpl extends BaseServiceImpl implements IQuestionSer
 		return json;
 	}
 
+	@Override
+	public String viewQuestion(Integer id) {
+		Question question = questionDao.getById(Question.class, id);
+		return JsonUtil.formatToJson(question,"yyyy-MM-dd HH:mm:ss");
+	}
+
 }

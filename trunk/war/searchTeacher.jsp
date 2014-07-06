@@ -19,6 +19,7 @@ String keyw = (String)request.getParameter("key");
 	<script src="ui/jquery.ui.position.js"></script>
 	<script src="ui/jquery.ui.menu.js"></script>
 	<script src="ui/jquery.ui.autocomplete.js"></script>
+	<script src="js/myjs/index.js"></script>
 
 	<link type="text/css" href="css/search.css" rel="stylesheet" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
@@ -195,13 +196,40 @@ var pager = {
 	</div>
 	<!--当前路径 end-->
 
-	<div class="ui-widget">
+	<!--<div class="ui-widget">
 		<input id="searchWord" class="input_txt border_radius" name="searchWord"/>
 		<button type="button" class="formBtn"
 		onclick="search(1);">
 		<img src="images/7.gif"> 搜索
 	</button>
-</div>
+</div> -->
+
+	<div class="mainContent search">
+		<div class="rightContent">
+			<input type="hidden" value="qypx" id="search_type" NAME="search_type">
+			<div  id="searchTab"  class="searchType">
+				<ul>
+					<li id="searchTab_Title0" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='qypx';"><a href='javascript:void(0)' >企业培训</a></li>
+					<li id="searchTab_Title1" class="on" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='pxs';"><a href='javascript:void(0)'>培训师</a></li>
+					<li id="searchTab_Title2" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='pxjh';"><a href='javascript:void(0)'>培训计划</a></li>
+					<li id="searchTab_Title3" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='qynx';"><a href='javascript:void(0)'>企业内训</a></li>
+					<li id="searchTab_Title4" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxs';"><a href='javascript:void(0)'>内训师</a></li>
+					<li id="searchTab_Title5" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxsp';"><a href='javascript:void(0)'>内训视频</a></li>
+					<li id="searchTab_Title6" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='xz';"><a href='javascript:void(0)'>下载</a></li>
+					<li id="searchTab_Title7" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='wk';"><a href='javascript:void(0)'>文库</a></li>
+					<li id="searchTab_Title8" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='jg';"><a href='javascript:void(0)'>机构</a></li>
+					<li id="searchTab_Title9" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='wd';"><a href='javascript:void(0)'>问答</a></li>
+					<li id="searchTab_Title10" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='khpj'"><a href='javascript:void(0)'>客户评价</a></li>
+					<li id="searchTab_Title11" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='khq';"><a href='javascript:void(0)'>客户群</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="searchInput"><input style='width:830px;' id="searchWord" value="请输入关键字,如: 员工 管理" onfocus="if (this.value=='请输入关键字,如: 员工 管理'){this.value='';}" 
+		onblur="if (this.value==''){this.value='请输入关键字,如: 员工 管理';}" onkeydown="fnt_top_search2(event);" />
+		<button class="searchButton"  onclick="fnt_top_search(document.getElementById('search_type').value);">搜&nbsp;索</button></div>
+	</div>
+
 
 <!--主体部分二 start-->
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
