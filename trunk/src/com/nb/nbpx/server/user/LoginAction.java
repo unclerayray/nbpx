@@ -154,11 +154,28 @@ public class LoginAction  extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
+	public String logOut(){
+		session.removeAttribute("clientUserName");
+		session.removeAttribute("userRole");
+		this.inputStream = castToInputStream(JsonUtil.formatToJson(true, "注销成功!"));
+		return SUCCESS;
+	}
 	//验证登陆
 	public String checkUser(){
 		String json = "";
 		
 		json = UserService.checkLogin(username, password);
+		if(json.contains("成功")){
+			session.setAttribute("clientUserName", username);
+			String userRole = "";
+			if(json.contains("001_01"))
+				userRole = "001_01";
+			else if(json.contains("001_02"))
+				userRole = "001_02";
+			else 
+				userRole = "001_03";
+			session.setAttribute("userRole", userRole);
+		}
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}

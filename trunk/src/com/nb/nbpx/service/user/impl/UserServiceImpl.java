@@ -84,7 +84,7 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 		for(int i=0;i<userList.size();i++){
 			User temp = userList.get(i);
 			if(password.equals(temp.getPassWord())){
-				json = JsonUtil.format2Json(true, "验证成功!");
+				json = JsonUtil.format2Json(true, "验证成功!"+temp.getUserType());
 				return json;
 			}
 		}

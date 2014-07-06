@@ -101,8 +101,8 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.CourseInfo(c.courseInfoId, c.courseId, c.startDate,"
-								+ "c.endDate, c.city,'') from CourseInfo c,Dictionary d where c.city= d.codeName and d.showName ='"+city +
-								"' and TO_DAYS(NOW())-TO_DAYS(c.startDate)<0 order by c.startDate");
+								+ "c.endDate, c.city,'') from CourseInfo c,Dictionary d where c.city= d.codeName and d.showName like '%"+city +
+								"%' and TO_DAYS(NOW())-TO_DAYS(c.startDate)<0 order by c.startDate");
 				Query query = session.createQuery(hql.toString());
 				if (start != null && rows != null) {
 					query.setFirstResult(start);

@@ -26,7 +26,7 @@ public class Dictionary extends BaseEntity implements Serializable {
 	private String dicType;
 	private String codeName;
 	private String showName;
-	private Integer orderNum;
+	private String orderNum;
 	private String attribute1;
 	private String attribute2;
 	private String attribute3;
@@ -54,7 +54,7 @@ public class Dictionary extends BaseEntity implements Serializable {
 	}
 
 	public Dictionary(Integer dicId, String dicType, String codeName,
-			String showName, Integer orderNum, String attribute1,
+			String showName, String orderNum, String attribute1,
 			String attribute2, String attribute3, Boolean flag,
 			String discription, String dicTypeName) {
 		super();
@@ -106,11 +106,11 @@ public class Dictionary extends BaseEntity implements Serializable {
 		this.showName = showName;
 	}
 
-	public Integer getOrderNum() {
+	public String getOrderNum() {
 		return orderNum;
 	}
 
-	public void setOrderNum(Integer orderNum) {
+	public void setOrderNum(String orderNum) {
 		this.orderNum = orderNum;
 	}
 
