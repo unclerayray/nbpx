@@ -111,7 +111,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
     }
 
     /**
-     * 获取当前用户的用户名
+     * 获取当前用户的用户名 [admin]
      * @return
      */
     public String getSessionUserName() {
@@ -124,6 +124,21 @@ public class BaseAction extends ActionSupport implements ServletRequestAware {
             userName = "admin";
         }
         logger.debug("---->:userName = " + userName);
+        return userName;
+    }
+    
+
+    /**
+     * 获取当前用户的用户名 [admin]
+     * @return
+     */
+    public String getClientSessionUserName() {
+        String userName = new String();
+        if (session != null) {
+            userName = (String) session.getAttribute("clientUserName");
+        } else {
+            logger.debug("---->:session missing");
+        }
         return userName;
     }
     

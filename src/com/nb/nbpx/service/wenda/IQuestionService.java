@@ -14,4 +14,6 @@ public interface IQuestionService  extends IBaseService  {
 			Integer start, String sort, String order,Integer questionId);
 	public Question saveQuestion(Question question) throws Exception ;
 	public void deleteQuestion(Question question);
+	
+	public String viewQuestion(Integer id);
 }

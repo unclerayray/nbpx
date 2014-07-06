@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<div class="clear"></div>
-	<div class="searchInput"><input style='width:830px;' id="key" value="请输入关键字,如: 员工 管理" onfocus="if (this.value=='请输入关键字,如: 员工 管理'){this.value='';}" 
+	<div class="searchInput"><input style='width:830px;' id="searchWord" value="请输入关键字,如: 员工 管理" onfocus="if (this.value=='请输入关键字,如: 员工 管理'){this.value='';}" 
 	onblur="if (this.value==''){this.value='请输入关键字,如: 员工 管理';}" onkeydown="fnt_top_search2(event);" />
 	<button class="searchButton"  onclick="fnt_top_search(document.getElementById('search_type').value);">搜&nbsp;索</button></div>
 </div>
@@ -228,7 +228,7 @@
 		}else{
 			searchUrl = 'struts/Search_queryKeywordsByKeyword';
 		}
-		$( "#key" ).autocomplete({
+		$("#searchWord").autocomplete({
 			minLength: 1,
 			source: function(request, response) {
 				$.ajax({
@@ -238,10 +238,9 @@
 					timeout: 5000,
 					data: {
 						featureClass: "P",
-						style: "full",
 						maxRows: 12,
 						wt:"json",
-						q:$("#key").val(),
+						q:$("#searchWord").val(),
 						name_startsWith: request.term
 					},
 					success: function(data) {

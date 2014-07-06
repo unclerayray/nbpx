@@ -46,7 +46,7 @@
 			<li><a href="hotPX.jsp">热门培训</a><span>|</span></li>
 			<li><a href="seeLiveScene.jsp?flag=1">培训现场</a><span>|</span></li>
 			<li><a href="seeLiveScene.jsp?flag=2">内训现场</a><span>|</span></li>
-			<li><a href="#">积分问答</a><span>|</span></li>
+			<li><a href="viewAllQuestion.jsp">积分问答</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=009" class="red">专业培训</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=008" class="red">行业培训</a><span>|</span></li>
 			<li><a href="teacherPX.jsp">企业培训师</a></li>
