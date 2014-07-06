@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.system.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,7 +21,69 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 		IDictionaryService {
 
 	public IDictionaryDao dicDao;
-
+	
+	public String queryWorkDic(String workDicType){
+		HashMap<String,String> conditions = new HashMap<String,String>();
+		conditions.put("isWorkParent", "");
+		conditions.put("dicType",workDicType);
+		List<Dictionary> pList = dicDao.getDictionary(conditions, null, null);
+		String resultStr = "[";
+		if(pList != null){
+			conditions.remove("isWorkParent");
+			for(int i=0;i<pList.size();i++){
+				Dictionary temp = pList.get(i);
+				resultStr += "{\"p\":\""+temp.getShowName()+"\",\"c\":[";
+				conditions.put("workParent", temp.getCodeName());
+				List<Dictionary> cList = dicDao.getDictionary(conditions, null, null);
+				if(cList != null){
+					for(int j=0;j<cList.size();j++){
+						resultStr += "\""+cList.get(j).getShowName()+"\"";
+						if(j<cList.size() -1)
+							resultStr +=",";
+					}
+				}
+				resultStr +="]}";
+				if(i<pList.size()-1)
+					resultStr +=",";
+				
+			}
+		}
+		resultStr +="]";
+		
+		return resultStr;
+	}
+	//获取城市字段
+	public String queryCity(final String cityDicType){
+		HashMap<String,String> conditions = new HashMap<String,String>();
+		conditions.put("isParent", "");
+		conditions.put("dicType",cityDicType);
+		List<Dictionary> pList = dicDao.getDictionary(conditions, null, null);
+		String resultStr = "[";
+		if(pList != null){
+			conditions.remove("isParent");
+			for(int i=0;i<pList.size();i++){
+				Dictionary temp = pList.get(i);
+				resultStr += "{\"p\":\""+temp.getShowName()+"\",\"c\":[";
+				conditions.put("parent", temp.getCodeName());
+				List<Dictionary> cList = dicDao.getDictionary(conditions, null, null);
+				if(cList != null){
+					for(int j=0;j<cList.size();j++){
+						resultStr += "\""+cList.get(j).getShowName()+"\"";
+						if(j<cList.size() -1)
+							resultStr +=",";
+					}
+				}
+				resultStr +="]}";
+				if(i<pList.size()-1)
+					resultStr +=",";
+				
+			}
+		}
+		resultStr +="]";
+		
+		return resultStr;
+	}
+	
 	@Override
 	public String queryComboDicTypes() {
 		List list = dicDao.queryDicTypes(null,null);

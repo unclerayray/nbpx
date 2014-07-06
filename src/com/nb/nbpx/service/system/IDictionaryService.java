@@ -7,6 +7,10 @@ import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
 
 public interface IDictionaryService extends IBaseService {
+	//获取职位导航字段
+	public String queryWorkDic(String workDicType);
+	//获取城市字段
+	public String queryCity(String cityDicType);
 	/**
 	 * 获取【字典项DataGrid】的JSON
 	 * @param dicType

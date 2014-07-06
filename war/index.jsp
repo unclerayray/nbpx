@@ -187,6 +187,8 @@
 		seePartTab('d',1,1);
 		//加载企业培训机构
 		seePartTab("org",1,1);
+		//加载职位导航
+		loadWork();
 		
 		//008 009 010 011 加载关键词
 		seePartTab('dic',1,1);
@@ -209,7 +211,38 @@
 		loadDics("25",10,"customSay")
 	});	
 	
+	function loadWork(){
+		$.ajax({
+			url: 'struts/Dictionary_queryWork',
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";	
+				//alert(data);
 
+				$.each(jsonObject,function(n,value){
+					valueStr +="<li><dl><dt>"+value.p+"</dt><dd class='clearfix'>";							
+								
+					valueTemp = "";
+					var citys = value.c;
+					$.each(citys,function(n,value){
+						valueTemp +="<a  href='seeKey.jsp?key="+value+"' target='_blank'>"+value+"</a>";
+					});
+					if(valueTemp == "")
+						valueTemp = "<div class='notice'>暂时没有职位</div>"
+					valueStr += valueTemp+"</dd></dl></li>";
+				});
+
+	
+				if(valueStr == "")
+					valueStr ="<div class='notice'>暂时没有职位导航信息</div>";
+				
+				$('#workDH').html(valueStr);
+			}
+			
+		});
+		
+	}
+	
 	function loadTip(){
 		var search_type = document.getElementById('search_type').value;
 		var searchUrl = '';
@@ -1302,395 +1335,7 @@ padding-bottom: 2px;
 		<div class="item_title" >职位导航</div>
 		<div class="item_body">
 			<div class="item_wallpaper">
-				<ul class="clearfix">
-					<li>
-						<dl>
-							<dt>销售/客服/技术支持</dt>
-							<dd class="clearfix">
-								<div class="pic_text">
-									<div class="pic"><a href="/activities/sales/index.xhtml" title="销售类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="销售类岗位招聘专场"></a></div>
-								</div>								
-								<a  href='#' target="_blank">sales</a>
-								<a href='#' target="_blank">销售代表</a>
-								<a href='#' target="_blank">业务员</a>
-								<a href='#' target="_blank">客户经理</a>
-								<a href='#' target="_blank">电话销售</a>
-								<a href='#' target="_blank">网络销售</a>
-								<a href='#' target="_blank">销售管理</a>
-								<a  href='#' target="_blank">销售经理</a>
-								<a href='#' target="_blank">销售主管</a>
-								<a href='#' target="_blank">销售工程师</a>
-								<a href='#' target="_blank">销售总监</a>
-								<a href='#' target="_blank">销售助理</a>
-								<a href='#'  target="_blank">客服</a>
-								<a href='#' target="_blank">客服经理</a>
-							</dd>
-						</dl>
-					</li>
-					<li> 
-						<dl>
-							<dt>人事/行政/文职/高级管理</dt>
-							<dd class="clearfix">
-								<div class="pic_text">
-									<div class="pic"><a href="/activities/hr.xhtml" title="人事行政类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="人事行政类岗位招聘专场"></a></div>
-								</div>							
-								<a >HR</a>
-								<a>人事专员</a>
-								<a href='#' target="_blank">行政专员</a>
-								<a href='#' target="_blank">招聘</a>
-								<a href='#' target="_blank">培训</a>
-								<a href='#' target="_blank">薪酬</a>
-								<a href='#' target="_blank">员工关系</a>								
-								<a href='#' target="_blank">绩效</a>
-								<a href='#' target="_blank">企业文化</a>
-								<a href='#' target="_blank">人力资源总监</a>
-								<a href='#'  target="_blank">人事经理</a>
-								<a href='#'  target="_blank">总务</a>
-								<a href='#' target="_blank">文员</a>
-								<a href='#' target="_blank">秘书</a>
-								<a href='#' target="_blank">助理</a>
-								<a href='#' target="_blank">档案管理</a>
-								<a href='#' target="_blank">总监</a>
-								<a href='#' target="_blank">部门经理</a>
-								<a href='#' target="_blank">项目经理</a>
-								<a href='#' target="_blank">厂长</a>
-								<a href='#' target="_blank">总裁</a>
-								<a href='#' target="_blank">总经理</a>								
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>财会/金融/银行/保险</dt>
-							<dd class="clearfix">
-								<div class="pic_text">
-									<div class="pic"><a href="#" title="财务审计类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="财务审计类岗位招聘专场"></a></div>
-								</div>							
-								<a href="=会计" target="_blank">会计</a>
-								<a href="=会计师" target="_blank">会计师</a>
-								<a href="=注册会计师" target="_blank">注册会计师</a>
-								<a href="=成本会计" target="_blank">成本会计</a>
-								<a href="=管理会计" target="_blank">管理会计</a>
-								<a href="=出纳" target="_blank">出纳</a>
-								<a href="=税务" target="_blank">税务</a>								
-								<a href="=财务管理" target="_blank">财务管理</a>
-								<a href="=财务总监" target="_blank">财务总监</a>
-								<a href="=财务经理" target="_blank">财务经理</a>
-								<a href="=会计主管" target="_blank">会计主管</a>
-								<a href="=审计" target="_blank">审计</a>
-								<a href="=稽核" target="_blank">稽核</a>
-								<a href="=保险" target="_blank">保险</a>
-								<a href="=理财" target="_blank">理财</a>
-								<a href="=信贷" target="_blank">信贷</a>
-								<a href="=证券" target="_blank">证券</a>
-								<a href="=投资" target="_blank">投资</a>
-							</dd>
-						</dl>
-					</li>
-
-					<li>
-						<dl>
-							<dt>生产/加工/制造</dt>
-							<dd class="clearfix">
-								<a href="=IE工程师" target="_blank">IE工程师</a>
-								<a href="=PE工程师" target="_blank">PE工程师</a>
-								<a href="=ME工程师" target="_blank">ME工程师</a>
-								<a href="=SMT工程师" target="_blank">SMT工程师</a>
-								<a href="=包装工程师" target="_blank">包装工程师</a>
-								<a href="=项目工程师" target="_blank">项目工程师</a>
-								<a href="=模具工程师" target="_blank">模具工程师</a>								
-								<a href="=生产管理" target="_blank">生产管理</a>
-								<a href="=拉长" target="_blank">拉长</a>
-								<a href="=车间主管" target="_blank">车间主管</a>
-								<a href="=生产经理" target="_blank">生产经理</a>
-								<a href="=PMC" target="_blank">PMC</a>
-								<a href="=普工" target="_blank">普工</a>
-								<a href="=技工" target="_blank">技工</a>
-								<a href="=电工" target="_blank">电工</a>
-								<a href="=车工" target="_blank">车工</a>
-								<a href="=铣" target="_blank">铣</a>
-								<a href="=焊" target="_blank">焊</a>
-								<a href="=钳" target="_blank">钳</a>
-								<a href="=钣金" target="_blank">钣金</a>
-								<a href="=冲压" target="_blank">冲压</a>
-								<a href="=打磨" target="_blank">打磨</a>
-								<a href="=抛光" target="_blank">抛光</a>
-								<a href="=装配" target="_blank">装配</a>
-								<a href="=注塑" target="_blank">注塑</a>								
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>采购/贸易/物流</dt>
-							<dd class="clearfix">
-								<div class="pic_text">
-									<div class="bx-wrapper" style="width:80px; position:relative;"><div class="bx-window" style="width:80px; height:80px; position:relative; overflow:hidden;"><dl id="pos_nav_slider" style="height: 999999px; position: relative; top: -91.7157287525381px;"><dd class="pic" style="list-style: none; height: 80px;"><a href="/activities/trade.xhtml" title="外贸类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="外贸类职位招聘专场"></a></dd>
-										<dd class="pic bx-child" style="list-style: none; height: 80px;"><a href="/activities/purchase.xhtml" title="物流/采购类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="物流/采购类职位招聘专场"></a></dd>
-										<dd class="pic bx-child" style="list-style: none; height: 80px;"><a href="/activities/trade.xhtml" title="外贸类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="外贸类职位招聘专场"></a></dd>
-									<dd class="pic" style="list-style: none; height: 80px;"><a href="/activities/purchase.xhtml" title="物流/采购类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="物流/采购类职位招聘专场"></a></dd></dl></div><div class="bx-pager"><a href="" class="pager-link pager-1">1</a><a href="" class="pager-link pager-2 pager-active">2</a></div></div>
-								</div>
-								<a href="=采购" target="_blank">采购</a>
-								<a href="=采购经理" target="_blank">采购经理</a>
-								<a href="=采购工程师" target="_blank">采购工程师</a>
-								<a href="=供应商开发" target="_blank">供应商开发</a>
-								<a href="=国际贸易" target="_blank">国际贸易</a>
-								<a href="=跟单" target="_blank">跟单</a>
-								<a href="=报检" target="_blank">报检</a>								
-								<a href="=报关" target="_blank">报关</a>
-								<a href="=外销" target="_blank">外销</a>
-								<a href="=船务" target="_blank">船务</a>
-								<a href="=外贸业务员" target="_blank">外贸业务员</a>
-								<a href="=外贸助理" target="_blank">外贸助理</a>
-								<a href="=外贸专员" target="_blank">外贸专员</a>
-								<a href="=外贸经理" target="_blank">外贸经理</a>
-								<a href="=物流" target="_blank">物流</a>
-								<a href="=调度" target="_blank">调度</a>
-								<a href="=供应链" target="_blank">供应链</a>
-								<a href="=配送" target="_blank">配送</a>
-								<a href="=运输" target="_blank">运输</a>
-								<a href="=快递" target="_blank">快递</a>
-								<a href="=仓储" target="_blank">仓储</a>
-								<a href="=仓管" target="_blank">仓管</a>
-								<a href="=仓库主管" target="_blank">仓库主管</a>
-								<a href="=仓库文员" target="_blank">仓库文员</a>							
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>质量管理/安全防护</dt>
-							<dd class="clearfix">
-								<div class="pic_text">
-									<div class="pic"><a href="/activities/qc.xhtml" title="质量管理类职位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="质量管理类职位招聘专场"></a></div>
-								</div>							
-								<a href="=品检" target="_blank">品检</a>
-								<a href="=QC" target="_blank">QC</a>
-								<a href="=IQC" target="_blank">IQC</a>
-								<a href="=FQC" target="_blank">FQC</a>
-								<a href="=OQC" target="_blank">OQC</a>
-								<a href="=IPQC" target="_blank">IPQC</a>
-								<a href="=品管" target="_blank">品管</a>								
-								<a href="=QA" target="_blank">QA</a>
-								<a href="=品质管理" target="_blank">品质管理</a>
-								<a href="=质量管理" target="_blank">质量管理</a>
-								<a href="=品质经理" target="_blank">品质经理</a>
-								<a href="=QE" target="_blank">QE</a>
-								<a href="=品质工程师" target="_blank">品质工程师</a>
-								<a href="=化验员" target="_blank">化验员</a>
-								<a href="=检验员" target="_blank">检验员</a>
-								<a href="=体系工程师" target="_blank">体系工程师</a>
-								<a href="=ISO" target="_blank">ISO</a>
-								<a href="=内审" target="_blank">内审</a>
-								<a href="=供应商管理" target="_blank">供应商管理</a>
-								<a href="=产品认证" target="_blank">产品认证</a>
-								<a href="=计量" target="_blank">计量</a>
-								<a href="=安全工程师" target="_blank">安全工程师</a>
-								<a href="=安全主管" target="_blank">安全主管</a>
-								<a href="=EHS" target="_blank">EHS</a>
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>  
-							<dt>IT/计算机/互联网/通信</dt>
-							<dd class="clearfix">
-								<div class="pic_text">
-									<div class="pic"><a href="/activities/it.xhtml" title="IT类岗位招聘专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="IT类岗位招聘专场"></a></div>
-									<!-- div class="text"><span>·</span><a href="">教务主管</a></div -->
-								</div>							
-								<a href="=程序员" target="_blank">程序员</a>
-								<a href="=软件工程师" target="_blank">软件工程师</a>
-								<a href="=java" target="_blank">java</a>
-								<a href="=php" target="_blank">php</a>
-								<a href="=Android" target="_blank">Android</a>
-								<a href="=架构" target="_blank">架构</a>
-								<a href="=IT" target="_blank">IT</a>								
-								<a href="=网页设计" target="_blank">网页设计</a>
-								<a href="=产品经理" target="_blank">产品经理</a>
-								<a href="=产品开发" target="_blank">产品开发</a>
-								<a href="=网络营销" target="_blank">网络营销</a>
-								<a href="=SEO" target="_blank">SEO</a>
-								<a href="=技术总监" target="_blank">技术总监</a>
-								<a href="=测试工程师" target="_blank">测试工程师</a>
-								<a href="=硬件工程师" target="_blank">硬件工程师</a>
-								<a href="=网络管理员" target="_blank">网络管理员</a>
-								<a href="=ERP" target="_blank">ERP</a>
-								<a href="=电子商务" target="_blank">电子商务</a>
-								<a href="=运营" target="_blank">运营</a>
-								<a href="=通讯" target="_blank">通讯</a>
-								<a href="=通信" target="_blank">通信</a>
-								<a href="=无线" target="_blank">无线</a>
-								<a href="=射频" target="_blank">射频</a>
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>电子/机械/仪器仪表</dt>
-							<dd class="clearfix">
-								<div class="pic_text hide">
-									<div class="pic"><img src="images/sales.jpg" width="80" height="80" border="0" alt="青岛海信通信有限公司"></div>
-									<div class="text"><span>·</span><a href="">校区负责人</a></div>
-									<div class="text"><span>·</span><a href="">教务主管</a></div>
-								</div>
-								<a href="=电子工程师" target="_blank">电子工程师</a>
-								<a href="=电气工程师" target="_blank">电气工程师</a>
-								<a href="=电气设计" target="_blank">电气设计</a>
-								<a href="=电路设计" target="_blank">电路设计</a>
-								<a href="=电子测试" target="_blank">电子测试</a>
-								<a href="=电气维修" target="_blank">电气维修</a>
-								<a href="=数控" target="_blank">数控</a>								
-								<a href="=CNC" target="_blank">CNC</a>
-								<a href="=工艺工程师" target="_blank">工艺工程师</a>
-								<a href="=结构工程师" target="_blank">结构工程师</a>
-								<a href="=机械工程师" target="_blank">机械工程师</a>
-								<a href="=机电工程师" target="_blank">机电工程师</a>
-								<a href="=ME" target="_blank">ME</a>
-								<a href="=制造工程师" target="_blank">制造工程师</a>
-								<a href="=机械设计" target="_blank">机械设计</a>
-								<a href="=夹具" target="_blank">夹具</a>
-								<a href="=焊接" target="_blank">焊接</a>
-								<a href="=调试" target="_blank">调试</a>
-								<a href="=激光" target="_blank">激光</a>
-								<a href="=可靠性测试" target="_blank">可靠性测试</a>
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>房地产/物业/建筑/园林</dt>
-							<dd class="clearfix">
-								<div class="pic_text hide">
-									<div class="pic"><img src="images/sales.jpg" width="80" height="80" border="0" alt="青岛海信通信有限公司"></div>
-									<div class="text"><span>·</span><a href="">校区负责人</a></div>
-									<div class="text"><span>·</span><a href="">教务主管</a></div>
-								</div>
-								<a href="=房地产开发" target="_blank">房地产开发</a>
-								<a href="=房地产策划" target="_blank">房地产策划</a>
-								<a href="=房地产中介" target="_blank">房地产中介</a>
-								<a href="=房地产销售" target="_blank">房地产销售</a>
-								<a href="=置业顾问" target="_blank">置业顾问</a>
-								<a href="=招标" target="_blank">招标</a>
-								<a href="=报建" target="_blank">报建</a>								
-								<a href="=物业" target="_blank">物业</a>
-								<a href="=物业管理" target="_blank">物业管理</a>
-								<a href="=招商" target="_blank">招商</a>
-								<a href="=园林" target="_blank">园林</a>
-								<a href="=景观" target="_blank">景观</a>
-								<a href="=建筑设计" target="_blank">建筑设计</a>
-								<a href="=建筑工程" target="_blank">建筑工程</a>
-								<a href="=监理" target="_blank">监理</a>
-								<a href="=室内设计" target="_blank">室内设计</a>
-								<a href="=土建工程师" target="_blank">土建工程师</a>
-								<a href="=水电工程师" target="_blank">水电工程师</a>
-								<a href="=建造师" target="_blank">建造师</a>
-								<a href="=造价师" target="_blank">造价师</a>
-							</dd>
-						</dl>
-					</li>
-
-					<li>
-						<dl>
-							<dt>广告/市场/传媒/设计/出版</dt>
-							<dd class="clearfix">
-								<div class="pic_text hide">
-									<div class="pic"><img src="images/sales.jpg" width="80" height="80" border="0" alt="青岛海信通信有限公司"></div>
-									<div class="text"><span>·</span><a href="">校区负责人</a></div>
-									<div class="text"><span>·</span><a href="">教务主管</a></div>
-								</div>
-								<a href="=广告设计" target="_blank">广告设计</a>
-								<a href="=美工" target="_blank">美工</a>
-								<a href="=网页设计" target="_blank">网页设计</a>
-								<a href="=平面设计" target="_blank">平面设计</a>
-								<a href="=产品设计" target="_blank">产品设计</a>
-								<a href="=包装设计" target="_blank">包装设计</a>
-								<a href="=工业设计" target="_blank">工业设计</a>								
-								<a href="=设计总监" target="_blank">设计总监</a>
-								<a href="=文案" target="_blank">文案</a>
-								<a href="=文案策划" target="_blank">文案策划</a>
-								<a href="=编辑" target="_blank">编辑</a>
-								<a href="=摄影" target="_blank">摄影</a>
-								<a href="=数据分析" target="_blank">数据分析</a>
-								<a href="=企划" target="_blank">企划</a>
-								<a href="=公关" target="_blank">公关</a>
-								<a href="=市场营销" target="_blank">市场营销</a>
-								<a href="=市场总监" target="_blank">市场总监</a>
-								<a href="=品牌推广" target="_blank">品牌推广</a>
-								<a href="=业务拓展" target="_blank">业务拓展</a>
-								<a href="=市场拓展" target="_blank">市场拓展</a>
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>服装纺织/皮革/鞋帽/化工</dt>
-							<dd class="clearfix">
-								<div class="pic_text">
-									<div class="pic"><a href="/activities/clothing.xhtml" title="服装纺织/鞋帽/皮革职位专场" target="_blank"><img src="images/sales.jpg" width="80" height="80" border="0" alt="IT类岗位招聘专场"></a></div>
-									<!-- div class="text"><span>·</span><a href="">教务主管</a></div -->
-								</div>							
-								<a href="=服装设计" target="_blank">服装设计</a>
-								<a href="=服装跟单" target="_blank">服装跟单</a>
-								<a href="=面料" target="_blank">面料</a>
-								<a href="=辅料" target="_blank">辅料</a>
-								<a href="=皮革" target="_blank">皮革</a>
-								<a href="=制衣" target="_blank">制衣</a>
-								<a href="=板房" target="_blank">板房</a>								
-								<a href="=纸样" target="_blank">纸样</a>
-								<a href="=打样" target="_blank">打样</a>
-								<a href="=制版" target="_blank">制版</a>
-								<a href="=裁床" target="_blank">裁床</a>
-								<a href="=车板" target="_blank">车板</a>
-								<a href="=放码" target="_blank">放码</a>
-								<a href="=印花" target="_blank">印花</a>
-								<a href="=车缝" target="_blank">车缝</a>
-								<a href="=化工" target="_blank">化工</a>
-								<a href="=调色" target="_blank">调色</a>
-								<a href="=配色" target="_blank">配色</a>
-								<a href="=涂料" target="_blank">涂料</a>
-								<a href="=光学" target="_blank">光学</a>
-								<a href="=环保" target="_blank">环保</a>
-								<a href="=表面处理" target="_blank">表面处理</a>
-								<a href="=高分子材料" target="_blank">高分子材料</a>
-								<a href="=化学分析" target="_blank">化学分析</a>
-								<a href="=电镀" target="_blank">电镀</a>							
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>服务业/其他</dt>
-							<dd class="clearfix">
-								<a href="=店员" target="_blank">前台</a>
-								<a href="=店员" target="_blank">服务员</a>
-								<a href="=店员" target="_blank">酒店管理</a>
-								<a href="=店员" target="_blank">计调</a>
-								<a href="=店员" target="_blank">美容</a>
-								<a href="=店员" target="_blank">店员</a>
-								<a href="=店长" target="_blank">店长</a>								
-								<a href="=营业员" target="_blank">营业员</a>
-								<a href="=导购" target="_blank">导购</a>
-								<a href="=收银" target="_blank">收银</a>
-								<a href="=理货" target="_blank">理货</a>
-								<a href="=陈列" target="_blank">陈列</a>
-								<a href="=保安" target="_blank">保安</a>
-								<a href="=司机" target="_blank">司机</a>
-								<a href="=清洁" target="_blank">清洁</a>
-								<a href="=厨师" target="_blank">厨师</a>
-								<a href="=后勤" target="_blank">后勤</a>
-								<a href="=顾问" target="_blank">顾问</a>
-								<a href="=咨询" target="_blank">咨询</a>
-								<a href="=法务" target="_blank">法务</a>
-								<a href="=翻译" target="_blank">翻译</a>
-								<a href="=日语" target="_blank">日语</a>
-								<a href="=英语" target="_blank">英语</a>
-								<a href="=韩语" target="_blank">韩语</a>
-								<a href="" target="_blank">教师</a>
-								<a href="">培训师</a>										
-							</dd>
-						</dl>
-					</li>
+				<ul class="clearfix" id="workDH">
 				</ul>
 			</div>
 		</div>
@@ -1912,6 +1557,7 @@ padding-bottom: 2px;
 				</div>
 				<div class="bg" style="padding:0px 0px 0px 15px;">
 					<ul class="list5 videoList" id="vd2">
+						<!--  <li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
@@ -1922,8 +1568,7 @@ padding-bottom: 2px;
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
 						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
-						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
-						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>
+						<li><span class="video">&nbsp;</span>经营快乐的核心价值观在企业...</li>-->
 					</ul>
 					<div class="clear"></div>
 				</div>

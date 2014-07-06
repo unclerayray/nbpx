@@ -2,6 +2,7 @@ package com.nb.nbpx.dao.system.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -21,7 +22,55 @@ import com.nb.nbpx.pojo.system.Dictionary;
  */
 public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 		implements IDictionaryDao {
+	//根据条件查询字段
+	public List<Dictionary> getDictionary(final HashMap<String,String> conditions,final Integer rows, final Integer start){
+		List<Dictionary> list = new ArrayList<Dictionary>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.system.Dictionary"
+								+ " (d.dicId, d.dicType, d.codeName, d.showName, d.orderNum,"
+								+ " d.attribute1, d.attribute2, d.attribute3, d.flag,"
+								+ " d.discription,'') from Dictionary d"
+								+ " where 1 = 1 ");
+				
+				if(conditions != null && conditions.containsKey("dicType")){
+					hql.append(" and d.dicType = '"+conditions.get("dicType")+"'");
+				}
+				
+				if(conditions != null && conditions.containsKey("isParent")){
+					hql.append(" and (d.attribute1 = '' or d.attribute1 is null)");
+				}
+				
+				if(conditions != null && conditions.containsKey("parent")){
+					hql.append(" and d.attribute1 = '"+conditions.get("parent")+"'");
+				}
+				
+				if(conditions != null && conditions.containsKey("isWorkParent")){
+					hql.append(" and (d.orderNum = '' or d.orderNum is null)");
+				}
+				
+				if(conditions != null && conditions.containsKey("workParent")){
+					hql.append(" and d.orderNum = '"+conditions.get("workParent")+"'");
+				}
+				
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
+		
 	@Override
 	public List<Dictionary> queryDictionary(final String dicType,
 			final String like_showName, final Integer rows, final Integer start,

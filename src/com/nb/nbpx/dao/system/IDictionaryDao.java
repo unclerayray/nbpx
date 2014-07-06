@@ -1,5 +1,6 @@
 package com.nb.nbpx.dao.system;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.nb.nbpx.dao.IBaseDao;
@@ -10,6 +11,10 @@ import com.nb.nbpx.pojo.system.Dictionary;
  * @date 2013-4-29
  */
 public interface IDictionaryDao extends IBaseDao<Dictionary, Integer> {
+	
+	//根据条件查询字段
+	public List<Dictionary> getDictionary(HashMap<String,String> conditions,Integer rows, Integer start);
+	
 	public List<Dictionary> queryDictionary(String dicType,String like_showName,Integer rows, Integer start, String sort, String order);
 	public Long queryDictionaryCount(String dicType,String showName);
 	public List<Dictionary> queryDicTypes(Integer rows, Integer start);

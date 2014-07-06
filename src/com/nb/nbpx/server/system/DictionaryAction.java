@@ -31,7 +31,21 @@ public class DictionaryAction extends BaseAction {
 	//show name for like
 	public String p_codeName;
 	public String dics;
-
+	
+	//查询职位导航
+	public String queryWork(){
+		String json = dictionaryService.queryWorkDic("29");
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	//查询城市字典
+	public String queryCity(){
+		String json = dictionaryService.queryCity("007");
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 	public String queryDictionary() {
 		String json = dictionaryService.queryDic(p_dicType, p_codeName, rows,
 				getStartPosi(), sort, order);
