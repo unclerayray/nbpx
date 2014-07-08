@@ -30,7 +30,6 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				int i = 0;
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.system.Dictionary"
 								+ " (d.dicId, d.dicType, d.codeName, d.showName, d.orderNum,"
@@ -104,7 +103,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 						hql.append(" " + order);
 					}
 				} else {
-					hql.append(" order by d.dicId desc ");
+					hql.append(" order by d.attribute2 desc ");
 				}
 				Query query = session.createQuery(hql.toString());
 

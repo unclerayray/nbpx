@@ -37,16 +37,20 @@ public class JsonBuilderInterceptor extends AbstractInterceptor {
 				excludedList.addAll(Arrays.asList(excludedFields));
 			}
 			excludedList.add("excluded_fields");
-			excludedList.add("objectName");
+			//excludedList.add("objectName");
 			while (iter.hasNext()) {
 				Map.Entry entry = (Map.Entry) iter.next();
 				entry.setValue(entry.getValue());
 				if (hasExcluded&& excludedList.contains(entry.getKey().toString())||entry.getKey().toString().equals("excluded_fields")) {
 					parameters.put(entry.getKey().toString(), entry.getValue());
 				}else {
-					String key = ((String[]) paramMap.get("objectName"))[0]
-							+ "." + entry.getKey();
-					obj.put(key, entry.getValue());
+					if(entry.getKey().toString().equals("objectName")){
+						parameters.put(entry.getKey().toString(), entry.getValue());
+					}else{
+						String key = ((String[]) paramMap.get("objectName"))[0]
+								+ "." + entry.getKey();
+						obj.put(key, entry.getValue());
+					}
 				}
 			}
 			obj.keySet().removeAll(parameters.keySet());
