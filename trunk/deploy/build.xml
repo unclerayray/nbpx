@@ -90,7 +90,7 @@
 			<replacefilter token="image.livescene.path=D://test//images" value="download.file.path=/alidata/roger/images"/>
 			<replacefilter token="course.goldenPic.path=D://test//goldenPic" value="download.file.path=/alidata/roger/goldenPic"/>
 			<replacefilter token="course.hypeLink.prefix=http://localhost:8099/nbpx/viewClass.jsp?id=" value="course.hypeLink.prefix=http://www.nanbeipx.com/viewClass.jsp?id="/>
-			<replacefilter token="teacher.photo.path=D://test//photos" value="teacher.photo.path=usr/roger/photos/"/>
+			<replacefilter token="teacher.photo.path=D://test//photos" value="teacher.photo.path=/alidata/roger/photos/"/>
 		</replace>
 	</target>
 
