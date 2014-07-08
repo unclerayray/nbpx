@@ -26,7 +26,8 @@
 			<th
 			data-options="field:'dicType',width:120,sortable:true,formatter:function(value,row){return row.dicTypeName;}">字典类型</th>
 			<th data-options="field:'codeName',sortable:true,width:120">字典编码</th>
-			<th data-options="field:'orderNum',sortable:true,width:100">排列顺序</th>
+			<th data-options="field:'orderNum',sortable:true,width:100">备用字段</th>
+			<th data-options="field:'attribute2',sortable:true,width:100">排序字段</th>
 			<th data-options="field:'showName',sortable:true,width:120">字典项值</th>
 			<th data-options="field:'discription',sortable:true,width:250">字典描述</th>
 			<th
@@ -91,8 +92,12 @@ modal="true" buttons="#dlg-buttons">
 	name="codeName" style="width: 130px;">
 </div>
 <div class="fitem">
-	<label>字典顺序编号:</label> <input id="codeNameItem" 
+	<label>备用字段:</label> <input id="codeNameItem" 
 	name="orderNum" style="width: 130px;">
+</div>
+<div class="fitem">
+	<label>字典顺序编号:</label> <input id="codeNameItem" 
+	name="attribute2" style="width: 130px;">
 </div>
 <div class="fitem">
 	<label>字典描述:</label>
