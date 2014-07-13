@@ -201,6 +201,37 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 		}
 		return true;
 	}
+	public List<Keyword> getKeyWordsListOnly(final Integer flag,final String type,final Integer start,final Integer rows){
+		List<Keyword> list = new ArrayList<Keyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from keywords k,coursekeywords a where k.keyId=a.keywordId and k.flag=1 ");
+				
+				if(type != null && !"".equals(type))//关键词类别
+					sql.append(" and k.category='"+type+"'");
+					
+				if(flag == 1)
+					sql.append(" order by k.hits desc");
+				else if(flag == 2)
+					sql.append(" and k.recommanded =1 order by k.recommandDate desc");
+				else
+					sql.append(" order by k.searchCnt desc");
+				
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
 	
 	//得到搜索排行关键词,flag:1代表点击率，2代表推荐，3代表热搜
 	@SuppressWarnings("unchecked")

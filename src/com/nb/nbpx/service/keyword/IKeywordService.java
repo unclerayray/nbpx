@@ -56,6 +56,8 @@ public interface IKeywordService extends IBaseService {
 	 */
 	public String setHyperLink(String[]  links,String content);
 	
+	public String getKeyWordsListOnly(Integer flag,String type,Integer start,Integer rows);
+	
 	public String getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);
 	
 	public String getKeyWordsListByType(String type,Integer start,Integer rows);
