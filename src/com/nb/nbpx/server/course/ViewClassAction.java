@@ -104,8 +104,8 @@ public class ViewClassAction extends BaseAction{
 	}
 
 	public void setCondition(String condition) throws UnsupportedEncodingException {
-		if(condition != null)
-			condition = new String(condition.getBytes("iso-8859-1"),"utf-8");
+//		if(condition != null)
+//			condition = new String(condition.getBytes("iso-8859-1"),"utf-8");
 		this.condition = condition;
 	}
 	public ISolrKeywordService getSolrKeywordService() {
