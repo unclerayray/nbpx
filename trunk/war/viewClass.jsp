@@ -130,7 +130,7 @@
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
-				$.each(jsonObject.rows,function(n,value){
+				$.each(jsonObject,function(n,value){
 					valueStr +="<li><a href='#'>"+value.keyword+"</a></li>";
 				});
 				$('#relatedKeywords').html(valueStr);

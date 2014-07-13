@@ -310,7 +310,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer(
-						"select count(d) from Course d where 1 = 1 ");
+						" from Course d where 1 = 1 ");
 				hql.append(" and title = '" + course.getTitle()
 						+ "' and teacherId = '" + course.getTeacherId() + "'");
 				if(course.getIsInner()!=null&&course.getIsInner()){
