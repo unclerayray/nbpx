@@ -138,7 +138,7 @@ public class MainAction extends BaseAction{
 
 		String type = "003_0"+category;//(01-财务管理,02-采购供应链仓储,03-人力资源,04-生产管理,05-市场营销,06-战略管理,07-项目管理,08-职业技能)
 		System.out.println(type);
-		String result= keywordService.getKeyWordsList(false, 2, type, 0, 14);
+		String result= keywordService.getKeyWordsListOnly(2, type, 0, 14);
 		
 		this.inputStream = castToInputStream(result);
 		return SUCCESS;

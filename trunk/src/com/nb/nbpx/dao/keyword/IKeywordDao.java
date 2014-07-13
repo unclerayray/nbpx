@@ -26,6 +26,8 @@ public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	public Boolean recommandKeywords(String[] keyIds);
 	
 	public Boolean importKeywords(String category, String[] keywords);
+	//不关联课程，只查询关键词
+	public List<Keyword> getKeyWordsListOnly(Integer flag,String type,Integer start,Integer rows);
 	
 	//得到关键词列表，flag:1代表点击率，2代表推荐，3代表热搜
 	public List<Keyword> getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);
