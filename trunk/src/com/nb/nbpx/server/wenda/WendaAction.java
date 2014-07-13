@@ -100,6 +100,9 @@ public class WendaAction  extends BaseAction {
 	
 	public String saveQuestion() {
 		try {
+			if(askedBy==null||askedBy.equals("")){
+				askedBy = getClientSessionUserName();
+			}
 			question = new Question(questionId,title,content,false,new Date(),askedBy,category);
 			String regEx1 = "[\\pP‘’“”_]";
 			if (questionKeywords != null) {
