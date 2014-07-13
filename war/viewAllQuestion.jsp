@@ -149,6 +149,7 @@
 						&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:pager.jump();">跳转</button>,当前是第<span id="courseCurrPage"></span>页,共<span id="coursePages">60</span>页
 					</div>
 	<div class="clear"></div>
+		<a href='addQuestion.jsp'>发布问题</a>
 	</div>
 	<!--左边部分课程信息 end-->
 	

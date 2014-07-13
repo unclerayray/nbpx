@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	String id = request.getParameter("id");
-	String username = request.getParameter("username");
+	String username = request.getSession().getAttribute("clientUserName")==null?null:request.getSession().getAttribute("clientUserName").toString();
 %>
 <html>
 <head>
@@ -35,7 +35,7 @@
 				
 				//路径
 				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li>";
-				path += "<li><a href='allQuestions.jsp'>积分问答</a></li>";
+				path += "<li><a href='viewAllQuestion.jsp'>积分问答</a></li>";
 				path += "<li class='bread'>&gt;&gt;</li>";
 				path += "<li>"+jsonObject.title+"</li></ul><div class='clear'></div>";
 				$('#path').html(path);				
@@ -97,14 +97,18 @@
 
 
 	function answerIt(){
-		if(username){
+		var user =  "<%=username%>";
+		if(user!=null&&user!=""){
+			if($('#newAnswer').val()==null || $('#newAnswer').val() == ""){
+				alert("回答不能为空！");
+			}
 			$.ajax({
-				url:encodeURI("struts/Question_answerIt")+<%=id%>,
+				url:encodeURI("struts/Question_answerIt?id="+<%=id%> + "&myAnswer=" + $('#newAnswer').val()),
 				success:function(data){
-					$('#newAnswer').clear();
+					$('#newAnswer').val("");
 					loadAnswers();
 				}
-			})
+			});
 		}else{
 			alert("请先登录！");
 		}
@@ -178,7 +182,7 @@
 			<form id="newAnswer-fm" method="post">
 				<textarea id="newAnswer" name="newAnwser" style="height:160px;width:700px;"></textarea>
 				<div class="clear"></div>
-				<button type="submit">回答问题</button>
+				<button type="button" onclick="answerIt()">回答问题</button>
 			</form>
 		</div>
 		<div class="clear"></div>
