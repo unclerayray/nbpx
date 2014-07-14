@@ -328,9 +328,15 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 			if (word == null || word.isEmpty()) {
 				continue;
 			}
+			String prefix = "";
+			try {
+				prefix = SolrUtil.getKeywordHypeLinkPrefix() ;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			String reg = "(?!((<.*?)|(<a.*?)))(" + word
 					+ ")(?!(([^<>]*?)>)|([^>]*?</a>))";
-			String replacement = "<a href=\"http://www.baidu.com\"  target=\"_blank\">"
+			String replacement = "<a href=\"" + prefix + word + "\"  target=\"_blank\">"
 					+ word + "</a>";
 			content = content.replaceAll(reg, replacement);
 		}
