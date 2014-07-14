@@ -170,7 +170,10 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 						tipPositionY:'center',
 						tipPositionX:'right',
 						className:'tip-darkgray',
-						missingMessage:'必填项'
+						missingMessage:'必填项',
+				        onSelect: function(rec){
+				            $('#teacherName').val(rec.realName);
+				        }
 						">
 					</div></td>
 					<td class="itemText">

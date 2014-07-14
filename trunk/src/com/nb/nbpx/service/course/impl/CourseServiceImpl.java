@@ -335,7 +335,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		// 如果讲师不存在数据库中，则添加讲师
 		// 当teacherId不是数字或者为空的时候，肯定是新增的
 		if (!StringUtil.isNumeric(course.getTeacherId())) {
-			TeacherInfo teacher = teacherDao.queryTeacherInfoByName(course.getTeacherId());
+			TeacherInfo teacher = teacherDao.queryTeacherInfoByName(course.getTeacherName());
 			if(teacher == null){
 //				User user = new User();
 //				user.setRegisterDate(new Date());
@@ -346,7 +346,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				//teacher.setUser(user);
 				teacher.setCreateBy(course.getLastUpdatedBy());
 				teacher.setCreateDate(new Date());
-				teacher.setRealName(course.getTeacherId());
+				teacher.setRealName(course.getTeacherName());
 				teacher.setState(false);
 				teacherDao.save(teacher);
 			}
@@ -433,6 +433,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			keyword.setKeyword(keywordStr);
 			keyword.setHits(500);
 			keyword.setSearchCnt(500);
+			keyword.setFlag(true);
 			keyword = keywordDao.saveOrGetExistsKeyword(keyword);
 			keywordMap.put(keyword.getKeyId(), keyword.getKeyword());
 			// keywordsForLink.add(keyword);
@@ -447,6 +448,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			subject.setSubject(subjectStr);
 			subject.setHits(500);
 			subject.setSearchCnt(500);
+			subject.setFlag(true);
 			subject = subjectDao.saveOrGetExistsSubject(subject);
 			subjectMap.put(subject.getSubjectId(), subject.getSubject());
 			solrSubjectService.addSubject2Solr(subject);

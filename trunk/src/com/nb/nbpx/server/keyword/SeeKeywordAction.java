@@ -89,8 +89,8 @@ public class SeeKeywordAction extends BaseAction {
 	}
 
 	public void setKey(String key) throws UnsupportedEncodingException {
-		if(key != null)
-			key = new String(key.getBytes("iso-8859-1"),"utf-8");
+//		if(key != null)
+//			key = new String(key.getBytes("iso-8859-1"),"utf-8");
 		this.key = key;
 	}
 

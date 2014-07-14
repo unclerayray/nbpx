@@ -264,6 +264,31 @@ public class CourseAction extends BaseAction {
 			courseAllInfo.setKeywords(courseAllInfo.getKeywords().replaceAll(
 					regEx1, ","));
 		}
+		if (courseAllInfo.getSubject() != null) {
+			courseAllInfo.setSubject(courseAllInfo.getSubject().replace(" ", ""));
+			courseAllInfo.setSubject(courseAllInfo.getSubject().replaceAll(
+					regEx1, ","));
+		}
+		if (courseAllInfo.getMajor() != null) {
+			courseAllInfo.setMajor(courseAllInfo.getMajor().replace(" ", ""));
+			courseAllInfo.setMajor(courseAllInfo.getMajor().replaceAll(
+					regEx1, ","));
+		}
+		if (courseAllInfo.getTargets() != null) {
+			courseAllInfo.setTargets(courseAllInfo.getTargets().replace(" ", ""));
+			courseAllInfo.setTargets(courseAllInfo.getTargets().replaceAll(
+					regEx1, ","));
+		}
+		if (courseAllInfo.getIndustry() != null) {
+			courseAllInfo.setIndustry(courseAllInfo.getIndustry().replace(" ", ""));
+			courseAllInfo.setIndustry(courseAllInfo.getIndustry().replaceAll(
+					regEx1, ","));
+		}
+		if (courseAllInfo.getProduct() != null) {
+			courseAllInfo.setProduct(courseAllInfo.getProduct().replace(" ", ""));
+			courseAllInfo.setProduct(courseAllInfo.getProduct().replaceAll(
+					regEx1, ","));
+		}
 	}
 
 	public String deleteCourse() {
