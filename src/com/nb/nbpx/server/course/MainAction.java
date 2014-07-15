@@ -1,10 +1,5 @@
 package com.nb.nbpx.server.course;
 
-import javax.annotation.Resource;
-
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.article.IArticleService;
 import com.nb.nbpx.service.course.ICourseService;
@@ -12,12 +7,18 @@ import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.subject.ISubjectService;
 import com.nb.nbpx.service.user.ITeacherInfoService;
 import com.nb.nbpx.service.zixun.IDownloadService;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Component("MainAction")
 @Scope("prototype")
 public class MainAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
 	private ICourseService courseService;
+
+	@Resource
 	private IKeywordService keywordService;
 	private ISubjectService subjectService;
 	private IArticleService articleService;
@@ -206,10 +207,10 @@ public class MainAction extends BaseAction{
 	public void setSubjectService(ISubjectService subjectService) {
 		this.subjectService = subjectService;
 	}
+	
 	public IKeywordService getKeywordService() {
 		return keywordService;
 	}
-	@Resource
 	public void setKeywordService(IKeywordService keywordService) {
 		this.keywordService = keywordService;
 	}

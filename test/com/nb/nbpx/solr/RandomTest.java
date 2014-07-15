@@ -25,7 +25,7 @@ public class RandomTest {
 		String regex1 = "[\\W]";
 		String targets = "法克，哈哈,hoho23，007_02";
 		targets = targets.replaceAll(regex, ",");
-		//System.out.println(targets);
+		System.out.println(targets);
 	}
 	
 	@Test

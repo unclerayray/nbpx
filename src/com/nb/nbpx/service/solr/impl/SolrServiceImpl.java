@@ -3,17 +3,17 @@
  */
 package com.nb.nbpx.service.solr.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import com.chenlb.mmseg4j.Dictionary;
+import com.chenlb.mmseg4j.*;
+import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.dao.course.ICourseKeywordDao;
+import com.nb.nbpx.dao.keyword.IKeywordDao;
+import com.nb.nbpx.pojo.course.CourseSearchResult;
+import com.nb.nbpx.pojo.keyword.Keyword;
+import com.nb.nbpx.service.solr.ISolrService;
+import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
+import com.nb.nbpx.utils.SolrUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -25,20 +25,11 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
-import com.chenlb.mmseg4j.Dictionary;
-import com.chenlb.mmseg4j.MMSeg;
-import com.chenlb.mmseg4j.Seg;
-import com.chenlb.mmseg4j.SimpleSeg;
-import com.chenlb.mmseg4j.Word;
-import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.dao.course.ICourseKeywordDao;
-import com.nb.nbpx.dao.keyword.IKeywordDao;
-import com.nb.nbpx.pojo.course.CourseSearchResult;
-import com.nb.nbpx.pojo.keyword.Keyword;
-import com.nb.nbpx.service.solr.ISolrService;
-import com.nb.nbpx.utils.JsonUtil;
-import com.nb.nbpx.utils.NbpxException;
-import com.nb.nbpx.utils.SolrUtil;
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.*;
 
 /**
  * @author Roger
@@ -127,11 +118,11 @@ public class SolrServiceImpl implements ISolrService {
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "search");
 		query.set("echoParams", "explicit");
-		query.set("df", "title,keyword,content");
-		query.set("mlt.qf", "title^10.0 keyword^10.0 content^1.0");
+		query.set("df", "title,keyword,content,subject,major,product,industry,courseInfo");
+		query.set("mlt.qf", "title^10.0 keyword^10.0 content^1.0 subject^1.0 major^1.0 product^1.0 industry^1.0 courseInfo ^1.0");
 		query.set("defType", "edismax");
 		query.set("pf", "title keyword content");
-		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
+		query.set("qf", "title^10.0 keyword^10.0 content^1.0 subject^1.0 major^1.0 product^1.0 industry^1.0 courseInfo ^1.0");
 		params.set("fq", "isInner:false");
 		params.set("fq", "state:true");
 		// query.set("q","*.*");
