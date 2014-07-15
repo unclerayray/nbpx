@@ -3,13 +3,12 @@
  */
 package com.nb.nbpx.service.solr;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.solr.client.solrj.SolrServerException;
-
 import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.utils.NbpxException;
+import org.apache.solr.client.solrj.SolrServerException;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 用于SOLR导入索引
@@ -35,7 +34,7 @@ public interface ISolrService {
 	public String cutText(String text) throws IOException;
 	
 	/**
-	 * 【公开课】通过变量全文查找，用于显示列表。高亮显示,返回json字符串
+	 * 【公开课】通过变量全文查找[title,keyword,content,subject,major,product,industry,courseInfo]，用于显示列表。高亮显示,返回json字符串
 	 * @param q 查找参数
 	 * @return
 	 */

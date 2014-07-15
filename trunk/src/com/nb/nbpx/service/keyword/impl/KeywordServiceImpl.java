@@ -1,22 +1,5 @@
 package com.nb.nbpx.service.keyword.impl;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import javax.annotation.Resource;
-
-import org.apache.log4j.LogManager;
-import org.springframework.stereotype.Component;
-
 import com.chenlb.mmseg4j.Dictionary;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
@@ -26,10 +9,18 @@ import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
-import com.nb.nbpx.service.solr.impl.SolrSubjectServiceImpl;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * @author Roger
@@ -41,6 +32,8 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 
 	private static final Logger log = Logger.getLogger(KeywordServiceImpl.class
 			.getName());
+	
+	private static String KEYWORD_PREFIX = "seeKey.jsp?key=";
 
 	@Resource
 	private IKeywordDao keywordDao;
@@ -328,7 +321,7 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 			if (word == null || word.isEmpty()) {
 				continue;
 			}
-			String prefix = "";
+			String prefix = KEYWORD_PREFIX;
 			try {
 				prefix = SolrUtil.getKeywordHypeLinkPrefix() ;
 			} catch (IOException e) {

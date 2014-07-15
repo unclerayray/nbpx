@@ -43,7 +43,7 @@
 					path += "<li><a href='#'>企业培训</a></li>";
 				else
 					path += "<li><a href='#'>企业内训</a></li>";
-				path += "<li class='bread'>&gt;&gt;</li><li><a href='xx.jsp?id="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li><li class='bread'>&gt;&gt;</li>";
+				path += "<li class='bread'>&gt;&gt;</li><li><a href='seeKey.jsp?key="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li><li class='bread'>&gt;&gt;</li>";
 				path += "<li>"+jsonObject.title+"</li></ul><div class='clear'></div>";
 				$('#path').html(path);
 				
@@ -67,7 +67,7 @@
 				var object = jsonObject.object;
 				var objectStr = "<span>培训对象：</span>";
 				for(var i=0;i<object.length;i++){
-					objectStr += "<a href='xx.jsp?id="+object[i].id+"'>"+object[i].name+"</a>";
+					objectStr += "<a href='seeKey.jsp?key="+object[i].name+"'>"+object[i].name+"</a>";
 					if(i<object.length-1)
 						objectStr += ",";
 				}
@@ -77,7 +77,7 @@
 				var indestory = jsonObject.indestory;
 				var indestoryStr = "<span>适用行业：</span>";
 				for(var i=0;i<indestory.length;i++){
-					indestoryStr += "<a href='xx.jsp?id="+indestory[i].id+"'>"+indestory[i].name+"</a>";
+					indestoryStr += "<a href='seeKey.jsp?key="+indestory[i].name+"'>"+indestory[i].name+"</a>";
 					if(i<indestory.length-1)
 						indestoryStr += ",";
 				}
@@ -87,7 +87,7 @@
 				var major = jsonObject.major;
 				var majorStr = "<span>适用专业：</span>";
 				for(var i=0;i<major.length;i++){
-					majorStr += "<a href='xx.jsp?id="+major[i].id+"'>"+major[i].name+"</a>";
+					majorStr += "<a href='seeKey.jsp?key="+major[i].name+"'>"+major[i].name+"</a>";
 					if(i<major.length-1)
 						majorStr += ",";
 				}
@@ -98,7 +98,7 @@
 				var keyWords = jsonObject.keyWords;
 				var keyWordsStr = "<span>关键词：</span>";
 				for(var i=0;i<keyWords.length;i++){
-					keyWordsStr += "<a href='xx.jsp?id="+keyWords[i].id+"'>"+keyWords[i].name+"</a>";
+					keyWordsStr += "<a href='seeKey.jsp?key="+keyWords[i].name+"'>"+keyWords[i].name+"</a>";
 					queryKeyWords += keyWords[i].name+'';
 					if(i<keyWords.length-1)
 						keyWordsStr += ",";
@@ -111,7 +111,7 @@
 				var series = jsonObject.series;
 				var seriesStr = "<span>专题：</span>";
 				for(var i=0;i<series.length;i++){
-					seriesStr += "<a href='xx.jsp?id="+series[i].id+"'>"+series[i].name+"</a>";
+					seriesStr += "<a href='seeKey.jsp?key="+series[i].name+"'>"+series[i].name+"</a>";
 					querySubjects += series[i].name+'';
 					if(i<series.length-1)
 						seriesStr += ",";
@@ -131,7 +131,7 @@
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
 				$.each(jsonObject,function(n,value){
-					valueStr +="<li><a href='#'>"+value.keyword+"</a></li>";
+					valueStr +="<li><a href='seeKey.jsp?key="+value.keyword+"'>"+value.keyword+"</a></li>";
 				});
 				$('#relatedKeywords').html(valueStr);
 			}
@@ -189,8 +189,9 @@
 			</div>
 			<div class="clear"></div>
 			<div id="courseContent">
+			<!-- 
 				<div class="intro">推荐理由</div>
-					<p id="blockContent"></p>
+					<p id="blockContent"></p> -->
 				<div class="intro">课程内容</div>
 					<p id="classContent"></p>
 			</div>

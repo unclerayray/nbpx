@@ -3,22 +3,6 @@
  */
 package com.nb.nbpx.server.course;
 
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
@@ -30,6 +14,20 @@ import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.SolrUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Roger
@@ -254,6 +252,7 @@ public class CourseAction extends BaseAction {
 		// String
 		// regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
 		String regEx1 = "[\\pP‘’“”]";
+		/*
 		if (courseAllInfo.getLinks() != null) {
 			courseAllInfo.setLinks(courseAllInfo.getLinks().replace(" ", ""));
 			courseAllInfo.setLinks(courseAllInfo.getLinks().replaceAll(
@@ -288,6 +287,28 @@ public class CourseAction extends BaseAction {
 			courseAllInfo.setProduct(courseAllInfo.getProduct().replace(" ", ""));
 			courseAllInfo.setProduct(courseAllInfo.getProduct().replaceAll(
 					regEx1, ","));
+		}*/
+		
+		courseAllInfo.setLinks(validateEach(courseAllInfo.getLinks()));
+
+		courseAllInfo.setKeywords(validateEach(courseAllInfo.getKeywords()));
+		
+		courseAllInfo.setSubject(validateEach(courseAllInfo.getSubject()));
+
+		courseAllInfo.setMajor(validateEach(courseAllInfo.getMajor()));
+
+		courseAllInfo.setTargets(validateEach(courseAllInfo.getTargets()));
+
+		courseAllInfo.setIndustry(validateEach(courseAllInfo.getIndustry()));
+
+		courseAllInfo.setProduct(validateEach(courseAllInfo.getProduct()));
+	}
+	
+	public String validateEach(String str){
+		if(str != null){
+			return str.replace("，", ",").replace(" ", "");
+		}else{
+			return null;
 		}
 	}
 

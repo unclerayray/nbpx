@@ -1,38 +1,8 @@
 package com.nb.nbpx.service.course.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import net.sf.jxls.transformer.XLSTransformer;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.poi.common.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.jsoup.helper.StringUtil;
-import org.springframework.stereotype.Component;
-
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.common.SystemConstants;
-import com.nb.nbpx.dao.course.ICourseDao;
-import com.nb.nbpx.dao.course.ICourseIndustryDao;
-import com.nb.nbpx.dao.course.ICourseInfoDao;
-import com.nb.nbpx.dao.course.ICourseKeywordDao;
-import com.nb.nbpx.dao.course.ICourseMajorDao;
-import com.nb.nbpx.dao.course.ICourseSubjectDao;
-import com.nb.nbpx.dao.course.ICourseTargetDao;
+import com.nb.nbpx.dao.course.*;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.dao.subject.ISubjectDao;
 import com.nb.nbpx.dao.system.IDictionaryDao;
@@ -41,14 +11,7 @@ import com.nb.nbpx.dao.user.IUserDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.dto.course.CourseReport;
 import com.nb.nbpx.dto.course.ReportDTO;
-import com.nb.nbpx.pojo.course.Course;
-import com.nb.nbpx.pojo.course.CourseIndustry;
-import com.nb.nbpx.pojo.course.CourseInfo;
-import com.nb.nbpx.pojo.course.CourseKeyword;
-import com.nb.nbpx.pojo.course.CourseMajor;
-import com.nb.nbpx.pojo.course.CourseSearchResult;
-import com.nb.nbpx.pojo.course.CourseSubject;
-import com.nb.nbpx.pojo.course.CourseTarget;
+import com.nb.nbpx.pojo.course.*;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.pojo.system.Dictionary;
@@ -62,6 +25,26 @@ import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 import com.nb.nbpx.utils.mapTool.NbpxDicMap;
+
+import net.sf.jxls.transformer.XLSTransformer;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.common.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.jsoup.helper.StringUtil;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Component("CourseService")
 @SuppressWarnings("rawtypes")
@@ -124,6 +107,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		return json;
 	}
 
+	private static String COURSE_PREFIX = "../viewClass.jsp?id=";
 	@Override
 	public String queryCourses(String category, Integer courseId, String title, String teachName,Boolean p_outside,
 			Integer rows, Integer start, String sort, String order, Boolean isInner) {
@@ -148,11 +132,21 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				count = courseDao.queryCourseCount(category, courseId,teachName, p_outside, isInner)
 						.intValue();
 			}
+			list = putHyperToTitle(list);
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);
 		}
 
 		return json;
+	}
+	
+	private List<Course> putHyperToTitle(List<Course> list){
+		for(Course course:list){
+			String hyper = "<a href=\"" + COURSE_PREFIX + course.getCourseId() + "\"  target=\"_blank\">"
+					+ course.getTitle() + "</a>";
+			course.setTitle(hyper);
+		}
+		return list;
 	}
 
 	// 获取最热的培训（可以按照地点）
