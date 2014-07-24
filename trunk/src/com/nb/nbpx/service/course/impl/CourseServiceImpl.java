@@ -368,7 +368,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			course.setCreationDate(new Date());
 			course.setHits(500);
 			course.setLastUpdateDate(new Date());
-			courseDao.merge(course);
+			courseDao.save(course);
 		} else {
 			// 修改课程内容
 			// courseDao.saveOrUpdate(course);
@@ -378,7 +378,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 						+ "》课程已存在在数据库中，如需新增安排，请直接在列表中查出该课程，点击课程安排！");
 			}
 			course.setLastUpdateDate(new Date());
-			courseDao.merge(course);
+			courseDao.save(course);
 		}
 		return course;
 	}
