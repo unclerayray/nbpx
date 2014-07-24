@@ -271,7 +271,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-			String sql = "select a.* from articleSubjects a,subjects b where a.subjectId = b.subjectId and b.flag=1 and a.articleId='"+articleID+"'";
+			String sql = "select a.* from articlesubjects a,subjects b where a.subjectId = b.subjectId and b.flag=1 and a.articleId='"+articleID+"'";
 			Query query = session.createSQLQuery(sql).addEntity(ArticleSubject.class);
 			
 			return query.list();
