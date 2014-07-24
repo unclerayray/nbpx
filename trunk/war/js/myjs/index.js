@@ -82,7 +82,7 @@ function fnt_top_search(search_type)
 		case "nxsp":
 		{
 			//内训视频 TODO
-			my_href="searchCourse.jsp?key="+$("#searchWord").val();
+			my_href="searchInnerVideoCourse.jsp?key="+$("#searchWord").val();
 		}break;
 		case "xz":
 		{

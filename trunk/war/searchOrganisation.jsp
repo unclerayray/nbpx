@@ -206,14 +206,14 @@ var pager = {
 
 	<div class="mainContent search">
 		<div class="rightContent">
-			<input type="hidden" value="qypx" id="search_type" NAME="search_type">
+			<input type="hidden" value="jg" id="search_type" NAME="search_type">
 			<div  id="searchTab"  class="searchType">
 				<ul>
 					<li id="searchTab_Title0" class="on" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='qypx';"><a href='javascript:void(0)' >企业培训</a></li>
 					<li id="searchTab_Title1" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='pxs';"><a href='javascript:void(0)'>培训师</a></li>
 					<li id="searchTab_Title2" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='pxjh';"><a href='javascript:void(0)'>培训计划</a></li>
 					<li id="searchTab_Title3" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='qynx';"><a href='javascript:void(0)'>企业内训</a></li>
-					<li id="searchTab_Title4" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxs';"><a href='javascript:void(0)'>内训师</a></li>
+					<!-- <li id="searchTab_Title4" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxs';"><a href='javascript:void(0)'>内训师</a></li> -->
 					<li id="searchTab_Title5" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxsp';"><a href='javascript:void(0)'>内训视频</a></li>
 					<li id="searchTab_Title6" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='xz';"><a href='javascript:void(0)'>下载</a></li>
 					<li id="searchTab_Title7" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='wk';"><a href='javascript:void(0)'>文库</a></li>

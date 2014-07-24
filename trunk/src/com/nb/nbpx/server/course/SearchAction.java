@@ -73,6 +73,24 @@ public class SearchAction  extends BaseAction {
 		return SUCCESS;
 	}
 	
+
+	/**
+	 * 【内训视频】用solr全文搜索
+	 * @return
+	 */
+	public String queryInnerVideoCourseBySolr(){
+		String json;
+		try {
+			json = solrService.fullTextQueryForHlInnerVideoCourse(key, getStartPosi(), rows);
+			this.inputStream = castToInputStream(json);
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	
 	/**
 	 * 【培训】以【专题】用solr全文搜索
 	 * @return

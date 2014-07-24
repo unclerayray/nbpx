@@ -12,7 +12,7 @@
 <%
 	String type = request.getParameter("type");
 	String key = request.getParameter("key");
-	key = new String(key.getBytes("ISO-8859-1"), "UTF-8");   
+	//key = new String(key.getBytes("ISO-8859-1"), "UTF-8");   
 %>
 <script>
 	$(function(){

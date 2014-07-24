@@ -53,7 +53,7 @@ String keyw = (String)request.getParameter("key");
 						if(n<rows.length-1)
 							outClass="classDesc";
 						//alert("schedules="+schedules);
-						valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewTeacher.jsp?id="+value.teacherId+"'>"+value.realName+"</a></h3>"+
+						valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='teacherClass.jsp?type=1&id"+value.teacherId+"'>"+value.realName+"</a></h3>"+
 						"<div class='classInfor'>编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+"&nbsp;&nbsp;擅长："+value.expertIn+"</div>"+
 						"<div class='classDetail'>"+
 						"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
@@ -123,7 +123,7 @@ function search(page){
 					if(n<rows.length-1)
 						outClass="classDesc";
 					//alert("schedules="+schedules);
-					valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewTeacher.jsp?id="+value.teacherId+"'>"+value.realName+"</a></h3>"+
+					valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='teacherClass.jsp?type=1&id"+value.teacherId+"'>"+value.realName+"</a></h3>"+
 					"<div class='classInfor'>编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+"&nbsp;&nbsp;擅长："+value.expertIn+"</div>"+
 					"<div class='classDetail'>"+
 					"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
@@ -206,14 +206,14 @@ var pager = {
 
 	<div class="mainContent search">
 		<div class="rightContent">
-			<input type="hidden" value="qypx" id="search_type" NAME="search_type">
+			<input type="hidden" value="pxs" id="search_type" NAME="search_type">
 			<div  id="searchTab"  class="searchType">
 				<ul>
 					<li id="searchTab_Title0" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='qypx';"><a href='javascript:void(0)' >企业培训</a></li>
 					<li id="searchTab_Title1" class="on" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='pxs';"><a href='javascript:void(0)'>培训师</a></li>
 					<li id="searchTab_Title2" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='pxjh';"><a href='javascript:void(0)'>培训计划</a></li>
 					<li id="searchTab_Title3" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='qynx';"><a href='javascript:void(0)'>企业内训</a></li>
-					<li id="searchTab_Title4" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxs';"><a href='javascript:void(0)'>内训师</a></li>
+					<!-- <li id="searchTab_Title4" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxs';"><a href='javascript:void(0)'>内训师</a></li> -->
 					<li id="searchTab_Title5" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='nxsp';"><a href='javascript:void(0)'>内训视频</a></li>
 					<li id="searchTab_Title6" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='xz';"><a href='javascript:void(0)'>下载</a></li>
 					<li id="searchTab_Title7" onclick="searchTabs('searchTab',this);document.getElementById('search_type').value='wk';"><a href='javascript:void(0)'>文库</a></li>

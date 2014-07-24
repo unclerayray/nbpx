@@ -66,6 +66,13 @@ public interface ISolrService {
 	public String fullTextQueryForHlInnerCourse(String q, Integer start, Integer rows) throws SolrServerException, IOException;
 	
 	/**
+	 * 【内训课】通过变量全文查找，用于显示有视频的内训列表。高亮显示,返回json字符串
+	 * @param q 查找参数
+	 * @return
+	 */
+	public String fullTextQueryForHlInnerVideoCourse(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	
+	/**
 	 * 【内训课】通过变量全文查找，用于显示列表。高亮显示，返回一个List
 	 * @param q 查找参数
 	 * @return

@@ -14,6 +14,7 @@ import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -26,6 +27,7 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -123,8 +125,10 @@ public class SolrServiceImpl implements ISolrService {
 		query.set("defType", "edismax");
 		query.set("pf", "title keyword content");
 		query.set("qf", "title^10.0 keyword^10.0 content^1.0 subject^1.0 major^1.0 product^1.0 industry^1.0 courseInfo ^1.0");
-		params.set("fq", "isInner:false");
-		params.set("fq", "state:true");
+//		params.set("fq", "isInner:false");
+//		params.set("fq", "state:true");
+
+		query.addFilterQuery("isInner:false","state:true");
 		// query.set("q","*.*");
 		query.add(params);
 
@@ -220,8 +224,9 @@ public class SolrServiceImpl implements ISolrService {
 		query.set("defType", "edismax");
 		query.set("pf", "title keyword content");
 		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
-		params.set("fq", "isInner:false");
-		params.set("fq", "state:true");
+//		params.set("fq", "isInner:false");
+//		params.set("fq", "state:true");
+		query.addFilterQuery("isInner:false","state:true");
 		// query.set("q","*.*");
 		query.add(params);
 
@@ -367,10 +372,11 @@ public class SolrServiceImpl implements ISolrService {
 				query.set("defType", "edismax");
 				query.set("pf", "title keyword content");
 				query.set("qf", "title^10.0 keyword^10.0 content^1.0");
-				params.set("fq", "isInner:true");
-				params.set("fq", "state:true");
+				//params.set("fq", "isInner:true");
+				//params.set("fq", "state:true");
 				// query.set("q","*.*");
 				query.add(params);
+				query.addFilterQuery("isInner:true","state:true");
 
 				query.setRequestHandler("search");
 				System.out.println(query.getHighlightSnippets());
@@ -466,8 +472,9 @@ public class SolrServiceImpl implements ISolrService {
 				query.set("defType", "edismax");
 				query.set("pf", "title keyword content");
 				query.set("qf", "title^10.0 keyword^10.0 content^1.0");
-				params.set("fq", "isInner:true");
-				params.set("fq", "state:true");
+//				params.set("fq", "isInner:true");
+//				params.set("fq", "state:true");
+				query.addFilterQuery("isInner:true","state:true");
 				// query.set("q","*.*");
 				query.add(params);
 
@@ -549,8 +556,9 @@ public class SolrServiceImpl implements ISolrService {
 			params.set("rows", rows);
 		}
 		query.set("qt", "select");
-		params.set("fq", "isInner:false");
-		params.set("fq", "state:true");
+//		params.set("fq", "isInner:false");
+//		params.set("fq", "state:true");
+		query.addFilterQuery("isInner:false","state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int numFound = (int) response.getResults().getNumFound();
@@ -610,8 +618,9 @@ public class SolrServiceImpl implements ISolrService {
 			params.set("rows", rows);
 		}
 		query.set("qt", "select");
-		params.set("fq", "isInner:true");
-		params.set("fq", "state:true");
+//		params.set("fq", "isInner:true");
+//		params.set("fq", "state:true");
+		query.addFilterQuery("isInner:true","state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int numFound = (int) response.getResults().getNumFound();
@@ -670,8 +679,9 @@ public class SolrServiceImpl implements ISolrService {
 			params.set("rows", rows);
 		}
 		query.set("qt", "select");
-		params.set("fq", "isInner:false");
-		params.set("fq", "state:true");
+//		params.set("fq", "isInner:false");
+//		params.set("fq", "state:true");
+		query.addFilterQuery("isInner:false","state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int count = response.getResults().size();
@@ -727,8 +737,10 @@ public class SolrServiceImpl implements ISolrService {
 			params.set("rows", rows);
 		}
 		query.set("qt", "select");
-		params.set("fq", "isInner:true");
-		params.set("fq", "state:true");
+//		params.set("fq", "isInner:true");
+//		params.set("fq", "state:true");
+
+		query.addFilterQuery("isInner:true","state:true");
 		query.add(params);
 		QueryResponse response = solrServer.query(query);
 		int count = response.getResults().size();
@@ -758,6 +770,105 @@ public class SolrServiceImpl implements ISolrService {
 		resultList.clear();
 		resultList.addAll(hs);
 		return resultList;
+	}
+
+	@Override
+	public String fullTextQueryForHlInnerVideoCourse(String q, Integer start,
+			Integer rows) throws SolrServerException, IOException {
+		// TODO 统计搜索次数 put that into Action, not here
+		// TODO ping查看连接，连不上的话就throw相应的Exception
+		String serverURL = SolrUtil.getCourseServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
+		params.set("q", q);
+		params.set("start", start);
+		params.set("rows", rows);
+		// params.set("df","text_general");
+		// params.set("wt", "foo");
+		// params.set("indent", true);
+		// params.set("rows", rows);
+		params.set("hl", true);
+		params.set("hl.fl", "title,content");
+		params.set("hl.snippets", 3);
+		params.set("hl.simple.pre", "<em>");
+		params.set("hl.simple.post", "</em>");
+
+		SolrQuery query = new SolrQuery();
+		query.set("qt", "search");
+		query.set("echoParams", "explicit");
+		query.set("df", "title,keyword,content");
+		query.set("mlt.qf", "title^10.0 keyword^10.0 content^1.0");
+		query.set("defType", "edismax");
+		query.set("pf", "title keyword content");
+		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
+		//params.set("fq", "isInner:true");
+		//params.set("fq", "state:true");
+		// query.set("q","*.*");
+		query.add(params);
+		query.addFilterQuery("isInner:true","state:true","hasVideo:true");
+
+		query.setRequestHandler("search");
+		System.out.println(query.getHighlightSnippets());
+		System.out.println(query.get("pf"));
+		// query.setc
+		// query.addHighlightField("title");
+		// query.addHighlightField("content");
+		solrServer.ping();
+		// TODO 判断连接 throw exception
+		QueryResponse response = solrServer.query(query);
+		System.out.println(response.getResponseHeader().get("pf"));
+		SolrDocumentList list = response.getResults();
+
+		// QueryResponse response = solrServer.query(params);
+		Map<String, Map<String, List<String>>> hlMap = response
+				.getHighlighting();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		// numFound
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		List<CourseSearchResult> resultList = new ArrayList<CourseSearchResult>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			// String[] courseInfo = null;
+			List<String> courseInfo = (List<String>) sd
+					.getFieldValue("courseInfo");
+			Object idobj = sd.getFieldValue("courseId");
+			Double price = Double.valueOf(sd.getFieldValue("price").toString());
+			Map<String, List<String>> lst = hlMap.get(idobj.toString());
+			Object conObj = lst.get("content");
+			Object titleObj = lst.get("title");
+			String content = "";
+			String title = "";
+			if (conObj != null) {
+				content = ((List<String>) conObj).get(0);
+			} else {
+				content = sd.getFieldValue("content").toString();
+				if (content.length() > 50)
+					content = content.substring(0, 50);
+			}
+			if (titleObj != null) {
+				title = ((List<String>) titleObj).get(0);
+			} else {
+				title = sd.getFieldValue("title").toString();
+			}
+			// lst.g
+			CourseSearchResult csr = new CourseSearchResult((Integer) idobj,
+					title, price, sd.getFieldValue("teacherName").toString(),
+					content, courseInfo);
+			resultList.add(csr);
+		}
+		int allPages = 0;
+		if (numFound % rows == 0)
+			allPages = (int) (numFound / rows);
+		else
+			allPages = (int) (numFound / rows) + 1;
+		resultMap.put("rows", resultList);
+		resultMap.put("pages", allPages);
+		// return JsonUtil.formatListToJson(resultList);
+		return JsonUtil.getJsonString(resultMap);
 	}
 
 }

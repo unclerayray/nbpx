@@ -342,7 +342,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				teacher.setCreateDate(new Date());
 				teacher.setRealName(course.getTeacherName());
 				teacher.setState(false);
-				teacherDao.save(teacher);
+				teacherDao.merge(teacher);
 			}
 			course.setTeacherId(teacher.getTeacherId().toString());
 		}else{
@@ -355,7 +355,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				teacher.setCreateDate(new Date());
 				teacher.setRealName(course.getTeacherName());
 				teacher.setState(false);
-				teacherDao.save(teacher);//考虑是否在save teacherInfo的时候加入SOLR
+				teacherDao.merge(teacher);//考虑是否在save teacherInfo的时候加入SOLR
 			}
 			course.setTeacherId(teacher.getTeacherId().toString());
 		}
@@ -368,7 +368,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			course.setCreationDate(new Date());
 			course.setHits(500);
 			course.setLastUpdateDate(new Date());
-			courseDao.save(course);
+			courseDao.merge(course);
 		} else {
 			// 修改课程内容
 			// courseDao.saveOrUpdate(course);
@@ -378,7 +378,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 						+ "》课程已存在在数据库中，如需新增安排，请直接在列表中查出该课程，点击课程安排！");
 			}
 			course.setLastUpdateDate(new Date());
-			courseDao.updateCourse(course);
+			courseDao.merge(course);
 		}
 		return course;
 	}

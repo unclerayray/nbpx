@@ -121,7 +121,7 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 			if(teacherInfor.getPhoto()==null || teacherInfor.getPhoto().isEmpty()){
 				teacherInfor.setPhoto(info.getPhoto());
 			}
-			teacherInfoDao.saveOrUpdate(teacherInfor);
+			teacherInfoDao.merge(teacherInfor);
 		}
 		return teacherInfor;
 	}
