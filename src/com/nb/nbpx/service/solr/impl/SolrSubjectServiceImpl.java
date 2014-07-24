@@ -2,6 +2,7 @@ package com.nb.nbpx.service.solr.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
@@ -118,12 +119,16 @@ public class SolrSubjectServiceImpl implements ISolrSubjectService{
 				continue;
 			}
 			Subject subject = new Subject();
-			subject.setSubjectId((Integer)subjectIdobj);
+			//subject.setSubjectId((Integer)subjectIdobj);
 			subject.setSubject(subjectobj.toString());
 			resultList.add(subject);
 		}
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
 		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
-				ResponseStatus.SUCCESS, "", list);
+				ResponseStatus.SUCCESS, "", resultList);
 		return json;
 	}
 
