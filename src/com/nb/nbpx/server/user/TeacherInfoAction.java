@@ -270,6 +270,15 @@ public class TeacherInfoAction extends BaseAction{
 		this.teacherInfoDao = teacherInfoDao;
 	}
 
+	public ICourseService getCourseService() {
+		return courseService;
+	}
+
+	@Resource
+	public void setCourseService(ICourseService courseService) {
+		this.courseService = courseService;
+	}
+
 	public ITeacherInfoService getTeacherInfoService() {
 		return teacherInfoService;
 	}

@@ -86,6 +86,13 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
      * 
      */
     public void saveOrUpdate(T entity);
+    
+    /**
+     * If sth wrong like this: 'a different object with the same identifier value was already associated with the session'
+     * do a merge
+     * @param entity
+     */
+    public void merge(T entity);
 
     /**
      * 增加或更新集合中的全部实体

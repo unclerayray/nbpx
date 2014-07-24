@@ -46,7 +46,11 @@ public class OrgInfoDaoImpl extends BaseDaoImpl<OrgInfo, Integer>  implements IO
 		Boolean result = (Boolean)getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session)
 			throws HibernateException, SQLException {
-				session.saveOrUpdate(orgInfor);
+				if(orgInfor.getOrgId()==null){
+					session.save(orgInfor);
+				}else{
+					session.merge(orgInfor);
+				}
 				return true;
 			}
 		});

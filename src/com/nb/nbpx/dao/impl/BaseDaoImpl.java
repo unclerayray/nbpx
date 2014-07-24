@@ -707,4 +707,9 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 				conditions);
 		return entityList;
 	}
+
+	@Override
+	public void merge(T entity) {
+		getHibernateTemplate().merge(entity);
+	}
 }

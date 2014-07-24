@@ -54,5 +54,13 @@ public interface IDictionaryService extends IBaseService {
 	
 	public String getDic(String codeName,String showName);
 	
+	/**
+	 * 通过code或value得到
+	 * @param codeName
+	 * @param showName
+	 * @return
+	 */
+	public Dictionary getDictionary(String codeName,String showName);
+	
 	public List<Dictionary> getDicListByType(String typeCode);
 }

@@ -184,6 +184,10 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 	public List<Dictionary> getDicListByType(String typeCode) {
 		return dicDao.getDicForCombo(typeCode,null,0);
 	}
+	@Override
+	public Dictionary getDictionary(String codeName, String showName) {
+		return dicDao.getDictionary(codeName, showName);
+	}
 
 	
 

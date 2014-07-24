@@ -26,7 +26,11 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer> implements
 				new HibernateCallback() {
 					public Object doInHibernate(Session session)
 							throws HibernateException, SQLException {
-						session.saveOrUpdate(compInfor);
+						if(compInfor.getCompInfoId()==null){
+							session.save(compInfor);
+						}else{
+							session.merge(compInfor);
+						}
 						return true;
 					}
 				});

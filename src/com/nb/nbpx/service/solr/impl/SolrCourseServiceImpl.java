@@ -23,12 +23,15 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
+import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.CourseInfo;
+import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrCourseService;
+import com.nb.nbpx.service.system.IDictionaryService;
 import com.nb.nbpx.utils.SolrUtil;
 import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 @Component("SolrCourseService")
@@ -36,6 +39,10 @@ public class SolrCourseServiceImpl extends BaseSolrServiceImpl implements ISolrC
     public static Logger logger = LogManager.getLogger(SolrCourseServiceImpl.class);
 	@Resource
 	private ICourseService courseService;
+	
+	@Resource
+	private IDictionaryService dicService;
+	
 	@Override
 	public void addCourse2Solr(CourseAllInfoDto cai) {
 		String serverURL;
@@ -48,6 +55,7 @@ public class SolrCourseServiceImpl extends BaseSolrServiceImpl implements ISolrC
 			sid.addField("price", cai.getPrice());
 			sid.addField("teacherName", cai.getTeacherName());
 			sid.addField("isInner", cai.isInner);
+			sid.addField("hasVideo", cai.hasVideo);
 			sid.addField("state", cai.state);
 			sid.addField("lastUpdateDate", new Date());
 			String contents = cai.getContent();
@@ -71,25 +79,45 @@ public class SolrCourseServiceImpl extends BaseSolrServiceImpl implements ISolrC
 			if(cai.getMajor()!=null){
 				String[] courseMajor = cai.getMajor().split(",");
 				for(String major:courseMajor){
-					sid.addField("major", major);
+					if(major.contains("_")&&StringUtil.isNumeric(major.replace("_", ""))){
+						Dictionary dic = dicService.getDictionary(major, null);
+						sid.addField("major", dic.getShowName());
+					}else{
+						sid.addField("major", major);
+					}
 				}
 			}
 			if(cai.getProduct()!=null){
 				String[] courseProduct = cai.getProduct().split(",");
 				for(String product:courseProduct){
-					sid.addField("product", product);
+					if(product.contains("_")&&StringUtil.isNumeric(product.replace("_", ""))){
+						Dictionary dic = dicService.getDictionary(product, null);
+						sid.addField("product", dic.getShowName());
+					}else{
+						sid.addField("product", product);
+					}
 				}
 			}
 			if(cai.getTargets()!=null){
 				String[] courseTarget = cai.getTargets().split(",");
 				for(String target:courseTarget){
-					sid.addField("target", target);
+					if(target.contains("_")&&StringUtil.isNumeric(target.replace("_", ""))){
+						Dictionary dic = dicService.getDictionary(target, null);
+						sid.addField("target", dic.getShowName());
+					}else{
+						sid.addField("target", target);
+					}
 				}
 			}
 			if(cai.getIndustry()!=null){
 				String[] courseIndustry = cai.getIndustry().split(",");
 				for(String industry:courseIndustry){
-					sid.addField("industry", industry);
+					if(industry.contains("_")&&StringUtil.isNumeric(industry.replace("_", ""))){
+						Dictionary dic = dicService.getDictionary(industry, null);
+						sid.addField("industry", dic.getShowName());
+					}else{
+						sid.addField("industry", industry);
+					}
 				}
 			}
 			
@@ -237,6 +265,14 @@ public class SolrCourseServiceImpl extends BaseSolrServiceImpl implements ISolrC
 	public String setItsServerURL() throws Exception {
 		serverURL = SolrUtil.getCourseServerUrl();
 		return SolrUtil.getCourseServerUrl();
+	}
+
+	public IDictionaryService getDicService() {
+		return dicService;
+	}
+
+	public void setDicService(IDictionaryService dicService) {
+		this.dicService = dicService;
 	}
 	
 }
