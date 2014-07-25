@@ -45,6 +45,7 @@
 					path += "<li><a href='#'>企业内训</a></li>";
 				path += "<li class='bread'>&gt;&gt;</li><li><a href='seeKey.jsp?key="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li><li class='bread'>&gt;&gt;</li>";
 				path += "<li>"+jsonObject.title+"</li></ul><div class='clear'></div>";
+				$('#courseName').val(jsonObject.title);
 				$('#path').html(path);
 				
 				//添加时间 地点
@@ -151,6 +152,29 @@
 			}
 		})
 	}
+	function submitNeed(){
+		$('#needForm').form('submit',{  
+			url: encodeURI('struts/CourseApply_addApply'),  
+			onSubmit: function(){  
+					if($('#contact').val() == ''){
+						alert('联系人不能为空!');
+						return false;
+					}
+					if($('#telephone').val() == ''){
+						alert('固定电话不能为空!');
+						return false;
+					}
+				//return $(this).form('validate');  
+			},  
+			success: function(data){
+				alert(data);
+				$('#needForm').form("clear");
+			}
+		});
+	}
+	function clearForm(){
+		$('#needForm').form("clear");
+	}
 </script>
 <!--当前路径 start-->
 <div class="mainContent path" id="path">
@@ -177,13 +201,13 @@
 			<div class="time" id="series"><span>专题：</span><a href="#">企业管理</a></div>
 			</div>
 			<div class="classRightPart">
-				<dd><a href="#">打印课程提纲</a></dd>
+				<!--<dd><a href="#">打印课程提纲</a></dd>
 				<dd><a href="#">打印报名表格</a></dd>
 				<dd><a href="#">先加入收藏夹</a></dd>
 				<dd><a href="#">引入内训申请</a></dd>
 				<dd><a href="#">先发送至邮箱</a></dd>
 				<dd><a href="#">保存电脑桌面</a></dd>
-				<dd><a href="#">下载课程提纲</a></dd>
+				<dd><a href="#">下载课程提纲</a></dd>  -->
 				</div>
 			<div class="clear"></div>
 			</div>
@@ -206,84 +230,87 @@
 	</div>
 	
 	<div class="attendTable" id="outAttend">
-		<table>
+		<Form id="needForm">
+		<input type="hidden" id="courseName" >
+		<table cellspacing="0" cellpadding="0" class="need" align="center" style="font-size:12px">
 			<thead><h2>报名/咨询表</h2></thead>
 			<tr>
-				<td width="140px" align="right">单位名称：</td>
-				<td width="240px" align="left"><input  type="text"/></td>
-				<td width="70px"  align="right">联系人：</td>
-				<td align="left"><input  type="text"/><font style="color:red">&nbsp;*</font></td>
-			</tr>
-			<tr>
-				<td align="right">联系电话：</td>
-				<td align="left"><input  type="text"/><font style="color:red">&nbsp;*</font></td>
-				<td align="right">传真：</td>
-				<td align="left"><input  type="text"/></td>
-			</tr>
-			<tr>
-				<td align="right">移动电话：</td>
-				<td align="left"><input  type="text"/></td>
-				<td  align="right">电子邮箱：</td>
-				<td align="left"><input  type="text"/></td>
-			</tr>
-			<tr>
-				<td align="right">任职部门：</td>
-				<td align="left"><input  type="text"/></td>
-				<td align="right">MSN：</td>
-				<td align="left"><input  type="text"/></td>
-			</tr>
-			<tr>
-				<td align="right">企业类型：</td>
-				<td align="left"><input  type="text"/></td>
-				<td  align="right">业务范围：</td>
-				<td align="left"><input  type="text"/></td>
-			</tr>
-			<tr>
-				<td align="right">开始时间：</td>
-				<td  align="left"><input  type="text"/></td>
-				<td  align="right">结束时间：</td>
-				<td align="left"><input  type="text"/></td>
-			</tr>
-			<tr>
-				<td  align="right">财务预算：</td>
-				<td align="left"><input  type="text"/></td>
-				<td align="right">教学语种：</td>
-				<td align="left"><input  type="text"/></td>
-			</tr>
-			<tr>
-			<td  align="right">参训对象简单描述：</td>
-			<td colspan="3"  align="left"><textarea rows="5" cols="57"></textarea></td>
-			</tr>
-			<tr>
-			<td  align="right">学员基础简单说明：</td>
-			<td colspan="3"  align="left"><textarea rows="5" cols="57"></textarea></td>
-			</tr>
-			<tr>
-			<td  align="right">企业简介：</td>
-			<td colspan="3"  align="left"><textarea rows="5" cols="57"></textarea></td>
-			</tr>
-			<tr>
-			<td  align="right">具体那个环节出问题：</td>
-			<td colspan="3"  align="left"><textarea rows="5" cols="57"></textarea></td>
-			</tr>
-			<tr>
-			<td  align="right">培训内容说明：</td>
-			<td colspan="3"  align="left"><textarea rows="5" cols="57"></textarea></td>
-			</tr>
-			<tr>
-			<td  align="right">预期目标：</td>
-			<td colspan="3"  align="left"><textarea rows="5" cols="57"></textarea></td>
-			</tr>
-			<tr>
-			<td align="right">备注：</td>
-			<td colspan="3"  align="left"><textarea rows="5" cols="57"></textarea></td>
-			</tr>
-			<tr>
-			<td colspan="2"  align="left" style="padding-left:140px;"><input type="radio" class="status" name="group1" checked="checked"/><label>确认报名</label><input type="radio" class="status" name="group1" /><label>正在申请中</label></td>
-			
-			</tr>
-			<tr style="height:70px"><td colspan="4" align="center"><input class="btn"  type="button" value="确定报名"/>&nbsp;<input class="btn"  type="button" value="重新填写"/></td></tr>
-		</table>
+			<td>单位名称:&nbsp;<input id="compName" name="compName"/></td>
+			<td>&nbsp;&nbsp;联系人:&nbsp;<input id="contact" name="contact"/><em style="color:red">*</em></td>
+		</tr>
+		<tr>
+			<td>联系电话:&nbsp;<input id="telephone" name="telephone"/><em style="color:red">*</em></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;传真:&nbsp;<input id="fax" name="fax"/></td>
+		</tr>
+		<tr>
+			<td>移动电话:&nbsp;<input id="celphone" name="celphone"/></td>
+			<td>电子邮箱:&nbsp;<input id="email" name="email"/></td>
+		</tr>
+		<tr>
+			<td>任职部门:&nbsp;<input id="departName" name="departName"/></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MSN:&nbsp;<input id="msn" name="msn"/></td>
+		</tr>
+		<tr>
+			<td>企业类型:&nbsp;<input id="compType" name="compType"/></td>
+			<td>业务范围:&nbsp;<input id="comRange" name="comRange"/></td>
+		</tr>
+		<tr>
+			<td>开始时间:&nbsp;<input class="easyui-datebox" id="starttime" name="starttime"></td>
+			<td>结束时间:&nbsp;<input class="easyui-datebox" id="endtime" name="endtime"></td>
+		</tr>
+		<tr>
+			<td>财务预算:&nbsp;<input id="budget" name="budget"/></td>
+			<td>教学语种:&nbsp;<input id="languaue" name="languaue"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="bottom" style="height:18px;">参训对象简单描述:</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top"><textarea id="studentDesc" name="studentDesc"></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="bottom" style="height:23px;">学员基础简单说明:</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top" ><textarea id="basicDesc" name="basicDesc"></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="bottom" style="height:23px;">企业简介:</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top" ><textarea id="compDesc" name="compDesc"></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="bottom" style="height:23px;">具体那个环节出问题:</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top" ><textarea id="questionDesc" name="questionDesc"></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="bottom" style="height:23px;">培训内容说明:</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top"><textarea id="contentDesc" name="contentDesc"></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="bottom" style="height:23px;">预期目标:</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top" ><textarea id="targetDesc" name="targetDesc"></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top" ><input type="radio" name='state' id="r1" value="1" checked style="border:0px;width:60px"/><label  for="r1">确认报名</label>&nbsp;<input style="border:0px;width:60px" type="radio" value="2" name='state' id="r2"/><label for="r2">正在申请中</label></td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="bottom" style="height:12px;">备注:</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top"><textarea id="notice" name="notice"></textarea></td>
+		</tr>
+		<tr >
+			<td colspan="2" align="center" style='padding-top:30px;padding-bottom:30px'><a href='javascript:void(0)' onclick="javascript:submitNeed()" class="normalButton">确定报名</a><a href='javascript:void(0)' onclick="javascript:clearForm()" class="normalButton">重新填写</a></td>
+		</tr>
+		</table></form>
 	</div>
 	<!--报名表 end-->
 	</div>

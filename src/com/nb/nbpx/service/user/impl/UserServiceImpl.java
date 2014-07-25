@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 
@@ -73,7 +74,7 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 	/**
 	 * 登陆验证
 	 */
-	public String checkLogin(String username,String password){
+	public String checkLogin(String username,String password,HttpSession currSession){
 		String json = "";
 		List<User> userList = userDao.queryUserByUserName(username);
 		if(userList == null || userList.size() == 0){
@@ -85,6 +86,7 @@ public class UserServiceImpl extends BaseServiceImpl implements IUserService {
 			User temp = userList.get(i);
 			if(password.equals(temp.getPassWord())){
 				json = JsonUtil.format2Json(true, "验证成功!"+temp.getUserType());
+				currSession.setAttribute("user", temp);
 				return json;
 			}
 		}

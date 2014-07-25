@@ -1,5 +1,7 @@
 package com.nb.nbpx.service.user;
 
+import javax.servlet.http.HttpSession;
+
 import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.NbpxException;
@@ -41,7 +43,7 @@ public interface IUserService extends IBaseService {
 	 * @param username
 	 * @return
 	 */
-	public String checkLogin(String username,String password);
+	public String checkLogin(String username,String password,HttpSession currSession);
 	
 	/**
 	 * 管理员登录

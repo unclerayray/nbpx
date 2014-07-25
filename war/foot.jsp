@@ -18,7 +18,7 @@
 
 <!--字母查找 start-->
 <div class="mainContent wordFindContent">
-	<ul class="wordFind">
+	<!--  <ul class="wordFind">
 	<li>
 		<div class="title">按字母查找<span>培训课程</span>:</div>
 		<div class="word"><a href="#">A</a><a href="#">B</a><a href="#">C</a><a href="#">D</a><a href="#">E</a><a href="#">F</a><a href="#">G</a><a href="#">H</a><a href="#">I</a><a href="#">J</a><a href="#">K</a><a href="#">L</a><a href="#">M</a><a href="#">N</a><a href="#">O</a><a href="#">P</a><a href="#">R</a><a href="#">S</a><a href="#">T</a><a href="#">U</a><a href="#">V</a><a href="#">W</a><a href="#">X</a><a href="#">Y</a><a href="#">Z</a>
@@ -35,7 +35,7 @@
 		<div class="title distance">按字母查找<span>下载内容</span>:</div>
 		<div class="word"><a href="#">A</a><a href="#">B</a><a href="#">C</a><a href="#">D</a><a href="#">E</a><a href="#">F</a><a href="#">G</a><a href="#">H</a><a href="#">I</a><a href="#">J</a><a href="#">K</a><a href="#">L</a><a href="#">M</a><a href="#">N</a><a href="#">O</a><a href="#">P</a><a href="#">R</a><a href="#">S</a><a href="#">T</a><a href="#">U</a><a href="#">V</a><a href="#">W</a><a href="#">X</a><a href="#">Y</a><a href="#">Z</a></div>
 	</li>
-	</ul>
+	</ul>-->
 </div>
 <div class="clear" style="height:10px; display:block"></div>
 <!--字母查找 end-->

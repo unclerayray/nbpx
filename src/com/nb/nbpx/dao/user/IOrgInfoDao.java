@@ -4,8 +4,12 @@ import java.util.List;
 
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.pojo.user.OrgInfo;
+import com.nb.nbpx.pojo.user.TeacherInfo;
 
 public interface IOrgInfoDao  extends IBaseDao<OrgInfo, Integer> {
+	public Long getOrgListRows(String state,Integer rows,Integer start);
+	public List<OrgInfo> getOrgList(String state,Integer rows,Integer start);
+	public List<OrgInfo> getOrgByID(Integer orgID);
 	
 	public Boolean saveOrgInfo(OrgInfo orgInfor);
 	public List<OrgInfo> getOrgInforByUserId(Integer userId);

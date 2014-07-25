@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.user.IOrgInfoDao;
 import com.nb.nbpx.pojo.user.OrgInfo;
+import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.user.IOrgInfoService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -19,6 +20,31 @@ import com.nb.nbpx.utils.JsonUtil;
 public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoService{
 	
 	private IOrgInfoDao orgInfoDao;
+	
+	public String getOrgInfo(String state,Integer rows,Integer start){
+		List<OrgInfo> orgInfoList = orgInfoDao.getOrgList(state, rows, start);
+		String json = "";
+		if (orgInfoList.isEmpty()) {
+			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+					ResponseStatus.SUCCESS, "", orgInfoList);
+		} else {
+			int count = orgInfoDao.getOrgListRows(state, rows, start).intValue();
+			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+					ResponseStatus.SUCCESS, "", orgInfoList);
+		}
+		return json;
+	}
+	
+	public String getOrgInfoById(Integer orgID){
+		List<OrgInfo> orgList = orgInfoDao.getOrgByID(orgID);
+		String json = "";
+		
+		if(orgList != null&& orgList.size()!= 0)
+			json = JsonUtil.getJsonString(orgList.get(0));
+		else
+			json = JsonUtil.getJsonString(null);
+		return json;
+	}
 	
 	@Override
 	public String getOrgInfoByUserId(Integer userID) {

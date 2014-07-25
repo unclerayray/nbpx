@@ -157,6 +157,7 @@ public class LoginAction  extends BaseAction {
 	public String logOut(){
 		session.removeAttribute("clientUserName");
 		session.removeAttribute("userRole");
+		session.removeAttribute("user");
 		this.inputStream = castToInputStream(JsonUtil.formatToJson(true, "注销成功!"));
 		return SUCCESS;
 	}
@@ -164,7 +165,7 @@ public class LoginAction  extends BaseAction {
 	public String checkUser(){
 		String json = "";
 		
-		json = UserService.checkLogin(username, password);
+		json = UserService.checkLogin(username, password,session);
 		if(json.contains("成功")){
 			session.setAttribute("clientUserName", username);
 			String userRole = "";
