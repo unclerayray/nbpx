@@ -1,0 +1,4 @@
+requirements表
+
+修改telephone 字段类型为varchar
+修改cellphone 字段类型为varchar
