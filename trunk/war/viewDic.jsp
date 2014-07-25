@@ -135,7 +135,7 @@
 <div class="mainContent path">
 	<ul>
 		<li>当前位置:&nbsp;</li>
-		<li><a href="main.jsp" target="_self">首页</a></li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
 		<li><span id="showName"></span></li>
 	</ul>
@@ -152,8 +152,8 @@
 			<h2>&nbsp;所有字典</h2>
 			<div style="padding:10px 15px 10px 15px">
 			<ul class="list8 keyMore" id="keysList">
-						<li><a href="#">EMBA</a></li>
-						<li><a href="#">KPI</a></li>
+						<!--  <li><a href="#">EMBA</a></li>
+						<li><a href="#">KPI</a></li>-->
 				</ul>
 			<!--课程介绍 end-->
 					<div class="resultFoot" id="coursePagesDiv" style='display:none'>

@@ -64,9 +64,9 @@
 				<% if((flag =="1" && (userRole == "001_02"|| userRole == "001_03")) || flag == "0") //教师或者机构
 				{%>
 				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(1)" class="navButton publishClass">发布课程</a></li>
-				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(4)" class="navButton apply">发布内训</a></li>
+				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(4)" class="navButton apply">发布文章</a></li>
 				<%} %>
-				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(2)" class="navButton publishClass">发布需求</a></li>
+				<li><a href="publishNeed.jsp"  class="navButton publishClass">发布需求</a></li>
 				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(3)" class="navButton publishRequest">内训申请</a></li>
 				<%if(flag == "0") {%>
 				<li><a href="login.jsp" class="navButton login">会员登录</a></li>
@@ -128,9 +128,9 @@
 			<li><a href="viewCity.jsp">城市词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=004">机构词典</a></li>
 
-			<li><a href="#">培训机构</a><span>|</span></li>
+			<li><a href="orgList.jsp">培训机构</a><span>|</span></li>
 			
-			<li><a href="#">职位词典</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=29">职位词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=26">培训类别</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=27">内训类别</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=28">文库类别</a><span>|</span></li>

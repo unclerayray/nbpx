@@ -28,6 +28,22 @@ public class OrgInfoAction extends BaseAction{
 	private IOrgInfoDao orgInfoDao;
 	private ISolrOrganisationService orgSolrService;
 	
+	public String getOrgInforByID(){
+		String json = "";	 
+		json = orgInfoService.getOrgInfoById(orgId);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
+	//获取培训机构列表
+	public String getOrgList(){
+		String json = "";
+		json = orgInfoService.getOrgInfo("1", rows, getStartPosi());
+
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+		
 	public String getOrgInforByUserId(){
 		String json = "";
 		try {

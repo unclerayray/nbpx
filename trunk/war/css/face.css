@@ -153,8 +153,8 @@ ul{padding:0px;margin:0px}
 
 .list4 li{ height:23px;line-height:23px;padding:0px;text-align:left;list-style-image:url(../images/zhli_icon.gif);width:340px}
 .list4 li span{float: right;color: #B8B8B8;font-size: 12px;}
-.list4 li a{color:#2D4545; text-decoration:none;font-size: 12px;}
-.list4 li a:hover{color:red;text-decoration:underline}
+.list4 li a{color:#2D4545; text-decoration:none;font-size: 12px;display:block;width:300px;background:url(../images/zhli_icon.gif) 0px 5px no-repeat;padding-left:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.list4 li a:hover{color:red;text-decoration:underline;}
 .list4 li .right{padding-left:15px}
 /*.list4.gray li a{color:#45402d}
 .list4.blue li a{color:#2D4545}*/

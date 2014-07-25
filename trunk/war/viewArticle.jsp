@@ -114,7 +114,7 @@
 	<!--左边部分课程信息 start-->
 	<div class="leftInPart">
 		<div class="classDetail" >
-			<div ><span id="title">我是一个文章</span>
+			<div><span id="title">我是一个文章</span>
 			<div class="classNum" id="courseId">2013-11-1</div></div>
 			<div class="detail">
 			<div class="classLeftPart" id="courseInfo">

@@ -488,10 +488,12 @@
 			})
 		}
 		if(pre == 'b'){//加载内训的内容
+			
 			$.ajax({
 				url:encodeURI('struts/Main_getNeiXun?flag='+flag+'&type='+part),
 				success: function(data){
 					var jsonObject = eval('('+data+')');
+					//alert(data);
 					var valueStr = "";
 					$.each(jsonObject,function(n,value){
 						if(n == 0){
@@ -508,11 +510,11 @@
 			})
 		}
 		if(pre == 'c'){//加载文章内容
-			alert(1);
+			//alert(1);
 			$.ajax({
 				url:encodeURI('struts/Main_getArticle?flag='+flag+'&type='+part),
 				success: function(data){
-					alert(data);
+					//alert(data);
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject,function(n,value){
@@ -767,6 +769,20 @@
 				}
 			});
 		}
+		if(pre == 'org'){
+			$.ajax({
+				url:"struts/OrgInfo_getOrgList?page=1&rows=10",
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<li><a href='orgView.jsp?id="+value.orgID+"'>"+value.orgName+"</a></li>";
+					});
+					$('#'+pre+part).html(valueStr);
+				}
+			});
+		}
 	}
 	function loadCityCourse(flag){
 		$.ajax({
@@ -938,6 +954,7 @@
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4" id="a1">
+							<li><a href="#" >财务人员必须掌握的28个Excel财务人员必须掌握的28个Excel务人员必须掌握的28个Excel</a></li>
 							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
 						</ul>
 					</div>
@@ -1082,9 +1099,8 @@
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >培训类别</div>
-					<div class="tabOff three">内训类别</div>
-					<div class="tabOff three">排行</div>
+					<div class="tabOn half" >培训类别</div>
+					<div class="tabOff half">内训类别</div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 0px 0px 25px;">
@@ -2044,7 +2060,7 @@ padding-bottom: 2px;
 					<div class="tabOn" id="d11"><a href='javascript:void(0)' onclick="javascript:seePartTab('d',1,1)">企业培训下载</a></div>
 					<div class="tabOff" id="d12"><a href='javascript:void(0)' onclick="javascript:seePartTab('d',2,1)">热门下载</a></div>
 					<div class="tabOff" id="d13"><a href='javascript:void(0)' onclick="javascript:seePartTab('d',3,1)">热门搜索</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="seeDownLoads.jsp">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
@@ -2063,7 +2079,7 @@ padding-bottom: 2px;
 					<div class="tabOn" id="org11"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',1,1)">企业培训机构</a></div>
 					<div class="tabOff" id="org12"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',2,1)">培训机构排名</a></div>
 					<div class="tabOff" id="org13"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',3,1)">热门搜索</a></div>
-					<div class="more"><a href="#">更多</a></div>
+					<div class="more"><a href="orgList.jsp" target="_blank">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">

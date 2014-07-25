@@ -14,7 +14,7 @@
 <script>
 	function submitNeed(){
 		$('#needForm').form('submit',{  
-			url: 'struts/Requirment_addRequirement?objectName=requirement',  
+			url: encodeURI('struts/Requirement_addRequirement'),  
 			onSubmit: function(){  
 					if($('#requiredCourse').val() == ''){
 						alert('需求描述不能为空!');
@@ -41,17 +41,20 @@
 			},  
 			success: function(data){
 				alert(data);
+				$('#needForm').form("clear");
 			}
 		});
 	}
-
+	function clearForm(){
+		$('#needForm').form("clear");
+	}
 </script>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
 <div class="mainContent path" style="border-bottom:1px solid #ccc">
 	<ul>
 		<li>当前位置:&nbsp;</li>
-		<li><a href="main.html" target="_self">首页</a></li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
 		<li>发布需求</li>
 	</ul>
@@ -73,14 +76,13 @@
 			<td>参加人数:&nbsp;<input name="headCount" id="headCount"/></td>
 		</tr>
 		<tr>
-			<td colspan="2">有效时间:&nbsp;<select name="validDays" id="validDays"><option>10天</option><option>20天</option><option>30天</option></select></td>
+			<td colspan="2">有效时间:&nbsp;<select name="validDays" id="validDays"><option value="10">10天</option><option value="20">20天</option><option value="30">30天</option></select></td>
 		</tr>
 		<tr>
-			<td colspan="2" valign="top" height="100px" name="description" id="description">需求说明:&nbsp;<textarea></textarea></td>
+			<td colspan="2" valign="top" height="100px" >需求说明:&nbsp;<textarea name="description" id="description"></textarea></td>
 		</tr>
 		<tr>
-			<td>联系人:&nbsp;<input name="contact" id="contact"/><em>*</em></td>
-			<td>验证码:&nbsp;<input/></td>
+			<td>&nbsp;&nbsp;联系人:&nbsp;<input name="contact" id="contact"/><em>*</em></td>
 		</tr>
 		<tr>
 			<td colspan='2'>固定电话:&nbsp;<input name="telephone" id="telephone"/><em>*</em></td>
@@ -95,7 +97,7 @@
 			<td colspan='2'>所在单位:&nbsp;<input name="comp_name" id="comp_name"/><em>*</em></td>
 		</tr>
 		<tr >
-			<td colspan="2" align="center" style='padding-top:30px;padding-bottom:30px'><a href='#' onclick="javascript:submitNeed()" class="normalButton">发布需求</a></td>
+			<td colspan="2" align="center" style='padding-top:30px;padding-bottom:30px'><a href='#' onclick="javascript:submitNeed()" class="normalButton">发布需求</a><a href='javascript:void(0)' onclick="javascript:clearForm()" class="normalButton">清空</a></td>
 		</tr>
 		</table>
 		</form>

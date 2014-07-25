@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Requirement  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer requirementId;
-	private String username;
+	private Integer userId;
 	private String requiredCourse;
 	private Integer headCount;
 	private Integer validDays;
@@ -36,7 +36,7 @@ public class Requirement  implements Serializable {
 		super();
 	}
 	
-	public Requirement(Integer requirementId, String username,
+	public Requirement(Integer requirementId, Integer userId,
 			String requiredCourse, Integer headCount, Integer validDays,
 			Date startTime, Date endTime, String city, String contact,
 			String telephone, String cellphone, String comp_name,
@@ -44,7 +44,7 @@ public class Requirement  implements Serializable {
 			String email,Date createDate) {
 		super();
 		this.requirementId = requirementId;
-		this.username = username;
+		this.userId = userId;
 		this.requiredCourse = requiredCourse;
 		this.headCount = headCount;
 		this.validDays = validDays;
@@ -73,12 +73,12 @@ public class Requirement  implements Serializable {
 		this.requirementId = requirementId;
 	}
 
-	public String getUsername() {
-		return username;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getRequiredCourse() {
