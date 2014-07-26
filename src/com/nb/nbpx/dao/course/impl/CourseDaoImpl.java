@@ -718,13 +718,13 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 
 	@Override
 	public Course updateCourse(Course course) {
-		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,content = ?  ,"
+		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,hits = ? ,content = ?  ,"
 				+ "blockedContent = ?  ,hasVideo = ? ,lastUpdateDate = ?  ,"
 				+ "recommanded = ? ,state = ? ,classic = ?, links = ?, createdBy = ?, creationDate = ?"
 				+ ", lastUpdatedBy = ?, lastUpdateDate = ? WHERE courseId = ?";
 		Object[] values = { course.getTitle(), course.getTeacherId(),
 				course.getCategory(), course.getIsInner(), course.getPrice(),
-				course.getContent(), course.getBlockedContent(),
+				course.getHits(), course.getContent(), course.getBlockedContent(),
 				course.getHasVideo(), course.getLastUpdateDate(),
 				course.getRecommanded(), course.getState(),
 				course.getClassic(), course.getLinks() , 
@@ -1296,7 +1296,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 
 	@Override
 	public List<CourseReport> queryCoursePlan(final String category,final  int year,
-			final int month, final Boolean isInner, final String city) {
+			final Integer month, final Boolean isInner, final String city) {
 		List<CourseReport> list = new ArrayList<CourseReport>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
@@ -1332,7 +1332,9 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				}
 				
 				hql.append(" and year(info.startDate) = ? ");
-				hql.append(" and month(info.startDate) = ? ");
+				if(month !=null && month>0 && month <=12){
+					hql.append(" and month(info.startDate) = ? ");
+				}
 
 				Query query = session.createQuery(hql.toString());
 
@@ -1344,8 +1346,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 					query.setString(i++, city);
 				}
 				query.setInteger(i++, year);
-				query.setInteger(i++, month);
-
+				
+				if(month !=null && month>0 && month <=12){
+					query.setInteger(i++, month);
+				}
 
 				return query.list();
 			}

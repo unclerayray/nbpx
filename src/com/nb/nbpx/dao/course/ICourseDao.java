@@ -134,7 +134,7 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	 * @param city 城市字典代码
 	 * @return
 	 */
-	public List<CourseReport> queryCoursePlan(String category, int year, int month, Boolean isInner, String city);
+	public List<CourseReport> queryCoursePlan(String category, int year, Integer month, Boolean isInner, String city);
 
 	//获取讲师的培训或者内训课程，按照创建日期排序
 	public List<Course> getCourseByTeacher(Boolean isInner,String teacherID,Integer start,Integer rows);

@@ -11,6 +11,7 @@
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
 <script src="js/project.js"></script>
+<script src="js/myjs/index.js"></script>
 <title>南北培训网</title>
 </head>
 <script>
@@ -48,7 +49,7 @@
 										+"<td>"+row.city+"</td>"
 										+"<td>"+row.teacherName+"</td>"
 										+"<td>"+row.price+"</td>"
-										+"<td><a href='struts/TrainPlan_exportKegang'>课纲下载</a></td>"
+										+"<td><a href='struts/TrainPlan_exportKegang?courseId="+row.id+"'>课纲下载</a></td>"
 									    +"</tr>";
 					});
 					valueStr += monthValueStr +"</table><div class='clear' style='height:10px;'></div></div></div>";
@@ -65,8 +66,8 @@
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
-				$.each(jsonObject.rows,function(n,value){
-					valueStr +="<li><a href='#'>"+value.keyword+"</a></li>";
+				$.each(jsonObject,function(n,value){
+					valueStr +="<li><a href='seeKey.jsp?key="+value.keyword+"'>"+value.keyword+"</a></li>";
 				});
 				$('#relatedKeywords').html(valueStr);
 			}
@@ -85,9 +86,9 @@
 					if(subject.length > 5)
 						subject = subject.substring(0,5)+"...";
 					if(n<=9)
-						valueStr1 +="<dd><a href='#'>"+subject+"</a></dd>";
+						valueStr1 +="<dd><a href='seeKey.jsp?key="+subject+"'>"+subject+"</a></dd>";
 					else
-						valueStr2 +="<dd><a href='#'>"+subject+"</a></dd>";
+						valueStr2 +="<dd><a href='seeKey.jsp?key="+subject+"'>"+subject+"</a></dd>";
 				});
 				$('#relatedSubjects1').html(valueStr1);
 				$('#relatedSubjects2').html(valueStr2);
@@ -96,11 +97,8 @@
 	}
 	
 	function exportExcel(){
-		$.ajax({
-			url:"struts/TrainPlan_exportCoursePlan?isInner=false&month=6&year=2014&cate=003_01",
-			success:function(data){
-			}
-		});
+		var urlStr = 'struts/TrainPlan_exportCoursePlan?isInner='+$('#search_inner').val()+'&month='+$('#search_month').val()+'&year='+$('#search_year').val()+'&cate='+$('#search_category').val() + '&city='+$('#search_city').val();
+		window.location=urlStr;
 	}
 </script>
 <body>
@@ -121,47 +119,99 @@
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
 	<div class="leftInPart" >
 		<style>
-			.searchType{width:70px;float:left;text-align:right;padding-right:5px;font-size:14px;font-weight:bold;color:#2D4545}
-			.searchOption{float:left;width:570px;font-size:14px}
+			.searchType{float:left;text-align:right;padding-right:2px;font-size:14px;font-weight:bold;color:#2D4545}
+			.searchOption{float:left;width:590px;font-size:14px}
 			.searchOption ul{list-style:none;}
-			.searchOption li{float:left;font-size:12px;padding-right:5px;padding-left:5px;}
+			.searchOption li{float:left;font-size:12px;padding-right:2px;padding-left:2px;}
 			.searchOption li a{color:#333;text-decoration:none;font-size:12px;}
 			.searchOption li a.on{background:#2D4545;color:white;font-weight:bold;padding:2px;font-size:12px}
+			.searchOption li a.off{color:#333;text-decoration:none;font-size:12px;}
 		</style>
 		<!--消费者相关专题 start-->
 		<div class="resultPart"  style="width:700px;float:left">
 			<h2>按条件检索</h2>
-		 	<div class="resultContent" style="padding-left:20px;height:120px;">
+		 	<div class="resultContent" style="padding-left:20px;height:150px;">
 				<div style='padding-top:10px'>
+					<input type="hidden" value="false" id="search_inner" NAME="search_inner">
+					<div class='searchType'>按类型:</div>
+					<div id="inner_option" class='searchOption'>
+						<ul>
+						<li id="inner_option_tab0" onclick="changePlanTabs('inner_option',this);document.getElementById('search_year').value='false';"><a  href='javascript:void(0)' id="inner_option_tab0_a"  class="on">培训课程</a></li>
+						<li id="inner_option_tab1" onclick="changePlanTabs('inner_option',this);document.getElementById('search_year').value='true';"><a  href='javascript:void(0)' id="inner_option_tab1_a" >内训课程</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div style='padding-top:10px'>
+					<input type="hidden" value="2014" id="search_year" NAME="search_year">
 					<div class='searchType'>按年度:</div>
-					<div class='searchOption'>
-						<ul><li><a href='#' class="on">全部</a></li><li><a href='#'>2013</a></li><li><a href='#'>2012</a></li></ul>
+					<div id="year_option" class='searchOption'>
+						<ul>
+						<li id="year_option_tab0" onclick="changePlanTabs('year_option',this);document.getElementById('search_year').value='2014';"><a  href='javascript:void(0)' id="year_option_tab0_a" class="on">2014</a></li>
+						<li id="year_option_tab1" onclick="changePlanTabs('year_option',this);document.getElementById('search_year').value='2015';"><a  href='javascript:void(0)' id="year_option_tab1_a" >2015</a></li>
+						</ul>
 					</div>
 				</div>
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
+					<input type="hidden" value="13" id="search_month" NAME="search_month">
 					<div class='searchType'>按月份:</div>
-					<div class='searchOption'>
-						<ul><li><a href='#' class="on">全部</a></li><li>1月</li><li>2月</li><li>3月</li><li>4月</li><li>5月</li><li>6月</li><li>7月</li><li>8月</li><li>9月</li><li>10月</li><li>11月</li><li>12月</li></ul>
+					<div id="month_option" class='searchOption'>
+						<ul>
+						<li id="month_option_tab0" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='13';"><a id="month_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
+						<li id="month_option_tab1" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='01';"><a id="month_option_tab1_a" href='javascript:void(0)'>1月</a></li>
+						<li id="month_option_tab2" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='02';"><a id="month_option_tab2_a" href='javascript:void(0)'>2月</a></li>
+						<li id="month_option_tab3" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='03';"><a id="month_option_tab3_a" href='javascript:void(0)'>3月</a></li>
+						<li id="month_option_tab4" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='04';"><a id="month_option_tab4_a" href='javascript:void(0)'>4月</a></li>
+						<li id="month_option_tab5" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='05';"><a id="month_option_tab5_a" href='javascript:void(0)'>5月</a></li>
+						<li id="month_option_tab6" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='06';"><a id="month_option_tab6_a" href='javascript:void(0)'>6月</a></li>
+						<li id="month_option_tab7" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='07';"><a id="month_option_tab7_a" href='javascript:void(0)'>7月</a></li>
+						<li id="month_option_tab8" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='08';"><a id="month_option_tab8_a" href='javascript:void(0)'>8月</a></li>
+						<li id="month_option_tab9" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='09';"><a id="month_option_tab9_a" href='javascript:void(0)'>9月</a></li>
+						<li id="month_option_tab10" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='10';"><a id="month_option_tab10_a" href='javascript:void(0)'>10月</a></li>
+						<li id="month_option_tab11" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='11';"><a id="month_option_tab11_a" href='javascript:void(0)'>11月</a></li>
+						<li id="month_option_tab12" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='12';"><a id="month_option_tab12_a" href='javascript:void(0)'>12月</a></li>
+						</ul>
 					</div>
 				</div>
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
-					<div class='searchType'>按专题:</div>
-					<div class='searchOption'>
-						<ul><li><a href='#' class="on">全部</a></li><li>财务管理</li><li>物流供应链</li><li>人力资源</li><li>生产管理</li><li>营销培训</li><li>综合战略</li></ul>
+					<input type="hidden" value="003" id="search_category" NAME="search_category">
+					<div class='searchType'>按类别:</div>
+					<div id="category_option" class='searchOption'>
+						<ul>
+							<li id="category_option_tab0" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003';"><a id="category_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
+							<li id="category_option_tab1" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_01';"><a id="category_option_tab1_a" href='javascript:void(0)'>财务管理</a></li>
+							<li id="category_option_tab2" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_02';"><a id="category_option_tab2_a" href='javascript:void(0)'>采购供应</a></li>
+							<li id="category_option_tab3" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_03';"><a id="category_option_tab3_a" href='javascript:void(0)'>人力资源</a></li>
+							<li id="category_option_tab4" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_04';"><a id="category_option_tab4_a" href='javascript:void(0)'>生产管理</a></li>
+							<li id="category_option_tab5" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_05';"><a id="category_option_tab5_a" href='javascript:void(0)'>市场营销</a></li>
+							<li id="category_option_tab6" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_06';"><a id="category_option_tab6_a" href='javascript:void(0)'>综合战略</a></li>
+							<li id="category_option_tab7" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_07';"><a id="category_option_tab7_a" href='javascript:void(0)'>项目管理</a></li>
+							<li id="category_option_tab8" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_08';"><a id="category_option_tab8_a" href='javascript:void(0)'>职业技能</a></li>
+							<li id="category_option_tab9" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_9';"><a id="category_option_tab9_a" href='javascript:void(0)'>研修班</a></li>
+						</ul>
 					</div>
 				</div>			
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
+					<input type="hidden" value="007" id="search_city" NAME="search_city">
 					<div class='searchType'>按城市:</div>
-					<div class='searchOption'>
-						<ul><li><a href='#' class="on">全部</a></li><li>广州</li><li>北京</li><li>苏州</li><li>南京</li><li>上海</li><li>无锡</li></ul>
+					<div id='city_option' class='searchOption'>
+						<ul>
+						<li id="city_option_tab0" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007';"><a id="city_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
+						<li id="city_option_tab1" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_215';"><a id="city_option_tab1_a" href='javascript:void(0)'>广州</a></li>
+						<li id="city_option_tab2" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_3';"><a id="city_option_tab2_a" href='javascript:void(0)'>北京</a></li>
+						<li id="city_option_tab3" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_27';"><a id="city_option_tab3_a" href='javascript:void(0)'>苏州</a></li>
+						<li id="city_option_tab4" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_216';"><a id="city_option_tab4_a" href='javascript:void(0)'>深圳</a></li>
+						<li id="city_option_tab5" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_4';"><a id="city_option_tab5_a" href='javascript:void(0)'>上海</a></li>
+						<li id="city_option_tab6" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_212';"><a id="city_option_tab6_a" href='javascript:void(0)'>东莞</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
 			<!-- 测试函数 -->
-			<a href='struts/TrainPlan_exportCoursePlan?isInner=false&month=6&year=2014&cate=003_01'>导出培训计划</a>
+			<button onclick="exportExcel()" href='javascript:void(0)'>导出培训计划</button>
 			<div class="clear"></div>
 		</div>
 		<div class="clear" style="height:10px"></div>

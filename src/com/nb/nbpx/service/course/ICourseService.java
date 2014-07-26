@@ -150,4 +150,6 @@ public interface ICourseService extends IBaseService {
 	public String queryCourseByType(Boolean ifInner,String courseType,Integer rows,Integer start);
 	//获取内训视频
 	public String queryVedioCourse(Boolean ifInner,Boolean isRecommend,Boolean byHit,String courseType,Integer rows,Integer start);
+	
+	public Course getCourseById(Integer courseId);
 }
