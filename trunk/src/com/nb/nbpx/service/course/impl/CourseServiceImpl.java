@@ -378,7 +378,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 						+ "》课程已存在在数据库中，如需新增安排，请直接在列表中查出该课程，点击课程安排！");
 			}
 			course.setLastUpdateDate(new Date());
-			courseDao.save(course);
+			courseDao.updateCourse(course);
 		}
 		return course;
 	}
@@ -1202,7 +1202,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	public void exportExcel(String category, int year, int month, String city, boolean isInner,
 			InputStream input, OutputStream output) throws Exception {
 		List<String> sheetNames = new ArrayList<String>();
-		sheetNames.add(NbpxDicMap.getCourseTypeMap().get(category).toString());
+		sheetNames.add(NbpxDicMap.getCourseTypeMap().get(category)!=null?NbpxDicMap.getCourseTypeMap().get(category).toString():"全部类别");
 		List<ReportDTO> records = new ArrayList<ReportDTO>();
 		List<CourseReport> reports = new ArrayList<CourseReport>();
 		/*
@@ -1233,7 +1233,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 		String prefix = SolrUtil.getHypeLinkPrefix();
 		reports = courseDao.queryCoursePlan(category,year,month,isInner,city);
-		ReportDTO dto = new ReportDTO(year, month, NbpxDicMap.getCourseTypeMap().get(category).toString(), reports,prefix);
+		ReportDTO dto = new ReportDTO(year, month, NbpxDicMap.getCourseTypeMap().get(category)!=null?NbpxDicMap.getCourseTypeMap().get(category).toString():"全部类别", reports,prefix);
 		records.add(dto);
 		
 
@@ -1393,6 +1393,11 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		String queryString = "update Course set goldenPic = ? where courseId = ? ";
 		Object[] values = {path, courseId};
 		courseDao.bulkUpdate(queryString, values);
+	}
+
+	@Override
+	public Course getCourseById(Integer courseId) {
+		return courseDao.get(courseId);
 	}
 
 }

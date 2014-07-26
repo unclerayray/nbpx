@@ -24,6 +24,21 @@ function searchTabs(tabObj, obj)
 	}
 } 
 
+function changePlanTabs(tabObj, obj)
+{
+	var tabList = document.getElementById(tabObj).getElementsByTagName("li");
+	for (i = 0; i < tabList.length; i++) 
+	{
+		if (tabList[i].id == obj.id) 
+			{
+				document.getElementById(tabObj + "_tab" + i + "_a").className = "on";
+			}
+		else 
+			{
+				document.getElementById(tabObj + "_tab" + i + "_a").className = "off";
+			}
+	}
+}
 
 
 //阻止默认行为

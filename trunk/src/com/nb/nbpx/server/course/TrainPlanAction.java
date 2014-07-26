@@ -1,7 +1,6 @@
 package com.nb.nbpx.server.course;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringBufferInputStream;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
@@ -36,9 +36,10 @@ public class TrainPlanAction extends BaseAction{
 	
 	public String cate;
 	public String city;
-	public int month;
+	public Integer month;
 	public int year;
 	public boolean isInner = false;
+	public Integer courseId;
 	
 	//获取培训计划的内容
 	public String getTrainPlanInfo(){
@@ -86,8 +87,17 @@ public class TrainPlanAction extends BaseAction{
 					"/XLSTemplate");
 			src.append(templateSrc);
 			src.append("/template-coursePlan.xls");
+			String categoryName = "全部类别";
+			if(NbpxDicMap.getCourseTypeMap().get(cate)!=null){
+				categoryName = NbpxDicMap.getCourseTypeMap().get(cate).toString();
+			}else{
+				cate = null;
+			}
+			if(!city.contains("_")){
+				city = null;
+			}
 			response = setResponseInfo("application/x-download;charset=utf-8",
-					+year + "年" + month + "月份" + NbpxDicMap.getCourseTypeMap().get(cate).toString() + "培训计划.xls");
+					+year + "年" + month==null?"":month+"月份" + categoryName + (isInner?"内训计划.xls":"培训计划.xls"));
 			output = response.getOutputStream();
 			input = new FileInputStream(src.toString());
 			courseService.exportExcel(cate, year, month, city, isInner, input, output);
@@ -116,9 +126,7 @@ public class TrainPlanAction extends BaseAction{
 	 * 
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	public String exportKegang(){
-		String outputFile = "firstdoc.pdf";
 		OutputStream output = null;
 		try {
 			/*String templateSrc = null; // 模板路径
@@ -141,13 +149,16 @@ public class TrainPlanAction extends BaseAction{
 
 			HttpServletResponse response = null; // 响应报文
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		    Document doc = builder.parse(new StringBufferInputStream(generateHtml()));
+			Course course = courseService.getCourseById(courseId);
+		    //Document doc = builder.parse(new ByteArrayInputStream(generateHtml(course.getTitle(),course.getContent()).getBytes("UTF-8")));
+			//Document doc = builder.parse(new StringBufferInputStream(generateHtml(course.getTitle(),course.getContent())));
 
 		    ITextRenderer renderer = new ITextRenderer();
-		    renderer.setDocument(doc, null);
+		    //renderer.setDocument(doc, null);
+		    renderer.setDocumentFromString(generateHtml(course.getTitle(),course.getContent()));
 		    renderer.layout();
 		    
-		    response = setResponseInfo("application/x-download;charset=utf-8","课纲.pdf");
+		    response = setResponseInfo("application/x-download;charset=utf-8","《"+course.getTitle()+"》课纲.pdf");
 			output = response.getOutputStream();
 		    renderer.createPDF(output);
 		    
@@ -166,23 +177,29 @@ public class TrainPlanAction extends BaseAction{
 		return null;
 	}
 	
-	private String generateHtml(){
-		StringBuffer buf = new StringBuffer();
-	    buf.append("<!DOCTYPE html>");
-	    buf.append("<html>");
+	private String generateHtml(String title,String content){
+		StringBuffer html = new StringBuffer();
+	    //html.append("<!DOCTYPE math PUBLIC \"-//W3C//DTD MathML 3.0//EN\" \"http://www.w3.org/Math/DTD/mathml3/mathml3.dtd\">");
+	    //html.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+	    
+	    html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");  
+	    html.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
 	    
 	    // put in some style
-	    buf.append("<head>");
-	    buf.append("<meta charset=\"UTF-8\"></meta>");
-	    buf.append("<title>Insert title here</title>");
-	    buf.append("</head>");
+	    html.append("<head>");
+	    html.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></meta>");
+	    html.append("<title>Insert title here</title>");
+	    html.append("</head>");
 	    
 	    // generate the body
-	    buf.append("<body>");
-	    buf.append("Go to the store and buy some more, 99 bottles of beer on the wall.");
-	    buf.append("</body>");
-	    buf.append("</html>");
-		return buf.toString();
+	    html.append("<body>");
+	    html.append("<h1 align=\"center\">");
+	    html.append(title);
+	    html.append("</h1>");
+	    html.append(content);
+	    html.append("</body>");
+	    html.append("</html>");
+		return html.toString();
 	}
 	
 	public static void main(String args[]){
@@ -218,10 +235,10 @@ public class TrainPlanAction extends BaseAction{
 	public void setCate(String cate) {
 		this.cate = cate;
 	}
-	public int getMonth() {
+	public Integer getMonth() {
 		return month;
 	}
-	public void setMonth(int month) {
+	public void setMonth(Integer month) {
 		this.month = month;
 	}
 	public int getYear() {
@@ -241,6 +258,12 @@ public class TrainPlanAction extends BaseAction{
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+	public Integer getCourseId() {
+		return courseId;
+	}
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
 	}
 
 }

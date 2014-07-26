@@ -536,6 +536,171 @@ public class Course extends BaseEntity implements Serializable {
 		this.planflag = planflag;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((blockedContent == null) ? 0 : blockedContent.hashCode());
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result
+				+ ((categoryName == null) ? 0 : categoryName.hashCode());
+		result = prime * result + ((classic == null) ? 0 : classic.hashCode());
+		result = prime * result + ((content == null) ? 0 : content.hashCode());
+		result = prime * result
+				+ ((courseId == null) ? 0 : courseId.hashCode());
+		result = prime * result
+				+ ((createdBy == null) ? 0 : createdBy.hashCode());
+		result = prime * result
+				+ ((creationDate == null) ? 0 : creationDate.hashCode());
+		result = prime * result
+				+ ((goldenPic == null) ? 0 : goldenPic.hashCode());
+		result = prime * result
+				+ ((hasVideo == null) ? 0 : hasVideo.hashCode());
+		result = prime * result + ((hits == null) ? 0 : hits.hashCode());
+		result = prime * result + ((isInner == null) ? 0 : isInner.hashCode());
+		result = prime * result
+				+ ((lastUpdateDate == null) ? 0 : lastUpdateDate.hashCode());
+		result = prime * result
+				+ ((lastUpdatedBy == null) ? 0 : lastUpdatedBy.hashCode());
+		result = prime * result + ((links == null) ? 0 : links.hashCode());
+		result = prime * result
+				+ ((planflag == null) ? 0 : planflag.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result
+				+ ((recommanded == null) ? 0 : recommanded.hashCode());
+		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result
+				+ ((teacherId == null) ? 0 : teacherId.hashCode());
+		result = prime * result
+				+ ((teacherName == null) ? 0 : teacherName.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (blockedContent == null) {
+			if (other.blockedContent != null)
+				return false;
+		} else if (!blockedContent.equals(other.blockedContent))
+			return false;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (categoryName == null) {
+			if (other.categoryName != null)
+				return false;
+		} else if (!categoryName.equals(other.categoryName))
+			return false;
+		if (classic == null) {
+			if (other.classic != null)
+				return false;
+		} else if (!classic.equals(other.classic))
+			return false;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (courseId == null) {
+			if (other.courseId != null)
+				return false;
+		} else if (!courseId.equals(other.courseId))
+			return false;
+		if (createdBy == null) {
+			if (other.createdBy != null)
+				return false;
+		} else if (!createdBy.equals(other.createdBy))
+			return false;
+		if (creationDate == null) {
+			if (other.creationDate != null)
+				return false;
+		} else if (!creationDate.equals(other.creationDate))
+			return false;
+		if (goldenPic == null) {
+			if (other.goldenPic != null)
+				return false;
+		} else if (!goldenPic.equals(other.goldenPic))
+			return false;
+		if (hasVideo == null) {
+			if (other.hasVideo != null)
+				return false;
+		} else if (!hasVideo.equals(other.hasVideo))
+			return false;
+		if (hits == null) {
+			if (other.hits != null)
+				return false;
+		} else if (!hits.equals(other.hits))
+			return false;
+		if (isInner == null) {
+			if (other.isInner != null)
+				return false;
+		} else if (!isInner.equals(other.isInner))
+			return false;
+		if (lastUpdateDate == null) {
+			if (other.lastUpdateDate != null)
+				return false;
+		} else if (!lastUpdateDate.equals(other.lastUpdateDate))
+			return false;
+		if (lastUpdatedBy == null) {
+			if (other.lastUpdatedBy != null)
+				return false;
+		} else if (!lastUpdatedBy.equals(other.lastUpdatedBy))
+			return false;
+		if (links == null) {
+			if (other.links != null)
+				return false;
+		} else if (!links.equals(other.links))
+			return false;
+		if (planflag == null) {
+			if (other.planflag != null)
+				return false;
+		} else if (!planflag.equals(other.planflag))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (recommanded == null) {
+			if (other.recommanded != null)
+				return false;
+		} else if (!recommanded.equals(other.recommanded))
+			return false;
+		if (state == null) {
+			if (other.state != null)
+				return false;
+		} else if (!state.equals(other.state))
+			return false;
+		if (teacherId == null) {
+			if (other.teacherId != null)
+				return false;
+		} else if (!teacherId.equals(other.teacherId))
+			return false;
+		if (teacherName == null) {
+			if (other.teacherName != null)
+				return false;
+		} else if (!teacherName.equals(other.teacherName))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+
 //	public String getShortName() {
 //		return shortName;
 //	}
@@ -543,4 +708,6 @@ public class Course extends BaseEntity implements Serializable {
 //	public void setShortName(String shortName) {
 //		this.shortName = shortName;
 //	}
+	
+	
 }

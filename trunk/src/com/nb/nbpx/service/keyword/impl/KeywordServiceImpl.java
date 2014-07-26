@@ -322,11 +322,11 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 				continue;
 			}
 			String prefix = KEYWORD_PREFIX;
-			try {
-				prefix = SolrUtil.getKeywordHypeLinkPrefix() ;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				prefix = SolrUtil.getKeywordHypeLinkPrefix() ;
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 			String reg = "(?!((<.*?)|(<a.*?)))(" + word
 					+ ")(?!(([^<>]*?)>)|([^>]*?</a>))";
 			String replacement = "<a href=\"" + prefix + word + "\"  target=\"_blank\">"
