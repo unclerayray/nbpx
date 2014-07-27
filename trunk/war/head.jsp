@@ -24,13 +24,13 @@
 			return false;
 		}
 		if(t == 1)//发布课程
-			window.location.href='#';
+			window.location.href='publishClass.jsp';
 		else if(t == 2)//发布需求
 			window.location.href='publishNeed.jsp';
 		else if(t == 3)//内训申请
 			window.location.href='publishNeixun.jsp';
-		else if(t == 4)//发布内训
-			window.location.href='#';
+		else if(t == 4)//发布文章
+			window.location.href='publishArticel.jsp';
 	}
 	function logout(){
 		if(confirm("确定要注销吗?")){

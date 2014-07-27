@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dto.article.ArticleDetail;
 import com.nb.nbpx.pojo.article.Article;
+import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.article.IArticleService;
 import com.nb.nbpx.service.keyword.IKeywordService;
@@ -79,6 +80,51 @@ public class ArticleAction extends BaseAction{
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, state?"锁定文章成功!":"解锁文章成功"));
+		return SUCCESS;
+	}
+	
+	public String saveUserArticle(){
+		User user = (User)session.getAttribute("user");
+		if(user == null){
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"请先登陆!"));
+			return "failure";
+		}
+		String regEx1 = "[\\pP‘’“”]";
+		if(articleDetail.getKeywords()!=null){
+			articleDetail.setKeywords(articleDetail.getKeywords().replace(" ", ""));
+			articleDetail.setKeywords(articleDetail.getKeywords().replaceAll(regEx1, ","));
+		}
+		if(articleDetail.getSubjects()!=null){
+			articleDetail.setSubjects(articleDetail.getSubjects().replace(" ", ""));
+			articleDetail.setSubjects(articleDetail.getSubjects().replaceAll(regEx1, ","));
+		}
+		articleDetail.setAuthor(user.getUserName());
+		articleDetail.setState(false);
+		String[] links = {};
+		Article art = new Article(articleDetail);
+		art.setContent(keywordService.setHyperLink(links,
+				art.getContent()));// 生成超链接
+		//art.setContent(keywordService.setKeywordHyperLink(keywords, art.getContent()));//生成超链接
+		try {
+			Boolean deleteBeforeInsert=false;
+			if(articleDetail.getArticleId()!=null){
+				deleteBeforeInsert = true;
+			}
+			articleService.saveArticle(art);
+			articleDetail.setArticleId(art.getArticleId());
+			articleService.saveArticleDetail(articleDetail, deleteBeforeInsert);
+			//solrArticleService.addArticle2Solr(articleDetail);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
 		return SUCCESS;
 	}
 	

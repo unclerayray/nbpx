@@ -7,6 +7,7 @@ import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.course.CourseInfo;
+import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.keyword.IKeywordService;
@@ -14,6 +15,7 @@ import com.nb.nbpx.service.solr.ISolrCourseService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.SolrUtil;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.LogManager;
@@ -23,6 +25,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -183,7 +186,74 @@ public class CourseAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
+	public String saveUserCourse(){
+		User user = (User)session.getAttribute("user");
+		if(user == null){
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"请先登陆!"));
+			return "failure";
+		}
+		validateCourseInfo();
+		String[] links = {};
 
+		Course cou = new Course(courseAllInfo);
+		cou.setContent(keywordService.setHyperLink(links,
+				cou.getContent()));// 生成超链接
+		//设置发布和修改者
+		cou.setLastUpdatedBy(super.getSessionUserName());
+		if(cou.getCreatedBy()==null||cou.getCreatedBy().isEmpty()){
+			cou.setCreatedBy(super.getSessionUserName());
+		}
+		
+		cou.setLastUpdateDate(new Date());
+		if(cou.getCreationDate()==null){
+			cou.setCreationDate(new Date());
+		}
+		cou.setState(false);
+		cou.setTeacherId(user.getUserId().toString());
+		String return_course_id = "";
+		String return_innerCourse_id = "";
+		try {
+			Boolean deleteBeforeInsert = false;
+			if (courseAllInfo.getCourseId() != null) {
+				deleteBeforeInsert = true;
+			}
+			cou = courseService.saveCourse(cou);
+			return_course_id = cou.getCourseId()+"";
+			courseAllInfo.setCourseId(cou.getCourseId());
+			courseService
+					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
+
+			if(sync_excluded!=null&&sync_excluded&&!deleteBeforeInsert){
+				//-------------同步到内训
+				Course innerCou = cou;
+				innerCou.setCourseId(null);
+				innerCou.setIsInner(true);
+				innerCou = courseService.saveCourse(innerCou);
+				return_innerCourse_id = innerCou.getCourseId()+"";
+				courseAllInfo.setCourseId(innerCou.getCourseId());
+				courseService
+						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
+				solrCourseService.addCourse2Solr(courseAllInfo);
+				//solrCourseService.updateCourseInfo2Solr(innerCou.getCourseId());
+			}
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("dlg_courseId", return_course_id);
+		map.put("dlg_inner_courseId", return_innerCourse_id);
+		this.inputStream = castToInputStream(JsonUtil
+				.formatToOpResJsonWithParam(ResponseStatus.SUCCESS,
+						ResponseStatus.SAVE_SUCCESS, map));
+		return SUCCESS;
+	}
+	
+	
 	public String saveCourse() {
 		validateCourseInfo();
 		String[] links = courseAllInfo.getLinks().split(",");
