@@ -264,6 +264,12 @@ closed="true" modal="true" cache="false" buttons="#dlg-buttons">
 									type="checkbox">
 								</div>
 							</td>
+							<td class="itemText">
+								<div>
+									<label>培训计划:</label> <input name="planflag" id="planflag"
+										type="checkbox">
+								</div>
+							</td>
 						</tr>
 					</table>
 				</form>
@@ -358,6 +364,10 @@ function queryCourse() {
 						$('#hasVideo').attr('checked', 'checked');
 					else
 						$('#hasVideo').attr('checked', false);
+					if (data.planflag)
+						$('#planflag').attr('checked', 'checked');
+					else
+						$('#planflag').attr('checked', false);
 
 					$('#teacherId').combobox('reload');
 					if(data.targets!=''){

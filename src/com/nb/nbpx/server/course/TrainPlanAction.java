@@ -3,7 +3,6 @@ package com.nb.nbpx.server.course;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringBufferInputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +14,9 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import com.lowagie.text.pdf.BaseFont;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.ICourseService;
@@ -154,10 +153,20 @@ public class TrainPlanAction extends BaseAction{
 			//Document doc = builder.parse(new StringBufferInputStream(generateHtml(course.getTitle(),course.getContent())));
 
 		    ITextRenderer renderer = new ITextRenderer();
+		    String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		    path += "ARIALUNI.ttf";
+		    
+		    //path = "D:\\test\\ARIALUNI.TTF";
+		    org.xhtmlrenderer.pdf.ITextFontResolver fontResolver = renderer  
+	                .getFontResolver();  
+	        fontResolver.addFont(path, BaseFont.IDENTITY_H,     
+	                BaseFont.NOT_EMBEDDED);
 		    //renderer.setDocument(doc, null);
 		    renderer.setDocumentFromString(generateHtml(course.getTitle(),course.getContent()));
 		    renderer.layout();
+
 		    
+	        
 		    response = setResponseInfo("application/x-download;charset=utf-8","《"+course.getTitle()+"》课纲.pdf");
 			output = response.getOutputStream();
 		    renderer.createPDF(output);
@@ -189,6 +198,9 @@ public class TrainPlanAction extends BaseAction{
 	    html.append("<head>");
 	    html.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></meta>");
 	    html.append("<title>Insert title here</title>");
+	    html.append("<style type=\"text/css\">");
+	    html.append("body {font-family:\"Arial Unicode MS\";}");
+	    html.append("</style>");
 	    html.append("</head>");
 	    
 	    // generate the body
