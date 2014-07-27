@@ -225,7 +225,7 @@ public class CourseAction extends BaseAction {
 			courseService
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 
-			if(sync_excluded!=null&&sync_excluded&&!deleteBeforeInsert){
+			if(sync!=null&&sync&&!deleteBeforeInsert){
 				//-------------同步到内训
 				Course innerCou = cou;
 				innerCou.setCourseId(null);
