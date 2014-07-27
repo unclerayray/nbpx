@@ -92,7 +92,7 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
      * do a merge
      * @param entity
      */
-    public void merge(T entity);
+    public <T> T merge(T entity);
 
     /**
      * 增加或更新集合中的全部实体

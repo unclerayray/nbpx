@@ -721,7 +721,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		String sql = "update Course SET title = ?,teacherId = ?  ,category = ? ,isInner = ?  ,price = ?  ,hits = ? ,content = ?  ,"
 				+ "blockedContent = ?  ,hasVideo = ? ,lastUpdateDate = ?  ,"
 				+ "recommanded = ? ,state = ? ,classic = ?, links = ?, createdBy = ?, creationDate = ?"
-				+ ", lastUpdatedBy = ?, lastUpdateDate = ? WHERE courseId = ?";
+				+ ", lastUpdatedBy = ?, lastUpdateDate = ?, planflag = ? WHERE courseId = ?";
 		Object[] values = { course.getTitle(), course.getTeacherId(),
 				course.getCategory(), course.getIsInner(), course.getPrice(),
 				course.getHits(), course.getContent(), course.getBlockedContent(),
@@ -730,6 +730,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				course.getClassic(), course.getLinks() , 
 				course.getCreatedBy(), course.getCreationDate(),
 				course.getLastUpdatedBy(), course.getLastUpdateDate(),
+				course.getPlanflag(),
 				course.getCourseId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		//TODO 新加的几个attribute需要更新

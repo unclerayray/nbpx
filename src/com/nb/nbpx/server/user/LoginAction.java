@@ -58,7 +58,7 @@ public class LoginAction  extends BaseAction {
 		User user = new User();
 		user.setEmail(email);
 		user.setCity(city);
-		user.setUserName(orgName);
+		user.setUserName(username);
 		user.setPassWord(password);
 		user.setRegisterDate(new Date());
 		user.setUserType("001_03");
@@ -84,7 +84,7 @@ public class LoginAction  extends BaseAction {
 		User user = new User();
 		user.setEmail(email);
 		user.setCity(city);
-		user.setUserName(realName);
+		user.setUserName(username);
 		user.setPassWord(password);
 		user.setRegisterDate(new Date());
 		user.setUserType("001_02");
@@ -97,24 +97,25 @@ public class LoginAction  extends BaseAction {
 			this.inputStream = castToInputStream(json);
 			return SUCCESS;
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		Date teacherBirthday = null;
 		try {
 			teacherBirthday = sdf.parse(birthday);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		TeacherInfo teacher = new TeacherInfo(null,user.getUserId(),realName,teacherBirthday,majorCatgory,Double.parseDouble(externalPayment),Double.parseDouble(internalPayment),fax,telephone, cellphone, introduction,expertIn);
-
-		if(teacher.getTeacherId()==null){
-			teacher.setCreateBy(getSessionUserName());
-		}
-		if(teacher.getState()==null){
-			teacher.setState(false);
-		}
+		TeacherInfo teacher = null;
 		try {
+			teacher = new TeacherInfo(null,user.getUserId(),realName,teacherBirthday,majorCatgory,Double.parseDouble(externalPayment),Double.parseDouble(internalPayment),fax,telephone, cellphone, introduction,expertIn);
+
+			if(teacher.getTeacherId()==null){
+				teacher.setCreateBy(getSessionUserName());
+			}
+			if(teacher.getState()==null){
+				teacher.setState(false);
+			}
 			TeacherService.saveTeacher(teacher);
-		} catch (NbpxException e) {
+		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
 					ResponseStatus.SAVE_FAILED + e.getMessage()));
@@ -132,7 +133,7 @@ public class LoginAction  extends BaseAction {
 		User user = new User();
 		user.setEmail(email);
 		user.setCity(city);
-		user.setUserName(company);
+		user.setUserName(username);
 		user.setPassWord(password);
 		user.setRegisterDate(new Date());
 		user.setUserType("001_01");

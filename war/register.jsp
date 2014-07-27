@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link type="text/css" href="css/face.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/gray/easyui.css">
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css"/>
 <title>南北培训网</title>
 <script type="text/javascript" src="js/easyui/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
@@ -105,11 +107,11 @@ function register(){
 					alert('姓名不能为空!');
 					return false;
 				}
-				if($('#t_birthday').val() == ''){
+				if($('#t_birthday').datebox('getValue') == ''){
 					alert('出生日期不能为空!');
 					return false;
 				}
-				if(!validateDate($('#t_birthday').val()))
+				if(!validateDate($('#t_birthday').datebox('getValue')))
 					return false;
 				
 				if($('#t_password').val() == '' || $('#t_password').val() == null){
@@ -270,7 +272,7 @@ function validateCell(cell){
 <div class="mainContent path" style="border-bottom:1px solid #ccc">
 	<ul>
 		<li>当前位置:&nbsp;</li>
-		<li><a href="main.html" target="_self">首页</a></li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
 		<li>注册用户</li>
 	</ul>
@@ -289,6 +291,7 @@ function validateCell(cell){
 	
 	<div id="comp"  style='display:none'>
 	<form id="compForm">
+		<dd><span>用户名:</span><input type="text" name="username" id="c_username"/><em>*</em></dd>
 		<dd><span>公司名称:</span><input type="text" name="company" id="c_company"/><em>*</em></dd>
 		<dd><span>城市:</span><input type="text"  name="city" id="c_city"/><em>*</em></dd>
 		<dd><span>密码:</span><input type="password"  name="password" id="c_password"/><em>*</em></dd>
@@ -304,10 +307,11 @@ function validateCell(cell){
 
 	<div id="org" style='display:none'>
 		<form id="orgForm">
+		<dd><span>用户名:</span><input type="text" name="username" id="o_username"/><em>*</em></dd>
 		<dd><span>机构名称:</span><input type="text" name="orgName" id="o_orgName"/><em>*</em></dd>
 		<dd><span>所在地区:</span><input type="text"  name="city" id="o_city"/><em>*</em></dd>
 		<dd><span>公司网址:</span><input type="text" name="website" id="o_website"/></dd>
-		<dd><span>培训类别:</span><select name="category" id="o_category" ><option value="财务管理" selected>财务管理</option><option value="采购供应链仓储">采购供应链仓储</option><option value="人力资源管理">人力资源管理</option><option value="生产管理">生产管理</option><option value="市场营销">市场营销</option><option value="战略管理">战略管理</option><option value="项目管理">项目管理</option><option value="职业技能">职业技能</option></select></dd>
+		<dd><span>培训类别:</span><select name="majorCatgory" id="t_majorCatgory" ><option value="003_01" selected>财务管理</option><option value="003_02">采购供应链仓储</option><option value="003_03">人力资源管理</option><option value="003_04">生产管理</option><option value="003_05">市场营销</option><option value="003_06">战略管理</option><option value="003_07">项目管理</option><option value="003_08">职业技能</option></select></dd>
 		<dd><span>密码:</span><input type="password"  name="password" id="o_password"/><em>*</em></dd>
 		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="o_confirmPassword"/><em>*</em></dd>
 		<dd><span>联系人:</span><input type="text" name="contact" id="o_contact"/><em>*</em></dd>
@@ -324,15 +328,16 @@ function validateCell(cell){
 
 	<div id="teacher">
 		<form id="teacherForm">
+		<dd><span>用户名:</span><input type="text" name="username" id="t_username""/><em>*</em></dd>
 		<dd><span>姓名:</span><input type="text" name="realName" id="t_realName"/><em>*</em></dd>
 		<dd><span>所在城市:</span><input type="text"  name="city" id="t_city"/><em class="black">（您当前工作或居住的城市）</em></dd>
-		<dd><span>出生日期:</span><input type="text" name="birthday" id="t_birthday"/><em class="black"><em>*</em>（格式为：1949-10-1）</em></dd>
-		<dd><span>主讲类别:</span><select name="majorCatgory" id="t_majorCatgory" ><option value="财务管理" selected>财务管理</option><option value="采购供应链仓储">采购供应链仓储</option><option value="人力资源管理">人力资源管理</option><option value="生产管理">生产管理</option><option value="市场营销">市场营销</option><option value="战略管理">战略管理</option><option value="项目管理">项目管理</option><option value="职业技能">职业技能</option></select></dd>
+		<span style="color:#333;line-height:40px;height:40px;text-align:right;padding-right:10px;font-size:12px">出生日期:</span><input class="easyui-datebox" name="birthday" id="t_birthday" readonly="readonly" style="border:1px solid #ccc;height:23px;width:200px;float:left;margin-top:5px;margin-right:10px"/><em>*</em>
+		<dd><span>主讲类别:</span><select name="majorCatgory" id="t_majorCatgory" ><option value="003_01" selected>财务管理</option><option value="003_02">采购供应链仓储</option><option value="003_03">人力资源管理</option><option value="003_04">生产管理</option><option value="003_05">市场营销</option><option value="003_06">战略管理</option><option value="003_07">项目管理</option><option value="003_08">职业技能</option></select></dd>
 		<dd><span>密码:</span><input type="password"  name="password" id="t_password"/><em>*</em></dd>
 		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="t_confirmPassword"/><em>*</em></dd>
 		<dd><span>对内课酬:</span><input type="text" name="internalPayment" id="t_internalPayment"/><em>*</em></dd>
 		<dd><span>对外课酬:</span><input type="text" name="externalPayment" id="t_externalPayment"/><em>*</em></dd>
-		<dd><span>电子邮箱:</span><input type="text" name="email" id="t_email"/></dd>
+		<dd><span>电子邮箱:</span><input type="text" name="email" id="t_email"/><em>*</em></dd>
 		<dd><span>移动电话:</span><input type="text" name="cellphone" id="t_cellphone"/></dd>
 		<dd><span>联系电话:</span><input type="text" name="telephone" id="t_telephone"/><em>*&nbsp;如020-12345678</em></dd>
 		<dd><span>传真号码:</span><input type="text" name="fax" id="t_fax"/></dd>

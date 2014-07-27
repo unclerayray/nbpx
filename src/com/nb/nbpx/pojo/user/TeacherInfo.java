@@ -209,7 +209,9 @@ public class TeacherInfo implements Serializable{
 			String cellphone, String introduction, String expertIn) {
 		super();
 		this.teacherId = teacherId;
-		this.user.setUserId(userId);
+		User user = new User();
+		user.setUserId(userId);
+		this.user = user;
 		this.realName = realName;
 		this.birthday = birthday;
 		this.majorCatgory = majorCatgory;

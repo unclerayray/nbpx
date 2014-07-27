@@ -55,7 +55,7 @@ public class CourseAction extends BaseAction {
 	public Boolean p_outside;
 	public Integer courseId;
 	public Boolean state;
-	public Boolean sync_excluded;
+	public Boolean sync;
 	public Course course;
 	public Boolean isInner;
 	public String selected_courseId;
@@ -287,7 +287,7 @@ public class CourseAction extends BaseAction {
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 			solrCourseService.addCourse2Solr(courseAllInfo);
 			//solrCourseService.updateCourseInfo2Solr(cou.getCourseId());
-			if(sync_excluded!=null&&sync_excluded&&!deleteBeforeInsert){
+			if(sync!=null&&sync&&!deleteBeforeInsert){
 				//-------------同步到内训
 				Course innerCou = cou;
 				innerCou.setCourseId(null);
@@ -640,12 +640,12 @@ public class CourseAction extends BaseAction {
 		this.goldenPic = goldenPic;
 	}
 
-	public Boolean getSync_excluded() {
-		return sync_excluded;
+	public Boolean getSync() {
+		return sync;
 	}
 
-	public void setSync_excluded(Boolean sync_excluded) {
-		this.sync_excluded = sync_excluded;
+	public void setSync(Boolean sync) {
+		this.sync = sync;
 	}
 
 	public String getQ_teacher() {
