@@ -51,6 +51,7 @@ public class CourseAllInfoDto extends Course implements Serializable{
 		this.categoryName = course.categoryName;
 		this.recommanded = course.recommanded;
 		this.classic = course.classic;
+		this.planflag = course.planflag;
 	}
 	
 	public CourseAllInfoDto(String keywords, String targets, String major,

@@ -108,10 +108,6 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 				throw new NbpxException("同名的讲师已存在！");
 			}
 			teacherInfor.setCreateDate(new Date());
-			if(teacherInfor.getPhoto()==null || teacherInfor.getPhoto().isEmpty()){
-				TeacherInfo info = teacherInfoDao.getById(TeacherInfo.class, teacherInfor.getTeacherId());
-				teacherInfor.setPhoto(info.getPhoto());
-			}
 			teacherInfoDao.save(teacherInfor);
 		}else{
 			TeacherInfo info = teacherInfoDao.getById(TeacherInfo.class, teacherInfor.getTeacherId());

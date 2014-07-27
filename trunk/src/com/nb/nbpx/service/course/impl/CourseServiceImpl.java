@@ -342,7 +342,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				teacher.setCreateDate(new Date());
 				teacher.setRealName(course.getTeacherName());
 				teacher.setState(false);
-				teacherDao.merge(teacher);
+				teacher = teacherDao.merge(teacher);
 			}
 			course.setTeacherId(teacher.getTeacherId().toString());
 		}else{
@@ -355,7 +355,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 				teacher.setCreateDate(new Date());
 				teacher.setRealName(course.getTeacherName());
 				teacher.setState(false);
-				teacherDao.merge(teacher);//考虑是否在save teacherInfo的时候加入SOLR
+				teacher = teacherDao.merge(teacher);//考虑是否在save teacherInfo的时候加入SOLR
 			}
 			course.setTeacherId(teacher.getTeacherId().toString());
 		}

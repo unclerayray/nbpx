@@ -709,7 +709,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 	}
 
 	@Override
-	public void merge(T entity) {
-		getHibernateTemplate().merge(entity);
+	public <T> T merge(T entity) {
+		return getHibernateTemplate().merge(entity);
 	}
 }

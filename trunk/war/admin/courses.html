@@ -25,6 +25,7 @@
 		<tr>
 			<th data-options="field:'courseId',sortable:true,width:50">课程代码</th>
 			<th data-options="field:'teacherId',width:120,hidden:true">讲师ID</th>
+			<th data-options="field:'planflag',width:120,hidden:true">计划</th>
 			<th data-options="field:'title',sortable:true,width:320">标题</th>
 			<th data-options="field:'teacherName',sortable:true,width:80">讲师</th>
 			<th data-options="field:'createdBy',sortable:true,width:80">发布者</th>
@@ -441,6 +442,10 @@ function queryCourse() {
 							$('#hasVideo').attr('checked', 'checked');
 						else
 							$('#hasVideo').attr('checked', false);
+						if (data.planflag)
+							$('#planflag').attr('checked', 'checked');
+						else
+							$('#planflag').attr('checked', false);
 
 						$('#teacherId').combobox('reload');
 						if(data.targets!=''){
@@ -519,10 +524,10 @@ function createInfoGrid(row){
 function saveCourse(close_dlg) {
 	//var data = CKEDITOR.instances.content.getData();
 	$('#teacherName').val($('#teacherId').combobox('getText'));
-	var doSync = $('sync').val();
+	var doSync = $('#sync').val();
 	var submitUrl = '../struts/Course_saveCourse?objectName=courseAllInfo';
-	if ($('sync').val()) {
-		submitUrl = '../struts/Course_saveCourse?objectName=courseAllInfo'+'&sync=true';
+	if ($('#sync').val()) {
+		submitUrl = '../struts/Course_saveCourse?objectName=courseAllInfo'+'&sync=true&excluded_fields=sync';
 	};
 	$('#fm').form('submit', {
 		url : submitUrl,

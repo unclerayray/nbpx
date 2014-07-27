@@ -141,7 +141,9 @@ public class OrgInfo implements Serializable{
 			String introduction) {
 		super();
 		this.orgId = orgId;
-		this.user.setUserId(userId);
+		User user = new User();
+		user.setUserId(userId);
+		this.user = user;
 		this.orgName = orgName;
 		this.address = address;
 		this.postCode = postCode;
