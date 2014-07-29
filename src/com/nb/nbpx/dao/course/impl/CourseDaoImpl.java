@@ -1130,7 +1130,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 					if(p_outside){
 						hql.append(" and c.createdBy not in (select userName from Admin) ");
 					}else{
-						hql.append(" and c.category in (select userName from Admin) ");
+						hql.append(" and c.createdBy in (select userName from Admin) ");
 					}
 				}
 				hql.append(" and c.category = fd.codeName ");
