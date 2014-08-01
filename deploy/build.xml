@@ -87,11 +87,11 @@
 			<replacefilter token="solr.dictionary.path=D://test" value="solr.dictionary.path=/alidata/roger/db"/>
 			<replacefilter token="solr.dictionary.file.path=D://test//word-my.dic" value="solr.dictionary.file.path=/alidata/roger/db/word-my.dic"/>
 			<replacefilter token="download.file.path=D://test//files" value="download.file.path=/alidata/roger/files"/>
-			<replacefilter token="image.livescene.path=D://test//images" value="download.file.path=/alidata/roger/images"/>
-			<replacefilter token="course.goldenPic.path=D://test//goldenPic" value="download.file.path=/alidata/roger/goldenPic"/>
+			<replacefilter token="image.livescene.path=D://test//images" value="image.livescene.path=/alidata/roger/images"/>
+			<replacefilter token="course.goldenPic.path=D://test//goldenPic" value="course.goldenPic.path=/alidata/roger/goldenPic"/>
 			<replacefilter token="course.hypeLink.prefix=http://localhost:8099/nbpx/viewClass.jsp?id=" value="course.hypeLink.prefix=http://42.121.97.39:8080/nbpx/viewClass.jsp?id="/>
 			<replacefilter token="teacher.photo.path=D://test//photos" value="teacher.photo.path=/alidata/roger/photos/"/>
-			<replacefilter token="keyword.hypeLink.prefix=http://localhost:8099/nbpx/seeKey.jsp?key=" value="course.hypeLink.prefix=http://42.121.97.39:8080/nbpx/seeKey.jsp?key="/>
+			<replacefilter token="keyword.hypeLink.prefix=http://localhost:8099/nbpx/seeKey.jsp?key=" value="keyword.hypeLink.prefix=http://42.121.97.39:8080/nbpx/seeKey.jsp?key="/>
 		</replace>
 	</target>
 

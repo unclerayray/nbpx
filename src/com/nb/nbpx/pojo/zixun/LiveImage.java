@@ -25,6 +25,7 @@ public class LiveImage extends BaseEntity implements Serializable {
 	public String url;
 	public LiveScene liveScene;
 	public String imageName;
+	public String keyCode;
 
 	
 	
@@ -33,12 +34,13 @@ public class LiveImage extends BaseEntity implements Serializable {
 	}
 
 	public LiveImage(Integer imageId, String url, LiveScene liveScene,
-			String imageName) {
+			String imageName, String keyCode) {
 		super();
 		this.imageId = imageId;
 		this.url = url;
 		this.liveScene = liveScene;
 		this.imageName = imageName;
+		this.keyCode = keyCode;
 	}
 
 	@Id
@@ -76,5 +78,13 @@ public class LiveImage extends BaseEntity implements Serializable {
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+
+	public String getKeyCode() {
+		return keyCode;
+	}
+
+	public void setKeyCode(String keyCode) {
+		this.keyCode = keyCode;
 	}
 }

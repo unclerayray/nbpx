@@ -1233,7 +1233,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 		String prefix = SolrUtil.getHypeLinkPrefix();
 		reports = courseDao.queryCoursePlan(category,year,month,isInner,city);
-		ReportDTO dto = new ReportDTO(year, month, NbpxDicMap.getCourseTypeMap().get(category)!=null?NbpxDicMap.getCourseTypeMap().get(category).toString():"全部类别", reports,prefix);
+		ReportDTO dto = new ReportDTO(year, (( month<1 || month > 12)?"":month+"月份"), NbpxDicMap.getCourseTypeMap().get(category)!=null?NbpxDicMap.getCourseTypeMap().get(category).toString():"全部类别", reports,prefix);
 		records.add(dto);
 		
 

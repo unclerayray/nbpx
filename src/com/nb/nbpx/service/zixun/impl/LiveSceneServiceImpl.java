@@ -7,9 +7,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import jxl.common.Logger;
+
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.dao.zixun.ILiveImageDao;
 import com.nb.nbpx.dao.zixun.ILiveSceneDao;
 import com.nb.nbpx.pojo.zixun.LiveImage;
 import com.nb.nbpx.pojo.zixun.LiveScene;
@@ -24,6 +27,8 @@ import com.nb.nbpx.utils.NbpxException;
  */
 @Component("LiveSceneService")
 public class LiveSceneServiceImpl  extends BaseServiceImpl implements ILiveSceneService{
+	
+	public static Logger log = Logger.getLogger(LiveSceneServiceImpl.class);
 
 	public ILiveSceneDao liveSceneDao;
 	
@@ -36,6 +41,24 @@ public class LiveSceneServiceImpl  extends BaseServiceImpl implements ILiveScene
 		this.liveSceneDao = liveSceneDao;
 	}
 	
+	public ILiveImageDao liveImageDao;
+	
+	public ILiveImageDao getLiveImageDao() {
+		return liveImageDao;
+	}
+
+	@Resource
+	public void setLiveImageDao(ILiveImageDao liveImageDao) {
+		this.liveImageDao = liveImageDao;
+	}
+	
+	public String saveImage(LiveImage image){
+		boolean isUpdate = liveImageDao.deleteByType(image.getLiveScene().getLiveSceneId(), image.getImageName());
+		log.debug(isUpdate?"update image " + image.getImageName() +" of " + image.getLiveScene().getLiveSceneId():"insert image " + image.getImageName() +" of " + image.getLiveScene().getLiveSceneId());
+		liveImageDao.save(image);
+		return null;
+	}
+
 	public String getLiveScene(Map<String, Object> propsMap,Integer rows, Integer start,Boolean isLiveScene){
 		String json = "[";
 		List<LiveScene> list = new ArrayList<LiveScene>();
