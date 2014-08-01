@@ -18,4 +18,5 @@ public interface ILiveSceneService {
 	public void deleteliveScene(Integer liveSceneId);
 	
 	public String viewLiveScene(String liveID);
+	public String saveImage(LiveImage image);
 }

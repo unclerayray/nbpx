@@ -86,17 +86,18 @@ public class TrainPlanAction extends BaseAction{
 					"/XLSTemplate");
 			src.append(templateSrc);
 			src.append("/template-coursePlan.xls");
-			String categoryName = "全部类别";
+			String categoryName = "";
 			if(NbpxDicMap.getCourseTypeMap().get(cate)!=null){
 				categoryName = NbpxDicMap.getCourseTypeMap().get(cate).toString();
 			}else{
 				cate = null;
+				categoryName = "";
 			}
 			if(!city.contains("_")){
 				city = null;
 			}
 			response = setResponseInfo("application/x-download;charset=utf-8",
-					+year + "年" + month==null?"":month+"月份" + categoryName + (isInner?"内训计划.xls":"培训计划.xls"));
+					+year + "年" + ((month==null || month<1 || month > 12)?"":month+"月份") + categoryName + (isInner?"内训计划.xls":"培训计划.xls"));
 			output = response.getOutputStream();
 			input = new FileInputStream(src.toString());
 			courseService.exportExcel(cate, year, month, city, isInner, input, output);
@@ -154,7 +155,7 @@ public class TrainPlanAction extends BaseAction{
 
 		    ITextRenderer renderer = new ITextRenderer();
 		    String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-		    path += "ARIALUNI.ttf";
+		    path += "ARIALUNI.TTF";
 		    
 		    //path = "D:\\test\\ARIALUNI.TTF";
 		    org.xhtmlrenderer.pdf.ITextFontResolver fontResolver = renderer  

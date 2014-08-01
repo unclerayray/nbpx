@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.pojo.zixun.LiveImage;
 import com.nb.nbpx.pojo.zixun.LiveScene;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.zixun.ILiveSceneService;
@@ -123,6 +124,7 @@ public class LiveSceneAction extends BaseAction {
 			liveScene = liveSceneService.saveLiveScene(liveScene);
 			if (liveScene.getLiveSceneId() != null) {
 				if (cover != null) {
+					LiveImage coverImg = new LiveImage();
 					String realpath = SolrUtil.getLiveScenePhotoPath();
 					realpath = realpath + File.separator
 							+ liveScene.getLiveSceneId();
@@ -134,8 +136,13 @@ public class LiveSceneAction extends BaseAction {
 					if (!savefile.getParentFile().exists())
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(cover, savefile);
+					coverImg.setImageName("cover");
+					coverImg.setUrl(realpath + File.separator + "cover" + "."+ ext);
+					coverImg.setLiveScene(liveScene);
+					liveSceneService.saveImage(coverImg);
 				}
 				if (photo1 != null) {
+					LiveImage phote1Img = new LiveImage();
 					String realpath = SolrUtil.getLiveScenePhotoPath();
 					realpath = realpath + File.separator
 							+ liveScene.getLiveSceneId();
@@ -147,8 +154,15 @@ public class LiveSceneAction extends BaseAction {
 					if (!savefile.getParentFile().exists())
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(photo1, savefile);
+					phote1Img.setImageName("photo1");
+					phote1Img.setUrl(realpath + File.separator + "photo1" + "."+ ext);
+					phote1Img.setLiveScene(liveScene);
+					liveSceneService.saveImage(phote1Img);
+					phote1Img.setLiveScene(liveScene);
+					liveSceneService.saveImage(phote1Img);
 				}
 				if (photo2 != null) {
+					LiveImage phote2Img = new LiveImage();
 					String realpath = SolrUtil.getLiveScenePhotoPath();
 					realpath = realpath + File.separator
 							+ liveScene.getLiveSceneId();
@@ -160,8 +174,13 @@ public class LiveSceneAction extends BaseAction {
 					if (!savefile.getParentFile().exists())
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(photo2, savefile);
+					phote2Img.setImageName("photo2");
+					phote2Img.setUrl(realpath + File.separator + "photo2" + "."+ ext);
+					phote2Img.setLiveScene(liveScene);
+					liveSceneService.saveImage(phote2Img);
 				}
 				if (photo3 != null) {
+					LiveImage phote3Img = new LiveImage();
 					String realpath = SolrUtil.getLiveScenePhotoPath();
 					realpath = realpath + File.separator
 							+ liveScene.getLiveSceneId();
@@ -173,6 +192,10 @@ public class LiveSceneAction extends BaseAction {
 					if (!savefile.getParentFile().exists())
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(photo3, savefile);
+					phote3Img.setImageName("photo3");
+					phote3Img.setUrl(realpath + File.separator + "photo3" + "."+ ext);
+					phote3Img.setLiveScene(liveScene);
+					liveSceneService.saveImage(phote3Img);
 				}
 			}
 		} catch (Exception e) {

@@ -136,8 +136,8 @@
 					<div class='searchType'>按类型:</div>
 					<div id="inner_option" class='searchOption'>
 						<ul>
-						<li id="inner_option_tab0" onclick="changePlanTabs('inner_option',this);document.getElementById('search_year').value='false';"><a  href='javascript:void(0)' id="inner_option_tab0_a"  class="on">培训课程</a></li>
-						<li id="inner_option_tab1" onclick="changePlanTabs('inner_option',this);document.getElementById('search_year').value='true';"><a  href='javascript:void(0)' id="inner_option_tab1_a" >内训课程</a></li>
+						<li id="inner_option_tab0" onclick="changePlanTabs('inner_option',this);document.getElementById('search_inner').value='false';"><a  href='javascript:void(0)' id="inner_option_tab0_a"  class="on">培训课程</a></li>
+						<li id="inner_option_tab1" onclick="changePlanTabs('inner_option',this);document.getElementById('search_inner').value='true';"><a  href='javascript:void(0)' id="inner_option_tab1_a" >内训课程</a></li>
 						</ul>
 					</div>
 				</div>

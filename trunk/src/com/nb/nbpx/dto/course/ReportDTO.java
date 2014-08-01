@@ -9,14 +9,14 @@ import java.util.List;
  */
 public class ReportDTO {
 	public Integer year;
-	public Integer month;
+	public String month;
 	public String category;
 	public String prefix;
 	public List<CourseReport> courseList;
 	
 	
 	
-	public ReportDTO(Integer year, Integer month, String category,
+	public ReportDTO(Integer year, String month, String category,
 			List<CourseReport> courseList,String prefix) {
 		super();
 		this.year = year;
@@ -33,10 +33,10 @@ public class ReportDTO {
 	public void setYear(Integer year) {
 		this.year = year;
 	}
-	public Integer getMonth() {
+	public String getMonth() {
 		return month;
 	}
-	public void setMonth(Integer month) {
+	public void setMonth(String month) {
 		this.month = month;
 	}
 	public String getCategory() {
