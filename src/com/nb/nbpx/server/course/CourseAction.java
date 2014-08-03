@@ -233,6 +233,7 @@ public class CourseAction extends BaseAction {
 				innerCou = courseService.saveCourse(innerCou);
 				return_innerCourse_id = innerCou.getCourseId()+"";
 				courseAllInfo.setCourseId(innerCou.getCourseId());
+				courseAllInfo.setIsInner(true);
 				courseService
 						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 				solrCourseService.addCourse2Solr(courseAllInfo);

@@ -120,11 +120,11 @@ public class SolrServiceImpl implements ISolrService {
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "search");
 		query.set("echoParams", "explicit");
-		query.set("df", "title,keyword,content,subject,major,product,industry,courseInfo");
-		query.set("mlt.qf", "title^10.0 keyword^10.0 content^1.0 subject^1.0 major^1.0 product^1.0 industry^1.0 courseInfo ^1.0");
+		query.set("df", "courseId,title,keyword,content,subject,major,product,industry,courseInfo");
+		query.set("mlt.qf", "courseId^10.0 title^10.0 keyword^10.0 content^1.0 subject^1.0 major^1.0 product^1.0 industry^1.0 courseInfo ^1.0");
 		query.set("defType", "edismax");
-		query.set("pf", "title keyword content");
-		query.set("qf", "title^10.0 keyword^10.0 content^1.0 subject^1.0 major^1.0 product^1.0 industry^1.0 courseInfo ^1.0");
+		query.set("pf", "courseId title keyword content");
+		query.set("qf", "courseId^10.0 title^10.0 keyword^10.0 content^1.0 subject^1.0 major^1.0 product^1.0 industry^1.0 courseInfo ^1.0");
 //		params.set("fq", "isInner:false");
 //		params.set("fq", "state:true");
 
@@ -367,11 +367,11 @@ public class SolrServiceImpl implements ISolrService {
 				SolrQuery query = new SolrQuery();
 				query.set("qt", "search");
 				query.set("echoParams", "explicit");
-				query.set("df", "title,keyword,content");
-				query.set("mlt.qf", "title^10.0 keyword^10.0 content^1.0");
+				query.set("df", "courseId,title,keyword,content");
+				query.set("mlt.qf", "courseId^10.0 title^10.0 keyword^10.0 content^1.0");
 				query.set("defType", "edismax");
-				query.set("pf", "title keyword content");
-				query.set("qf", "title^10.0 keyword^10.0 content^1.0");
+				query.set("pf", "courseId title keyword content");
+				query.set("qf", "courseId^10.0 title^10.0 keyword^10.0 content^1.0");
 				//params.set("fq", "isInner:true");
 				//params.set("fq", "state:true");
 				// query.set("q","*.*");
