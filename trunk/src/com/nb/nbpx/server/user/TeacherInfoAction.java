@@ -89,17 +89,6 @@ public class TeacherInfoAction extends BaseAction{
 		try {
 			String randomStr = "images/824.jpg";
 			teacherInfor.setPhoto(randomStr);
-			if (file != null) {
-				String realpath = SolrUtil.getTeacherPhotoPath();
-				String ext = FilenameUtils.getExtension(fileFileName);
-				Long uuid = UUID.randomUUID().getMostSignificantBits();
-				randomStr = uuid.toString();
-				File savefile = new File(new File(realpath), randomStr+"."+ext);
-				if (!savefile.getParentFile().exists())
-					savefile.getParentFile().mkdirs();
-				FileUtils.copyFile(file, savefile);
-				teacherInfor.setPhoto(savefile.getPath());
-			}
 			if(teacherInfor.getTeacherId()==null){
 				teacherInfor.setCreateBy(getSessionUserName());
 			}
@@ -107,6 +96,15 @@ public class TeacherInfoAction extends BaseAction{
 				teacherInfor.setState(false);
 			}
 			teacherInfor = teacherInfoService.saveTeacher(teacherInfor);
+			if (file != null) {
+				String realpath = SolrUtil.getTeacherPhotoPath();
+				String ext = FilenameUtils.getExtension(fileFileName);
+				File savefile = new File(new File(realpath), teacherInfor.getTeacherId()+"."+ext);
+				if (!savefile.getParentFile().exists())
+					savefile.getParentFile().mkdirs();
+				FileUtils.copyFile(file, savefile);
+				teacherInfor.setPhoto(SolrUtil.getAbstractTeacherPhotoPath()+"/"+teacherInfor.getTeacherId()+"."+ext);
+			}
 			//TODO check if this function works
 			solrTeacherService.addTeacher2Solr(teacherInfor);
 		} catch (Exception e) {

@@ -120,7 +120,7 @@ public class CourseAction extends BaseAction {
 				savefile.getParentFile().mkdirs();
 			FileUtils.copyFile(goldenPic, savefile);
 			
-			courseService.updateGoldenPicPath(savefile.getAbsolutePath(), Integer.valueOf(selected_courseId));
+			courseService.updateGoldenPicPath(SolrUtil.getAbstractGoldenPicPath() + "/" + selected_courseId + "goldPic" + ext, Integer.valueOf(selected_courseId));
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
