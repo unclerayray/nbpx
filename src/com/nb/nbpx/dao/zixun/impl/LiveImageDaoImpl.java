@@ -16,4 +16,10 @@ ILiveImageDao{
 		return this.bulkUpdate("delete from LiveImage where liveSceneId = ? and imageName = ?", values) > 0 ? true:false;
 	}
 
+	@Override
+	public boolean deleteByKeyCode(String keyCode) {
+		Object[] values = {keyCode};
+		return this.bulkUpdate("delete from LiveImage where keyCode = ?", values) > 0 ? true:false;
+	}
+
 }

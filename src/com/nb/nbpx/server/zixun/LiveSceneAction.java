@@ -1,6 +1,7 @@
 package com.nb.nbpx.server.zixun;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.nb.nbpx.pojo.zixun.LiveScene;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.zixun.ILiveSceneService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 
 @Component("LiveSceneAction")
@@ -44,7 +46,14 @@ public class LiveSceneAction extends BaseAction {
 	public LiveScene liveScene;
 	public ILiveSceneService liveSceneService;
 	public String flag;
+	public String keyCode;
 	
+	public String getKeyCode() {
+		return keyCode;
+	}
+	public void setKeyCode(String keyCode) {
+		this.keyCode = keyCode;
+	}
 	public String viewLiveScene(){
 		String json = liveSceneService.viewLiveScene(liveSceneId);
 		this.inputStream = castToInputStream(json);
@@ -137,7 +146,8 @@ public class LiveSceneAction extends BaseAction {
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(cover, savefile);
 					coverImg.setImageName("cover");
-					coverImg.setUrl(realpath + File.separator + "cover" + "."+ ext);
+					//coverImg.setUrl(realpath + File.separator + "cover" + "."+ ext);
+					coverImg.setUrl(SolrUtil.getAbstractLiveScenePhotoPath() + "/"+ liveScene.getLiveSceneId() + "/" + "cover" + "."+ ext);
 					coverImg.setLiveScene(liveScene);
 					liveSceneService.saveImage(coverImg);
 				}
@@ -155,7 +165,7 @@ public class LiveSceneAction extends BaseAction {
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(photo1, savefile);
 					phote1Img.setImageName("photo1");
-					phote1Img.setUrl(realpath + File.separator + "photo1" + "."+ ext);
+					phote1Img.setUrl(SolrUtil.getAbstractLiveScenePhotoPath() + "/"+ liveScene.getLiveSceneId() + "/" + "photo1" + "."+ ext);
 					phote1Img.setLiveScene(liveScene);
 					liveSceneService.saveImage(phote1Img);
 					phote1Img.setLiveScene(liveScene);
@@ -175,7 +185,8 @@ public class LiveSceneAction extends BaseAction {
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(photo2, savefile);
 					phote2Img.setImageName("photo2");
-					phote2Img.setUrl(realpath + File.separator + "photo2" + "."+ ext);
+					//phote2Img.setUrl(realpath + File.separator + "photo2" + "."+ ext);
+					phote2Img.setUrl(SolrUtil.getAbstractLiveScenePhotoPath() + "/"+ liveScene.getLiveSceneId() + "/" + "photo2" + "."+ ext);
 					phote2Img.setLiveScene(liveScene);
 					liveSceneService.saveImage(phote2Img);
 				}
@@ -193,7 +204,8 @@ public class LiveSceneAction extends BaseAction {
 						savefile.getParentFile().mkdirs();
 					FileUtils.copyFile(photo3, savefile);
 					phote3Img.setImageName("photo3");
-					phote3Img.setUrl(realpath + File.separator + "photo3" + "."+ ext);
+					//phote3Img.setUrl(realpath + File.separator + "photo3" + "."+ ext);
+					phote3Img.setUrl(SolrUtil.getAbstractLiveScenePhotoPath() + "/"+ liveScene.getLiveSceneId() + "/" + "photo3" + "."+ ext);
 					phote3Img.setLiveScene(liveScene);
 					liveSceneService.saveImage(phote3Img);
 				}
@@ -207,6 +219,43 @@ public class LiveSceneAction extends BaseAction {
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, ResponseStatus.SAVE_SUCCESS));
+		return SUCCESS;
+	}
+	
+	public String saveAd(){
+		try {
+			if (cover != null) {
+				String ext = FilenameUtils.getExtension(coverFileName);
+				if(!"jpg".equals(ext)){
+					throw new NbpxException("请选择正确的图片格式！");
+				}
+				LiveImage coverImg = new LiveImage();
+				String realpath = SolrUtil.getAdPicPath();
+				realpath = realpath + File.separator;
+
+
+				File savefile = new File(new File(realpath), keyCode + "."
+						+ ext);
+				if (!savefile.getParentFile().exists())
+					savefile.getParentFile().mkdirs();
+				FileUtils.copyFile(cover, savefile);
+				coverImg.setImageName(keyCode);
+				//coverImg.setUrl(realpath + File.separator + "cover" + "."+ ext);
+				coverImg.setUrl(SolrUtil.getAbstractAdPicPath() + "/"+ keyCode + "."+ ext);
+				coverImg.setLiveScene(null);
+				coverImg.setKeyCode(keyCode);
+				liveSceneService.saveAd(coverImg);
+			}else{
+				throw new NbpxException("请选择图片！");
+			}
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"上传失败！" + e.getMessage()));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "上传成功"));
 		return SUCCESS;
 	}
 

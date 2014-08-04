@@ -33,10 +33,6 @@ String visible = (String)session.getAttribute( "xxx" );
 		firstLogin = false;
 	}
 	function setVisible(){
-		//$('#xtgl').hide();
-		//console.log('fuck this shit!');
-		var node = $('#menue-tree').tree('find', 'xtgl');
-		$('#menue-tree').tree('remove', node.target);
 		if(firstLogin&&xx=="xxx"){
 			$('.not-visible-to-normal-admin').hide();
 			//var node = $('#menue-tree').find('.not-visible-to-normal-admin');
@@ -212,17 +208,6 @@ String visible = (String)session.getAttribute( "xxx" );
 
 	<div region="west" split="true" style="width:220px;overflow:hidden" title="功能菜单">
 			<ul id="menue-tree" class="easyui-tree">
-				<li id="xtgl" iconCls="icon-base"><span>系统管理</span>
-					<ul>
-						<li iconCls="icon-gears">
-							<a href="#" onclick="javascript:addTab('系统日志')">系统日志</a>
-						</li>
-						
-						<li iconCls="icon-gears">
-							<a href="#" onclick="javascript:addTab('广告设置')">广告设置</a>
-						</li>
-					</ul>
-				</li>
 				<li iconCls="icon-base"><span>课程管理</span>
 					<ul>
 						<li iconCls="icon-gears">
@@ -307,6 +292,10 @@ String visible = (String)session.getAttribute( "xxx" );
 						
 						<li iconCls="icon-gears">
 							<a href="javascript:void(0)" onclick="javascript:addTab('后台用户管理','adminList')">后台用户管理</a>
+						</li>
+ 
+						<li iconCls="icon-gears">
+							<a href="javascript:void(0)" onclick="javascript:addTab('广告设置','guanggao')">广告设置</a>
 						</li>
 					</ul>
 				</li>

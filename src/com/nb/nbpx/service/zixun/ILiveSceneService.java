@@ -19,4 +19,5 @@ public interface ILiveSceneService {
 	
 	public String viewLiveScene(String liveID);
 	public String saveImage(LiveImage image);
+	public String saveAd(LiveImage image);
 }

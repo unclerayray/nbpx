@@ -164,4 +164,12 @@ public class LiveSceneServiceImpl  extends BaseServiceImpl implements ILiveScene
 		liveSceneDao.delete(liveScene);
 	}
 
+	@Override
+	public String saveAd(LiveImage image) {
+		boolean isUpdate = liveImageDao.deleteByKeyCode(image.getKeyCode());
+		log.debug(isUpdate?"update add " + image.getKeyCode():"insert ad image " + image.getImageName());
+		liveImageDao.save(image);
+		return null;
+	}
+
 }

@@ -5,4 +5,5 @@ import com.nb.nbpx.pojo.zixun.LiveImage;
 
 public interface ILiveImageDao extends IBaseDao<LiveImage, Integer> {
 	public boolean deleteByType(Integer liveSceneId,String imageName);
+	public boolean deleteByKeyCode(String keyCode);
 }

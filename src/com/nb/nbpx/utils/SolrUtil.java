@@ -214,6 +214,21 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获取Teacher Photo Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getAbstractTeacherPhotoPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		return prop.getProperty("teacher.photo.path.abstract");
+	}
+	
+	/**
 	 * 获取LiveScenePhoto Path
 	 * @return
 	 * @throws IOException
@@ -230,6 +245,26 @@ public class SolrUtil {
 		}
 		//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
 		return prop.getProperty("image.livescene.path");
+	}
+	
+
+	/**
+	 * 获取LiveScenePhoto Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getAbstractLiveScenePhotoPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+			//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
+		} catch (Exception e) {
+			logger.debug("exception");
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+			logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path.abstract"));
+		}
+		//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
+		return prop.getProperty("image.livescene.path.abstract");
 	}
 	
 	/**
@@ -249,6 +284,52 @@ public class SolrUtil {
 		}
 		//logger.debug("image.livescene.path = " + prop.getProperty("image.livescene.path"));
 		return prop.getProperty("course.goldenPic.path");
+	}
+
+	/**
+	 * 获取金牌内训图片 Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getAbstractGoldenPicPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			logger.debug("exception");
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		return prop.getProperty("course.goldenPic.path.abstract");
+	}
+
+	/**
+	 * 获取金牌内训图片 Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getAdPicPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		return prop.getProperty("course.ad.path");
+	}
+	
+	/**
+	 * 获取金牌内训图片 Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getAbstractAdPicPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		return prop.getProperty("course.ad.path.abstract");
 	}
 	
 	/**
