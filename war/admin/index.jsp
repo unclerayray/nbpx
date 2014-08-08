@@ -29,6 +29,7 @@ String visible = (String)session.getAttribute( "xxx" );
 			//$("#relogin-dlg").dialog("widget").find(".panel-tool-close").hide();
 			//$('.panel window.panel-header.panel-tool.panel-tool-close').css( "display", "none" );
 			$('#relogin-dlg').parent().find('.panel-tool-close').hide();
+			poped = true;
 		}
 		firstLogin = false;
 	}
@@ -64,6 +65,7 @@ String visible = (String)session.getAttribute( "xxx" );
 					});
 					$('#relogin-fm').form('clear');
 					$('#relogin-dlg').dialog('close');
+					poped = false;
 					setVisible();
 				}else {
 					$.messager.show({
