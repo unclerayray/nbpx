@@ -161,6 +161,13 @@ public class MainAction extends BaseAction{
 		this.inputStream = castToInputStream(result);
 		return SUCCESS;
 	}
+	public String getHotCourseWithNoTime(){
+		int start = 0;
+		String result = courseService.selectHotCourseWithNoTime(flag, start, rows);
+		
+		this.inputStream = castToInputStream(result);
+		return SUCCESS;
+	}
 	
 	//获取本周最热或者本月最热的培训课程
 	public String getTimeTopCourse(){

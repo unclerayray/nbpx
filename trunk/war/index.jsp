@@ -1,5 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%
+	Calendar c=Calendar.getInstance();
+	int year = c.get(Calendar.YEAR);
+	int nextYear = year + 1;
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -188,6 +193,8 @@
 			loadPartDateForArticle(tabCount,1,i,"");
 		}
 			//seePartTab('c',1,i);
+		//加载培训类别
+		seePartTab('pt',1,1);
 		//加载培训下载
 		seePartTab('d',1,1);
 		//加载企业培训机构
@@ -412,7 +419,7 @@
 			count = 4;
 		if(pre == 'c' || pre =='tz' || pre=='xc')
 			count = 2;
-		if(pre == 'tc'){
+		if(pre == 'tc' || pre == 'pt'){
 			count = 2;
 			cssOn = "tabOn half";
 			cssOff = "tabOff half";
@@ -788,6 +795,29 @@
 				}
 			});
 		}
+		if(pre == 'pt'){
+			var type = "";
+			if(flag == 1)
+				type = "26";
+			else
+				type = "27";
+			$.ajax({
+				url: 'struts/ViewDic_getMoreDicItems?codeName='+type+'&rows=10&page=1',
+				success:function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<li><a href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></li>";
+					});
+		
+					if(valueStr == "")
+						valueStr ="<div class='notice'>暂时没有类别信息</div>";
+					
+					$('#'+pre+part).html(valueStr);
+				}
+				
+			});
+		}
 	}
 	function loadCityCourse(flag){
 		$.ajax({
@@ -837,42 +867,42 @@
 		</div>
 		
 		<!--月份 start-->
-		<div class="head">2012年企业培训计划</div>
+		<div class="head"><%=year %>年企业培训计划</div>
 		<div class="bg p5">
 			<ul class="list2">
-				<li><a href="#">01月</a><span>|</span></li>
-				<li><a href="#">02月</a><span>|</span></li>
-				<li><a href="#">03月</a><span>|</span></li>
-				<li><a href="#">04月</a><span>|</span></li>
-				<li><a href="#">05月</a><span>|</span></li>
-				<li><a href="#">06月</a><span>&nbsp;</span></li>
-				<li><a href="#">07月</a><span>|</span></li>
-				<li ><a href="#">08月</a><span>|</span></li>
-				<li><a href="#">09月</a><span>|</span></li>
-				<li><a href="#">10月</a><span>|</span></li>
-				<li><a href="#">11月</a><span>|</span></li>
-				<li><a href="#">12月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=1">01月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=2">02月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=3">03月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=4">04月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=5">05月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=6">06月</a><span>&nbsp;</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=7">07月</a><span>|</span></li>
+				<li ><a href="trainPlan.jsp?year=<%=year %>&month=8">08月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=9">09月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=10">10月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=11">11月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=12">12月</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 		<!--月份 end-->
 		
 		<!--内训 start-->
-		<div class="head">2013年企业培训计划</div>
+		<div class="head"><%=nextYear %>年企业培训计划</div>
 			<div class="bg p5" style="border-bottom:1px solid #ebebeb">
 			<ul class="list2">
-				<li><a href="#">01月</a><span>|</span></li>
-				<li><a href="#">02月</a><span>|</span></li>
-				<li><a href="#">03月</a><span>|</span></li>
-				<li><a href="#">04月</a><span>|</span></li>
-				<li><a href="#">05月</a><span>|</span></li>
-				<li><a href="#">06月</a><span>&nbsp;</span></li>
-				<li><a href="#">07月</a><span>|</span></li>
-				<li><a href="#">08月</a><span>|</span></li>
-				<li><a href="#">09月</a><span>|</span></li>
-				<li><a href="#">10月</a><span>|</span></li>
-				<li><a href="#">11月</a><span>|</span></li>
-				<li><a href="#">12月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=1">01月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=2">02月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=3">03月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=4">04月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=5">05月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=6">06月</a><span>&nbsp;</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=7">07月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=8">08月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=9">09月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=10">10月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=11">11月</a><span>|</span></li>
+				<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=12">12月</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -1104,23 +1134,13 @@
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn half" >培训类别</div>
-					<div class="tabOff half">内训类别</div>
+					<div class="tabOn half" id="pt11"><a href='javascript:void(0)' onclick="javascript:seePartTab('pt',1,1)">培训类别</a></div>
+					<div class="tabOff half" id="pt12"><a href='javascript:void(0)' onclick="javascript:seePartTab('pt',2,1)">内训类别</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 0px 0px 25px;">
-					<ul class="list5" style="padding-top:10px;width:230px;">
-						<li><a class="left">战略管理</a><span>&nbsp;</span><a class="left">人力资源管理</a></li>
-						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
-						<li><a class="left">财务管理</a><span>&nbsp;</span><a class="left">客户服务</a></li>
-						<li><a class="left">采购物流</a><span>&nbsp;</span><a class="left">职业技能</a></li>
-						<li><a class="left">质量管理</a><span>&nbsp;</span><a class="left">项目管理</a></li>
-						<li><a class="left">团队建设</a><span>&nbsp;</span><a class="left">MBA总裁研修班</a></li>
-						<li><a class="left">行政管理</a><span>&nbsp;</span><a class="left">领导力</a></li>
-						<li><a class="left">战略管理</a><span>&nbsp;</span><a class="left">人力资源管理</a></li>
-						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
-						<li><a class="left">财务管理</a><span>&nbsp;</span><a class="left">客户服务</a></li>
-						<li><a class="left">生产管理</a><span>&nbsp;</span><a class="left">市场营销</a></li>
+					<ul class="list5" style="padding-top:10px;width:230px;" id="pt1">
+						<!--  <li><a class="left">战略管理</a><span>&nbsp;</span><a class="left">人力资源管理</a></li>-->
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -1811,6 +1831,33 @@ padding-bottom: 2px;
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
+					<div class="tabOn three"  style="width:110px">培训机构字典</div>
+					<div class="clear"></div>
+				</div>
+				<div class="bg h315" style="padding:0px 15px;">
+					<ul class="list5" style="padding-top:10px;width:230px;" id="jigou_dic">
+						<!--<li><a class="left tooLong w230">深圳市鑫阳企业管理咨询有限公司鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
+						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>  -->
+					</ul>
+					<div class="clear"></div>
+
+				</div>
+			</div>
+		
+		</li>
+		
+		<!--  <li class="last noneStyle">
+			<div class="partLeft left">
+				<div class="head">
 					<div class="tabOn three" >文库分类</div>
 					<div class="tabOff three">文库排行</div>
 					<div class="tabOff three">本月排行</div>
@@ -1879,7 +1926,7 @@ padding-bottom: 2px;
 				</div>
 			</div>
 		
-		</li>
+		</li>-->
 		<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
@@ -1923,30 +1970,24 @@ padding-bottom: 2px;
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three"  style="width:110px">培训机构字典</div>
+					<div class="tabOn half" >培训在线问答</div>
+					<div class="tabOff half">企业培训需求</div>
 					<div class="clear"></div>
 				</div>
-				<div class="bg h315" style="padding:0px 15px;">
-					<ul class="list5" style="padding-top:10px;width:230px;" id="jigou_dic">
-						<!--<li><a class="left tooLong w230">深圳市鑫阳企业管理咨询有限公司鑫阳企业管理咨询有限公司</a></li>
-						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
-						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
-						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
-						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
-						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
-						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
-						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
-						<li><a class="left">深圳市鑫阳企业管理咨询有限公司</a></li>
-						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>
-						<li><a class="left">上海复锐企业管理咨询有限公司</a></li>  -->
-					</ul>
-					<div class="clear"></div>
-
-				</div>
+				<div class="bg h315" style="padding:0px 10px 0px 10px;">
+					<div style="height:15px"></div>
+					<div class="question"><span>&nbsp;</span>&nbsp;请问如何解除劳动合同通知书</div>
+					<div class="answer"><span>最佳答案:&nbsp;</span>有无劳动合同，有无社保。有无拖欠或克扣工资（劳动合同法中所说的未及时足额支付劳动报酬）。以及其他...</div>
+					<div class="answerline"></div>
+					<div class="question"><span>&nbsp;</span>&nbsp;请问如何解除劳动合同通知书</div>
+					<div class="answer"><span>最佳答案:&nbsp;</span>有无劳动合同，有无社保。有无拖欠或克扣工资（劳动合同法中所说的未及时足额支付劳动报酬）。以及其他...</div>
+					<div class="answerline"></div>
+					<div class="question"><span>&nbsp;</span>&nbsp;请问如何解除劳动合同通知书</div>
+					<div class="answer"><span>最佳答案:&nbsp;</span>有无劳动合同，有无社保。有无拖欠或克扣工资（劳动合同法中所说的未及时足额支付劳动报酬）。以及其他...</div>
 			</div>
 		
 		</li>
-			<li class="noneStyle">
+		<li class="noneStyle">
 	<div class="part left">
 				<div class="head">
 					<div class="tabOn" id="c71"><a href='javascript:void(0)' onclick="javascript:loadPartDateForArticle(4,1,7,'')">项目管理</a></div>
@@ -1987,78 +2028,34 @@ padding-bottom: 2px;
 
 			</div>
 		</li>
-		<li class="last noneStyle">
+	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >文库分类</div>
-					<div class="tabOff three">文库排行</div>
-					<div class="tabOff three">本月排行</div>
+					<div class="tabOn half" >企业培训动态</div>
+					<div class="tabOff half">企业内训动态</div>
 					<div class="clear"></div>
 				</div>
-				<div class="bg h315" style="padding:0px 15px;">
-					<div class="docType">
-						<h5>财务管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-						</ul>
-					</div>
+				<div class="bg" style="padding:0px 0px 0px 15px;">
+					<marquee  direction="up" scrollamount="3" behavior="scroll" class="lasted" height="320px" onmouseover="this.stop();" onMouseOut="this.start()">
+					<ul class="list5" style="width:230px;">
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+					</ul>
+					</marquee>
 					<div class="clear"></div>
-					<div class="docType">
-						<h5>生产管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-						</ul>
-					</div>
-					<div class="clear"></div>
-					<div class="docType">
-						<h5>企业管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-						</ul>
-					</div>
-					<div class="clear"></div>					
-					<div class="docType">
-						<h5>企业管理</h5>
-						<ul>
-							<li>[税收]</li>
-							<li>[预算]</li>
-							<li>[企业内部]</li>
-							<li>[成本]</li>
-							<li>[融资]</li>
-							<li>[税收]</li>
-							<li>[预算]</li>
-						</ul>
-					</div>
-					<div class="clear"></div>
-
 				</div>
 			</div>
 		
 		</li>
+	
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
@@ -2097,26 +2094,7 @@ padding-bottom: 2px;
 				<img  src="images/class5.jpg"/>
 	</div>
 	</li>
-	<li class="last noneStyle">
-			<div class="partLeft left">
-				<div class="head">
-					<div class="tabOn half" >培训在线问答</div>
-					<div class="tabOff half">企业培训需求</div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg h315" style="padding:0px 10px 0px 10px;">
-					<div style="height:15px"></div>
-					<div class="question"><span>&nbsp;</span>&nbsp;请问如何解除劳动合同通知书</div>
-					<div class="answer"><span>最佳答案:&nbsp;</span>有无劳动合同，有无社保。有无拖欠或克扣工资（劳动合同法中所说的未及时足额支付劳动报酬）。以及其他...</div>
-					<div class="answerline"></div>
-					<div class="question"><span>&nbsp;</span>&nbsp;请问如何解除劳动合同通知书</div>
-					<div class="answer"><span>最佳答案:&nbsp;</span>有无劳动合同，有无社保。有无拖欠或克扣工资（劳动合同法中所说的未及时足额支付劳动报酬）。以及其他...</div>
-					<div class="answerline"></div>
-					<div class="question"><span>&nbsp;</span>&nbsp;请问如何解除劳动合同通知书</div>
-					<div class="answer"><span>最佳答案:&nbsp;</span>有无劳动合同，有无社保。有无拖欠或克扣工资（劳动合同法中所说的未及时足额支付劳动报酬）。以及其他...</div>
-			</div>
-		
-		</li>
+	
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
@@ -2177,33 +2155,7 @@ padding-bottom: 2px;
 					</div>
 	</div>
 	</li>
-	<li class="last noneStyle">
-			<div class="partLeft left">
-				<div class="head">
-					<div class="tabOn half" >企业培训动态</div>
-					<div class="tabOff half">企业内训动态</div>
-					<div class="clear"></div>
-				</div>
-				<div class="bg" style="padding:0px 0px 0px 15px;">
-					<marquee  direction="up" scrollamount="3" behavior="scroll" class="lasted" height="320px" onmouseover="this.stop();" onMouseOut="this.start()">
-					<ul class="list5" style="width:230px;">
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-					</ul>
-					</marquee>
-					<div class="clear"></div>
-				</div>
-			</div>
-		
-		</li>
+	
 	</ul>
 	<div class="clear"></div>
 </div>

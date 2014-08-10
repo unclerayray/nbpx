@@ -907,6 +907,19 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		}
 		return JsonUtil.getJsonString(results);
 	}
+	
+	@Override
+	public String selectHotCourseWithNoTime(String flag, int start,int rows) {
+		List<Course> courses = courseDao.getHotCourseWithNoTime(false, null, rows, start);
+		List<Map<String, String>> results = new ArrayList<Map<String, String>>();
+		for (Course temp : courses) {
+			Map<String, String> row = new HashMap<String, String>();
+			row.put("id", temp.getCourseId().toString());
+			row.put("title", temp.getTitle());
+			results.add(row);
+		}
+		return JsonUtil.getJsonString(results);
+	}
 
 	@Override
 	public String queryHotCourseByType(Boolean isInner, String flag,

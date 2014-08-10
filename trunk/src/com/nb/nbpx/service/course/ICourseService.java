@@ -23,7 +23,7 @@ public interface ICourseService extends IBaseService {
 			Integer start, String sort, String order, Boolean isInner);
 
 	public String queryComboCourseType();
-
+	public String selectHotCourseWithNoTime(String flag, int start,int rows);
 	public String queryComboCourseName(String category,Boolean isInner,Boolean p_outside);
 
 	public String queryComboTeacher();
