@@ -353,7 +353,7 @@ ul{padding:0px;margin:0px}
 .link .bg{ border:1px solid #D0E2D4; border-top:0px;padding-bottom:5px}
 .link .bg ul{padding:10px;margin:0px}
 .link .bg ul li{width:105px;float:left;list-style:none;padding:6px; padding-top:0px}
-.link .bg ul li a{ text-decoration:none;color:#2D4545;font-size:12px}
+.link .bg ul li a{ text-decoration:none;color:#2D4545;font-size:12px;}
 .link .bg ul li a:hover{ text-decoration:underline;color:red}
 /*link end*/
 
@@ -361,9 +361,9 @@ ul{padding:0px;margin:0px}
 .customer{}
 .customer .head{ background:url(../images/bg_index.png) repeat-x 0px -260px;height:30px; border:1px solid #D0E2D4; line-height:30px; font-weight:bold; color:#3C3C3C; text-align:left; padding-left:20px;font-size:14px}
 .customer .bg{ border:1px solid #D0E2D4; border-top:0px;padding-bottom:5px;border-bottom:0px}
-.customer .bg ul{padding:10px;margin:0px}
-.customer .bg ul li{float:left;list-style:none;text-align:center;width:80px; padding:0px 0px 6px 10px}
-.customer .bg ul li a{ text-decoration:none;color:#2D4545;font-size:12px;}
+.customer .bg ul{padding:10px;margin:0px;padding-left:50px}
+.customer .bg ul li{float:left;list-style:none;text-align:left;width:160px; padding:0px 0px 6px 10px}
+.customer .bg ul li a{ text-decoration:none;color:#2D4545;font-size:12px;display:block;width:160px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .customer .bg ul li a:hover{ text-decoration:underline;color:red}
 /*link end*/
 
@@ -421,6 +421,7 @@ ul{padding:0px;margin:0px}
 .inNews{width:400px;float:right;height:200px;background:yellow; background:url(../images/line.jpg) repeat-x bottom left; height:100px}
 .inNews.none{background:none;}
 .inNews h2{padding:0px;margin:0px; font:normal 18px simhei; line-height:38px;text-align:center;color:#2D4545}
+.inNews h2 a{padding:0px;margin:0px; font:normal 18px simhei; line-height:38px;text-align:center;color:#2D4545}
 .inNews p{ font-size:12px; text-align:left; text-indent:24px; line-height:20px;margin:0px;color:#2D4545;padding:0px 10px 0px 10px}
 
 .classtic{margin-top:10px;border:1px solid #ddeae0;width:290px}

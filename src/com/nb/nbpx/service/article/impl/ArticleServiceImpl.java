@@ -287,6 +287,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 			Map<String,Object> article = new HashMap<String,Object>();
 			article.put("id", temp.getArticleId());
 			article.put("title", temp.getArticleTitle());
+			article.put("content", temp.getContent());
 			resultList.add(article);
 		}
 

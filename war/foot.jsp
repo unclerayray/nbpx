@@ -7,6 +7,29 @@
 <link type="text/css" href="css/face.css" rel="stylesheet" />
 <script type="text/javascript" src="js/project.js"></script>
 <title>Insert title here</title>
+<script>
+	$(function(){
+		loadOrgs();
+	})
+	function loadOrgs(){
+		$.ajax({
+				url: 'struts/ViewDic_getMoreDicItems?codeName=005&rows=30&page=1',
+				success:function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<li><a class='left tooLong w230' href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></li>";	
+					});
+		
+					if(valueStr == "")
+						valueStr ="<div class='notice'>暂时没有字典信息</div>";
+					
+					$('#orgs').html(valueStr);
+				}
+		});
+		
+	}
+</script>
 </head>
 <body>
 <!--flash start-->
@@ -42,9 +65,9 @@
 
 <!-- 友情链接 start-->
 <div class="mainContent customer" >
-	<div class="head">部分培训客户<span class="more"><a href="#">更多</a></span></div>
+	<div class="head">部分培训客户<span class="more"><a href="viewDic.jsp?type=005">更多</a></span></div>
 	<div class="bg">
-		<ul>
+		<ul id="orgs">
 			<li><a href="#">电信</a></li>
 			<li><a href="#">TCL</a></li>
 			<li><a href="#">美的</a></li>
@@ -80,7 +103,7 @@
 			<li><a href="#">中石油</a></li>
 			<li><a href="#">中石化</a></li>
 			<li><a href="#">美联地产</a></li>
-						<li><a href="#">电信</a></li>
+			<li><a href="#">电信</a></li>
 			<li><a href="#">TCL</a></li>
 			<li><a href="#">美的</a></li>
 			<li><a href="#">格力电器</a></li>

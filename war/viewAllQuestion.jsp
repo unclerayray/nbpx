@@ -120,11 +120,17 @@
 		};
 </script>
 <!--当前路径 start-->
-<div class="mainContent path" id="path">
+<div class="mainContent path">
+	<ul>
+		<li>当前位置:&nbsp;</li>
+		<li><a href="index.jsp" target="_self">首页</a></li>
+		<li class="bread">&gt;&gt;</li>
+		<li>积分问答</li>
+	</ul>
 	<div class="clear"></div>
 </div>
-<div class="clear"></div>
 <!--当前路径 end-->
+
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px;">
 	
 	<!--左边部分课程信息 start-->
@@ -135,10 +141,11 @@
 		.tdDiv .title{float:left;color:#234a35}	
 		.tdDiv .articleTime{float:right;};
 	</style>
-	
+	<div ><a style="display:block;height:29px;;line-height:29px;width:70px;border-left:1px solid #ccc;border-right:1px solid #ccc;background:url(images/split.png) no-repeat -180px -5px;margin-left:10px;float:left;font-size:12px" href='addQuestion.jsp'>发布问题</a></div>
+	<div class="clear"></div>
 	<div id="articles" style="padding-right:10px">
-		<div class="tdDiv"><a href='#' class="title">干嘛</a><span class="articleTime">2013-11-1</span></div>
-		<div class="tdDiv"><span class="title">为啥</span><span class="articleTime">2013-11-1</span></div>
+		<!--<div class="tdDiv"><a href='#' class="title">干嘛</a><span class="articleTime">2013-11-1</span></div>
+		<div class="tdDiv"><span class="title">为啥</span><span class="articleTime">2013-11-1</span></div>-->
 	</div>
 	<!--课程介绍 end-->
 					<div class="resultFoot" id="coursePagesDiv" style='display:none'>
@@ -149,7 +156,7 @@
 						&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:pager.jump();">跳转</button>,当前是第<span id="courseCurrPage"></span>页,共<span id="coursePages">60</span>页
 					</div>
 	<div class="clear"></div>
-		<a href='addQuestion.jsp'>发布问题</a>
+		
 	</div>
 	<!--左边部分课程信息 end-->
 	

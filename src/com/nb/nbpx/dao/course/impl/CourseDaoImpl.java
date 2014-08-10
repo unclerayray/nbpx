@@ -326,7 +326,44 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		Course countL = (Course) list.get(0);
 		return countL;
 	}
+	// 按照点击率来选取
+	public List<Course> getHotCourseWithNoTime(final Boolean ifInner, final String type,
+				final Integer rows, final Integer start) {
+			List<Course> list = new ArrayList<Course>();
+			list = getHibernateTemplate().executeFind(new HibernateCallback() {
 
+				@Override
+				public Object doInHibernate(Session session)
+						throws HibernateException, SQLException {
+					int i = 0;
+					StringBuffer hql = new StringBuffer(
+							"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
+									+ "c.teacherId, '', c.category,"
+									+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c  where  1=1 ");
+					if (type != null && !"".equals(type))
+						hql.append(" and c.category = '" + type + "'");
+					if (ifInner != null) {// 区分内训和培训
+						if (ifInner) 
+							hql.append(" and c.isInner = 1");
+						else
+							hql.append(" and c.isInner = 0");
+					}
+
+					// 取向后的有效的日期
+					hql.append(" order by c.hits desc");
+
+					Query query = session.createQuery(hql.toString());
+
+					if (start != null && rows != null) {
+						query.setFirstResult(start);
+						query.setMaxResults(rows);
+					}
+					return query.list();
+				}
+			});
+			return list;
+	}
+		
 	// 按照点击率来选取
 	public List<Course> getHotCourse(final Boolean ifInner, final String type,
 			final Integer rows, final Integer start) {

@@ -1,8 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	String id = request.getParameter("id");
+	Calendar c=Calendar.getInstance();
+	int year = c.get(Calendar.YEAR);
+	int nextYear = year + 1;
 %>
 <html>
 <head>
@@ -18,6 +20,7 @@
 <jsp:include page="head.jsp" flush="true"/>
 <script>
 	$(function(){
+		//加载课程信息
 		$.ajax({
 			url:"struts/ViewClass_ViewClass?id="+<%=id%>,
 			success:function(data){
@@ -123,7 +126,84 @@
 				
 			}
 		});
+		
+		//加载热门课程
+		getHotCourse();
+		//加载热门下载信息
+		getHotDownLoads();
+		//加载讲师信息
+		getTeacher();
+		//加载客户
+		loadCustomer();
 	});
+	function getHotCourse(){
+		$.ajax({
+			url:encodeURI("struts/Main_getHotCourseWithNoTime?rows=5"),
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					valueStr += "<li><a class='left tooLong w230' href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></li>";
+				});
+				$('#hotCourse').html(valueStr);
+			}
+		});
+	}
+	//加载典型客户
+	function loadCustomer(){
+		$.ajax({
+				url: 'struts/ViewDic_getMoreDicItems?codeName=005&rows=7&page=1',
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						valueStr += "<dd><a class='left tooLong w230' href=\"seeKey.jsp?key="+value.showName+"\">"+value.showName+"</a></dd>";
+					});
+		
+					if(valueStr == "")
+						valueStr ="<div class='notice'>暂时没有客户信息</div>";
+
+					$('#customer').html(valueStr);
+				}
+		});
+	}
+	//获取讲师信息
+	function getTeacher(){
+		$.ajax({
+			url:"struts/Main_getTeachers?page=1&rows=6&flag=1",
+			success:function(data){
+				//alert(data);
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject.rows,function(n,value){
+					valueStr +="<li><a href='teacherClass.jsp?type=1&id="+value.teacherId+"'>"+value.realName+"</a></li>";
+				});
+				if(valueStr == "")
+					valueStr ="<div class='notice'>暂时没有讲师信息</div>";
+				$('#teacherPart').html(valueStr);
+			}
+		});
+	}
+	//加载热门下载
+	function getHotDownLoads(){
+		$.ajax({
+			url:encodeURI("struts/Main_getDownLoads?flag="+2),
+			success:function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject.rows,function(n,value){
+					if(n<5)
+						valueStr +="<li  style='width:200px;text-align:left;'><a class='left' href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'><span class='text tooLong left' style='width:200px;display:block'>"+value.title+"</span></a><div class='clear'></div></li>";
+
+				});
+				if(valueStr == ""){
+					valueStr = "<div class='notice'>没有下载记录</div>";
+				}
+				$('#hotDownloads').html(valueStr);
+			}
+		})
+	}
 	
 	function loadRelatedKeyWords(condition){
 		$.ajax({
@@ -334,42 +414,42 @@
 			</div>
 	<!--月份 start-->
 		<div style="display:block;height:10px"></div>
-		<div class="head">2012年企业培训计划</div>
+		<div class="head"><%=year %>年企业培训计划</div>
 		<div class="bg p5 h40">
 			<ul class="list2">
-				<li><a href="#">01月</a></li>
-				<li><a href="#">02月</a></li>
-				<li><a href="#">03月</a></li>
-				<li><a href="#">04月</a></li>
-				<li><a href="#">05月</a></li>
-				<li><a href="#">06月</a></li>
-				<li><a href="#">07月</a></li>
-				<li ><a href="#">08月</a></li>
-				<li><a href="#">09月</a></li>
-				<li><a href="#">10月</a></li>
-				<li><a href="#">11月</a></li>
-				<li><a href="#">12月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=1">01月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=2">02月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=3">03月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=4">04月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=5">05月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=6">06月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=7">07月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=8">08月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=9">09月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=10">10月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=11">11月</a></li>
+				<li><a href="trainPlan.jsp?year=<%=year %>&month=12">12月</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 		<!--月份 end-->
 		
 		<!--内训 start-->
-		<div class="head">2013年企业培训计划</div>
+		<div class="head"><%=nextYear %>年企业培训计划</div>
 		<div class="bg p5 h40" >
 				<ul class="list2">
-					<li><a href="#">01月</a></li>
-					<li><a href="#">02月</a></li>
-					<li><a href="#">03月</a></li>
-					<li><a href="#">04月</a></li>
-					<li><a href="#">05月</a></li>
-					<li><a href="#">06月</a></li>
-					<li><a href="#">07月</a></li>
-					<li ><a href="#">08月</a></li>
-					<li><a href="#">09月</a></li>
-					<li><a href="#">10月</a></li>
-					<li><a href="#">11月</a></li>
-					<li><a href="#">12月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=1">01月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=2">02月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=3">03月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=4">04月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=5">05月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=6">06月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=7">07月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=8">08月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=9">09月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=10">10月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=11">11月</a></li>
+					<li><a href="trainPlan.jsp?year=<%=nextYear %>&month=12">12月</a></li>
 				</ul>
 			<div class="clear"></div>
 		</div>
@@ -378,21 +458,21 @@
 		<div class="head">开课地点</div>
 		<div class="bg h45" style="border-bottom:1px solid #ebebeb">
 			<ul class="list2 city">
-				<li><a href="#">北京</a></li>
-				<li><a href="#">上海</a></li>
-				<li><a href="#">深圳</a></li>
-				<li><a href="#">广州</a></li>
-				<li><a href="#">杭州</a></li>
-				<li><a href="#">东莞</a></li>
-				<li><a href="#">苏州</a></li>
-				<li><a href="#">全国</a></li>
+				<li><a href="seePlace.jsp?city=北京">北京</a></li>
+				<li><a href="seePlace.jsp?city=上海">上海</a></li>
+				<li><a href="seePlace.jsp?city=深圳">深圳</a></li>
+				<li><a href="seePlace.jsp?city=广州">广州</a></li>
+				<li><a href="seePlace.jsp?city=杭州">杭州</a></li>
+				<li><a href="seePlace.jsp?city=东莞">东莞</a></li>
+				<li><a href="seePlace.jsp?city=苏州">苏州</a></li>
+				<li><a href="seePlace.jsp?city=全国">全国</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 		<!--地点 end-->
 		<!--热门培训 培训计划 培训下载 start-->
 		<div style="height:10px; display:block"></div>
-		<div class="sortList">
+		<!--  <div class="sortList">
 			<div class="head">
 						<div class="tabOn half">热门培训</div>
 						<div class="tabOff half">热门排行</div>
@@ -408,11 +488,11 @@
 						</ul>
 						<div class="clear"></div>
 					</div>
-		</div>
+		</div>-->
 		<!--培训计划 培训下载 end-->
 		<div style="height:10px; display:block"></div>
 		<div class="rightTeacher">
-			<h5  class="first">培训计划</h5>
+			<!-- <h5  class="first">培训计划</h5>
 			<div class="bg" style="padding:10px 15px 10px 15px;border:none;height:auto">
 				<ul class="list9">
 					<li><a>2013年4月培训计划</a></li>
@@ -422,51 +502,42 @@
 					<li><a>2013年8月培训计划</a></li>
 				</ul>
 				<div class="clear"></div>
+			</div> -->
+			<h5  class="first">热门培训</h5>
+			<div class="bg" style="padding:10px 15px 10px 15px;border:none;height:auto">
+				<ul class="list9" id="hotCourse">
+					<!--  <li><a>2013年4月培训计划</a></li>
+					<li><a>2013年5月培训计划</a></li>
+					<li><a>2013年6月培训计划</a></li>
+					<li><a>2013年7月培训计划</a></li>
+					<li><a>2013年8月培训计划</a></li>-->
+				</ul>
+				<div class="clear"></div>
 			</div>
 			<h5 >培训下载</h5>
 			<div class="bg" style="padding:10px 15px 10px 15px;border:none;height:auto;">
-				<ul class="list9">
-					<li><a>经典资料：行政管理怎样做...</a></li>
-					<li><a>发邮件的礼仪</a></li>
-					<li><a>教你如何与人交流</a></li>
-					<li><a>攻心说话术</a></li>
-					<li><a>与人相处的黄金法则</a></li>
+				<ul class="list9" id="hotDownloads">
+					<!-- <li><a>经典资料：行政管理怎样做...</a></li>-->
 				</ul>
 				<div class="clear"></div>
 			</div>
 			<h5>培训老师</h5>
 			<div class="bg" style="padding:10px 0px 10px 12px;border:none;height:auto;">
-				<ul class="teacher">
-					<li><a href="#">刘强</a></li>
-					<li><a href="#">张三</a></li>
-					<li><a href="#">刘强</a></li>
-					<li><a href="#">张三</a></li>
-					<li><a href="#">刘强</a></li>
-					<li><a href="#">张三</a></li>
-					<li><a href="#">刘强</a></li>
-					<li><a href="#">张三</a></li>
+				<ul class="teacher" id="teacherPart">
+					<!--<li><a href="#">刘强</a></li>-->
 				</ul>
 				<div class="clear"></div>
 			</div>
 			
 			<h5>典型客户</h5>
-			<dl class="bestCustomer leftPart left" style="width:110px;">
-				<dd><a href="#">华夏基金</a></dd>
+			<dl class="bestCustomer leftPart left" style="width:200px;" id="customer">
+				<!-- <dd><a href="#">华夏基金</a></dd>
 				<dd><a href="#">湖南中烟</a></dd>
 				<dd><a href="#">工商银行</a></dd>
 				<dd><a href="#">阿里巴巴</a></dd>
 				<dd><a href="#">华夏基金</a></dd>
 				<dd><a href="#">湖南中烟</a></dd>
-				<dd><a href="#">工商银行</a></dd>
-			</dl>
-			<dl class="bestCustomer rightPart right" style="width:110px;">
-				<dd><a href="#">华夏基金</a></dd>
-				<dd><a href="#">湖南中烟</a></dd>
-				<dd><a href="#">工商银行</a></dd>
-				<dd><a href="#">阿里巴巴</a></dd>
-				<dd><a href="#">华夏基金</a></dd>
-				<dd><a href="#">湖南中烟</a></dd>
-				<dd><a href="#">工商银行</a></dd>
+				<dd><a href="#">工商银行</a></dd> -->
 			</dl>
 			<div class="clear"></div>
 		</div>
