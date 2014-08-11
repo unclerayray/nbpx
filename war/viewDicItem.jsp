@@ -33,7 +33,7 @@
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
-				$.each(jsonObject.rows,function(n,value){
+				$.each(jsonObject,function(n,value){
 					valueStr +="<li><a href=\"viewDicItem.jsp?type="+$('#typeValue').val()+"&key="+value.keyword+"\">"+value.keyword+"</a></li>";
 				});
 				if(valueStr == ""){
