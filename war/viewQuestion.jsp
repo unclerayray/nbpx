@@ -98,7 +98,7 @@
 
 	function answerIt(){
 		var user =  "<%=username%>";
-		if(user!=null&&user!=""){
+		if(user!= "null"&&user!=""){
 			if($('#newAnswer').val()==null || $('#newAnswer').val() == ""){
 				alert("回答不能为空！");
 			}

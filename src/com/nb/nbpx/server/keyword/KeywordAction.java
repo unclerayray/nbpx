@@ -31,6 +31,7 @@ public class KeywordAction extends BaseAction {
 	public String keyIds;
 	public String keywords;
 	public String allKeywords;
+	public Integer keyId;
 	@Resource
 	public IKeywordService keywordService;
 	@Resource
@@ -47,22 +48,14 @@ public class KeywordAction extends BaseAction {
 	public String queryKeywords() {
 		String json = "";
 		try {
-			if(keyCombValue==null){
+			if (keyCombText!=null&&!keyCombText.isEmpty()) {
+				//模糊查询
+				json = keywordService.queryKeywords(category, keyCombText,
+						null, rows, getStartPosi(),sort,order);
+			} else {
 				json = keywordService.queryKeywords(category, null, null,
 						rows, getStartPosi(),sort,order);
-			}else{
-				if (keyCombValue.equals(keyCombText)||keyCombValue.isEmpty()) {
-					//模糊查询
-					json = keywordService.queryKeywords(category, keyCombText,
-							null, rows, getStartPosi(),sort,order);
-				} else {
-					//精确查询
-					Integer keyId = Integer.parseInt(keyCombValue);
-					json = keywordService.queryKeywords(category, null, keyId,
-							rows, getStartPosi(),sort,order);
-				}
 			}
-			// TODO 模糊查询
 		} catch (Exception e) {
 			logger.debug(e.getStackTrace());
 			this.inputStream = castToInputStream(JsonUtil.formatToJson(0, ResponseStatus.FAIL,
@@ -87,7 +80,7 @@ public class KeywordAction extends BaseAction {
 	}
 	
 	public String importKeywords(){
-		String regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
+		//String regEx="[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
 		String regEx1 = "[\\pP‘’“”]";
 		keywords = keywords.replaceAll(regEx1, ",");
 		keywords = keywords.replaceAll(" ", "");
@@ -102,15 +95,37 @@ public class KeywordAction extends BaseAction {
 	       }
 	    }
 	    keywordsArr = list.toArray(new String[list.size()]);
-		if(keywordService.importKeywords(category, keywordsArr)){
+	    boolean flag = false;
+	    try {
+	    	flag = keywordService.importKeywords(category, keywordsArr);
+		} catch (Exception e) {
+			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
-					ResponseStatus.SUCCESS, "导入成功！"));
+					ResponseStatus.SUCCESS, "导入失败！"));
+			return "failure";
+		}
+		if(flag){
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.SUCCESS, "导入成功,无重复！"));
 			return SUCCESS;
 		}else{
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
-					ResponseStatus.SUCCESS, "导入成功！"));
+					ResponseStatus.SUCCESS, "导入成功并去除重复！"));
 			return "failure";
 		}
+	}
+	
+	public String deleteKeyword(){
+		try {
+			keywordService.removeKeyword(keyId);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL, "删除失败！"));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "删除成功！"));
+		return SUCCESS;
 	}
 
 	/**
@@ -264,6 +279,14 @@ public class KeywordAction extends BaseAction {
 
 	public void setDictionaryService(IDictionaryService dictionaryService) {
 		this.dictionaryService = dictionaryService;
+	}
+
+	public Integer getKeyId() {
+		return keyId;
+	}
+
+	public void setKeyId(Integer keyId) {
+		this.keyId = keyId;
 	}
 
 
