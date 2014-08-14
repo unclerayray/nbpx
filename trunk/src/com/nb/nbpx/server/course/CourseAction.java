@@ -225,6 +225,7 @@ public class CourseAction extends BaseAction {
 			courseService
 					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
 
+			solrCourseService.addCourse2Solr(courseAllInfo);
 			if(sync!=null&&sync&&!deleteBeforeInsert){
 				//-------------同步到内训
 				Course innerCou = cou;
@@ -298,6 +299,7 @@ public class CourseAction extends BaseAction {
 				courseAllInfo.setCourseId(innerCou.getCourseId());
 				courseService
 						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
+				courseAllInfo.setIsInner(true);
 				solrCourseService.addCourse2Solr(courseAllInfo);
 				//solrCourseService.updateCourseInfo2Solr(innerCou.getCourseId());
 			}

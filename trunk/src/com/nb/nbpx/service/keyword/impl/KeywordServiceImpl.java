@@ -12,9 +12,12 @@ import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
+
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -158,11 +161,11 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public Boolean importKeywords(String category, String[] keywordsArray) {
-		keywordDao.importKeywords(category, keywordsArray);
+		boolean flag = keywordDao.importKeywords(category, keywordsArray);
 		List<Keyword> keywordList = keywordDao.getNotIndexedKeyWordsList();
 		solrKeywordService.addKeywords2Solr(keywordList);
 		// TODO needs debug
-		return true;
+		return flag;
 	}
 
 	@Override
@@ -356,6 +359,12 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 		}
 		solrKeywordService.addKeywords2Solr(list);
 		return list;
+	}
+
+	@Override
+	public void removeKeyword(Integer keyId) throws Exception {
+		keywordDao.deleteByKey(keyId);
+		solrKeywordService.removeKeywordFromSolr(keyId);
 	}
 
 }

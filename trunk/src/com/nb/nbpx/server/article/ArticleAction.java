@@ -115,7 +115,7 @@ public class ArticleAction extends BaseAction{
 			articleService.saveArticle(art);
 			articleDetail.setArticleId(art.getArticleId());
 			articleService.saveArticleDetail(articleDetail, deleteBeforeInsert);
-			//solrArticleService.addArticle2Solr(articleDetail);
+			solrArticleService.addArticle2Solr(articleDetail);
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(

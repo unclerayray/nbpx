@@ -26,7 +26,7 @@ String keyw = (String)request.getParameter("key");
 	<title>培训课搜索结果</title>
 	<style>
 		.ui-autocomplete-loading {
-			background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
+			background: white url('images/ui-anim_basic_16x16.gif') right left no-repeat;
 		}
 		#searchWord { width: 25em; }
 	</style>
@@ -101,7 +101,6 @@ String keyw = (String)request.getParameter("key");
 						timeout: 5000,
 						data: {
 							featureClass: "P",
-							style: "full",
 							maxRows: 12,
 							wt:"json",
 							q:$("#searchWord").val(),
@@ -112,7 +111,7 @@ String keyw = (String)request.getParameter("key");
 								return {
 									label: item.keyword,
 									value: item.keyword
-								}
+								};
 							}));
 						}
 					});
@@ -257,7 +256,7 @@ var pager = {
 			</div>
 		</div>
 		<div class="clear"></div>
-		<div class="searchInput"><input style='width:830px;' id="searchWord" value="请输入关键字,如: 员工 管理" onfocus="if (this.value=='请输入关键字,如: 员工 管理'){this.value='';}" 
+		<div class="searchInput"><input style='width:830px; text-align: left;' id="searchWord" value="请输入关键字,如: 员工 管理" onfocus="if (this.value=='请输入关键字,如: 员工 管理'){this.value='';}" 
 		onblur="if (this.value==''){this.value='请输入关键字,如: 员工 管理';}" onkeydown="fnt_top_search2(event);" />
 		<button class="searchButton"  onclick="fnt_top_search(document.getElementById('search_type').value);">搜&nbsp;索</button></div>
 	</div>
