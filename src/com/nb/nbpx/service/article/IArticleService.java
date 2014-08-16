@@ -12,7 +12,7 @@ import com.nb.nbpx.service.IBaseService;
  * @date 2013-5-11
  */
 public interface IArticleService extends IBaseService {
-	public String queryArticles(String category, String articleTitle, Integer articleId, Integer rows, Integer start, String sort, String order);
+	public String queryArticles(String category, String articleTitle, Integer articleId, Boolean p_outside, Integer rows, Integer start, String sort, String order);
 	public String queryComboArticleCode(String category);
 	public Article saveArticle(Article article) throws Exception ;
 	public void deleteArticle(Article article);

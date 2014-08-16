@@ -658,7 +658,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 			else {
 				try {
 					List<CourseSearchResult> result = solrService
-							.fullTextQueryForHlReturnList(dic.getShowName(), 0,
+							.fullTextQueryForHlReturnList(dic.getShowName(),false,dic.getShowName(), 0,
 									10);
 					if (result == null) {
 						System.out.println("结果为0");

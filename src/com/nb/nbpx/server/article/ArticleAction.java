@@ -42,9 +42,10 @@ public class ArticleAction extends BaseAction{
 	private Integer selected_articleId;
 	public Boolean state;
 	private Article article;
+	public Boolean p_outside;
 
 	public String queryArticles(){
-		String json = articleService.queryArticles(category, articleTitle, articleId, rows, getStartPosi(), sort, order);
+		String json = articleService.queryArticles(category, articleTitle, articleId, p_outside, rows, getStartPosi(), sort, order);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
@@ -100,7 +101,7 @@ public class ArticleAction extends BaseAction{
 			articleDetail.setSubjects(articleDetail.getSubjects().replace(" ", ""));
 			articleDetail.setSubjects(articleDetail.getSubjects().replaceAll(regEx1, ","));
 		}
-		articleDetail.setAuthor(user.getUserName());
+		articleDetail.setCreatedBy(user.getUserName());
 		articleDetail.setState(false);
 		String[] links = {};
 		Article art = new Article(articleDetail);
@@ -151,6 +152,9 @@ public class ArticleAction extends BaseAction{
 			Boolean deleteBeforeInsert=false;
 			if(articleDetail.getArticleId()!=null){
 				deleteBeforeInsert = true;
+			}
+			if(art.getCreatedBy()==null||art.getCreatedBy().isEmpty()){
+				art.setCreatedBy(super.getSessionUserName());
 			}
 			articleService.saveArticle(art);
 			articleDetail.setArticleId(art.getArticleId());
@@ -250,6 +254,22 @@ public class ArticleAction extends BaseAction{
 
 	public void setArticleId(Integer articleId) {
 		this.articleId = articleId;
+	}
+
+	public ISolrArticleService getSolrArticleService() {
+		return solrArticleService;
+	}
+
+	public void setSolrArticleService(ISolrArticleService solrArticleService) {
+		this.solrArticleService = solrArticleService;
+	}
+
+	public Boolean getP_outside() {
+		return p_outside;
+	}
+
+	public void setP_outside(Boolean p_outside) {
+		this.p_outside = p_outside;
 	}
 
 }

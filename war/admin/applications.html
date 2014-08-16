@@ -38,6 +38,15 @@
 
 			<div id="tb" style="padding: 5px; height: auto">
 				<div style="margin-bottom: 5px">
+			<a href="#"
+			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+			onclick="openFollowUps()">查看跟进情况</a><a href="#"
+			class="easyui-linkbutton" iconCls="icon-add" plain="true"
+			onclick="openDlg()">跟进</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-add" plain="true"
+					onclick="confirm()">确认报名</a>
+				</div>
+				<div style="margin-bottom: 5px">
 				报名状态: <select id="confirm" name="confirm" class="easyui-combobox" data-options=" panelHeight:'50',
 						strict:true" style="panelHeight:30px;">
 					<option></option>
@@ -50,20 +59,16 @@
 					    <option value="true">已跟进</option>
 					    <option value="false">未跟进</option>
 				</select>公司名称： <input  name="q_company"
-	id="q_company"  style="width:50px">
-	联系人： <input  name="q_contact"
-	id="q_contact"  style="width:50px">
+					id="q_company"  style="width:50px">
+					联系人： <input  name="q_contact"
+					id="q_contact"  style="width:50px"></select>部门： <input  name="q_department"
+					id="q_department"  style="width:50px">
+					课程： <input  name="q_course"
+					id="q_course"  style="width:120px">
 			<a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-search" onclick="queryApplications()">搜索</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-undo" onclick="$('#tb').form('clear');">重置</a>
-	<a href="#"
-			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
-			onclick="openFollowUps()">查看跟进情况</a><a href="#"
-			class="easyui-linkbutton" iconCls="icon-add" plain="true"
-			onclick="openDlg()">跟进</a> <a href="#"
-					class="easyui-linkbutton" iconCls="icon-add" plain="true"
-					onclick="confirm()">确认报名</a>
 			</div>
 			</div>
 
@@ -107,9 +112,11 @@
 						var fol = $('#follow').combobox('getValue');
 						var comp = $('#q_company').val();
 						var cont = $('#q_contact').val();
+						var course = $('#q_course').val();
+						var department = $('#q_department').val();
 						// alert(con + ' '+fol);
 						//$('#dg').datagrid('load', {confirmed : con, follow : fol});
-						$('#dg').datagrid('load', {confirmed : con, follow : fol, q_company: comp , q_contact:cont });
+						$('#dg').datagrid('load', {confirmed : con, follow : fol, q_company: comp , q_contact:cont, q_course: course , q_department:department });
 					}
 
 					function openDlg(){

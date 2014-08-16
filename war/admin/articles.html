@@ -25,6 +25,7 @@
 		<thead>
 			<tr>
 				<th data-options="field:'articleId',sortable:true,width:50">文章代码</th>
+				<th data-options="field:'createdBy',width:80">发布者</th>  
 				<th data-options="field:'author',width:120">作者</th>
 				<th data-options="field:'links',width:120,hidden:true">超链</th>
 				<th data-options="field:'articleTitle',sortable:true,width:320">标题</th>
@@ -55,7 +56,21 @@
 		valueField:'codeName',  
 		textField:'showName',   
 		panelHeight:'auto'  ,
+		editable:false ,
 		strict:true">
+		内外部发布：<input id="p_outside" name="p_outside" class="easyui-combobox"
+				data-options="panelHeight:'50',
+							strict:true,
+							valueField: 'value',
+							textField: 'label',
+							data: [{
+								label: '外部',
+								value: 'true'
+							},{
+								label: '内部',
+								value: 'false'
+							}]" 
+				style="panelHeight: 50px;width:50px">
 			代码： <input name="articleId"
 				id="articleIdFS" style="width:50px">
 			标题： <input name="articleTitle"
@@ -74,6 +89,7 @@
 			<table cellspacing="0" cellpadding="0" class="formTable">
 				<div>
 					<input id="dlg-articleId" name="articleId" type="hidden">
+					<input id="dlg-createdBy" name="createdBy" type="hidden">
 				</div>
 				<tr>
 					<td class="itemText" colspan="2">
@@ -198,7 +214,8 @@
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
 				articleId : $('#articleIdFS').val(),
-				articleTitle : $('#articleTitleFS').val()
+				articleTitle : $('#articleTitleFS').val(),
+	          	p_outside : $('#p_outside').combobox('getValue'),
 			});
 		}
 		function newArticle() {

@@ -497,14 +497,15 @@ public class CourseAction extends BaseAction {
 		return dataImportor;
 	}
 
+	public ICourseService getCourseService() {
+		return courseService;
+	}
+	
 	@Resource
 	public void setCourseService(ICourseService courseService) {
 		this.courseService = courseService;
 	}
 
-	public ICourseService getCourseService() {
-		return courseService;
-	}
 
 	public String getCategory() {
 		return category;

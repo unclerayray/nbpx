@@ -42,7 +42,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 	}
 
 	@Override
-	public List<Article> getArticles(final String category, final String articleTitle, final Integer articleId, final Integer rows,
+	public List<Article> getArticles(final String category, final String articleTitle, final Integer articleId, final Boolean p_outside, final Integer rows,
 			final Integer start, final String sort, final String order) {
 		List<Article> list = new ArrayList<Article>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
@@ -55,16 +55,23 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 						"select new com.nb.nbpx.pojo.article.Article"
 								+ " (c.articleId, c.articleTitle, c.author, "
 								+ " c.category, c.state, c.hits, c.lastUpdateDate, "
-								+ " fd.showName, c.recommanded, c.links) from Article c, Dictionary fd"
+								+ " fd.showName, c.recommanded, c.links, c.createdBy) from Article c, Dictionary fd"
 								+ " where 1 = 1 ");
 				if (articleId != null) {
 					hql.append(" and c.articleId = ? ");
 				}
 				if (category != null && !category.isEmpty()) {
-					hql.append(" and category = ? ");
+					hql.append(" and c.category = ? ");
 				}
 				if (articleTitle != null && !articleTitle.isEmpty()) {
 					hql.append(" and c.articleTitle like ? ");
+				}
+				if (p_outside != null){
+					if(p_outside){
+						hql.append(" and c.createdBy not in (select userName from Admin) ");
+					}else{
+						hql.append(" and c.createdBy in (select userName from Admin) ");
+					}
 				}
 
 				hql.append(" and c.category = fd.codeName ");
@@ -176,10 +183,10 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 	@Override
 	public Course updateArticle(Article article) {
 		String sql = "update Article SET articleTitle = ?,author = ?  ,category = ? ,content = ? "
-				+ ",lastUpdateDate = ? , recommanded = ? ,state = ? ,links = ?  WHERE articleId = ?";
+				+ ",lastUpdateDate = ? , recommanded = ? ,state = ? ,links = ?, createdBy = ?  WHERE articleId = ?";
 		Object[] values = { article.getArticleTitle(), article.getAuthor(),
 				article.getCategory(), article.getContent(), article.getLastUpdateDate(),
-				article.getRecommanded(), article.getState(), article.getLinks() , article.getArticleId()};
+				article.getRecommanded(), article.getState(), article.getLinks() , article.getCreatedBy(), article.getArticleId()};
 		getHibernateTemplate().bulkUpdate(sql, values);
 		return null;
 	}

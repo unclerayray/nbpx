@@ -32,6 +32,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.QueryCriteria;
 import com.nb.nbpx.dao.IBaseDao;
 import com.nb.nbpx.utils.MapUtil;
 
@@ -711,5 +712,17 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 	@Override
 	public <T> T merge(T entity) {
 		return getHibernateTemplate().merge(entity);
+	}
+
+	@Override
+	public List<T> queryWithQueryCriteria(QueryCriteria qc) {
+		// needs to be override in each implement class
+		return null;
+	}
+
+	@Override
+	public int queryCountWithQueryCriteria(QueryCriteria qc) {
+		// needs to be override in each implement class
+		return 0;
 	}
 }

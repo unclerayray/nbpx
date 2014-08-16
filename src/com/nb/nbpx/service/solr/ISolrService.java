@@ -5,6 +5,7 @@ package com.nb.nbpx.service.solr;
 
 import com.nb.nbpx.pojo.course.CourseSearchResult;
 import com.nb.nbpx.utils.NbpxException;
+
 import org.apache.solr.client.solrj.SolrServerException;
 
 import java.io.IOException;
@@ -55,7 +56,7 @@ public interface ISolrService {
 	 * @param q 查找参数
 	 * @return
 	 */
-	public List<CourseSearchResult> fullTextQueryForHlReturnList(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	public List<CourseSearchResult> fullTextQueryForHlReturnList(String q, boolean highlight, String category, Integer start, Integer rows) throws SolrServerException, IOException;
 	
 	
 	/**
@@ -77,7 +78,7 @@ public interface ISolrService {
 	 * @param q 查找参数
 	 * @return
 	 */
-	public List<CourseSearchResult> fullTextQueryForHlReturnInnerCourseList(String q, Integer start, Integer rows) throws SolrServerException, IOException;
+	public List<CourseSearchResult> fullTextQueryForHlReturnInnerCourseList(String q, boolean highlight, Integer start, Integer rows) throws SolrServerException, IOException;
 	
 	/**
 	 * 【公开课】通过变量全文查找，用于显示列表。高亮显示,返回json字符串
