@@ -50,7 +50,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 	private ISolrSubjectService solrSubjectService;
 
 	@Override
-	public String queryArticles(String category, String articleTitle, Integer articleId, Integer rows, Integer start,
+	public String queryArticles(String category, String articleTitle, Integer articleId, Boolean p_outside, Integer rows, Integer start,
 			String sort, String order) {
 		String json = "";
 		Map<String, Object> propsMap = this.createPropMap(
@@ -58,7 +58,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 				new Equality("articleTitle", articleTitle),
 				new Equality("articleId", articleId)
 				);
-		List<Article> list = articleDao.getArticles(category , articleTitle , articleId, rows, start,
+		List<Article> list = articleDao.getArticles(category , articleTitle , articleId, p_outside, rows, start,
 				sort, order);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
@@ -84,7 +84,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 
 	@Override
 	public String queryComboArticleCode(String category) {
-		List<Article> list = articleDao.getArticles(category,null,null, 10, null, null,
+		List<Article> list = articleDao.getArticles(category,null,null,null, 10, null, null,
 				null);
 		String json = JsonUtil.formatListToJson(list);
 		return json;

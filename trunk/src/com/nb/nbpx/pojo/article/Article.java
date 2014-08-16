@@ -42,6 +42,7 @@ public class Article extends BaseEntity implements Serializable {
 	public Date lastUpdateDate;
 	public String categoryName;
 	public Boolean recommanded;
+	public String createdBy;
 
 	public Article(){
 		
@@ -63,6 +64,7 @@ public class Article extends BaseEntity implements Serializable {
 		this.lastUpdateDate = detail.lastUpdateDate;
 		this.categoryName = detail.categoryName;
 		this.recommanded = detail.recommanded;
+		this.createdBy = detail.createdBy;
 	}
 
 
@@ -82,7 +84,7 @@ public class Article extends BaseEntity implements Serializable {
 	 */
 	public Article(Integer articleId, String articleTitle, String author,
 			String category, Boolean state, Integer hits,
-			Date lastUpdateDate, String categoryName, Boolean recommanded, String links) {
+			Date lastUpdateDate, String categoryName, Boolean recommanded, String links, String createdBy) {
 		super();
 		this.articleId = articleId;
 		this.articleTitle = articleTitle;
@@ -94,6 +96,7 @@ public class Article extends BaseEntity implements Serializable {
 		this.categoryName = categoryName;
 		this.recommanded = recommanded;
 		this.links = links;
+		this.createdBy = createdBy;
 	}
 	
 	public Article(Integer articleId, String articleTitle, String author,
@@ -236,5 +239,17 @@ public class Article extends BaseEntity implements Serializable {
 
 	public void setLinks(String links) {
 		this.links = links;
+	}
+
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 }

@@ -20,9 +20,9 @@ public class ArticleDetail extends Article implements Serializable{
 	
 	public ArticleDetail(Integer articleId, String articleTitle, String author,
 			String category, Boolean state, Integer hits, Date lastUpdateDate,
-			String categoryName, Boolean recommanded, String links) {
+			String categoryName, Boolean recommanded, String links, String createdBy) {
 		super(articleId, articleTitle, author, category, state, hits, lastUpdateDate,
-				categoryName, recommanded, links);
+				categoryName, recommanded, links, createdBy);
 	}
 	
 
@@ -46,9 +46,9 @@ public class ArticleDetail extends Article implements Serializable{
 	public ArticleDetail(Integer articleId, String articleTitle, String author,
 			String category, Boolean state, Integer hits, Date lastUpdateDate,
 			String categoryName, Boolean recommanded, String keywords,
-			String subjects, String links) {
+			String subjects, String links, String createdBy) {
 		super(articleId, articleTitle, author, category, state, hits,
-				lastUpdateDate, categoryName, recommanded, links);
+				lastUpdateDate, categoryName, recommanded, links, createdBy);
 		this.keywords = keywords;
 		this.subjects = subjects;
 	}

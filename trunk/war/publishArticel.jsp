@@ -88,6 +88,13 @@
 								style="width: 800px;"></td>
 				</tr>
 				<tr height="35">
+					<td align="right" width="100px">文章作者:</td>
+					<td colspan="3" align="left"><input class="easyui-validatebox"
+								id="author" name="author"
+								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'"
+								style="width: 100px;"></td>
+				</tr>
+				<tr height="35">
 					<td align="right">文章关键字:</td>
 					<td colspan="3" align="left"><input class="easyui-validatebox"
 								id="articleKeywords" name="keywords"

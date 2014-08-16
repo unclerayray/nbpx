@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.QueryCriteria;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.course.IApplicationDao;
 import com.nb.nbpx.dao.course.IFollowUpDao;
@@ -40,6 +41,23 @@ public class ApplicationServiceImpl  extends BaseServiceImpl implements IApplica
 	@Resource
 	public void setApplicationDao(IApplicationDao applicationDao) {
 		this.applicationDao = applicationDao;
+	}
+	
+	@Override
+	public String queryWithCriteria(QueryCriteria qc){
+		String json = "";
+		//List<Application> list= applicationDao.queryApplications(rows, start, sort, order, confirmed, follow, company, contact);
+		List<Application> list= applicationDao.queryWithQueryCriteria(qc);
+		if (list.isEmpty()) {
+			json = JsonUtil.formatToJsonWithTimeStamp(0,
+					ResponseStatus.SUCCESS, "", list);
+		} else {
+			int count = applicationDao.queryCountWithQueryCriteria(qc);
+			json = JsonUtil.formatToJsonWithTimeStamp(count,
+					ResponseStatus.SUCCESS, "", list);
+		}
+
+		return json;
 	}
 
 	@Override

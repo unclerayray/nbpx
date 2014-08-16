@@ -323,7 +323,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 				return query.list();
 			}
 		});
-		Course countL = (Course) list.get(0);
+		Course countL = (list != null && list.size()>0) ? (Course) list.get(0) : null;
 		return countL;
 	}
 	// 按照点击率来选取

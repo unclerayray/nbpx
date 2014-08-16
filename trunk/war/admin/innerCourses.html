@@ -302,6 +302,7 @@ function queryCourse() {
 		$('#fm').form('clear');
 		createCkeditor();
 		CKEDITOR.instances.content.setData('');
+		$('#state').attr('checked', 'checked');
 	}
 	function editCourse(rowData) {
 		var row;

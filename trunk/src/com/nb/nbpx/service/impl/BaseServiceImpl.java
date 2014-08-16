@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.QueryCriteria;
 import com.nb.nbpx.service.IBaseService;
 import com.nb.nbpx.utils.daotool.Equality;
 import com.nb.nbpx.utils.daotool.NotEmptyEquality;
@@ -38,4 +39,8 @@ public abstract class BaseServiceImpl implements IBaseService {
     	return map;
     }
 	
+	@Override
+	public String queryWithCriteria(QueryCriteria qc) {
+		return null;
+	}
 }

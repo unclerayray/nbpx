@@ -114,8 +114,8 @@ public class SolrServiceImpl implements ISolrService {
 		params.set("hl", true);
 		params.set("hl.fl", "title,content");
 		params.set("hl.snippets", 3);
-		params.set("hl.simple.pre", "<em>");
-		params.set("hl.simple.post", "</em>");
+		params.set("hl.simple.pre", "<font color=\"red\">");
+		params.set("hl.simple.post", "</font>");
 
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "search");
@@ -193,7 +193,7 @@ public class SolrServiceImpl implements ISolrService {
 		return JsonUtil.getJsonString(resultMap);
 	}
 
-	public List<CourseSearchResult> fullTextQueryForHlReturnList(String q,
+	public List<CourseSearchResult> fullTextQueryForHlReturnList(String q,boolean highlight,String category,
 			Integer start, Integer rows) throws SolrServerException,
 			IOException {
 		// TODO ping查看连接，连不上的话就throw相应的Exception
@@ -210,11 +210,13 @@ public class SolrServiceImpl implements ISolrService {
 		// params.set("wt", "foo");
 		// params.set("indent", true);
 		// params.set("rows", rows);
-		params.set("hl", true);
-		params.set("hl.fl", "title,content");
-		params.set("hl.snippets", 3);
-		params.set("hl.simple.pre", "<em>");
-		params.set("hl.simple.post", "</em>");
+		if(highlight){
+			params.set("hl", true);
+			params.set("hl.fl", "title,content");
+			params.set("hl.snippets", 3);
+			params.set("hl.simple.pre", "<em>");
+			params.set("hl.simple.post", "</em>");
+		}
 
 		SolrQuery query = new SolrQuery();
 		query.set("qt", "search");
@@ -226,7 +228,11 @@ public class SolrServiceImpl implements ISolrService {
 		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
 //		params.set("fq", "isInner:false");
 //		params.set("fq", "state:true");
-		query.addFilterQuery("isInner:false","state:true");
+		if(category ==null || category.isEmpty()){
+			query.addFilterQuery("isInner:false","state:true");
+		}else{
+			query.addFilterQuery("isInner:false","state:true","category:\""+category+"\"");
+		}
 		// query.set("q","*.*");
 		query.add(params);
 
@@ -255,9 +261,13 @@ public class SolrServiceImpl implements ISolrService {
 					.getFieldValue("courseInfo");
 			Object idobj = sd.getFieldValue("courseId");
 			Double price = Double.valueOf(sd.getFieldValue("price").toString());
-			Map<String, List<String>> lst = hlMap.get(idobj.toString());
-			Object conObj = lst.get("content");
-			Object titleObj = lst.get("title");
+			Object conObj = null;
+			Object titleObj = null;
+			if(highlight){
+				Map<String, List<String>> lst = hlMap.get(idobj.toString());
+				conObj = lst.get("content");
+				titleObj = lst.get("title");
+			} 
 			String content = "";
 			String title = "";
 			if (conObj != null) {
@@ -441,7 +451,7 @@ public class SolrServiceImpl implements ISolrService {
 
 	@Override
 	public List<CourseSearchResult> fullTextQueryForHlReturnInnerCourseList(
-			String q, Integer start, Integer rows) throws SolrServerException,
+			String q,  boolean highlight, Integer start, Integer rows) throws SolrServerException,
 			IOException {
 		// TODO 统计搜索次数 put that into Action, not here
 				// TODO ping查看连接，连不上的话就throw相应的Exception
@@ -458,11 +468,13 @@ public class SolrServiceImpl implements ISolrService {
 				// params.set("wt", "foo");
 				// params.set("indent", true);
 				// params.set("rows", rows);
-				params.set("hl", true);
-				params.set("hl.fl", "title,content");
-				params.set("hl.snippets", 3);
-				params.set("hl.simple.pre", "<em>");
-				params.set("hl.simple.post", "</em>");
+				if(highlight){
+					params.set("hl", true);
+					params.set("hl.fl", "title,content");
+					params.set("hl.snippets", 3);
+					params.set("hl.simple.pre", "<em>");
+					params.set("hl.simple.post", "</em>");
+				}
 
 				SolrQuery query = new SolrQuery();
 				query.set("qt", "search");
@@ -503,9 +515,13 @@ public class SolrServiceImpl implements ISolrService {
 							.getFieldValue("courseInfo");
 					Object idobj = sd.getFieldValue("courseId");
 					Double price = Double.valueOf(sd.getFieldValue("price").toString());
-					Map<String, List<String>> lst = hlMap.get(idobj.toString());
-					Object conObj = lst.get("content");
-					Object titleObj = lst.get("title");
+					Object conObj = null;
+					Object titleObj = null;
+					if(highlight) {
+						Map<String, List<String>> lst = hlMap.get(idobj.toString());
+						conObj = lst.get("content");
+						titleObj = lst.get("title");
+					}
 					String content = "";
 					String title = "";
 					if (conObj != null) {

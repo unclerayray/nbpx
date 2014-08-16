@@ -15,7 +15,7 @@ import com.nb.nbpx.pojo.course.Course;
  * @date 2013-5-11
  */
 public interface IArticleDao extends IBaseDao<Article, Integer> {
-	public List<Article> getArticles(String category, String articleTitle, Integer articleId, Integer rows,
+	public List<Article> getArticles(String category, String articleTitle, Integer articleId, Boolean p_outside, Integer rows,
 			Integer start, String sort, String order);
 
 	//public Article getArticleDetailById();

@@ -1,10 +1,14 @@
 package com.nb.nbpx.server.course;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.nb.nbpx.common.QueryCriteria;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.IApplicationService;
@@ -25,10 +29,27 @@ public class ApplicationAction extends BaseAction {
 	public String stateInfo;
 	public String q_company;
 	public String q_contact;
+	public String q_course;
+	public String q_department;
 
 	public String queryApplications() {
-		String json = applicationService.queryApplications(rows,
-				getStartPosi(), sort, order, confirmed, follow,q_company,q_contact);
+		Map<String, Object> equalParamMap = new HashMap<String, Object>();
+		Map<String, String> likeParamMap = new HashMap<String, String>();
+		
+		QueryCriteria qc = new QueryCriteria(rows,getStartPosi(),sort,order);
+		qc.setEqualParamMap(equalParamMap);
+		equalParamMap.put("confirmed", confirmed);
+		equalParamMap.put("follow", follow);
+		
+		qc.setLikeParamMap(likeParamMap);
+		likeParamMap.put("company", q_company);
+		likeParamMap.put("contact", q_contact);
+		likeParamMap.put("course", q_course);
+		likeParamMap.put("department", q_department);
+		
+		//String json = applicationService.queryApplications(rows,
+		//		getStartPosi(), sort, order, confirmed, follow,q_company,q_contact);
+		String json = applicationService.queryWithCriteria(qc);
 		//json = "{'total':'0','rows':[]}";
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -130,6 +151,26 @@ public class ApplicationAction extends BaseAction {
 
 	public void setQ_contact(String q_contact) {
 		this.q_contact = q_contact;
+	}
+
+
+	public String getQ_course() {
+		return q_course;
+	}
+
+
+	public void setQ_course(String q_course) {
+		this.q_course = q_course;
+	}
+
+
+	public String getQ_department() {
+		return q_department;
+	}
+
+
+	public void setQ_department(String q_department) {
+		this.q_department = q_department;
 	}
 
 }

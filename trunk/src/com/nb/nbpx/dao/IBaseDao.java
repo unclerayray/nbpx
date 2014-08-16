@@ -10,6 +10,8 @@ import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.criterion.DetachedCriteria;
 
+import com.nb.nbpx.common.QueryCriteria;
+
 /**
  * <p>
  * 通用DAO的接口
@@ -388,4 +390,7 @@ public interface IBaseDao<T extends Serializable, PK extends Serializable> {
 	
 	public String createNormalHql(Class entityClass,
 			Map<String, Object> propsMap);
+	
+	public List<T> queryWithQueryCriteria(QueryCriteria qc);
+	public int queryCountWithQueryCriteria(QueryCriteria qc);
 }
