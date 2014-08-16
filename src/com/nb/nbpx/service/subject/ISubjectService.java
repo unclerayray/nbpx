@@ -32,5 +32,7 @@ public interface ISubjectService extends IBaseService{
 	
 	//根据行业、职位、产品、专业获取专题
 	public String getSubjectsListByOthers(boolean isInner,String type,Integer start,Integer rows);
+	
+	public List<Subject> getSubjectsByKey(String key);
 
 }

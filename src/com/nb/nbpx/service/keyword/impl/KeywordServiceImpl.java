@@ -367,4 +367,9 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 		solrKeywordService.removeKeywordFromSolr(keyId);
 	}
 
+	@Override
+	public List<Keyword> getKeywordsByKey(String key) {
+		return keywordDao.getKeywordsByKey(key);
+	}
+
 }

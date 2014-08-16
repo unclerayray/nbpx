@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrArticleService;
 import com.nb.nbpx.service.solr.ISolrDownloadService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
@@ -19,6 +20,7 @@ import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.service.solr.ISolrTeacherService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.mapTool.MapTool;
 
 /**
  * @author Roger
@@ -40,7 +42,17 @@ public class SearchAction  extends BaseAction {
 	private ISolrArticleService solrArticleService;
 	private String key;
 	private String q;
+	public IKeywordService keywordService;
 
+	private void addkeywordsSearchCnt(String keywor){
+		List<Keyword> list = keywordService.getKeywordsByKey(keywor);
+		if(list!=null && list.size()>0){
+			for(Keyword keyword:list){
+				MapTool.addkeywordsSearchCnt(keyword.getKeyId());
+			}
+		}
+	}
+	
 	/**
 	 * 【公开课】用solr全文搜索
 	 * @return
@@ -49,6 +61,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrService.fullTextQueryForHl(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,6 +77,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrService.fullTextQueryForHlInnerCourse(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -82,6 +96,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrService.fullTextQueryForHlInnerVideoCourse(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -133,6 +148,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrQuestionService.queryRelatedQuestion(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,6 +164,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrDownloadService.queryRelatedDownloads(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -163,6 +180,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrOrganisationService.queryRelatedOrganisation(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,6 +193,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrKeywordService.queryRelatedKeywords(q, 0, 10);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,6 +220,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrTeacherService.queryTeacherBySolr(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -212,6 +232,7 @@ public class SearchAction  extends BaseAction {
 		String json;
 		try {
 			json = solrArticleService.queryRelatedArticles(key, getStartPosi(), rows);
+			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -299,5 +320,14 @@ public class SearchAction  extends BaseAction {
 	@Resource
 	public void setSolrArticleService(ISolrArticleService solrArticleService) {
 		this.solrArticleService = solrArticleService;
+	}
+
+	public IKeywordService getKeywordService() {
+		return keywordService;
+	}
+
+	@Resource
+	public void setKeywordService(IKeywordService keywordService) {
+		this.keywordService = keywordService;
 	}
 }

@@ -16,4 +16,6 @@ public interface IQuestionService  extends IBaseService  {
 	public void deleteQuestion(Question question);
 	
 	public String viewQuestion(Integer id);
+	
+	public Question viewQuestionOject(Integer id);
 }

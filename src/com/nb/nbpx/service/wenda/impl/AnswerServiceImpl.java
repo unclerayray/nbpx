@@ -80,4 +80,24 @@ public class AnswerServiceImpl  extends BaseServiceImpl implements IAnswerServic
 		
 	}
 
+	@Override
+	public List<Answer> queryAnswerList(Integer questionId) {
+		Map<String, Object> propsMap = this.createPropMap(new Equality(
+				"questionId", questionId));
+		return answerDao.queryEntityListByProperties(Answer.class, null, null, null, null, propsMap);
+	}
+
+	@Override
+	public Answer queryBestAnswerList(Integer questionId) {
+		Map<String, Object> propsMap = this.createPropMap(new Equality(
+				"questionId", questionId),new Equality(
+						"isBest", true));
+		List<Answer> list = answerDao.queryEntityListByProperties(Answer.class, null, null, null, null, propsMap);
+		if(  list!=null 
+				&& list.size()>0){
+			return list.get(0);
+		}else{
+			return null;
+		}
+	}
 }

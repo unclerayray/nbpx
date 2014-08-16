@@ -81,10 +81,7 @@ public class DownloadKeyword extends BaseEntity implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((download == null) ? 0 : download.hashCode());
-		result = prime * result
-				+ ((keywordId == null) ? 0 : keywordId.hashCode());
+		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
 		return result;
 	}
 
@@ -97,19 +94,14 @@ public class DownloadKeyword extends BaseEntity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		DownloadKeyword other = (DownloadKeyword) obj;
-		if (download == null) {
-			if (other.download != null)
+		if (keyword == null) {
+			if (other.keyword != null)
 				return false;
-		} else if (!download.equals(other.download))
-			return false;
-		if (keywordId == null) {
-			if (other.keywordId != null)
-				return false;
-		} else if (!keywordId.equals(other.keywordId))
+		} else if (!keyword.equals(other.keyword))
 			return false;
 		return true;
 	}
-	
+
 	
 
 }

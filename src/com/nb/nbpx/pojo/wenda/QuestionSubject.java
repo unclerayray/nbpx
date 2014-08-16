@@ -41,52 +41,6 @@ public class QuestionSubject  extends BaseEntity implements Serializable {
 		this.subjectId = subjectId;
 		this.subject = subject;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((question == null) ? 0 : question.hashCode());
-		result = prime
-				* result
-				+ ((questionSubjectId == null) ? 0 : questionSubjectId
-						.hashCode());
-		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
-		result = prime * result
-				+ ((subjectId == null) ? 0 : subjectId.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		QuestionSubject other = (QuestionSubject) obj;
-		if (question == null) {
-			if (other.question != null)
-				return false;
-		} else if (!question.equals(other.question))
-			return false;
-		if (questionSubjectId == null) {
-			if (other.questionSubjectId != null)
-				return false;
-		} else if (!questionSubjectId.equals(other.questionSubjectId))
-			return false;
-		if (subject == null) {
-			if (other.subject != null)
-				return false;
-		} else if (!subject.equals(other.subject))
-			return false;
-		if (subjectId == null) {
-			if (other.subjectId != null)
-				return false;
-		} else if (!subjectId.equals(other.subjectId))
-			return false;
-		return true;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -118,4 +72,30 @@ public class QuestionSubject  extends BaseEntity implements Serializable {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QuestionSubject other = (QuestionSubject) obj;
+		if (subject == null) {
+			if (other.subject != null)
+				return false;
+		} else if (!subject.equals(other.subject))
+			return false;
+		return true;
+	}
+	
+	
+	
 }

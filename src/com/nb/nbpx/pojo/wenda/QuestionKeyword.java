@@ -75,21 +75,11 @@ public class QuestionKeyword extends BaseEntity implements Serializable {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
-		result = prime * result
-				+ ((keywordId == null) ? 0 : keywordId.hashCode());
-		result = prime * result
-				+ ((question == null) ? 0 : question.hashCode());
-		result = prime
-				* result
-				+ ((questionKeywordId == null) ? 0 : questionKeywordId
-						.hashCode());
 		return result;
 	}
 	@Override
@@ -106,23 +96,10 @@ public class QuestionKeyword extends BaseEntity implements Serializable {
 				return false;
 		} else if (!keyword.equals(other.keyword))
 			return false;
-		if (keywordId == null) {
-			if (other.keywordId != null)
-				return false;
-		} else if (!keywordId.equals(other.keywordId))
-			return false;
-		if (question == null) {
-			if (other.question != null)
-				return false;
-		} else if (!question.equals(other.question))
-			return false;
-		if (questionKeywordId == null) {
-			if (other.questionKeywordId != null)
-				return false;
-		} else if (!questionKeywordId.equals(other.questionKeywordId))
-			return false;
 		return true;
 	}
+	
+	
 	
 	
 }

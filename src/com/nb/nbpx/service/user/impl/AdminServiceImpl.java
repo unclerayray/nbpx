@@ -57,7 +57,9 @@ public class AdminServiceImpl extends BaseServiceImpl implements IAdminService {
 		List<Admin> adminList = adminDao.queryEntityListByProperties(Admin.class, null, null, null, null, propsMap);
 		if(adminList.size()>0){
 			if(adminList.get(0).getFlag()){
-				return true;
+				if(adminList.get(0).getPassWord()!=null&&adminList.get(0).getPassWord().equals(password)){
+					return true;
+				}
 			}
 		}
 		return false;

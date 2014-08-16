@@ -39,4 +39,6 @@ public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	public List<Keyword> getKeyWordsListByType(String type,Integer start,Integer rows);
 	
 	public int countKeyWordsListByType(String type);
+	
+	public List<Keyword> getKeywordsByKey(String key);
 }
