@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	id="nbpx" version="2.5">
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="nbpx" version="2.5">
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
@@ -16,7 +16,7 @@
 	<!-- 用这个类来加载Spring配置文件，需要在非Action类中注入service时可用SystemApplicationContext类的getContext函数得到ApplicationContext -->
 	<listener>
 		<listener-class>com.nb.nbpx.common.MyContextLoaderListener</listener-class>
-	</listener>
+	</listener> 
 
 	<servlet>
 		<servlet-name>jsp</servlet-name>
@@ -37,12 +37,11 @@
 		</init-param>
 	</filter>
 
-	<!--设置是否缓存GWT生成的HTML和JS文件 -->
+	<!--设置是否缓存GWT生成的HTML和JS文件 
 	<filter>
 		<filter-name>cacheFilter</filter-name>
 		<filter-class>com.nb.nbpx.filter.CacheFilter</filter-class>
 		<init-param>
-			<!--这个过滤器是否生效 -->
 			<param-name>flag</param-name>
 			<param-value>true</param-value>
 		</init-param>
@@ -51,9 +50,10 @@
 
 		<filter-name>cacheFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping>-->
 
-	<!--判断session是否失效或者已登录 -->
+	<!--判断session是否失效或者已登录 
+-->
 	<filter>
 		<filter-name>SessionCheckFilter</filter-name>
 		<filter-class>com.nb.nbpx.filter.SessionFilter</filter-class>
@@ -73,6 +73,17 @@
 	</filter-mapping>
 	
 
+	<filter>  
+        <filter-name>UrlRewriteFilter</filter-name>  
+        <filter-class>  
+            <!-- org.tuckey.web.filters.urlrewrite.UrlRewriteFilter -->
+            com.nb.nbpx.interceptor.Rewriter  
+        </filter-class>
+	</filter>  
+	<filter-mapping>
+	        <filter-name>UrlRewriteFilter</filter-name>  
+	        <url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<filter>
 		<filter-name>struts2</filter-name>
@@ -81,12 +92,15 @@
 
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>  
 		<url-pattern>/struts/*</url-pattern>
     	<url-pattern>*.jsp</url-pattern>
     	<url-pattern>*.action</url-pattern>
+    	<dispatcher>FORWARD</dispatcher>
+	    <dispatcher>REQUEST</dispatcher>
+	    <dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
-
-
+	
 	<!-- Spring 刷新Introspector防止内存泄露 -->
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>

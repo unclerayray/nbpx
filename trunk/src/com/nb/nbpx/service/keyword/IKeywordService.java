@@ -66,6 +66,8 @@ public interface IKeywordService extends IBaseService {
 	
 	public void saveKeyword2Dic(String keyword) throws IOException;
 	
+	public List<Keyword> getKeywordsByKey(String key);
+	
 	public void saveKeywords2Dic(String[] keywords) throws IOException;
 	
 	public void removeKeyword(Integer keyId)throws Exception ;

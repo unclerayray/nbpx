@@ -33,7 +33,7 @@
 				var total = jsonObject.total;
 				var valueStr = "";
 				$.each(lines,function(n,value){
-					valueStr += "<div class='tdDiv'><a href='viewQuestion.jsp?id="+value.questionId+"' class='title'>"+value.title+"</a><span class='articleTime'>"+value.askDate+"</span></div>";
+					valueStr += "<div class='tdDiv'><a href='question"+value.questionId+".html' class='title'>"+value.title+"</a><span class='articleTime'>"+value.askDate+"</span></div>";
 				});
 				if(valueStr == '')
 					valueStr = "<div class='notice'>该类别暂时还没有问答</div>";

@@ -160,4 +160,10 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getSubjectsByKey(String key) {
+		return subjectDao.find(" from Subject where subject = '" + key + "'");
+	}
+
 }

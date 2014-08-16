@@ -64,16 +64,11 @@ public class DownloadSubject  extends BaseEntity implements Serializable {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((download == null) ? 0 : download.hashCode());
-		result = prime * result
-				+ ((subjectId == null) ? 0 : subjectId.hashCode());
+		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
 		return result;
 	}
 	@Override
@@ -85,16 +80,13 @@ public class DownloadSubject  extends BaseEntity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		DownloadSubject other = (DownloadSubject) obj;
-		if (download == null) {
-			if (other.download != null)
+		if (subject == null) {
+			if (other.subject != null)
 				return false;
-		} else if (!download.equals(other.download))
-			return false;
-		if (subjectId == null) {
-			if (other.subjectId != null)
-				return false;
-		} else if (!subjectId.equals(other.subjectId))
+		} else if (!subject.equals(other.subject))
 			return false;
 		return true;
 	}
+	
+
 }

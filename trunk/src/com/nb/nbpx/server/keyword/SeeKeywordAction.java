@@ -2,7 +2,6 @@ package com.nb.nbpx.server.keyword;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,15 +10,16 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.keyword.Keyword;
+import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
+import com.nb.nbpx.service.subject.ISubjectService;
 import com.nb.nbpx.service.system.IDictionaryService;
-import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.mapTool.MapTool;
 
 /**
  * @author Roger
@@ -32,6 +32,8 @@ public class SeeKeywordAction extends BaseAction {
     public String key;
 	@Resource
 	public IKeywordService keywordService;
+	@Resource
+	public ISubjectService subjectService;
 	@Resource
 	public ISolrKeywordService solrKeywordService;
 	@Resource
@@ -52,6 +54,12 @@ public class SeeKeywordAction extends BaseAction {
 		try {
 			String result = solrKeywordService.queryRelatedKeywords(key, 0, 12);
 			this.inputStream = castToInputStream(result);
+			List<Keyword> list = keywordService.getKeywordsByKey(key);
+			if(list!=null && list.size()>0){
+				for(Keyword keyword:list){
+					MapTool.addkeywordsHit(keyword.getKeyId());
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,6 +71,12 @@ public class SeeKeywordAction extends BaseAction {
 		try {
 			String result = solrSubjectService.queryRelatedSubject(key, 0, 12);
 			this.inputStream = castToInputStream(result);
+			List<Subject> list = subjectService.getSubjectsByKey(key);
+			if(list!=null && list.size()>0){
+				for(Subject subject:list){
+					MapTool.addsubjectsHit(subject.getSubjectId());
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,5 +146,13 @@ public class SeeKeywordAction extends BaseAction {
 
 	public void setDictionaryService(IDictionaryService dictionaryService) {
 		this.dictionaryService = dictionaryService;
+	}
+
+	public ISubjectService getSubjectService() {
+		return subjectService;
+	}
+
+	public void setSubjectService(ISubjectService subjectService) {
+		this.subjectService = subjectService;
 	}
 }

@@ -41,6 +41,28 @@
 	</package>
 	
 	
+	<package name="MyFrontRestDataSource" namespace="/" extends="json-default">
+		<interceptors>
+			<interceptor name="encoding"
+				class="com.nb.nbpx.interceptor.EncodingInterceptor"></interceptor>
+			<interceptor name="jsonBuilder"
+				class="com.nb.nbpx.interceptor.JsonBuilderInterceptor" />
+		</interceptors>
+
+		<action name="*_*" class="{1}Action" method="{2}">
+			<interceptor-ref name="encoding"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success" type="stream"></result>
+			<result name="failure" type="stream"></result>
+			<result name="easyuiResult" type="json"></result>
+			<result name="input">/{1}/input.jsp</result>
+			<result name="error">/{1}/error.jsp</result>
+			<result name="none">/{1}/none.jsp</result>
+			<result name="viewQuestion">/question.jsp?id=${id}</result>
+		</action>
+	</package>
+	
+	
 	<package name="MyAdminRestDataSource" namespace="/admin" extends="json-default">
 		<interceptors>
 			<interceptor name="encoding"

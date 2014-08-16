@@ -46,8 +46,6 @@ public class ViewClassAction extends BaseAction{
 	public String getRelatedKeyWords(){
 		try {
 			String result = solrKeywordService.queryRelatedKeywords(condition, 0, 10);
-			//TODO 貌似这个地方有个编码问题导致查询不到
-			//这是因为传进来的值是编码有问题
 			this.inputStream = castToInputStream(result);
 		} catch (Exception e) {
 			e.printStackTrace();

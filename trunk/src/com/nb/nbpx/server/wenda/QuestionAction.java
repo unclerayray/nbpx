@@ -1,6 +1,7 @@
 package com.nb.nbpx.server.wenda;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.pojo.wenda.Answer;
+import com.nb.nbpx.pojo.wenda.Question;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.keyword.IKeywordService;
 import com.nb.nbpx.service.solr.ISolrQuestionService;
@@ -30,10 +32,12 @@ public class QuestionAction extends BaseAction{
 	public IKeywordService keywordService;
 	public ISubjectService subjectService;
 	private ISolrQuestionService solrQuestionService;
+	public Question question;
+	public List<Answer> answerList;
+	public Answer bestAnswer;
 	
 	public Integer id;
 	public String myAnswer;
-
 
 	public String viewQuestion(){
 		String json = "";
@@ -47,6 +51,17 @@ public class QuestionAction extends BaseAction{
 		}
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
+	}
+	
+	public String viewTheQuestion(){
+		try {
+			this.setQuestion(qestionService.viewQuestionOject(id));
+			this.setAnswerList(answerService.queryAnswerList(id));
+			this.setBestAnswer(answerService.queryBestAnswerList(id));
+		} catch (Exception e) {
+			return "failure";
+		}
+		return "viewQuestion";
 	}
 	
 	public String viewAnswers(){
@@ -147,5 +162,29 @@ public class QuestionAction extends BaseAction{
 
 	public void setMyAnswer(String myAnswer) {
 		this.myAnswer = myAnswer;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	public List<Answer> getAnswerList() {
+		return answerList;
+	}
+
+	public void setAnswerList(List<Answer> answerList) {
+		this.answerList = answerList;
+	}
+
+	public Answer getBestAnswer() {
+		return bestAnswer;
+	}
+
+	public void setBestAnswer(Answer bestAnswer) {
+		this.bestAnswer = bestAnswer;
 	}
 }

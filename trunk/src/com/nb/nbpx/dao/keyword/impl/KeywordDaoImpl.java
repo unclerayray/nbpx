@@ -359,4 +359,11 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 		});
 		return list;
 	}
+
+	@Override
+	public List<Keyword> getKeywordsByKey(String key) {
+		List list = find("from Keyword where keyword = '"
+				+ key + "'");
+		return list;
+	}
 }
