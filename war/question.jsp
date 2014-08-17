@@ -58,8 +58,13 @@
 			if($('#newAnswer').val()==null || $('#newAnswer').val() == ""){
 				alert("回答不能为空！");
 			}
+			var answer = $('#newAnswer').val();
+			var tmp = document.createElement("DIV");
+		   	tmp.innerHTML = answer;
+		   	tmp = tmp.textContent || tmp.innerText || "";
+			answer = answer.replace("<script>","").replace("<//script>","");
 			$.ajax({
-				url:encodeURI("struts/Question_answerIt?id="+<%=id%> + "&myAnswer=" + $('#newAnswer').val()),
+				url:encodeURI("struts/Question_answerIt?id="+<%=id%> + "&myAnswer=" + tmp),
 				success:function(data){
 					$('#newAnswer').val("");
 					loadAnswers();

@@ -55,7 +55,8 @@ public class TeacherInfoDaoImpl extends BaseDaoImpl<TeacherInfo, Integer>  imple
 				List list = new ArrayList<User>();
 				int i = 0;
 //				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId,u.user.userId as userId,u.realName,u.birthday,u.majorCatgory,u.externalPayment,u.internalPayment,u.fax,u.telephone,u.cellphone,u.introduction,u.expertIn) from TeacherInfo u where 1 = 1";
-				String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId, u.realName,u.birthday, u.majorCatgory, u.externalPayment,u.internalPayment,u.fax, u.telephone,u.cellphone, u.introduction, u.expertIn, u.state, u.createDate, u.createBy,u.isInner,u.photo) from TeacherInfo u where 1 = 1";
+				//String hql = "select new com.nb.nbpx.pojo.user.TeacherInfo(u.teacherId, u.realName,u.birthday, u.majorCatgory, u.externalPayment,u.internalPayment,u.fax, u.telephone,u.cellphone, u.introduction, u.expertIn, u.state, u.createDate, u.createBy,u.isInner,u.photo) from TeacherInfo u where 1 = 1";
+				String hql = " from TeacherInfo u where 1 = 1";
 				if (isInner != null) {
 					if(isInner)
 						hql += " and u.isInner ='1' ";

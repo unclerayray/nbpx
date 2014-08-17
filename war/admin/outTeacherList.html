@@ -74,7 +74,8 @@
 						data-options="field:'username',sortable:true,width:80,formatter:function(value,row){return row.user.username;}">系统用户名</th>
 					<th
 						data-options="field:'userId',sortable:true,hidden:true,width:80,formatter:function(value,row){return row.user.userId;}">userId</th>
-					<th data-options="field:'realName',sortable:true,width:80">名字</th>
+					<th data-options="field:'realName',sortable:true,width:80">授课姓名</th>
+					<th data-options="field:'realRealName',sortable:true,width:70">真实姓名</th>
 					<th data-options="field:'birthday',sortable:true,width:80">生日</th>
 					<th
 						data-options="field:'majorCatgory',sortable:true,width:80,formatter:function(value,row){
@@ -97,6 +98,12 @@
 						data-options="field:'email',sortable:true,width:100,formatter:function(value,row){return row.user.email;}">邮箱</th>
 					<th data-options="field:'createDate',sortable:true,width:70">新建时间</th>
 					<th data-options="field:'createBy',sortable:true,width:40">发布者</th>
+					<th data-options="field:'assistName',width:60">助理姓名</th>
+					<th data-options="field:'assistQq',sortable:true,width:80">助理QQ</th>
+					<th data-options="field:'assistPhone',sortable:true,width:70">助理电话</th>
+					<th data-options="field:'assistEmail',sortable:true,width:70">助理邮箱</th>
+					<th data-options="field:'remarks',sortable:true,hidden:true,width:70">备注</th>
+					<th data-options="field:'isMale',sortable:true,width:30,formatter:function(value,row){if(row.isMale) return '男';else return '女';}">性别</th>
 					<th
 						data-options="field:'state',width:60,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
 				</tr>
@@ -105,7 +112,7 @@
 	</div>
 
 	<div id="dlg" class="easyui-dialog" 
-style="width: 600px; height: 400px; padding: 5px 5px" closed="true"  cache="false" 
+style="width: 600px; height: 550px; padding: 5px 5px" closed="true"  cache="false" 
 modal="true" data-options="buttons: [{
 					text:'保存',
 					iconCls:'icon-ok',
@@ -122,7 +129,7 @@ modal="true" data-options="buttons: [{
 		<form id="fm" method="post" enctype="multipart/form-data">
 			<table cellspacing="0" cellpadding="0" class="formTable">
 				<tr>
-					<td class="itemText">真实姓名:</td>
+					<td class="itemText">授课姓名:</td>
 					<td><input id="realName" name="realName"
 						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'" ></td>
 					<td class="itemText">出生日期:</td>
@@ -137,7 +144,13 @@ modal="true" data-options="buttons: [{
 				</tr>
 				<tr>
 					<td class="itemText">照片:</td>
-					<td colspan="3"><input type="file" id='file' name="file"></td>
+					<td><input type="file" id='file' name="file"></td>
+				</tr>
+				<tr>
+					<td class="itemText">真实姓名:</td>
+					<td><input id="realRealName" name="realRealName"></td>
+					<td class="itemText">先生/女士:</td>
+					<td><input name="isMale" id="isMale" type="checkbox"></td>
 				</tr>
 				<tr>
 					<td class="itemText">主讲类别:</td>
@@ -176,6 +189,18 @@ modal="true" data-options="buttons: [{
 						class="easyui-validatebox" required="true"></td>
 				</tr>
 				<tr>
+					<td class="itemText">助理姓名:</td>
+					<td><input id="assistName" name="assistName"></td>
+					<td class="itemText">助理电话:</td>
+					<td><input id="assistPhone" name="assistPhone"></td>
+				</tr>
+				<tr>
+					<td class="itemText">助理QQ:</td>
+					<td><input id="assistQq" name="assistQq"></td>
+					<td class="itemText">助理邮箱:</td>
+					<td><input id="assistEmail" name="assistEmail"></td>
+				</tr>
+				<tr>
 					<td class="itemText">个人简介:</td>
 					<td colspan="3"><textarea id="introduction"
 							style="width: 420px; height: 70px" name="introduction"></textarea></td>
@@ -184,6 +209,11 @@ modal="true" data-options="buttons: [{
 					<td class="itemText">擅长项目:</td>
 					<td colspan="3"><textarea id="expertIn"
 							style="width: 420px; height: 70px" name="expertIn"></textarea></td>
+				</tr>
+				<tr>
+					<td class="itemText">备注:</td>
+					<td colspan="3"><textarea id="remarks"
+							style="width: 420px; height: 70px" name="remarks"></textarea></td>
 				</tr>
 			</table>
 		</form>
@@ -207,6 +237,8 @@ modal="true" data-options="buttons: [{
 				$('#fm').form('clear');
 				$('#fm').form('load', row);
 				$('#userId-inform').val(row.user.userId);
+				if (row.isMale)
+					$('#isMale').attr('checked', 'checked');
 				//$('#introduction').val('Suck my dick');
 				//console.log('wtf is this '+$('#userId-inform').val());
 			} else {
