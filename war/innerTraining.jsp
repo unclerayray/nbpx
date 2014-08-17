@@ -106,14 +106,14 @@
 					if(n ==0){
 						topStr += "<div class='inNews'>"+
 								  "<h2><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
-								  "<p>"+value.content+"</p>"+
+								  "<p>"+value.content+"...</p>"+
 								  "</div>";
 		
 					}
 					if(n == 1){
 						topStr += "<div class='inNews none'>"+
 								  "<h2><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
-								  "<p>"+value.content+"</p>"+
+								  "<p>"+value.content+"...</p>"+
 								  "</div>";
 		
 					}
@@ -124,7 +124,7 @@
 							valueStr += "<li class='noMargin'><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
 					}
 				});
-				//$('#topArticle').html(topStr);
+				$('#topArticle').html(topStr);
 				$('#recommondArticel').html(valueStr);
 			}
 		})
@@ -413,7 +413,7 @@
 		<div id="topArticle">
 		<div class="inNews">
 			<h2>职场EQ与情绪管理培训</h2>
-			<p>本课程详细介绍企业常用公文的写作特点、写作规范和技巧，学习快速搭建公文结构的方法，通过典型案例...</p>
+			<p>本课程详细介绍企业常用公文的写作特点、写作规范和技巧，学习快速搭建公文结构的方法，通过典型案例本课程详细介绍企业常用公文的写作特点、写作规范和技巧，学习快速搭建公文结构的方法，通过典型案例...</p>
 		</div>
 		<div class="inNews none">
 			<h2>职场EQ与情绪管理培训</h2>

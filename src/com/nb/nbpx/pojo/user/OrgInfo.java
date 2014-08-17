@@ -34,6 +34,8 @@ public class OrgInfo implements Serializable{
 	private String website;
 	private String category;
 	private String introduction;
+	private String qq;
+	private String logoUrl;
 	private Boolean state;
 	private Date createDate;
 	private String createBy;
@@ -54,6 +56,18 @@ public class OrgInfo implements Serializable{
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
 	}
 	public String getOrgName() {
 		return orgName;
@@ -215,6 +229,30 @@ public class OrgInfo implements Serializable{
 		this.website = website;
 		this.category = category;
 		this.introduction = introduction;
+		this.state = state;
+		this.createDate = createDate;
+		this.createBy = createBy;
+	}
+	public OrgInfo(Integer orgId, Integer userId, String orgName, String address,
+			Integer postCode, String contact, String cellphone,
+			String telephone, String fax, String website, String category,
+			String introduction,String qq,String logoUrl, Boolean state, Date createDate, String createBy) {
+		super();
+		this.orgId = orgId;
+		this.user = new User();
+		this.user.setUserId(userId);
+		this.orgName = orgName;
+		this.address = address;
+		this.postCode = postCode;
+		this.contact = contact;
+		this.cellphone = cellphone;
+		this.telephone = telephone;
+		this.fax = fax;
+		this.website = website;
+		this.category = category;
+		this.introduction = introduction;
+		this.qq = qq;
+		this.logoUrl = logoUrl;
 		this.state = state;
 		this.createDate = createDate;
 		this.createBy = createBy;

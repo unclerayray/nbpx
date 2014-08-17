@@ -128,7 +128,7 @@
 			<li><a href="viewCity.jsp">城市词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=004">机构词典</a></li>
 
-			<li><a href="orgList.jsp">培训机构</a><span>|</span></li>
+			<li><a href="orgSeries.jsp">培训机构</a><span>|</span></li>
 			
 			<li><a href="viewTarget.jsp">职位词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=26">培训类别</a><span>|</span></li>

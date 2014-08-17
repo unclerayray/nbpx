@@ -39,4 +39,5 @@ public interface IArticleService extends IBaseService {
 	public String viewArticleType(String category,Integer rows, Integer start);
 	
 	public void auditArticle(Boolean state, Integer articleId);
+	public String getNoHtmlStr(String htmlStr);
 }

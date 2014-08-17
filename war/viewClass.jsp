@@ -30,15 +30,23 @@
 				$('#blockContent').html(jsonObject.bloclContent);
 				$('#classContent').html(jsonObject.content);
 				$('#teacher').html("<span>培训师：</span>"+jsonObject.teacher);
-				$('#price').html("<span>课程费用：</span>"+jsonObject.price);
+				var price = jsonObject.price;
 				if(jsonObject.isInner == '0'){
 					$('#inAttend').css('display','block');
 					$('#outAttend').css('display','none');
+					$('#time').css('display','block');
+					$('#place').css('display','block');
 				}
 				else{
 					$('#inAttend').css('display','none');
 					$('#outAttend').css('display','block');
+					$('#time').css('display','none');
+					$('#place').css('display','none');
+					price = "面议";
 				}
+				if(price == '0')
+					price = "面议";
+				$('#price').html("<span>课程费用：</span>"+price);
 				
 				//路径
 				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li>";
@@ -281,13 +289,13 @@
 			<div class="time" id="series"><span>专题：</span><a href="#">企业管理</a></div>
 			</div>
 			<div class="classRightPart">
-				<!--<dd><a href="#">打印课程提纲</a></dd>
+				<dd><a href="#">打印课程提纲</a></dd>
 				<dd><a href="#">打印报名表格</a></dd>
 				<dd><a href="#">先加入收藏夹</a></dd>
 				<dd><a href="#">引入内训申请</a></dd>
 				<dd><a href="#">先发送至邮箱</a></dd>
 				<dd><a href="#">保存电脑桌面</a></dd>
-				<dd><a href="#">下载课程提纲</a></dd>  -->
+				<dd><a href="#">下载课程提纲</a></dd> 
 				</div>
 			<div class="clear"></div>
 			</div>

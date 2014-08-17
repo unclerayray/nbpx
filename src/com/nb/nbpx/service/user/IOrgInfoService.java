@@ -5,6 +5,8 @@ import com.nb.nbpx.service.IBaseService;
 
 public interface IOrgInfoService extends IBaseService{
 	public String getOrgInfo(String state,Integer rows,Integer start);
+	public String getOrgListBySeries(String series,Integer rows,Integer start);
+	
 	public String getOrgInfoById(Integer orgID);
 	
 	public String getOrgInfoByUserId(Integer userID);
