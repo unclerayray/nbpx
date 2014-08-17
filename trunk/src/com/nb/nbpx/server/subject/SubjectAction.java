@@ -94,6 +94,22 @@ public class SubjectAction extends BaseAction  {
 		}
 	}
 
+	public String deleteSubjects(){
+		try {
+			String[] subIdArr = subjectIds.split(",");
+			for(String sid : subIdArr){
+				subjectService.removeSubject(Integer.parseInt(sid));
+			}
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL, "删除失败！"));
+			return "failure";
+		}
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "删除成功！"));
+		return SUCCESS;
+	}
+
 	/**
 	 * 查询生成ComboBox的数据
 	 * 

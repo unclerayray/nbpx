@@ -36,9 +36,9 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'
 	    <a href="#"
 		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 		onclick="recommand()">推荐专题</a>
-		<a
-		href="javascript:void(0)" class="easyui-linkbutton" plain="true"
-		iconCls="icon-dic" onclick="stat()">统计最新</a>
+		<a href="#"
+		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+		onclick="removeSubjects()">删除</a> 
 	</div>
 	<div>
 		专题类别: <input class="easyui-combobox" name="category" id="category"
@@ -153,6 +153,65 @@ function queryKeyords() {
 						});
 					}		
 				});
+		}
+		
+		function removeSubjects(){
+			var row = $('#dg').datagrid('getSelected');
+			if (row) {
+				$.messager
+				.confirm(
+					'Confirm',
+					'确认要删除此行记录吗?',
+					function(r) {
+						if (r) {
+							var selectedRows = $('#dg').datagrid('getSelections');
+							var str = new Array(selectedRows.length);
+							for (var p in selectedRows) {
+								if (selectedRows.hasOwnProperty(p)) {
+									str[p] = selectedRows[p].subjectId;
+								}
+							}
+							$
+							.post(
+								'../struts/Subject_deleteSubjects?subjectIds='+str.toString(),
+								function(data) {
+									if (data.success) {
+										$('#dg')
+										.datagrid(
+																						'reload'); // reload the Dic data
+										$('#dg').datagrid('clearSelections');
+										$.messager
+										.show({
+											title : 'Success',
+											msg : data.message,
+											timeout : 3000,
+											showType : 'fade'
+										});
+									} else {
+										$.messager
+										.show({
+											title : 'Error',
+											msg : data.message,
+											timeout : 3000,
+											showType : 'fade'
+										});
+										$('#dg')
+										.datagrid(
+											'reload');
+										$('#dg').datagrid('clearSelections');
+									}
+								}, 'json');
+						}
+					});
+			}else{
+				$.messager.show({
+					title : '温馨提示',
+					msg : '请先选择一行记录',
+					timeout : 2000,
+					showType : 'slide'
+				});
+			}
+			
 		}
 
 		function importSubjects(){

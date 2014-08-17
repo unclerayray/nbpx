@@ -53,6 +53,7 @@
 	</filter-mapping>-->
 
 	<!--判断session是否失效或者已登录 
+-->
 	<filter>
 		<filter-name>SessionCheckFilter</filter-name>
 		<filter-class>com.nb.nbpx.filter.SessionFilter</filter-class>
@@ -65,7 +66,6 @@
 		<filter-name>SessionCheckFilter</filter-name> 
 		<url-pattern>/admin/*</url-pattern> 
 	</filter-mapping>
--->
 
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>

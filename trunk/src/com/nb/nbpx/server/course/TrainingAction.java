@@ -1,10 +1,7 @@
 package com.nb.nbpx.server.course;
 
-import java.io.IOException;
-
 import javax.annotation.Resource;
 
-import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +16,8 @@ public class TrainingAction extends BaseAction{
 	
 	private static final long serialVersionUID = 1L;
 	private ICourseService courseService;
+
+	@Resource
 	private ISolrKeywordService solrKeywordService;
 	private ISolrSubjectService solrSubjectService;
 	public String flag;//(flag:1-行业，2-专业，3-职位，4-产品)
@@ -115,6 +114,7 @@ public class TrainingAction extends BaseAction{
 			this.inputStream = castToInputStream(result);
 		} catch (Exception e) {
 			e.printStackTrace();
+			this.inputStream = castToInputStream("[]");
 		}
 		return SUCCESS;
 	}
@@ -175,7 +175,6 @@ public class TrainingAction extends BaseAction{
 	public ISolrKeywordService getSolrKeywordService() {
 		return solrKeywordService;
 	}
-	@Resource
 	public void setSolrKeywordService(ISolrKeywordService solrKeywordService) {
 		this.solrKeywordService = solrKeywordService;
 	}
