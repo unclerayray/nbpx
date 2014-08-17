@@ -112,13 +112,16 @@
 	function getTypeName(){
 		var type  = $('#typeValue').val();
 		var urlStr = 'struts/ViewDic_getDicName?codeName='+type;
-		$.ajax({
-			url:encodeURI(urlStr),
-			success: function(data){
-				var jsonObject = eval('('+data+')');
-				$('#showName').html(jsonObject.showName);
-			}		
-		})
+		if(type != 'zw'){
+			$.ajax({
+				url:encodeURI(urlStr),
+				success: function(data){
+					var jsonObject = eval('('+data+')');
+					$('#showName').html(jsonObject.showName);
+				}		
+			})
+		}else
+			$('#showName').html("职位词典");
 	}
 	var pager = {
 		'test':function(){
@@ -173,7 +176,11 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
+		<% if("zw".equals(type)){%>
+		<li><a href="viewTarget.jsp"><span id="showName"></span></a></li>
+		<%}else{ %>
 		<li><a href="viewDic.jsp?type=<%=type%>"><span id="showName"></span></a></li>
+		<%} %>
 		<li class="bread">&gt;&gt;</li>
 		<li><%=key %></li>
 	</ul>

@@ -35,23 +35,23 @@ var page = {
 		var currPage = parseInt($('#currPage').html());
 		var pages = parseInt($('#pages').html());
 		if(currPage +1 >= pages)
-			loadCourses(pages-1);
+			loadCourses(pages);
 		else
 			loadCourses(currPage);
 	},
 	'seePre':function(){
 		var currPage = parseInt($('#currPage').html());
 		if(currPage-1 > 0)
-			loadCourses(currPage-2);
+			loadCourses(currPage-1);
 		else
-			loadCourses(0);
+			loadCourses(1);
 	},
 	'seeFirst':function(){
-		loadCourses(0);
+		loadCourses(1);
 	},
 	'seeLast':function(){
 		var pages = $('#pages').html();
-		loadCourses(pages-1);
+		loadCourses(pages);
 	},
 	'jump':function(){
 		if($('#jump').val() == ''){

@@ -28,6 +28,10 @@ public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	public Boolean importKeywords(String category, String[] keywords);
 	//不关联课程，只查询关键词
 	public List<Keyword> getKeyWordsListOnly(Integer flag,String type,Integer start,Integer rows);
+	//只查询关键词，按照搜索量倒叙
+	public List<Keyword> getJustKeyWords(Integer start,Integer rows);
+	//增加关键词查询次数
+	public void addKeyWordSearchCnt(String keywords,boolean flag);	
 	
 	//得到关键词列表，flag:1代表点击率，2代表推荐，3代表热搜
 	public List<Keyword> getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);

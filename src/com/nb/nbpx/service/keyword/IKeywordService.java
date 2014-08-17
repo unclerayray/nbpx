@@ -71,4 +71,6 @@ public interface IKeywordService extends IBaseService {
 	public void saveKeywords2Dic(String[] keywords) throws IOException;
 	
 	public void removeKeyword(Integer keyId)throws Exception ;
+	
+	public String getHotKeyWords(Integer start,Integer rows);
 }

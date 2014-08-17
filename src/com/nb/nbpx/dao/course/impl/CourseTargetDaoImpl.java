@@ -33,5 +33,43 @@ public class CourseTargetDaoImpl extends BaseDaoImpl<CourseTarget, Integer> impl
 		});
 		return list;
 	}
+	public List<CourseTarget> getCourseTarget(final Integer start,final Integer rows){
+		List<CourseTarget> list = new ArrayList<CourseTarget>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select * from coursetarget t ");
+				Query query = session.createSQLQuery(sql.toString()).addEntity(CourseTarget.class);
+				if(start != null && rows != null){
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				
+				return query.list();
+			}
+		});
+		return list;
+		
+	}
+	
+	public Long countCourseTarget(){
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						"select count(c) from CourseTarget c ");
+				
+				Query query = session.createQuery(hql.toString());
+				
+				return query.list();
+			}
+		});
+		return (Long) list.get(0);
+	}
 
 }

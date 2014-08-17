@@ -71,6 +71,21 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	@Resource
 	private ISolrService solrService;
 
+	public String queryCourseTarget(final Integer start,final Integer rows){
+		String json = "";
+		List<CourseTarget> targetList = courseTargetDao.getCourseTarget(start, rows);
+		if (targetList.isEmpty()) {
+			json = JsonUtil.formatToJsonWithTimeStamp(0,
+					ResponseStatus.SUCCESS, "", targetList);
+		}else{
+			int count = courseTargetDao.countCourseTarget().intValue();
+			int pages = count/rows+1;
+			json = JsonUtil.formatToJsonWithTimeStamp(pages,
+					ResponseStatus.SUCCESS, "", targetList);
+		}
+		return json;
+			
+	}
 	// private ICourseKeywordDao courseKeywordDao;
 	// private ICourseKeywordDao courseKeywordDao;
 	//获取内训视频
@@ -1108,8 +1123,30 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 
 		return JsonUtil.getJsonString(returnValue);
 	}
+	
+	// 获取经典课程（单页展示,没有关联了课程安排）
+	public String queryJustClassiscPageCourse(Boolean ifInner, Integer rows,
+			Integer start){
+		List<Course> courses = courseDao.getJustClassicCourse(ifInner, null, start,
+				rows);
+		if (courses == null)
+			return "";
+		Map<String, Object> returnValue = new HashMap<String, Object>();
+		List<Map<String, Object>> result = getCourseDetailList(courses);
+		List totalRows = courseDao.getJustClassicCourse(ifInner, null, null, null);
+		int rowsCount = totalRows == null ? 0 : totalRows.size();
+		int allPages = 0;
+		if (rowsCount % rows == 0)
+			allPages = (int) (rowsCount / rows);
+		else
+			allPages = (int) (rowsCount / rows) + 1;
+		returnValue.put("pages", allPages);
+		returnValue.put("rows", result);
 
-	// 获取经典课程（单页展示）
+		return JsonUtil.getJsonString(returnValue);
+	}
+	
+	// 获取经典课程（单页展示,关联了课程安排，没有课程安排，就不会出现）
 	public String queryClassiscPageCourse(Boolean ifInner, Integer rows,
 			Integer start) {
 		List<Course> courses = courseDao.getClassicCourse(ifInner, null, rows,

@@ -15,18 +15,17 @@
 </head>
 <script>
 	$(function(){
-		loadCourses(0);
+		loadCourses(1);
 		//加载热门关键词
 		loadHotKeyWord();
 		//加载热门专题
 		loadHotSubjects()
 	});
 	function loadCourses(page){
-		var currMonth = $('#currMonth').val();
-		var currYear = $('#currYear').val();
 		$.ajax({
-			url:"struts/HotCourse_getHotPXCourse?page="+page+"&rows=10",
+			url:"struts/HotCourse_getClassiscNXCourse?page="+page+"&rows=10",
 			success:function(data){
+				//alert(data);
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
 				var pages = jsonObject.pages;
@@ -36,7 +35,7 @@
 					if(n<rows.length-1)
 						outClass="classDesc";
 					valueStr += "<div  class='"+outClass+"'><h3><a href='viewClass.jsp?id="+value.id+"'>"+value.title+"</a></h3>"+
-							"<div class='classInfor'>培训时间："+value.startDate+"至"+value.endDate+"&nbsp;&nbsp;培训地点："+value.city+"&nbsp;&nbsp;培训费用：￥"+value.price+"&nbsp;&nbsp;编号："+value.id+"</div>"+
+							"<div class='classInfor'>培训费用：面议&nbsp;&nbsp;编号："+value.id+"</div>"+
 							"<div class='classDetail'>"+
 							"<div class='left' style='width:60px;'><span>培训内容：</span></div><div style='float:right;width:630px;'>"+value.content+"...[<a href='viewClass.jsp?id="+value.id+"'>详细内容</a>]</div></div>"+
 							"<div class='clear'></div>"+
@@ -48,7 +47,7 @@
 					$('#pageDiv').css('display','block');
 				$('#classes').html(valueStr);
 				$('#pages').html(pages);
-				$('#currPage').html(parseInt(page)+1);
+				$('#currPage').html(parseInt(page));
 			}
 		});
 	}
@@ -117,14 +116,14 @@
 	<div class="leftInPart" id="leftPart">
 		<div id="classes">
 		<!--课程介绍 start-->
-			<div  class="classDesc">
+			<!--  <div  class="classDesc">
 				<h3>企业培训体系设计</h3>
 				<div class="classInfor">培训时间：2013-0-20&nbsp;&nbsp;培训天数：2天&nbsp;&nbsp;培训地点：深圳&nbsp;&nbsp;培训费用：￥3500&nbsp;&nbsp;编号：1234</div>
 				<div class="classDetail">
 					<div class="left" style="width:60px;"><span>培训内容：</span></div><div style="float:right;width:630px;">使参训人员了解企业架构与IT战略规划全套流程与方法，通过案例学习相关架构工具Togaf9.0，认识到架构方法在信息化规划中的重要性，了解企业架构中的核心理念与实践方法，掌握业务架构、应用架构、技术架构...<a href="#">[详细内容]</a></div></div>
 					<div class="clear"></div>
 				<div class="classDownload"><span>课纲下载：</span><a href="#">企业培训体系设计.doc</a></div>
-			</div>
+			</div>-->
 		<!--课程介绍 end-->
 		</div>
 		<div class="resultFoot" id="pageDiv" style='display:none'>

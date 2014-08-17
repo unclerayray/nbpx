@@ -180,7 +180,26 @@ public class KeywordServiceImpl extends BaseServiceImpl implements
 	public void setKeywordDao(IKeywordDao keywordDao) {
 		this.keywordDao = keywordDao;
 	}
+	
+	public String getHotKeyWords(final Integer start,final Integer rows){
+		List<Keyword> list = keywordDao.getJustKeyWords(start, rows);
+		List<Map<String, String>> results = new ArrayList<Map<String, String>>();
+		for (Keyword temp : list) {
+			Map<String, String> result = new HashMap<String, String>();
+			result.put("id", temp.getKeyId().toString());
+			result.put("name", temp.getKeyword());
+			result.put("search", temp.getSearchCnt().toString());
+			result.put("hit", temp.getHits().toString());
+			results.add(result);
+		}
+		String json = JsonUtil.getJsonString(results);
 
+		return json; 
+
+
+		
+	}
+	
 	@Override
 	public List<Keyword> saveKeywords(CourseAllInfoDto courseDto) {
 		List<Keyword> list = new ArrayList<Keyword>();

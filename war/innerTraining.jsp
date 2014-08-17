@@ -124,7 +124,7 @@
 							valueStr += "<li class='noMargin'><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
 					}
 				});
-				$('#topArticle').html(topStr);
+				//$('#topArticle').html(topStr);
 				$('#recommondArticel').html(valueStr);
 			}
 		})
@@ -411,14 +411,14 @@
 	    <!-- 代码 结束 -->
 		<!--  <img  src="images/peixunFlash.jpg"  style="width:290px;height:200px;padding:0px" class="left"/>-->
 		<div id="topArticle">
-		<!--<div class="inNews">
+		<div class="inNews">
 			<h2>职场EQ与情绪管理培训</h2>
 			<p>本课程详细介绍企业常用公文的写作特点、写作规范和技巧，学习快速搭建公文结构的方法，通过典型案例...</p>
 		</div>
 		<div class="inNews none">
 			<h2>职场EQ与情绪管理培训</h2>
 			<p>本课程详细介绍企业常用公文的写作特点、写作规范和技巧，学习快速搭建公文结构的方法，通过典型案例...</p>
-		</div>  -->
+		</div>  
 		</div>
 	<div class="clear"></div>
 	<div class="classtic left">
@@ -455,14 +455,14 @@
 		<div class="clear"></div>
 			<h2>推荐文章<span class="more"><a href="allArticles.jsp">更多</a></span></h2>
 		<ul id="recommondArticel">
-			<!--<li><a href="#">定向引爆式大客户销售</a></li>
+			<!-- <li><a href="#">定向引爆式大客户销售</a></li>
 			<li class="noMargin"><a href="#">企业应收账款管理及信用风险控制...</a></li>
 			<li><a href="#">成功的产品经理—产品经理核心管...</a></li>
 			<li class="noMargin"><a href="#">心理学：洞察人心（性）之道</a></li>
 			<li><a href="#">产品需求分析与需求管理</a></li>
 			<li class="noMargin"><a href="#">研发质量管理培训</a></li>
 			<li><a href="#">“大卖场”终端的销售与管理</a></li>
-			<li class="noMargin"><a href="#">企业应收账款管理及信用风险控制...</a></li>-->
+			<li class="noMargin"><a href="#">企业应收账款管理及信用风险控制...</a></li> -->
 		</ul>
 		<div class="clear"></div>
 	</div>

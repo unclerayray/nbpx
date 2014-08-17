@@ -318,7 +318,29 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 		});
 		return list.size();
 	}
-	
+	public List<Keyword> getJustKeyWords(final Integer start,final Integer rows){
+		List<Keyword> list = new ArrayList<Keyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer sql = new StringBuffer(
+						"select k.*  from keywords k ");
+
+				sql.append(" order by k.searchCnt desc");
+				
+				Query query = session.createSQLQuery(sql.toString()).addEntity(Keyword.class);
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
 	//获取最新的关键词 
 	public List<Keyword> getLastedKeyWords(final Integer start,final Integer rows){
 		List<Keyword> list = new ArrayList<Keyword>();
@@ -358,6 +380,10 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 			}
 		});
 		return list;
+	}
+	
+	public void addKeyWordSearchCnt(final String keywords,final boolean flag){
+		
 	}
 
 	@Override

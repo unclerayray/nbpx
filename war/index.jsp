@@ -1619,7 +1619,7 @@ padding-bottom: 2px;
 	<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-				<div class="tabOn" id="b71"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,7)">财务管理内训</a></div>
+				<div class="tabOn" id="b71"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,7)">市场营销内训</a></div>
 				<div class="tabOff" id="b72"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,7)">最新</a></div>
 				<div class="tabOff" id="b73"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,7)">经典</a></div>
 				<div class="tabOff" id="b74"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,7)">排行</a></div>
@@ -1646,7 +1646,7 @@ padding-bottom: 2px;
 		<li class="noneStyle">
 			<div class="part left">
 				<div class="head">
-					<div class="tabOn" id="b81"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,8)">采购供应链内训</a></div>
+					<div class="tabOn" id="b81"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',1,8)">战略管理内训</a></div>
 					<div class="tabOff" id="b82"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',2,8)">最新</a></div>
 					<div class="tabOff" id="b83"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',3,8)">经典</a></div>
 				    <div class="tabOff" id="b84"><a href='javascript:void(0)' onclick="javascript:seePartTab('b',4,8)">排行</a></div>
