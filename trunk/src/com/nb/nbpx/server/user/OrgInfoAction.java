@@ -23,10 +23,18 @@ public class OrgInfoAction extends BaseAction{
 	public String q_orgName;
 	public Integer orgId;
 	public boolean state;
-	
+	public String series;
 	private IOrgInfoService orgInfoService;
 	private IOrgInfoDao orgInfoDao;
 	private ISolrOrganisationService orgSolrService;
+	
+	public String getOrgListBySeries(){
+		String json = "";
+		json = orgInfoService.getOrgListBySeries(series, rows, getStartPosi());
+
+		this.inputStream = castToInputStream(json);
+		return SUCCESS; 
+	}
 	
 	public String getOrgInforByID(){
 		String json = "";	 
@@ -150,7 +158,13 @@ public class OrgInfoAction extends BaseAction{
 		return SUCCESS;
 	}
 
-	
+	public String getSeries() {
+		return series;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
+	}
 	public OrgInfo getOrgInfor() {
 		return orgInfor;
 	}

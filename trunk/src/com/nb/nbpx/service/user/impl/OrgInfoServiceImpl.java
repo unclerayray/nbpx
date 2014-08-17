@@ -35,6 +35,19 @@ public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoServi
 		return json;
 	}
 	
+	public String getOrgListBySeries(final String series,final Integer rows,final Integer start){
+		List<OrgInfo> orgInfoList = orgInfoDao.getOrgListBySeries(series, rows, start);
+		String json = "";
+		if (orgInfoList.isEmpty()) {
+			json = JsonUtil.formatToJsonWithNoTimeStamp(0,
+					ResponseStatus.SUCCESS, "", orgInfoList);
+		} else {
+			int count = orgInfoDao.getOrgListBySeriesCount(series, rows, start).intValue();
+			json = JsonUtil.formatToJsonWithNoTimeStamp(count,
+					ResponseStatus.SUCCESS, "", orgInfoList);
+		}
+		return json;
+	}
 	public String getOrgInfoById(Integer orgID){
 		List<OrgInfo> orgList = orgInfoDao.getOrgByID(orgID);
 		String json = "";

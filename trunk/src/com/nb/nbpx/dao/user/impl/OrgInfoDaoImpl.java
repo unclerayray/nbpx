@@ -47,6 +47,55 @@ public class OrgInfoDaoImpl extends BaseDaoImpl<OrgInfo, Integer>  implements IO
 		return (Long)list.get(0);
 	}
 	
+	public List<OrgInfo> getOrgListBySeries(final String series,final Integer rows,final Integer start){
+		List<OrgInfo> list = new ArrayList<OrgInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(" from OrgInfo o"
+						+ " where 1=1 ");
+				if(series != null && series != "")
+					hql.append(" and category='"+series+"' ");
+				hql.append(" and state='1' ");
+				
+				hql.append(" order by o.createDate desc ");
+				
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
+	public Long getOrgListBySeriesCount(final String series,final Integer rows,final Integer start){
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer("select count(o) from OrgInfo o"
+						+ " where 1=1 ");
+				if(series != null && series != "")
+					hql.append(" and category='"+series+"' ");
+				hql.append(" and state='1' ");
+				
+				hql.append(" order by o.createDate desc ");
+				
+				Query query = session.createQuery(hql.toString());
+
+				return query.list();
+			}
+		});
+		return (Long)list.get(0);
+	}
 	public List<OrgInfo> getOrgList(final String state,final Integer rows,final Integer start){
 		List<OrgInfo> list = new ArrayList<OrgInfo>();
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {

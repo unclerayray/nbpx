@@ -90,14 +90,14 @@
 					if(n ==0){
 						topStr += "<div class='inNews'>"+
 								  "<h2><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
-								  "<p>"+value.content+"</p>"+
+								  "<p>"+value.content+"...</p>"+
 								  "</div>";
 		
 					}
 					if(n == 1){
 						topStr += "<div class='inNews none'>"+
 								  "<h2><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
-								  "<p>"+value.content+"</p>"+
+								  "<p>"+value.content+"...</p>"+
 								  "</div>";
 		
 					}

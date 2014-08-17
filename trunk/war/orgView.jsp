@@ -107,7 +107,9 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li><a href="orgList.jsp" target="_self">培训机构</a></li>
+		<li><a href="orgSeries.jsp" target="_self">培训机构</a></li>
+		<!--  <li class="bread">&gt;&gt;</li>
+		<li><a href="orgSeries.jsp" target="_self"><span id="orgSeries"></span></a></li>-->
 		<li class="bread">&gt;&gt;</li>
 		<li><span id="currOrg"></span></li>
 	</ul>
@@ -123,13 +125,13 @@
 			<table width="100%" style="font-size:12px;color:#2D4545;"  cellspacing="0" cellpadding="0">
 				<tr height="30px"><th colspan="2" align="center" style="font-size:14px"><span id="orgName">xxxx</span></th></tr>
 				<!--<tr height="25px"><td width="100px" align="right">擅长领域:</td><td align="left"><span id="expectIn">xxx</span></td></tr>  -->
-				<tr height="25px"><td align="right">联系人:</td><td align="left"><span id="contact">xxx</span></td></tr>
+				<!--  <tr height="25px"><td align="right">联系人:</td><td align="left"><span id="contact">xxx</span></td></tr>
 				<tr height="25px"><td align="right">移动电话:</td><td align="left"><span id="cel">xxx</span></td></tr>
 				<tr height="25px"><td align="right">固定电话:</td><td align="left"><span id="tel">xxx</span></td></tr>
 				<tr height="25px"><td align="right">传真号码:</td><td align="left"><span id="fax">xxx</span></td></tr>
 				<tr height="25px"><td align="right">邮编:</td><td align="left"><span id="code">xxx</span></td></tr>
 				<tr height="25px"><td align="right">网址:</td><td align="left"><span id="web">xxx</span></td></tr>
-				<tr height="25px"><td align="right">机构地址:</td><td align="left"><span id="address">xxx</span></td></tr>
+				<tr height="25px"><td align="right">机构地址:</td><td align="left"><span id="address">xxx</span></td></tr>-->
 				<tr height="25px"><td align="right">机构简介:</td><td align="left"><span id="desc">xxx</span></td></tr>
 			</table>
 		<!--课程介绍 end-->

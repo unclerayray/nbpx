@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<%
-	String type = request.getParameter("type");
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,46 +15,29 @@
 </head>
 <script>
 	$(function(){
-		loadTeachers(1);
+		for(var i=1;i<=8;i++)
+			loadOrgSeries(i);
+		//loadOrgSeries(1);
 		//加载热门关键词
 		loadHotKeyWord();
 		//加载热门专题
 		loadHotSubjects();
 	});
-	function loadTeachers(page){
+	function loadOrgSeries(type){
+
 		$.ajax({
-			url:"struts/OrgInfo_getOrgListBySeries?series="+$('#type').val()+"&page="+page+"&rows=10",
+			url:"struts/OrgInfo_getOrgListBySeries?series=003_0"+type+"&page=1&rows=10",
 			success:function(data){
 				//alert(data);
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
-				var pages = jsonObject.total;
-				if(pages == 0)
-					pages=0;
-				else
-					pages = parseInt(pages/10) + 1;
-
 				var rows = jsonObject.rows;
 				$.each(rows,function(n,value){
-					valueStr += "<div class='teacherList'><ul >"+
-								"<li>"+
-								"<div style='width:700px;padding-top:10px'>"+
-								"<table>"+
-								"<tr><td rowspan='2' style='width:150px;'><img src='"+(value.logoUrl == null?"images/noLogo.jpg":value.logoUrl)+"' style='width:150px;height:50px;border:1px solid #ccc' /></td><td colspan='2'><h3 class='th3'><a href='orgView.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3></td></tr>"+
-								"<tr><td>机构简介:</td><td align='left'><span class='tooLong' style='width:450px;display:block'>"+(value.introduction == undefined?"暂无介绍":value.introduction)+"</span></td></tr>"+
-								"</table>"+
-								"</div>"+
-								"</li>"+
-								"</ul>"+
-								"<div class='clear'></div></div>";
+					valueStr += "<li><a href='orgView.jsp?id="+value.orgId+"'>"+value.orgName+"</a></li>";
 				});
-				if(valueStr == ""){
-					valueStr = "<div class='notice'>暂时没有任何机构信息</div>";
-				}else
-					$('#coursePagesDiv').css('display','block');
-				$('#classes').html(valueStr);
-				$('#coursePages').html(pages);
-				$('#courseCurrPage').html(page);
+				if(valueStr == "")
+					valueStr = "<div class='notice'>没有最新的培训机构</div>";
+				$('#part'+type).html(valueStr);
 			}
 		});
 	}
@@ -109,60 +89,16 @@
 			}
 		});
 	}
-	var pager = {
-			'test':function(){
-				alert('1');
-			},
-			'seeNext':function(){
-				var currPage = parseInt($('#courseCurrPage').html());
-				var pages = parseInt($('#coursePages').html());
-				if(currPage +1 >= pages)
-					loadTeachers(pages);
-				else
-					loadTeachers(currPage+1);
-			},
-			'seePre':function(){
-				var currPage = parseInt($('#courseCurrPage').html());
-				//alert(currPage);
-				if(currPage-1 > 0)
-					loadTeachers(currPage-1);
-				else
-					loadTeachers(1);
-			},
-			'seeFirst':function(){
-				loadTeachers(1);
-			},
-			'seeLast':function(){
-				var pages = $('#coursePages').html();
-				loadTeachers(pages);
-			},
-			'jump':function(){
-				if($('#jump').val() == ''){
-					alert('请输入页码！');
-					return false;
-				}
-				var jumpTo = parseInt($('#jump').val());
-				var allPages = parseInt($('#coursePages').html());
-				if(jumpTo <=0 || jumpTo> allPages){
-					alert('页码范围不正确！');
-					return false;
-				}
-				loadTeachers(jumpTo);
-			}
-		};
 </script>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
 <!--当前路径 start-->
-<input type='hidden' value="<%=type%>" id="type">
 <div class="mainContent path">
 	<ul>
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li><a href='orgSeries.jsp'>培训机构</a></li>
-		<!--  <li class="bread">&gt;&gt;</li>
-		<li><span id="currType"></span></li>-->
+		<li>培训机构</li>
 	</ul>
 	<div class="clear"></div>
 </div>
@@ -170,32 +106,114 @@
 
 <!--主体部分二 start-->
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
-	<div class="leftInPart" id="leftPart">
-		<div id="classes">
-		<!--课程介绍 start-->
-		<div class="teacherList">
-			<ul >
-			<!--  <li>
-				<div style="width:700px;padding-top:10px;">
-					<table>
-					<tr><td rowspan='2' style="width:150px;"><img src="images/noLogo.jpg" style="width:150px;height:50px;border:1px solid #ccc" /></td><td colspan='2'><h3 class='th3'>讲师1</h3></td></tr>
-					<tr><td>机构简介:</td><td align='left'><span class="tooLong" style="width:450px;display:block">哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈</span></td></tr>
-					</table>
-				</div>
-			</li>-->
-			</ul>
-			<div class='clear'></div>
+	<div class="leftInPart">
+		<ul>
+		<li class="noneStyle" style="padding-top:0px">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn" >财务管理</div>
+					<div class="more"><a href="orgList.jsp?type=003_01">更多</a></div>
+				<div class="clear"></div>
 			</div>
-		<!--课程介绍 end-->
-		</div>
-		<div class="resultFoot" id="coursePagesDiv" style='display:none;padding-top:20px'>
-						<a href="javascript:void(0)" onclick="javascript:pager.seeFirst();">第一页</a>			
-						<a href="javascript:void(0)" onclick="javascript:pager.seePre();">上一页</a>				
-						<a href="javascript:void(0)" onclick="javascript:pager.seeNext();">下一页</a>
-						<a href="javascript:void(0)" onclick="javascript:pager.seeLast();">最后一页</a>
-						&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:pager.jump();">跳转</button>,当前是第<span id="courseCurrPage"></span>页,共<span id="coursePages">60</span>页
-					</div>
-		<div class="clear"></div>
+				<div class="bg h315" style="padding-left:30px;">
+					<ul class="list4" style="padding-top:5px" id="part1">
+						<li></li>
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li class="noneStyle" style="padding-top:0px">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn">采购供应链仓储</div>
+					<div class="more"><a href="orgList.jsp?type=003_02">更多</a></div>
+				<div class="clear"></div>
+			</div>
+				<div class="bg h315" style="padding-left:30px;">
+					<ul class="list4" style="padding-top:5px" id="part2">
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li class="noneStyle">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn">人力资源管理</div>
+					<div class="more"><a href="orgList.jsp?type=003_03">更多</a></div>
+				<div class="clear"></div>
+			</div>
+				<div class="bg h315" style="padding-left:10px;">
+					<ul class="list4" style="padding-top:15px" id="part3">
+					</ul>
+				</div>
+			</div>
+		</li>
+				<li class="noneStyle">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn" >生产管理</div>
+					<div class="more"><a href="orgList.jsp?type=003_04">更多</a></div>
+				<div class="clear"></div>
+			</div>
+				<div class="bg h315" style="padding-left:10px;">
+					<ul class="list4" style="padding-top:15px" id="part4">
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li class="noneStyle">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn">市场营销</div>
+					<div class="more"><a href="orgList.jsp?type=003_05">更多</a></div>
+				<div class="clear"></div>
+			</div>
+			<div class="bg h315" style="padding-left:10px;">
+					<ul class="list4" style="padding-top:15px" id="part5">
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li class="noneStyle">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn">战略管理</div>
+					<div class="more"><a href="orgList.jsp?type=003_06">更多</a></div>
+				<div class="clear"></div>
+			</div>
+			<div class="bg h315" style="padding-left:10px;">
+					<ul class="list4" style="padding-top:15px" id="part6">
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li class="noneStyle">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn">项目管理</div>
+					<div class="more"><a href="orgList.jsp?type=003_07">更多</a></div>
+				<div class="clear"></div>
+			</div>
+			<div class="bg h315" style="padding-left:10px;">
+					<ul class="list4" style="padding-top:15px" id="part7">
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li class="noneStyle">
+			<div class="part left" >
+				<div class="head">
+					<div class="tabOn">职业技能</div>
+					<div class="more"><a href="orgList.jsp?type=003_08">更多</a></div>
+				<div class="clear"></div>
+			</div>
+			<div class="bg h315" style="padding-left:10px;">
+					<ul class="list4" style="padding-top:15px" id="part8">
+					</ul>
+				</div>
+			</div>
+		</li>
+		</ul>
 	</div>
 	<!--右边部分 start-->
 	<div class="rightInPart">
