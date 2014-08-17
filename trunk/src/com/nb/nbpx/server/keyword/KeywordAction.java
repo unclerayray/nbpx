@@ -44,7 +44,15 @@ public class KeywordAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-
+	//获取前100个热搜关键词
+	public String getTopKeyWords(){
+		String json = "";
+		json = keywordService.getHotKeyWords(0, 100);
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 	public String queryKeywords() {
 		String json = "";
 		try {

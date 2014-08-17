@@ -16,6 +16,8 @@ import com.nb.nbpx.utils.NbpxException;
  * 
  */
 public interface ICourseService extends IBaseService {
+	//查询培训职位
+	public String queryCourseTarget(Integer start,Integer rows);
 	//根据讲师ID获取讲师的培训或者内训的课程
 	public String queryCourseByTeacher(Boolean isInner,String teacherId,Integer rows,Integer start);
 	
@@ -138,7 +140,10 @@ public interface ICourseService extends IBaseService {
 	public String queryHotPageCourse(Boolean ifInner, Integer rows,
 			Integer start);
 
-	// 获取经典课程(单页展示)
+	// 获取经典课程(单页展示，没有关联了课程安排)
+	public String queryJustClassiscPageCourse(Boolean ifInner, Integer rows,
+			Integer start);
+	// 获取经典课程(单页展示，关联了课程安排，如果没有课程安排，不会显示)
 	public String queryClassiscPageCourse(Boolean ifInner, Integer rows,
 			Integer start);
 

@@ -69,7 +69,14 @@ public class CourseAction extends BaseAction {
 	 */
 	public CourseAllInfoDto courseAllInfo;
 	public static Logger log = LogManager.getLogger(CourseAction.class);
-
+    
+	//获取职位字典
+	public String getCourseTarget(){
+    	String json = courseService.queryCourseTarget(this.getStartPosi(), rows);
+    	this.inputStream = castToInputStream(json);
+		return SUCCESS;
+    }
+    
 	public String fullImport() {
 		try {
 			dataImportor.fullImport();

@@ -22,7 +22,8 @@ public class HotCourseAction extends BaseAction{
 	}
 	
 	public String getClassiscNXCourse(){
-		String json = courseService.queryClassiscPageCourse(true, rows, this.getStartPosi());
+		//String json = courseService.queryClassiscPageCourse(true, rows, this.getStartPosi());
+		String json = courseService.queryJustClassiscPageCourse(true, rows, this.getStartPosi());
 		
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;

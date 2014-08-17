@@ -113,7 +113,9 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	public List<Course> getHotCourseByType(Boolean isInner,String type,String flag,Integer start,Integer rows);
 	//获取培训中价格最贵的高端课程，按照日期和价格排序
 	public List<Course> getCourseByPrice(Boolean isInner,String type,Integer start,Integer rows);
-	//获取经典培训或者内训
+	//获取经典培训或者内训（没有关联课程安排，只要设置了是经典课程就会出现，按照最后更新时间倒序）
+	public List<Course> getJustClassicCourse(Boolean isInner,String type,Integer start,Integer rows);
+	//获取经典培训或者内训（关联了 课程安排，如果没有课程安排，不会出现）
 	public List<Course> getClassicCourse(Boolean isInner,String type,Integer start,Integer rows);
 	//获取内训或培训中推荐老师信息
 	public List<TeacherInfo> getTeacherRecommand(Boolean isInner,String type,Integer start,Integer rows);

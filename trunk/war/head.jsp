@@ -100,7 +100,7 @@
 			<li><a href="viewAllQuestion.jsp">积分问答</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=009" class="red">专业培训</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=008" class="red">行业培训</a><span>|</span></li>
-			<li><a href="teacherPX.jsp">企业培训师</a></li>
+			<li><a href="teacherPX.jsp">企业讲师</a></li>
 			
 			
 			
@@ -114,9 +114,9 @@
 			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
 			<li><a href="allArticles.jsp">企业文库</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=020">题目词典</a><span>|</span></li>
-			<li><a href="teacherNX.jsp">企业内训师</a></li>
+			<!--  <li><a href="teacherNX.jsp">企业内训师</a></li>-->
 			
-			<li><a href="#">培训需求</a><span>|</span></li>
+			<li><a href="hotKey.jsp">热门搜索</a><span>|</span></li>
 			<li><a href="#">培训动态</a><span>|</span></li>
 			<li><a href="keyWord.jsp">关键词</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=005">客户群</a><span>|</span></li>
@@ -130,11 +130,14 @@
 
 			<li><a href="orgList.jsp">培训机构</a><span>|</span></li>
 			
-			<li><a href="viewDic.jsp?type=29">职位词典</a><span>|</span></li>
+			<li><a href="viewTarget.jsp">职位词典</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=26">培训类别</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=27">内训类别</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=28">文库类别</a><span>|</span></li>
-			<li><a href="#">研修班培训</a></li>
+			<li><a href="viewDic.jsp?type=35">研修类别</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=32">机构类别</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=33">下载类别</a><span>|</span></li>
+			<li><a href="viewDic.jsp?type=34">问答类别</a><span>|</span></li>
 		</ul>
 	</div>
 	<div class="clear"></div>

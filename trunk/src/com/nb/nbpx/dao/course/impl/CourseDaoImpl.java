@@ -969,7 +969,44 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		});
 		return list;
 	}
-	
+	@Override
+	public List<Course> getJustClassicCourse(final Boolean isInner,final String type, final Integer start,
+			final Integer rows) {
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select new com.nb.nbpx.pojo.course.Course(c.courseId, c.title,"
+								+ "c.teacherId, '', c.category,"
+								+ "'',c.state,c.hits,c.price,c.recommanded,c.classic) from Course c where 1=1 ");
+				if (type != null && !"".equals(type))
+					hql.append(" and c.category = '" + type + "'");
+				if (isInner != null) {// 区分内训和培训
+					if (isInner)
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+
+				hql.append(" and c.classic = 1 ");
+				hql.append(" and c.state = 1 ");
+				// 取向后的有效的日期
+				hql.append("order by c.lastUpdateDate desc");
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
 	@Override
 	public List<Course> getClassicCourse(final Boolean isInner,final String type, final Integer start,
 			final Integer rows) {
