@@ -588,9 +588,10 @@ border:0;border-collapse:collapse;
 .planTable .className{ text-align:left;padding-left:10px}
 .planTable .className a{color:#2D4545;}
 .planTable .className a:hover{color:red;}
-.planTable .place{width:100px;}
-.planTable .planTeacher{width:100px;}
-.planTable .download{width:100px;}
+.planTable .place{width:40px;}
+.planTable .month{width:40px;}
+.planTable .planTeacher{width:50px;}
+.planTable .download{width:75px;}
 /*课程计划 end*/
 
 /*课程*/

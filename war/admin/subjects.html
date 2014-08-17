@@ -47,19 +47,8 @@ data-options="fit:true,rownumbers:true,remoteSort: true,singleSelect:false,url:'
 		valueField:'codeName',  
 		textField:'showName',   
 		panelHeight:'auto'  ,
-		strict:true,
-		onSelect: function(rec){  
-		var url = '../struts/Subject_queryComboSubjects?category='+rec.codeName;  
-		$('#subjectStr').combobox('clear');  
-		$('#subjectStr').combobox('reload', url);  
-	}">
-	专题: <input class="easyui-combobox" name="subjectStr" id="subjectStr"
-	data-options="  
-	url:'../struts/Subject_queryComboSubjects',  
-	valueField:'subjectId',  
-	textField:'subject',   
-	panelHeight:'auto'  ,
-	strict:false">
+		strict:true">
+	专题: <input name="subjectStr" id="subjectStr">
 
 	<a href="javascript:void(0)" class="easyui-linkbutton"
 	iconCls="icon-search" onclick="queryKeyords()">搜索</a> <a
@@ -135,8 +124,7 @@ function queryKeyords() {
 			});
 			$('#dg').datagrid('load', {
 				category : $('#category').combobox('getValue'),
-				subjectCombValue : $('#subjectStr').combobox('getValue'),
-				subjectCombText : $('#subjectStr').combobox('getText')
+				subjectCombText : $('#subjectStr').val()
 			});
 			$('#subjectStr').removeAttr("selected");
 			$('#category').removeAttr("selected");

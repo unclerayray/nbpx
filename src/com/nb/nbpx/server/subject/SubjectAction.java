@@ -37,20 +37,12 @@ public class SubjectAction extends BaseAction  {
 	public String querySubjects() {
 		String json = "";
 		try {
-			if(subjectCombValue==null){
+			if(subjectCombText!=null&&!subjectCombText.isEmpty()){
+				json = subjectService.querySubjects(category, subjectCombText,
+						null, rows, getStartPosi(),sort,order);
+			}else{
 				json = subjectService.querySubjects(category, null, null,
 						rows, getStartPosi(),sort,order);
-			}else{
-				if (subjectCombValue.equals(subjectCombText)||subjectCombValue.isEmpty()) {
-					//模糊查询
-					json = subjectService.querySubjects(category, subjectCombText,
-							null, rows, getStartPosi(),sort,order);
-				} else {
-					//精确查询
-					Integer subjectId = Integer.parseInt(subjectCombValue);
-					json = subjectService.querySubjects(category, null, subjectId,
-							rows, getStartPosi(),sort,order);
-				}
 			}
 			// TODO 模糊查询
 		} catch (Exception e) {

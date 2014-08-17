@@ -125,7 +125,10 @@ public class KeywordAction extends BaseAction {
 	
 	public String deleteKeyword(){
 		try {
-			keywordService.removeKeyword(keyId);
+			String[] keyIdArr = keyIds.split(",");
+			for(String kid : keyIdArr){
+				keywordService.removeKeyword(Integer.parseInt(kid));
+			}
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL, "删除失败！"));

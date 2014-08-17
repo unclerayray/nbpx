@@ -2,6 +2,7 @@ package com.nb.nbpx.service.course;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
@@ -52,6 +53,12 @@ public interface ICourseService extends IBaseService {
 	 */
 	public void exportExcel(String category, int year, int month, String city, boolean isInner,
 			InputStream input, OutputStream output) throws Exception;
+	/**
+	 * 导出Excel
+	 * 
+	 * @return
+	 */
+	public void exportInnerExcel(String category,InputStream input, OutputStream output) throws Exception;
 
 	/**
 	 * 存储（新增或根据主键更新）行业、专业、对象、关键词及专题等信息，返回存储好的关键词List
@@ -133,6 +140,17 @@ public interface ICourseService extends IBaseService {
 	public String getTeacherRecommand(Boolean isInner, String type,
 			Integer rows, Integer start);
 
+	/**
+	 * 默认取今天以后的
+	 * @param category
+	 * @param startDate
+	 * @param endDate
+	 * @param isInner
+	 * @param city
+	 * @return
+	 */
+	public String getTranPlans(String category, Date startDate, Date endDate, Boolean isInner, String city, Integer rows);
+	
 	// 获取培训计划，默认一页是显示4个月的培训计划，
 	public String getTranPlan(Integer rows, Integer start);
 
