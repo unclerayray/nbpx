@@ -194,6 +194,13 @@ $('#dlg').dialog('close');
 										.datagrid(
 																						'reload'); // reload the Dic data
 										$('#dg').datagrid('clearSelections');
+										$.messager
+										.show({
+											title : 'Success',
+											msg : data.message,
+											timeout : 3000,
+											showType : 'fade'
+										});
 									} else {
 										$.messager
 										.show({

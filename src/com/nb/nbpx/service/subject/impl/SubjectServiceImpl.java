@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.subject.ISubjectDao;
-import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
@@ -164,6 +163,12 @@ public class SubjectServiceImpl extends BaseServiceImpl implements ISubjectServi
 	@Override
 	public List<Subject> getSubjectsByKey(String key) {
 		return subjectDao.find(" from Subject where subject = '" + key + "'");
+	}
+
+	@Override
+	public void removeSubject(Integer subjectId) throws Exception {
+		subjectDao.deleteByKey(subjectId);
+		solrSubjectService.removeSubjectFromSolr(subjectId);
 	}
 
 }
