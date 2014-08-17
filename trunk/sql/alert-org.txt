@@ -1,0 +1,4 @@
+ALTER TABLE nbpx.orginfo
+ ADD qq VARCHAR(40) AFTER category;
+ALTER TABLE nbpx.orginfo
+ ADD logoUrl VARCHAR(100) AFTER qq;
