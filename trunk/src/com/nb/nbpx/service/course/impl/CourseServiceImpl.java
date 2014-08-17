@@ -1,8 +1,39 @@
 package com.nb.nbpx.service.course.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import net.sf.jxls.transformer.XLSTransformer;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.common.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.jsoup.helper.StringUtil;
+import org.springframework.stereotype.Component;
+
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.common.SystemConstants;
-import com.nb.nbpx.dao.course.*;
+import com.nb.nbpx.dao.course.ICourseDao;
+import com.nb.nbpx.dao.course.ICourseIndustryDao;
+import com.nb.nbpx.dao.course.ICourseInfoDao;
+import com.nb.nbpx.dao.course.ICourseKeywordDao;
+import com.nb.nbpx.dao.course.ICourseMajorDao;
+import com.nb.nbpx.dao.course.ICourseSubjectDao;
+import com.nb.nbpx.dao.course.ICourseTargetDao;
 import com.nb.nbpx.dao.keyword.IKeywordDao;
 import com.nb.nbpx.dao.subject.ISubjectDao;
 import com.nb.nbpx.dao.system.IDictionaryDao;
@@ -11,7 +42,14 @@ import com.nb.nbpx.dao.user.IUserDao;
 import com.nb.nbpx.dto.course.CourseAllInfoDto;
 import com.nb.nbpx.dto.course.CourseReport;
 import com.nb.nbpx.dto.course.ReportDTO;
-import com.nb.nbpx.pojo.course.*;
+import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.CourseIndustry;
+import com.nb.nbpx.pojo.course.CourseInfo;
+import com.nb.nbpx.pojo.course.CourseKeyword;
+import com.nb.nbpx.pojo.course.CourseMajor;
+import com.nb.nbpx.pojo.course.CourseSearchResult;
+import com.nb.nbpx.pojo.course.CourseSubject;
+import com.nb.nbpx.pojo.course.CourseTarget;
 import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.pojo.system.Dictionary;
@@ -25,26 +63,6 @@ import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
 import com.nb.nbpx.utils.mapTool.NbpxDicMap;
-
-import net.sf.jxls.transformer.XLSTransformer;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.poi.common.usermodel.Hyperlink;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.jsoup.helper.StringUtil;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 @Component("CourseService")
 @SuppressWarnings("rawtypes")
@@ -1282,7 +1300,27 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		reports.add(report7);*/
 
 		String prefix = SolrUtil.getHypeLinkPrefix();
-		reports = courseDao.queryCoursePlan(category,year,month,isInner,city);
+		Calendar fromCal = Calendar.getInstance();
+		fromCal.set(Calendar.YEAR, year);
+		if(month<1 || month > 12){
+			fromCal.set(Calendar.MONTH, 0);
+		}else{
+			fromCal.set(Calendar.MONTH, month-1);
+		}
+		fromCal.set(Calendar.DAY_OF_MONTH, 1);
+		Date fromDate = fromCal.getTime();
+		Calendar toCal = Calendar.getInstance();
+		if(month<1 || month > 12){
+			toCal.set(Calendar.YEAR, year+1);
+			toCal.set(Calendar.MONTH, 11);//12月
+			toCal.set(Calendar.DAY_OF_MONTH, toCal.getActualMaximum(Calendar.DAY_OF_MONTH));//month end
+		}else{
+			toCal.set(Calendar.YEAR, year);
+			toCal.set(Calendar.MONTH, month-1);
+			toCal.set(Calendar.DAY_OF_MONTH, toCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		}
+		Date toDate = toCal.getTime();
+		reports = courseDao.queryCoursePlan(category, fromDate, toDate, isInner, city, null);
 		ReportDTO dto = new ReportDTO(year, (( month<1 || month > 12)?"":month+"月份"), NbpxDicMap.getCourseTypeMap().get(category)!=null?NbpxDicMap.getCourseTypeMap().get(category).toString():"全部类别", reports,prefix);
 		records.add(dto);
 		
@@ -1295,7 +1333,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		org.apache.poi.ss.usermodel.CreationHelper createHelper = resultWorkbook.getCreationHelper();  
 		for(int i=0;i<reports.size();i++){
 			org.apache.poi.ss.usermodel.Row row = firstSheet.getRow(i+2);
-			org.apache.poi.ss.usermodel.Cell cell = row.getCell(2);//课程标题永远在第二行
+			org.apache.poi.ss.usermodel.Cell cell = row.getCell(3);//课程标题永远在第二行
 			org.apache.poi.ss.usermodel.Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_URL);
 			link.setLabel(reports.get(i).getTitle());
 			link.setAddress(prefix+reports.get(i).getCourseId());
@@ -1448,6 +1486,47 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 	@Override
 	public Course getCourseById(Integer courseId) {
 		return courseDao.get(courseId);
+	}
+	
+	@Override
+	public String getTranPlans(String category, Date startDate, Date endDate, Boolean isInner, String city, Integer rows) {
+		List<CourseReport> list;
+		if(isInner){
+			list = courseDao.queryInnerCoursePlan(category, rows);
+		}else{
+			list = courseDao.queryCoursePlan(category, startDate, endDate, isInner, city, rows);
+		}
+		return JsonUtil.formatListToJson(list);
+	}
+	@Override
+	public void exportInnerExcel(String category, InputStream input,
+			OutputStream output) throws Exception {
+		List<String> sheetNames = new ArrayList<String>();
+		sheetNames.add(NbpxDicMap.getCourseTypeMap().get(category)!=null?NbpxDicMap.getCourseTypeMap().get(category).toString():"全部类别");
+		List<ReportDTO> records = new ArrayList<ReportDTO>();
+		List<CourseReport> reports = new ArrayList<CourseReport>();
+
+		String prefix = SolrUtil.getHypeLinkPrefix();
+		reports = courseDao.queryInnerCoursePlan(category, null);
+		ReportDTO dto = new ReportDTO(2014, 12+"月份", NbpxDicMap.getCourseTypeMap().get(category)!=null?NbpxDicMap.getCourseTypeMap().get(category).toString():"全部类别", reports,prefix);
+		records.add(dto);
+		
+
+		XLSTransformer transformer = new XLSTransformer();
+		Workbook resultWorkbook = transformer.transformMultipleSheetsList(
+				input, records, sheetNames, "records",
+				new HashMap<String, Object>(), 0);
+		Sheet firstSheet = resultWorkbook.getSheetAt(0);
+		org.apache.poi.ss.usermodel.CreationHelper createHelper = resultWorkbook.getCreationHelper();  
+		for(int i=0;i<reports.size();i++){
+			org.apache.poi.ss.usermodel.Row row = firstSheet.getRow(i+2);
+			org.apache.poi.ss.usermodel.Cell cell = row.getCell(3);//课程标题永远在第3行
+			org.apache.poi.ss.usermodel.Hyperlink link = createHelper.createHyperlink(Hyperlink.LINK_URL);
+			link.setLabel(reports.get(i).getTitle());
+			link.setAddress(prefix+reports.get(i).getCourseId());
+			cell.setHyperlink(link);
+		}
+		resultWorkbook.write(output);
 	}
 
 }

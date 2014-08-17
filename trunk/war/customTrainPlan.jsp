@@ -12,13 +12,9 @@
 <script src="js/easyui/jquery.easyui.min.js"></script>
 <script src="js/project.js"></script>
 <script src="js/myjs/index.js"></script>
-<title>南北培训网-培训计划</title>
+<title>南北培训网-内训计划</title>
 </head>
 <script>
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0
-	var yyyy = today.getFullYear();
 	$(function(){
 		//加载培训计划
 		searchPlans(1);
@@ -29,31 +25,23 @@
 	});
 
 	function searchPlans(init){
-		$('#search_year').val(yyyy);
-		$('#this_year').html(yyyy);
-		$('#next_year').html(yyyy+1);
-		var month = mm;
-		var url = 'struts/TrainPlan_getTrainPlanInfo?year='+$('#search_year').val()+'&isInner=false';
+		var url = 'struts/TrainPlan_getInnerTrainPlanInfo?isInner=true';
 		if(!init){
-			url = 'struts/TrainPlan_getTrainPlanInfo?isInner='+$('#search_inner').val()+'&month='+$('#search_month').val()+'&year='+$('#search_year').val()+'&cate='+$('#search_category').val() + '&city='+$('#search_city').val();
-			month = $('#search_month').val();
+			url = 'struts/TrainPlan_getInnerTrainPlanInfo?isInner=true&cate='+$('#search_category').val();
 		}
 		$.ajax({
 			url:encodeURI(url),
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
-				var monthValueStr = "<div class='resultPart padding10'><h2>"+$('#search_year').val()+"年"+month+"月培训计划</h2>"+
+				var monthValueStr = "<div class='resultPart padding10'><h2>"+"内训计划</h2>"+
 				"<div class='resultContent'>"+
 				"<table class='planTable' cellpadding='0' cellpadding='0'>";
-				monthValueStr += "<tr><th class='time'>课程时间</th><th class='className'>课程主题</th><th class='category'>类别</th><th class='month'>月份</th><th class='place'>地点</th><th class='planTeacher'>讲师</th><th class='price'>￥元/人</th><th class='download'>相关下载</th></tr>";
+				monthValueStr += "<tr><th class='className'>课程主题</th><th class='category'>类别</th><th class='planTeacher'>讲师</th><th class='price'>￥元/人</th><th class='download'>相关下载</th></tr>";
 				$.each(jsonObject,function(n,row){
 					monthValueStr+= "<tr>"
-						+"<td>"+row.startDate + "至" + row.endDate +"</td>"
 						+"<td class='className'><a href='viewClass.jsp?id="+row.courseId+"'>"+row.title+"</a></td>"
 						+"<td>"+row.category+"</td>"
-						+"<td>"+row.month+"</td>"
-						+"<td>"+row.city+"</td>"
 						+"<td>"+row.teacher+"</td>"
 						+"<td>"+row.price+"</td>"
 						+"<td><a href='struts/TrainPlan_exportKegang?courseId="+row.courseId+"'>课纲下载</a></td>"
@@ -72,7 +60,7 @@
 	
 	function loadPlanKeyWords(){
 		$.ajax({
-			url:"struts/TrainPlan_getPlanRelatedKeyWords",
+			url:"struts/TrainPlan_getInnerPlanRelatedKeyWords",
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
@@ -86,7 +74,7 @@
 	
 	function loadPlanSubjects(){
 		$.ajax({
-			url:"struts/TrainPlan_getPlanRelatedSubjects",
+			url:"struts/TrainPlan_getInnerPlanRelatedSubjects",
 			success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr1 = "";
@@ -107,7 +95,7 @@
 	}
 	
 	function exportExcel(){
-		var urlStr = 'struts/TrainPlan_exportCoursePlan?isInner='+$('#search_inner').val()+'&month='+$('#search_month').val()+'&year='+$('#search_year').val()+'&cate='+$('#search_category').val() + '&city='+$('#search_city').val();
+		var urlStr = 'struts/TrainPlan_exportInnerCoursePlan?isInner=true'+'&cate='+$('#search_category').val();
 		window.location=urlStr;
 	}
 </script>
@@ -119,7 +107,7 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li>培训计划</li>
+		<li>内训计划</li>
 	</ul>
 	<div class="clear"></div>
 </div>
@@ -141,44 +129,7 @@
 		<div class="resultPart"  style="width:700px;float:left">
 			<h2>按条件检索</h2>
 		 	<div class="resultContent" style="padding-left:20px;height:150px;">
-				<input type="hidden" value="false" id="search_inner" NAME="search_inner">
-				<div class="clear"></div>
-				<div style='padding-top:10px'>
-					<input type="hidden" value="2014" id="search_year" NAME="search_year">
-					<div class='searchType'>按年度:</div>
-					<div id="year_option" class='searchOption'>
-						<ul>
-						<li id="year_option_tab0" onclick="changePlanTabs('year_option',this);set_search_year(0);">
-						<a  href='javascript:void(0)' id="year_option_tab0_a" class="on"><label id="this_year"></label></a>
-						</li>
-						<li id="year_option_tab1" onclick="changePlanTabs('year_option',this);set_search_year(1);">
-						<a  href='javascript:void(0)' id="year_option_tab1_a" ><label id="next_year"></label></a>
-						</li>
-						</ul>
-					</div>
-				</div>
-				<div class="clear"></div>
-				<div style='padding-top:10px'>
-					<input type="hidden" value="13" id="search_month" NAME="search_month">
-					<div class='searchType'>按月份:</div>
-					<div id="month_option" class='searchOption'>
-						<ul>
-						<li id="month_option_tab0" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='13';"><a id="month_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
-						<li id="month_option_tab1" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='01';"><a id="month_option_tab1_a" href='javascript:void(0)'>1月</a></li>
-						<li id="month_option_tab2" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='02';"><a id="month_option_tab2_a" href='javascript:void(0)'>2月</a></li>
-						<li id="month_option_tab3" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='03';"><a id="month_option_tab3_a" href='javascript:void(0)'>3月</a></li>
-						<li id="month_option_tab4" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='04';"><a id="month_option_tab4_a" href='javascript:void(0)'>4月</a></li>
-						<li id="month_option_tab5" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='05';"><a id="month_option_tab5_a" href='javascript:void(0)'>5月</a></li>
-						<li id="month_option_tab6" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='06';"><a id="month_option_tab6_a" href='javascript:void(0)'>6月</a></li>
-						<li id="month_option_tab7" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='07';"><a id="month_option_tab7_a" href='javascript:void(0)'>7月</a></li>
-						<li id="month_option_tab8" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='08';"><a id="month_option_tab8_a" href='javascript:void(0)'>8月</a></li>
-						<li id="month_option_tab9" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='09';"><a id="month_option_tab9_a" href='javascript:void(0)'>9月</a></li>
-						<li id="month_option_tab10" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='10';"><a id="month_option_tab10_a" href='javascript:void(0)'>10月</a></li>
-						<li id="month_option_tab11" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='11';"><a id="month_option_tab11_a" href='javascript:void(0)'>11月</a></li>
-						<li id="month_option_tab12" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='12';"><a id="month_option_tab12_a" href='javascript:void(0)'>12月</a></li>
-						</ul>
-					</div>
-				</div>
+				<input type="hidden" value="true" id="search_inner" NAME="search_inner">
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
 					<input type="hidden" value="003" id="search_category" NAME="search_category">
@@ -197,27 +148,11 @@
 							<li id="category_option_tab9" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_9';"><a id="category_option_tab9_a" href='javascript:void(0)'>研修班</a></li>
 						</ul>
 					</div>
-				</div>			
-				<div class="clear"></div>
-				<div style='padding-top:10px'>
-					<input type="hidden" value="007" id="search_city" NAME="search_city">
-					<div class='searchType'>按城市:</div>
-					<div id='city_option' class='searchOption'>
-						<ul>
-						<li id="city_option_tab0" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007';"><a id="city_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
-						<li id="city_option_tab1" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_215';"><a id="city_option_tab1_a" href='javascript:void(0)'>广州</a></li>
-						<li id="city_option_tab2" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_3';"><a id="city_option_tab2_a" href='javascript:void(0)'>北京</a></li>
-						<li id="city_option_tab3" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_27';"><a id="city_option_tab3_a" href='javascript:void(0)'>苏州</a></li>
-						<li id="city_option_tab4" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_216';"><a id="city_option_tab4_a" href='javascript:void(0)'>深圳</a></li>
-						<li id="city_option_tab5" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_4';"><a id="city_option_tab5_a" href='javascript:void(0)'>上海</a></li>
-						<li id="city_option_tab6" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_212';"><a id="city_option_tab6_a" href='javascript:void(0)'>东莞</a></li>
-						</ul>
-					</div>
 				</div>
 			</div>
 			<!-- 测试函数 -->
-			<button onclick="searchPlans(null)" href='javascript:void(0)'>查询培训计划</button>
-			<button onclick="exportExcel()" href='javascript:void(0)'>导出培训计划</button>
+			<button onclick="searchPlans(null)" href='javascript:void(0)'>查询内训计划</button>
+			<button onclick="exportExcel()" href='javascript:void(0)'>导出内训计划</button>
 			<div class="clear"></div>
 		</div>
 		<div class="clear" style="height:10px"></div>
@@ -226,15 +161,12 @@
 		<div id="leftPart">
 		<!--培训计划 start-->
 		<div class="resultPart">
-			<h2 id="result_header">培训计划</h2>
+			<h2 id="result_header">内训计划</h2>
 			<div class="resultContent">
 					<table class="planTable" cellpadding="0" cellpadding="0">
 						<tr>
-							<th class="time">课程时间</th>
 							<th class="className">课程主题</th>
 							<th class="category">类别</th>
-							<th class="month">月份</th>
-							<th class="place">地点</th>
 							<th class="planTeacher">讲师</th>
 							<th class="price">￥元/人</th>
 							<th class="download">相关下载</th>
@@ -250,7 +182,7 @@
 	<div class="rightInPart">
 		<!--培训关键词 start-->	
 		<div class="rightTeacher">
-				<h5  class="first">培训计划相关关键字</h5>
+				<h5  class="first">内训计划相关关键字</h5>
 				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:280px"/>
 				<div class="clear" style="height:10px;"></div>
 					<ul class="list8" id="relatedKeywords">
@@ -297,7 +229,7 @@
 		<!--培训关键词 start-->	
 		<div class="clear" style="height:10px"></div>
 		<div class="rightTeacher">
-				<h5  class="first">培训计划相关专题</h5>
+				<h5  class="first">内训计划相关专题</h5>
 				<div class="bg" style="padding:0px 0px 4px 0px;border:none;height:280px"/>
 					<div class="clear" style="height:0px"></div>
 					<dl class="bestCustomer leftPart left" style="width:110px;" id="relatedSubjects1">

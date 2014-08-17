@@ -3,6 +3,8 @@ package com.nb.nbpx.server.course;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +44,49 @@ public class TrainPlanAction extends BaseAction{
 	
 	//获取培训计划的内容
 	public String getTrainPlanInfo(){
-		String resultStr = courseService.getTranPlan(rows, this.getStartPosi());
+		//String resultStr = courseService.getTranPlan(rows, this.getStartPosi());
+		if(NbpxDicMap.getCourseTypeMap().get(cate)==null){
+			cate = null;
+		}
+		if(city!=null && !city.contains("_")){
+			city = null;
+		}
+		Calendar fromCal = Calendar.getInstance();
+		fromCal.set(Calendar.YEAR, year);
+		//month = 13 for all year
+		//month = null for this month
+		if(month == null){
+			//starts from next day
+			fromCal.add(Calendar.DAY_OF_MONTH, 1);
+		}else if(month<1 || month > 12){
+			fromCal.set(Calendar.MONTH, 0);
+			fromCal.set(Calendar.DAY_OF_MONTH, 1);//first day of the year
+		}else{
+			fromCal.set(Calendar.MONTH, month-1);
+			fromCal.set(Calendar.DAY_OF_MONTH, 1);//first day of the month
+		}
+		Date fromDate = fromCal.getTime();
+		Calendar toCal = Calendar.getInstance();
+		if(month == null){
+			toCal.set(Calendar.DAY_OF_MONTH, toCal.getActualMaximum(Calendar.DAY_OF_MONTH));//month end
+		}else if(month<1 || month > 12){
+			toCal.set(Calendar.YEAR, year+1);
+			toCal.set(Calendar.MONTH, 11);//12月
+			toCal.set(Calendar.DAY_OF_MONTH, toCal.getActualMaximum(Calendar.DAY_OF_MONTH));//month end
+		}else{
+			toCal.set(Calendar.YEAR, year);
+			toCal.set(Calendar.MONTH, month-1);
+			toCal.set(Calendar.DAY_OF_MONTH, toCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		}
+		Date toDate = toCal.getTime();
+		String resultStr = courseService.getTranPlans(cate, fromDate, toDate, isInner, city, 100);
+		this.inputStream = castToInputStream(resultStr);
+		
+		return SUCCESS;
+	}
+	//获取内训计划的内容
+	public String getInnerTrainPlanInfo(){
+		String resultStr = courseService.getTranPlans(cate, null, null, isInner, city, 100);
 		this.inputStream = castToInputStream(resultStr);
 		
 		return SUCCESS;
@@ -51,6 +95,16 @@ public class TrainPlanAction extends BaseAction{
 	public String getPlanRelatedKeyWords(){
 		try {
 			String result = solrKeywordService.queryRelatedKeywords("培训计划", 0, 30);
+			this.inputStream = castToInputStream(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+	//获取培训计划相关关键词
+	public String getInnerPlanRelatedKeyWords(){
+		try {
+			String result = solrKeywordService.queryRelatedKeywords("内训计划", 0, 30);
 			this.inputStream = castToInputStream(result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +122,67 @@ public class TrainPlanAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
-	
+	//获取培训计划相关专题
+	public String getInnerPlanRelatedSubjects(){
+		try {
+			String result = solrSubjectService.queryRelatedSubject("内训计划", 0, 30);
+			this.inputStream = castToInputStream(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+
+	/**
+	 * 根据条件报表<br />
+	 * 使用Jxls导出，模板放于XLSTemplate文件夹下
+	 */
+	public String exportInnerCoursePlan() {
+		OutputStream output = null; // 响应报文输出流
+		FileInputStream input = null; // 文件输入流
+		try {
+			StringBuilder src = new StringBuilder();
+			HttpServletResponse response = null; // 响应报文
+			String templateSrc = null; // 模板路径
+
+			templateSrc = ServletActionContext.getServletContext().getRealPath(
+					"/XLSTemplate");
+			src.append(templateSrc);
+			src.append("/template-innerCoursePlan.xls");
+			String categoryName = "";
+			if(NbpxDicMap.getCourseTypeMap().get(cate)!=null){
+				categoryName = NbpxDicMap.getCourseTypeMap().get(cate).toString();
+			}else{
+				cate = null;
+				categoryName = "";
+			}
+			if(city!=null && !city.contains("_")){
+				city = null;
+			}
+			response = setResponseInfo("application/x-download;charset=utf-8",categoryName + "内训计划.xls");
+			output = response.getOutputStream();
+			input = new FileInputStream(src.toString());
+			courseService.exportInnerExcel(cate,input, output);
+			output.flush();
+		} catch (Exception e) {
+			log.info("系统发生异常：", e);
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != input) {
+					input.close();
+				}
+
+				if (null != output) {
+					output.close();
+				}
+			} catch (IOException e) {
+				log.error("导出excel报表错误 IOException:", e);
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * 根据条件报表<br />
@@ -93,7 +207,7 @@ public class TrainPlanAction extends BaseAction{
 				cate = null;
 				categoryName = "";
 			}
-			if(!city.contains("_")){
+			if(city!=null && !city.contains("_")){
 				city = null;
 			}
 			response = setResponseInfo("application/x-download;charset=utf-8",

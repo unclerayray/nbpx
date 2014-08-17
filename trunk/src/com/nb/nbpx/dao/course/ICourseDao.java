@@ -1,5 +1,6 @@
 package com.nb.nbpx.dao.course;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -131,15 +132,24 @@ public interface ICourseDao extends IBaseDao<Course, Integer> {
 	public List<Course> getCourseType(Boolean isInner,String type,Integer start,Integer rows);
 	
 	/**
-	 * 查找培训或内训计划
-	 * @param category 类型字典代码
-	 * @param year
-	 * @param month
+	 * 查找培训
+	 * @param category
+	 * @param fromDate
 	 * @param isInner
-	 * @param city 城市字典代码
+	 * @param city
 	 * @return
 	 */
-	public List<CourseReport> queryCoursePlan(String category, int year, Integer month, Boolean isInner, String city);
+	public List<CourseReport> queryCoursePlan(String category,Date fromDate,Date toDate, Boolean isInner, String city, Integer rows);
+	
+	/**
+	 * 查找培训
+	 * @param category
+	 * @param fromDate
+	 * @param isInner
+	 * @param city
+	 * @return
+	 */
+	public List<CourseReport> queryInnerCoursePlan(String category, Integer rows);
 
 	//获取讲师的培训或者内训课程，按照创建日期排序
 	public List<Course> getCourseByTeacher(Boolean isInner,String teacherID,Integer start,Integer rows);

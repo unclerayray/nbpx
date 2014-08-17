@@ -178,9 +178,16 @@ $('#dlg').dialog('close');
 					'确认要删除此行记录吗?',
 					function(r) {
 						if (r) {
+							var selectedRows = $('#dg').datagrid('getSelections');
+							var str = new Array(selectedRows.length);
+							for (var p in selectedRows) {
+								if (selectedRows.hasOwnProperty(p)) {
+									str[p] = selectedRows[p].keyId;
+								}
+							}
 							$
 							.post(
-								'../struts/Keyword_deleteKeyword?keyId='+row.keyId,
+								'../struts/Keyword_deleteKeyword?keyIds='+str.toString(),
 								function(data) {
 									if (data.success) {
 										$('#dg')

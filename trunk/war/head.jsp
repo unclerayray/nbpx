@@ -110,7 +110,7 @@
 			<li><a href="vedioNX.jsp">内训视频</a><span>|</span></li>
 			<li><a href="nxSeries.jsp">内训专题</a><span>|</span></li>
 			<li><a href="goldNX.jsp">金牌内训</a><span>|</span></li>
-			<li><a href="#">内训计划</a><span>|</span></li>
+			<li><a href="customTrainPlan.jsp">内训计划</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=23">高校词典</a><span>|</span></li>
 			<li><a href="allArticles.jsp">企业文库</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=020">题目词典</a><span>|</span></li>

@@ -14,10 +14,12 @@ public class CourseReport  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public Integer courseId;
 	public String title;
-	public Double price;
+	public String price;
 	public String teacher;
 	public String startDate;
 	public String endDate;
+	public String month;
+	public String category;
 	public String city;
 	public Integer getCourseId() {
 		return courseId;
@@ -31,10 +33,10 @@ public class CourseReport  implements Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Double getPrice() {
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(Double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 	public String getTeacher() {
@@ -62,8 +64,21 @@ public class CourseReport  implements Serializable {
 		this.city = city;
 	}
 	
-	public CourseReport(Integer courseId, String title, Double price,
-			String teacher, String startDate, String endDate, String city) {
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public CourseReport(Integer courseId, String title, String price,
+			String teacher, String startDate, String endDate, String month,
+			String category, String city) {
 		super();
 		this.courseId = courseId;
 		this.title = title;
@@ -71,6 +86,17 @@ public class CourseReport  implements Serializable {
 		this.teacher = teacher;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.month = month;
+		this.category = category;
 		this.city = city;
+	}
+	public CourseReport(Integer courseId, String title, String price,
+			String teacher, String category) {
+		super();
+		this.courseId = courseId;
+		this.title = title;
+		this.price = price;
+		this.teacher = teacher;
+		this.category = category;
 	}
 }
