@@ -34,7 +34,7 @@
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-undo" onclick="$('#toolbar').form('clear');">重置</a>
 		<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-		onclick="$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '新增讲师');">新增讲师</a>
+		onclick="$('#fm').form('clear');$('#dlg').dialog('open').dialog('setTitle', '新增讲师');$('#isMale').attr('checked', 'checked');">新增讲师</a>
 		<a href="#"
 			class="easyui-linkbutton" iconCls="icon-edit" plain="true"
 			onclick="editTeacherInfo()">修改</a> 
@@ -56,7 +56,8 @@
 		<thead>
 			<tr>
 				<th data-options="field:'teacherId',width:80,hidden:true">主键</th> 
-				<th data-options="field:'realName',sortable:true,width:80">名字</th>
+				<th data-options="field:'realName',sortable:true,width:80">授课姓名</th>
+				<th data-options="field:'realRealName',sortable:true,width:70">真实姓名</th>
 				<th data-options="field:'birthday',sortable:true,width:80">生日</th>
 				<th data-options="field:'majorCatgory',sortable:true,width:80,formatter:function(value,row){
 				for(var i=0; i<courseTypes.length; i++){
@@ -73,13 +74,19 @@
 				<th data-options="field:'introduction',hidden:true,sortable:true,width:80">介绍</th>
 				<th data-options="field:'createDate',sortable:true,width:70">新建时间</th>
 				<th data-options="field:'createBy',sortable:true,width:70">发布者</th>
-				<th data-options="field:'state',width:100,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
+				<th data-options="field:'assistName',width:60">助理姓名</th>
+				<th data-options="field:'assistQq',sortable:true,width:80">助理QQ</th>
+				<th data-options="field:'assistPhone',sortable:true,width:70">助理电话</th>
+				<th data-options="field:'assistEmail',sortable:true,width:70">助理邮箱</th>
+				<th data-options="field:'remarks',sortable:true,hidden:true,width:70">备注</th>
+				<th data-options="field:'isMale',sortable:true,width:30,formatter:function(value,row){if(row.isMale) return '男';else return '女';}">性别</th>
+				<th data-options="field:'state',width:45,sortable:true,formatter:function(value,row){if(row.state) return '已激活';else return '<font color=red>锁定</font>';}  ">状态</th>
 			</tr>
 		</thead>
 	</table>
 </div>
 
-<div id="dlg" class="easyui-dialog" title="修改用户信息" closed="true" style="width:600px;height:380px;padding:10px;"
+<div id="dlg" class="easyui-dialog" title="修改用户信息" closed="true" style="width:600px;height:550px;padding:10px;"
 			data-options="buttons: [{
 					text:'保存',
 					iconCls:'icon-ok',
@@ -111,6 +118,12 @@
 							<td class="itemText">照片:</td>
 							<td><input type="file" id='file' name="file"></td>
 						</tr>
+						<tr>
+							<td class="itemText">真实姓名:</td>
+							<td><input id="realRealName" name="realRealName"></td>
+							<td class="itemText">先生/女士:</td>
+							<td><input name="isMale" id="isMale" type="checkbox"></td>
+						</tr>
 						<tr><td class="itemText">主讲类别:</td><td>
 								<input class="easyui-combobox"
 							style="width: 130px;" name="majorCatgory" id="majorCatgory"
@@ -126,11 +139,46 @@
 							className:'tip-darkgray',
 							missingMessage:'必填项'
 							"></td>
-							<td class="itemText">对外课酬:</td><td><input id="externalPayment" name="externalPayment" class="easyui-validatebox" required="true"></td></tr>
-						<tr><td class="itemText">协议课酬:</td><td><input id="internalPayment" name="internalPayment" class="easyui-validatebox" required="true"></td><td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td></tr>
-						<tr><td class="itemText">联系电话:</td><td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td><td class="itemText">移动电话:</td><td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td></tr>
-						<tr><td class="itemText">个人简介:</td><td colspan="3"><textarea id="introduction" style="width:420px;height:70px" name="introduction"></textarea></td></tr>
-						<tr><td class="itemText">擅长项目:</td><td colspan="3"><textarea id="expertIn" style="width:420px;height:70px" name="expertIn"></textarea></td></tr>	
+							<td class="itemText">对外课酬:</td>
+							<td><input id="externalPayment" name="externalPayment" class="easyui-validatebox" required="true">
+							</td>
+						</tr>
+						<tr>
+							<td class="itemText">协议课酬:</td>
+							<td><input id="internalPayment" name="internalPayment" class="easyui-validatebox" required="true"></td>
+							<td class="itemText">传真:</td><td><input id="fax" name="fax" class="easyui-validatebox" required="true"></td>
+						</tr>
+						<tr>
+							<td class="itemText">联系电话:</td>
+							<td><input id="telephone" name="telephone" class="easyui-validatebox" required="true"></td>
+							<td class="itemText">移动电话:</td>
+							<td><input id="cellphone" name="cellphone" class="easyui-validatebox" required="true"></td>
+						</tr>
+						<tr>
+							<td class="itemText">助理姓名:</td>
+							<td><input id="assistName" name="assistName"></td>
+							<td class="itemText">助理电话:</td>
+							<td><input id="assistPhone" name="assistPhone"></td>
+						</tr>
+						<tr>
+							<td class="itemText">助理QQ:</td>
+							<td><input id="assistQq" name="assistQq"></td>
+							<td class="itemText">助理邮箱:</td>
+							<td><input id="assistEmail" name="assistEmail"></td>
+						</tr>
+						<tr>
+							<td class="itemText">个人简介:</td>
+							<td colspan="3"><textarea id="introduction" style="width:420px;height:70px" name="introduction"></textarea></td>
+						</tr>
+						<tr>
+							<td class="itemText">擅长项目:</td>
+							<td colspan="3"><textarea id="expertIn" style="width:420px;height:70px" name="expertIn"></textarea></td>
+						</tr>
+						<tr>
+							<td class="itemText">备注:</td>
+							<td colspan="3"><textarea id="remarks"
+									style="width: 420px; height: 70px" name="remarks"></textarea></td>
+						</tr>	
 					</table>
 				</form>  
 	</div>    
@@ -151,6 +199,8 @@ function editTeacherInfo() {
 	if (row) {
 		$('#fm').form('clear');
 		$('#fm').form('load', row);
+		if (row.isMale)
+			$('#isMale').attr('checked', 'checked');
 	} else {
 		$.messager.show({
 			title : '温馨提示',
