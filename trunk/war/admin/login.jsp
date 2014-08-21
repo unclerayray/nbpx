@@ -67,7 +67,7 @@ html {
 				</tr>
 				<tr>
 					<td>验证码:</td>
-					<td><input name="txtVerifyCode" id="txtVerifyCode"  style="width: 83px;" ></td>
+					<td><input name="txtVerifyCode" id="txtVerifyCode"  style="width: 83px;" autocomplete="off"></td>
 					<td><img id="image" border="0"  onclick="refresh()" src="image.jsp" title="点击更换图片"></td>
 				</tr>
 				<tr>

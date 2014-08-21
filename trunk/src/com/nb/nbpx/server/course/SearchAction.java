@@ -20,6 +20,7 @@ import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.service.solr.ISolrService;
 import com.nb.nbpx.service.solr.ISolrTeacherService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.mapTool.MapTool;
 
 /**
@@ -42,6 +43,7 @@ public class SearchAction  extends BaseAction {
 	private ISolrArticleService solrArticleService;
 	private String key;
 	private String q;
+	private String term;
 	public IKeywordService keywordService;
 
 	private void addkeywordsSearchCnt(String keywor){
@@ -210,7 +212,21 @@ public class SearchAction  extends BaseAction {
 			json = JsonUtil.formatListToJson(teachers);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
-			e.printStackTrace();
+			this.inputStream = castToInputStream("[]");
+		}
+		return SUCCESS;
+	}
+	
+	public String queryOrgTip(){
+		String json;
+		try {
+			List<Keyword> orgs = solrOrganisationService.queryTipOrg(q, 0, 10);
+			List<Keyword> keywords = solrKeywordService.queryTipKeywords(q, 0, 10);
+			orgs.addAll(keywords);
+			json = JsonUtil.formatListToJson(orgs);
+			this.inputStream = castToInputStream(json);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream("[]");
 		}
 		return SUCCESS;
 	}
@@ -265,6 +281,9 @@ public class SearchAction  extends BaseAction {
 
 	public void setQ(String q) {
 		this.q = q;
+		if(term !=null && !term.isEmpty()){
+			q = term;
+		}
 	}
 
 	public ISolrQuestionService getSolrQuestionService() {
@@ -329,5 +348,13 @@ public class SearchAction  extends BaseAction {
 	@Resource
 	public void setKeywordService(IKeywordService keywordService) {
 		this.keywordService = keywordService;
+	}
+
+	public String getTerm() {
+		return term;
+	}
+
+	public void setTerm(String term) {
+		this.term = term;
 	}
 }

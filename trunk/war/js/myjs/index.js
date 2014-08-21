@@ -14,13 +14,19 @@ function searchTabs(tabObj, obj)
 	for (i = 0; i < tabList.length; i++) 
 	{
 		if (tabList[i].id == obj.id) 
-			{
-				document.getElementById(tabObj + "_Title" + i).className = "on";
-			}
-		else 
-			{
-				document.getElementById(tabObj + "_Title" + i).className = "off";
-			}
+		{
+			document.getElementById(tabObj + "_Title" + i).className = "on";
+		}else{
+			document.getElementById(tabObj + "_Title" + i).className = "off";
+		}
+		if(obj.id == "searchTab_Title1"){
+			setTeacherTip();
+		}else if(obj.id == "searchTab_Title6"){
+			setOrgTip();
+		}else{
+			setKeyWordTips();
+		}
+		$("#searchWord").autocomplete("option", "minLength", 1);
 	}
 } 
 
@@ -132,4 +138,114 @@ function fnt_top_search(search_type)
 	}
 	window.location.href= my_href;
 	return false;
+}
+
+
+function setTeacherTip(){
+	var func = function(request, response) {
+		$.ajax({
+			url: "struts/Search_queryTeacherTip",
+			delay: 500,
+			dataType:'json',
+			timeout: 5000,
+			data: {
+				featureClass: "P",
+				style: "full",
+				maxRows: 12,
+				wt:"json",
+				q:$("#searchWord").val(),
+				name_startsWith: request.term
+			},
+			success: function(data) {
+				response($.map(data, function(item) {
+					return {
+						label: item.keyword,
+						value: item.keyword
+					};
+				}));
+			}
+		});
+	};
+	$("#searchWord").autocomplete( "option", "source", func );
+}
+
+function setOrgTip(){
+	var func = function(request, response) {
+		$.ajax({
+			url: "struts/Search_queryOrgTip",
+			delay: 500,
+			dataType:'json',
+			timeout: 5000,
+			data: {
+				featureClass: "P",
+				style: "full",
+				maxRows: 12,
+				wt:"json",
+				q:$("#searchWord").val(),
+				name_startsWith: request.term
+			},
+			success: function(data) {
+				response($.map(data, function(item) {
+					return {
+						label: item.keyword,
+						value: item.keyword
+					};
+				}));
+			}
+		});
+	};
+	$("#searchWord").autocomplete( "option", "source", func );
+}
+
+function setKeyWordTips(){
+	var func = function(request, response) {
+		$.ajax({
+			url: "struts/Search_queryKeywordsByKeyword",
+			delay: 500,
+			dataType:'json',
+			timeout: 5000,
+			data: {
+				featureClass: "P",
+				style: "full",
+				maxRows: 12,
+				wt:"json",
+				q:$("#searchWord").val(),
+				name_startsWith: request.term
+			},
+			success: function(data) {
+				response($.map(data, function(item) {
+					return {
+						label: item.keyword,
+						value: item.keyword
+					};
+				}));
+			}
+		});
+	};
+	$("#searchWord").autocomplete( "option", "source", func );
+}
+
+function sourceFunc(myurl){
+	$.ajax({
+		url: myurl,
+		delay: 500,
+		dataType:'json',
+		timeout: 5000,
+		data: {
+			featureClass: "P",
+			style: "full",
+			maxRows: 12,
+			wt:"json",
+			q:$("#searchWord").val(),
+			name_startsWith: request.term
+		},
+		success: function(data) {
+			response($.map(data, function(item) {
+				return {
+					label: item.keyword,
+					value: item.keyword
+				};
+			}));
+		}
+	});
 }

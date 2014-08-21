@@ -15,6 +15,7 @@
 <title>Insert title here</title>
 <link type="text/css" href="css/face.css" rel="stylesheet" />
 <script type="text/javascript" src="js/project.js"></script>
+<script src="js/myjs/index.js"></script>
 
 </head>
 <script>

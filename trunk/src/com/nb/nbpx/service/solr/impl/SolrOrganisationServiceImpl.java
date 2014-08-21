@@ -20,6 +20,7 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.user.OrgInfo;
 import com.nb.nbpx.service.solr.IBaseSolrService;
 import com.nb.nbpx.service.solr.ISolrOrganisationService;
@@ -147,6 +148,63 @@ public class SolrOrganisationServiceImpl extends BaseSolrServiceImpl implements
 	public String setItsServerURL() throws Exception {
 		serverURL = SolrUtil.getOraganisationServerUrl();
 		return SolrUtil.getOraganisationServerUrl();
+	}
+
+	@Override
+	public List<Keyword> queryTipOrg(String q, Integer start, Integer rows)
+			throws SolrServerException, IOException, NbpxException {
+		if(q==null){
+			throw new NbpxException("查询机构名不能为空。");
+		}
+		String serverURL = SolrUtil.getOraganisationServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		q = SolrUtil.escapeQueryChars(q);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
+
+		params.set("q", q);
+		query.set("echoParams", "explicit");
+		query.set("df", "orgName");
+		query.set("mlt.qf", "orgName^10.0 ");
+		query.set("defType", "edismax");
+		query.set("pf", "orgName");
+		query.set("qf", "orgName^10.0");
+		params.set("fq", "state:true");
+		//q = "keyword:"+q;
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<Keyword> resultList = new ArrayList<Keyword>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Object realNameobj = sd.getFieldValue("orgName");
+			if(realNameobj==null){
+				continue;
+			}
+			Keyword info = new Keyword();
+			info.setKeyword(realNameobj.toString());
+			resultList.add(info);
+		}
+		/**
+		 * 以下为去重的代码
+		 */
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		return resultList;
 	}
 
 }
