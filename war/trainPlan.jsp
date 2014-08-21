@@ -129,13 +129,13 @@
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
 	<div class="leftInPart" >
 		<style>
-			.searchType{float:left;text-align:right;padding-right:2px;font-size:14px;font-weight:bold;color:#2D4545}
-			.searchOption{float:left;width:590px;font-size:14px}
-			.searchOption ul{list-style:none;}
-			.searchOption li{float:left;font-size:12px;padding-right:2px;padding-left:2px;}
-			.searchOption li a{color:#333;text-decoration:none;font-size:12px;}
-			.searchOption li a.on{background:#2D4545;color:white;font-weight:bold;padding:2px;font-size:12px}
-			.searchOption li a.off{color:#333;text-decoration:none;font-size:12px;}
+			.planSearchType{float:left;text-align:right;padding-right:2px;font-size:14px;font-weight:bold;color:#2D4545}
+			.planSearchOption{float:left;width:590px;font-size:14px}
+			.planSearchOption ul{list-style:none;}
+			.planSearchOption li{float:left;font-size:12px;padding-right:2px;padding-left:2px;}
+			.planSearchOption li a{color:#333;text-decoration:none;font-size:12px;}
+			.planSearchOption li a.on{background:#2D4545;color:white;font-weight:bold;padding:2px;font-size:12px}
+			.planSearchOption li a.off{color:#333;text-decoration:none;font-size:12px;}
 		</style>
 		<!--消费者相关专题 start-->
 		<div class="resultPart"  style="width:700px;float:left">
@@ -145,8 +145,8 @@
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
 					<input type="hidden" value="2014" id="search_year" NAME="search_year">
-					<div class='searchType'>按年度:</div>
-					<div id="year_option" class='searchOption'>
+					<div class='planSearchType'>按年度:</div>
+					<div id="year_option" class='planSearchOption'>
 						<ul>
 						<li id="year_option_tab0" onclick="changePlanTabs('year_option',this);set_search_year(0);">
 						<a  href='javascript:void(0)' id="year_option_tab0_a" class="on"><label id="this_year"></label></a>
@@ -160,8 +160,8 @@
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
 					<input type="hidden" value="13" id="search_month" NAME="search_month">
-					<div class='searchType'>按月份:</div>
-					<div id="month_option" class='searchOption'>
+					<div class='planSearchType'>按月份:</div>
+					<div id="month_option" class='planSearchOption'>
 						<ul>
 						<li id="month_option_tab0" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='13';"><a id="month_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
 						<li id="month_option_tab1" onclick="changePlanTabs('month_option',this);document.getElementById('search_month').value='01';"><a id="month_option_tab1_a" href='javascript:void(0)'>1月</a></li>
@@ -182,8 +182,8 @@
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
 					<input type="hidden" value="003" id="search_category" NAME="search_category">
-					<div class='searchType'>按类别:</div>
-					<div id="category_option" class='searchOption'>
+					<div class='planSearchType'>按类别:</div>
+					<div id="category_option" class='planSearchOption'>
 						<ul>
 							<li id="category_option_tab0" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003';"><a id="category_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
 							<li id="category_option_tab1" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_01';"><a id="category_option_tab1_a" href='javascript:void(0)'>财务管理</a></li>
@@ -201,8 +201,8 @@
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
 					<input type="hidden" value="007" id="search_city" NAME="search_city">
-					<div class='searchType'>按城市:</div>
-					<div id='city_option' class='searchOption'>
+					<div class='planSearchType'>按城市:</div>
+					<div id='city_option' class='planSearchOption'>
 						<ul>
 						<li id="city_option_tab0" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007';"><a id="city_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
 						<li id="city_option_tab1" onclick="changePlanTabs('city_option',this);document.getElementById('search_city').value='007_215';"><a id="city_option_tab1_a" href='javascript:void(0)'>广州</a></li>

@@ -117,13 +117,13 @@
 <div class="mainContent partTwo" style="margin-top:0px;padding-top:0px">
 	<div class="leftInPart" >
 		<style>
-			.searchType{float:left;text-align:right;padding-right:2px;font-size:14px;font-weight:bold;color:#2D4545}
-			.searchOption{float:left;width:590px;font-size:14px}
-			.searchOption ul{list-style:none;}
-			.searchOption li{float:left;font-size:12px;padding-right:2px;padding-left:2px;}
-			.searchOption li a{color:#333;text-decoration:none;font-size:12px;}
-			.searchOption li a.on{background:#2D4545;color:white;font-weight:bold;padding:2px;font-size:12px}
-			.searchOption li a.off{color:#333;text-decoration:none;font-size:12px;}
+			.planSearchType{float:left;text-align:right;padding-right:2px;font-size:14px;font-weight:bold;color:#2D4545}
+			.planSearchOption{float:left;width:590px;font-size:14px}
+			.planSearchOption ul{list-style:none;}
+			.planSearchOption li{float:left;font-size:12px;padding-right:2px;padding-left:2px;}
+			.planSearchOption li a{color:#333;text-decoration:none;font-size:12px;}
+			.planSearchOption li a.on{background:#2D4545;color:white;font-weight:bold;padding:2px;font-size:12px}
+			.planSearchOption li a.off{color:#333;text-decoration:none;font-size:12px;}
 		</style>
 		<!--消费者相关专题 start-->
 		<div class="resultPart"  style="width:700px;float:left">
@@ -133,8 +133,8 @@
 				<div class="clear"></div>
 				<div style='padding-top:10px'>
 					<input type="hidden" value="003" id="search_category" NAME="search_category">
-					<div class='searchType'>按类别:</div>
-					<div id="category_option" class='searchOption'>
+					<div class='planSearchType'>按类别:</div>
+					<div id="category_option" class='planSearchOption'>
 						<ul>
 							<li id="category_option_tab0" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003';"><a id="category_option_tab0_a" href='javascript:void(0)' class="on">全部</a></li>
 							<li id="category_option_tab1" onclick="changePlanTabs('category_option',this);document.getElementById('search_category').value='003_01';"><a id="category_option_tab1_a" href='javascript:void(0)'>财务管理</a></li>

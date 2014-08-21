@@ -101,6 +101,7 @@ String keyw = (String)request.getParameter("key");
 						timeout: 5000,
 						data: {
 							featureClass: "P",
+							style: "full",
 							maxRows: 12,
 							wt:"json",
 							q:$("#searchWord").val(),
@@ -111,14 +112,12 @@ String keyw = (String)request.getParameter("key");
 								return {
 									label: item.keyword,
 									value: item.keyword
-								};
+								}
 							}));
 						}
 					});
 				}
 			});
-
-			
 		});
 </script>
 

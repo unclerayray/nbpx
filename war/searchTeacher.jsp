@@ -75,33 +75,7 @@ String keyw = (String)request.getParameter("key");
 		//
 		//			jsonp: "json.wrf",
 		//url: "http://localhost:8080/solr/core_keyword/select",
-		$( "#searchWord" ).autocomplete({
-			minLength: 1,
-			source: function(request, response) {
-				$.ajax({
-					url: "struts/Search_queryTeacherTip",
-					delay: 500,
-					dataType:'json',
-					timeout: 5000,
-					data: {
-						featureClass: "P",
-						style: "full",
-						maxRows: 12,
-						wt:"json",
-						q:$("#searchWord").val(),
-						name_startsWith: request.term
-					},
-					success: function(data) {
-						response($.map(data, function(item) {
-							return {
-								label: item.keyword,
-								value: item.keyword
-							}
-						}));
-					}
-				});
-			}
-		});
+		
 	});
 	</script>
 
