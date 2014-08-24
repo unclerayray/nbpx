@@ -11,8 +11,8 @@ public interface IOrgInfoDao  extends IBaseDao<OrgInfo, Integer> {
 	public List<OrgInfo> getOrgList(String state,Integer rows,Integer start);
 	public List<OrgInfo> getOrgByID(Integer orgID);
 	
-	public Boolean saveOrgInfo(OrgInfo orgInfor);
 	public List<OrgInfo> getOrgInforByUserId(Integer userId);
+	public OrgInfo getOrgInforByName(String orgName);
 	public List<OrgInfo> queryOrgInfo(String userName,String orgName,Integer rows,
 			Integer start, String sort, String order);
 	public List<OrgInfo> getOrgListBySeries(String series,Integer rows,Integer start);

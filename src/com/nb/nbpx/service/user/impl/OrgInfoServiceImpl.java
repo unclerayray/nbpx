@@ -1,5 +1,6 @@
 package com.nb.nbpx.service.user.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.user.IOrgInfoDao;
 import com.nb.nbpx.pojo.user.OrgInfo;
-import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.user.IOrgInfoService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.NbpxException;
 
 @Component("OrgInfoService")
 public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoService{
@@ -72,14 +73,25 @@ public class OrgInfoServiceImpl extends BaseServiceImpl implements IOrgInfoServi
 	}
 
 	@Override
-	public String saveOrgInfor(OrgInfo orgInfor) {
-		String json = "";
-		Boolean result = this.orgInfoDao.saveOrgInfo(orgInfor);
-		if(result)
-			json = JsonUtil.formatToSuccessJson(result, "更新成功!");
-		else
-			json = JsonUtil.formatToSuccessJson(result, "更新失败!");
-		return json;
+	public OrgInfo saveOrgInfor(OrgInfo orgInfor) throws NbpxException {
+		OrgInfo existingOrg = orgInfoDao.getOrgInforByName(orgInfor.getOrgName());
+		if(orgInfor.getOrgId() == null){
+			if(existingOrg != null){
+				throw new NbpxException("同名的机构已存在！");
+			}
+			orgInfor.setCreateDate(new Date());
+			orgInfoDao.save(orgInfor);
+		}else{
+			OrgInfo idInfo = orgInfoDao.get(orgInfor.getOrgId());
+			if(existingOrg !=null && idInfo !=null && idInfo.getOrgId() != existingOrg.getOrgId()){
+				throw new NbpxException("同名的机构已存在！");
+			}
+			if(idInfo.getLogoUrl()==null || idInfo.getLogoUrl().isEmpty()){
+				idInfo.setLogoUrl(idInfo.getLogoUrl());
+			}
+			orgInfoDao.merge(orgInfor);
+		}
+		return orgInfor;
 	}
 	
 	@Resource

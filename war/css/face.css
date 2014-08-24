@@ -149,7 +149,6 @@ ul{padding:0px;margin:0px}
     background-attachment: scroll;
     background-clip: border-box;
     background-color: #ffffff;
-    background-image: url("images/ui-bg_flat_75_ffffff_40x100.png");
     background-origin: padding-box;
     background-position: 50% 50%;
     background-repeat: repeat-x;
@@ -204,7 +203,6 @@ ul{padding:0px;margin:0px}
     padding-top: 2px;
 }
 .ui-menu .ui-menu-item {
-    list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
@@ -280,7 +278,6 @@ ul{padding:0px;margin:0px}
     background-attachment: scroll;
     background-clip: border-box;
     background-color: #dadada;
-    background-image: url("images/ui-bg_glass_75_dadada_1x400.png");
     background-origin: padding-box;
     background-position: 50% 50%;
     background-repeat: repeat-x;

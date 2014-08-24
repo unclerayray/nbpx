@@ -104,6 +104,8 @@ public class TeacherInfoAction extends BaseAction{
 					savefile.getParentFile().mkdirs();
 				FileUtils.copyFile(file, savefile);
 				teacherInfor.setPhoto(SolrUtil.getAbstractTeacherPhotoPath()+"/"+teacherInfor.getTeacherId()+"."+ext);
+				//update the teacher photo
+				teacherInfoService.saveTeacher(teacherInfor);
 			}
 			//TODO check if this function works
 			solrTeacherService.addTeacher2Solr(teacherInfor);

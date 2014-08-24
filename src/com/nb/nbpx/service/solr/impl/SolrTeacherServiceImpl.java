@@ -47,6 +47,7 @@ public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolr
 			sid.addField("realName", teacher.getRealName());
 			sid.addField("expertIn", teacher.getExpertIn());
 			sid.addField("state", teacher.getState());
+			sid.addField("photo", teacher.getPhoto());
 			sid.addField("majorCatgory", NbpxDicMap.getCourseTypeMap().get(teacher.getMajorCatgory()));
 			String introduction = teacher.getIntroduction();
 			introduction = stripHTMLX(introduction);
@@ -225,6 +226,7 @@ public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolr
 			Object idobj = sd.getFieldValue("teacherId");
 			Object expertInobj = sd.getFieldValue("expertIn");
 			Object majorCatgoryobj = sd.getFieldValue("majorCatgory");
+			Object logoObj = sd.getFieldValue("photo");
 			Map<String, List<String>> lst = hlMap.get(idobj.toString());
 			Object hlIntroObj = lst.get("introduction");
 			Object nameObj = lst.get("realName");
@@ -234,9 +236,9 @@ public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolr
 				intro = ((List<String>) hlIntroObj).get(0);
 			} else {
 				intro = sd.getFieldValue("introduction").toString();
-				if (intro.length() > 50)
-					intro = intro.substring(0, 50);
 			}
+			if (intro.length() > 50)
+				intro = intro.substring(0, 50);
 			if (nameObj != null) {
 				name = ((List<String>) nameObj).get(0);
 			} else {
@@ -245,9 +247,18 @@ public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolr
 			TeacherInfo info = new TeacherInfo();
 			info.setTeacherId((Integer) idobj);
 			info.setRealName(name);
-			info.setExpertIn(expertInobj.toString());
+			String expertIn = expertInobj.toString();
+			if(expertIn.length() > 50){
+				expertIn = expertIn.substring(0, 50);
+			}
+			info.setExpertIn(expertIn);
 			info.setIntroduction(intro);
 			info.setMajorCatgory(majorCatgoryobj.toString());
+			if(logoObj == null){
+				info.setPhoto("images/824.jpg");
+			}else{
+				info.setPhoto(logoObj.toString());
+			}
 			resultList.add(info);
 		}
 		/**
@@ -258,7 +269,7 @@ public class SolrTeacherServiceImpl extends BaseSolrServiceImpl implements ISolr
 		resultList.clear();
 		resultList.addAll(hs);
 		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
-				ResponseStatus.SUCCESS, "", list);
+				ResponseStatus.SUCCESS, "", resultList);
 		return json;
 	}
 

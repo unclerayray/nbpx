@@ -3,6 +3,7 @@ package com.nb.nbpx.pojo.user;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "orginfo", catalog = "nbpx")
@@ -48,7 +50,7 @@ public class OrgInfo implements Serializable{
 	}
 	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
-	}
+	}	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId", nullable = false)
 	public User getUser() {

@@ -333,6 +333,36 @@ public class SolrUtil {
 	}
 	
 	/**
+	 * 获取logo图片 Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getLogoPicPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		return prop.getProperty("org.photo.path");
+	}
+	
+	/**
+	 * 获取logo图片 Path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getAbstractLogoPicPath() throws IOException{
+		Properties prop = new Properties();
+		try {
+			prop.load(SolrUtil.class.getClassLoader().getResourceAsStream("solr.properties"));
+		} catch (Exception e) {
+			prop.load(new FileInputStream(classpath+"solr.properties"));
+		}
+		return prop.getProperty("org.photo.path.abstract");
+	}
+	
+	/**
 	 * 获取课程链接的前缀
 	 * @return
 	 * @throws IOException

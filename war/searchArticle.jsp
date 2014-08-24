@@ -42,11 +42,11 @@ String keyw = (String)request.getParameter("key");
 		$(function() {
 			if("<%= keyw%>"!="null"){
 				$.ajax({
-					url:"struts/Search_queryArticleBySolr?page=1&rows=10&key="+"<%=keyw%>",
+					url:encodeURI("struts/Search_queryArticleBySolr?page=1&rows=10&key="+"<%=keyw%>"),
 					success:function(data){
 						var jsonObject = eval('('+data+')');
 						var valueStr = "";
-						var pages = jsonObject.pages;
+						var pages = parseInt(jsonObject.total/10,10)+1;
 						var rows = jsonObject.rows;
 						//alert("rows = " + rows);
 						$.each(rows,function(n,value){
@@ -102,6 +102,7 @@ String keyw = (String)request.getParameter("key");
 				});
 			}
 		});
+		searchTabs('searchTab', document.getElementById("searchTab_Title5") );
 	});
 </script>
 
@@ -115,7 +116,7 @@ function search(page){
 					success:function(data){
 						var jsonObject = eval('('+data+')');
 						var valueStr = "";
-						var pages = jsonObject.pages;
+						var pages = parseInt(jsonObject.total/10,10)+1;
 						var rows = jsonObject.rows;
 						//alert("rows = " + rows);
 						$.each(rows,function(n,value){
@@ -147,7 +148,7 @@ var pager = {
 	'seeNext':function(){
 		var currPage = parseInt($('#currPage').html());
 		var pages = parseInt($('#pages').html());
-		if(currPage +1 >= pages)
+		if( (currPage+1) <= pages)
 			search(pages);
 		else
 			alert('已经是最后一页');

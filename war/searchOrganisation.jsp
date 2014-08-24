@@ -3,6 +3,16 @@ pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 String keyw = (String)request.getParameter("key");
+String encoding = request.getCharacterEncoding();
+if (encoding == null) {
+    encoding = "UTF-8";
+}
+try {
+	keyw = new String(keyw.getBytes(), encoding);
+} catch(Exception ex) {
+    System.err.println(ex);
+    ex.printStackTrace();
+}
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -42,27 +52,49 @@ String keyw = (String)request.getParameter("key");
 		$(function() {
 			if("<%= keyw%>"!="null"){
 				$.ajax({
-					url:"struts/Search_queryOrganisationBySolr?page=1&rows=10&key="+"<%=keyw%>",
+					url:encodeURI("struts/Search_queryOrganisationBySolr?page=1&rows=10&key="+"<%=keyw%>"),
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
 					success:function(data){
 						var jsonObject = eval('('+data+')');
-						var valueStr = "";
-						var pages = jsonObject.pages;
+						var valueStr = "<div  class='teacherList'>";
+						var pages = parseInt(jsonObject.total/10,10)+1;
 						var rows = jsonObject.rows;
 						//alert("rows = " + rows);
 						$.each(rows,function(n,value){
-							var outClass= "classDesc last";
-							if(n<rows.length-1)
-								outClass="classDesc";
-							valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"+
-							"<div class='classDetail'>"+
-							"<div class='classInfor'>编号："+value.orgId+"&nbsp;&nbsp;机构类别：￥"+value.category+"</div>"+
-							"<div class='left' style='width:60px;'><span>机构详情：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]</div></div></div>"+
-							"<div class='clear'></div>";
+							valueStr += "<ul>"
+							+"<li>" +
+							"<div style='width:700px;padding-top:10px'>"
+							+ "<table>"
+							+ "<tr>"
+							+ "<td rowspan='2' style='width:150px;'>"
+							+"<img style='width:150px;height:50px;border:1px solid #ccc' src='"+ value.logoUrl +"' style='width:150px;height:50px;border:1px solid #ccc'>"
+							+ "</td>"
+							+ "<td colspan='2'>"
+							+ "<h3><a target='_blank'  href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"
+							+ "</td>"
+							+"</tr>"
+							+ "<tr>"
+							+ "<td>"
+							+ "编号："+value.orgId+"&nbsp;&nbsp;机构类别："+value.category+""
+							+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+							+ "<td colspan='4'>"
+							+ "<span>机构详情：</span>"
+							+ value.introduction+"...[<a target='_blank' href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]"
+							+ "</td>"
+							+ "</tr>"
+							+ "</table>"
+							+"</div>"
+							+"</li>"
+							+"</ul>";
 						});
 						//alert("valueStr " + valueStr);
-						if(valueStr == ""){
-							valueStr = "<div class='notice'>未搜索到相关机构信息</div>";
-						}else
+						if(valueStr == "<div  class='teacherList'>"){
+							valueStr += "<div class='notice'>未搜索到相关讲师信息</div></div>";
+						}else{
+							valueStr += "</div>";
+						}
 						$('#pageDiv').css('display','block');
 						$('#classes').html(valueStr);
 						$('#pages').html(pages);
@@ -75,6 +107,34 @@ String keyw = (String)request.getParameter("key");
 		//
 		//			jsonp: "json.wrf",
 		//url: "http://localhost:8080/solr/core_keyword/select",
+		$( "#searchWord" ).autocomplete({
+			minLength: 1,
+			source: function(request, response) {
+				$.ajax({
+					url: "struts/Search_queryKeywordsByKeyword",
+					delay: 500,
+					dataType:'json',
+					timeout: 5000,
+					data: {
+						featureClass: "P",
+						style: "full",
+						maxRows: 12,
+						wt:"json",
+						q:$("#searchWord").val(),
+						name_startsWith: request.term
+					},
+					success: function(data) {
+						response($.map(data, function(item) {
+							return {
+								label: item.keyword,
+								value: item.keyword
+							}
+						}));
+					}
+				});
+			}
+		});
+		searchTabs('searchTab', document.getElementById("searchTab_Title6") );
 	});
 </script>
 
@@ -87,24 +147,45 @@ function search(page){
 		url:"struts/Search_queryOrganisationBySolr?page="+page+"&rows=10&key="+key,
 		success:function(data){
 				var jsonObject = eval('('+data+')');
-						var valueStr = "";
-						var pages = jsonObject.pages;
+						var valueStr = "<div  class='teacherList'>";
+						var pages = parseInt(jsonObject.total/10,10)+1;
 						var rows = jsonObject.rows;
 						//alert("rows = " + rows);
 						$.each(rows,function(n,value){
-							var outClass= "classDesc last";
-							if(n<rows.length-1)
-								outClass="classDesc";
-							valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"+
-							"<div class='classDetail'>"+
-							"<div class='classInfor'>编号："+value.orgId+"&nbsp;&nbsp;机构类别：￥"+value.category+"</div>"+
-							"<div class='left' style='width:60px;'><span>机构详情：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]</div></div></div>"+
-							"<div class='clear'></div>";
-						});
-						//alert("valueStr " + valueStr);
-						if(valueStr == ""){
-							valueStr = "<div class='notice'>未搜索到相关机构信息</div>";
-						}else
+							valueStr += "<ul>"
+								+"<li>" +
+								"<div style='width:700px;padding-top:10px'>"
+								+ "<table>"
+								+ "<tr>"
+								+ "<td rowspan='2' style='width:150px;'>"
+								+"<img style='width:150px;height:50px;border:1px solid #ccc' src='"+ value.logoUrl +"' style='width:150px;height:50px;border:1px solid #ccc'>"
+								+ "</td>"
+								+ "<td colspan='2'>"
+								+ "<h3><a target='_blank'  href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"
+								+ "</td>"
+								+"</tr>"
+								+ "<tr>"
+								+ "<td>"
+								+ "编号："+value.orgId+"&nbsp;&nbsp;机构类别："+value.category+""
+								+ "</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<td colspan='4'>"
+								+ "<span>机构详情：</span>"
+								+ value.introduction+"...[<a target='_blank' href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]"
+								+ "</td>"
+								+ "</tr>"
+								+ "</table>"
+								+"</div>"
+								+"</li>"
+								+"</ul>";
+							});
+							//alert("valueStr " + valueStr);
+							if(valueStr == "<div  class='teacherList'>"){
+								valueStr += "<div class='notice'>未搜索到相关讲师信息</div></div>";
+							}else{
+								valueStr += "</div>";
+							}
 						$('#pageDiv').css('display','block');
 						$('#classes').html(valueStr);
 						$('#pages').html(pages);

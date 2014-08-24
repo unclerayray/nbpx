@@ -1,7 +1,11 @@
 package com.nb.nbpx.server.user;
 
+import java.io.File;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +16,7 @@ import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.service.user.IOrgInfoService;
 import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.SolrUtil;
 
 @Component("OrgInfoAction")
 @Scope("prototype")
@@ -27,6 +32,9 @@ public class OrgInfoAction extends BaseAction{
 	private IOrgInfoService orgInfoService;
 	private IOrgInfoDao orgInfoDao;
 	private ISolrOrganisationService orgSolrService;
+	public String fileContentType;
+	public String fileFileName;
+	public File file;
 	
 	public String getOrgListBySeries(){
 		String json = "";
@@ -73,7 +81,20 @@ public class OrgInfoAction extends BaseAction{
 			if(orgInfor.getState()==null){
 				orgInfor.setState(false);
 			}
-			orgInfoService.saveOrgInfor(orgInfor);
+			orgInfor = orgInfoService.saveOrgInfor(orgInfor);
+			
+
+			if (file != null) {
+				String realpath = SolrUtil.getLogoPicPath();
+				String ext = FilenameUtils.getExtension(fileFileName);
+				File savefile = new File(new File(realpath), orgInfor.getOrgId()+"."+ext);
+				if (!savefile.getParentFile().exists())
+					savefile.getParentFile().mkdirs();
+				FileUtils.copyFile(file, savefile);
+				orgInfor.setLogoUrl(SolrUtil.getAbstractLogoPicPath() + "/"+orgInfor.getOrgId()+"."+ext);
+				orgInfoService.saveOrgInfor(orgInfor);
+			}
+			
 			orgSolrService.addOrganisation2Solr(orgInfor);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -101,7 +122,7 @@ public class OrgInfoAction extends BaseAction{
 			oi.setPostCode(orgInfor.getPostCode());
 			oi.setTelephone(orgInfor.getTelephone());
 			oi.setWebsite(orgInfor.getWebsite());
-			json = orgInfoService.saveOrgInfor(oi);
+			//json = orgInfoService.saveOrgInfor(oi);
 			orgSolrService.addOrganisation2Solr(oi);
 			System.out.println("json = " + json);
 		} catch (Exception e) {
@@ -240,6 +261,30 @@ public class OrgInfoAction extends BaseAction{
 
 	public void setState(boolean state) {
 		this.state = state;
+	}
+
+	public String getFileContentType() {
+		return fileContentType;
+	}
+
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
+
+	public String getFileFileName() {
+		return fileFileName;
+	}
+
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	

@@ -17,6 +17,17 @@
 <script type="text/javascript" src="js/project.js"></script>
 <script src="js/myjs/index.js"></script>
 
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="js/easyui/jquery-1.8.0.min.js"></script>
+<script src="js/easyui/jquery.easyui.min.js"></script>
+<script src="ui/jquery.ui.core.js"></script>
+<script src="ui/jquery.ui.widget.js"></script>
+<script src="ui/jquery.ui.position.js"></script>
+<script src="ui/jquery.ui.menu.js"></script>
+<script src="ui/jquery.ui.autocomplete.js"></script>
+
 </head>
 <script>
 	$(function(){
@@ -31,6 +42,36 @@
 				});
 				valueStr += "</ul>";
 				$('#quickKeys').html(valueStr);
+			}
+		});
+		
+		//init header search box
+		$( "#searchWord" ).autocomplete({
+			minLength: 1,
+			source: function(request, response) {
+				$.ajax({
+					url: "struts/Search_queryKeywordsByKeyword",
+					contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+					delay: 500,
+					dataType:'json',
+					timeout: 5000,
+					data: {
+						featureClass: "P",
+						style: "full",
+						maxRows: 12,
+						wt:"json",
+						q:$("#searchWord").val(),
+						name_startsWith: request.term
+					},
+					success: function(data) {
+						response($.map(data, function(item) {
+							return {
+								label: item.keyword,
+								value: item.keyword
+							};
+						}));
+					}
+				});
 			}
 		});
 	});

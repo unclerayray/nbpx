@@ -53,28 +53,36 @@ public class LoginAction  extends BaseAction {
 	
 	//添加培训机构
 	public String saveOrg(){
-		String json = "";
-		//先添加用户
-		User user = new User();
-		user.setEmail(email);
-		user.setCity(city);
-		user.setUserName(username);
-		user.setPassWord(password);
-		user.setRegisterDate(new Date());
-		user.setUserType("001_03");
-		user.setState(false);
-		try {
-			UserService.saveUser(user);
-		} catch (NbpxException e) {//有重复用户名
-			e.printStackTrace();
-			json = JsonUtil.format2Json(false, "用户名已存在!");
-			this.inputStream = castToInputStream(json);
-			return SUCCESS;
+		try{
+			String json = "";
+			//先添加用户
+			User user = new User();
+			user.setEmail(email);
+			user.setCity(city);
+			user.setUserName(username);
+			user.setPassWord(password);
+			user.setRegisterDate(new Date());
+			user.setUserType("001_03");
+			user.setState(false);
+			try {
+				UserService.saveUser(user);
+			} catch (NbpxException e) {//有重复用户名
+				e.printStackTrace();
+				json = JsonUtil.format2Json(false, "用户名已存在!");
+				this.inputStream = castToInputStream(json);
+				return SUCCESS;
+			}
+			
+			OrgInfo orgInfo = new OrgInfo(null,user.getUserId(), orgName,address,Integer.parseInt(postCode),contact,cellphone,telephone,fax, website,category,introduction);
+			OrgService.saveOrgInfor(orgInfo);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"注册失败" + e.getMessage()));
+			return "failure";
 		}
-		
-		OrgInfo orgInfo = new OrgInfo(null,user.getUserId(), orgName,address,Integer.parseInt(postCode),contact,cellphone,telephone,fax, website,category,introduction);
-		json = OrgService.saveOrgInfor(orgInfo);
-		this.inputStream = castToInputStream(json);
+		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+				ResponseStatus.SUCCESS, "注册成功！"));
 		return SUCCESS;
 	}
 	//添加讲师

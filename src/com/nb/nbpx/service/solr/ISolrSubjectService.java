@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
 
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.utils.NbpxException;
 
@@ -18,4 +19,5 @@ public interface ISolrSubjectService {
 	public void addSubjects2Solr(List<Subject> subjectList);
 	public String queryRelatedSubject(String q, Integer start, Integer rows) throws SolrServerException, IOException, NbpxException;
 	public void removeSubjectFromSolr(Integer subjectId) throws SolrServerException, IOException;
+	public List<Keyword> queryTipSubject(String q, Integer start, Integer rows) throws Exception;
 }

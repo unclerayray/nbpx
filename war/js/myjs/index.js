@@ -70,6 +70,9 @@ function fnt_top_search(search_type)
 {
 	var txt_search=document.getElementById("searchWord").value;
 
+	if("请输入关键字,如: 员工 管理" == $("#searchWord").val()){
+		return;
+	}
 	//if(txt_search.value.indexOf("请输入") != -1) txt_search.value = "";
 	var my_href="";
 	switch(search_type)
