@@ -32,6 +32,7 @@ public class CompInfo extends BaseEntity  implements Serializable{
 	private Boolean state;
 	private Date createDate;
 	private String createBy;
+	private String qq;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -108,6 +109,12 @@ public class CompInfo extends BaseEntity  implements Serializable{
 		this.createBy = createBy;
 	}
 
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
 	public CompInfo(){}
 	
 	/**

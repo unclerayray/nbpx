@@ -1,20 +1,32 @@
 package com.nb.nbpx.server.user;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.pojo.user.*;
+import com.nb.nbpx.pojo.user.CompInfo;
+import com.nb.nbpx.pojo.user.OrgInfo;
+import com.nb.nbpx.pojo.user.TeacherInfo;
+import com.nb.nbpx.pojo.user.User;
 import com.nb.nbpx.server.BaseAction;
-import com.nb.nbpx.service.user.*;
+import com.nb.nbpx.service.solr.ISolrOrganisationService;
+import com.nb.nbpx.service.solr.ISolrTeacherService;
+import com.nb.nbpx.service.user.ICompInfoService;
+import com.nb.nbpx.service.user.IOrgInfoService;
+import com.nb.nbpx.service.user.ITeacherInfoService;
+import com.nb.nbpx.service.user.IUserService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
+import com.nb.nbpx.utils.SolrUtil;
 
 @Component("LoginAction")
 @Scope("prototype")
@@ -44,12 +56,25 @@ public class LoginAction  extends BaseAction {
 	private String externalPayment;
 	private String expertIn;
 	private String birthday;
+	public String fileContentType;
+	public String fileFileName;
+	public File file;
+	public String assistName     ;    
+	public String assistQq       ;    
+	public String assistPhone    ;    
+	public String realRealName   ;    
+	public Boolean isMale  ;          
+	public String remarks;            
+	public String assistEmail;    
+	                                   
 
 
 	private ICompInfoService CompService;
 	private IOrgInfoService OrgService;
 	private ITeacherInfoService TeacherService;
 	private IUserService UserService;
+	private ISolrTeacherService solrTeacherService;
+	private ISolrOrganisationService solrOrganisationService;
 	
 	//添加培训机构
 	public String saveOrg(){
@@ -74,7 +99,22 @@ public class LoginAction  extends BaseAction {
 			}
 			
 			OrgInfo orgInfo = new OrgInfo(null,user.getUserId(), orgName,address,Integer.parseInt(postCode),contact,cellphone,telephone,fax, website,category,introduction);
-			OrgService.saveOrgInfor(orgInfo);
+			orgInfo.setQq(assistQq);
+			String randomStr = "images/824.jpg";
+			orgInfo.setLogoUrl(randomStr);
+			orgInfo = OrgService.saveOrgInfor(orgInfo);
+			if (file != null) {
+				String realpath = SolrUtil.getLogoPicPath();
+				String ext = FilenameUtils.getExtension(fileFileName);
+				File savefile = new File(new File(realpath), orgInfo.getOrgId()+"."+ext);
+				if (!savefile.getParentFile().exists())
+					savefile.getParentFile().mkdirs();
+				FileUtils.copyFile(file, savefile);
+				orgInfo.setLogoUrl(SolrUtil.getAbstractLogoPicPath()+"/"+orgInfo.getOrgId()+"."+ext);
+				//update the teacher photo
+				OrgService.saveOrgInfor(orgInfo);
+			}
+			solrOrganisationService.addOrganisation2Solr(orgInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -115,14 +155,33 @@ public class LoginAction  extends BaseAction {
 		TeacherInfo teacher = null;
 		try {
 			teacher = new TeacherInfo(null,user.getUserId(),realName,teacherBirthday,majorCatgory,Double.parseDouble(externalPayment),Double.parseDouble(internalPayment),fax,telephone, cellphone, introduction,expertIn);
-
+			teacher.setAssistEmail(assistEmail);
+			teacher.setAssistName(assistName);
+			teacher.setAssistPhone(assistPhone);
+			teacher.setAssistQq(assistQq);
+			teacher.setIsMale(isMale);
+			teacher.setRealRealName(realRealName);
+			String randomStr = "images/824.jpg";
+			teacher.setPhoto(randomStr);
 			if(teacher.getTeacherId()==null){
 				teacher.setCreateBy(getSessionUserName());
 			}
 			if(teacher.getState()==null){
 				teacher.setState(false);
 			}
-			TeacherService.saveTeacher(teacher);
+			teacher = TeacherService.saveTeacher(teacher);
+			if (file != null) {
+				String realpath = SolrUtil.getTeacherPhotoPath();
+				String ext = FilenameUtils.getExtension(fileFileName);
+				File savefile = new File(new File(realpath), teacher.getTeacherId()+"."+ext);
+				if (!savefile.getParentFile().exists())
+					savefile.getParentFile().mkdirs();
+				FileUtils.copyFile(file, savefile);
+				teacher.setPhoto(SolrUtil.getAbstractTeacherPhotoPath()+"/"+teacher.getTeacherId()+"."+ext);
+				//update the teacher photo
+				TeacherService.saveTeacher(teacher);
+			}
+			solrTeacherService.addTeacher2Solr(teacher);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -159,6 +218,7 @@ public class LoginAction  extends BaseAction {
 		User use = UserService.queryById(user.getUserId());
 		//CompInfo compInfo = new CompInfo(null,user.getUserId(),contact,company,telephone, cellphone,fax,department);
 		CompInfo compInfo = new CompInfo(null, use, contact,company,telephone, cellphone,fax,department,false,new Date(),username);
+		compInfo.setQq(assistQq);
 		json = CompService.saveCompInfor(compInfo);
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
@@ -355,6 +415,81 @@ public class LoginAction  extends BaseAction {
 	@Resource
 	public void setUserService(IUserService userService) {
 		UserService = userService;
+	}
+	public ISolrTeacherService getSolrTeacherService() {
+		return solrTeacherService;
+	}
+	@Resource
+	public void setSolrTeacherService(ISolrTeacherService solrTeacherService) {
+		this.solrTeacherService = solrTeacherService;
+	}
+	public ISolrOrganisationService getSolrOrganisationService() {
+		return solrOrganisationService;
+	}
+	@Resource
+	public void setSolrOrganisationService(
+			ISolrOrganisationService solrOrganisationService) {
+		this.solrOrganisationService = solrOrganisationService;
+	}
+	public String getFileContentType() {
+		return fileContentType;
+	}
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
+	public String getFileFileName() {
+		return fileFileName;
+	}
+	public void setFileFileName(String fileFileName) {
+		this.fileFileName = fileFileName;
+	}
+	public File getFile() {
+		return file;
+	}
+	public void setFile(File file) {
+		this.file = file;
+	}
+	public String getAssistName() {
+		return assistName;
+	}
+	public void setAssistName(String assistName) {
+		this.assistName = assistName;
+	}
+	public String getAssistQq() {
+		return assistQq;
+	}
+	public void setAssistQq(String assistQq) {
+		this.assistQq = assistQq;
+	}
+	public String getAssistPhone() {
+		return assistPhone;
+	}
+	public void setAssistPhone(String assistPhone) {
+		this.assistPhone = assistPhone;
+	}
+	public String getRealRealName() {
+		return realRealName;
+	}
+	public void setRealRealName(String realRealName) {
+		this.realRealName = realRealName;
+	}
+	public Boolean getIsMale() {
+		return isMale;
+	}
+	public void setIsMale(Boolean isMale) {
+		this.isMale = isMale;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public String getAssistEmail() {
+		return assistEmail;
+	}
+	public void setAssistEmail(String assistEmail) {
+		this.assistEmail = assistEmail;
 	}
 
 }
