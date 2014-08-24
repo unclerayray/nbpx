@@ -3,6 +3,16 @@ pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 String keyw = (String)request.getParameter("key");
+String encoding = request.getCharacterEncoding();
+if (encoding == null) {
+    encoding = "UTF-8";
+}
+try {
+	keyw = new String(keyw.getBytes(), encoding);
+} catch(Exception ex) {
+    System.err.println(ex);
+    ex.printStackTrace();
+}
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -42,11 +52,11 @@ String keyw = (String)request.getParameter("key");
 		$(function() {
 			if("<%= keyw%>"!="null"){
 				$.ajax({
-					url:"struts/Search_queryQuestionBySolr?page=1&rows=10&key="+"<%=keyw%>",
+					url:encodeURI("struts/Search_queryQuestionBySolr?page=1&rows=10&key="+"<%=keyw%>"),
 					success:function(data){
 						var jsonObject = eval('('+data+')');
 						var valueStr = "";
-						var pages = jsonObject.pages;
+						var pages = parseInt(jsonObject.total/10,10)+1;
 						var rows = jsonObject.rows;
 						//alert("rows = " + rows);
 						$.each(rows,function(n,value){
@@ -101,6 +111,7 @@ String keyw = (String)request.getParameter("key");
 				});
 			}
 		});
+		searchTabs('searchTab', document.getElementById("searchTab_Title7") );
 	});
 </script>
 
@@ -114,7 +125,7 @@ function search(page){
 		success:function(data){
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
-				var pages = jsonObject.pages;
+				var pages = parseInt(jsonObject.total/10,10)+1;
 				var rows = jsonObject.rows;
 				//alert("rows = " + rows);
 				$.each(rows,function(n,value){
@@ -145,7 +156,7 @@ var pager = {
 	'seeNext':function(){
 		var currPage = parseInt($('#currPage').html());
 		var pages = parseInt($('#pages').html());
-		if(currPage +1 >= pages)
+		if( (currPage+1) <= pages)
 			search(pages);
 		else
 			alert('已经是最后一页');

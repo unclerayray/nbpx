@@ -76,7 +76,7 @@
 					var color = "red";
 					if(n>2)
 						color = "blue";
-					valueStr += "<li class='line'><a href='viewArticle?id="+value.id+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+"</span><span class='count'>"+value.hot+"</span></a><div class='clear'></div></li>";
+					valueStr += "<li class='line'><a href='viewArticle.jsp?id="+value.id+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text tooLong w150'>"+value.title+"</span><span class='count'>"+value.hot+"</span></a><div class='clear'></div></li>";
 				});
 				$('#hotArticle').html(valueStr);
 			}
@@ -93,7 +93,7 @@
 					var color = "red";
 					if(n>2)
 						color = "blue";
-					valueStr += "<li class='line'><a href='viewArticle?id="+value.id+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text tooLong w160'>"+value.title+"</span></a><div class='clear'></div></li>";
+					valueStr += "<li class='line'><a href='viewArticle.jsp?id="+value.id+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text tooLong w160'>"+value.title+"</span></a><div class='clear'></div></li>";
 				});
 				$('#recommandArticle').html(valueStr);
 			}

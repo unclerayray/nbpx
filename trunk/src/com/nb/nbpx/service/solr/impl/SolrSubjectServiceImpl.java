@@ -19,6 +19,7 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.pojo.keyword.Keyword;
 import com.nb.nbpx.pojo.subject.Subject;
 import com.nb.nbpx.service.solr.IBaseSolrService;
 import com.nb.nbpx.service.solr.ISolrSubjectService;
@@ -139,6 +140,54 @@ public class SolrSubjectServiceImpl implements ISolrSubjectService{
 		SolrServer solrServer = new HttpSolrServer(serverURL);
 		solrServer.deleteById(subjectId+"");
 		solrServer.commit();
+	}
+
+	@Override
+	public List<Keyword> queryTipSubject(String q, Integer start, Integer rows) throws Exception {
+		if(q==null){
+			throw new NbpxException("查询专题不能为空。");
+		}
+		String json = "";
+		String serverURL = SolrUtil.getSubjectServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		q = SolrUtil.escapeQueryChars(q);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		SolrQuery query = new SolrQuery();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
+		q = "subject:"+q;
+		params.set("q", q);
+		if(start!=null){
+			params.set("start", start);
+		}
+		if(rows!=null){
+			params.set("rows", rows);
+		}
+		query.set("qt", "select");
+		query.add(params);
+		QueryResponse response = solrServer.query(query);
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		SolrDocumentList list = response.getResults();
+		List<Keyword> resultList = new ArrayList<Keyword>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Object subjectIdobj = sd.getFieldValue("subjectId");
+			Object subjectobj = sd.getFieldValue("subject");
+			if(subjectIdobj==null){
+				continue;
+			}
+			Keyword subject = new Keyword();
+			//subject.setSubjectId((Integer)subjectIdobj);
+			subject.setKeyword(subjectobj.toString());
+			resultList.add(subject);
+		}
+		HashSet hs = new HashSet();
+		hs.addAll(resultList);
+		resultList.clear();
+		resultList.addAll(hs);
+		return resultList;
 	}
 
 }

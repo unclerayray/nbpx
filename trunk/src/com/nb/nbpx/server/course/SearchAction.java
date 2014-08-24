@@ -18,9 +18,9 @@ import com.nb.nbpx.service.solr.ISolrKeywordService;
 import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.service.solr.ISolrQuestionService;
 import com.nb.nbpx.service.solr.ISolrService;
+import com.nb.nbpx.service.solr.ISolrSubjectService;
 import com.nb.nbpx.service.solr.ISolrTeacherService;
 import com.nb.nbpx.utils.JsonUtil;
-import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.mapTool.MapTool;
 
 /**
@@ -41,6 +41,7 @@ public class SearchAction  extends BaseAction {
 	private ISolrTeacherService solrTeacherService;
 	private ISolrKeywordService solrKeywordService;
 	private ISolrArticleService solrArticleService;
+	private ISolrSubjectService solrSubjectService;
 	private String key;
 	private String q;
 	private String term;
@@ -194,7 +195,11 @@ public class SearchAction  extends BaseAction {
 	public String queryKeywordsByKeyword(){
 		String json;
 		try {
-			json = solrKeywordService.queryRelatedKeywords(q, 0, 10);
+			//json = solrKeywordService.queryRelatedKeywords(q, 0, 10);
+			List<Keyword> keywords = solrKeywordService.queryTipKeywords(q, 0, 10);
+			List<Keyword> subjects = solrSubjectService.queryTipSubject(q, 0, 10);
+			keywords.addAll(subjects);
+			json = JsonUtil.formatListToJson(keywords);
 			addkeywordsSearchCnt(key);
 			this.inputStream = castToInputStream(json);
 		} catch (Exception e) {
@@ -348,6 +353,15 @@ public class SearchAction  extends BaseAction {
 	@Resource
 	public void setKeywordService(IKeywordService keywordService) {
 		this.keywordService = keywordService;
+	}
+
+	public ISolrSubjectService getSolrSubjectService() {
+		return solrSubjectService;
+	}
+
+	@Resource
+	public void setSolrSubjectService(ISolrSubjectService solrSubjectService) {
+		this.solrSubjectService = solrSubjectService;
 	}
 
 	public String getTerm() {

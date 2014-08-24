@@ -3,10 +3,20 @@ pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 String keyw = (String)request.getParameter("key");
+String encoding = request.getCharacterEncoding();
+if (encoding == null) {
+    encoding = "UTF-8";
+}
+try {
+	keyw = new String(keyw.getBytes(), encoding);
+} catch(Exception ex) {
+    System.err.println(ex);
+    ex.printStackTrace();
+}
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
@@ -42,13 +52,16 @@ String keyw = (String)request.getParameter("key");
 		$(function() {
 			if("<%= keyw%>"!="null"){
 				$.ajax({
-					url:"struts/Search_queryBySolr?page=1&rows=10&key="+"<%=keyw%>",
+					url:encodeURI("struts/Search_queryBySolr?page=1&rows=10&key="+"<%=keyw%>"),
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+					type : "POST",
 					success:function(data){
 						var jsonObject = eval('('+data+')');
 						var valueStr = "";
-						var pages = jsonObject.pages;
+						var pages = parseInt(jsonObject.total/10,10)+1;
 						var rows = jsonObject.rows;
-						//alert("rows = " + rows);
+						//alert("rows = " + jsonObject.rows.toString());
+						console.log(jsonObject.rows);
 						$.each(rows,function(n,value){
 							var outClass= "classDesc last";
 							if(n<rows.length-1)
@@ -83,8 +96,10 @@ String keyw = (String)request.getParameter("key");
 						$('#classes').html(valueStr);
 						$('#pages').html(pages);
 						$('#currPage').html(1);
+						//alert("sss!");
 					}
 				});
+				//alert("no i don't!");
 			}
 
 			var cache = {};
@@ -96,6 +111,7 @@ String keyw = (String)request.getParameter("key");
 				source: function(request, response) {
 					$.ajax({
 						url: "struts/Search_queryKeywordsByKeyword",
+						contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 						delay: 500,
 						dataType:'json',
 						timeout: 5000,
@@ -112,7 +128,7 @@ String keyw = (String)request.getParameter("key");
 								return {
 									label: item.keyword,
 									value: item.keyword
-								}
+								};
 							}));
 						}
 					});
@@ -128,10 +144,13 @@ function search(page){
 	var key = $('#searchWord').val();
 	$.ajax({
 		url:"struts/Search_queryBySolr?page="+page+"&rows=10&key="+key,
+		type: "post", 
+		dataType: "json", 
+		contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 		success:function(data){
 			var jsonObject = eval('('+data+')');
 			var valueStr = "";
-			var pages = jsonObject.pages;
+			var pages = parseInt(jsonObject.total/10,10)+1;
 			var rows = jsonObject.rows;
 				//alert("rows = " + rows);
 				$.each(rows,function(n,value){
@@ -179,7 +198,7 @@ var pager = {
 	'seeNext':function(){
 		var currPage = parseInt($('#currPage').html());
 		var pages = parseInt($('#pages').html());
-		if(currPage +1 >= pages)
+		if( (currPage+1) <= pages)
 			search(pages);
 		else
 			alert('已经是最后一页');

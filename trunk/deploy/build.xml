@@ -89,6 +89,7 @@
 			<replacefilter token="download.file.path=D://test//files" value="download.file.path=/alidata/roger/files"/>
 			<replacefilter token="course.goldenPic.path=D://test//goldenPic" value="course.goldenPic.path=/alidata/roger/goldenPic"/>
 			<replacefilter token="teacher.photo.path=D://test//photos" value="teacher.photo.path=/alidata/roger/photos/"/>
+			<replacefilter token="org.photo.path=D://test//logo" value="org.photo.path=/alidata/roger/logo/"/>
 			<replacefilter token="image.livescene.path=D://test//images" value="image.livescene.path=/alidata/roger/images/"/>
 			<replacefilter token="course.ad.path=D://test//ad" value="course.ad.path=/alidata/roger/ad/"/>
 			<replacefilter token="course.hypeLink.prefix=http://localhost:8099/nbpx/viewClass.jsp?id=" value="course.hypeLink.prefix=http://42.121.97.39:8080/nbpx/viewClass.jsp?id="/>

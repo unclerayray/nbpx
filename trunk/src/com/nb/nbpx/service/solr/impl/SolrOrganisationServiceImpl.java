@@ -27,6 +27,7 @@ import com.nb.nbpx.service.solr.ISolrOrganisationService;
 import com.nb.nbpx.utils.JsonUtil;
 import com.nb.nbpx.utils.NbpxException;
 import com.nb.nbpx.utils.SolrUtil;
+import com.nb.nbpx.utils.mapTool.NbpxDicMap;
 
 @Component("SolrOrganisation")
 public class SolrOrganisationServiceImpl extends BaseSolrServiceImpl implements
@@ -43,6 +44,8 @@ public class SolrOrganisationServiceImpl extends BaseSolrServiceImpl implements
 			sid.addField("orgId", orgInfo.getOrgId());
 			sid.addField("orgName", orgInfo.getOrgName());
 			sid.addField("state", orgInfo.getState());
+			sid.addField("photo", orgInfo.getLogoUrl());
+			sid.addField("category", NbpxDicMap.getCourseTypeMap().get(orgInfo.getCategory()));
 			sid.addField("introduction", orgInfo.getIntroduction());
 			solrServer.add(sid);
             solrServer.commit();
@@ -94,14 +97,26 @@ public class SolrOrganisationServiceImpl extends BaseSolrServiceImpl implements
 			Object orgIdobj = sd.getFieldValue("orgId");
 			Object orgNameobj = sd.getFieldValue("orgName");
 			Object introobj = sd.getFieldValue("introduction");
+			Object logoObj = sd.getFieldValue("photo");
+			Object categoryObj = sd.getFieldValue("category");
 			if(orgNameobj==null){
 				continue;
+			}
+			String intro = introobj.toString();
+			if(intro.length() > 50) {
+				intro = intro.substring(0, 50);
 			}
 			OrgInfo orgInfo = new OrgInfo();
 			orgInfo.setOrgId((Integer) orgIdobj);
 			orgInfo.setOrgName(orgNameobj.toString());
-			orgInfo.setIntroduction(introobj.toString());
+			orgInfo.setIntroduction(intro);
+			orgInfo.setCategory(categoryObj.toString());
 			resultList.add(orgInfo);
+			if(logoObj == null){
+				orgInfo.setLogoUrl("/images/noLogo.jpg");
+			}else{
+				orgInfo.setLogoUrl(logoObj.toString());
+			}
 		}
 		/**
 		 * 以下为去重的代码
@@ -111,7 +126,7 @@ public class SolrOrganisationServiceImpl extends BaseSolrServiceImpl implements
 		resultList.clear();
 		resultList.addAll(hs);
 		json = JsonUtil.formatToJsonWithTimeStamp(numFound,
-				ResponseStatus.SUCCESS, "", list);
+				ResponseStatus.SUCCESS, "", resultList);
 		return json;
 	}
 

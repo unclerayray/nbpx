@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.dao.user.IOrgInfoDao;
 import com.nb.nbpx.pojo.user.OrgInfo;
+import com.nb.nbpx.pojo.user.TeacherInfo;
 import com.nb.nbpx.pojo.user.User;
 
 @Component("OrgInfoDao")
@@ -165,22 +166,6 @@ public class OrgInfoDaoImpl extends BaseDaoImpl<OrgInfo, Integer>  implements IO
 	}
 
 	@Override
-	public Boolean saveOrgInfo(final OrgInfo orgInfor) {
-		Boolean result = (Boolean)getHibernateTemplate().execute(new HibernateCallback(){
-			public Object doInHibernate(Session session)
-			throws HibernateException, SQLException {
-				if(orgInfor.getOrgId()==null){
-					session.save(orgInfor);
-				}else{
-					session.merge(orgInfor);
-				}
-				return true;
-			}
-		});
-		return result;
-	}
-
-	@Override
 	public List<OrgInfo> queryOrgInfo(final String userName, final String orgName,
 			final Integer rows, final Integer start, final String sort, final String order) {
 		List<OrgInfo> list = new ArrayList<OrgInfo>();
@@ -246,6 +231,35 @@ public class OrgInfoDaoImpl extends BaseDaoImpl<OrgInfo, Integer>  implements IO
 			}
 		});
 		return (Long) list.get(0);
+	}
+
+	@Override
+	public OrgInfo getOrgInforByName(final String orgName) {
+		if (orgName == null || orgName.isEmpty()) {
+			return null;
+		}
+		List<OrgInfo> list = new ArrayList<OrgInfo>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						" from OrgInfo t" + " where 1 = 1 ");
+				hql.append(" and t.orgName = ? ");
+
+				Query query = session.createQuery(hql.toString());
+				
+				query.setString(0, orgName);
+				
+				return query.list();
+			}
+		});
+		if(list==null||list.size()==0){
+			return null;
+		}else{
+			return list.get(0);
+		}
 	}
 	
 }

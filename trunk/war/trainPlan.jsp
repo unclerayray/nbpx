@@ -11,7 +11,6 @@
 <script src="js/easyui/jquery-1.8.0.min.js"></script>
 <script src="js/easyui/jquery.easyui.min.js"></script>
 <script src="js/project.js"></script>
-<script src="js/myjs/index.js"></script>
 <title>南北培训网-培训计划</title>
 </head>
 <script>

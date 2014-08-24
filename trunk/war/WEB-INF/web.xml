@@ -76,8 +76,8 @@
 	<filter>  
         <filter-name>UrlRewriteFilter</filter-name>  
         <filter-class>  
-            <!-- org.tuckey.web.filters.urlrewrite.UrlRewriteFilter -->
-            com.nb.nbpx.interceptor.Rewriter  
+            org.tuckey.web.filters.urlrewrite.UrlRewriteFilter
+            <!-- com.nb.nbpx.interceptor.Rewriter  -->  
         </filter-class>
 	</filter>  
 	<filter-mapping>

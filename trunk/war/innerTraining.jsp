@@ -85,9 +85,9 @@
 				$.each(jsonObject,function(n,value){
 					if(n<6){
 						if(n%2 ==0)
-							valueStr += "<li><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
+							valueStr += "<li><a href='viewArticle.jsp?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
 						else
-							valueStr += "<li class='noMargin'><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
+							valueStr += "<li class='noMargin'><a href='viewArticle.jsp?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
 					}
 				});
 				$('#hotArticle').html(valueStr);
@@ -105,23 +105,23 @@
 				$.each(jsonObject,function(n,value){
 					if(n ==0){
 						topStr += "<div class='inNews'>"+
-								  "<h2><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
+								  "<h2><a href='viewArticle.jsp?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
 								  "<p>"+value.content+"...</p>"+
 								  "</div>";
 		
 					}
 					if(n == 1){
 						topStr += "<div class='inNews none'>"+
-								  "<h2><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
+								  "<h2><a href='viewArticle.jsp?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></h2>"+
 								  "<p>"+value.content+"...</p>"+
 								  "</div>";
 		
 					}
 					if(n<8 && n>=2){
 						if(n%2 ==0)
-							valueStr += "<li><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
+							valueStr += "<li><a href='viewArticle.jsp?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
 						else
-							valueStr += "<li class='noMargin'><a href='viewArticle?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
+							valueStr += "<li class='noMargin'><a href='viewArticle.jsp?id="+value.id+"' class='text tooLong w150'>"+value.title+"</a></li>";
 					}
 				});
 				$('#topArticle').html(topStr);

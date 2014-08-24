@@ -3,6 +3,16 @@ pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 String keyw = (String)request.getParameter("key");
+String encoding = request.getCharacterEncoding();
+if (encoding == null) {
+    encoding = "UTF-8";
+}
+try {
+	keyw = new String(keyw.getBytes(), encoding);
+} catch(Exception ex) {
+    System.err.println(ex);
+    ex.printStackTrace();
+}
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,7 +29,6 @@ String keyw = (String)request.getParameter("key");
 	<script src="ui/jquery.ui.position.js"></script>
 	<script src="ui/jquery.ui.menu.js"></script>
 	<script src="ui/jquery.ui.autocomplete.js"></script>
-	<script src="js/myjs/index.js"></script>
 
 	<link type="text/css" href="css/search.css" rel="stylesheet" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
@@ -41,28 +50,55 @@ String keyw = (String)request.getParameter("key");
 	$(function() {
 		if("<%= keyw%>"!="null"){
 			$.ajax({
-				url:"struts/Search_queryTeacherBySolr?page=1&rows=10&key="+"<%=keyw%>",
+				url:encodeURI("struts/Search_queryTeacherBySolr?page=1&rows=10&key="+"<%=keyw%>"),
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
 				success:function(data){
 					var jsonObject = eval('('+data+')');
-					var valueStr = "";
-					var pages = jsonObject.pages;
+					var valueStr = "<div  class='teacherList'";
+					var pages = parseInt(jsonObject.total/10,10)+1;
 					var rows = jsonObject.rows;
 					//alert("rows = " + rows);
 					$.each(rows,function(n,value){
-						var outClass= "classDesc last";
-						if(n<rows.length-1)
-							outClass="classDesc";
-						//alert("schedules="+schedules);
-						valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='teacherClass.jsp?type=1&id"+value.teacherId+"'>"+value.realName+"</a></h3>"+
-						"<div class='classInfor'>编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+"&nbsp;&nbsp;擅长："+value.expertIn+"</div>"+
-						"<div class='classDetail'>"+
-						"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
-						"<div class='clear'></div>";
+						valueStr += "<ul>"
+							+"<li>" +
+							"<div style='width:700px;padding-top:10px'>"
+							+ "<table>"
+							+ "<tr>"
+							+ "<td rowspan='4'  colspan='2' style='width:150px;'>"
+							+"<img style='width:90px;height:115px;border:1px solid #ccc' src='"+ value.photo +"' style='width:90px;height:115px;border:1px solid #ccc'>"
+							+ "</td>"
+							+ "<td colspan='2' style='text-align:left;'>"
+							+ "<h3><a target='_blank'  href='teacherClass.jsp?type=1&id"+value.teacherId+"'>"+value.realName+"</a></h3>"
+							+ "</td>"
+							+"</tr>"
+							+ "<tr>"
+							+ "<td colspan='4' >"
+							+ "编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+""
+							+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+							+ "<td colspan='4' style='text-align:left;'>"
+							+ "擅长："
+							+ value.expertIn
+							+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+							+ "<td colspan='4' style='text-align: left;'>"
+							+ "介绍："
+							+ value.introduction+"...[<a target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细</a>]"
+							+ "</td>"
+							+ "</tr>"
+							+ "</table>"
+							+"</div>"
+							+"</li>"
+							+"</ul>";
 					});
 					//alert("valueStr " + valueStr);
-					if(valueStr == ""){
-						valueStr = "<div class='notice'>未搜索到相关讲师信息</div>";
-					}else
+					if(valueStr == "<div  class='teacherList'>"){
+						valueStr += "<div class='notice'>未搜索到相关讲师信息</div></div>";
+					}else{
+						valueStr += "</div>";
+					}
 					$('#pageDiv').css('display','block');
 					$('#classes').html(valueStr);
 					$('#pages').html(pages);
@@ -75,7 +111,35 @@ String keyw = (String)request.getParameter("key");
 		//
 		//			jsonp: "json.wrf",
 		//url: "http://localhost:8080/solr/core_keyword/select",
+		$( "#searchWord" ).autocomplete({
+			minLength: 1,
+			source: function(request, response) {
+				$.ajax({
+					url: "struts/Search_queryTeacherTip",
+					delay: 500,
+					dataType:'json',
+					timeout: 5000,
+					data: {
+						featureClass: "P",
+						style: "full",
+						maxRows: 12,
+						wt:"json",
+						q:$("#searchWord").val(),
+						name_startsWith: request.term
+					},
+					success: function(data) {
+						response($.map(data, function(item) {
+							return {
+								label: item.keyword,
+								value: item.keyword
+							}
+						}));
+					}
+				});
+			}
+		});
 		
+		searchTabs('searchTab', document.getElementById("searchTab_Title1") );
 	});
 	</script>
 
@@ -88,25 +152,51 @@ function search(page){
 		url:"struts/Search_queryTeacherBySolr?page="+page+"&rows=10&key="+key,
 		success:function(data){
 			var jsonObject = eval('('+data+')');
-			var valueStr = "";
-			var pages = jsonObject.pages;
+			var valueStr = "<div  class='teacherList'>";
+			var pages = parseInt(jsonObject.total/10,10)+1;
 			var rows = jsonObject.rows;
 				//alert("rows = " + rows);
 				$.each(rows,function(n,value){
-					var outClass= "classDesc last";
-					if(n<rows.length-1)
-						outClass="classDesc";
-					//alert("schedules="+schedules);
-					valueStr += "<div  class='"+outClass+"'><h3><a target='_blank'  href='teacherClass.jsp?type=1&id"+value.teacherId+"'>"+value.realName+"</a></h3>"+
-					"<div class='classInfor'>编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+"&nbsp;&nbsp;擅长："+value.expertIn+"</div>"+
-					"<div class='classDetail'>"+
-					"<div class='left' style='width:60px;'><span>个人介绍：</span></div><div style='float:right;width:630px;'>"+value.introduction+"...[<a  target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细内容</a>]</div></div></div>"+
-					"<div class='clear'></div>";
+						valueStr += "<ul>"
+						+"<li>" +
+						"<div style='width:700px;padding-top:10px'>"
+						+ "<table>"
+						+ "<tr>"
+						+ "<td rowspan='4'  colspan='2' style='width:150px;'>"
+						+"<img style='width:90px;height:115px;border:1px solid #ccc' src='"+ value.photo +"' style='width:90px;height:115px;border:1px solid #ccc'>"
+						+ "</td>"
+						+ "<td colspan='2' style='text-align:left;'>"
+						+ "<h3><a target='_blank'  href='teacherClass.jsp?type=1&id"+value.teacherId+"'>"+value.realName+"</a></h3>"
+						+ "</td>"
+						+"</tr>"
+						+ "<tr>"
+						+ "<td colspan='4' >"
+						+ "编号："+value.teacherId+"&nbsp;&nbsp;主讲类别："+value.majorCatgory+""
+						+ "</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td colspan='4' style='text-align:left;'>"
+						+ "擅长："
+						+ value.expertIn
+						+ "</td>"
+						+ "</tr>"
+						+ "<tr>"
+						+ "<td colspan='4' style='text-align: left;'>"
+						+ "介绍："
+						+ value.introduction+"...[<a target='_blank' href='viewTeacher.jsp?id="+value.teacherId+"'>详细</a>]"
+						+ "</td>"
+						+ "</tr>"
+						+ "</table>"
+						+"</div>"
+						+"</li>"
+						+"</ul>";
 				});
 				//alert("valueStr " + valueStr);
-				if(valueStr == ""){
-					valueStr = "<div class='notice'>未搜索到相关讲师信息</div>";
-				}else
+				if(valueStr == "<div  class='teacherList'>"){
+					valueStr += "<div class='notice'>未搜索到相关讲师信息</div></div>";
+				}else{
+					valueStr += "</div>";
+				}
 				$('#pageDiv').css('display','block');
 				$('#classes').html(valueStr);
 				$('#pages').html(pages);
@@ -122,17 +212,17 @@ var pager = {
 	'seeNext':function(){
 		var currPage = parseInt($('#currPage').html());
 		var pages = parseInt($('#pages').html());
-		if(currPage +1 >= pages)
+		if( (currPage+1) <= pages)
 			search(pages);
 		else
-			search(currPage);
+			alert('已经是最后一页');
 	},
 	'seePre':function(){
 		var currPage = parseInt($('#currPage').html());
 		if(currPage-1 > 0)
 			search(currPage-1);
 		else
-			search(1);
+			alert('已经是第一页');
 	},
 	'seeFirst':function(){
 		search(1);
@@ -172,6 +262,61 @@ var pager = {
 			&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:pager.jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
 		</div>
 		<div class="clear"></div>
+		<div id="relatedKeywords" class="rightTeacher">
+			<h5 style="text-align:left; width:800px">相关搜索关键字</h5>
+			<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:80px">
+				<div class="clear" style="height:10px;"></div>
+				<ul id="relatedKeywords" class="list8">
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+					<li>
+					<a href="seeKey.jsp?key=培训班">培训班</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="relatedSubjects" class="rightTeacher">
+			<h5 style="text-align:left; width:800px">相关搜索专题</h5>
+			<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:280px">
+				<div class="clear" style="height:10px;"></div>
+				<dl id="relatedSubjects1" class="bestCustomer leftPart left" style="width:110px;">
+					<dd>
+						<a href="seeKey.jsp?key=计划性谈判">计划性谈判计划性谈判计划性谈判计划性谈判计划性谈判</a>
+					</dd>
+					<dd>
+						<a href="seeKey.jsp?key=计划性谈判">计划性谈判</a>
+					</dd>
+					<dd>
+						<a href="seeKey.jsp?key=计划性谈判">计划性谈判</a>
+					</dd>
+				</dl>
+			</div>
+		</div>
 	</div>
 	<!--右边部分 start-->
 	<div class="rightInPart">

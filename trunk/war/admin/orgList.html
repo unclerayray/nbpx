@@ -55,6 +55,7 @@
 			<tr>
 				<th data-options="field:'orgId',width:80,hidden:true">主键</th> 
 				<th data-options="field:'username',sortable:true,width:60,formatter:function(value,row){return row.user.username;}">系统用户名</th>
+				<th data-options="field:'userId',sortable:true,hidden:true,width:80,formatter:function(value,row){return row.user.userId;}">userId</th>
 				<th data-options="field:'orgName',sortable:true,width:200">机构名称</th>
 				<th data-options="field:'contact',sortable:true,width:50">联系人</th>
 				<th data-options="field:'telephone',sortable:true,width:80">固话</th>
@@ -94,18 +95,27 @@ $('#dlg').dialog('close');
 }],
 onClose : function() {$('.validatebox-tip').remove();}
 ">
-<form id="fm" method="post" novalidate> 
+<form id="fm" method="post" enctype="multipart/form-data"  novalidate> 
 					<table cellspacing="0" cellpadding="0" class="formTable">
-						<tr  style="display:none">
-						<td class="itemText">orgId:</td><td>
-						<input id="orgId" name="orgId" class="easyui-validatebox">
-						<input id="postCode" name="postCode" class="easyui-validatebox">
-						</td></tr>
 						<tr>
 						<td class="itemText">机构名称:</td>
-						<td><input id="orgName" name="orgName" class="easyui-validatebox" required="true"></td>
+						<td>
+						<input id="orgId" name="orgId" type="hidden">
+						<input id="userId-inform" name="user.userId" type="hidden">
+						<input id="createBy" name="createBy" type="hidden">
+						<input id="createDate" name="createDate" type="hidden">
+						<input id="state" name="state" type="hidden">
+						<input id="postCode" name="postCode"  type="hidden">
+						
+						<input id="orgName" name="orgName" class="easyui-validatebox" required="true"></td>
 						<td class="itemText">地址:</td>
 						<td><input id="address" name="address" class="easyui-validatebox" required="true"></td>
+						</tr>
+						<tr>
+							<td class="itemText">照片:</td>
+							<td><input type="file" id='file' name="file"></td>
+							<td class="itemText">QQ:</td>
+							<td><input id="qq" name="qq"></td>
 						</tr>
 						<tr>
 						<td class="itemText">培训类别:</td>
@@ -150,7 +160,9 @@ function editOrgInfo() {
 	//console.log(row);
 	$('#dlg').dialog('open').dialog('setTitle', '修改');
 	if (row) {
+		$('#fm').form('clear');
 		$('#fm').form('load', row);
+		$('#userId-inform').val(row.user.userId);
 	} else {
 		$.messager.show({
 			title : '温馨提示',
