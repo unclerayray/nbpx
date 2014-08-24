@@ -7,6 +7,7 @@
 <link type="text/css" href="css/face.css" rel="stylesheet" />
 <script type="text/javascript" src="js/easyui/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="js/part14.js"></script>
 <title>南北培训网</title>
 </head>
 <%
@@ -20,6 +21,30 @@
 		getRelatedSubjects();
 		//加载相关课程
 		getRelatedCourse(1);
+		//03.加载热门课程
+		getHotCourse();
+		//04.加载内训课程
+		getNXCourse();
+		//05.加载内训视频
+		getVedioCourse();
+		//06.加载相关讲师
+		getTeacher();
+		//07.加载相关文章
+		loadHotArticle();
+		//08.加载相关问答
+		loadQuestion();
+		//09.加载培训下载
+		getHotDownLoads();
+		//10.相关培训机构
+		loadPXOrg();
+		//11.相关客户群
+		loadCustomer();
+		//12.相关评价
+		loadComments();
+		//13.相关培训计划、内训计划
+		seePartTab('plan',1,1);
+		//14.相关培训现场、内训现场
+		seePartTab('place',1,1);
 	})
 	//加载相关关键字
 	function getRelatedKeys(){
@@ -96,8 +121,8 @@
 					//alert("valueStr " + valueStr);
 					if(valueStr == ""){
 						valueStr = "<div class='notice'>未搜索到相关课程信息</div>";
-					}
-					$('#coursePagesDiv').css('display','block');
+					}else
+						$('#coursePagesDiv').css('display','block');
 					$('#classes').html(valueStr);
 					$('#coursePages').html(pages);
 					$('#courseCurrPage').html(parseInt(page));
@@ -210,42 +235,111 @@
 		
 	</div>
 	<!--右边部分 start-->
+		<!--右边部分信息 start-->
 	<div class="rightInPart">
-		<!--培训关键词 start-->	
 		<div class="rightTeacher">
-				<h5  class="first">相关关键字</h5>
-				<div class="bg" style="padding:0px 0px 4px 0px;border:none;height:280px"/>
-					<div class="clear" style="height:0px"></div>
-					<dl class="bestCustomer leftPart left" style="width:110px;">
-						<dd><a href="#">消费者培训</a></dd>
-						<dd><a href="#">消费者市场</a></dd>
-						<dd><a href="#">消费者行为</a></dd>
-						<dd><a href="#">大众消费</a></dd>
-						<dd><a href="#">消费市场</a></dd>
-						<dd><a href="#">投诉处理流程</a></dd>
-						<dd><a href="#">团队培训</a></dd>
-						<dd><a href="#">客户服务</a></dd>
-						<dd><a href="#">投诉处理流程</a></dd>
-						<dd><a href="#">客户服务</a></dd>
-						<dd><a href="#">投诉处理流程</a></dd>
-					</dl>
-					<dl class="bestCustomer rightPart right" style="width:130px;">
-						<dd><a href="#">绩效考核</a></dd>
-						<dd><a href="#">新社会保险法</a></dd>
-						<dd><a href="#">员工关系管理</a></dd>
-						<dd><a href="#">风险管理</a></dd>
-						<dd><a href="#">目标管理</a></dd>
-						<dd><a href="#">商务考察</a></dd>
-						<dd><a href="#">经理人培训</a></dd>
-						<dd><a href="#">绩效考核</a></dd>
-						<dd><a href="#">新社会保险法</a></dd>
-						<dd><a href="#">绩效考核</a></dd>
-						<dd><a href="#">新社会保险法</a></dd>
-					</dl>
-				</div>
+			<h5  class="first">相关培训课程</h5>
+			<div class="bg" style="padding:0px 15px 10px 15px;border:none;height:auto">
+				<ul class="list9" id="hotCourse">
+					<!--  <li><a>2013年4月培训计划</a></li>-->
+				</ul>
+				<div class="clear"></div>
 			</div>
-		<!--内训关键词 end-->	
-    </div>
+			<h5  class="first">相关内训课程</h5>
+			<div class="bg" style="padding:10px 15px 10px 15px;border:none;height:auto">
+				<ul class="list9" id="NXCourse">
+					<!--  <li><a>2013年4月培训计划</a></li>-->
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<h5>相关内训视频</h5>
+			<div class="bg" style="padding:10px 15px 10px 15px;border:none;height:auto">
+				<ul class="list9" id="NXVideo">
+					<!--  <li><a>2013年4月培训计划</a></li>-->
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<h5>相关讲师</h5>
+			<div class="bg" style="padding:10px 0px 10px 12px;border:none;height:auto;">
+				<ul class="teacher" id="teacherPart">
+					<!--<li><a href="#">刘强</a></li>-->
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<h5>相关文章</h5>
+			<div class="bg" style="padding:10px 0px 10px 12px;border:none;height:auto;">
+				<ul class="list9" id="hotArticle">
+					<!--<li><a href="#">刘强</a></li>-->
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<h5>相关问答</h5>
+			<div class="inQuesiton">	
+					<dl id="questions">
+						<!--<dd><a href="#">如何解除劳动合同?</a></dd>-->
+					</dl>
+			</div>
+			<h5 >培训下载</h5>
+			<div class="bg" style="padding:10px 15px 10px 15px;border:none;height:auto;">
+				<ul class="list9" id="hotDownloads">
+					<!-- <li><a>经典资料：行政管理怎样做...</a></li>-->
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<h5>相关培训机构</h5>
+			<ul class="list7" style="padding-top:10px;padding-left:15px;" id="PXOrgs">
+				<!--  <li class="line"><a><span class="red">1</span><span class="text">三人行教育培训机构</span></a></li>
+				<li class="line"><a><span class="red">2</span><span class="text">众行机构</span></a></li>
+				<li class="line"><a><span class="blue">3</span><span class="text">三人行教育培训机构</span></a></li>
+				<li class="line"><a><span class="blue">4</span><span class="text">众行机构</span></a></li>
+				<li class="line"><a><span class="blue">5</span><span class="text">众行机构</span></a></li>-->
+			</ul>
+			<div class="clear"></div>
+			<h5>相关客户群</h5>
+			<dl class="bestCustomer leftPart left" style="width:200px;" id="customer">
+				<!-- <dd><a href="#">华夏基金</a></dd>-->
+			</dl>
+			<div class="clear"></div>
+			<h5>相关评价</h5>
+			<div class="bg" style="padding:10px 15px 10px 15px;border:none;height:auto">
+				<ul class="list9" id="comments">
+					<!--  <li><a>2013年4月培训计划</a></li>-->
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		
+		<div style="height:10px; display:block"></div>
+		 <div class="sortList">
+			<div class="head">
+						<div class="tabOn half" id="plan11"><a href='javascript:void(0)' onclick="javascript:seePartTab('plan',1,1)">培训计划</a></div>
+						<div class="tabOff half" id="plan12"><a href='javascript:void(0)' onclick="javascript:seePartTab('plan',2,1)">内训计划</a></div>
+						<div class="clear"></div>
+					</div>
+					<div class="bg h315" style="padding:0px 15px 4px 15px;">
+						<ul class="list7" style="padding-top:10px" id="plan1">
+							<!--<li class="line"><a>企业资本运作与投融资顾问</a></li>  -->
+						</ul>
+						<div class="clear"></div>
+					</div>
+		</div>
+		<div style="height:10px; display:block"></div>
+		 <div class="sortList">
+			<div class="head">
+						<div class="tabOn half" id="place11"><a  href='javascript:void(0)' onclick="javascript:seePartTab('place',1,1)">培训现场</a></div>
+						<div class="tabOff half" id="place12"><a  href='javascript:void(0)' onclick="javascript:seePartTab('place',2,1)">内训现场</a></div>
+						<div class="clear"></div>
+					</div>
+					<div class="bg h315" style="padding:0px 15px 4px 15px;">
+						<ul class="list7" style="padding-top:10px" id="place1">
+							<!--<li class="line"><a>企业资本运作与投融资顾问</a></li>  -->
+						</ul>
+						<div class="clear"></div>
+					</div>
+		</div>
+		<div style="height:10px; display:block"></div>
+	</div>
+	<!--右边部分信息 end-->
 	<!--右边部分 end-->
 	<div class="clear">
 	

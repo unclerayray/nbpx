@@ -40,7 +40,18 @@ public class TrainPlanAction extends BaseAction{
 	public Integer month;
 	public int year;
 	public boolean isInner = false;
+	public String flag;
 	public Integer courseId;
+	
+	public String getPlanCourse(){
+		Boolean ifInner = false;
+		if("2".equals(flag))
+			ifInner = true;
+		String resultStr = courseService.getTranPlans(ifInner, rows, this.getStartPosi());
+		this.inputStream = castToInputStream(resultStr);
+		
+		return SUCCESS;
+	}
 	
 	//获取培训计划的内容
 	public String getTrainPlanInfo(){
@@ -379,6 +390,13 @@ public class TrainPlanAction extends BaseAction{
 	}
 	public void setInner(boolean isInner) {
 		this.isInner = isInner;
+	}
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 	public String getCity() {
 		return city;

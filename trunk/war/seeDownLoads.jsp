@@ -51,7 +51,7 @@
 				var rows = jsonObject.rows;
 	
 				$.each(rows,function(n,value){
-					valueStr += "<li style='border-bottom:1px dashed #ccc;width:95%'>"+value.title+"<span><a href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'>下载</a></span></li>";
+					valueStr += "<li style='border-bottom:1px dashed #ccc;width:95%'>"+value.title+"<span><a href='seeDownLoadsDetail.jsp?id="+value.downloadId+"'>查看</a></span></li>";
 				});
 
 				if(valueStr == ""){

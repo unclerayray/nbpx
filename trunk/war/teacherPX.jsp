@@ -23,8 +23,9 @@
 	});
 	function loadTeachers(page){
 		$.ajax({
-			url:"struts/TeacherInfo_getPXTeacherList?page="+page+"&rows=10",
+			url:"struts/TeacherInfo_getTeacherList?page="+page+"&rows=10",
 			success:function(data){
+				//alert(data);
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
 				var pages = jsonObject.total;
@@ -38,11 +39,11 @@
 					valueStr += "<div class='teacherList'><ul >"+
 								"<li><img src='"+value.photo+"'></li>"+
 								"<li>"+
-								"<div style='width:550px;padding-top:10px'>"+
+								"<div style='width:600px;padding-top:10px'>"+
 								"<table>"+
-								"<tr><td colspan='2'><h3 class='th3'><a href='teacherClass.jsp?type=1&id="+value.teacherId+"'>"+value.realName+"</a></h3></td></tr>"+
-								"<tr><td width='60px'>擅长领域:</td><td>"+(value.expertIn == undefined?"暂无介绍":value.expertIn)+"</td></tr>"+
-								"<tr><td>个人简介:</td><td>"+(value.introduction == undefined?"暂无介绍":value.introduction)+"</td></tr>"+
+								"<tr><td colspan='2'><h3 class='th3'><a href='teacherClass.jsp?id="+value.teacherId+"'>"+value.realName+"</a></h3></td><td width='60px'>邀请费用:</td><td align='left'>"+(value.externalPayment == 0?"面议":value.externalPayment)+"</td></tr>"+
+								"<tr><td width='60px'>擅长领域:</td><td align='left' width='180px'>"+(value.expertIn == undefined?"暂无介绍":value.expertIn)+"</td><td width='60px'>联系方式:</td><td align='left'>"+(value.cellphone == undefined?"暂无联系方式":value.cellphone)+"</td></tr>"+
+								"<tr><td valign='top'>个人简介:</td><td valign='top' align='left' colspan='3'><span class='tooLong' style='width:500px;display:block'>"+(value.introduction == undefined?"暂无介绍":value.introduction)+"</span></td></tr>"+
 								"</table>"+
 								"</div>"+
 								"</li>"+
@@ -77,7 +78,8 @@
 					else
 						valueStr += "<li class='line'><a href='seeKey.jsp?key="+value.name+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
 				});
-		
+				if(valueStr == "")	
+					valueStr = "<div class='notice'>暂时没有关键词信息</div>";
 				$('#hotKeywords').html(valueStr);
 			}		
 		})
@@ -100,6 +102,8 @@
 					else
 						valueStr += "<li class='line'><a href='seeKey.jsp?key="+value.name+"'><span class=\""+color+"\">"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'>"+value.count+"</span></a><div class='clear'></div></li>";
 				});
+				if(valueStr == "")	
+					valueStr = "<div class='notice'>暂时没有专题信息</div>";
 				$('#hotSubjects').html(valueStr);
 			}
 		});
@@ -154,7 +158,7 @@
 		<li>当前位置:&nbsp;</li>
 		<li><a href="index.jsp" target="_self">首页</a></li>
 		<li class="bread">&gt;&gt;</li>
-		<li>企业培训师</li>
+		<li>企业讲师</li>
 	</ul>
 	<div class="clear"></div>
 </div>
@@ -165,21 +169,37 @@
 	<div class="leftInPart" id="leftPart">
 		<div id="classes">
 		<!--课程介绍 start-->
-			<!-- <div class="teacherList">
+		<div class="teacherList">
 			<ul >
 			<li><img src='images/824.jpg'></li>
 			<li>
-				<div style="width:550px;padding-top:10px">
+				<div style="width:600px;padding-top:10px;">
 					<table>
-					<tr><td colspan='2'><h3 class='th3'>讲师1</h3></td></tr>
-					<tr><td width="60px">擅长领域:</td><td>xxx</td></tr>
-					<tr><td>个人简介:</td><td>哈哈哈啊哈</td></tr>
+					<tr><td colspan='2' width="250px"><h3 class='th3'>讲师1</h3></td><td width="60px">邀请费用:</td><td align="left">1000元</td></tr>
+					<tr><td width="60px">擅长领域:</td><td align="left">xxx</td><td width="60px">联系方式:</td><td align="left">13640713242</td></tr>
+					<tr><td>个人简介:</td><td align="left" colspan="3"><span class="tooLong" style="width:500px;display:block">哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈</span></td></tr>
 					</table>
 				</div>
 			</li>
 			</ul>
 			<div class='clear'></div>
-			</div> -->
+			</div>
+			
+			<div class="teacherList">
+			<ul >
+			<li><img src='images/824.jpg'></li>
+			<li>
+				<div style="width:600px;padding-top:10px;">
+					<table>
+					<tr><td colspan='2' width="250px"><h3 class='th3'>讲师1</h3></td><td width="60px">邀请费用:</td><td align="left">1000元</td></tr>
+					<tr><td width="60px">擅长领域:</td><td align="left">xxx</td><td width="60px">联系方式:</td><td align="left">13640713242</td></tr>
+					<tr><td>个人简介:</td><td align="left" colspan="3"><span class="tooLong" style="width:500px;display:block">哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈</span></td></tr>
+					</table>
+				</div>
+			</li>
+			</ul>
+			<div class='clear'></div>
+			</div>
 		<!--课程介绍 end-->
 		</div>
 		<div class="resultFoot" id="coursePagesDiv" style='display:none;padding-top:20px'>

@@ -53,6 +53,7 @@ public class DownloadAction extends BaseAction {
 	public Download download;
 	public File file;
 	public Integer downloadId;
+	public String id;
 	public String title;
 	public String description;
 	public String author;
@@ -94,6 +95,12 @@ public class DownloadAction extends BaseAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public String viewDownloads(){
+		String json = downloadService.getDownloadByID(id);
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
 	}
 	
 	public String queryDownloads() {
@@ -334,6 +341,13 @@ public class DownloadAction extends BaseAction {
 
 	public void setDownloadKeywords(String downloadKeywords) {
 		this.downloadKeywords = downloadKeywords;
+	}
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

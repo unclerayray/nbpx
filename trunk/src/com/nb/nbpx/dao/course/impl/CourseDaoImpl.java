@@ -45,7 +45,40 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-	
+	//获取培训计划
+	public List<Course> getPlanCourse(final Boolean ifInner,final Integer rows, final Integer start)
+	{
+		List<Course> list = new ArrayList<Course>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						" from Course c where c.planflag = 1 and c.state=1 and 1=1 ");
+				
+				if (ifInner != null) {// 区分内训和培训
+					if (ifInner) 
+						hql.append(" and c.isInner = 1");
+					else
+						hql.append(" and c.isInner = 0");
+				}
+				
+				hql.append(" order by c.creationDate desc");
+				
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+				return query.list();
+			}
+		});
+		return list;
+	}
+		
 	//获取视频内训
 	public List<Course> getVedioCourse(final Boolean ifInner,final Boolean ifRecommend,final Boolean byHit, final String type,
 			final Integer rows, final Integer start){

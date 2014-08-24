@@ -42,8 +42,15 @@ public class TeacherInfoAction extends BaseAction{
 	private ISolrTeacherService solrTeacherService;
 	private ICourseService courseService;
 	
-
-
+	//获取讲师列表
+	public String getTeacherList(){
+		String json = "";
+		json = teacherInfoService.getTeacherInfo(null, "1", rows, getStartPosi());
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
+	
 	//获取培训讲师列表
 	public String getPXTeacherList(){
 		String json = "";
@@ -72,6 +79,12 @@ public class TeacherInfoAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	public String getTeacherInforByTeacherId(){
+		String json = teacherInfoService.getTeacherInfoByTeacherId(Integer.parseInt(teacherID));
+		
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
 	
 	public String getTeacherInforByUserId(){
 		String json = "";

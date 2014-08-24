@@ -630,7 +630,7 @@
 					var jsonObject = eval('('+data+')');
 					var valueStr = "";
 					$.each(jsonObject.rows,function(n,value){
-						valueStr += "<li><a href='struts/Download_downLoadFile?downloadId="+value.downloadId+"'>"+value.title+"</a></li>";
+						valueStr += "<li><a href='seeDownLoadsDetail.jsp?id="+value.downloadId+"'>"+value.title+"</a></li>";
 					});
 					$('#'+pre+part).html(valueStr);
 				}
@@ -1926,7 +1926,6 @@ padding-bottom: 2px;
 			<div class="partLeft left">
 				<div class="head">
 					<div class="tabOn half" >培训在线问答</div>
-					<div class="tabOff half">企业培训需求</div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 10px 0px 10px;">
@@ -2034,15 +2033,15 @@ padding-bottom: 2px;
 	<div class="part left">
 				<div class="head">
 					<div class="tabOn" id="org11"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',1,1)">企业培训机构</a></div>
-					<div class="tabOff" id="org12"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',2,1)">培训机构排名</a></div>
-					<div class="tabOff" id="org13"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',3,1)">热门搜索</a></div>
+					<!--  <div class="tabOff" id="org12"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',2,1)">培训机构排名</a></div>
+					<div class="tabOff" id="org13"><a href='javascript:void(0)' onclick="javascript:seePartTab('org',3,1)">热门搜索</a></div>-->
 					<div class="more"><a href="orgList.jsp" target="_blank">更多</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h245">
 					<div style="padding-left:25px;padding-top:10px">
 						<ul class="list4 gray" id="org1">
-							<li><a href="#">财务人员必须掌握的28个Excel</a></li>
+							<!-- <li><a href="#">财务人员必须掌握的28个Excel</a></li> -->
 						</ul>
 					</div>
 				</div>

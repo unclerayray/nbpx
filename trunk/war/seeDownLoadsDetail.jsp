@@ -20,23 +20,22 @@
 <script>
 	$(function(){
 		$.ajax({
-			url:"struts/ViewArticle_viewArticle?id="+<%=id%>,
+			url:"struts/Download_viewDownloads?id="+<%=id%>,
 			success:function(data){
 				//alert(data);
 				var jsonObject = eval('('+data+')');
 				$('#title').html("<h1>"+jsonObject.title+"</h1>");
-				$('#courseId').html("作者:"+jsonObject.author+"&nbsp;&nbsp;阅读次数:"+jsonObject.hot+"&nbsp;&nbsp;"+jsonObject.createdate);
+				$('#courseId').html("上传人:"+jsonObject.author+"&nbsp;&nbsp;下载次数:"+jsonObject.hot+"&nbsp;&nbsp;"+jsonObject.createdate);
 				$('#classContent').html(jsonObject.content);
 				
 				//路径
 				var path = "<ul><li>当前位置:&nbsp;</li><li><a href='index.jsp'>首页</a></li><li class='bread'>&gt;&gt;</li>";
-				path += "<li><a href='allArticles.jsp'>企业文库</a></li>";
-				path += "<li class='bread'>&gt;&gt;</li>";
-				path += "<li><a href='viewArticleType.jsp?id="+jsonObject.categoryID+"'>"+jsonObject.categoryName+"</a></li>";
+				path += "<li><a href='seeDownLoads.jsp'>培训下载</a></li>";
 				path += "<li class='bread'>&gt;&gt;</li>";
 				path += "<li>"+jsonObject.title+"</li></ul><div class='clear'></div>";
 				$('#path').html(path);				
-				
+				$('#downPart').html("<a href='struts/Download_downLoadFile?downloadId="+jsonObject.id+"' style='color:red;'>点此下载资料</a>");
+
 				//添加关键词
 				var queryKeyWords = "";
 				var keyWords = jsonObject.keyWords;
@@ -48,7 +47,7 @@
 						keyWordsStr += "、";
 				}
 				$('#keyWords').html(keyWordsStr+"<br>");
-				loadRelatedKeyWords(queryKeyWords ==""?"文章":queryKeyWords);
+				loadRelatedKeyWords(queryKeyWords ==""?"下载":queryKeyWords);
 				
 				//添加专题
 				var querySubjects = "";
@@ -61,7 +60,8 @@
 						seriesStr += "、";
 				}
 				$('#series').html(seriesStr+"<br>");
-				loadRelatedSubjects(querySubjects == ""?"文章":querySubjects);
+				loadRelatedSubjects(querySubjects == ""?"下载":querySubjects);
+				
 			}
 		});
 		
@@ -129,19 +129,21 @@
 	<!--左边部分课程信息 start-->
 	<div class="leftInPart">
 		<div class="classDetail" >
-			<div><span id="title">我是一个文章</span>
-			<div class="classNum" id="courseId">2013-11-1</div></div>
+			<div><span id="title"></span>
+			<div class="classNum" id="courseId"></div></div>
 			<div class="detail">
 			<div class="classLeftPart" id="courseInfo">
-			<div class="time" id="keyWords"><span>关键词：</span><a href="#">管理</a>、<a href="#">团队建设</a></div>
-			<div class="time" id="series"><span>专题：</span><a href="#">企业管理</a></div>
+			<div class="time" id="keyWords"></div>
+			<div class="time" id="series"></div>
 			</div>
 			
 			<div class="clear"></div>
 			</div>
 			<div class="clear"></div>
 			<div id="courseContent">
-					<p id="classContent">我是一个人</p>
+					<p id="classContent"></p>
+			</div>
+			<div style="text-align:center" id="downPart">
 			</div>
 	</div>
 	<div class="clear"></div>
