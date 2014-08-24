@@ -3,16 +3,6 @@ pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 String keyw = (String)request.getParameter("subject");
-String encoding = request.getCharacterEncoding();
-if (encoding == null) {
-    encoding = "UTF-8";
-}
-try {
-	keyw = new String(keyw.getBytes(), encoding);
-} catch(Exception ex) {
-    System.err.println(ex);
-    ex.printStackTrace();
-}
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
