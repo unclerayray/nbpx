@@ -189,7 +189,6 @@ function auditOrgInfo() {
 					$
 					.post(
 						'../struts/OrgInfo_auditOrgInfo?orgId='+row.orgId + '&state=' + row.state,
-						row,
 						function(data) {
 							if (data.success) {
 								$('#dg')

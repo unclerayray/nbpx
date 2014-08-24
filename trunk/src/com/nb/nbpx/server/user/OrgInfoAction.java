@@ -147,7 +147,7 @@ public class OrgInfoAction extends BaseAction{
 	public String auditOrgInfo(){
 		String msg = "已激活！";
 		try {
-			orgInfoService.auditOrgInfo(orgId, state);;
+			orgInfoService.auditOrgInfo(orgId, !state);;
 			orgSolrService.audit(orgId,!state);
 			if(state){
 				msg = "已锁定！";

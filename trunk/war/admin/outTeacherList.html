@@ -262,7 +262,7 @@ modal="true" data-options="buttons: [{
 					if (r) {
 						$.post(
 								'../struts/TeacherInfo_auditTeacherInfo?teacherInfoId='
-										+ row.teacherId + '&state=' + row.state, row, function(data) {
+										+ row.teacherId + '&state=' + row.state, function(data) {
 									if (data.success) {
 										$('#dg').datagrid('reload'); // reload the Dic data
 										$('#dg').datagrid('clearSelections');

@@ -50,6 +50,7 @@ public class CompInfoAction extends BaseAction {
 			info.setTelephone(compInfo.getTelephone());
 			info.setFax(compInfo.getFax());
 			info.setCellphone(compInfo.getCellphone());
+			info.setQq(compInfo.getQq());
 			compInfoService.saveCompInfor(info);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(

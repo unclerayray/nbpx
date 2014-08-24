@@ -107,11 +107,11 @@ function register(){
 					alert('姓名不能为空!');
 					return false;
 				}
-				if($('#t_birthday').datebox('getValue') == ''){
+				if($('#t_birthday').val() == ''){
 					alert('出生日期不能为空!');
 					return false;
 				}
-				if(!validateDate($('#t_birthday').datebox('getValue')))
+				if(!validateDate($('#t_birthday').val()))
 					return false;
 				
 				if($('#t_password').val() == '' || $('#t_password').val() == null){
@@ -266,6 +266,11 @@ function validateCell(cell){
 	}
 	return true;
 }
+function clearForm(){
+	$('#compForm').form('clear');
+	$('#orgForm').form('clear');
+	$('#teacherForm').form('clear');
+}
 </script>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
@@ -290,7 +295,7 @@ function validateCell(cell){
 	<dd><span>用户类别:</span><select id="userType" name="userType" onchange="javascript:selectType()"><option value="2" selected>讲师</option><option value="1">企业用户</option><option value="3">培训机构</option></select></dd>
 	
 	<div id="comp"  style='display:none'>
-	<form id="compForm">
+	<form id="compForm" method="post" >
 		<dd><span>用户名:</span><input type="text" name="username" id="c_username"/><em>*</em></dd>
 		<dd><span>公司名称:</span><input type="text" name="company" id="c_company"/><em>*</em></dd>
 		<dd><span>城市:</span><input type="text"  name="city" id="c_city"/><em>*</em></dd>
@@ -302,16 +307,18 @@ function validateCell(cell){
 		<dd><span>移动电话:</span><input type="text" name="cellphone" id="c_cellphone"/><em>*</em></dd>
 		<dd><span>联系电话:</span><input type="text" name="telephone" id="c_telephone"/><em>*</em><em class="black">&nbsp;(格式为：020-61908283)</em></dd>
 		<dd><span>传真号码:</span><input type="text" name="fax" id="c_fax"/><em>*</em></dd>
+		<dd><span>联系QQ:</span><input type="text" name="assistQq" id="t_aaassistQq"/></dd>
 	</form>
 	</div>
 
 	<div id="org" style='display:none'>
-		<form id="orgForm">
+		<form id="orgForm"  method="post" enctype="multipart/form-data">
 		<dd><span>用户名:</span><input type="text" name="username" id="o_username"/><em>*</em></dd>
+		<dd><span>logo:</span><input type="file" name="file" id="t_file"/></dd>
 		<dd><span>机构名称:</span><input type="text" name="orgName" id="o_orgName"/><em>*</em></dd>
-		<dd><span>所在地区:</span><input type="text"  name="city" id="o_city"/><em>*</em></dd>
+		<dd><span>地址:</span><input type="text"  name="address" id="o_address"/><em>*</em></dd>
 		<dd><span>公司网址:</span><input type="text" name="website" id="o_website"/></dd>
-		<dd><span>培训类别:</span><select name="majorCatgory" id="t_majorCatgory" ><option value="003_01" selected>财务管理</option><option value="003_02">采购供应链仓储</option><option value="003_03">人力资源管理</option><option value="003_04">生产管理</option><option value="003_05">市场营销</option><option value="003_06">战略管理</option><option value="003_07">项目管理</option><option value="003_08">职业技能</option></select></dd>
+		<dd><span>培训类别:</span><select name="category" id="t_category" ><option value="003_01" selected>财务管理</option><option value="003_02">采购供应链仓储</option><option value="003_03">人力资源管理</option><option value="003_04">生产管理</option><option value="003_05">市场营销</option><option value="003_06">战略管理</option><option value="003_07">项目管理</option><option value="003_08">职业技能</option></select></dd>
 		<dd><span>密码:</span><input type="password"  name="password" id="o_password"/><em>*</em></dd>
 		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="o_confirmPassword"/><em>*</em></dd>
 		<dd><span>联系人:</span><input type="text" name="contact" id="o_contact"/><em>*</em></dd>
@@ -320,19 +327,26 @@ function validateCell(cell){
 		<dd><span>联系电话:</span><input type="text" name="telephone" id="o_telephone"/><em>*</em></dd>
 		<dd><span>传真号码:</span><input type="text" name="fax" id="o_fax"/></dd>
 		<dd><span>邮编:</span><input type="text" name="postCode" id="o_postCode"/><em>*</em></dd>
-		
+		<dd><span>联系QQ:</span><input type="text" name="assistQq" id="t_aassistQq"/></dd>
 		<dd><span>公司简介:</span><textarea name="introduction" id="o_introduction"></textarea></dd>
 		</form>
 	</div>
 
-
 	<div id="teacher">
-		<form id="teacherForm">
-		<dd><span>用户名:</span><input type="text" name="username" id="t_username""/><em>*</em></dd>
-		<dd><span>姓名:</span><input type="text" name="realName" id="t_realName"/><em>*</em></dd>
+		<form id="teacherForm"  method="post"  enctype="multipart/form-data">
+		<dd><span>用户名:</span><input type="text" name="username" id="t_username"/><em>*</em></dd>
+		<dd><span>讲师名:</span><input type="text" name="realName" id="t_realName"/><em>*</em></dd>
+		<dd><span>真实姓名:</span><input type="text" name="realRealName" id="t_realRealName"/></dd>
+		<dd><span>男士/女士:</span><select name="isMale" id="isMale" >
+		<option value="true" selected>男</option><option value="false">女</option></select></dd>
+		<dd><span>头像:</span><input type="file" name="file" id="file"/></dd>
 		<dd><span>所在城市:</span><input type="text"  name="city" id="t_city"/><em class="black">（您当前工作或居住的城市）</em></dd>
-		<span style="color:#333;line-height:40px;height:40px;text-align:right;padding-right:10px;font-size:12px">出生日期:</span><input class="easyui-datebox" name="birthday" id="t_birthday" readonly="readonly" style="border:1px solid #ccc;height:23px;width:200px;float:left;margin-top:5px;margin-right:10px"/><em>*</em>
-		<dd><span>主讲类别:</span><select name="majorCatgory" id="t_majorCatgory" ><option value="003_01" selected>财务管理</option><option value="003_02">采购供应链仓储</option><option value="003_03">人力资源管理</option><option value="003_04">生产管理</option><option value="003_05">市场营销</option><option value="003_06">战略管理</option><option value="003_07">项目管理</option><option value="003_08">职业技能</option></select></dd>
+		<dd><span>出生日期:</span><input type="text" name="birthday" id="t_birthday"/><em>*&nbsp;格式请用03/12/1976</em></dd>
+		<dd><span>主讲类别:</span><select name="majorCatgory" id="t_majorCatgory" >
+		<option value="003_01" selected>财务管理</option><option value="003_02">采购供应链仓储</option>
+		<option value="003_03">人力资源管理</option><option value="003_04">生产管理</option>
+		<option value="003_05">市场营销</option><option value="003_06">战略管理</option><option value="003_07">项目管理</option>
+		<option value="003_08">职业技能</option></select></dd>
 		<dd><span>密码:</span><input type="password"  name="password" id="t_password"/><em>*</em></dd>
 		<dd><span>确认密码:</span><input type="password"  name="confirmPassword" id="t_confirmPassword"/><em>*</em></dd>
 		<dd><span>对内课酬:</span><input type="text" name="internalPayment" id="t_internalPayment"/><em>*</em></dd>
@@ -341,12 +355,16 @@ function validateCell(cell){
 		<dd><span>移动电话:</span><input type="text" name="cellphone" id="t_cellphone"/></dd>
 		<dd><span>联系电话:</span><input type="text" name="telephone" id="t_telephone"/><em>*&nbsp;如020-12345678</em></dd>
 		<dd><span>传真号码:</span><input type="text" name="fax" id="t_fax"/></dd>
+		<dd><span>助理姓名:</span><input type="text" name="assistName" id="t_assistName"/></dd>
+		<dd><span>助理QQ:</span><input type="text" name="assistQq" id="t_assistQq"/></dd>
+		<dd><span>助理电话:</span><input type="text" name="assistPhone" id="t_assistPhone"/></dd>
+		<dd><span>助理邮箱:</span><input type="text" name="assistEmail" id="t_assistEmail"/></dd>
 		<dd><span>个人简介:</span><textarea name="introduction" id="t_introduction"></textarea></dd>
 		<div class="clear"></div>
 		<dd style="display:none"><span>擅长项目:</span><textarea name="expertIn" id="t_expertIn"></textarea></dd>
 		</form>
 	</div><div class="clear"></div>
-	<dd class="button"><a href='#' onclick="javascript:register();">提交</a><a href='#' onclick="javascript:register();">重置</a></dd>
+	<dd class="button"><a href='#' onclick="javascript:register();">提交</a><a href='#' onclick="javascript:clearForm();">重置</a></dd>
 	
 </div>
 
