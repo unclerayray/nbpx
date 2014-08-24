@@ -230,6 +230,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 		resultMap.put("title", article.getArticleTitle());//文章标题	
 		resultMap.put("id", article.getArticleId());//文章ID
 		resultMap.put("hot", article.hits);//阅读次数
+		resultMap.put("author", article.author);//阅读次数
 		SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
 		resultMap.put("createdate",dateFormate.format(article.getLastUpdateDate()));//创建日期
 		resultMap.put("content", article.getContent());

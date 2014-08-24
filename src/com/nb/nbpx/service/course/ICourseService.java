@@ -151,6 +151,8 @@ public interface ICourseService extends IBaseService {
 	 */
 	public String getTranPlans(String category, Date startDate, Date endDate, Boolean isInner, String city, Integer rows);
 	
+	public String getTranPlans(Boolean isInner, Integer rows,Integer start);
+
 	// 获取培训计划，默认一页是显示4个月的培训计划，
 	public String getTranPlan(Integer rows, Integer start);
 

@@ -56,8 +56,9 @@
 				});
 				if(valueStr == '')
 					valueStr = "<div class='notice'>该字典暂时还没有任何数据</div>";
+				else
+					$('#coursePagesDiv').css('display','block');
 				$('#keysList').html(valueStr);
-				$('#coursePagesDiv').css('display','block');
 				$('#coursePages').html(pages);
 				$('#courseCurrPage').html(parseInt(page));
 			}		

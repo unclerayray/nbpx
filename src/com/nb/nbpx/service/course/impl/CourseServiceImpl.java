@@ -1488,6 +1488,11 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 		return courseDao.get(courseId);
 	}
 	
+	public String getTranPlans(Boolean isInner, Integer rows,Integer start){
+		List<Course> planCourse = courseDao.getPlanCourse(isInner, rows, start);
+		return JsonUtil.formatListToJson(planCourse);
+	}
+	
 	@Override
 	public String getTranPlans(String category, Date startDate, Date endDate, Boolean isInner, String city, Integer rows) {
 		List<CourseReport> list;

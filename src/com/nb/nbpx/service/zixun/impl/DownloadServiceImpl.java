@@ -1,5 +1,7 @@
 package com.nb.nbpx.service.zixun.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +13,13 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.ResponseStatus;
 import com.nb.nbpx.dao.zixun.IDownloadDao;
+import com.nb.nbpx.pojo.article.Article;
+import com.nb.nbpx.pojo.article.ArticleKeyword;
+import com.nb.nbpx.pojo.article.ArticleSubject;
+import com.nb.nbpx.pojo.system.Dictionary;
 import com.nb.nbpx.pojo.zixun.Download;
+import com.nb.nbpx.pojo.zixun.DownloadKeyword;
+import com.nb.nbpx.pojo.zixun.DownloadSubject;
 import com.nb.nbpx.service.impl.BaseServiceImpl;
 import com.nb.nbpx.service.zixun.IDownloadService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -35,6 +43,43 @@ public class DownloadServiceImpl extends BaseServiceImpl implements IDownloadSer
 		this.downloadDao = downloadDao;
 	}
 
+	public String getDownloadByID(final String downloadID){
+		Download download = downloadDao.getById(Download.class, Integer.parseInt(downloadID));
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		if(download == null)
+			return "";
+		resultMap.put("title", download.getTitle());//文章标题	
+		resultMap.put("id", download.getDownloadId());//文章ID
+		resultMap.put("hot", download.getDownloadCnt());//阅读次数
+		resultMap.put("author", download.getAuthor());//阅读次数
+		SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd");
+		resultMap.put("createdate",dateFormate.format(download.getUploadDate()));//创建日期
+		resultMap.put("content", download.getDescription());
+	
+		
+		List<DownloadKeyword> keys = downloadDao.getDownloadKeywordsById(downloadID);
+		List<Map<String,Object>> keyList = new ArrayList<Map<String,Object>>();
+		for(DownloadKeyword key : keys){
+			Map<String,Object> temp = new HashMap<String,Object>();
+			temp.put("name", key.getKeyword());
+			temp.put("id", key.getKeywordId());
+			keyList.add(temp);
+		}
+		resultMap.put("keyWords", keyList);//关键词
+		
+		List<DownloadSubject> subjects = downloadDao.getDownloadSubjectById(downloadID);
+		List<Map<String,Object>> subjectList = new ArrayList<Map<String,Object>>();
+		for(DownloadSubject subject : subjects){
+			Map<String,Object> temp = new HashMap<String,Object>();
+			temp.put("name", subject.getSubject());
+			temp.put("id", subject.getSubjectId());
+			subjectList.add(temp);
+		}
+		resultMap.put("series", subjectList);//主题
+		
+		return JsonUtil.getJsonString(resultMap);
+	}
+	
 	@Override
 	public String queryDownloads(String type, Integer rows, Integer start,
 			String sort, String order, String title, String category) {

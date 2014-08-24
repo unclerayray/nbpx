@@ -262,7 +262,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-			String sql = "select a.* from articlekeywords a,keywords b where a.keywordId = b.keyId and b.flag=1 and a.articleId='"+articleID+"'";
+			String sql = "select a.* from articlekeywords a,keywords b where a.keywordId = b.keyId and a.articleId='"+articleID+"'";
 			Query query = session.createSQLQuery(sql).addEntity(ArticleKeyword.class);
 			
 			return query.list();
@@ -278,7 +278,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-			String sql = "select a.* from articlesubjects a,subjects b where a.subjectId = b.subjectId and b.flag=1 and a.articleId='"+articleID+"'";
+			String sql = "select a.* from articlesubjects a,subjects b where a.subjectId = b.subjectId  and a.articleId='"+articleID+"'";
 			Query query = session.createSQLQuery(sql).addEntity(ArticleSubject.class);
 			
 			return query.list();

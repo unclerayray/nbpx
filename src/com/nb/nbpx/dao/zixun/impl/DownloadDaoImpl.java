@@ -13,13 +13,17 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.dao.impl.BaseDaoImpl;
 import com.nb.nbpx.dao.zixun.IDownloadDao;
+import com.nb.nbpx.pojo.article.ArticleKeyword;
+import com.nb.nbpx.pojo.article.ArticleSubject;
 import com.nb.nbpx.pojo.course.Course;
 import com.nb.nbpx.pojo.zixun.Download;
+import com.nb.nbpx.pojo.zixun.DownloadKeyword;
+import com.nb.nbpx.pojo.zixun.DownloadSubject;
 
 @Component("DownloadDao")
 public class DownloadDaoImpl extends BaseDaoImpl<Download, Integer> implements
 		IDownloadDao {
-	
+		
 	@SuppressWarnings("unchecked")
 	public List<Download> getDownLoads(final String type, final Integer rows, final Integer start,
 			final String sort, final String order){
@@ -94,4 +98,35 @@ public class DownloadDaoImpl extends BaseDaoImpl<Download, Integer> implements
 		
 	}
 	
+	//根据文章ID获取文章的关键词
+	public List<DownloadKeyword> getDownloadKeywordsById(final String downloadID){
+		List<DownloadKeyword> list = new ArrayList<DownloadKeyword>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+			String sql = "select a.* from downloadkeywords a,keywords b where a.keywordId = b.keyId and a.downloadkeywordId='"+downloadID+"'";
+			Query query = session.createSQLQuery(sql).addEntity(DownloadKeyword.class);
+			
+			return query.list();
+			}
+			});		
+		return list;
+	}
+	
+	//根据文章ID获取文章的专题
+	public List<DownloadSubject> getDownloadSubjectById(final String downloadID){
+		List<DownloadSubject> list = new ArrayList<DownloadSubject>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+			String sql = "select a.* from downloadsubjects a,subjects b where a.subjectId = b.subjectId  and a.downloadSubjectId='"+downloadID+"'";
+			Query query = session.createSQLQuery(sql).addEntity(DownloadSubject.class);
+			
+			return query.list();
+			}
+			});		
+		return list;
+	}
 }

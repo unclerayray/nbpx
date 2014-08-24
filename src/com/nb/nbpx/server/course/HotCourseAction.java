@@ -36,6 +36,7 @@ public class HotCourseAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	
 	public String getVedioNXCourse(){
 		String json = courseService.queryVedioCourse(true, null, null,null, rows, this.getStartPosi());
 		

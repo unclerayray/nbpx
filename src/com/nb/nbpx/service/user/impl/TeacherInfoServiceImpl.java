@@ -48,7 +48,14 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 			json = JsonUtil.getJsonString(null);
 		return json;
 	}
-
+	@Override
+	public String getTeacherInfoByTeacherId(Integer teacherID) {
+		TeacherInfo teacherInfo = teacherInfoDao.getTeacherInfoById(teacherID);
+		String json = "";
+		
+		json = JsonUtil.formatToJson(teacherInfo, "");
+		return json;
+	}
 	@Override
 	public String saveTeacherInfor(TeacherInfo teacherInfor) {
 		String json = "";
