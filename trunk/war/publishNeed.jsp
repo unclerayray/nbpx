@@ -4,11 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link type="text/css" href="css/face.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/gray/easyui.css">
 <link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css"/>
 <script type="text/javascript" src="js/easyui/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
 <title>南北培训网</title>
 </head>
 <script>
@@ -68,8 +65,13 @@
 			<td colspan="2" align="left">需求描述:&nbsp;<input style="width:450px;" name="requiredCourse" id="requiredCourse"/><em class="black">(20字以内)</em></td>
 		</tr>
 		<tr>
-			<td>开始时间:&nbsp;<input class="easyui-datebox" name="startTime" id="startTime"/></td>
-			<td>结束时间:&nbsp;<input class="easyui-datebox" name="endTime" id="endTime"/></td>
+			<td>开始时间:&nbsp;
+			<input class="easyui-datebox" name="startTime" id="startTime" 
+			data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',
+			formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}"/></td>
+			<td>结束时间:&nbsp;<input class="easyui-datebox" name="endTime" id="endTime" 
+			data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项',
+			formatter:function(date){ var y = date.getFullYear(); var m = date.getMonth()+1; var d = date.getDate(); return y+'-'+m+'-'+d;}"/></td>
 		</tr>
 		<tr>
 			<td>所在地区:&nbsp;<input name="city" id="city"/></td>

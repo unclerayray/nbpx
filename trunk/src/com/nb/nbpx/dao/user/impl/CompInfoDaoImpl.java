@@ -82,12 +82,12 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer> implements
 					hql.append(userName + "%' ");
 				}
 				if (contact != null && !contact.isEmpty()) {
-					hql.append(" and c.contact = '");
-					hql.append(contact + "' ");
+					hql.append(" and c.contact  like '%");
+					hql.append(contact + "%' ");
 				}
 				if (department != null && !department.isEmpty()) {
-					hql.append(" and c.department = '");
-					hql.append(department + "' ");
+					hql.append(" and c.department like '%");
+					hql.append(department + "%' ");
 				}
 
 				if (sort != null && !sort.isEmpty()) {
@@ -132,12 +132,12 @@ public class CompInfoDaoImpl extends BaseDaoImpl<CompInfo, Integer> implements
 				}
 
 				if (contact != null && !contact.isEmpty()) {
-					hql.append(" and c.contact = '");
-					hql.append(contact + "' ");
+					hql.append(" and c.contact  like '%");
+					hql.append(contact + "%' ");
 				}
 				if (department != null && !department.isEmpty()) {
-					hql.append(" and c.department = '");
-					hql.append(department + "' ");
+					hql.append(" and c.department  like '%");
+					hql.append(department + "%' ");
 				}
 				Query query = session.createQuery(hql.toString());
 

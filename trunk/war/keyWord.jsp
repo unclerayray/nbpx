@@ -4,9 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link type="text/css" href="css/face.css" rel="stylesheet" />
-<script type="text/javascript" src="js/easyui/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
+<script src="js/easyui/jquery-1.8.0.min.js"></script>
 <title>南北培训网</title>
 </head>
 
@@ -20,7 +18,7 @@
 		
 		for(var i=1;i<=3;i++)
 			getSideKeyWords(i);
-	})
+	});
 	function rand(num){ 
 		return parseInt(Math.random()*num+1); 
 	}

@@ -7,12 +7,7 @@ String keyw = (String)request.getParameter("key");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link type="text/css" href="css/face.css" rel="stylesheet" />
-	<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 	<script src="js/easyui/jquery-1.8.0.min.js"></script>
-	<script src="js/easyui/jquery.easyui.min.js"></script>
 
 	<script src="ui/jquery.ui.core.js"></script>
 	<script src="ui/jquery.ui.widget.js"></script>
@@ -22,7 +17,6 @@ String keyw = (String)request.getParameter("key");
 	<script src="js/myjs/index.js"></script>
 
 	<link type="text/css" href="css/search.css" rel="stylesheet" />
-	<link type="text/css" href="css/face.css" rel="stylesheet" />
 	<title>文章搜索结果</title>
 	<style>
 		.ui-autocomplete-loading {

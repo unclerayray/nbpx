@@ -4,9 +4,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link type="text/css" href="css/face.css" rel="stylesheet" />
-<script type="text/javascript" src="js/easyui/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
 <title>南北培训网</title>
 </head>
 

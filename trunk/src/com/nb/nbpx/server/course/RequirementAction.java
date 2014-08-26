@@ -24,8 +24,8 @@ public class RequirementAction extends BaseAction{
 	public String requiredCourse;
 	public Integer headCount;
 	public Integer validDays;
-	public String startTime;
-	public String endTime;
+	public Date startTime;
+	public Date endTime;
 	public String city;
 	public String contact;
 	public String telephone;
@@ -50,19 +50,15 @@ public class RequirementAction extends BaseAction{
 		req.setContact(contact);
 		req.setDescription(description);
 		req.setEmail(email);
-		req.setEndTime(new Date(endTime));
+		req.setEndTime(endTime);
 		req.setHasReplied(0);
 		req.setHeadCount(headCount);
 		req.setRequiredCourse(requiredCourse);
-		req.setStartTime(new Date(startTime));
+		req.setStartTime(startTime);
 		req.setTelephone(telephone);
 		req.setValidDays(validDays);
 		req.setCreateDate(new Date());
-		//HttpSession session = request.getSession();
-		/*User user = (User)session.getAttribute("user");
-		if(user == null)
-			return "请先登陆!";
-		req.setUserId(user.getUserId());*/
+		req.setUsername(getClientSessionUserName());
 		try {	
 			requirementService.saveRequirement(req);
 			json = "发布需求成功,请等候工作人员处理";
@@ -132,19 +128,19 @@ public class RequirementAction extends BaseAction{
 		this.validDays = validDays;
 	}
 
-	public String getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
 

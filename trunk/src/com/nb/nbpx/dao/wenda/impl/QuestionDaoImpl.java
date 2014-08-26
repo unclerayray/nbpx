@@ -41,7 +41,7 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 				}
 				
 				if(askedBy!=null && !askedBy.isEmpty()){
-					hql.append(" and q.askedBy = ? ");
+					hql.append(" and q.askedBy like ? ");
 				}
 				
 				if(title!=null && !title.isEmpty()){
@@ -65,9 +65,9 @@ public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 				Query query = session.createQuery(hql.toString());
 				int i = 0;
 				if (askedBy!=null && !askedBy.isEmpty()) {
-					query.setString(i++, askedBy);
+					query.setString(i++, "%"+askedBy.trim()+"%");
 				}
-				String xx = "%"+title+"%";
+				//String xx = "%"+title+"%";
 				if (title!=null && !title.isEmpty()) {
 					query.setString(i++, "%"+title.trim()+"%");
 				}

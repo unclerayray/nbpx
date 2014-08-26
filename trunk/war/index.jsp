@@ -10,19 +10,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>南北培训网</title>
-<link type="text/css" href="css/face.css" rel="stylesheet" />
 <link type="text/css" href="css/search.css" rel="stylesheet" />
 
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
-<script src="js/easyui/jquery-1.8.0.min.js"></script>
-<script src="js/easyui/jquery.easyui.min.js"></script>
-<script src="js/myjs/index.js"></script>
-<script src="ui/jquery.ui.core.js"></script>
-<script src="ui/jquery.ui.widget.js"></script>
-<script src="ui/jquery.ui.position.js"></script>
-<script src="ui/jquery.ui.menu.js"></script>
-<script src="ui/jquery.ui.autocomplete.js"></script>
 	<style>
 		.ui-autocomplete-loading {
 			background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;

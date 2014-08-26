@@ -28,8 +28,9 @@
 			<th data-options="field:'content',width:320">问题描述</th>
 			<th data-options="field:'askDate',width:70,sortable:true">提问时间</th>
 			<th data-options="field:'askedBy',width:50,sortable:true">提问人</th>
+			<!-- 
 			<th
-				data-options="field:'isClosed',width:50,align:'center',formatter:function(value,row){if(row.isClosed) {return '已关闭';}else{return '<font color=red>打开</font>';}}">关闭状态</th>
+				data-options="field:'isClosed',width:50,align:'center',formatter:function(value,row){if(row.isClosed) {return '已关闭';}else{return '<font color=red>打开</font>';}}">关闭状态</th> -->
 		</tr>
 	</thead>
 </table>
@@ -37,6 +38,7 @@
 
 <div id="tb" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
+	<!-- 
 		状态: <input  id="p_isClosed" name="p_isClosed" class="easyui-combobox" data-options="
 		panelHeight:'50',
 		strict:true,
@@ -48,7 +50,7 @@
 		},{
 			label: '关闭',
 			value: 'true'
-		}]" >
+		}]" > -->
 		提问人： <input  name="q_askBy"
 	id="q_askBy"  style="width:50px">
 	标题： <input  name="q_title"
@@ -229,11 +231,10 @@
 	}
 
 	function queryQuestions() {
-		var isClosed = $('#p_isClosed').combobox('getValue');
+		//var isClosed = $('#p_isClosed').combobox('getValue');
 		var id = $('#p_id').val();
 		// alert(con + ' '+fol);
 		$('#dg').datagrid('load', {
-			closed : isClosed,
 			askedBy : $('#q_askBy').val(),
 			title : $('#q_title').val()
 		});

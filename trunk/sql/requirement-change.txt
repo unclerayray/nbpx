@@ -1,0 +1,3 @@
+ALTER TABLE nbpx.requirements
+ CHANGE telephone telephone VARCHAR(20),
+ CHANGE cellphone cellphone VARCHAR(20);
