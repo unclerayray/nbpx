@@ -623,7 +623,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable>
 		
 		Set<String> likeKeies = likeMap.keySet();
 		Object[] likeArray = likeKeies.toArray();
-		if (!propsMap.isEmpty()) {
+		if (!likeMap.isEmpty()) {
 			for (int i = 0; i < likeArray.length; i++) {
 				hqlBuilder.append(" and");
 				String props = likeArray[i].toString();

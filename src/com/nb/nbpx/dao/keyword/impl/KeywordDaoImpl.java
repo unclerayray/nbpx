@@ -242,7 +242,7 @@ public class KeywordDaoImpl extends BaseDaoImpl<Keyword, Integer> implements
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer sql = new StringBuffer(
-						"select k.*  from keywords k,coursekeywords a, courses b where a.courseId = b.courseId  and k.keyId=a.keywordId and k.flag=1 ");
+						"select distinct k.*  from keywords k,coursekeywords a, courses b where a.courseId = b.courseId  and k.keyId=a.keywordId and k.flag=1 ");
 				if(isInner)//因为是内训课程，就肯定是培训课程，所以内训的关键词也是培训的关键词，但是培训的关键词不一定是内训的关键词
 					sql.append(" and b.isInner = 1");
 				

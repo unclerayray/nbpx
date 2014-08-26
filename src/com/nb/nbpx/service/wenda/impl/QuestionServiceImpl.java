@@ -40,11 +40,13 @@ public class QuestionServiceImpl extends BaseServiceImpl implements IQuestionSer
 			String order, Boolean closed, String title, String askedBy) {
 		String json = "";
 		Map<String, Object> propsMap = this.createPropMap(new Equality(
-				"isClosed", closed),new Equality(
-						"askedBy", askedBy));
+				"isClosed", closed));
 		Map<String, Object> likeMap = new HashMap<String, Object>();
 		if(title != null && !"".equals(title)){
 			likeMap.put("title", title);
+		}
+		if(askedBy != null && !"".equals(askedBy)){
+			likeMap.put("askedBy", askedBy);
 		}
 		List<Question>  list = questionDao.queryQuestions(rows, start, sort, order, closed, title, askedBy);
 		if (list.isEmpty()) {

@@ -10,11 +10,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>南北培训网</title>
-<link type="text/css" href="css/face.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
-<script src="js/easyui/jquery-1.8.0.min.js"></script>
-<script src="js/easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
 <jsp:include page="head.jsp" flush="true"/>

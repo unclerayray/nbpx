@@ -4,12 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link type="text/css" href="css/face.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
-<script src="js/easyui/jquery-1.8.0.min.js"></script>
-<script src="js/easyui/jquery.easyui.min.js"></script>
-<script src="js/project.js"></script>
 <title>南北培训网</title>
 </head>
 

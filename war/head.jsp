@@ -30,7 +30,7 @@
 
 </head>
 <script>
-	$(function(){
+$(function(){
 		$.ajax({
 			url:encodeURI('struts/Main_getKeywords?isInner=0&flag=1'),
 			success: function(data){

@@ -10,15 +10,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>查看课程</title>
-<link type="text/css" href="css/face.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
-<script src="js/easyui/jquery-1.8.0.min.js"></script>
-<script src="js/easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
 <jsp:include page="head.jsp" flush="true"/>
 <script>
+	var arrangeOpts = [];
 	$(function(){
 		//加载课程信息
 		$.ajax({
@@ -32,14 +28,14 @@
 				$('#teacher').html("<span>培训师：</span>"+jsonObject.teacher);
 				var price = jsonObject.price;
 				if(jsonObject.isInner == '0'){
-					$('#inAttend').css('display','block');
-					$('#outAttend').css('display','none');
+					$('#inAttend').css('display','none');
+					$('#outAttend').css('display','block');
 					$('#time').css('display','block');
 					$('#place').css('display','block');
 				}
 				else{
-					$('#inAttend').css('display','none');
-					$('#outAttend').css('display','block');
+					$('#inAttend').css('display','block');
+					$('#outAttend').css('display','none');
 					$('#time').css('display','none');
 					$('#place').css('display','none');
 					price = "面议";
@@ -67,6 +63,7 @@
 				$.each(places,function(n,value){
 					timeStr += value.from+"至"+value.to;
 					placeStr += value.city;
+					arrangeOpts.push(value.from+"至"+value.to+"在"+value.city);
 					if(n<places.length-1){
 						timeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
 						placeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
@@ -74,6 +71,7 @@
 				});
 				$('#place').html(placeStr);
 				$('#time').html(timeStr);
+				console.log("arranges  = "+arrangeOpts);
 				
 				//添加培训对象
 				var object = jsonObject.object;

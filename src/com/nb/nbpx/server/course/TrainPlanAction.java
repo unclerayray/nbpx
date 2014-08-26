@@ -97,6 +97,9 @@ public class TrainPlanAction extends BaseAction{
 	}
 	//获取内训计划的内容
 	public String getInnerTrainPlanInfo(){
+		if(NbpxDicMap.getCourseTypeMap().get(cate)==null){
+			cate = null;
+		}
 		String resultStr = courseService.getTranPlans(cate, null, null, isInner, city, 100);
 		this.inputStream = castToInputStream(resultStr);
 		
