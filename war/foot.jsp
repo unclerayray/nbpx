@@ -10,6 +10,7 @@
 <script>
 	$(function(){
 		loadOrgs();
+		loadLinks();
 	})
 	function loadOrgs(){
 		$.ajax({
@@ -25,6 +26,28 @@
 						valueStr ="<div class='notice'>暂时没有字典信息</div>";
 					
 					$('#orgs').html(valueStr);
+				}
+		});
+		
+	}
+	function loadLinks(){
+		$.ajax({
+				url: 'struts/ViewDic_getMoreDicItems?codeName=31&rows=30&page=1',
+				success:function(data){
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject.rows,function(n,value){
+						var url = value.discription;
+						if(url.indexOf("http") < 0){
+							url = "http://"+value.discription;
+						}
+						valueStr += "<li><a class='left tooLong w230' target='_blank' href=\""+url+"\">"+value.showName+"</a></li>";	
+					});
+		
+					if(valueStr == "")
+						valueStr ="<div class='notice'>暂时没有字典信息</div>";
+					
+					$('#links').html(valueStr);
 				}
 		});
 		
@@ -125,10 +148,10 @@
 <!--友情链接 end--->
 
 <!-- 友情链接 start-->
-<div class="mainContent link">
+<div class="mainContent customer">
 	<div class="head">友情链接</div>
 	<div class="bg">
-		<ul>
+		<ul id = "links">
 			<li><a href="#">南北培训网</a></li>
 			<li><a href="#">南北培训网</a></li>
 			<li><a href="#">南北培训网</a></li>
