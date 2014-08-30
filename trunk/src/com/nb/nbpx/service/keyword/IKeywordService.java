@@ -19,6 +19,8 @@ public interface IKeywordService extends IBaseService {
 			Integer keywordId, Integer rows, Integer start, String sort, String order)
 			throws NbpxException;
 
+	public String getArticleKeyWordsList(Integer flag, String type,Integer start, Integer rows);
+	
 	public String queryComboKeywords(String category);
 	
 	public Boolean saveRecommands(String[] keyIds);

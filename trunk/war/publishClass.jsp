@@ -18,11 +18,11 @@
 	
 	function clearForm(){
 		$('#fm').form("clear");
-		CKEDITOR.instances.content.setData('');
+		//CKEDITOR.instances.content.setData('');
 	}
 	$(function(){
-		createCkeditor();
-		CKEDITOR.instances.content.setData('');
+		//createCkeditor();
+		//CKEDITOR.instances.content.setData('');
 		createInfoGrid(null);
 	});
 	function createInfoGrid(row) {
@@ -112,19 +112,17 @@
 		//var data = CKEDITOR.instances.content.getData();
 		//$('#teacherName').val($('#teacherId').combobox('getText'));
 		var submitUrl = 'struts/Course_saveUserCourse?objectName=courseAllInfo';
-		alert(1);
+		//alert(1);
 		$('#fm').form('submit',
 						{url:submitUrl,
 							onSubmit : function() {
 								//$('#isInner').val('false');
 								$('#dg_info_in').datagrid('acceptChanges');
-								alert(2);
-								alert($('#fm').form('validate'));
 								return $('#fm').form('validate');
 							},
 							success : function(data) {
 								var data = eval('(' + data + ')'); // change the JSON string to javascript object  
-								alert('data = ' + data);
+								//alert('data = ' + data);
 								if (data.success) {
 									//upload gloden pic to server
 									//uploadGlodenPic(data.dlg_inner_courseId);
@@ -143,22 +141,13 @@
 															dataType : 'json',
 															data : infos,
 															success : function(msg) {
-																$.messager.show({
-																			title : 'Success',
-																			msg : '发布成功！',
-																			timeout : 3000,
-																			showType : 'fade'
-																		});
+																alert("发布成功，稍后管理员会对课程进行审核!");
+																clearForm();
 															}
 														});
 									}
 								} else {
-									$.messager.show({
-										title : 'Error',
-										msg : data.message,
-										timeout : 3000,
-										showType : 'fade'
-									});
+									alert("发布失败!");
 								}
 							}
 						});
@@ -223,31 +212,17 @@
 	#fm tr{height:35px}
 </style>
 <form id="fm" method="post" enctype="multipart/form-data">
-			<table cellspacing="0" cellpadding="0" width="900px">
+			<table cellspacing="0" cellpadding="0" width="900px" style="font-size:12px">
 				<tr>
-					<td width="100px" align="right">标题:</td>
-					<td colspan="7"><input
+					<td width="100px" align="right" valign="top">课程标题:</td>
+					<td colspan="3" align="left" valign="top"><input
 						class="easyui-validatebox" id="courseTitle" name="title"
 						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'"
-						style="width: 800px;"></td>
+						style="width: 600px;"></td>
 				</tr>
 				<tr>
-					<td width="100px" align="right">关键字:</td>
-					<td colspan="7"><input class="easyui-validatebox"
-						id="courseKeywords" name="keywords"
-						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'关键字是必填项'"
-						style="width: 800px;"></td>
-				</tr>
-				<tr>
-					<td width="100px" align="right">专题:</td>
-					<td colspan="7"><input class="easyui-validatebox"
-						id="courseSubject" name="subject"
-						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'专题是必填项'"
-						style="width: 800px;"></td>
-				</tr>
-				<tr>
-					<td width="100px" align="right">类型:</td>
-					<td colspan="3" align="left"><input class="easyui-combobox" style="width: 130px;"
+					<td width="100px" align="right" valign="top">课程类别:</td>
+					<td  align="left" valign="top"><input class="easyui-combobox" style="width: 200px;"
 						name="category" id="category"
 						data-options="  
 							url:'struts/Course_queryComboCourseTypes',  
@@ -262,14 +237,14 @@
 							missingMessage:'必填项'
 							">
 						</td>
-					<td width="100px" align="right">费用:</td>
-					<td colspan="3" align="left"><input class="easyui-validatebox" name="price"
+					<td width="100px" align="right" valign="top">费用:</td>
+					<td align="left" valign="top"><input class="easyui-validatebox" name="price"
 						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',validType:'num'"
-						style="width: 100px;"></td>
+						style="width: 200px;"></td>
 				</tr>
 				<tr>
-					<td width="100px" align="right">对象:</td>
-					<td colspan="7"><input name="targets" id="courseTarget"
+					<td width="100px" align="right" valign="top">课程对象:</td>
+					<td colspan="3" align="left" valign="top"><input name="targets" id="courseTarget"
 						class="easyui-combobox"
 						data-options="  
 							url:'struts/Dictionary_queryComboDics?p_dicType=010',   
@@ -278,54 +253,15 @@
 							panelHeight:'200',
 							multiple:true,
 							editable:true"
-						style="width: 800px;"></td>
+						style="width: 600px;"></td>
 				</tr>
 				<!--  <tr>
 					<td class="itemText">金牌:</td>
 					<td colspan="7"><input name="goldenPic" id="goldenPic" type="file"></td>
 				</tr>-->
 				<tr>
-					<td width="100px" align="right">专业:</td>
-					<td colspan="7"><input name="major" id="courseMajor"
-						class="easyui-combobox"
-						data-options="  
-							url:'struts/Dictionary_queryComboDics?p_dicType=009',   
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true"
-						style="width: 800px;"></td>
-				</tr>
-				<tr>
-					<td width="100px" align="right">行业:</td>
-					<td colspan="7"><input name="industry" id="courseIndustry"
-						class="easyui-combobox"
-						data-options="  
-							url:'struts/Dictionary_queryComboDics?p_dicType=008',   
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true "
-						style="width: 800px;"></td>
-				</tr>
-				<tr>
-					<td width="100px" align="right">产品:</td>
-					<td colspan="7"><input name="product" id="courseProduct"
-						class="easyui-combobox"
-						data-options="  
-							url:'struts/Dictionary_queryComboDics?p_dicType=011',   
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true "
-						style="width: 800px;"></td>
-				</tr>
-				<tr>
-					<td colspan="8" align="left" nowrap>
-						<div style="margin-bottom: 5px">
+					<td colspan="4" align="left" nowrap>
+						<div style="padding-bottom:5px;padding-left:40px">
 							<a href="#" class="easyui-linkbutton" iconCls="icon-add"
 								plain="true" onclick="insertEmptyRow()">新增开课安排</a> <a href="#"
 								class="easyui-linkbutton" iconCls="icon-remove" plain="true"
@@ -334,18 +270,19 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="8" nowrap>
+					<td colspan="4" nowrap style="padding-left:40px;padding-bottom:10px">
 						<table id="dg_info_in">
 						</table>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="8">
-						<textarea name="content" id="content"></textarea>
+					<td width="100px" align="right" valign="top">课程内容:</td>
+					<td colspan="3" align="left" valign="top">
+						<textarea name="content" id="content" style="width:600px;height:300px"></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="8"  colspan="4" style="padding-top:30px;padding-bottom:50px" align="right"><a href='#' onclick="javascript:saveCourse(true)" class="normalButton">发布课程</a><a href='javascript:void(0)' onclick="javascript:clearForm()" class="normalButton">清空</a>
+					<td colspan="8"  colspan="4" style="padding-top:30px;padding-bottom:50px;padding-left:90px" align="right"><a href='#' onclick="javascript:saveCourse(true)" class="normalButton">发布课程</a><a href='javascript:void(0)' onclick="javascript:clearForm()" class="normalButton">清空</a>
 				</tr>
 			</table>
 			

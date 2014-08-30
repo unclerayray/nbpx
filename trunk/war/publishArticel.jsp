@@ -15,11 +15,11 @@
 	
 	function clearForm(){
 		$('#fm').form("clear");
-		CKEDITOR.instances.content.setData('');
+		//CKEDITOR.instances.content.setData('');
 	}
 	$(function(){
-		createCkeditor();
-		CKEDITOR.instances.content.setData('');
+		//createCkeditor();
+		//CKEDITOR.instances.content.setData('');
 	});
 	
 	function createCkeditor() {
@@ -49,7 +49,7 @@
 					alert("发布成功，稍后管理员会对文章进行审核");
 					 clearForm();
 				} else {
-					alert("发布失败，请联系管理员");
+					alert("发布失败，文章已存在!");
 				}
 			}
 		});
@@ -74,38 +74,22 @@
 					<input id="dlg-articleId" name="articleId" type="hidden">
 				</div>
 				<tr height="35">
-					<td align="right" width="100px">文章标题:</td>
-					<td colspan="3" align="left"><input class="easyui-validatebox"
+					<td align="right" width="100px" valign="top">文章标题:</td>
+					<td colspan="3" align="left" valign="top"><input class="easyui-validatebox"
 								id="articleTitle" name="articleTitle"
 								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'"
-								style="width: 800px;"></td>
+								style="width: 600px;"></td>
+
 				</tr>
 				<tr height="35">
-					<td align="right" width="100px">文章作者:</td>
-					<td colspan="3" align="left"><input class="easyui-validatebox"
+					<td align="right" valign="top" width="100px">文章作者:</td>
+					<td align="left" valign="top"><input class="easyui-validatebox"
 								id="author" name="author"
 								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'必填项'"
-								style="width: 100px;"></td>
-				</tr>
-				<tr height="35">
-					<td align="right">文章关键字:</td>
-					<td colspan="3" align="left"><input class="easyui-validatebox"
-								id="articleKeywords" name="keywords"
-								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'文章关键字是必填项'"
-								style="width: 800px;"></td>
-				</tr>
-				<tr height="35">
-					<td align="right">文章专题:</td>
-					<td colspan="3" align="left"><input class="easyui-validatebox"
-								id="articleSubject" name="subjects"
-								data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',missingMessage:'文章专题是必填项'"
-								style="width: 800px;">
-					</td>
-				</tr>
-				<tr height="35">
-					<td width="100px" align="right">文章类型:</td>
-					<td align="left"><input class="easyui-combobox"
-								style="width: 800px;" name="category" id="category"
+								style="width: 200px;"></td>
+					<td align="right" width="100px" valign="top">文章类型:</td>
+					<td align="left" valign="top"><input class="easyui-combobox"
+								style="width: 200px;" name="category" id="category"
 								data-options="  
 							url:'struts/Course_queryComboCourseTypes',  
 							valueField:'codeName',  
@@ -121,13 +105,12 @@
 					</td>
 				</tr>
 				<tr >
-					<td colspan="4" style="padding-top:20px">
-						<div id="contentDiv">
-							<textarea name="content" id="content" style="width: 940px"></textarea>
-						</div>
+					<td align="right" width="100px" valign="top">文章内容:</td>
+					<td colspan="3" align="left" valign="top">
+						<textarea name="content" id="content" style="width: 600px;height:300px"></textarea>
 					</td>
 				</tr>
-				<tr><td colspan="4" style="padding-top:30px;padding-bottom:50px" align="right"><div><a href='#' onclick="javascript:saveArticle()" class="normalButton right">发布文章</a><a href='javascript:void(0)' onclick="javascript:clearForm()" class="normalButton right">清空</a></td></tr>
+				<tr><td colspan="4" style="padding-top:30px;padding-bottom:50px;padding-left:90px" align="right"><a href='#' onclick="javascript:saveArticle()" class="normalButton right">发布文章</a><a href='javascript:void(0)' onclick="javascript:clearForm()" class="normalButton right">清空</a></td></tr>
 			</table>
 		</form>
 </div>

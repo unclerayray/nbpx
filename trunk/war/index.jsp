@@ -123,7 +123,7 @@
 		//加载内训课程
 		for(var i=1;i<=8;i++)
 			seePartTab('b',1,i);
-		//加载关键词u
+		//加载关键词
 		for(var i=1;i<=3;i++)
 			seePartTab('k',1,i);
 		//加载专题
@@ -164,7 +164,10 @@
 		//加载培训机构字典
 		loadDics('004',11,'jigou_dic');
 		//加载客户评价
-		loadDics("25",10,"customSay")
+		loadDics("25",10,"customSay");
+		//加载问答
+		
+		
 	});	
 	
 	function loadWork(){
@@ -565,7 +568,7 @@
 					sortType = '1';
 				else
 					sortType = '2';
-				urlStr = "";
+				urlStr = "struts/ViewArticle_viewArticleKeyWords?rows=11&page=1";
 			}
 			$.ajax({
 				url:encodeURI(urlStr+"&flag="+sortType),
@@ -581,7 +584,8 @@
 						else
 							valueStr += "<li class='line'><a href='seeKey.jsp?key="+value.name+"'><span class='"+color+"'>"+(n+1)+"</span><span class='text'>"+value.name+"</span><span class='count'></span></a><div class='clear'></div></li>";
 					});
-			
+					if(valueStr == "")
+						valueStr = "<div class='notice'>暂时没有关键词信息</div>";
 					$('#'+pre+part).html(valueStr);
 				}		
 			})
@@ -795,14 +799,7 @@
 		</div>
 		<div class="bg" style="background:none;border-bottom:1px solid #ddeae0;height:210px">
 			<ul class="list1" id="cityList">
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
-				<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li>
+				<!--<li><a href="#">销售精英2天一夜疯狂训练</a><div>04-12/<span class="money">￥</span>1800</div></li> -->
 			</ul>
 		</div>
 		<!--城市 end-->
@@ -1708,14 +1705,14 @@ padding-bottom: 2px;
 		<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn three" >关键词热搜</div>
-					<div class="tabOff three">关键词排行</div>
-					<div class="tabOff three">关键词推荐</div>
+					<div class="tabOn three" id="k31"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',1,3)">关键词热搜</a></div>
+					<div class="tabOff three" id="k32"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',2,3)">关键词排行</a></div>
+					<div class="tabOff three" id="k33"><a href='javascript:void(0)' onclick="javascript:seePartTab('k',3,3)">关键词推荐</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg h315" style="padding:0px 15px;">
-					<ul class="list7" style="padding-top:10px">
-						<li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
+					<ul class="list7" style="padding-top:10px" id="k3"> 
+						<!--  <li class="line"><a><span class="red">1</span><span class="text">人力资源 </span><span class="count">89989</span></a><div class="clear"></div></li>
 						<li  class="line"><a><span class="red">2</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
 						<li class="line"><a><span class="red">3</span><span class="text">企业内训</span><span class="count">89989</span></a><div class="clear"></div></li>
 						<li class="line"><a><span class="blue">4</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
@@ -1725,7 +1722,7 @@ padding-bottom: 2px;
 						<li class="line"><a><span class="blue">8</span><span class="text">产品研核心管理技能 </span><span class="count">89989</span></a><div class="clear"></div></li>
 						<li class="line"><a><span class="blue">9</span><span class="text">技术人员管理技能</span><span class="count">89989</span></a><div class="clear"></div></li>
 						<li class="line"><a><span class="blue">10</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
-						<li class="line"><a><span class="blue">11</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>
+						<li class="line"><a><span class="blue">11</span><span class="text">员工离职 </span><span class="count">89989</span></a><div class="clear"></div></li>-->
 					</ul>
 					<div class="clear"></div>
 				</div>
