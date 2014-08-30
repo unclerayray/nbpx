@@ -63,15 +63,28 @@
 				$.each(places,function(n,value){
 					timeStr += value.from+"至"+value.to;
 					placeStr += value.city;
-					arrangeOpts.push(value.from+"至"+value.to+"在"+value.city);
+					if(n==0){
+						arrangeOpts.push({
+						    key:   value.from+"至"+value.to+"在"+value.city,
+						    value: value.from+"至"+value.to+"在"+value.city,
+							selected : true
+						});
+					}else{
+						arrangeOpts.push({
+						    key:   value.from+"至"+value.to+"在"+value.city,
+						    value: value.from+"至"+value.to+"在"+value.city
+						});
+					}
+					//arrangeOpts.push(value.from+"至"+value.to+"在"+value.city);
 					if(n<places.length-1){
 						timeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
 						placeStr += "&nbsp;&nbsp;|&nbsp;&nbsp;";
 					}
 				});
+				$('#arrange').combobox('loadData', arrangeOpts);
 				$('#place').html(placeStr);
 				$('#time').html(timeStr);
-				console.log("arranges  = "+arrangeOpts);
+				//console.log("arranges  = "+arrangeOpts);
 				
 				//添加培训对象
 				var object = jsonObject.object;
@@ -427,27 +440,58 @@
 	
 	
 	function submitNeed(){
-		$('#needForm').form('submit',{  
-			url: encodeURI('struts/CourseApply_addApply'),  
-			onSubmit: function(){  
-					if($('#contact').val() == ''){
-						alert('联系人不能为空!');
-						return false;
-					}
-					if($('#telephone').val() == ''){
-						alert('固定电话不能为空!');
-						return false;
-					}
-				//return $(this).form('validate');  
-			},  
-			success: function(data){
-				alert(data);
-				$('#needForm').form("clear");
-			}
-		});
+		if($('#contact').val() == ''){
+			alert('联系人不能为空!');
+			return false;
+		}
+		if($('#telephone').val() == ''){
+			alert('固定电话不能为空!');
+			return false;
+		}
+		if($('#compName').val() == ''){
+			alert('单位名称不能为空!');
+			return false;
+		}
+		if($('#headCount').val() == ''){
+			alert('人数不能为空!');
+			return false;
+		}
+
+		var apply =  {
+				confirmed:$('#confirm').combobox('getValue'),
+				headCount:$('#headCount').val(),
+				applicantCompany:$('#compName').val(),
+				telephone:$('#telephone').val(),
+				cellphone:$('#celphone').val(),
+				email:$('#email').val(),
+				contact:$('#contact').val(),
+				fax:$('#fax').val(),
+				followed:false,
+				department:$('#department').val(),
+				qq:$('#qq').val(),
+				participants:$('#participants').val(),
+				remarks:$('#remark').val(),
+				applyCourseId:<%= id%>
+				};
+		$.ajax('struts/Application_submitApplication?objectName=apply', {
+							      type:'POST',
+						          data: apply,
+								  success: function(data){
+										alert(data);
+								  }
+							 });
 	}
 	function clearForm(){
 		$('#needForm').form("clear");
+	}
+	function objToString (name,obj) {
+	    var str = '';
+	    for (var p in obj) {
+	        if (obj.hasOwnProperty(p)) {
+	            str += name + '.' + p + ':' + obj[p] + '\n';
+	        }
+	    }
+	    return str;
 	}
 </script>
 <!--当前路径 start-->
@@ -508,8 +552,23 @@
 		<input type="hidden" id="courseName" >
 		<table cellspacing="0" cellpadding="0" class="need" align="center" style="font-size:12px">
 			<thead><h2>报名/咨询表</h2></thead>
-			<tr>
-			<td>单位名称:&nbsp;<input id="compName" name="compName"/></td>
+		<tr>
+			<td colspan="2" valign="top" >
+				<select id="confirm" name="confirm" class="easyui-combobox" data-options=" panelHeight:'50',
+						strict:true" style="panelHeight:30px;">
+		    		<option value="false">先咨询</option>
+		    		<option value="true">确认报名</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>我单位共计<input id="headCount" name="headCount">人<em style="color:red">*</em>
+			</td>
+			<td>参加<input id="arrange" name="arrange" class="easyui-combobox" data-options="valueField: 'key',textField: 'value',strict:true,editable:false" style="width:200px;">举办的课程
+			</td>
+		</tr>
+		<tr>
+			<td>单位名称:&nbsp;<input id="compName" name="compName"/><em style="color:red">*</em></td>
 			<td>&nbsp;&nbsp;联系人:&nbsp;<input id="contact" name="contact"/><em style="color:red">*</em></td>
 		</tr>
 		<tr>
@@ -521,68 +580,29 @@
 			<td>电子邮箱:&nbsp;<input id="email" name="email"/></td>
 		</tr>
 		<tr>
-			<td>任职部门:&nbsp;<input id="departName" name="departName"/></td>
-			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MSN:&nbsp;<input id="msn" name="msn"/></td>
+			<td>任职部门:&nbsp;<input id="department" name="department"/></td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QQ:&nbsp;<input id="qq" name="qq"/></td>
 		</tr>
 		<tr>
-			<td>企业类型:&nbsp;<input id="compType" name="compType"/></td>
-			<td>业务范围:&nbsp;<input id="comRange" name="comRange"/></td>
+			<td colspan="2" valign="bottom" style="height:12px;">参与人信息，姓名，职位，联系电话等，方便我们提前安排（非必填）:</td>
 		</tr>
 		<tr>
-			<td>开始时间:&nbsp;<input class="easyui-datebox" id="starttime" name="starttime"></td>
-			<td>结束时间:&nbsp;<input class="easyui-datebox" id="endtime" name="endtime"></td>
+			<td colspan="2" valign="bottom" style="height:12px;">如：王自如 测评家 13800138000，罗永浩 企业家 13800138000</td>
 		</tr>
 		<tr>
-			<td>财务预算:&nbsp;<input id="budget" name="budget"/></td>
-			<td>教学语种:&nbsp;<input id="languaue" name="languaue"/></td>
+			<td colspan="2" valign="top"><textarea id="participants" name="participants"></textarea></td>
 		</tr>
 		<tr>
-			<td colspan="2" valign="bottom" style="height:18px;">参训对象简单描述:</td>
+			<td colspan="2" valign="bottom" style="height:12px;">备注(如是否需要帮忙订酒店，什么时候到达等。):</td>
 		</tr>
 		<tr>
-			<td colspan="2" valign="top"><textarea id="studentDesc" name="studentDesc"></textarea></td>
+			<td colspan="2" valign="top"><textarea id="remark" name="remark"></textarea></td>
 		</tr>
 		<tr>
-			<td colspan="2" valign="bottom" style="height:23px;">学员基础简单说明:</td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="top" ><textarea id="basicDesc" name="basicDesc"></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="bottom" style="height:23px;">企业简介:</td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="top" ><textarea id="compDesc" name="compDesc"></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="bottom" style="height:23px;">具体那个环节出问题:</td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="top" ><textarea id="questionDesc" name="questionDesc"></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="bottom" style="height:23px;">培训内容说明:</td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="top"><textarea id="contentDesc" name="contentDesc"></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="bottom" style="height:23px;">预期目标:</td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="top" ><textarea id="targetDesc" name="targetDesc"></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="top" ><input type="radio" name='state' id="r1" value="1" checked style="border:0px;width:60px"/><label  for="r1">确认报名</label>&nbsp;<input style="border:0px;width:60px" type="radio" value="2" name='state' id="r2"/><label for="r2">正在申请中</label></td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="bottom" style="height:12px;">备注:</td>
-		</tr>
-		<tr>
-			<td colspan="2" valign="top"><textarea id="notice" name="notice"></textarea></td>
-		</tr>
-		<tr >
-			<td colspan="2" align="center" style='padding-top:30px;padding-bottom:30px'><a href='javascript:void(0)' onclick="javascript:submitNeed()" class="normalButton">确定报名</a><a href='javascript:void(0)' onclick="javascript:clearForm()" class="normalButton">重新填写</a></td>
+			<td align="center" style="padding-top:30px;padding-bottom:30px" colspan="2">
+				<a class="normalButton" onclick="javascript:submitNeed()" href="javascript:void(0)">确定报名</a>
+				<a class="normalButton" onclick="javascript:clearForm()" href="javascript:void(0)">重新填写</a>
+			</td>
 		</tr>
 		</table></form>
 	</div>

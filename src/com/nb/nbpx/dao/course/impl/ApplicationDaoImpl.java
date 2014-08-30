@@ -33,9 +33,9 @@ public class ApplicationDaoImpl extends BaseDaoImpl<Application, Integer>
 				int i = 0;
 				StringBuffer hql = new StringBuffer(
 						"select new com.nb.nbpx.pojo.course.Application"
-								+ " (a.applyId, a.email, a.applyCourseId, c.title, a.applicantCompany, a.headCount, a.contact,"
+								+ " (a.applyId, a.email, a.applicant, a.applyCourseId, c.title, a.applicantCompany, a.headCount, a.contact,"
 								+ "a.telephone, a.cellphone, a.fax, a.department,"
-								+ "a.remarks, a.confirmed, a.followed, a.createDate) from Application a, Course c"
+								+ "a.remarks, a.confirmed, a.followed, a.createDate, a.qq, a.participants) from Application a, Course c"
 								+ " where 1 = 1 and a.applyCourseId = c.courseId ");
 				if (qc.equalParamMap.get("follow") != null) {
 					if((Boolean) qc.equalParamMap.get("follow")){

@@ -122,7 +122,7 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 					throws HibernateException, SQLException {
 				int i = 0;
 				StringBuffer sql = new StringBuffer(
-						"select  c.courseInfoId, c.courseId, c.startDate,c.endDate, c.city from courseInfo c,(select  count(*) value,t.* from courseInfo t ,courses d   where t.courseId=d.courseId ");
+						"select  c.courseInfoId, c.courseId, c.startDate,c.endDate, c.city from courseinfo c,(select  count(*) value,t.* from courseinfo t ,courses d   where t.courseId=d.courseId ");
 				if(isInner)
 					sql.append(" and d.isInner = 1 ");
 				else
