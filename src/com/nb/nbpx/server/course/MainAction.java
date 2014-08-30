@@ -1,16 +1,18 @@
 package com.nb.nbpx.server.course;
 
+import javax.annotation.Resource;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.article.IArticleService;
 import com.nb.nbpx.service.course.ICourseService;
 import com.nb.nbpx.service.keyword.IKeywordService;
+import com.nb.nbpx.service.solr.ISolrArticleService;
 import com.nb.nbpx.service.subject.ISubjectService;
 import com.nb.nbpx.service.user.ITeacherInfoService;
 import com.nb.nbpx.service.zixun.IDownloadService;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 @Component("MainAction")
 @Scope("prototype")
@@ -24,6 +26,7 @@ public class MainAction extends BaseAction{
 	private IArticleService articleService;
 	private IDownloadService downloadService;
 	private ITeacherInfoService teacherService;
+	private ISolrArticleService solrArticleService;
 
 
 
@@ -31,6 +34,7 @@ public class MainAction extends BaseAction{
 	public String isInner;//标记是内训还是培训
 	public String type;//课程类别/文章类别
 	public String category;//顶部关键词的类别
+	public String key;
 	
 	//获取视频推荐flag=1-视频推荐，flag=2-视频排行,flag=3 -视频热搜(关键词)
 	public String getVedioNX(){
@@ -190,10 +194,14 @@ public class MainAction extends BaseAction{
 		//int type = Integer.parseInt(flag)+(Integer.parseInt(type)-1)*2;
 		//String typeCode = "004_0"+currIndex;//(01-人力资源新闻,02-人力资源文章,03-职业生涯规划,04-市场营销管理,05-案例管理文章,06-经理人文章,07-生产管理文章,08-财务管理文章)
 		String result = "";
-		if("1".equals(flag))//如果是第一个类别，用的是查询
-			result = articleService.getArticleList(typeCode, rows, start);
-		else//点文章类别后面的关键词，用solr检索
-			result = "查询solr的文章匹配结果";
+		try {
+			if("1".equals(flag))//如果是第一个类别，用的是查询
+				result = articleService.getArticleList(typeCode, rows, start);
+			else//点文章类别后面的关键词，用solr检索
+				result = solrArticleService.queryRelatedArticlesForIndex(key, start, rows);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		this.inputStream = castToInputStream(result);
 		return SUCCESS;
@@ -246,6 +254,13 @@ public class MainAction extends BaseAction{
 	public void setTeacherService(ITeacherInfoService teacherService) {
 		this.teacherService = teacherService;
 	}
+	public ISolrArticleService getSolrArticleService() {
+		return solrArticleService;
+	}
+	@Resource
+	public void setSolrArticleService(ISolrArticleService solrArticleService) {
+		this.solrArticleService = solrArticleService;
+	}
 	public String getType() {
 		return type;
 	}
@@ -274,6 +289,12 @@ public class MainAction extends BaseAction{
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	

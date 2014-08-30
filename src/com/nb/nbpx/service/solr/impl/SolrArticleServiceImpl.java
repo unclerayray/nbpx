@@ -232,6 +232,95 @@ public class SolrArticleServiceImpl extends BaseSolrServiceImpl implements
 		// return JsonUtil.formatListToJson(resultList);
 		return JsonUtil.getJsonStringDate(resultMap);
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public String queryRelatedArticlesForIndex(String q, Integer start, Integer rows)
+			throws SolrServerException, IOException, NbpxException {
+		//TODO 判断审核与否才插入到搜索引擎
+		if (q == null) {
+			throw new NbpxException("查询关键词不能为空。");
+		}
+		// TODO 统计搜索次数 put that into Action, not here
+		// TODO ping查看连接，连不上的话就throw相应的Exception
+		serverURL = SolrUtil.getArticleServerUrl();
+		SolrServer solrServer = new HttpSolrServer(serverURL);
+		ModifiableSolrParams params = new ModifiableSolrParams();
+		// params.set("qt", "/select");
+		// params.set("q", "content:"+q);
+		q = SolrUtil.escapeQueryChars(q);
+		params.set("q", q);
+		params.set("start", start);
+		params.set("rows", rows);
+		// params.set("df","text_general");
+		// params.set("wt", "foo");
+		// params.set("indent", true);
+		// params.set("rows", rows);
+		params.set("hl", true);
+		params.set("hl.fl", "title,content");
+		params.set("hl.snippets", 3);
+		params.set("hl.simple.pre", "<em>");
+		params.set("hl.simple.post", "</em>");
+
+		SolrQuery query = new SolrQuery();
+		query.set("qt", "search");
+		query.set("echoParams", "explicit");
+		//query.set("df", "title,keyword,content");
+		query.set("mlt.qf", "title^10.0 keyword^10.0 content^1.0");
+		query.set("defType", "edismax");
+		query.set("pf", "title keyword content");
+		query.set("qf", "title^10.0 keyword^10.0 content^1.0");
+		params.set("fq", "state:true");
+		// query.set("q","*.*");
+		query.add(params);
+
+		query.setRequestHandler("search");
+		solrServer.ping();
+		// TODO 判断连接 throw exception
+		QueryResponse response = solrServer.query(query);
+		SolrDocumentList list = response.getResults();
+
+		Map<String, Map<String, List<String>>> hlMap = response
+				.getHighlighting();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		// numFound
+		int numFound = (int) response.getResults().getNumFound();
+		int count = response.getResults().size();
+		List<Article> resultList = new ArrayList<Article>();
+		for (int i = 0; i < count; i++) {
+			SolrDocument sd = list.get(i);
+			Object idobj = sd.getFieldValue("articleId");
+			Map<String, List<String>> lst = hlMap.get(idobj.toString());
+			Object contentObj = lst.get("content");
+			Object titleObj = lst.get("title");
+			Object authorObj = sd.getFieldValue("author");
+			Object categoryObj = sd.getFieldValue("category");
+			Object uploadDate = sd.getFieldValue("lastUpdateDate");
+			String content = "";
+			String title = "";
+			if (contentObj != null) {
+				content = ((List<String>) contentObj).get(0);
+			} else {
+				content = sd.getFieldValue("content").toString();
+				if (content.length() > 50)
+					content = content.substring(0, 50);
+			}
+			if (titleObj != null) {
+				title = ((List<String>) titleObj).get(0);
+			} else {
+				title = sd.getFieldValue("title").toString();
+			}
+			Article article = new Article((Integer) idobj, title, authorObj.toString(),
+					categoryObj.toString(), content, null, null,
+					(Date) uploadDate, categoryObj.toString(), null);
+			resultList.add(article);
+		}
+		int allPages = 0;
+		if (numFound % rows == 0)
+			allPages = (int) (numFound / rows);
+		else
+			allPages = (int) (numFound / rows) + 1;
+		return JsonUtil.getJsonStringDate(resultList);
+	}
 
 	public void audit(Integer id, Boolean state) throws Exception {
 		serverURL = SolrUtil.getArticleServerUrl();

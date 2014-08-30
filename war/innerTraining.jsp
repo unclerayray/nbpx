@@ -9,8 +9,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link type="text/css" href="css/face.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
 <link rel="stylesheet" type="text/css" href="js/nav/goodnav.css">
-
+<script src="js/easyui/jquery-1.8.0.min.js"></script>
+<script src="js/easyui/jquery.easyui.min.js"></script>
 <script src="js/nav/jquery.litenav.js"></script>
 <style>
 	h6{
@@ -21,7 +25,7 @@
 <title>企业内训</title>
 </head>
 <script>
-	$(function(){
+	 $(function(){
 		//加载行业，专业等数据
 		for(var i=1;i<=4;i++)
 			seePartTab('a',1,i);

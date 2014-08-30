@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+	String year = request.getParameter("year");
+	String month = request.getParameter("month");
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -20,9 +24,16 @@
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0
 	var yyyy = today.getFullYear();
+	var yearParam = yyyy;
 	$(function(){
 		//加载培训计划
-		searchPlans(1);
+		if(<%= year%>!=null&&<%= month%>!=null){
+			yearParam = <%= year%>;
+			mm = <%= month%>;
+			searchPlans(1);
+		}else{
+			searchPlans(1);
+		}
 		//加载培训计划相关关键词
 		loadPlanKeyWords();
 		//加载培训计划相关专题
@@ -88,11 +99,15 @@
 		$('#search_year').val(yyyy);
 		$('#this_year').html(yyyy);
 		$('#next_year').html(yyyy+1);
+		$('#search_month').val(mm);
+		changePlanTabs('month_option', document.getElementById("month_option_tab"+mm));
+		changePlanTabs('year_option', document.getElementById("year_option_tab"+(yearParam - yyyy)));
 		var month = mm;
-		var url = 'struts/TrainPlan_getTrainPlanInfo?year='+$('#search_year').val()+'&isInner=false';
+		var url = 'struts/TrainPlan_getTrainPlanInfo?year='+$('#search_year').val()+'&isInner=false'+'&month='+$('#search_month').val();
 		if(!init){
 			url = 'struts/TrainPlan_getTrainPlanInfo?isInner='+$('#search_inner').val()+'&month='+$('#search_month').val()+'&year='+$('#search_year').val()+'&cate='+$('#search_category').val() + '&city='+$('#search_city').val();
 			month = $('#search_month').val();
+			alert('sdfsdf');
 		}
 		$.ajax({
 			url:encodeURI(url),
