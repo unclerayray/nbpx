@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.nb.nbpx.common.QueryCriteria;
 import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.pojo.course.Application;
 import com.nb.nbpx.server.BaseAction;
 import com.nb.nbpx.service.course.IApplicationService;
 import com.nb.nbpx.utils.JsonUtil;
@@ -31,6 +32,7 @@ public class ApplicationAction extends BaseAction {
 	public String q_contact;
 	public String q_course;
 	public String q_department;
+	public Application apply;
 
 	public String queryApplications() {
 		Map<String, Object> equalParamMap = new HashMap<String, Object>();
@@ -89,6 +91,21 @@ public class ApplicationAction extends BaseAction {
 		}
 		this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 				ResponseStatus.SUCCESS, "更新跟进情况成功"));
+		return SUCCESS;
+	}
+	
+	public String submitApplication() {
+		try {
+			if(getClientSessionUserName() != null && !getClientSessionUserName().isEmpty()){
+				apply.setApplicant(getClientSessionUserName());
+			}
+			applicationService.submitApply(apply);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.inputStream = castToInputStream("报名失败！");
+			return "failure";
+		}
+		this.inputStream = castToInputStream("报名成功，随后工作人员会和您联系！");
 		return SUCCESS;
 	}
 
@@ -171,6 +188,16 @@ public class ApplicationAction extends BaseAction {
 
 	public void setQ_department(String q_department) {
 		this.q_department = q_department;
+	}
+
+
+	public Application getApply() {
+		return apply;
+	}
+
+
+	public void setApply(Application apply) {
+		this.apply = apply;
 	}
 
 }

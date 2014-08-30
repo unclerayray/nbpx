@@ -119,4 +119,10 @@ public class ApplicationServiceImpl  extends BaseServiceImpl implements IApplica
 		String json = JsonUtil.formatListToJson(list);
 		return json;
 	}
+
+	@Override
+	public void submitApply(Application apply) {
+		apply.setCreateDate(new Date());
+		applicationDao.save(apply);
+	}
 }

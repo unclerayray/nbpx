@@ -25,7 +25,7 @@ public class Application extends BaseEntity  implements Serializable {
 	@Id
 	private Integer applyId;
 	private String email;
-	private Integer applicant;
+	private String applicant;
 	private String applyCourseId;
 	private String applyCourse;
 	private String applicantCompany;
@@ -39,6 +39,8 @@ public class Application extends BaseEntity  implements Serializable {
 	private Boolean confirmed;
 	private Boolean followed;
 	private Date createDate;
+	private String qq;
+	private String participants;
 
 	public Application() {
 	}
@@ -50,6 +52,7 @@ public class Application extends BaseEntity  implements Serializable {
 	 * 后台展示所用构造函数
 	 * @param applyId
 	 * @param email
+	 * @param applyCourseId
 	 * @param applyCourse
 	 * @param applicantCompany
 	 * @param headCount
@@ -60,16 +63,21 @@ public class Application extends BaseEntity  implements Serializable {
 	 * @param department
 	 * @param remarks
 	 * @param confirmed
+	 * @param followed
 	 * @param createDate
+	 * @param qq
+	 * @param participants
 	 */
-	public Application(Integer applyId, String email, String applyCourseId, String applyCourse,
+	public Application(Integer applyId, String email,String applicant, String applyCourseId, String applyCourse,
 			String applicantCompany, Integer headCount, String contact,
 			String telephone, String cellphone, String fax, String department,
-			String remarks, Boolean confirmed,Boolean followed, Date createDate) {
+			String remarks, Boolean confirmed,Boolean followed, Date createDate,
+			String qq,String participants) {
 		super();
 		this.applyId = applyId;
 		this.email = email;
 		this.applyCourseId = applyCourseId;
+		this.applicant = applicant;
 		this.applyCourse = applyCourse;
 		this.applicantCompany = applicantCompany;
 		this.headCount = headCount;
@@ -82,6 +90,8 @@ public class Application extends BaseEntity  implements Serializable {
 		this.confirmed = confirmed;
 		this.followed = followed;
 		this.createDate = createDate;
+		this.qq = qq;
+		this.participants = participants;
 	}
 
 
@@ -89,7 +99,6 @@ public class Application extends BaseEntity  implements Serializable {
 
 	/**
 	 * full constructor
-	 * 
 	 * @param applyId
 	 * @param email
 	 * @param applicant
@@ -97,22 +106,23 @@ public class Application extends BaseEntity  implements Serializable {
 	 * @param applyCourse
 	 * @param applicantCompany
 	 * @param headCount
-	 * @param city
 	 * @param contact
 	 * @param telephone
 	 * @param cellphone
 	 * @param fax
 	 * @param department
 	 * @param remarks
-	 * @param stateInfo
 	 * @param confirmed
 	 * @param createDate
+	 * @param qq
+	 * @param participants
 	 */
-	public Application(Integer applyId, String email, Integer applicant,
+	public Application(Integer applyId, String email, String applicant,
 			String applyCourseId, String applyCourse,
 			String applicantCompany, Integer headCount, String contact,
 			String telephone, String cellphone, String fax, String department,
-			String remarks, Boolean confirmed, Date createDate) {
+			String remarks, Boolean confirmed, Date createDate,
+			String qq,String participants) {
 		super();
 		this.applyId = applyId;
 		this.email = email;
@@ -129,8 +139,11 @@ public class Application extends BaseEntity  implements Serializable {
 		this.remarks = remarks;
 		this.confirmed = confirmed;
 		this.createDate = createDate;
+		this.qq = qq;
+		this.participants = participants;
 	}
 
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "applyId", unique = true, nullable = false)
 	public Integer getApplyId() {
@@ -149,11 +162,11 @@ public class Application extends BaseEntity  implements Serializable {
 		this.email = email;
 	}
 
-	public Integer getApplicant() {
+	public String getApplicant() {
 		return applicant;
 	}
 
-	public void setApplicant(Integer applicant) {
+	public void setApplicant(String applicant) {
 		this.applicant = applicant;
 	}
 
@@ -266,5 +279,33 @@ public class Application extends BaseEntity  implements Serializable {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+
+
+
+	public String getQq() {
+		return qq;
+	}
+
+
+
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+
+
+
+	public String getParticipants() {
+		return participants;
+	}
+
+
+
+
+	public void setParticipants(String participants) {
+		this.participants = participants;
 	}
 }

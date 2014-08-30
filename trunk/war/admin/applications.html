@@ -15,22 +15,25 @@
 			</head>
 			<table id="dg" class="easyui-datagrid"  pagination="true"  pageSize=20  
 			loadMsg="正在加载，请稍候!"
-			data-options="autoRowHeight:true,fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Application_queryApplications',toolbar:'#tb'">
+			data-options="nowrap:false,fit:true,rownumbers:true,remoteSort: true,singleSelect:true,url:'../struts/Application_queryApplications',toolbar:'#tb'">
 			<thead>
 				<tr>
 					<th data-options="field:'applyId',width:80,hidden:true">主键</th>
-					<th data-options="field:'applyCourseId',width:50">课程编号</th>
-					<th data-options="field:'applyCourse',width:120">课程名</th>
-					<th data-options="field:'headCount',width:30,sortable:true,align:'center'">人数</th>
+					<th data-options="field:'applicant',width:50">用户名</th>
 					<th data-options="field:'applicantCompany',width:70">公司名</th>
+					<th data-options="field:'headCount',width:30,sortable:true,align:'center'">人数</th>
+					<th data-options="field:'applyCourseId',width:40">课编号</th>
+					<th data-options="field:'applyCourse',width:120">课程名</th>
 					<th data-options="field:'contact',width:50">联系人</th>
-					<th data-options="field:'remarks',width:120">备注</th>
-					<th data-options="field:'confirmed',width:50,align:'center',formatter:function(value,row){if(row.confirmed) {return '确认报名';}else{return '未确认';}}">报名状态</th>
+					<th data-options="field:'confirmed',width:40,align:'center',formatter:function(value,row){if(row.confirmed) {return '已报名';}else{return '考虑中';}}">状态</th>
 					<th data-options="field:'email',width:80">邮件</th>
 					<th data-options="field:'telephone',width:60">电话</th>
 					<th data-options="field:'cellphone',width:60">手机</th>
 					<th data-options="field:'fax',width:60">传真</th>
-					<th data-options="field:'createDate',width:70,align:'center',sortable:true">创建时间</th>
+					<th data-options="field:'qq',width:60">QQ</th>
+					<th data-options="field:'participants',width:120">参加人信息</th>
+					<th data-options="field:'remarks',width:120">备注</th>
+					<th data-options="field:'createDate',width:70,align:'center',sortable:true">报名时间</th>
 				</tr>
 			</thead>
 			</table>
