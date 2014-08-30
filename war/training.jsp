@@ -866,7 +866,7 @@
 		<!--培训专题end-->
 		
 		<!--热门培训 培训计划 培训下载 start-->
-	<div style="height:10px; display:block"></div>
+	<!--  <div style="height:10px; display:block"></div>
 		<div class="sortList">
 		<div class="head">
 					<div class="tabOn half">培训计划</div>
@@ -883,7 +883,7 @@
 					</ul>
 					<div class="clear"></div>
 				</div>
-		</div>
+		</div>-->
 		<!--热门培训 培训计划 培训下载 end-->
 		
 
@@ -892,22 +892,22 @@
 		<div class="trainKind" style="padding:5px 0px 8px 15px;border:1px solid #ddeae0;">
 			<h4>专业培训</h4>
 			<ul id="type1">
-				<li><a href="#">软件工程</a></li>
+				<!-- <li><a href="#">软件工程</a></li> -->
 			</ul>
 			<div class="clear"></div>
 			<h4>行业培训</h4>
 			<ul id="type2">
-				<li><a href="#">化工</a></li>
+				<!--<li><a href="#">化工</a></li> -->
 			</ul>
 			<div class="clear"></div>
 			<h4>产品培训</h4>
 			<ul id="type3">
-				<li><a href="#">手机</a></li>
+				<!--<li><a href="#">手机</a></li> -->
 			</ul>
 			<div class="clear"></div>
 			<h4>职位培训</h4>
 			<ul id="type4">
-				<li><a href="#">HR经理</a></li>
+				<!--<li><a href="#">HR经理</a></li> -->
 			</ul>
 			<div class="clear"></div>
 		</div>

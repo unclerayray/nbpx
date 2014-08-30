@@ -35,6 +35,8 @@ public interface IKeywordDao extends IBaseDao<Keyword, Integer> {
 	
 	//得到关键词列表，flag:1代表点击率，2代表推荐，3代表热搜
 	public List<Keyword> getKeyWordsList(boolean isInner,Integer flag,String type,Integer start,Integer rows);
+	//得到关键词列表，flag:1代表点击率，2代表推荐，3代表热搜
+	public List<Keyword> getArticleKeyWordsList(Integer flag,String type,Integer start,Integer rows);
 	
 	public  List<Keyword> getNotIndexedKeyWordsList();
 	//获取最新的关键词 

@@ -87,7 +87,7 @@ public class CourseAction extends BaseAction {
 							+ "Solr服务器连接失败！请检查服务器！"));
 			return "failure";
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
 					ResponseStatus.IMPORT_FAILED + e.getMessage()));
@@ -193,6 +193,58 @@ public class CourseAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
+	public String saveUserNXCourse(){
+		User user = (User)session.getAttribute("user");
+		if(user == null){
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					"请先登陆!"));
+			return "failure";
+		}
+		validateCourseInfo();
+		String[] links = {};
+
+		Course cou = new Course(courseAllInfo);
+		cou.setContent(keywordService.setHyperLink(links,
+				cou.getContent()));// 生成超链接
+		//设置发布和修改者
+		cou.setLastUpdatedBy(user.getUserName());
+		if(cou.getCreatedBy()==null||cou.getCreatedBy().isEmpty()){
+			cou.setCreatedBy(user.getUserName());
+		}
+		
+		cou.setLastUpdateDate(new Date());
+		if(cou.getCreationDate()==null){
+			cou.setCreationDate(new Date());
+		}
+		
+		cou.setState(false);
+		cou.setTeacherId(user.getUserId().toString());
+		String return_innerCourse_id = "";
+		try {
+				//同步到内训
+				Course innerCou = cou;
+				innerCou.setCourseId(null);
+				innerCou.setIsInner(true);
+				innerCou = courseService.saveCourse(innerCou);
+				return_innerCourse_id = innerCou.getCourseId()+"";
+				courseAllInfo.setCourseId(innerCou.getCourseId());
+				courseAllInfo.setIsInner(true);
+				solrCourseService.addCourse2Solr(courseAllInfo);
+		} catch (Exception e) {
+			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
+					ResponseStatus.FAIL,
+					ResponseStatus.SAVE_FAILED + e.getMessage()));
+			return "failure";
+		}
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("dlg_inner_courseId", return_innerCourse_id);
+		this.inputStream = castToInputStream(JsonUtil
+				.formatToOpResJsonWithParam(ResponseStatus.SUCCESS,
+						ResponseStatus.SAVE_SUCCESS, map));
+		return SUCCESS;
+	}
+	
 	public String saveUserCourse(){
 		User user = (User)session.getAttribute("user");
 		if(user == null){
@@ -208,9 +260,9 @@ public class CourseAction extends BaseAction {
 		cou.setContent(keywordService.setHyperLink(links,
 				cou.getContent()));// 生成超链接
 		//设置发布和修改者
-		cou.setLastUpdatedBy(super.getSessionUserName());
+		cou.setLastUpdatedBy(user.getUserName());
 		if(cou.getCreatedBy()==null||cou.getCreatedBy().isEmpty()){
-			cou.setCreatedBy(super.getSessionUserName());
+			cou.setCreatedBy(user.getUserName());
 		}
 		
 		cou.setLastUpdateDate(new Date());

@@ -166,7 +166,8 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 		}
 
 		String[] sqlArr = list.toArray(new String[list.size()]);
-		jdbcTemplate.batchUpdate(sqlArr);
+		if(sqlArr != null&& sqlArr.length != 0)
+			jdbcTemplate.batchUpdate(sqlArr);
 	}
 
 	@Override

@@ -19,6 +19,32 @@ import com.nb.nbpx.pojo.wenda.Question;
 public class QuestionDaoImpl extends BaseDaoImpl<Question, Integer> implements
 		IQuestionDao {
 
+	public List<Question> queryQuestionWithAnswer(final Integer rows, final Integer start){
+		
+		List<Question> list = new ArrayList<Question>();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer(
+						" from Question q"
+								+ " where 1 = 1 ");
+				
+				hql.append(" order by q.questionId desc ");
+				Query query = session.createQuery(hql.toString());
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		return list;
+	}
+	
 	@Override
 	public List<Question> queryQuestions(final Integer rows,
 			final Integer start, final String sort, final String order,

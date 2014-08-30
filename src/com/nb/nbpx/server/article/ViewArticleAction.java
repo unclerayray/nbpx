@@ -26,8 +26,25 @@ public class ViewArticleAction extends BaseAction{
 	 */
 	private static final long serialVersionUID = 1L;
 	private IArticleService articleService;
-	private String id;
+	private IKeywordService keywordService;
 
+	private String id;
+	private String flag;
+	private String type;
+	
+	//查看文章专题
+	public String viewArticleSubjects(){
+			
+		return SUCCESS;
+	}
+	
+	//查看文章关键词
+	public String viewArticleKeyWords(){
+		String result = keywordService.getArticleKeyWordsList(Integer.parseInt(flag), null, this.getStartPosi(), rows);
+		this.inputStream = castToInputStream(result);
+		return SUCCESS;
+	}
+	
 	//查看文章
 	public String viewArticle(){
 		//文章阅读次数+1
@@ -60,7 +77,21 @@ public class ViewArticleAction extends BaseAction{
 		
 		return SUCCESS;
 	}
-	
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getId() {
 		return id;
 	}
@@ -75,5 +106,12 @@ public class ViewArticleAction extends BaseAction{
 		this.articleService = articleService;
 	}
 	
+	public IKeywordService getKeywordService() {
+		return keywordService;
+	}
+	@Resource
+	public void setKeywordService(IKeywordService keywordService) {
+		this.keywordService = keywordService;
+	}
 
 }

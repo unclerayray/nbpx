@@ -82,6 +82,8 @@ $(function(){
 		}
 		if(t == 1)//发布课程
 			window.location.href='publishClass.jsp';
+		else if(t == 5)//发布课程
+			window.location.href='publishNXClass.jsp';
 		else if(t == 2)//发布需求
 			window.location.href='publishNeed.jsp';
 		else if(t == 3)//内训申请
@@ -120,7 +122,11 @@ $(function(){
 				<li><a href="index.jsp" class="navButton index">返回首页</a></li>
 				<% if((flag =="1" && (userRole == "001_02"|| userRole == "001_03")) || flag == "0") //教师或者机构
 				{%>
-				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(1)" class="navButton publishClass">发布课程</a></li>
+				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(1)" class="navButton publishClass">发布培训课程</a></li>
+				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(5)" class="navButton publishClass">发布内训课程</a></li>
+				<%} %>
+				<% if((flag =="1" && (userRole == "001_01"|| userRole == "001_02")) || flag == "0") //教师或者机构
+				{%>
 				<li><a href="javascript:void(0)" onclick="javascript:gotoPage(4)" class="navButton apply">发布文章</a></li>
 				<%} %>
 				<li><a href="publishNeed.jsp"  class="navButton publishClass">发布需求</a></li>

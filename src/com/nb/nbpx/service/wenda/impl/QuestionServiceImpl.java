@@ -34,7 +34,11 @@ public class QuestionServiceImpl extends BaseServiceImpl implements IQuestionSer
 	public void setQuestionDao(IQuestionDao questionDao) {
 		this.questionDao = questionDao;
 	}
-
+	
+	public String queryQuestionWithAnswer(Integer rows, Integer start){
+		String json = "";
+		return json;
+	}
 	@Override
 	public String queryQuestions(Integer rows, Integer start, String sort,
 			String order, Boolean closed, String title, String askedBy) {
