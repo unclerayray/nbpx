@@ -202,7 +202,7 @@ $(function(){
 			<!--  <li><a href="teacherNX.jsp">企业内训师</a></li>-->
 			
 			<li><a href="hotKey.jsp">热门搜索</a><span>|</span></li>
-			<li><a href="#">培训动态</a><span>|</span></li>
+			<li><a href="seePXNews.jsp">培训动态</a><span>|</span></li>
 			<li><a href="keyWord.jsp">关键词</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=005">客户群</a><span>|</span></li>
 			<li><a href="viewDic.jsp?type=016">研修班</a><span>|</span></li>

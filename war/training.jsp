@@ -57,8 +57,29 @@
 		loadHotArticle();
 		//加载推荐文章
 		loadRecommandArticle();
+		//加载培训动态
+		loadNews();
 		
 	});
+	function loadNews(){
+		$.ajax({
+			url:"struts/LiveScene_queryLiveSceneTopList?flag=1",
+			success:function(data){
+				//alert(data);
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				$.each(jsonObject,function(n,value){
+					valueStr += "<li><a class='left tooLong' style='width:200px;display:block' >"+value.name+"</a></li>";
+				});	
+
+				if(valueStr == ""){
+					valueStr = "<div class='notice'>没有最新的动态</div>";
+				}
+				//alert(valueStr);
+				$('#news').html(valueStr);
+			}
+		});
+	}
 	//加载热门文章
 	function loadHotArticle(){
 		$.ajax({
@@ -207,7 +228,7 @@
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
 				$.each(jsonObject.rows,function(n,value){
-					valueStr +="<li><a href='#'>"+value.keyword+"</a></li>";
+					valueStr +="<li><a class='tooLong' style='width:100px;display:block' href='seeKey.jsp?key="+value.keyword+"'>"+value.keyword+"</a></li>";
 				});
 				$('#relatedKeywords').html(valueStr);
 			}
@@ -223,12 +244,10 @@
 				var valueStr2 = "";
 				$.each(jsonObject.rows,function(n,value){
 					var subject = value.subject;
-					if(subject.length > 5)
-						subject = subject.substring(0,5)+"...";
 					if(n<=9)
-						valueStr1 +="<dd><a href='#'>"+subject+"</a></dd>";
+						valueStr1 +="<dd><a class='tooLong' style='width:85px;display:block' href='seeKey.jsp?key="+subject+"'>"+subject+"</a></dd>";
 					else
-						valueStr2 +="<dd><a href='#'>"+subject+"</a></dd>";
+						valueStr2 +="<dd><a class='tooLong' style='width:85px;display:block' href='seeKey.jsp?key="+subject+"'>"+subject+"</a></dd>";
 				});
 				$('#relatedSubjects1').html(valueStr1);
 				$('#relatedSubjects2').html(valueStr2);
@@ -778,51 +797,12 @@
 		<!--培训关键词 start-->
 		<div class="rightTeacher">
 				<h5  class="first">企业培训相关关键词</h5>
-				<div class="bg h315" style="padding:0px 15px 4px 15px;border:none"/>
+				<div class="bg" style="padding:0px 15px 4px 15px;border:none">
 					<div class="clear" style="height:10px;"></div>
 					<ul class="list8" id="relatedKeywords">
-						<li><a href="#">EMBA</a></li>
-						<li><a href="#">KPI</a></li>
-						<li><a href="#">财务管理</a></li>
-						<li><a href="#">差异化</a></li>
-						<li><a href="#">产品研发</a></li>
-						<li><a href="#">产品质量</a></li>
-						<li><a href="#">成本控制</a></li>
-						<li><a href="#">消费者</a></li>
-						<li><a href="#">领导力</a></li>
-						<li><a href="#">品牌定位</a></li>
-						<li><a href="#">企业文化</a></li>
-						<li><a href="#">渠道</a></li>
-						<li><a href="#">产品定位</a></li>
-						<li><a href="#">服务</a></li>
-						<li><a href="#">竞争优势</a></li>
-						<li><a href="#">营销</a></li>
-						<li><a href="#">影响力</a></li>
-						<li><a href="#">招商</a></li>
-						<li><a href="#">EMBA</a></li>
-						<li><a href="#">KPI</a></li>
-						<li><a href="#">财务管理</a></li>
-						<li><a href="#">差异化</a></li>
-						<li><a href="#">产品研发</a></li>
-						<li><a href="#">产品质量</a></li>
-						<li><a href="#">成本控制</a></li>
-						<li><a href="#">消费者</a></li>
-						<li><a href="#">领导力</a></li>
-						<li><a href="#">品牌定位</a></li>
-						<li><a href="#">企业文化</a></li>
-						<li><a href="#">渠道</a></li>
-						<li><a href="#">产品定位</a></li>
-						<li><a href="#">服务</a></li>
-						<li><a href="#">竞争优势</a></li>
-						<li><a href="#">营销</a></li>
-						<li><a href="#">影响力</a></li>
-						<li><a href="#">招商</a></li>
-						<li><a href="#">产品质量</a></li>
-						<li><a href="#">成本控制</a></li>
-						<li><a href="#">消费者</a></li>
-						<li><a href="#">领导力</a></li>
-						<li><a href="#">品牌定位</a></li>
+						<!--  <li><a href="#" class="tooLong" style='width:200px;display:block'>EMBAasasdfafafafafafafafadsfasdfasdfadfadfadf</a></li>-->
 					</ul>
+			
 				</div>
 			</div>
 		<!--培训关键词 end-->
@@ -831,10 +811,10 @@
 		<div style="height:10px; display:block"></div>
 		<div class="rightTeacher">
 				<h5  class="first">企业培训相关专题</h5>
-				<div class="bg h315" style="padding:0px 0px 4px 0px;border:none"/>
+				<div class="bg h315" style="padding:0px 0px 4px 0px;border:none">
 					<div class="clear" style="height:0px"></div>
 					<dl class="bestCustomer leftPart left" style="width:110px;" id="relatedSubjects1">
-						<dd><a href="#">市场营销培训</a></dd>
+						<dd><a href="#" class="tooLong" style='width:85px;display:block'>市场营销培训asdfasdf</a></dd>
 						<dd><a href="#">企业培训</a></dd>
 						<dd><a href="#">企业培训计划</a></dd>
 						<dd><a href="#">大客户管理</a></dd>
@@ -848,7 +828,7 @@
 						<dd><a href="#">投诉处理流程</a></dd>
 					</dl>
 					<dl class="bestCustomer rightPart right" style="width:130px;" id="relatedSubjects2">
-						<dd><a href="#">绩效考核</a></dd>
+						<dd><a href="#" class="tooLong" style='width:85px;display:block'>绩效考核asdfadf</a></dd>
 						<dd><a href="#">新社会保险法</a></dd>
 						<dd><a href="#">员工关系管理</a></dd>
 						<dd><a href="#">风险管理</a></dd>
@@ -973,16 +953,7 @@
 				<h5  class="first">培训动态</h5>
 				<div style="padding:0px 0px 10px 15px;height:140px">
 					<marquee  direction="up" scrollamount="3" behavior="scroll" class="lasted" height="150px" onmouseover="this.stop();" onMouseOut="this.start()">
-					<ul class="list5" style="width:230px;">
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+					<ul class="list5" style="width:230px;" id="news">
 						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
 					</ul>
 					</marquee>
