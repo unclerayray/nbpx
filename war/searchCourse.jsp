@@ -29,6 +29,35 @@ String keyw = (String)request.getParameter("key");
 			if("<%= keyw%>"!="null"){
 				$('#searchWord').val("<%= keyw%>");
 			}
+			searchTabs('searchTab', document.getElementById("searchTab_Title0") );
+			$( "#searchWord" ).autocomplete({
+				minLength: 1,
+				source: function(request, response) {
+					$.ajax({
+						url: "struts/Search_queryKeywordsByKeyword",
+						contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+						delay: 500,
+						dataType:'json',
+						timeout: 5000,
+						data: {
+							featureClass: "P",
+							style: "full",
+							maxRows: 12,
+							wt:"json",
+							q:$("#searchWord").val(),
+							name_startsWith: request.term
+						},
+						success: function(data) {
+							response($.map(data, function(item) {
+								return {
+									label: item.keyword,
+									value: item.keyword
+								};
+							}));
+						}
+					});
+				}
+			});
 		};
 	</script>
 	<script>
@@ -89,34 +118,6 @@ String keyw = (String)request.getParameter("key");
 			//
 			//			jsonp: "json.wrf",
 			//url: "http://localhost:8080/solr/core_keyword/select",
-			$( "#searchWord" ).autocomplete({
-				minLength: 1,
-				source: function(request, response) {
-					$.ajax({
-						url: "struts/Search_queryKeywordsByKeyword",
-						contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-						delay: 500,
-						dataType:'json',
-						timeout: 5000,
-						data: {
-							featureClass: "P",
-							style: "full",
-							maxRows: 12,
-							wt:"json",
-							q:$("#searchWord").val(),
-							name_startsWith: request.term
-						},
-						success: function(data) {
-							response($.map(data, function(item) {
-								return {
-									label: item.keyword,
-									value: item.keyword
-								};
-							}));
-						}
-					});
-				}
-			});
 		});
 </script>
 

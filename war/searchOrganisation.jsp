@@ -36,6 +36,34 @@ String keyw = (String)request.getParameter("key");
 			if("<%= keyw%>"!="null"){
 				$('#searchWord').val("<%= keyw%>");
 			}
+			$( "#searchWord" ).autocomplete({
+				minLength: 1,
+				source: function(request, response) {
+					$.ajax({
+						url: "struts/Search_queryKeywordsByKeyword",
+						delay: 500,
+						dataType:'json',
+						timeout: 5000,
+						data: {
+							featureClass: "P",
+							style: "full",
+							maxRows: 12,
+							wt:"json",
+							q:$("#searchWord").val(),
+							name_startsWith: request.term
+						},
+						success: function(data) {
+							response($.map(data, function(item) {
+								return {
+									label: item.keyword,
+									value: item.keyword
+								}
+							}));
+						}
+					});
+				}
+			});
+			searchTabs('searchTab', document.getElementById("searchTab_Title6") );
 		};
 	</script>
 	<script>
@@ -59,17 +87,17 @@ String keyw = (String)request.getParameter("key");
 							+ "<td rowspan='2' style='width:150px;'>"
 							+"<img style='width:150px;height:50px;border:1px solid #ccc' src='"+ value.logoUrl +"' style='width:150px;height:50px;border:1px solid #ccc'>"
 							+ "</td>"
-							+ "<td colspan='2'>"
-							+ "<h3><a target='_blank'  href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"
+							+ "<td>"
+							+ "<h3 style='width: auto; text-align: left; '><a target='_blank' text-align='left' href='viewOrganisation.jsp?id="+value.orgId+"'>"+value.orgName+"</a></h3>"
 							+ "</td>"
 							+"</tr>"
 							+ "<tr>"
-							+ "<td>"
+							+ "<td style='width: auto; text-align: left; '>"
 							+ "编号："+value.orgId+"&nbsp;&nbsp;机构类别："+value.category+""
 							+ "</td>"
 							+ "</tr>"
 							+ "<tr>"
-							+ "<td colspan='4'>"
+							+ "<td style='width: auto; text-align: left; ' colspan='4'>"
 							+ "<span>机构详情：</span>"
 							+ value.introduction+"...[<a target='_blank' href='viewOrganisation.jsp?id="+value.orgId+"'>详细</a>]"
 							+ "</td>"
@@ -97,34 +125,6 @@ String keyw = (String)request.getParameter("key");
 		//
 		//			jsonp: "json.wrf",
 		//url: "http://localhost:8080/solr/core_keyword/select",
-		$( "#searchWord" ).autocomplete({
-			minLength: 1,
-			source: function(request, response) {
-				$.ajax({
-					url: "struts/Search_queryKeywordsByKeyword",
-					delay: 500,
-					dataType:'json',
-					timeout: 5000,
-					data: {
-						featureClass: "P",
-						style: "full",
-						maxRows: 12,
-						wt:"json",
-						q:$("#searchWord").val(),
-						name_startsWith: request.term
-					},
-					success: function(data) {
-						response($.map(data, function(item) {
-							return {
-								label: item.keyword,
-								value: item.keyword
-							}
-						}));
-					}
-				});
-			}
-		});
-		searchTabs('searchTab', document.getElementById("searchTab_Title6") );
 	});
 </script>
 

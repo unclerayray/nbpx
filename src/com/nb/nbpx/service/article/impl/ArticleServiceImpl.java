@@ -55,19 +55,14 @@ public class ArticleServiceImpl extends BaseServiceImpl implements
 	public String queryArticles(String category, String articleTitle, Integer articleId, Boolean p_outside, Integer rows, Integer start,
 			String sort, String order) {
 		String json = "";
-		Map<String, Object> propsMap = this.createPropMap(
-				new Equality("category", category),
-				new Equality("articleTitle", articleTitle),
-				new Equality("articleId", articleId)
-				);
 		List<Article> list = articleDao.getArticles(category , articleTitle , articleId, p_outside, rows, start,
 				sort, order);
 		if (list.isEmpty()) {
 			json = JsonUtil.formatToJsonWithTimeStamp(0,
 					ResponseStatus.SUCCESS, "", list);
 		} else {
-			int count = articleDao.queryTotalCount(Article.class, propsMap)
-					.intValue();
+			int count = articleDao.getArticlesCount(category , articleTitle , articleId, p_outside, rows, start,
+					sort, order).intValue();
 			//TODO 计数函数也需加上参数
 			json = JsonUtil.formatToJsonWithTimeStamp(count,
 					ResponseStatus.SUCCESS, "", list);

@@ -146,6 +146,8 @@
 															}
 														});
 									}
+									alert("发布成功，稍后管理员会对课程进行审核!");
+									$('#fm').form('clear');
 								} else {
 									alert("发布失败!");
 								}
@@ -241,6 +243,19 @@
 					<td align="left" valign="top"><input class="easyui-validatebox" name="price"
 						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',validType:'num'"
 						style="width: 200px;"></td>
+				</tr>
+				<tr>
+					<td width="100px" align="right" valign="top">课程对象:</td>
+					<td colspan="3" align="left" valign="top"><input name="targets" id="courseTarget"
+						class="easyui-combobox"
+						data-options="  
+							url:'struts/Dictionary_queryComboDics?p_dicType=010',   
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'200',
+							multiple:true,
+							editable:true"
+						style="width: 600px;"></td>
 				</tr>
 				<!--  <tr>
 					<td class="itemText">金牌:</td>

@@ -780,8 +780,10 @@ public class CourseDaoImpl extends BaseDaoImpl<Course, Integer> implements ICour
 		}
 
 		String[] sqlArr = list.toArray(new String[list.size()]);
-		int[] ja = jdbcTemplate.batchUpdate(sqlArr);
-		logger.info("what! "+ja);
+		if(sqlArr!=null && sqlArr.length > 0 ){
+			int[] ja = jdbcTemplate.batchUpdate(sqlArr);
+			logger.info("what! "+ja);
+		}
 	}
 
 	@Override

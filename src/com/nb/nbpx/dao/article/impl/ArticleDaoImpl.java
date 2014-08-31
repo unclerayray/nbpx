@@ -108,6 +108,69 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Integer> implements
 		//Map<String, Object> propertyMap = new HashMap<String, Object>();
 		return list;
 	}
+	
+	@Override
+	public Long getArticlesCount(final String category, final String articleTitle, final Integer articleId, final Boolean p_outside, final Integer rows,
+			final Integer start, final String sort, final String order) {
+		List list = new ArrayList();
+		list = getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				int i = 0;
+				StringBuffer hql = new StringBuffer(
+						"select count(c) from Article c"
+								+ " where 1 = 1 ");
+				if (articleId != null) {
+					hql.append(" and c.articleId = ? ");
+				}
+				if (category != null && !category.isEmpty()) {
+					hql.append(" and c.category = ? ");
+				}
+				if (articleTitle != null && !articleTitle.isEmpty()) {
+					hql.append(" and c.articleTitle like ? ");
+				}
+				if (p_outside != null){
+					if(p_outside){
+						hql.append(" and c.createdBy not in (select userName from Admin) ");
+					}else{
+						hql.append(" and c.createdBy in (select userName from Admin) ");
+					}
+				}
+
+				if (sort != null && !sort.isEmpty()) {
+					hql.append(" order by c." + sort);
+					if (order != null && !order.isEmpty()) {
+						hql.append(" " + order);
+					}
+				} else {
+					hql.append(" order by c.lastUpdateDate desc ");
+				}
+				Query query = session.createQuery(hql.toString());
+
+				if (articleId != null) {
+					query.setInteger(i++, articleId);
+				}
+				if (category != null && !category.isEmpty()) {
+					query.setString(i++, category);
+				}
+				if (articleTitle != null && !articleTitle.isEmpty()) {
+					query.setString(i++, "%"+articleTitle+"%");
+				}
+
+
+				if (start != null && rows != null) {
+					query.setFirstResult(start);
+					query.setMaxResults(rows);
+				}
+
+				return query.list();
+			}
+		});
+		//Map<String, Object> propertyMap = new HashMap<String, Object>();
+		return (Long) list.get(0);
+	}
 
 	@Override
 	public Long queryArticleCount(final String category) {
