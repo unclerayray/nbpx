@@ -293,7 +293,7 @@ public class DictionaryDaoImpl extends BaseDaoImpl<Dictionary, Integer>
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer(
-						"select new Dictionary(d.dicId,d.codeName,d.showName,d.discription,d.flag) from Dictionary d where 1=1 ");
+						" from Dictionary d where 1=1 ");
 				if (codeName != null && !"".equals(codeName))
 					hql.append(" and d.codeName ='" + codeName + "'");
 				if (showName != null && !"".equals(showName))

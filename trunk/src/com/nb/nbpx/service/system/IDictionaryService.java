@@ -61,6 +61,7 @@ public interface IDictionaryService extends IBaseService {
 	 * @return
 	 */
 	public Dictionary getDictionary(String codeName,String showName);
+	public String getAdDic(String dicType, String codeName,String showName);
 	
 	public List<Dictionary> getDicListByType(String typeCode);
 }

@@ -74,6 +74,28 @@ $(function(){
 				});
 			}
 		});
+		
+
+		
+		//init header ad
+		//<a href=""><img  src="/ad/30_0000.jpg" width="960" height="60px"/></a>
+
+		$.ajax({
+			url:encodeURI('struts/Dictionary_getAdDictionary?p_dicType=30&p_codeName=30_0000'),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				var imgStr = "<img src='/ad/30_0000.jpg' width='960' height='60px'/>";
+				if(jsonObject.orderNum){
+					valueStr += "<a href='viewClass.jsp?id=" + jsonObject.orderNum +"'>";
+					valueStr += imgStr;
+					valueStr += "</a>";
+				}else{
+					valueStr += imgStr;
+				}
+				$('#30_0000').html(valueStr);
+			}
+		});
 	});
 	function gotoPage(t){
 		if($('#flag').val() != "1"){
@@ -207,8 +229,8 @@ $(function(){
 </div>
 
 <!--flash start-->
-<div class="mainContent flash" style="padding-top:5px;">
-	<img  src="images/adv1.gif" width="960" height="60px"/>
+<div id="30_0000" class="mainContent flash" style="padding-top:5px;">
+	<img  src="/ad/30_0000.jpg" width="960" height="60px"/>
 </div>
 <!--flash end -->
 

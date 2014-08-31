@@ -781,6 +781,7 @@ public class CourseServiceImpl extends BaseServiceImpl implements
 					false, true);
 		else
 			courseInfoList = null;
+		//TODO 这个地方要改
 		Map<String, String> existKey = new HashMap<String, String>();
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		int count = 0;

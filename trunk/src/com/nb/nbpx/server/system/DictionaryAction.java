@@ -53,6 +53,14 @@ public class DictionaryAction extends BaseAction {
 		this.inputStream = castToInputStream(json);
 		return SUCCESS;
 	}
+	
+
+	public String getAdDictionary() {
+		String json = dictionaryService.getAdDic(p_dicType, p_codeName, null);
+		//TODO 字典查询 codeName Or showName
+		this.inputStream = castToInputStream(json);
+		return SUCCESS;
+	}
 
 	public String queryDicType() {
 		String json = dictionaryService.queryDicType(rows, getStartPosi());

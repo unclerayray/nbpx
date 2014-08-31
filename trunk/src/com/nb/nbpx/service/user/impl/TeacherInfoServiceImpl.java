@@ -136,4 +136,9 @@ public class TeacherInfoServiceImpl extends BaseServiceImpl implements ITeacherI
 		teacherInfoDao.updateWithPK(TeacherInfo.class, teacherInfoId, propertyMap);
 	}
 
+	@Override
+	public TeacherInfo getTeacherInfoEntityByUserId(Integer userID) {
+		return teacherInfoDao.getTeacherInforByUserId(userID).get(0);
+	}
+
 }

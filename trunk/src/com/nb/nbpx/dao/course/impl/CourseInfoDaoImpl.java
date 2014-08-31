@@ -116,6 +116,7 @@ public class CourseInfoDaoImpl extends BaseDaoImpl<CourseInfo, Integer>
 	
 	public List<CourseInfo> queryTop30CourseInfo(final Boolean isInner,final Boolean isRecommand,final Boolean isClassic){
 		List<CourseInfo> list = new ArrayList<CourseInfo>();
+		//TODO 这个函数可能要改
 		list = getHibernateTemplate().executeFind(new HibernateCallback() {
 			@Override
 			public Object doInHibernate(Session session)

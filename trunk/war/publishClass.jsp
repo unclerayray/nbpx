@@ -242,19 +242,6 @@
 						data-options="required:true,tipPositionY:'center',tipPositionX:'right',className:'tip-darkgray',validType:'num'"
 						style="width: 200px;"></td>
 				</tr>
-				<tr>
-					<td width="100px" align="right" valign="top">课程对象:</td>
-					<td colspan="3" align="left" valign="top"><input name="targets" id="courseTarget"
-						class="easyui-combobox"
-						data-options="  
-							url:'struts/Dictionary_queryComboDics?p_dicType=010',   
-							valueField:'codeName',  
-							textField:'showName',
-							panelHeight:'200',
-							multiple:true,
-							editable:true"
-						style="width: 600px;"></td>
-				</tr>
 				<!--  <tr>
 					<td class="itemText">金牌:</td>
 					<td colspan="7"><input name="goldenPic" id="goldenPic" type="file"></td>

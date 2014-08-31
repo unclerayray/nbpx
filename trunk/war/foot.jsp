@@ -11,6 +11,27 @@
 	$(function(){
 		loadOrgs();
 		loadLinks();
+		
+
+		//init header ad
+		//<a href=""><img  src="/ad/30_0000.jpg" width="960" height="60px"/></a>
+
+		$.ajax({
+			url:encodeURI('struts/Dictionary_getAdDictionary?p_dicType=30&p_codeName=30_12'),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				var imgStr = "<img src='/ad/30_12.jpg' width='960' height='60px'/>";
+				if(jsonObject.orderNum){
+					valueStr += "<a href='viewClass.jsp?id=" + jsonObject.orderNum +"'>";
+					valueStr += imgStr;
+					valueStr += "</a>";
+				}else{
+					valueStr += imgStr;
+				}
+				$('#30_12').html(valueStr);
+			}
+		});
 	})
 	function loadOrgs(){
 		$.ajax({
@@ -57,8 +78,8 @@
 <body>
 <!--flash start-->
 <div class="clear"></div>
-<div class="mainContent flash" style="padding-bottom:10px">
-	<img  src="images/flah4.jpg" width="960"/>
+<div class="mainContent flash" id="30_12" style="padding-bottom:10px">
+	<img  src="/ad/30_12.jpg" width="960"/>
 </div>
 <!--flash end -->
 
