@@ -170,6 +170,25 @@
 		
 	});	
 	
+	function loadAds(){
+		$.ajax({
+			url:encodeURI('struts/Dictionary_getAdDictionary?p_dicType=30&p_codeName=30_0000'),
+			success: function(data){
+				var jsonObject = eval('('+data+')');
+				var valueStr = "";
+				var imgStr = "<img src='/ad/30_0000.jpg' width='960' height='60px'/>";
+				if(jsonObject.orderNum){
+					valueStr += "<a href='viewClass.jsp?id=" + jsonObject.orderNum +"'>";
+					valueStr += imgStr;
+					valueStr += "</a>";
+				}else{
+					valueStr += imgStr;
+				}
+				$('#30_0000').html(valueStr);
+			}
+		});
+	}
+	
 	function loadWork(){
 		$.ajax({
 			url: 'struts/Dictionary_queryWork',
@@ -803,8 +822,8 @@
 			</ul>
 		</div>
 		<!--城市 end-->
-		<div style="padding:10px 0px"> 
-				<img  src="images/leftAdv.jpg" width="310" height="110"/>
+		<div style="padding:10px 0px" id="30_13"> 
+				<img  src="/ad/30_13.jpg" width="310" height="110"/>
 		</div>
 		
 		<!--月份 start-->
@@ -884,8 +903,8 @@
 <!-- 主体部分二 end-->
 <!--flash start-->
 <div class="clear"></div>
-<div class="mainContent flash" style="padding-top:10px;">
-	<img  src="images/flash2.jpg" width="960"/>
+<div class="mainContent flash" style="padding-top:10px;" id="30_14">
+	<img  src="/ad/30_14.jpg"  height="60px"  width="960"/>
 </div>
 <!--flash end -->
 
@@ -935,7 +954,7 @@
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class1.jpg"   style="padding-top:10px;"/>
+				<div id="30_4"><img src="/ad/30_4.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 		<li class="noneStyle">
@@ -956,7 +975,7 @@
 					</div>
 					
 				</div>
-				<img  src="images/class3.jpg"  />
+				<div id="30_21"><img src="/ad/30_21.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 		<li class="last noneStyle">
@@ -992,7 +1011,7 @@
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class4.jpg" />
+				<div id="30_6"><img src="/ad/30_6.jpg"  height="60px" style="padding-top:10px;"/></div>
 	</div>
 	</li>
 	<li class="noneStyle">
@@ -1012,7 +1031,7 @@
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class6.jpg" />
+				<div id="30_8"><img src="/ad/30_8.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 		<li class="last noneStyle">
@@ -1049,7 +1068,7 @@
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class2.jpg" />
+				<div id="30_16"><img src="/ad/30_16.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 	<li class="noneStyle">
@@ -1069,7 +1088,7 @@
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class5.jpg" />
+				<div id="30_1"><img src="/ad/30_1.jpg"  height="60px" style="padding-top:10px;"/></div>
 	</div>
 	</li>
 	<li class="last noneStyle">
@@ -1104,7 +1123,7 @@
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class2.jpg" />
+				<div id="30_17"><img src="/ad/30_17.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 	<li class="noneStyle">
@@ -1124,7 +1143,7 @@
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class5.jpg" />
+				<div id="30_5"><img src="/ad/30_5.jpg"  height="60px" style="padding-top:10px;"/></div>
 	</div>
 	</li>
 	<li class="last noneStyle">
@@ -1230,7 +1249,7 @@
 <!--flash start-->
 
 <div class="mainContent flash" >
-	<img  src="images/flash2.jpg" width="960"/>
+	<div id="30_14"><img src="/ad/30_14.jpg"  height="60px" style="padding-top:10px;"/></div>
 </div>
 <div style='height:10px'></div>
 <style>
@@ -1325,7 +1344,7 @@ padding-bottom: 2px;
 <!-- 新增培训导航 end -->
 <div style='height:10px'></div>
 <div class="mainContent flash" >
-	<img  src="images/flash3.jpg" width="960"/>
+	<div id="30_19"><img src="/ad/30_19.jpg"  height="60px" style="padding-top:10px;"/></div>
 </div>
 <!--flash end -->
 
@@ -1656,7 +1675,7 @@ padding-bottom: 2px;
 <!--flash start-->
 
 <div class="mainContent flash" >
-	<img  src="images/flash3.jpg" width="960"/>
+	<div id="30_24"><img src="/ad/30_24.jpg"  height="60px" style="padding-top:10px;"/></div>
 </div>
 <!--flash end -->
 
@@ -1680,7 +1699,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/news1.jpg"/>
+				<div id="30_3"><img src="/ad/30_3.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 		<li class="noneStyle">
@@ -1699,7 +1718,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 					</div>
-				<img  src="images/news2.jpg"/>
+				<div id="30_10"><img src="/ad/30_10.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 		<li class="last noneStyle">
@@ -1746,7 +1765,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/new3.jpg"/>
+				<div id="30_15"><img src="/ad/30_15.jpg"  height="60px" style="padding-top:10px;"/></div>
 	</div>
 	</li>
 	<li class="noneStyle">
@@ -1766,7 +1785,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class5.jpg"/>
+				<div id="30_18"><img src="/ad/30_18.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 		<li class="last noneStyle">
@@ -1885,7 +1904,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/new3.jpg"/>
+				<div id="30_9"><img src="/ad/30_9.jpg"  height="60px" style="padding-top:10px;"/></div>
 	</div>
 	</li>
 	<li class="noneStyle">
@@ -1905,7 +1924,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class5.jpg"/>
+				<div id="30_2"><img src="/ad/30_2.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 		<li class="last noneStyle">
@@ -1944,7 +1963,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/new3.jpg"/>
+				<div id="30_17"><img src="/ad/30_17.jpg"  height="60px" style="padding-top:10px;"/></div>
 	</div>
 	</li>
 	<li class="noneStyle">
@@ -1964,7 +1983,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class5.jpg"/>
+				<div id="30_5"><img src="/ad/30_5.jpg"  height="60px" style="padding-top:10px;"/></div>
 
 			</div>
 		</li>
@@ -2012,7 +2031,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class5.jpg"/>
+				<div id="30_11"><img src="/ad/30_11.jpg"  height="60px" style="padding-top:10px;"/></div>
 			</div>
 		</li>
 	<li class="noneStyle">
@@ -2031,7 +2050,7 @@ padding-bottom: 2px;
 						</ul>
 					</div>
 				</div>
-				<img  src="images/class5.jpg"/>
+				<div id="30_23"><img src="/ad/30_23.jpg"  height="60px" style="padding-top:10px;"/></div>
 	</div>
 	</li>
 	

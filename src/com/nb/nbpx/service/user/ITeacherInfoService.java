@@ -8,6 +8,7 @@ public interface ITeacherInfoService extends IBaseService{
 
 	public String getTeacherInfo(Boolean isInner,String state,Integer rows,Integer start);
 	public String getTeacherInfoByUserId(Integer userID);
+	public TeacherInfo getTeacherInfoEntityByUserId(Integer userID);
 	public String getTeacherInfoByTeacherId(Integer teacherID);
 	public void deleteTeacherInfo(Integer teacherInfoId);
 	public String saveTeacherInfor(TeacherInfo teacherInfor);

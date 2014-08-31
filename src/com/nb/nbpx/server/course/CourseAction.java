@@ -3,18 +3,13 @@
  */
 package com.nb.nbpx.server.course;
 
-import com.nb.nbpx.common.ResponseStatus;
-import com.nb.nbpx.dto.course.CourseAllInfoDto;
-import com.nb.nbpx.pojo.course.Course;
-import com.nb.nbpx.pojo.course.CourseInfo;
-import com.nb.nbpx.pojo.user.User;
-import com.nb.nbpx.server.BaseAction;
-import com.nb.nbpx.service.course.ICourseService;
-import com.nb.nbpx.service.keyword.IKeywordService;
-import com.nb.nbpx.service.solr.ISolrCourseService;
-import com.nb.nbpx.service.solr.ISolrService;
-import com.nb.nbpx.utils.JsonUtil;
-import com.nb.nbpx.utils.SolrUtil;
+import java.io.File;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -24,13 +19,20 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.nb.nbpx.common.ResponseStatus;
+import com.nb.nbpx.dto.course.CourseAllInfoDto;
+import com.nb.nbpx.pojo.course.Course;
+import com.nb.nbpx.pojo.course.CourseInfo;
+import com.nb.nbpx.pojo.user.TeacherInfo;
+import com.nb.nbpx.pojo.user.User;
+import com.nb.nbpx.server.BaseAction;
+import com.nb.nbpx.service.course.ICourseService;
+import com.nb.nbpx.service.keyword.IKeywordService;
+import com.nb.nbpx.service.solr.ISolrCourseService;
+import com.nb.nbpx.service.solr.ISolrService;
+import com.nb.nbpx.service.user.ITeacherInfoService;
+import com.nb.nbpx.utils.JsonUtil;
+import com.nb.nbpx.utils.SolrUtil;
 
 /**
  * @author Roger
@@ -48,6 +50,7 @@ public class CourseAction extends BaseAction {
 	private ICourseService courseService;
 	private IKeywordService keywordService;
 	private ISolrCourseService solrCourseService;
+	private ITeacherInfoService teacherService;
 	public String category;
 	public String courseCode;
 	public String q_title;
@@ -219,7 +222,8 @@ public class CourseAction extends BaseAction {
 		}
 		
 		cou.setState(false);
-		cou.setTeacherId(user.getUserId().toString());
+		TeacherInfo teacher = teacherService.getTeacherInfoEntityByUserId(user.getUserId());
+		cou.setTeacherId(teacher.getTeacherId().toString());
 		String return_innerCourse_id = "";
 		try {
 				//同步到内训
@@ -253,6 +257,7 @@ public class CourseAction extends BaseAction {
 					"请先登陆!"));
 			return "failure";
 		}
+		//TODO fix this
 		validateCourseInfo();
 		String[] links = {};
 
@@ -270,35 +275,15 @@ public class CourseAction extends BaseAction {
 			cou.setCreationDate(new Date());
 		}
 		cou.setState(false);
-		cou.setTeacherId(user.getUserId().toString());
+		TeacherInfo teacher = teacherService.getTeacherInfoEntityByUserId(user.getUserId());
+		cou.setTeacherId(teacher.getTeacherId().toString());
 		String return_course_id = "";
 		String return_innerCourse_id = "";
 		try {
-			Boolean deleteBeforeInsert = false;
-			if (courseAllInfo.getCourseId() != null) {
-				deleteBeforeInsert = true;
-			}
 			cou = courseService.saveCourse(cou);
 			return_course_id = cou.getCourseId()+"";
 			courseAllInfo.setCourseId(cou.getCourseId());
-			courseService
-					.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
-
 			solrCourseService.addCourse2Solr(courseAllInfo);
-			if(sync!=null&&sync&&!deleteBeforeInsert){
-				//-------------同步到内训
-				Course innerCou = cou;
-				innerCou.setCourseId(null);
-				innerCou.setIsInner(true);
-				innerCou = courseService.saveCourse(innerCou);
-				return_innerCourse_id = innerCou.getCourseId()+"";
-				courseAllInfo.setCourseId(innerCou.getCourseId());
-				courseAllInfo.setIsInner(true);
-				courseService
-						.saveOtherCourseInfo(courseAllInfo, deleteBeforeInsert);
-				solrCourseService.addCourse2Solr(courseAllInfo);
-				//solrCourseService.updateCourseInfo2Solr(innerCou.getCourseId());
-			}
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
 					ResponseStatus.FAIL,
@@ -565,6 +550,15 @@ public class CourseAction extends BaseAction {
 		this.courseService = courseService;
 	}
 
+
+	public ITeacherInfoService getTeacherService() {
+		return teacherService;
+	}
+
+	@Resource
+	public void setTeacherService(ITeacherInfoService teacherService) {
+		this.teacherService = teacherService;
+	}
 
 	public String getCategory() {
 		return category;

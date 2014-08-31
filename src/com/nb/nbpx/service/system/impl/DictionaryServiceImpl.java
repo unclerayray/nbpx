@@ -188,6 +188,11 @@ public class DictionaryServiceImpl extends BaseServiceImpl implements
 	public Dictionary getDictionary(String codeName, String showName) {
 		return dicDao.getDictionary(codeName, showName);
 	}
+	@Override
+	public String getAdDic(String dicType, String codeName, String showName) {
+		Dictionary dic = dicDao.getDictionary(codeName, showName, dicType);
+		return JsonUtil.formatToJson(dic, "yyyy-MM-dd");
+	}
 
 	
 
