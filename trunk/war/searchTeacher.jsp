@@ -19,6 +19,7 @@ String keyw = (String)request.getParameter("key");
 	<script src="ui/jquery.ui.position.js"></script>
 	<script src="ui/jquery.ui.menu.js"></script>
 	<script src="ui/jquery.ui.autocomplete.js"></script>
+	<script src="js/myjs/index.js"></script>
 
 	<link type="text/css" href="css/search.css" rel="stylesheet" />
 	<link type="text/css" href="css/face.css" rel="stylesheet" />
@@ -34,6 +35,36 @@ String keyw = (String)request.getParameter("key");
 			if("<%= keyw%>"!="null"){
 				$('#searchWord').val("<%= keyw%>");
 			}
+			
+			$( "#searchWord" ).autocomplete({
+				minLength: 1,
+				source: function(request, response) {
+					$.ajax({
+						url: "struts/Search_queryTeacherTip",
+						delay: 500,
+						dataType:'json',
+						timeout: 5000,
+						data: {
+							featureClass: "P",
+							style: "full",
+							maxRows: 12,
+							wt:"json",
+							q:$("#searchWord").val(),
+							name_startsWith: request.term
+						},
+						success: function(data) {
+							response($.map(data, function(item) {
+								return {
+									label: item.keyword,
+									value: item.keyword
+								}
+							}));
+						}
+					});
+				}
+			});
+			
+			searchTabs('searchTab', document.getElementById("searchTab_Title1") );
 		};
 	</script>
 	<script>
@@ -44,7 +75,7 @@ String keyw = (String)request.getParameter("key");
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
 				success:function(data){
 					var jsonObject = eval('('+data+')');
-					var valueStr = "<div  class='teacherList'";
+					var valueStr = "<div  class='teacherList'>";
 					var pages = parseInt(jsonObject.total/10,10)+1;
 					var rows = jsonObject.rows;
 					//alert("rows = " + rows);
@@ -101,35 +132,6 @@ String keyw = (String)request.getParameter("key");
 		//
 		//			jsonp: "json.wrf",
 		//url: "http://localhost:8080/solr/core_keyword/select",
-		$( "#searchWord" ).autocomplete({
-			minLength: 1,
-			source: function(request, response) {
-				$.ajax({
-					url: "struts/Search_queryTeacherTip",
-					delay: 500,
-					dataType:'json',
-					timeout: 5000,
-					data: {
-						featureClass: "P",
-						style: "full",
-						maxRows: 12,
-						wt:"json",
-						q:$("#searchWord").val(),
-						name_startsWith: request.term
-					},
-					success: function(data) {
-						response($.map(data, function(item) {
-							return {
-								label: item.keyword,
-								value: item.keyword
-							}
-						}));
-					}
-				});
-			}
-		});
-		
-		searchTabs('searchTab', document.getElementById("searchTab_Title1") );
 	});
 	</script>
 
@@ -252,6 +254,7 @@ var pager = {
 			&nbsp;&nbsp;跳转至<input id="jump"/>页&nbsp;<button style="height:22px;" onclick="javascript:pager.jump();">跳转</button>,当前是第<span id="currPage"></span>页,共<span id="pages">60</span>页
 		</div>
 		<div class="clear"></div>
+		<!-- 
 		<div id="relatedKeywords" class="rightTeacher">
 			<h5 style="text-align:left; width:800px">相关搜索关键字</h5>
 			<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:80px">
@@ -306,7 +309,7 @@ var pager = {
 					</dd>
 				</dl>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<!--右边部分 start-->
 	<div class="rightInPart">

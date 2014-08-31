@@ -21,7 +21,7 @@
 	}
 	function saveCourse() {
 
-		var submitUrl = 'struts/Course_saveUserCourse?objectName=courseAllInfo';
+		var submitUrl = 'struts/Course_saveUserNXCourse?objectName=courseAllInfo';
 		//alert(1);
 		$('#fm').form('submit',
 						{url:submitUrl,
@@ -82,6 +82,19 @@
 							missingMessage:'必填项'
 							">
 						</td>
+				</tr>
+				<tr>
+					<td width="100px" align="right" valign="top">课程对象:</td>
+					<td colspan="3" align="left" valign="top"><input name="targets" id="courseTarget"
+						class="easyui-combobox"
+						data-options="  
+							url:'struts/Dictionary_queryComboDics?p_dicType=010',   
+							valueField:'codeName',  
+							textField:'showName',
+							panelHeight:'200',
+							multiple:true,
+							editable:true"
+						style="width: 600px;"></td>
 				</tr>
 				<tr>
 					<td width="100px" align="right" valign="top">课程视频:</td>

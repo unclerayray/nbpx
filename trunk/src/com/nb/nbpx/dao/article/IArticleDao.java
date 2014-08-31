@@ -45,5 +45,18 @@ public interface IArticleDao extends IBaseDao<Article, Integer> {
 	//获取排行数据推荐，默认按照时间倒叙排序
 	public List<Article> getRecommendArticleList(Integer rows,Integer start);
 	
-
+	/**
+	 * 后台管理专用
+	 * @param category
+	 * @param articleTitle
+	 * @param articleId
+	 * @param p_outside
+	 * @param rows
+	 * @param start
+	 * @param sort
+	 * @param order
+	 * @return
+	 */
+	public Long getArticlesCount(final String category, final String articleTitle, final Integer articleId, final Boolean p_outside, final Integer rows,
+			final Integer start, final String sort, final String order);
 }

@@ -224,16 +224,20 @@ public class CourseAction extends BaseAction {
 		cou.setState(false);
 		TeacherInfo teacher = teacherService.getTeacherInfoEntityByUserId(user.getUserId());
 		cou.setTeacherId(teacher.getTeacherId().toString());
+		cou.setTeacherName(teacher.getRealName());
 		String return_innerCourse_id = "";
 		try {
 				//同步到内训
 				Course innerCou = cou;
 				innerCou.setCourseId(null);
 				innerCou.setIsInner(true);
+				innerCou.setPrice(0.0);
 				innerCou = courseService.saveCourse(innerCou);
 				return_innerCourse_id = innerCou.getCourseId()+"";
 				courseAllInfo.setCourseId(innerCou.getCourseId());
 				courseAllInfo.setIsInner(true);
+				courseService
+				.saveOtherCourseInfo(courseAllInfo, false);
 				solrCourseService.addCourse2Solr(courseAllInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(
@@ -277,12 +281,15 @@ public class CourseAction extends BaseAction {
 		cou.setState(false);
 		TeacherInfo teacher = teacherService.getTeacherInfoEntityByUserId(user.getUserId());
 		cou.setTeacherId(teacher.getTeacherId().toString());
+		cou.setTeacherName(teacher.getRealName());
 		String return_course_id = "";
 		String return_innerCourse_id = "";
 		try {
 			cou = courseService.saveCourse(cou);
 			return_course_id = cou.getCourseId()+"";
 			courseAllInfo.setCourseId(cou.getCourseId());
+			courseService
+			.saveOtherCourseInfo(courseAllInfo, false);
 			solrCourseService.addCourse2Solr(courseAllInfo);
 		} catch (Exception e) {
 			this.inputStream = castToInputStream(JsonUtil.formatToOpResJson(

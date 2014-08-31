@@ -1,13 +1,5 @@
 //js file for index.jsp
 
-
-function fullTextSearch(){
-	if (true) {
-		var url = "searchCourse.jsp?key="+$("#searchWord").val();
-		window.location.href = url;
-	};
-}
-
 function searchTabs(tabObj, obj) 
 {
 	var tabList = document.getElementById(tabObj).getElementsByTagName("li");
@@ -19,15 +11,35 @@ function searchTabs(tabObj, obj)
 		}else{
 			document.getElementById(tabObj + "_Title" + i).className = "off";
 		}
-		if(obj.id == "searchTab_Title1"){
-			setTeacherTip();
-		}else if(obj.id == "searchTab_Title6"){
-			setOrgTip();
-		}else{
-			setKeyWordTips();
-		}
-		$("#searchWord").autocomplete("option", "minLength", 1);
 	}
+	if(obj.id == "searchTab_Title1"){
+		setTeacherTip();
+		$('#search_type').val('pxs');
+	}else if(obj.id == "searchTab_Title2"){
+		$('#search_type').val('qynx');
+	}else if(obj.id == "searchTab_Title3"){
+		$('#search_type').val('pxs');
+	}else if(obj.id == "searchTab_Title4"){
+		$('#search_type').val('xz');
+	}else if(obj.id == "searchTab_Title5"){
+		$('#search_type').val('wk');
+	}else if(obj.id == "searchTab_Title6"){
+		setOrgTip();
+		$('#search_type').val('jg');
+	}else if(obj.id == "searchTab_Title7"){
+		$('#search_type').val('wd');
+	}else if(obj.id == "searchTab_Title8"){
+		$('#search_type').val('khpj');
+	}else if(obj.id == "searchTab_Title9"){
+		$('#search_type').val('khq');
+	}else if(obj.id == "searchTab_Title0"){
+		setKeyWordTips();
+		$('#search_type').val('qypx');
+	}else{
+		setKeyWordTips();
+		$('#search_type').val('qypx');
+	}
+	$("#searchWord").autocomplete("option", "minLength", 1);
 } 
 
 function changePlanTabs(tabObj, obj)
@@ -169,6 +181,10 @@ function setTeacherTip(){
 			}
 		});
 	};
+	var xxxx = function(request, response) {
+		alert('sdfsdfasdgerg');
+	};
+	$("#searchWord").autocomplete( "option", "source", xxxx );
 	$("#searchWord").autocomplete( "option", "source", func );
 }
 
