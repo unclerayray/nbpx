@@ -167,7 +167,8 @@
 		loadDics("25",10,"customSay");
 		//加载问答
 		
-		
+		//加载培训动态
+		seePartTab('new',1,1);
 	});	
 	
 	function loadAds(){
@@ -383,9 +384,9 @@
 			count = 4;
 		if(pre == 'b')
 			count = 4;
-		if(pre == 'c' || pre =='tz' || pre=='xc')
+		if(pre == 'c' || pre =='tz' || pre=='xc' )
 			count = 2;
-		if(pre == 'tc' || pre == 'pt'){
+		if(pre == 'tc' || pre == 'pt' || pre == 'new'){
 			count = 2;
 			cssOn = "tabOn half";
 			cssOff = "tabOff half";
@@ -742,6 +743,25 @@
 					valueStr +="</ul></div>";
 					if(data == "[]"){
 						valueStr = "<div class='notice'>没有最新的现场信息</div>";
+					}
+					//alert(valueStr);
+					$('#'+pre+part).html(valueStr);
+				}
+			});
+		}
+		if(pre == 'new'){//培训动态、内训动态
+			$.ajax({
+				url:"struts/LiveScene_queryLiveSceneTopList?flag="+flag,
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						valueStr += "<li><a class='left tooLong' style='width:200px;display:block' >"+value.name+"</a></li>";
+					});	
+
+					if(valueStr == ""){
+						valueStr = "<div class='notice'>没有最新的动态</div>";
 					}
 					//alert(valueStr);
 					$('#'+pre+part).html(valueStr);
@@ -1990,23 +2010,14 @@ padding-bottom: 2px;
 	<li class="last noneStyle">
 			<div class="partLeft left">
 				<div class="head">
-					<div class="tabOn half" >企业培训动态</div>
-					<div class="tabOff half">企业内训动态</div>
+					<div class="tabOn half" id="new11"><a href='javascript:void(0)' onclick="javascript:seePartTab('new',1,1)">企业培训动态</a></div>
+					<div class="tabOff half" id="new12"><a href='javascript:void(0)' onclick="javascript:seePartTab('new',2,1)">企业内训动态</a></div>
 					<div class="clear"></div>
 				</div>
 				<div class="bg" style="padding:0px 0px 0px 15px;">
 					<marquee  direction="up" scrollamount="3" behavior="scroll" class="lasted" height="320px" onmouseover="this.stop();" onMouseOut="this.start()">
-					<ul class="list5" style="width:230px;">
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
-						<li><a class="left">广州TCL集团2013年4月1日余...</a></li>
+					<ul class="list5" style="width:230px;" id="new1">
+						<!-- <li><a class="left">广州TCL集团2013年4月1日余...</a></li> -->
 					</ul>
 					</marquee>
 					<div class="clear"></div>

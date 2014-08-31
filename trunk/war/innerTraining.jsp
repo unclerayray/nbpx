@@ -54,7 +54,28 @@
 		//加载推荐文章
 		loadRecommandArticle();
 		loadCustomer();
+		//加载培训动态
+		loadNews();
 	});
+		function loadNews(){
+			$.ajax({
+				url:"struts/LiveScene_queryLiveSceneTopList?flag=1",
+				success:function(data){
+					//alert(data);
+					var jsonObject = eval('('+data+')');
+					var valueStr = "";
+					$.each(jsonObject,function(n,value){
+						valueStr += "<li><a class='left tooLong' style='width:200px;display:block' >"+value.name+"</a></li>";
+					});	
+
+					if(valueStr == ""){
+						valueStr = "<div class='notice'>没有最新的动态</div>";
+					}
+					//alert(valueStr);
+					$('#news').html(valueStr);
+				}
+			});
+		}
 	//加载典型客户
 	function loadCustomer(){
 		$.ajax({
@@ -222,7 +243,7 @@
 				var jsonObject = eval('('+data+')');
 				var valueStr = "";
 				$.each(jsonObject.rows,function(n,value){
-					valueStr +="<li><a href='#'>"+value.keyword+"</a></li>";
+					valueStr +="<li><a class='tooLong' style='width:100px;display:block' href='seeKey.jsp?key="+value.keyword+"'>"+value.keyword+"</a></li>";
 				});
 				$('#relatedKeywords').html(valueStr);
 			}
@@ -238,12 +259,11 @@
 				var valueStr2 = "";
 				$.each(jsonObject.rows,function(n,value){
 					var subject = value.subject;
-					if(subject.length > 5)
-						subject = subject.substring(0,5)+"...";
 					if(n<=9)
-						valueStr1 +="<dd><a href='#'>"+subject+"</a></dd>";
+						valueStr1 +="<dd><a class='tooLong' style='width:85px;display:block' href='seeKey.jsp?key="+subject+"'>"+subject+"</a></dd>";
 					else
-						valueStr2 +="<dd><a href='#'>"+subject+"</a></dd>";
+						valueStr2 +="<dd><a class='tooLong' style='width:85px;display:block' href='seeKey.jsp?key="+subject+"'>"+subject+"</a></dd>";
+
 				});
 				$('#relatedSubjects1').html(valueStr1);
 				$('#relatedSubjects2').html(valueStr2);

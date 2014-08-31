@@ -614,13 +614,13 @@
 	<div class="rightInPart">
 			<div class="rightTeacher">
 				<h5  class="first">相关关键词</h5>
-				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:85px;"/>
+				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:85px;">
 					<div class="clear" style="height:10px;"></div>
 				<ul class="list8" id="relatedKeywords"><li><a href="#">绩效管理</a></li><li><a href="#">团队管理</a></li><li><a href="#">团队素质</a></li><li><a href="#">团队文化建设</a></li><li><a href="#">团队执行力</a></li><li><a href="#">领导力</a></li><li><a href="#">绩效考核</a></li><li><a href="#">绩效测评</a></li></ul>
 				<div class="clear"></div>
 				</div>
 				<h5 >相关专题</h5>
-				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:85px;"/>
+				<div class="bg" style="padding:0px 15px 4px 15px;border:none;height:85px;">
 					<div class="clear" style="height:10px;"></div>
 				<ul class="list8" id="relatedSubjects"><li><a href="#">绩效管理</a></li><li><a href="#">团队管理</a></li><li><a href="#">团队素质</a></li><li><a href="#">团队文化建设</a></li><li><a href="#">团队执行力</a></li><li><a href="#">领导力</a></li><li><a href="#">绩效考核</a></li><li><a href="#">绩效测评</a></li></ul>
 				<div class="clear"></div>
